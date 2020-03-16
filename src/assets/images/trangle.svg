@@ -1,0 +1,35 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1920px" height="1080px" viewBox="0 0 1920 1080">
+<defs>
+<g id="Layer0_0_MEMBER_0_MEMBER_0_MEMBER_0_MEMBER_0_FILL">
+<path fill="#FF6600" stroke="none" d="
+M 392.6 161.4
+L 382.25 161.65
+Q 318.8 165.1 273 210.9 223.4 260.5 223.4 330.65 223.4 379.45 247.4 418.25
+L 249.1 420.9
+Q 259.25 436.55 273 450.25 322.45 499.8 392.6 499.8 462.8 499.8 512.3 450.25 561.9 400.7 561.9 330.65 561.9 260.5 512.3 210.9 462.8 161.4 392.6 161.4 Z"/>
+</g>
+
+<path id="Layer0_0_MEMBER_0_MEMBER_1_1_STROKES" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 1505.4 175.5
+L 1336.5 484.9 1682.8 488.15 1506.05 174.2"/>
+
+<path id="Layer0_0_MEMBER_0_MEMBER_2_1_STROKES" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 88.15 70.6
+L 1840.05 70.6 1840.05 1020.3 88.15 1020.3 88.15 70.6 Z"/>
+</defs>
+
+<g id="trangle1_svg">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Layer0_0_MEMBER_0_MEMBER_0_MEMBER_0_MEMBER_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Layer0_0_MEMBER_0_MEMBER_1_1_STROKES"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Layer0_0_MEMBER_0_MEMBER_2_1_STROKES"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,52 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="485px" height="408px" viewBox="0 0 485 408">
+<defs>
+<filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="1.3333333333333333,1.3333333333333333" result="result3"/>
+
+<feOffset dx="2.8284271247461903" dy="2.8284271247461903" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+</filter>
+
+<g id="Symbol_10_0_Layer0_0_FILL">
+<path fill="#DBF7FF" stroke="none" d="
+M 1190.45 86.35
+Q 1190.45 75.55 1182.8 67.9 1175.2 60.3 1164.4 60.3
+L 752.1 60.3
+Q 741.3 60.3 733.65 67.9 726.05 75.55 726.05 86.35
+L 726.05 424.65
+Q 726.05 435.45 733.65 443.05 741.3 450.7 752.1 450.7
+L 1164.4 450.7
+Q 1175.2 450.7 1182.8 443.05 1190.45 435.45 1190.45 424.65
+L 1190.45 86.35 Z"/>
+</g>
+
+<path id="Symbol_10_0_Layer0_0_1_STROKES" stroke="#3B7DA1" stroke-width="9.1" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M 752.1 60.3
+L 1164.4 60.3
+Q 1175.2 60.3 1182.8 67.9 1190.45 75.55 1190.45 86.35
+L 1190.45 424.65
+Q 1190.45 435.45 1182.8 443.05 1175.2 450.7 1164.4 450.7
+L 752.1 450.7
+Q 741.3 450.7 733.65 443.05 726.05 435.45 726.05 424.65
+L 726.05 86.35
+Q 726.05 75.55 733.65 67.9 741.3 60.3 752.1 60.3 Z"/>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 240.5,186.55) ">
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, -240.5,-186.55) ">
+<g transform="matrix( 1, 0, 0, 1, 240.5,202) ">
+<g transform="matrix( 1, 0, 0, 1, -958.25,-255.5) ">
+<use xlink:href="#Symbol_10_0_Layer0_0_FILL"/>
+
+<use xlink:href="#Symbol_10_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

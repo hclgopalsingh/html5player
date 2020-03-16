@@ -1,0 +1,13 @@
+<div class="container-fluid temp5" #container id="container">
+	<div id="bgImage"><img [src]="quesInfo?.background?.location=='content' ? containgFolderPath + '/' + quesInfo?.background?.url : assetsPath + '/' +  quesInfo?.background?.url" (load)="checkImgLoaded();"/></div>
+	<div class="d-flex align-items-center justify-content-center" id="activity">
+		<img class="img-fluid" [src] ="quesInfo?.krikalapText?.location=='content' ? containgFolderPath + '/' + quesInfo?.krikalapText?.url : assetsPath + '/' +  quesInfo?.krikalapText?.url" (load)="checkImgLoaded();" />
+	</div>
+	<div class="d-flex align-items-center justify-content-center" id="activityTitle">
+		<img class="img-fluid" [src] ="quesInfo?.titleText?.location=='content' ? containgFolderPath + '/' + quesInfo?.titleText?.url : assetsPath + '/' +  quesInfo?.titleText?.url" (load)="checkImgLoaded();" />
+	</div>			
+	<div class="d-flex justify-content-end hideit" #titleNavBtn id="zaariRakheinId">
+		<div class="zaariRakheinBtn" (click)="closeTitleScreen()" on-mouseenter="onHoverZaariRakhein()" (mouseleave)="onHoverOutZaariRakhein()"><img [src]="quesInfo.jariRakheinBtn.location=='content' ? containgFolderPath + '/' + quesInfo.jariRakheinBtn.url : quesInfo.jariRakheinBtn.url" ></div>
+	</div>
+	<audio #titleAudio [src]="quesInfo?.narrator?.location=='content' ? containgFolderPath + '/' + quesInfo?.narrator?.url: assetsPath + '/' + quesInfo?.narrator?.url" autoplay="autoplay"></audio>
+</div>

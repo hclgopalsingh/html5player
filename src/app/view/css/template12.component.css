@@ -1,0 +1,226 @@
+#container .hideit{display:none !important;}
+.showit{display:block !important;}
+.dispFlex{display:flex !important;}
+.visibleNo{visibility:hidden !important;}
+.visibleYes{visibility:visible !important;}
+.pauseAnim{	animation-play-state: paused;}
+#container{
+	position: relative;
+	padding:0;
+}
+#container #bgImage img {
+	width: 100%;
+}
+#container #videoContainer {
+    width: 100%;
+	position:absolute;
+	top:0;
+	left:0;
+}
+#container #videoContainer video {
+	width:100%;
+	max-width:100%; 
+	max-height:100%;
+}
+#container #navBlock {
+    position: absolute;
+    top: 83%;
+    left: 0%;
+    width: 100%; 
+}
+#container #navBlock .prevBtn{
+    margin-left: 4%;
+	text-align:right;
+}
+#container #navBlock .nextBtn{
+    margin-right: 4%;
+	position:relative;
+}
+#navBlock .prevBtn, #navBlock .nextBtn{
+	width:8%;
+}
+#navBlock .prevBtn img, #navBlock .nextBtn img{
+	cursor:pointer;
+}
+#container #navBlock .prevBtn{
+    margin-left: 4%;
+	text-align:right;
+}
+#container #navBlock .nextBtn{
+    margin-right: 4%;
+	position:relative;
+}
+.blink_btn{
+	/*
+	background: url(../../../assets/images/aageyBlink.svg) no-repeat;
+    background-size: 100% 100%!important;
+    height: 40px!important;
+	width: 100%;
+    top: 0;
+    left: 0;*/
+	display:none;
+	cursor:pointer;
+	top:0;
+	left:0;
+	width:100%;
+}
+.blink{
+	display:block;
+	position: absolute;
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-timing-function:ease-in-out;
+	-webkit-animation-direction: alternate;
+	cursor:pointer;
+}
+@-webkit-keyframes blinker {
+  from {opacity: 1.0;}
+  to {opacity: 0.0;}
+}
+@keyframes blinker {
+  50% { opacity: .5; }
+}
+#navBlock .prevBtn img, #navBlock .nextBtn img{
+	cursor:pointer;
+}
+#container #activity {
+	position: absolute;
+	width: 100%;
+	top: 10%;
+}
+#container  #activityTitle {
+	top: 0;
+	left:0;
+	position: absolute;
+	width: 100%;
+}
+#container #zaariRakheinId {
+    position: absolute;
+    top: 80%;
+    left: 0%;
+    width: 100%;
+}
+#zaariRakheinId .zaariRakheinBtn {
+   width: 16%;
+    margin-top: .5%;
+    margin-right: 7.5%;
+    float: right;
+    cursor: pointer;
+}
+#zaariRakheinId .zaariRakheinBtn img{
+   width:100%;
+}
+.title_class{
+	/*font-size: 50px;*/
+	font-size: 50px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+#help{
+	position: absolute;
+    width: 4.5%;
+    left: 10%;
+	cursor:pointer;
+}
+@-webkit-keyframes blinker {
+  from {opacity: 1.0;}
+  to {opacity: 0.0;}
+}
+.blink{
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-timing-function:ease-in-out;
+	-webkit-animation-direction: alternate;
+}
+.disable-click{
+	pointer-events:none;
+	opacity:0.5;
+}
+.disable_div{
+	pointer-events:none;
+}
+#container #navBlock .prevBtn{
+    margin-left: 4%;
+	text-align:right;
+}
+#container #navBlock .nextBtn{
+    margin-right: 4%;
+	position:relative;
+}
+#navBlock .prevBtn img, #navBlock .nextBtn img{
+	cursor:pointer;
+}
+.aagebadho {
+   /* background: url(../../../assets/images/aagey.svg) no-repeat;
+    background-size: 100% 100%;
+    height: 40px !important;*/
+}
+.aagebadho:hover {
+    /*background: url('../../../assets/images/aagey_hover.svg') no-repeat;
+	background-size: 100% 100%;
+    height: 40px !important;
+	cursor:pointer;*/
+}
+.peechejao {
+   /* background: url(../../../assets/images/peechey.svg) no-repeat;
+    background-size: 100% 100%;
+    height: 40px !important;*/
+}
+.peechejao:hover {
+    /*background: url('../../../assets/images/peechey_hover.svg') no-repeat;
+	background-size: 100% 100%;
+    height: 40px !important;
+	cursor:pointer;*/
+}
+#help{
+	position: absolute;
+	width: 4%;
+	/*right: 0.5%;*/
+	left:0.5%;
+	bottom: 7.2%;
+	cursor:pointer;
+	top:82%;
+}
+.spin_btn{
+   position: absolute;
+   top: 29%;
+   left: 48%;
+   width: 4%;
+}
+.spin_btn img{
+	width:100%;
+	cursor:pointer;
+}
+.fadeInAnimation {
+    opacity: 1;
+    animation: fadeIn 0.3s linear;
+}
+
+.fadeOutAnimation {
+	opacity:0;
+    animation: fadeOut 0.3s linear;
+}
+@keyframes fadeOut{
+	0%   {opacity: 1;}
+    25%  {opacity: 0.75;}
+    50%  {opacity: 0.50;}
+    75%  {opacity: 0.25;}
+    100% {opacity: 0;}
+}
+
+@keyframes fadeIn {
+	0%   {opacity: 0;}
+    25%  {opacity: 0.25;}
+    50%  {opacity: 0.50;}
+    75%  {opacity: 0.75;}
+    100% {opacity: 1;}
+}

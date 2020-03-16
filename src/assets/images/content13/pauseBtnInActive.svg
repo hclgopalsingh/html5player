@@ -1,0 +1,30 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="80px" height="80px" viewBox="0 0 80 80">
+<defs>
+<g id="Symbol_2_copy_1_Layer0_0_FILL">
+<path fill="#00CCFF" stroke="none" d="
+M -8.95 -30.55
+L -19.95 -30.55 -19.95 31 -8.95 31 -8.95 -30.55
+M 19.9 -30.55
+L 8.9 -30.55 8.9 31 19.9 31 19.9 -30.55 Z"/>
+</g>
+
+<path id="Symbol_29_0_Layer0_0_1_STROKES" stroke="#00CCFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 37.85 0
+Q 37.85 7.7 34.85 14.7 31.95 21.5 26.75 26.75 21.5 31.95 14.7 34.85 7.7 37.85 0 37.85 -7.7 37.85 -14.7 34.85 -21.5 31.95 -26.75 26.75 -32 21.5 -34.85 14.7 -37.85 7.7 -37.85 0 -37.85 -7.7 -34.85 -14.7 -32 -21.5 -26.75 -26.75 -21.5 -32 -14.7 -34.85 -7.7 -37.85 0 -37.85 7.7 -37.85 14.7 -34.85 21.5 -32 26.75 -26.75 31.95 -21.5 34.85 -14.7 37.85 -7.7 37.85 0 Z"/>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 40,40) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_29_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 0.5723419189453125, 0, 0, 0.5723419189453125, 0,-0.1) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_2_copy_1_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+</svg>

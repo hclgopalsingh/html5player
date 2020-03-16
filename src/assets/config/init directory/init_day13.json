@@ -1,0 +1,14 @@
+{
+	"environment": {
+		"standalone": {
+			"enabled": true,
+			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/BK013_Ae-Ki-Matra_Seg_01/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/BK013_Ae-Ki-Matra_Seg_02/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/BK013_Ae-Ki-Matra_Seg_03/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/BK013_Ae-Ki-Matra_Seg_04/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/BK013_Ae-Ki-Matra_Seg_06/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/BK013_Ae-Ki-Matra_Seg_06/\"}]}"
+		},
+		
+		"lms": {
+			"enabled": false
+		}
+	}
+}
+
+

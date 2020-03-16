@@ -1,0 +1,14 @@
+{
+	"environment": {
+		"standalone": {
+			"enabled": true,
+			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/Barah Khadi_ Ee Ki Matra_Day 06_seg01/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/Barah Khadi_ Ee Ki Matra_Day 06_seg02/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/Barah Khadi_ Ee Ki Matra_Day 06_seg03/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/Barah Khadi_ Ee Ki Matra_Day06_seg04/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/Barah Khadi_ Ee Ki Matra_Day06_seg05/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/Barah Khadi_ Ee Ki Matra_Day06_seg06/\"}]}"
+		},
+		
+		"lms": {
+			"enabled": false
+		}
+	}
+}
+
+

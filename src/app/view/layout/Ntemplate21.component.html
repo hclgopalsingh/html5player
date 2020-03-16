@@ -1,0 +1,252 @@
+<div class="container-fluid" id="container" *ngIf="!isPlayVideo">
+	<div id="bgImage"><img [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
+			(load)="checkImgLoaded();" /></div>
+	<div class="d-flex flex-row justify-content-around instructionBar">
+		<div class="instructionBase" #instructionBar>
+			<img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : assetsPath + '/' +commonAssets?.instruction_img?.url"
+				(load)="checkImgLoaded();" />
+		</div>
+		<audio #instructionVO [src]="commonAssets?.instruction_vo?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_vo?.url: assetsPath + '/' + commonAssets?.instruction_vo?.url"></audio>
+	</div>
+	<!-- class="options animation-shake" -->
+	<div class="bodyContent" #mainContainer>
+		<div id="inputBlock">
+			<div class="operations " [ngClass]="{'blink blinkBlock': isOn && !operatorSelected && !digitsSelected}">
+				<ng-container *ngFor="let operator of operators; let idx = index">
+					<img class="img-fluid" [src]="operator?.imgsrc?.location=='content' ? containgFolderPath + '/' + operator?.imgsrc?.url : assetsPath + '/' +operator?.imgsrc?.url"
+						(load)="checkImgLoaded();" (mousemove)="operatorMousemove(idx)" (mouseleave)="operatorMouseLeave(idx)" (click)="operatorSelect(idx)"
+					/>
+				</ng-container>
+			</div>
+			<div class="digits " [ngClass]="{'disablePointer': !operatorSelected , 'blink blinkBlock': isOn && operatorSelected && !digitsSelected}">
+				<ng-container *ngFor="let digit of digits; let idx = index">
+					<img class="img-fluid" [src]="digit?.imgsrc?.location=='content' ? containgFolderPath + '/' + digit?.imgsrc?.url : assetsPath + '/' +digit?.imgsrc?.url"
+						(load)="checkImgLoaded();" (mousemove)="digitMousemove(idx)" (mouseleave)="digitMouseLeave(idx)" (click)="digitSelect(idx)"
+						[ngClass]="{'disablePointer': digit.selected}" />
+				</ng-container>
+			</div>
+			<div class="numbers " [ngClass]="{'disablePointer': !digitsSelected, 'blink blinkBlock': isOn && operatorSelected && digitsSelected && selectedNos.length != noOfDidgit }">
+				<ng-container *ngFor="let number of number_options; let idx = index">
+					<img class="img-fluid" [src]="number?.imgsrc?.location=='content' ? containgFolderPath + '/' + number?.imgsrc?.url : assetsPath + '/' +number?.imgsrc?.url"
+						(load)="checkImgLoaded();" (mousemove)="numberMousemove(idx)" (mouseleave)="numberMouseLeave(idx)" (click)="numberSelect(idx)"
+					/>
+				</ng-container>
+			</div>
+		</div>
+		<div id="outputBlock">
+			<img class="img-fluid inputImage" [src]="otherAssets?.input_img?.location=='content' ? containgFolderPath + '/' + otherAssets?.input_img?.url : assetsPath + '/' +otherAssets?.input_img?.url"
+				(load)="checkImgLoaded();" />
+			<div class="filler">
+				<img class="img-fluid level" [style.height.%]="waterLevel" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.location=='content' ? containgFolderPath + '/' + otherAssets?.filler?.url : assetsPath + '/' +otherAssets?.filler?.url"
+					 />
+				<div class="fillValue">
+					<ng-container *ngFor="let number of calValueContainer; let idx = index">
+						<img class="img-fluid" [src]="number?.location=='content' ? containgFolderPath + '/' + number?.url : assetsPath + '/' +number?.url"
+						/>
+					</ng-container>
+				</div>
+			</div>
+			<img class="img-fluid liquidContainer" [src]="otherAssets?.container?.location=='content' ? containgFolderPath + '/' + otherAssets?.container?.url : assetsPath + '/' +otherAssets?.container?.url"
+				(load)="checkImgLoaded();" />
+			<div class="inputPlaceholder">
+				<ng-container *ngFor="let no of selectedNos; let idx = index">
+					<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
+				</ng-container>
+			</div>
+			<img class="img-fluid refreshBtn" *ngIf="selectedNos.length>0" [src]="otherAssets?.refresh_btn?.refresh_normal?.location=='content' ? containgFolderPath + '/' + otherAssets?.refresh_btn?.refresh_normal?.url : assetsPath + '/' +otherAssets?.refresh_btn?.refresh_normal?.url"
+				(mouseover)="hoverRefresh()" (mouseleave)="hleaveRefresh()" (click)="clearSelected()" />
+		</div>
+		<div id="quesBlock">
+			<img class="img-fluid liquidContainer" [src]="otherAssets?.givenValue?.location=='content' ? containgFolderPath + '/' + otherAssets?.givenValue?.url : assetsPath + '/' +otherAssets?.givenValue?.url"
+				(load)="checkImgLoaded();" />
+			<div class="filler">
+				<img class="img-fluid level" [style.height.%]="calWaterLevel" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.location=='content' ? containgFolderPath + '/' + otherAssets?.filler?.url : assetsPath + '/' +otherAssets?.filler?.url"
+				/>
+				<div class="fillValue">
+					<ng-container *ngFor="let number of givenValueAssets; let idx = index">
+						<img class="img-fluid" [src]="number?.location=='content' ? containgFolderPath + '/' + number?.url : assetsPath + '/' +number?.url"
+						/>
+					</ng-container>
+				</div>
+			</div>
+		</div>
+		<audio preload="auto" #quesVORef></audio>
+	</div>
+	<div class="modal" id="modalTemp21" #feedbackPopupRef>
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header" [ngStyle]="styleHeaderPopup">
+				<img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackAssets?.rightAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.rightAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackAssets?.rightAnswerheaderTxt_img?.url">
+				<img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackAssets?.wrongAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.wrongAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackAssets?.wrongAnswerheaderTxt_img?.url">
+				<img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackAssets?.showAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.showAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackAssets?.showAnswerheaderTxt_img?.url">
+				<img *ngIf="partialCorrectheaderTxt_img" class="modal-title" [src]="feedbackAssets?.partialCorrectheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.partialCorrectheaderTxt_img?.url : assetsPath + '/' + feedbackAssets?.partialCorrectheaderTxt_img?.url">
+					
+					<!-- <img class="modal-title" [src]="feedbackAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.headerTxt_img?.url : assetsPath + '/' + feedbackAssets?.headerTxt_img?.url"> -->
+					
+					
+					<img class="close" [src]="feedbackAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.close_btn?.url : assetsPath + '/' + feedbackAssets?.close_btn?.url"
+						(click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackClose()" (mouseleave)="houtFeedbackClose()">
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
+					<div id="inputBlock">
+						<div class="value1">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index">
+								<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
+							</ng-container>
+						</div>
+						<div class="value2">
+							<img class="img-fluid operator" [src]="operator?.location=='content' ? containgFolderPath + '/' + operator?.url : assetsPath + '/' +operator?.url">
+							<ng-container *ngFor="let no of secondNoAssets; let idx = index">
+								<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
+							</ng-container>
+						</div>
+						<div class="result">
+							<ng-container *ngFor="let no of resultNoAssets; let idx = index">
+								<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
+							</ng-container>
+						</div>
+					</div>
+					<div id="outputBlock">
+						<img class="img-fluid inputImage" [src]="otherAssets?.input_img?.location=='content' ? containgFolderPath + '/' + otherAssets?.input_img?.url : assetsPath + '/' +otherAssets?.input_img?.url"
+							 />
+						<div class="inputPlaceholder">
+							<ng-container *ngFor="let no of secondNoAssets; let idx = index">
+								<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
+							</ng-container>
+						</div>
+						<div class="filler">
+							<img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.location=='content' ? containgFolderPath + '/' + otherAssets?.filler?.url : assetsPath + '/' +otherAssets?.filler?.url"
+								 />
+							<div class="fillValue">
+								<ng-container *ngFor="let no of resultNoAssets; let idx = index">
+									<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
+								</ng-container>
+							</div>
+							<img *ngIf="isExcess" class="img-fluid overflow" [src]="feedbackAssets?.overflow?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.overflow?.url : assetsPath + '/' + feedbackAssets?.overflow?.url">
+						</div>
+						<img class="img-fluid liquidContainer" [src]="otherAssets?.container?.location=='content' ? containgFolderPath + '/' + otherAssets?.container?.url : assetsPath + '/' +otherAssets?.container?.url"
+						/>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<audio #feedbackAudio></audio>
+	</div>
+	<!--show answer-->
+	<div class="modal" id="showAnswerModal" #showAnswerPopupRef>
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<img class="modal-title" [src]="showAnswerAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + showAnswerAssets?.headerTxt_img?.url : assetsPath + '/' + showAnswerAssets?.headerTxt_img?.url">
+					<img class="close" [src]="showAnswerAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + showAnswerAssets?.close_btn?.url : assetsPath + '/' + showAnswerAssets?.close_btn?.url"
+						(click)="sendFeedback(showAnswerPopupRef,'no','showAnswerFeedback');" (mousemove)="hoverShowAnswerClose()" (mouseleave)="houtShowAnswerClose()">
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body d-flex justify-content-center align-items-center">
+					<video #showAnswerVideo id="showAnswerVideo" width="100%" style="max-width: 100%; max-height: 100%;" preload="auto">
+						<source [src]="showAnswerAssets?.video?.location=='content' ? containgFolderPath + '/' + showAnswerAssets?.video?.url: assetsPath + '/' + assets?.video?.url"
+							type="video/ogg">
+					</video>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- confirm modal-->
+	<div class="modal" id="confirmModal" #confirmModalRef>
+		<div class="modal-dialog">
+			<div class="modal-content" #modalRef>
+				<div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmAssets?.style_header">
+					<img class="modal-title" [src]="confirmAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmAssets?.headerTxt_img?.url : assetsPath + '/' + confirmAssets?.headerTxt_img?.url">
+					<img class="close" [src]="confirmAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmAssets?.close_btn?.url : assetsPath + '/' + confirmAssets?.close_btn?.url"
+						(click)="sendFeedback(confirmModalRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+				</div>
+				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmAssets?.style_body">
+					<div class="msgImage"><img class="img-fluid h-100" [src]="confirmAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmAssets?.confirm_text?.url : assetsPath + '/' + confirmAssets?.confirm_text?.url"></div>
+					<div class="actionButtons">
+						<button type="button" (click)="sendFeedback(confirmModalRef,'yes','showAnswer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmAssets?.confirm_btn?.url : assetsPath + '/' + confirmAssets?.confirm_btn?.url"></button>
+						<button type="button" (click)="sendFeedback(confirmModalRef,'no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmAssets?.decline_btn?.url : assetsPath + '/' + confirmAssets?.decline_btn?.url"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- The infoPopup Modal -->
+	<div class="modal" id="operatorModal" #operatorModal>
+		<div class="modal-dialog">
+			<!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
+			<div class="modal-content" #modalRef>
+				<div class="modal-header" [ngStyle]="opeartorModal?.style_header">
+					<img class="modal-title" [src]="opeartorModal?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + opeartorModal?.headerTxt_img?.url : assetsPath + '/' + opeartorModal?.headerTxt_img?.url">
+					<img class="close" [src]="opeartorModal?.close_btn?.location=='content' ? containgFolderPath + '/' + opeartorModal?.close_btn?.url : assetsPath + '/' + opeartorModal?.close_btn?.url"
+						(click)="sendFeedback(operatorModal,'no','operatorModal');" (mousemove)="hoverOperatorCloseConfirm()" (mouseleave)="houtOperatorCloseConfirm()">
+				</div>
+
+				<div class="modal-body" [ngStyle]="opeartorModal?.style_body">
+					<div class="msgImage"><img class="img-fluid h-100" [src]="opeartorModal?.info_text?.location=='content' ? containgFolderPath + '/' + opeartorModal?.info_text?.url : assetsPath + '/' + opeartorModal?.info_text?.url"></div>
+					<div class="actionButtons">
+						<button type="button" (click)="sendFeedback(operatorModal,'no','operatorModal');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="opeartorModal?.ok_btn?.location=='content' ? containgFolderPath + '/' + opeartorModal?.ok_btn?.url : assetsPath + '/' + opeartorModal?.ok_btn?.url"></button>
+					</div>
+				</div>
+				<audio #operatorFeedback></audio>
+			</div>
+		</div>
+	</div>
+	<!--confirmation before submit-->
+	<div class="modal" id="confirmModal" #confirmSubmitRef>
+		<div class="modal-dialog">
+			<div class="modal-content" #modalRef>
+				<div class="modal-header" [ngStyle]="confirmSubmitAssets?.style_header">
+					<img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.headerTxt_img?.url : assetsPath + '/' + confirmSubmitAssets?.headerTxt_img?.url">
+					<img class="close" [src]="confirmSubmitAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.close_btn?.url : assetsPath + '/' + confirmSubmitAssets?.close_btn?.url"
+						(click)="sendFeedback(confirmSubmitRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+				</div>
+				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
+					<div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_text?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_text?.url"></div>
+					<div class="actionButtons">
+						<button type="button" (click)="sendFeedback(confirmSubmitRef,'yes','submitAnswer');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_btn?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_btn?.url"></button>
+						<button type="button" (click)="sendFeedback(confirmSubmitRef,'no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.decline_btn?.url : assetsPath + '/' + confirmSubmitAssets?.decline_btn?.url"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="confirmModal" #confirmReplayRef>
+		<div class="modal-dialog">
+			<div class="modal-content" #modalRef>
+				<div class="modal-header" [ngStyle]="confirmReplayAssets?.style_header">
+					<img class="modal-title" [src]="confirmReplayAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmReplayAssets?.headerTxt_img?.url : assetsPath + '/' + confirmReplayAssets?.headerTxt_img?.url">
+					<img class="close" [src]="confirmReplayAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmReplayAssets?.close_btn?.url : assetsPath + '/' + confirmReplayAssets?.close_btn?.url"
+						(click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverReplayCloseConfirm()" (mouseleave)="houtReplayCloseConfirm()">
+				</div>
+				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmReplayAssets?.style_body">
+					<div class="msgImage"><img class="img-fluid h-100" [src]="confirmReplayAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmReplayAssets?.confirm_text?.url : assetsPath + '/' + confirmReplayAssets?.confirm_text?.url"></div>
+					<div class="actionButtons">
+						<button type="button" (click)="sendFeedback(confirmReplayRef,'yes','replay');" (mousemove)="hoverReplayConfirm()" (mouseleave)="houtReplayConfirm()"><img class="img-fluid" [src]="confirmReplayAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmReplayAssets?.confirm_btn?.url : assetsPath + '/' + confirmReplayAssets?.confirm_btn?.url"></button>
+						<button type="button" (click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverReplayDecline()" (mouseleave)="houtReplayDecline()"><img class="img-fluid" [src]="confirmReplayAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmReplayAssets?.decline_btn?.url : assetsPath + '/' + confirmReplayAssets?.decline_btn?.url"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="videoMainContainer" *ngIf="isPlayVideo">
+	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
+		poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
+		<source [src]="questionObj?.quesVideo?.location=='content' ? containgFolderPath + '/' + questionObj?.quesVideo?.urlOgv : assetsPath + '/' + questionObj?.quesVideo?.urlOgv"
+			type="{{videoType}}">
+	</video>
+	<div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.location=='content' ? containgFolderPath + '/' + quesObj?.quesPlayPause?.url : assetsPath + '/' + quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()"/></div>
+	<div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.location=='content' ? containgFolderPath + '/' + quesObj?.quesSkip?.urlOgv : assetsPath + '/' + quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
+  
+	<div class="video_loader" *ngIf="!isVideoLoaded">
+		<img src="assets/images/loaderVideo.gif">
+	</div>
+</div>

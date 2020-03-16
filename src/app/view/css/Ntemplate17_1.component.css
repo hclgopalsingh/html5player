@@ -1,0 +1,1116 @@
+button:focus {
+    outline: 0 !important;
+  }
+  .hideit {
+    display: none !important;
+  }
+  
+  .showit {
+    display: block !important;
+  }
+  
+  .dispFlex {
+    display: flex !important;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+  
+  #container {
+    position: relative;
+    padding: 0;
+  }
+  
+    #container #bgImage img {
+      width: 100%;
+    }
+  
+  
+  .bodyContent {
+    position: absolute;
+    top: 18%; /*20%;*/
+    width: 100%;
+    left: 0;
+    height: 69%; /*67%;*/
+    justify-content: space-around;
+    align-items: center;
+  }
+  .quesContainer,
+  .testContainer{
+      height: 60%;
+      position: relative;
+  }
+  .hideTestScreen{
+    display: none !important;
+  }
+  .modal .testContainer{
+      height: auto;
+      justify-content: space-around !important;
+  }
+  .correctBox,
+  .incorrectBox{
+      width: 23.3%;/*23.6%;*/
+      position: relative;
+  }
+  .modal .correctBox,
+  .modal .incorrectBox{
+      width: 37.5%;
+  }
+  .optionsList {
+      position: absolute;
+      top: 18.5%;
+      
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      
+      /* top: 18.5%;
+      height: 80%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-content: flex-start;
+      flex-direction: column; */
+      /*with every 3rd option placed in center*/
+      /*display: flex;
+      flex-wrap: wrap;
+      justify-content: center;*/
+  }
+  .modal .optionsList {
+      position: absolute;
+      top: 12%;
+  }
+  .optionsList div{
+    /*max-width: 32%;
+    margin: 0.5% 8.8%;*/
+    max-width: 34.5%;
+    margin: 0.5% 6%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .optionsList div span{
+    position: absolute;
+    font-size: 1vmax;
+  }
+  .modal .optionsList img{
+      margin: 1% 7.3%;
+  }
+  .modal .optionsList div{
+      margin: .7% 6%;
+  }
+  .actionBox {
+      width: 39%;
+      margin: 0 5%;
+  }
+  .actionBtn {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 7%;
+  }
+  .actionBtn img{
+      margin: 0 5%;
+      max-width: 9%;
+      cursor: pointer;
+  }
+  .selectedOption {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .optionPicked{
+      position: absolute;
+      max-width: 63% !important;
+  }
+  .bodyContent .refQues {
+      width: 23.7%;
+      text-align: center;
+  }
+  .bodyContent .refQues img {
+      /* max-width: 93%; */
+  }
+  #optionsBlock {
+      margin-top: 1%;
+  }
+  #optionsBlock img,
+  .optionsBlock img {
+   /* cursor: pointer;*/
+    position: relative;
+    max-width: 100%;
+  }
+  
+  
+  #optionsBlock .options,
+  .optionsBlock .options {
+    position: relative;
+    margin: 1%;
+    vertical-align: middle;
+    width: 31%;
+    display: inline-block;
+    /*animation: scaleit 0.4s ease-in;*/
+  }
+  
+  .quesImage {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  #optionsBlock .refTxt,
+  .optionsBlock .refTxt {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    z-index: 2;
+  }
+  
+  #container #navBlock {
+    position: absolute;
+    bottom: 6%; /*0*/
+    left: 0%;
+    width: 100%;
+  }
+  
+  
+    #container #navBlock .navBase {
+      position: relative;
+      margin-right: .7%;
+      width: auto;
+    }
+  
+  #container .quesBlock {
+    position: absolute;
+    left: 0%;
+    top: 3%;
+    width: 100%;
+    height: 5.5%;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+  }
+  
+  .quesTab {
+    width: 20%;
+    display: inline-flex;
+    flex-grow: 1;
+    position: relative;
+  }
+  
+    .quesTab img {
+      vertical-align: text-bottom;
+    }
+  
+  
+  #container #navBlock .prevBtn,
+  #container #navBlock .nextBtn,
+  #container #navBlock .ansBtn,
+  #container .quesBlock img {
+    cursor: pointer;
+  }
+  
+  #container #navBlock .ansBtn {
+    margin-left: .7%;
+    width: 3.5%;
+  }
+  
+  #navBlock .prevBtn,
+  #navBlock .nextBtn,
+  #navBlock .submitBtn {
+    cursor: pointer;
+    width: 3.5%;
+    margin-right: .7%;
+  }
+  
+  #navBlock .submitBtn {
+    width: 7%;
+  }
+  
+  #navBlock .nextBtn {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+  
+  .optionAnimate {
+    transform: scale(1.1);
+    transition: transform .5s ease;
+  }
+  
+  .nutralize {
+    transform: scale(1.0);
+    transition: transform .5s ease;
+  }
+  
+  .tabBody {
+    flex-grow: 1;
+    margin: 0 -1px;
+  }
+  
+  .tabLeft, .tabRight, .tabBody {
+    width: auto;
+    height: 100%;
+  }
+  
+  .quesnum {
+    position: absolute;
+    width: 1vmin;
+    height: auto; /*43%;*/
+    left: 49.8% !important;
+    top: 30%;
+  }
+  
+  
+  .animation-shake {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+  
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+  
+  #correctAns {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    /*
+          background: url(../images/popup.svg) no-repeat center center;
+      */
+    background-size: contain;
+    animation: scaleit 0.2s ease-in;
+  }
+  
+  .rightAnsBg {
+    animation: scaleit 0.2s ease-in;
+  }
+  
+  #correctAns img {
+    position: absolute;
+    width: 70%;
+  }
+  
+  #container #instructionBar {
+    position: absolute;
+    top: 9%;
+    width: 100%;
+    text-align: center;
+  }
+  
+  #instructionBar .instructionBase {
+    width: 83%;
+    position: relative;
+  }
+  
+  .instructionBase .instructionText {
+    position: absolute;
+    top: 0%;
+    left: 0;
+  }
+  
+  @keyframes scaleit {
+    0% {
+      transform: scale(.9);
+      opacity: .0;
+    }
+  
+    90% {
+      transform: scale(1.1);
+      opacity: .7;
+    }
+  
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  #container #navBlock .prevBtn:hover,
+  #container #navBlock .nextBtn:hover {
+    -webkit-animation-name: moveLeft; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: .3s; /* Safari 4.0 - 8.0 */
+    animation-name: moveLeft;
+    animation-duration: .3s;
+    animation-iteration-count: infinite;
+  }
+  
+  #container #navBlock .nextBtn:hover {
+    -webkit-animation-name: moveRight; /* Safari 4.0 - 8.0 */
+    animation-name: moveRight;
+  }
+  
+  @keyframes moveLeft {
+    0% {
+      left: 3.2%;
+    }
+  
+    100% {
+      left: 2%;
+    }
+  }
+  
+  @keyframes moveRight {
+    0% {
+      right: 3.3%;
+    }
+  
+    100% {
+      right: 2%;
+    }
+  }
+  
+  #burst {
+    position: absolute;
+    z-index: 101;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .disable_div {
+    pointer-events: none;
+  }
+  
+  .options .desc {
+    position: relative;
+  }
+  
+  /*.options:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+  }*/
+  
+  .right,
+  .wrong {
+    width: 20%;
+    position: absolute !important;
+    z-index: 3;
+    left: 40%;
+    bottom: -70%;
+    display: none;
+  }
+  
+  .optionsWidth {
+    width: auto !important;
+  }
+  
+  
+  /* Modal classes */
+  #customModal {
+    display: block !important;
+  }
+  
+  #modalTemp17{
+    background: rgba(0,0,0,.85);
+  }
+  
+  #modalPartialOptions {
+    background: rgba(0,0,0,.85);
+  }
+  
+  
+  #customModal .optionsBlock {
+    width: 44%;
+  }
+  
+    #customModal .optionsBlock .quesImage {
+      height: 95%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  
+  #customModal .modal-body {
+    height: 91%;
+    padding: 0 15px;
+  }
+  
+  #customModal .options {
+    position: relative;
+    margin: .7% 0;
+  }
+  
+    #customModal .options div {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+      #customModal .options div img {
+        width: 48%;
+      }
+  
+  
+  /*confirm modal*/
+  
+  .confirm_modal_content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    background-clip: padding-box;
+    border: none;
+    border-radius: 0;
+    outline: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+  }
+  
+  #confirmModal {
+    /* display: flex;*/
+    background: rgba(0,0,0,.85);
+  }
+  
+    #confirmModal .modal-dialog {
+      width: 50% !important;
+      max-width: 100%;
+      height: auto;/*36%*/
+      display: flex;
+      justify-content: center;
+    }
+  
+    #confirmModal .modal-content {
+      height: auto;
+      min-width: auto;
+      min-height: auto;
+    }
+  
+    #confirmModal .modal-body {
+      padding: 0;
+      margin: 0;
+      flex: 0 !important;
+      /* flex-wrap: wrap; */
+    }
+  
+      #confirmModal .modal-body .msgImage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 6% 0;
+      }
+  
+      #confirmModal .modal-body .actionButtons {
+        text-align: center;
+        margin-bottom: 2%;
+      }
+  
+      #confirmModal .modal-body .msgImage img {
+        width: 70%;
+      }
+  
+      #confirmModal .modal-body .actionButtons button {
+        border: none;
+        background: transparent;
+        padding: 0;
+        margin: 0 1%;
+        width: 23%;
+      }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  #confirmModal .modal-body .actionButtons img {
+    width: 100%;
+  }
+  
+  #confirmModal .modal-header {
+    top: 0;
+    height: 7vmin;
+  }
+  
+  #confirmModal .bodyText {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+  }
+  
+    #confirmModal .bodyText img {
+      width: 85%;
+    }
+  
+  #confirmModal .modal-title {
+    margin-left: 3%;
+  }
+  
+  #confirmModal .close {
+    /* width: 5%; */
+    margin: 0 1.6% 0 auto;
+  }
+  
+  #confirmModal .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-top: none;
+    position: absolute;
+    width: 100%;
+    bottom: 16%;
+  }
+  
+    #confirmModal .modal-footer button {
+      width: 13%;
+      border: none;
+      background: transparent;
+    }
+  
+  #confirmModal .popupModelBody {
+    padding: 0;
+  }
+  
+  .displayPopup {
+    display: -webkit-box !important;
+    /* transition: all 2s ease-in-out;
+    transform: scale(1.2); */
+  }
+  
+  .modal {
+    position: absolute !important;
+    width: 100%;
+    z-index: 100 !important;
+    height: 94%; /*93.6%*/
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+  }
+  
+    /*.modal-dialog {
+    width: 30%;
+    min-height: 49%;
+    width: 100%;
+    height: 88%;
+  }*/
+    .modal.show {
+      display: -webkit-box !important;
+    }
+  
+  .modal-dialog {
+    max-width: 80%;
+    width: 65% !important;
+    height: 60%;
+  }
+  
+  .modal-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 100%;
+    min-width: 560px; /*450px;*/
+    min-height: 50vmin; /*350px;*/
+  }
+  
+  .modal-header {
+      padding: .5% !important;
+      height: 7vmin; /*56px;*/
+      position: relative;
+      top: 0;
+      width: 100%;
+      border-bottom: none !important;
+      margin-bottom: -1px;
+      border: solid .7vmin #85d222;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      background: #248446;
+  }
+  .modal-header:before, .modal-header:after {
+      content: none !important;
+  }
+  #modalTemp5 .modal-header {
+    top: 0;
+  }
+  
+  .modal-title {
+    margin-left: 1.5%;
+    height: 80%;
+  }
+  
+  .close {
+    width: auto;
+    height: 75%;
+    margin-right: 0%;
+    margin-top: -.1%;
+    -webkit-appearance: inherit !important;
+    cursor: pointer;
+    opacity: 1;
+  }
+  
+  @media (min-width: 1366px) {
+    .close {
+      height: 95%;
+      margin-right: .3%;
+    }
+  }
+  
+  #modalTemp5 .modal-header .close {
+    margin-left: auto;
+  }
+  
+  .modal-body {
+      padding: 2%;
+      background: #afdec0;
+      border: solid .7vmin #85d222;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      border-top: none !important;
+      flex: auto !important;
+      align-items: center;
+  }
+  
+    .modal-body img {
+      /*max-width: 91%;*/
+    }
+  
+  #modalTemp5 .modal-body img {
+    max-width: 94%;
+    /* width: 70%; */
+  }
+  
+  #modalTemp5 .optionsBlock {
+    width: 100%;
+    height: 100%;
+    margin: 2% 0;
+  }
+  
+  .modalBodyContent {
+    background: #afdec0;
+    margin: -1px;
+  }
+  
+  .modal .quesImage {
+    align-self: center;
+    margin: 1% auto !important;
+  }
+  
+  #modalTemp5 .quesImage {
+    /* height: 100%; */
+  }
+  
+  #modalTemp5 .optionsBlock .options {
+    width: 25%; /*100%*/
+  }
+  
+  .close:focus, .close:hover {
+    /*color: #000;
+    text-decoration: none;
+    opacity: 1;*/
+  }
+  
+  html [type=button] {
+    -webkit-appearance: none;
+  }
+  
+  
+  /*Partial Pop-up*/
+  #modalPartialOptions .modal-dialog {
+    max-width: 87%;
+  }
+  
+  #modalPartialOptions .modal-header {
+    margin-bottom: -1px;
+  }
+  
+    #modalPartialOptions .modal-header:before,
+    #modalPartialOptions .modal-header:after {
+      content: none !important;
+    }
+  
+  #modalPartialOptions .modal-body img {
+    max-width: 100%;
+  }
+  
+  #modalPartialOptions .quesImage {
+    display: block; /*contents;*/
+  }
+  
+  #modalPartialOptions .subHead {
+    padding: 0 .5%;
+    height: auto; /*4.7vmin;*/
+    position: relative;
+    top: 0;
+    width: 100%;
+    border: solid 1px #444;
+    border-bottom-color: #777;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background: #9a9a9a;
+  }
+  
+    #modalPartialOptions .subHead img {
+      max-width: 6%;
+      padding: .4%;
+    }
+  
+  #modalPartialOptions .subContent {
+    width: 100%;
+    display: flex;
+    justify-content: center; /*space-evenly;*/
+    align-items: center;
+    padding: 3% 0;
+    background: #c4c4c4;
+    border: solid 1px #444;
+    border-top: none;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  
+  #modalPartialOptions .optionsBlock {
+    padding: 0 1%;
+  }
+  
+    #modalPartialOptions .optionsBlock .options {
+      width: 13%;
+      margin: 0 .5%;
+    }
+  
+  @media (min-width: 576px) {
+    .modal-dialog {
+      max-width: none !important;
+      margin: 0 auto !important;
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .fadeOut {
+    animation-name: fadeOut;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+  
+  .inputDiv{
+      width: 60.7%;
+      height: 54%;
+      margin: 0 2.6%;
+  }
+  
+  .inputDiv input{
+      width: 100%;
+      height: 100%;
+      border: 2px solid grey;
+      border-radius: 10px;
+      padding: .5rem 1rem;
+      font-size: 4.25rem;
+      line-height: 2.5;
+      text-align: center;
+      outline: none;
+  }
+  
+  .addBtn{
+      text-align: center;
+      width: 7%;
+      /* padding: 0.5% 2%; */
+  }
+  
+  .addBtn img{
+      /* max-width: 93%; */
+      /* width: 80%; */
+      /* font-size: 2.25rem; */
+  }
+  
+  .refBase{
+      width: 96.4%;
+      position: relative;
+  }
+  
+  .refBase img{
+      width:100%;
+  }
+  
+  .wordBlock {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      padding: .5% 1%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+  }
+  
+  .wordBlock .wordItem {
+      width: 16%;
+      position: relative;
+      margin: .27% 0;
+      margin-right: .8%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+     /* pointer-events: pointer;*/
+  }
+  .wordBlock .wordItem:nth-of-type(1),
+  .wordBlock .wordItem:nth-of-type(7){
+    position: absolute;
+    left: .85%;
+  }
+  .wordBlock .wordItem:nth-of-type(2),
+  .wordBlock .wordItem:nth-of-type(8){
+    position: absolute;
+    left: 17.3%;
+  }
+  .wordBlock .wordItem:nth-of-type(3),
+  .wordBlock .wordItem:nth-of-type(9){
+    position: absolute;
+    left: 33.8%;
+  }
+  .wordBlock .wordItem:nth-of-type(4),
+  .wordBlock .wordItem:nth-of-type(10){
+    position: absolute;
+    left: 50.3%;
+  }
+  .wordBlock .wordItem:nth-of-type(5),
+  .wordBlock .wordItem:nth-of-type(11){
+    position: absolute;
+    left: 66.8%;
+  }
+  .wordBlock .wordItem:nth-of-type(6),
+  .wordBlock .wordItem:nth-of-type(12){
+    position: absolute;
+    left: 83.3%;
+  }
+  .wordBlock .wordItem:nth-of-type(7),
+  .wordBlock .wordItem:nth-of-type(8),
+  .wordBlock .wordItem:nth-of-type(9),
+  .wordBlock .wordItem:nth-of-type(10),
+  .wordBlock .wordItem:nth-of-type(11),
+  .wordBlock .wordItem:nth-of-type(12){
+    top: 49.5%;
+  }
+  
+  .wordBlock .wordItem:nth-of-type(6),
+  .wordBlock .wordItem:nth-of-type(12){
+      margin-right:0;
+  }
+  
+  .wordItem span {
+      position: absolute;
+      font-size: 1.5vmax;
+     cursor: pointer;
+  }
+  
+  ul {
+    text-align: center;
+  }
+  
+  input {
+    /*width: 100%;
+    height: 100px;*/
+    padding: 20px;
+    font-size: 20px;
+    border: none;
+    box-sizing: border-box;
+  }
+  
+  .simple-keyboard {
+      max-width: 60.7%;
+      position: absolute;
+      right: 11.3%;
+      top: 78%;
+      z-index: 101;
+  }
+  
+  .simple-keyboard.hg-theme-default {
+      background-color: rgba(0,0,0,1) !important;
+  }
+  
+  .simple-keyboard.hg-theme-default .hg-button{
+      background: #666 !important;
+      height: auto !important;
+      padding: .6% !important;
+  }
+  
+  .hg-button span{
+    font-size: 1.6vmax !important;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .disableDiv{
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  
+  .disableIt{
+    pointer-events: none;
+  }
+  
+  .absolutePosition{
+    position: absolute !important;
+  }
+  
+  /*
+  .selectedOption div{
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      width: 60%;
+      animation: widthPlus 0.5s linear;
+  }
+  
+  .selectedOption span {
+      position: absolute;
+      font-size: 3vmax;
+     cursor: pointer;
+  }
+  */
+  .optionPlace{
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      /*top: 5%;
+      left: 5%;*/
+      width: 90%;
+  }
+  
+  .optionPlace span {
+      position: absolute;
+      font-size: 3vmax;
+     cursor: pointer;
+  }
+  .displayPopup {
+    display: block;
+  }
+  
+  .animateWidth{
+      animation: widthPlus 0.5s linear;
+  }
+  
+  @keyframes widthPlus{
+    0%{
+      width:60% !important;
+    }
+    100%{
+      width: 90% !important;
+    }
+  }
+  
+  .disablePointer{
+    pointer-events: none;
+  }
+  
+  .hideKeyboard{
+    display: none !important;
+  }
+  
+  .submitOpt{
+    visibility: visible;
+    cursor: pointer;
+  }
+  
+  .placeHolderOpt{
+    visibility: hidden;
+    pointer-events: none
+  }
+
+  .hindikeyboard-modal{
+    position: absolute;
+    left: 28%;
+    top: 78%;
+    background: #495057;
+    z-index: 99;
+    padding: 10px;
+    width: 60.5%;
+  }
+  .hindikeyboard-modal span img{
+    width: 24px;
+    height: 22px;
+    background: #fff;
+    margin: 2px;
+    padding: 5px;
+  }
+  .chars-wrapper{
+    clear:both;
+  }
+  .fake-input{
+    background: #fff;
+    height: 100%;
+    border-radius: 10px;
+    font-size: 4rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .fake-input > *{
+    /* width:50px;
+    height: 50px; */
+    vertical-align: middle;
+  }
+  .btn-outline-dark.switch {
+    color: #fff;
+    background-color: transparent;
+    background-image: none;
+    border-color: #fff;
+    /* height: 50px; */
+}
+.wordBlock span img {
+  width: 15px;
+  height: 20px;
+}
+.wordItem.hindi-wordItem{
+  background: #fff;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+.optionPlace span{
+  text-align: center;
+}
+.optionPlace span img {
+  max-width: 50%;
+}
+.optionsList div span{
+  width: 100%;
+  text-align: center;
+}
+.optionsList div span img {
+  max-width: 24px;
+}
+.modal .optionsList div span img{
+  margin: 1% 0;
+}
+.modal .optionsList div{
+  position: relative;
+}

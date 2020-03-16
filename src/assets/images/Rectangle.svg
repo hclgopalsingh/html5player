@@ -1,0 +1,142 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1920px" height="1080px" id = "mySvg" viewBox="0 0 1920 1080">
+<defs>
+<g id="Grey_box_0_Layer0_0_FILL">
+<path fill="#C6C6C6" stroke="none" d="
+M 0 0
+L 0 -218.7 -388.8 -218.7 -388.8 0 0 0
+M 0 218.7
+L 0 0 -388.8 0 -388.8 218.7 0 218.7
+M 388.8 218.7
+L 388.8 0 0 0 0 218.7 388.8 218.7
+M 388.8 -218.7
+L 0 -218.7 0 0 388.8 0 388.8 -218.7 Z"/>
+</g>
+
+<g id="Yellow_0_Layer0_0_FILL">
+<path fill="#FFCC33" stroke="none" d="
+M 960.05 540
+L 960.05 321.3 571.25 321.3 571.25 540 960.05 540 Z"/>
+</g>
+
+<g id="lower_red_0_Layer0_0_FILL">
+<path fill="#990000" stroke="none" d="
+M 960.05 758.7
+L 960.05 540 571.25 540 571.25 758.7 960.05 758.7 Z"/>
+</g>
+
+<g id="green_0_Layer0_0_FILL">
+<path fill="#33CC33" stroke="none" d="
+M 960 758.7
+L 960 540 571.2 540 571.2 758.7 960 758.7 Z"/>
+</g>
+
+<g id="upper_red_0_Layer0_0_FILL">
+<path fill="#990000" stroke="none" d="
+M 182.45 321.3
+L 182.45 540 571.25 540 571.25 321.3 182.45 321.3 Z"/>
+</g>
+
+<path id="Grey_box_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M 0 -218.7
+L 388.8 -218.7 388.8 0 388.8 218.7 0 218.7 -388.8 218.7 -388.8 0 -388.8 -218.7 0 -218.7 0 0 388.8 0
+M 0 218.7
+L 0 0 -388.8 0"/>
+
+<path id="Yellow_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M 571.25 321.3
+L 960.05 321.3 960.05 540 571.25 540 571.25 321.3 Z"/>
+
+<path id="lower_red_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M 571.25 540
+L 960.05 540 960.05 758.7 571.25 758.7 571.25 540 Z"/>
+
+<path id="green_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M 571.2 540
+L 960 540 960 758.7 571.2 758.7 571.2 540 Z"/>
+
+<path id="upper_red_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M 182.45 321.3
+L 571.25 321.3 571.25 540 182.45 540 182.45 321.3 Z"/>
+
+<path id="Yellow_Stroke_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M -194.4 -109.35
+L 194.4 -109.35 194.4 109.35 -194.4 109.35 -194.4 -109.35 Z"/>
+
+<path id="Bule_Stroke_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M -194.4 -109.35
+L 194.4 -109.35 194.4 109.35 -194.4 109.35 -194.4 -109.35 Z"/>
+
+<path id="green_Stroke_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M -194.4 -109.35
+L 194.4 -109.35 194.4 109.35 -194.4 109.35 -194.4 -109.35 Z"/>
+
+<path id="red_Stroke_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3" fill="none" d="
+M -194.4 -109.35
+L 194.4 -109.35 194.4 109.35 -194.4 109.35 -194.4 -109.35 Z"/>
+</defs>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 524,296.8) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Grey_box_0_Layer0_0_FILL"/>
+
+<use xlink:href="#Grey_box_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 783.8,150.55) ">
+<g transform="matrix( 1, 0, 0, 1, -765.65,-430.65) ">
+<use xlink:href="#Yellow_0_Layer0_0_FILL"/>
+
+<use xlink:href="#Yellow_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 783.8,443.05) ">
+<g transform="matrix( 1, 0, 0, 1, -765.65,-649.35) ">
+<use xlink:href="#lower_red_0_Layer0_0_FILL"/>
+
+<use xlink:href="#lower_red_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 264.2,443.05) ">
+<g transform="matrix( 1, 0, 0, 1, -765.6,-649.35) ">
+<use xlink:href="#green_0_Layer0_0_FILL"/>
+
+<use xlink:href="#green_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 264.2,150.55) ">
+<g transform="matrix( 1, 0, 0, 1, -376.85,-430.65) ">
+<use xlink:href="#upper_red_0_Layer0_0_FILL"/>
+
+<use xlink:href="#upper_red_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 783.8,150.55) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Yellow_Stroke_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 783.8,443.05) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Bule_Stroke_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 264.2,443.05) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#green_Stroke_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g transform="matrix( 1.3364410400390625, 0, 0, 1.3364410400390625, 264.2,150.55) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#red_Stroke_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+</svg>

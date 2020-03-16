@@ -1,0 +1,56 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="217px" height="217px" viewBox="0 0 217 217">
+<defs>
+<radialGradient id="Gradient_1" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="107.9625" fx="0" fy="0" gradientTransform="matrix( 1, 0, 0, 1, -31.35,-26.65) " spreadMethod="pad">
+<stop  offset="0%" stop-color="#FFFFFF" stop-opacity="0.8470588235294118"/>
+
+<stop  offset="100%" stop-color="#FF007E" stop-opacity="0.8196078431372549"/>
+</radialGradient>
+
+<radialGradient id="Gradient_2" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="142.0625" fx="0" fy="0" gradientTransform="matrix( 1, 0, 0, 1, -13.45,3.85) " spreadMethod="pad">
+<stop  offset="74.11764705882354%" stop-color="#E4E9EC" stop-opacity="0"/>
+
+<stop  offset="100%" stop-color="#FFFFFF"/>
+</radialGradient>
+
+<radialGradient id="Gradient_3" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="158.03750000000002" fx="0" fy="0" gradientTransform="matrix( 0.9999999999999998, 0, 0, 0.9999999999999998, 17,-1.95) " spreadMethod="pad">
+<stop  offset="74.11764705882354%" stop-color="#FFFFFF" stop-opacity="0.00784313725490196"/>
+
+<stop  offset="100%" stop-color="#FFFFFF" stop-opacity="0.6784313725490196"/>
+</radialGradient>
+
+<g id="Symbol_87_0_Layer0_0_FILL">
+<path fill="url(#Gradient_1)" stroke="none" d="
+M 76.25 -76.25
+Q 44.7 -107.8 0.05 -107.8 -44.65 -107.8 -76.2 -76.25 -107.75 -44.65 -107.75 0 -107.75 44.65 -76.2 76.2 -44.65 107.8 0.05 107.8 44.7 107.8 76.25 76.2 107.8 44.65 107.8 0 107.8 -44.65 76.25 -76.25 Z"/>
+</g>
+
+<g id="Symbol_87_0_Layer0_0_MEMBER_0_FILL">
+<path fill="url(#Gradient_2)" stroke="none" d="
+M 42.85 -99.3
+Q 23.15 -107.8 0 -107.8 -23.2 -107.8 -42.85 -99.3 -61.05 -91.4 -76.25 -76.2 -107.8 -44.65 -107.8 0 -107.8 44.7 -76.25 76.25 -44.65 107.8 0 107.8 44.65 107.8 76.2 76.25 107.8 44.7 107.8 0 107.8 -44.65 76.2 -76.2 61.05 -91.4 42.85 -99.3 Z"/>
+</g>
+
+<g id="Symbol_87_0_Layer0_0_MEMBER_1_FILL">
+<path fill="url(#Gradient_3)" stroke="none" d="
+M 42.85 -99.3
+Q 23.2 -107.8 0.05 -107.8 -23.15 -107.8 -42.8 -99.3 -61 -91.4 -76.2 -76.25 -107.75 -44.65 -107.75 0 -107.75 44.65 -76.2 76.2 -44.65 107.8 0.05 107.8 44.7 107.8 76.25 76.2 107.8 44.65 107.8 0 107.8 -44.65 76.25 -76.25 61.05 -91.4 42.85 -99.3 Z"/>
+</g>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 108.5,108.5) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_87_0_Layer0_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_87_0_Layer0_0_MEMBER_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_87_0_Layer0_0_MEMBER_1_FILL"/>
+</g>
+</g>
+</g>
+</svg>

@@ -1,0 +1,55 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1563px" height="799px" viewBox="0 0 1563 799">
+<defs>
+<filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#3366FF" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feGaussianBlur in="SourceGraphic" stdDeviation="8.666666666666666,8.666666666666666" result="result2"/>
+
+<feComposite in2="result2" in="result1" operator="in" result="result3"/>
+
+<feComposite in2="result3" in="SourceGraphic" operator="over" result="result4"/>
+</filter>
+
+<g id="Symbol_31_0_Layer0_0_FILL">
+<path fill="#202020" stroke="none" d="
+M 1720.45 86.95
+Q 1714.2 80.7 1705.4 80.7
+L 213.3 80.7
+Q 204.5 80.7 198.25 86.95 192 93.2 192 102
+L 192 829.2
+Q 192 838 198.25 844.25 204.5 850.5 213.3 850.5
+L 1705.4 850.5
+Q 1714.2 850.5 1720.45 844.25 1726.7 838 1726.7 829.2
+L 1726.7 102
+Q 1726.7 93.2 1720.45 86.95 Z"/>
+</g>
+
+<g id="Layer0_0_MEMBER_1_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 1708.45 129.3
+Q 1708.45 120.5 1702.2 114.25 1695.95 108 1687.15 108
+L 240.55 108
+Q 231.75 108 225.5 114.25 219.25 120.5 219.25 129.3
+L 219.25 685.2
+Q 219.25 694 225.5 700.25 231.75 706.5 240.55 706.5
+L 1687.15 706.5
+Q 1695.95 706.5 1702.2 700.25 1708.45 694 1708.45 685.2
+L 1708.45 129.3 Z"/>
+</g>
+</defs>
+
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, 781.5,399.5) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, -959.35,-465.6) ">
+<use xlink:href="#Symbol_31_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+</g>
+
+<g transform="matrix( 1.0099945068359375, 0, 0, 1.0099945068359375, -191.35,-79.9) ">
+<use xlink:href="#Layer0_0_MEMBER_1_FILL"/>
+</g>
+</svg>

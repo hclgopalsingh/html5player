@@ -1,0 +1,19 @@
+<checkIdol *ngIf="autoplay">
+	<div class="container-fluid" id="shikshaOuterDivId">
+		<div class="outerMostParent" #contentHolder id="contentHolder">
+			<img src="assets/images/watermark.svg" *ngIf="playerPreview" class="previewImg">
+			<quesCtrl [style.visibility]="(appModel.navShow==2 && !isTitleScreenActive) ? 'visible':'hidden'"></quesCtrl>
+			<router-outlet></router-outlet>
+			<controls class="bottomPlace" *ngIf="appModel.navShow==1 || appModel.navShow==2"></controls>
+		</div>
+		<div [ngClass]="{'showLoader container-fluid loaderDiv' :appModel.getLoader() && navUrl!='/'+'video' && navUrl!='/'+'videoext', 'hideLoader container-fluid d-flex align-items-center justify-content-center loaderDiv':!appModel.getLoader()}">
+			<loader-component class="loaderTest" id="loaderTestId"></loader-component>
+		</div>
+		<div [ngClass]="{'showAnimation container-fluid': animationAssts, 'hideAnimation container-fluid':animationAssts==undefined}">
+			<animation-component #animationRef [animationAssets]="animationAssts" [audioAssets]="audioSrc" (closeAnimationEvent)="postAnimationActs($event)"></animation-component>
+		</div>
+	</div>
+</checkIdol>
+<div class="d-flex flex-row justify-content-center align-items-center container-fluid" *ngIf="!autoplay">
+	<button type="button" class="btn btn-info autoplayBtn" (click)="startApplication();">click to start</button>
+</div>

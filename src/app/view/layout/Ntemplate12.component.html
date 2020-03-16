@@ -1,0 +1,151 @@
+<div #container class="container-fluid temp9" id="container" *ngIf="!showIntroScreen">
+	<audio #narrator_voice
+		[src]="question?.narrator_voice?.location=='content' ? assetspath + '/' +question?.narrator_voice.url: assetsfolderlocation + '/'+ question?.narrator_voice.url"
+		autoplay="autoplay" autoplay="autoplay"></audio>
+
+		<audio #narrator
+		[src]="commonAssets?.narrator?.location=='content' ? containgFolderPath + '/' + commonAssets?.narrator?.url:quesInfo?.narrator?.url"></audio>
+
+	<audio #buzzerSound
+		[src]="feedback?.wrong_ans_sound?.path?.location=='content' ? assetspath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+
+	<div id="bgImage"><img
+			[src]="commonassets?.background?.location=='content' ? assetspath + '/' +commonassets?.background?.url: assetsfolderlocation + '/'+ commonassets?.background?.url"
+			(load)="checkImgLoaded();" /></div>
+
+	<div #maincontent>
+
+		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+				<div class="instructionBase">
+					<img class="img-fluid"
+						[src]="commonassets?.instruction_bg?.location=='content' ? assetspath + '/' + commonassets?.instruction_bg?.url : commonassets?.instruction_bg?.url"
+						(click)="playHoverInstruction()" (load)="checkImgLoaded();" />
+					<audio #instruction
+						[src]="commonassets?.instruction?.location=='content' ? assetspath + '/' + commonassets?.instruction?.url:quesInfo?.instruction?.url"></audio>
+				</div>
+		</div>
+
+
+		<div class="d-flex flex-row justify-content-around" id="answerBlock" #answerBlock>
+			<div class="ansBase">
+				<img class="img-fluid"
+					[src]="commonassets?.quesBase?.location=='content' ? assetspath + '/'+ commonassets?.quesBase?.url: assetsfolderlocation + '/'+ commonassets?.quesBase?.url"
+					(load)="checkImgLoaded();">
+
+				<img #ans class="img-fluid quesText"
+					[src]="question?.img_sentence?.location=='content' ? assetspath + '/' +question?.img_sentence.url: assetsfolderlocation + '/'+ question?.img_sentence.url"
+					(load)="checkImgLoaded();">
+					<img *ngIf = "!ansShow" class="img-fluid" 
+					[src]="myoption[itemid]?.imgsrc?.location=='content' ?assetspath + '/' +myoption[itemid]?.imgsrc?.url: assetsfolderlocation + '/'+ myoption[itemid]?.imgsrc?.url" style="visibility:hidden" [ngStyle]='question.ansclass' >
+			</div>
+		</div>
+		<div class="optParent">
+			<div class="d-flex align-items-center justify-content-center" id="optionsBlock">
+				<div id="quesImage">
+	
+					<img class="img-fluid"
+						[src]="commonassets?.refBase?.location=='content' ? assetspath + '/' +commonassets?.refBase?.url: assetsfolderlocation + '/'+ commonassets?.refBase?.url"
+						(load)="checkImgLoaded();">
+	
+					<img class="img-fluid" id="refImage"
+						[src]="question?.image?.location=='content' ? assetspath + '/' +question?.image.url: assetsfolderlocation + '/'+ question?.image.url"
+						(load)="checkImgLoaded();">
+				</div>
+			</div>
+
+			<div class="d-flex align-items-center justify-content-around" id="optBlock">
+				<div #ansBlock class="d-flex flex-row justify-content-around pointer " id="ansBlock" #optionBlock>
+					<div class="options" *ngFor="let opts of myoption;let idx = index" (click)="opts['idx']=idx ;checkAnswer(opts,$event)">
+						<img class="img-fluid backgroundBlank" id="{{'optblank'+idx}}"
+							[src]="opts?.image?.location=='content' ?assetspath + '/' +opts?.image?.url: assetsfolderlocation + '/'+ opts?.image?.url"
+							(load)="checkImgLoaded();">
+						<img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}"
+							[src]="opts?.imgsrc?.location=='content' ?assetspath + '/' +opts?.imgsrc?.url: assetsfolderlocation + '/'+ opts?.imgsrc?.url"
+							on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
+							(load)="checkImgLoaded();">
+					</div>
+				</div>
+			</div>
+				
+		</div>
+	</div>
+	<!-- <div class="d-flex flex-row align-items-center justify-content-around" #navBlock id="navBlock">
+		<div class="prevBtn peechejao img-fluid" (click)="previous()"  [ngClass]="{'disable-click': isFirstQues == true}">
+			<img class="img-fluid" [src] = "commonassets?.peechey_jayein?.location =='content' ? containgFolderPath + '/' +commonassets?.peechey_jayein?.url : assetsfolderlocation + '/'+ commonassets?.peechey_jayein?.url" (mouseleave)="onLeavePeecheyBtn()" on-mouseenter="onHoverPeecheyBtn()">
+		</div>
+		<div class="nextBtn">
+			<div class="img-fluid aagebadho" (click)="next()">
+				<img class="img-fluid" [src] = "commonassets?.aagey_badhein?.location =='content' ? containgFolderPath + '/' +commonassets?.aagey_badhein?.url : assetsfolderlocation + '/'+ commonassets?.aagey_badhein?.url" (mouseleave)="onLeaveAageyBadheinBtn()" on-mouseenter="onHoverAageyBadheinBtn()">
+			</div>
+			<div class="blink_btn img-fluid" [ngClass]="{'blink' :blink}" (click)="next()">
+				<img class="img-fluid" [src] = "commonassets?.aagey_badhein_blink?.location =='content' ? containgFolderPath + '/' +commonassets?.aagey_badhein_blink?.url : assetsfolderlocation + '/'+ commonassets?.aagey_badhein_blink?.url">
+			</div>
+		</div> 
+		
+	</div>-->
+	<!--<div #helpbtn id="help" class="" [ngClass]="{'disable-click': disableHelpBtn == true}"><img  on-mousemove="onHoverhelp(question)" on-mouseout="onHoverouthelp(question)" class="img-fluid" [src]="question?.help?.location=='content' ?assetspath + '/' +question?.help.url: assetsfolderlocation + '/'+ question?.help.url" (click)="helpSpeaker(audioEl)"></div>-->
+	<audio #myAudiohelp #audioEl
+		[src]="question?.helpsound?.location=='content' ?assetspath + '/' +question?.helpsound.url: assetsfolderlocation + '/'+ question?.helpsound.url"></audio>
+
+
+	<div class="container-fluid temp5" #container id="container" *ngIf="showIntroScreen">
+		<div id="backgroundImage"><img
+				[src]="quesInfo.titlebackground?.location=='content' ?assetspath + '/' +quesInfo.titlebackground.url: assetsfolderlocation + '/'+ quesInfo.titlebackground.url"
+				(load)="checkImgLoaded();" /></div>
+
+		<div class="d-flex align-items-center justify-content-center" id="activity">
+			<img class="img-fluid"
+				[src]="quesInfo.kriyakalaap?.location=='content' ?assetspath + '/' +quesInfo.kriyakalaap.url: assetsfolderlocation + '/'+ quesInfo.kriyakalaap.url">
+		</div>
+		<div class="d-flex align-items-center justify-content-center" id="activityTitle">
+			<div class="title_class"><img class="img-fluid"
+					[src]="quesInfo.titleText?.location=='content' ?assetspath + '/' +quesInfo.titleText.url: assetsfolderlocation + '/'+ quesInfo.titleText.url">
+			</div>
+		</div>
+		<div class="d-flex justify-content-end hideit" #titleNavBtn id="zaariRakheinId">
+			<div class="zaariRakheinBtn"><img class="img-fluid" on-mouseenter="onHoverZaariRakhein()"
+					(mouseleave)="onHoverOutZaariRakhein()"
+					[src]="quesInfo.zaariRakhein?.location=='content' ?assetspath + '/' +quesInfo.zaariRakhein.url: assetsfolderlocation + '/'+ quesInfo.zaariRakhein.url"
+					(click)="closeTitleScreen()"></div>
+		</div>
+
+		<!--<audio #titleAudio [src]="quesInfo.Instruction?.location=='content' ?assetspath + '/' +quesInfo.Instruction.url: assetsfolderlocation + '/'+ quesInfo.Instruction.url" autoplay="autoplay"></audio>-->
+	</div>
+</div>
+
+
+<div class="modal" id="confirmModal" #confirmModalRef>
+	<div class="modal-dialog">
+		<!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
+		<div class="modal-content" #modalRef>
+			<div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
+				<!-- <h4 class="modal-title">Modal Heading</h4> -->
+				<img class="modal-title"
+					[src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? assetspath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetspath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
+				<!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
+				<img class="close"
+					[src]="confirmPopupAssets?.close_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.close_btn?.url : assetspath + '/' + confirmPopupAssets?.close_btn?.url"
+					(click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()"
+					(mouseleave)="houtCloseConfirm()">
+			</div>
+
+			<div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+				<div class="msgImage"><img class="img-fluid h-100"
+						[src]="confirmPopupAssets?.confirm_text?.location=='content' ? assetspath + '/' + confirmPopupAssets?.confirm_text?.url : assetspath + '/' + confirmPopupAssets?.confirm_text?.url">
+				</div>
+				<div class="actionButtons">
+					<button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()"
+						(mouseleave)="houtConfirm()"><img class="img-fluid"
+							[src]="confirmPopupAssets?.confirm_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.confirm_btn?.url : assetspath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
+					<button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
+						(mouseleave)="houtDecline()"><img class="img-fluid"
+							[src]="confirmPopupAssets?.decline_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.decline_btn?.url : assetspath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+

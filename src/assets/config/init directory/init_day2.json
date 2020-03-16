@@ -1,0 +1,14 @@
+{
+	"environment": {
+		"standalone": {
+			"enabled": true,
+			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/D2_SEG01/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/D2_SEG02/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/D2_SEG03_ACT/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/D2_SEG04/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/D2_SEG05/\"},{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/D2_SEG06/\"}]}"
+		},
+		
+		"lms": {
+			"enabled": false
+		}
+	}
+}
+
+
