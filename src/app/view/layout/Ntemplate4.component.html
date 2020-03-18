@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index">
+    <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index" >
         <img class="img-fluid pos_rel" [src]="option?.imgsrc?.location=='content' ? containgFolderPath + '/' + option?.imgsrc?.url : assetsPath + '/' +option?.imgsrc?.url" (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)" (mouseenter)="playOptionHover(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
     </div>
     <audio #quesVORef ></audio>

@@ -165,19 +165,26 @@ export class Ntemplate21 implements OnInit {
         }
         this.containgFolderPath = this.getBasePath();
         this.setData();
+        this.isOn = false;
+
         this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
                 console.log("manual mode ", mode);
+                this.isOn = false;
+
             } else if (mode == "auto") {
                 console.log("auto mode", mode);
                 this.showAnswer();
                 this.popupType = "showanswer";
+                this.isOn = false;
+
             }
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
             if (val == "uttarDikhayein") {
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.confirmModalRef.nativeElement.classList = "show modal";
+                    this.isOn = false;
                     this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
                     this.appModel.notifyUserAction();
                 }
@@ -187,6 +194,7 @@ export class Ntemplate21 implements OnInit {
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "replayVideo") {
+                this.isOn = false;
                 if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
                     this.confirmReplayRef.nativeElement.classList = "show modal";
                     this.appModel.notifyUserAction();
@@ -344,8 +352,10 @@ export class Ntemplate21 implements OnInit {
                 this.instructionBar.nativeElement.classList = "instructionBase";
                 this.appModel.handlePostVOActivity(false);
                 this.appModel.enableReplayBtn(true);
+                this.isOn = true;
             }
         } else {
+            this.isOn = true;
            this.appModel.handlePostVOActivity(false);
            this.appModel.enableReplayBtn(true);
         }
@@ -656,6 +666,9 @@ export class Ntemplate21 implements OnInit {
         if(this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused){
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0; 
+        }
+        if(flag == "no"){
+            this.isOn = true;
         }
         this.appModel.notifyUserAction();
         ref.classList = "modal";
