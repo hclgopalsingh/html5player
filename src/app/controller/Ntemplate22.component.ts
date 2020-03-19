@@ -24,6 +24,7 @@ export class Ntemplate22 implements OnInit {
     // if error occured during image loading loader wil stop after 5 seconds 
     this.loaderTimer = setTimeout(() => {
       this.appModel.setLoader(false);
+      
       this.checkforQVO();
     }, 5000);
 
@@ -60,8 +61,6 @@ export class Ntemplate22 implements OnInit {
   @ViewChild('MyForm') MyFormVar: any;
   @ViewChild('imgRef') imgRef: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  @ViewChild('showAnswerRef') showAnswerRef: any;
-  @ViewChild('feedbackshowPopupAudio') feedbackshowPopupAudio: any;
   @ViewChild('infoModalRef') infoModalRef: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('monthDates') monthDates: any;
@@ -223,7 +222,8 @@ export class Ntemplate22 implements OnInit {
   copiedstates:any=[];
   attemptType: string = "";
   optionSelected:any;
-
+  styleHeaderPopup:any;
+  styleBodyPopup:any;
 
   monthsArr:any=[];
   ArrweekDays:any=[];
@@ -242,6 +242,7 @@ export class Ntemplate22 implements OnInit {
   dateSelected:boolean = false;
   weekDaySelected:boolean = false;
   monthfromLocalMachine:boolean=true;
+  yearfromLocalMachine:boolean=true;
   
 
   
@@ -338,69 +339,69 @@ export class Ntemplate22 implements OnInit {
       }, 500);
     }
   }
-  checkAnswer(opt, i, j) {
-    if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      this.optionsBlock.nativeElement.className += " disable_div";
-      if (opt.id == this.feedback.correct_ans_index) {
-        this.checked = true;
-        this.selected = true;
-        //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[2].style.display = "block";
-        this.optionsBlock.nativeElement.className += " disable_div";
-        $("#instructionBar").addClass("disable_div");
-        //console.log(this.popupImage);
-        if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        } else {
-          this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
-        }
-        this.rightanspopUp=setTimeout(() => {
-          //this.popupRef.nativeElement.classList = "displayPopup modal";
-          //this.optionsBlock.nativeElement.style = "opacity:0.3";
-          $("#optionsBlock .options").css("opacity", "0.3");
-          $("#instructionBar").css("opacity", "0.3");
-            this.rightFeedbackVO.nativeElement.play();
+  // checkAnswer(opt, i, j) {
+  //   if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
+  //     console.log("narrator/instruction voice still playing");
+  //   } else {
+  //     this.optionsBlock.nativeElement.className += " disable_div";
+  //     if (opt.id == this.feedback.correct_ans_index) {
+  //       this.checked = true;
+  //       this.selected = true;
+  //       //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[2].style.display = "block";
+  //       this.optionsBlock.nativeElement.className += " disable_div";
+  //       $("#instructionBar").addClass("disable_div");
+  //       //console.log(this.popupImage);
+  //       if (opt.imgsrc && opt.imgsrc.location == "content") {
+  //         this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
+  //       } else {
+  //         this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
+  //       }
+  //       this.rightanspopUp=setTimeout(() => {
+  //         //this.popupRef.nativeElement.classList = "displayPopup modal";
+  //         //this.optionsBlock.nativeElement.style = "opacity:0.3";
+  //         $("#optionsBlock .options").css("opacity", "0.3");
+  //         $("#instructionBar").css("opacity", "0.3");
+  //           this.rightFeedbackVO.nativeElement.play();
           
-        }, 700);
-        this.rightFeedbackVO.nativeElement.onended = () => {
-          setTimeout(() => {
-            this.closeModal();
-          },2000);
-        }
+  //       }, 700);
+  //       this.rightFeedbackVO.nativeElement.onended = () => {
+  //         setTimeout(() => {
+  //           this.closeModal();
+  //         },2000);
+  //       }
         
-      } else {
-        this.checked = true;
-        this.selected = false;
-        //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[3].style.display = "block";
-        this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
-        $("#instructionBar").addClass("disable_div");
-        if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        } else {
-          this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
-        }
-        this.wronganspopUp=setTimeout(() => {
-          //this.appModel.openModal("success-modal-id", this.popupAssets,'');
-          //this.popupRef.nativeElement.classList = "displayPopup modal";
+  //     } else {
+  //       this.checked = true;
+  //       this.selected = false;
+  //       //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[3].style.display = "block";
+  //       this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
+  //       $("#instructionBar").addClass("disable_div");
+  //       if (opt.imgsrc && opt.imgsrc.location == "content") {
+  //         this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
+  //       } else {
+  //         this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
+  //       }
+  //       this.wronganspopUp=setTimeout(() => {
+  //         //this.appModel.openModal("success-modal-id", this.popupAssets,'');
+  //         //this.popupRef.nativeElement.classList = "displayPopup modal";
           
-          this.optionsBlock.nativeElement.classList.value = "row mx-0";
-          this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
-          this.wrongFeedbackVO.nativeElement.play();
-        },700);
+  //         this.optionsBlock.nativeElement.classList.value = "row mx-0";
+  //         this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
+  //         this.wrongFeedbackVO.nativeElement.play();
+  //       },700);
         
-        this.checked = false;
-        this.wrongFeedbackVO.nativeElement.onended = () => {
-          setTimeout(() => {
-            this.closeModal();
-            $("#optionsBlock .options").removeClass("disable_div");
-            $("#optionsBlock .options").css("opacity", "unset");
-          }, 2000);        
-        }
-      }
-      this.optionsBlock.nativeElement.children[i].children[j].style.transform = "none";
-    }
-  }
+  //       this.checked = false;
+  //       this.wrongFeedbackVO.nativeElement.onended = () => {
+  //         setTimeout(() => {
+  //           this.closeModal();
+  //           $("#optionsBlock .options").removeClass("disable_div");
+  //           $("#optionsBlock .options").css("opacity", "unset");
+  //         }, 2000);        
+  //       }
+  //     }
+  //     this.optionsBlock.nativeElement.children[i].children[j].style.transform = "none";
+  //   }
+  // }
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
@@ -417,42 +418,11 @@ export class Ntemplate22 implements OnInit {
     } else {
       this.appModel.moveNextQues(this.attemptType);
     }
-  }
-  
-onSubmit()
-{
-	
-	if(!this.submitFlag)
-	{
-		//alert("enter in submit");
-    //this.questionAudio.nativeElement.pause();
-    if(this.paginationArray.length < this.commonAssets.itemsperPage) {
-      this.tableofOne = true;
-      this.tableofTwo = false;
-      this.tableofThree = false;
-    } else if(this.commonAssets.itemsperPage < this.paginationArray.length && this.paginationArray.length < (this.commonAssets.itemsperPage+this.commonAssets.itemsperPage)) {
-      this.tableofOne = false;
-      this.tableofTwo =true;
-      this.tableofThree = false;
-      this.table1= this.paginationArray.slice(0,this.commonAssets.itemsperPage);
-      this.table2=this.paginationArray.slice(this.commonAssets.itemsperPage,this.commonAssets.itemsperPage*2);
-      //this.table3 = this.paginationArray.slice(this.commonAssets.itemsperPage*2,this.commonAssets.itemsperPage*3);
-    } else {
-      this.tableofOne = false;
-      this.tableofTwo = false;
-      this.tableofThree =true;
-      this.table1= this.paginationArray.slice(0,this.commonAssets.itemsperPage);
-      this.table2=this.paginationArray.slice(this.commonAssets.itemsperPage,this.commonAssets.itemsperPage*2);
-      this.table3 = this.paginationArray.slice(this.commonAssets.itemsperPage*2,this.commonAssets.itemsperPage*3);
-    }                    						 
-	}	
-}  
-
-  
+  } 
   
   ngOnInit() {
-	  this.groupArray = [];
-    this.duplicateGroupArray = [];
+	  //this.groupArray = [];
+    //this.duplicateGroupArray = [];
 	  //this.QuesRef.nativeElement.style.opacity = 0;
     this.setData();
     if (this.appModel.isNewCollection) {
@@ -489,14 +459,16 @@ onSubmit()
           //this.popupRef.nativeElement.classList = "displayPopup modal";
 		  console.log("No-2");
       this.showAnswerFeedback();
-      this.showAnswerRef.nativeElement.classList="displayPopup modal";
+        this.styleHeaderPopup = this.feedbackObj.style_header;
+        this.styleBodyPopup = this.feedbackObj.style_body;
+      this.popupRef.nativeElement.classList="displayPopup modal";
 		  //this.grayOverTimer();
 		  //this.showAnswer();		 
-      this.feedbackshowPopupAudio.nativeElement.src=this.commonAssets.showAnsAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.showAnsAudio.url : this.assetsPath +"/"+ this.commonAssets.showAnsAudio.url;
-      this.feedbackshowPopupAudio.nativeElement.load();
-      this.feedbackshowPopupAudio.nativeElement.play();
-      this.feedbackshowPopupAudio.nativeElement.onended = () => {
-        this.closeModal();
+      this.feedbackPopupAudio.nativeElement.src=this.commonAssets.showAnsAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.showAnsAudio.url : this.assetsPath +"/"+ this.commonAssets.showAnsAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      this.feedbackPopupAudio.nativeElement.play();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        //this.closeModal();
         
       }
           $("#optionsBlock").css("opacity", "0.3");
@@ -589,7 +561,8 @@ onSubmit()
       //this.appModel.handlePostVOActivity(true);
       let instruction: HTMLElement = document.getElementsByClassName("instructionBase")[0] as HTMLElement;
       instruction.style.pointerEvents="none"
-			this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+      this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+      this.appModel.handlePostVOActivity(true);
 			this.narrator.nativeElement.play();
 			this.narrator.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
@@ -682,7 +655,7 @@ onSubmit()
     if(flag == "month" && !item.selected) {
       this.monthfromLocalMachine = false;
       this.monthSelected = true;
-      this.dateSelected=false;
+      //this.dateSelected=false;
       this.previousItemevent=undefined;
       for(let i=this.startIndex;i>=0;i--) {
         this.monthDates.nativeElement.children[0].children[i].src="";
@@ -707,8 +680,13 @@ onSubmit()
         item.ImginpopUp = item.wrongmonthImg;
       }
     } else if(flag =="year" && !item.selected) {
+      this.yearfromLocalMachine=false;
       this.yearSelected = true;
-      this.dateSelected=false;
+      if(this.Arryears.filter((item) => item.checkRightorWrong == true)[0]!=undefined) {
+        this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      }
+      //this.dateSelected=false;
+      //this.weekDaySelected = false;
       this.previousItemevent=undefined;
       for(let i=this.startIndex;i>=0;i--) {
         this.monthDates.nativeElement.children[0].children[i].src="";
@@ -722,8 +700,12 @@ onSubmit()
       this.setCalender('');
       if(this.feedbackObj.correct_year!= "" && item.id == this.feedbackObj.correct_year) {
         this.isCorrectYear = true;
+        item.checkRightorWrong = true;
+        item.ImginpopUp = item.rightyearImg;
       } else {
         this.isCorrectYear = false;
+        item.checkRightorWrong = true;
+        item.ImginpopUp = item.wrongyearImg;
       }
     } else if(flag =="date") {
        this.dateSelected = true;
@@ -751,6 +733,7 @@ onSubmit()
     } else if(flag == "weekDays") {
       this.weekDaySelected = true;
       //this.dateSelected=false;
+      //this.dateSelected=false;
       if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
         this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
       }
@@ -768,7 +751,7 @@ onSubmit()
         item.weekDayImginpopUp = item.wrongweekDayImg;
       }
     }
-    if(this.monthSelected && this.yearSelected && this.dateSelected) {
+    if(this.monthSelected && this.yearSelected && this.dateSelected && this.weekDaySelected) {
       this.appModel.enableSubmitBtn(true);
     } else {
       this.appModel.enableSubmitBtn(false);
@@ -795,16 +778,35 @@ onSubmit()
       }
       if(this.monthfromLocalMachine) {
         let monthInfo=this.monthsArr.filter((item) => item.checkRightorWrong == true)[0];
-        if(monthInfo.id == this.feedbackObj.correct_month) {
+        if(monthInfo.id == this.feedbackObj.correct_month && this.feedbackObj.correct_month!="") {
           this.isCorrectMonth = true;
           monthInfo.ImginpopUp = monthInfo.rightmonthImg;
+        } else if(this.feedbackObj.correct_month == "") {
+          this.isCorrectMonth = true;
+          monthInfo.ImginpopUp = monthInfo.selectedmonthImg;
         } else {
           this.isCorrectMonth = false;
           monthInfo.ImginpopUp = monthInfo.wrongmonthImg;
         }
       }
+      if(this.yearfromLocalMachine) {
+        let yearInfo=this.Arryears.filter((item) => item.checkRightorWrong == true)[0];
+        if(yearInfo && yearInfo.id == this.feedbackObj.correct_year && this.feedbackObj.correct_year!="") {
+          this.isCorrectYear = true;
+          yearInfo.ImginpopUp = yearInfo.rightyearImg;
+        } else if(this.feedbackObj.correct_year == "") {
+          this.isCorrectYear = true;
+          yearInfo.ImginpopUp = yearInfo.selectedyearsImg;
+        } else {
+          this.isCorrectYear = false;
+          yearInfo.ImginpopUp = yearInfo.wrongyearImg;
+        }
+      }
       for(let i = 0;i<days;i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
+        if(this.datesArr[i].disable) {
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
+        }
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         if(i+1 == this.clickedID && this.clickedID == this.feedbackObj.correct_date) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
@@ -827,6 +829,9 @@ onSubmit()
       }
       for(let i = 0;i<days;i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
+        if(this.datesArr[i].disable) {
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
+        }
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         if(i+1 == this.feedbackObj.correct_date) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
@@ -846,8 +851,15 @@ onSubmit()
       }
     }
     else {
+      if(this.ArrweekDays.filter((item)=>item.selected == true)[0] != undefined) {
+        this.ArrweekDays.filter((item)=>item.selected == true)[0].selected = false;
+        this.weekDaySelected=false;
+      }
       for(let i = 0;i<days;i++) {
         this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
+        if(this.datesArr[i].disable) {
+          this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
+        }
           this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         this.startIndex++;
       }
@@ -861,10 +873,14 @@ onSubmit()
       console.log(fetchedData);
       this.feedback = fetchedData.feedback;
       this.commonAssets = fetchedData.commonassets;
-      this.monthsArr = fetchedData.monthsArr;
-      this.ArrweekDays=fetchedData.ArrweekDays;
-      this.Arryears = fetchedData.Arryears;
-      this.datesArr = fetchedData.datesArr;
+      let monthsArr = fetchedData.monthsArr;
+      this.monthsArr = JSON.parse(JSON.stringify(monthsArr));
+      let ArrweekDays = fetchedData.ArrweekDays;
+      this.ArrweekDays=JSON.parse(JSON.stringify(ArrweekDays));
+      let Arryears = fetchedData.Arryears;
+      this.Arryears = JSON.parse(JSON.stringify(Arryears));
+      let datesArr = fetchedData.datesArr;
+      this.datesArr = JSON.parse(JSON.stringify(datesArr));
       this.narratorAudio = fetchedData.commonassets.narrator;
       //this.subjectQuesControl.next(fetchedData.commonassets);
       this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
@@ -888,6 +904,7 @@ onSubmit()
       this.yearSelected= this.quesObj.yearSelected;
       this.monthSelected = this.quesObj.monthSelected;
       this.dateSelected = this.quesObj.dateSelected;
+      this.weekDaySelected=this.quesObj.weekdaySelected;
        this.setDatefromJSON();
       // this.myStates = fetchedData.statesArr;
       // this.myStates.map((element) => element.clicked = false);
@@ -970,11 +987,11 @@ onSubmit()
   }
 
   hoverOK() {
-    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
+    this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_hover;
   }
 
   houtOK() {
-    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+    this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_original;
   }
 
   playFeedback() {
@@ -985,10 +1002,10 @@ onSubmit()
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended=()=> {
-        this.closeModal();
+        //this.closeModal();
         $("#optionsBlock").css("opacity", "0.3");
         $("#optionsBlock").css("pointer-events", "none");
-        document.getElementById("mainques").style.pointerEvents = "none";
+        //document.getElementById("mainques").style.pointerEvents = "none";
         $("#instructionBar").css("opacity", "0.3");
         $("#instructionBar").css("pointer-events", "none");
         this.appModel.enableSubmitBtn(false);
@@ -1000,7 +1017,7 @@ onSubmit()
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended=()=> {
-        this.closeModal();
+        //this.closeModal();
         //this.resetActivity();
       }
     } 
@@ -1040,18 +1057,48 @@ onSubmit()
         this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
         this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       }
+      // if(this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] !=undefined) {
+      //   //this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      //   this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].monthImg = this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].selectedmonthImg;
+      //   this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      // }
       let indexofRightmonth=this.monthsArr.findIndex((item)=> item.id == this.feedbackObj.correct_month);
       this.monthsArr[indexofRightmonth].checkRightorWrong  =true;
       this.monthsArr[indexofRightmonth].ImginpopUp = this.monthsArr[indexofRightmonth].rightmonthImg;
       this.date.setMonth(indexofRightmonth);
+    } else {
+      if(this.monthsArr.filter((item) => item.selected == true)[0] !=undefined) {
+        this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+        //this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      }
+      if(this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] !=undefined) {
+        //this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].monthImg = this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].selectedmonthImg;
+        this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      }
     }
-    else if(this.feedbackObj.correct_year!= "") {
+    if(this.feedbackObj.correct_year!= "") {
       this.date.setFullYear(this.feedbackObj.correct_year);
-      let indexofRightyear = this.monthsArr.findIndex((item)=> item.id == this.feedbackObj.correct_year);
+      if(this.Arryears.filter((item) => item.selected == true)[0] !=undefined) {
+        this.Arryears.filter((item) => item.selected == true)[0].selected = false;
+        this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      }
+      let indexofRightyear = this.Arryears.findIndex((item)=> item.id == this.feedbackObj.correct_year);
       this.Arryears[indexofRightyear].checkRightorWrong=true;
-      this.Arryears[indexofRightyear].ImginpopUp = this.Arryears[indexofRightyear].rightdateImg;
+      this.Arryears[indexofRightyear].ImginpopUp = this.Arryears[indexofRightyear].rightyearImg;
+    } else {
+      if(this.Arryears.filter((item) => item.selected == true)[0] !=undefined) {
+        this.Arryears.filter((item) => item.selected == true)[0].yearsImg = this.Arryears.filter((item) => item.selected == true)[0].selectedyearsImg;
+        this.Arryears.filter((item) => item.selected == true)[0].selected = false;
+        this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      }
+      // if(this.Arryears.filter((item) => item.checkRightorWrong == true)[0] !=undefined) {
+      //   //this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      //   this.Arryears.filter((item) => item.checkRightorWrong == true)[0].monthImg = this.Arryears.filter((item) => item.checkRightorWrong == true)[0].selectedmonthImg;
+      //   this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      // }
     }
-    else if(this.feedbackObj.correct_weekDay!="") {
+    if(this.feedbackObj.correct_weekDay!="") {
       if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
         this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
         this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -1059,8 +1106,17 @@ onSubmit()
       let indexofRightweekday=this.ArrweekDays.findIndex((item)=> item.id == this.feedbackObj.correct_weekDay);
       this.ArrweekDays[indexofRightweekday].checkRightorWrong=true;
         this.ArrweekDays[indexofRightweekday].weekDayImginpopUp = this.ArrweekDays[indexofRightweekday].rightweekDayImg;
+    } else {
+      if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+        this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+        this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      }
     }
     this.setCalender("showAnspopup");
+  }
+
+  onclickOK() {
+    this.closeModal();
   }
 
   showFeedback(id: string, flag: string) {
@@ -1080,13 +1136,15 @@ onSubmit()
       this.attemptType = "auto";
       this.confirmModalRef.nativeElement.classList = "modal";
       this.showAnswerFeedback();
+        this.styleHeaderPopup = this.feedbackObj.style_header;
+        this.styleBodyPopup = this.feedbackObj.style_body;
       this.popupRef.nativeElement.classList="displayPopup modal";
       this.appModel.notifyUserAction();
-      this.feedbackshowPopupAudio.nativeElement.src=this.commonAssets.showAnsAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.showAnsAudio.url : this.assetsPath +"/"+ this.commonAssets.showAnsAudio.url;
-      this.feedbackshowPopupAudio.nativeElement.load();
-      this.feedbackshowPopupAudio.nativeElement.play();
-      this.feedbackshowPopupAudio.nativeElement.onended = () => {
-        this.closeModal();
+      this.feedbackPopupAudio.nativeElement.src=this.commonAssets.showAnsAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.showAnsAudio.url : this.assetsPath +"/"+ this.commonAssets.showAnsAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      this.feedbackPopupAudio.nativeElement.play();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        //this.closeModal();
       }
       $("#optionsBlock").css("opacity", "0.3");
       $("#optionsBlock").css("pointer-events", "none");
@@ -1104,35 +1162,35 @@ onSubmit()
       //this.onSubmit();
             this.setCalender("popup");            
             this.attemptType = "manual";
+            if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
+              this.styleHeaderPopup = this.feedbackObj.style_header;
+              this.styleBodyPopup = this.feedbackObj.style_body;
+            } else {
+              this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+              this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+            }
             this.popupRef.nativeElement.classList = "displayPopup modal";
             this.playFeedback();
       //}
     }
-     else if(id == "showAnswer-modal-id" && flag == "no") {
-      this.showAnswerRef.nativeElement.classList="modal";
-     }
     //  else {
     //   this.appModel.notifyUserAction();
     // }
   }
 
   closeModal() {
-    if (!this.feedbackshowPopupAudio.nativeElement.paused) {
-      this.feedbackshowPopupAudio.nativeElement.pause();
-      this.feedbackshowPopupAudio.nativeElement.currentTime = 0;
-    }
     if (!this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
-    this.showAnswerRef.nativeElement.classList="modal";
+    //this.showAnswerRef.nativeElement.classList="modal";
     this.popupRef.nativeElement.classList = "modal";
     //this.appModel.notifyUserAction();
     if (this.checked) {
       this.blinkOnLastQues();
       $("#optionsBlock").css("opacity", "0.3");
       $("#optionsBlock").css("pointer-events", "none");
-      document.getElementById("mainques").style.pointerEvents = "none";
+      //document.getElementById("mainques").style.pointerEvents = "none";
       $("#instructionBar").css("opacity", "0.3");
       $("#instructionBar").css("pointer-events", "none");
       this.appModel.enableSubmitBtn(false);
