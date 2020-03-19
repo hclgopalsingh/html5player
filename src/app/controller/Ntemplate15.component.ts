@@ -83,6 +83,7 @@ export class Ntemplate15 implements OnInit {
 	isPlayVideo: boolean;
 	videoReplayd: boolean;
 	replayconfirmAssets: any;
+	PlayPauseFlag:boolean = true;
 	// initialize all variables
 	i = 0;
 	currentIdx = 0;
@@ -233,7 +234,7 @@ export class Ntemplate15 implements OnInit {
 			}
 			if (action == "replayVideo") {
 				console.log("replaying video")
-				
+				this.PlayPauseFlag = true;
 				this.appModel.videoStraming(true);
 				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 				  $("#optionsBlock .options").addClass("disable_div");
@@ -647,6 +648,8 @@ export class Ntemplate15 implements OnInit {
 	}
 
 	revertAction(option, event, idx){
+		this.myAudiospeaker.nativeElement.pause();
+		this.myAudiospeaker.nativeElement.currentTime = 0;
 		console.log("option", option)
 		this.tempAnswers.splice(idx, 1)
 		option.show = true;
@@ -804,6 +807,14 @@ export class Ntemplate15 implements OnInit {
 
 
 		}
+
+		if(this.tempAnswers.length == this.myoption.length){
+			this.appModel.enableSubmitBtn(true);
+		}
+		else{
+			this.appModel.enableSubmitBtn(false);
+		}
+
 	  }
 
 	checkNextActivities() {
@@ -1352,5 +1363,45 @@ export class Ntemplate15 implements OnInit {
 		}
 		this.allOpt.nativeElement.play()
 	}
+
+	
+	
+	  endedHandleronSkip() {   
+		if(this.tempAnswers.length == this.myoption.length){
+			this.appModel.enableSubmitBtn(true);
+		}
+		else{
+			this.appModel.enableSubmitBtn(false);
+		} 
+		this.isPlayVideo = false;   
+		this.appModel.navShow = 2;  
+		this.appModel.videoStraming(false);
+		this.appModel.notifyUserAction();   
+	}
+	
+	
+	PlayPauseVideo(){
+	  if(this.PlayPauseFlag)
+	  {
+		this.mainVideo.nativeElement.pause();
+		this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+		this.PlayPauseFlag = false;
+	  }
+	  else{
+		this.mainVideo.nativeElement.play();
+		this.quesObj.quesPlayPause = this.quesObj.quesPause;
+		this.PlayPauseFlag = true;
+	  }
+	  
+	}
+	
+	hoverSkip(){
+	 // this.skipFlag = false;
+	 this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+	}
+	houtSkip(){
+	  this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+	}
+
 
 }

@@ -281,7 +281,7 @@ ngAfterViewChecked() {
             $("#instructionBar").css("opacity", "0.3");
             $(".bodyContent").addClass("disable_div");
             $(".instructionBase").addClass("disable_div");
-          }, 2000);
+          }, 3200);
           for (let i = 0; i < this.optionObj.length; i++) {
             if (this.optionObj[i] && this.optionObj[i].Matched) {
               this.optionObj[i].Matched = false;
@@ -299,7 +299,6 @@ ngAfterViewChecked() {
           $("#puzzleBlock12").addClass("disable_div");
         }
         this.onPlacePuzzle(opt, i, j);
-
       }
     }
   }
