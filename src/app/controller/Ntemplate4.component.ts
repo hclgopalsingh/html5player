@@ -319,6 +319,7 @@ export class Ntemplate4 implements OnInit {
         let copyOpt: any = JSON.parse(JSON.stringify(this.selectedOpt));
         this.selectedOptList.push(copyOpt);
         console.log(this.selectedOptList);
+        $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor")
         $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .18)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .18)) }, 500).addClass("shrink_it");
         this.startCount = 0;
         setTimeout(() => {
@@ -360,7 +361,7 @@ export class Ntemplate4 implements OnInit {
                     clearInterval(this.blinkTimeInterval);
                 }
                 this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
-                this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+                //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
                 for (let i = 0; i < this.options.length; i++) {
                     let optFound = false;
                     for (var j = 0; j < this.selectedOptList.length; j++) {
