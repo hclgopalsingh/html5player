@@ -332,6 +332,33 @@ position: absolute;
   width: 48%;
 }
 
+#modalTemp22 .modal-body .actionButtons {
+	text-align: center;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 1.5%;
+  width: 55%;
+}
+
+.actionButtonOk {
+	text-align: center;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 1.5%;
+  width: 8%;
+}
+
+.actionButtonOk button {
+  background: transparent;
+  border: transparent;
+  padding: 0;
+}
+
+
+#modalTemp22 .modal-body .actionButtons img {
+	max-width: 80%;
+}
+
 
 /*confirm modal*/
 
@@ -382,7 +409,8 @@ position: absolute;
 	margin-bottom: 2%;
 }
 #confirmModal .modal-body .msgImage img {
-	width: 70%;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 #confirmModal .modal-body .actionButtons button {
 	border:none;
@@ -461,7 +489,7 @@ button:focus {
 #modalTemp22 .modal-dialog {
   width: 96%;
   max-width: 100%;
-  height: 84%;
+  height: 95%;
 }
 .modal-content {
 	background: transparent !important;
