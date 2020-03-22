@@ -705,14 +705,17 @@ export class Ntemplate4 implements OnInit {
                 this.partialFeedbackRef.nativeElement.pause();
                 this.partialFeedbackRef.nativeElement.currentTime = 0;
             }
+        }else if(action == "resume"){
+
         }
+        
     }
 
     checkResponseType() {
-         clearInterval(this.blinkTimeInterval);
         this.attemptType = "manual";
         let fetchedData: any = this.appModel.content.contentData.data;
         if (this.isAllRight) {
+            clearInterval(this.blinkTimeInterval);
             this.appModel.stopAllTimer();
             console.log("show both category A and category B modal for all right");
             if(this.categoryA && this.categoryA.correct.length){
@@ -733,6 +736,7 @@ export class Ntemplate4 implements OnInit {
             }, 0)
         } else {
             if (this.isWrongAttempted) {
+                clearInterval(this.blinkTimeInterval);
                 this.appModel.stopAllTimer();
                 console.log("show category A and category B modal for both right and wrong");
                 if(this.categoryA && (this.categoryA.correct.length || this.categoryA.incorrect.length)){
@@ -940,6 +944,7 @@ export class Ntemplate4 implements OnInit {
         }
         for (let i = 0; i < this.options.length; i++) {
             $(this.mainContainer.nativeElement.children[i + 1]).removeClass('greyOut');
+            $(this.mainContainer.nativeElement.children[i + 1]).removeClass('controlCursor');
         }
         this.selectedOptList.splice(0, this.selectedOptList.length);
         this.leftSelectedIdx = 0;
