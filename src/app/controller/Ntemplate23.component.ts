@@ -228,6 +228,7 @@ export class Ntemplate23 implements OnInit {
   styleHeaderPopup:any;
   styleBodyPopup:any;
   popupType:any ="";
+  optionSelected:any;
 
   playHoverInstruction() {
    if (!this.narrator.nativeElement.paused) {
@@ -543,6 +544,10 @@ export class Ntemplate23 implements OnInit {
   
    onClick(event)
   {	 
+    if(this.stateIndex!= undefined && this.myStates[this.stateIndex]!=undefined && !this.myStates[this.stateIndex].clicked) {
+      $(this.QuesRef.nativeElement.children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
+      //this.QuesRef.nativeElement.children[0].children[this.stateIndex+1].innerHTML = this.storeHtml;
+    }
     this.appModel.enableSubmitBtn(false);  
     this.clickedId = event.target.getAttribute('xlink:href');
     console.log("this.Id = "+this.clickedId);
@@ -775,6 +780,7 @@ export class Ntemplate23 implements OnInit {
   let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
   if(indexinSubmitArr!= -1) {
     this.submittedArray[indexinSubmitArr].optionSelected = state.text;
+    this.optionSelected =  state.text;
     this.paginationArray[indexinSubmitArr].imgcapital=this.myStates.find(element => element.capital == state.text).capitalTxtimg;
     this.paginationArray[indexinSubmitArr].capital=this.myStates.find(element => element.capital == state.text).capital;
       this.checkCapitalStatus(indexinSubmitArr);
@@ -1261,6 +1267,7 @@ this.edited = false;
     this.duplicateGroupArray = [];
 	  this.QuesRef.nativeElement.style.opacity = 0;
     this.setData();
+    this.appModel.notifyUserAction();
     //for(let i = 0;i< this.fileUrls.length;i++) {
       this.getFileLoaded(this.mainSvgfile);
     //}
