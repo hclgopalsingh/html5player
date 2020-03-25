@@ -109,19 +109,16 @@ export class Ntemplate22 implements OnInit {
   optionObj: any;
   optArr1: any;
   optArr2: any;
-  optionCommonAssets: any;
   ques_control: any;
   feedbackObj: any;
   popupAssets: any;
   confirmPopupAssets: any;
   noOfRightAns: any;
-  rightAnspopupAssets: any;
   tempSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
   quesObj:any;
   fileUrls:string ="";
-  mainSvgfile: any = "";
   initColorCircle:string = "";
   initColorRectangle:string = "";
   stateCounter:number = 0;
@@ -182,7 +179,6 @@ export class Ntemplate22 implements OnInit {
   dAttr:any;
   lineColor:any;
   confirmSubmitAssets: any;
-  infoPopupAssets: any;
   showAnswerCounter:number = 0;
   autoTimer:boolean = true;
   autoShowAnswerCounter:number = 1;
@@ -461,6 +457,8 @@ export class Ntemplate22 implements OnInit {
       this.showAnswerFeedback();
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
+        this.confirmModalRef.nativeElement.classList="modal";
+        this.confirmSubmitRef.nativeElement.classList="modal";
       this.popupRef.nativeElement.classList="displayPopup modal";
 		  //this.grayOverTimer();
 		  //this.showAnswer();		 
@@ -619,7 +617,7 @@ export class Ntemplate22 implements OnInit {
   }
 
   hoveronDate(ev) {
-    if(ev != undefined) {
+    if(ev != undefined && ev.target.id!="") {
       this.appModel.notifyUserAction();
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime=0;
@@ -632,7 +630,7 @@ export class Ntemplate22 implements OnInit {
   }
 
   houtonDate(ev) {
-    if(ev != undefined) {
+    if(ev != undefined && ev.target.id!="") {
       this.appModel.notifyUserAction();
       if(!this.datesArr[ev.target.id].selected) {
       ev.target.src = this.datesArr[ev.target.id].dateOriginalImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[ev.target.id].dateOriginalImg.url : this.assetsPath +"/"+ this.datesArr[ev.target.id].dateOriginalImg.url;
@@ -646,6 +644,12 @@ export class Ntemplate22 implements OnInit {
       //this.monthsArr[date.getMonth()].selected = true;
       //this.datesArr.find((item) => item.id == date.getDate()).selected = true;
       this.setCalender('');
+    } else {
+      this.date= new Date();
+      this.date.setFullYear(this.quesObj.givenDate.year);
+      let indexofgivenmonth=this.monthsArr.findIndex((item)=> item.id == this.quesObj.givenDate.month);
+      this.date.setMonth(indexofgivenmonth);
+      this.setCalender('');
     }
   }
 
@@ -658,7 +662,8 @@ export class Ntemplate22 implements OnInit {
       //this.dateSelected=false;
       this.previousItemevent=undefined;
       for(let i=this.startIndex;i>=0;i--) {
-        this.monthDates.nativeElement.children[0].children[i].src="";
+        this.monthDates.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+        this.monthDates.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
       }
       if(this.monthsArr.filter((item) => item.selected == true)[0] !=undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
@@ -689,7 +694,8 @@ export class Ntemplate22 implements OnInit {
       //this.weekDaySelected = false;
       this.previousItemevent=undefined;
       for(let i=this.startIndex;i>=0;i--) {
-        this.monthDates.nativeElement.children[0].children[i].src="";
+        this.monthDates.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+        this.monthDates.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
       }
       if(this.Arryears.filter((item) => item.selected == true)[0] !=undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
@@ -716,12 +722,14 @@ export class Ntemplate22 implements OnInit {
         previousItem.selected = false;
         if(this.previousItemevent!=undefined) {
           this.previousItemevent.src = previousItem.dateImg.location=="content" ? this.containgFolderPath +"/"+ previousItem.dateImg.url : this.assetsPath +"/"+ previousItem.dateImg.url;
+          this.previousItemevent.style.pointerEvents="";
         }
         //previousItem.dateImg = previousItem.dateOriginalImg;
       }
       //itemDate.dateImg = itemDate.selecteddateImg;
       item.target.src = itemDate.selecteddateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.selecteddateImg.url : this.assetsPath +"/"+ itemDate.selecteddateImg.url;
       this.previousItemevent = item.target;
+      item.target.style.pointerEvents = "none";
       itemDate.selected = true;
        if(this.feedbackObj.correct_date!= "" && this.clickedID == this.feedbackObj.correct_date) {
          this.isCorrectDate = true;
@@ -759,9 +767,9 @@ export class Ntemplate22 implements OnInit {
   }
 
   setCalender(from) {
-    if(from !="showAnspopup") {
+    //if(from !="showAnspopup") {
       this.date.setDate(1);
-    }
+    //}
     if((this.date.getFullYear()%4 == 0 || this.date.getFullYear()%400 == 0) && this.date.getMonth() == 1) {
       var days=this.monthsArr[this.date.getMonth()].days+1;
     } else {
@@ -774,7 +782,8 @@ export class Ntemplate22 implements OnInit {
     }
     if(from == "popup") {
       for(let i = 0;i<this.monthDatesinPopup.nativeElement.children[0].children.length;i++) {
-        this.monthDatesinPopup.nativeElement.children[0].children[i].src="";
+        this.monthDatesinPopup.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+        this.monthDatesinPopup.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
       }
       if(this.monthfromLocalMachine) {
         let monthInfo=this.monthsArr.filter((item) => item.checkRightorWrong == true)[0];
@@ -804,6 +813,7 @@ export class Ntemplate22 implements OnInit {
       }
       for(let i = 0;i<days;i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
+        this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
         if(this.datesArr[i].disable) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
@@ -825,10 +835,12 @@ export class Ntemplate22 implements OnInit {
       }
     } else if(from=="showAnspopup") {
       for(let i = 0;i<this.monthDatesinPopup.nativeElement.children[0].children.length;i++) {
-        this.monthDatesinPopup.nativeElement.children[0].children[i].src="";
+        this.monthDatesinPopup.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+        this.monthDatesinPopup.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
       }
       for(let i = 0;i<days;i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
+        this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
         if(this.datesArr[i].disable) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
@@ -857,6 +869,7 @@ export class Ntemplate22 implements OnInit {
       }
       for(let i = 0;i<days;i++) {
         this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
+        this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
         if(this.datesArr[i].disable) {
           this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
@@ -895,10 +908,9 @@ export class Ntemplate22 implements OnInit {
       this.optionObj = fetchedData.optionObj;
       //this.optArr1 = this.optionObj[0].optionsArr;
       //this.optArr2 = this.optionObj[1].optionsArr;
-      this.optionCommonAssets = fetchedData.option_common_assets;
-      console.log(this.optionCommonAssets);
+      //this.optionCommonAssets = fetchedData.option_common_assets;
+      //console.log(this.optionCommonAssets);
       this.feedbackObj = fetchedData.feedback;
-      this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
       this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
       this.quesObj = fetchedData.quesObj[0];
       this.yearSelected= this.quesObj.yearSelected;
@@ -919,10 +931,10 @@ export class Ntemplate22 implements OnInit {
 	  this.RightSubmit = fetchedData.rigthAnsweronSubmit;
 	  this.noOfSVG = this.commonAssets.totalSVG;
     this.confirmSubmitAssets = fetchedData.submit_confirm;
-    this.infoPopupAssets = fetchedData.info_popup;
+    //this.infoPopupAssets = fetchedData.info_popup;
     //console.log("this.myStates = "+this.myStates.length);
     this.fileUrls = fetchedData.svgFilesArr;
-    this.mainSvgfile = fetchedData.svgInfo;
+    //this.mainSvgfile = fetchedData.svgInfo;
     //this.hoverSvgfile = fetchedData.svgFilesArr.hoverSvgImg;
     //this.clickSvgfile = fetchedData.svgFilesArr.clickSvgImg;
     //this.hoverSvg = this.fileUrls.hoverSvgImg.url;
