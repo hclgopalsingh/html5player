@@ -32,7 +32,7 @@
         <img class="img-fluid" src="../../assets/images/Template-23/CapitalHeader.png" />
       </div>
       <ul class="listNames">
-        <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 13, currentPage: p }">
+        <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 12, currentPage: p }">
           <span><img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url"></span>
           <span><img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url"></span>
         </li>
@@ -78,7 +78,7 @@
         <img class="dropdownCloseBtn" (click)="onTooltipclick()" src="../../assets/images/Template-23/dropdownCloseBtn.png">
       </div>
       <div class="btn-group parentGroup" role="group" aria-label="Button group with nested dropdown">
-        <p>Capital: <span class="capitalName">Select</span></p>
+        <p>Capital: <span class="capitalName">{{optionSelected}}</span></p>
         <div class="btn-group childGroup" role="group">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
