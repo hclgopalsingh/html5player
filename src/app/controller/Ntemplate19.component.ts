@@ -221,7 +221,7 @@ export class Ntemplate19 implements OnInit {
           this.tabularBlock.nativeElement.style.pointerEvents = "";
         }
         this.optionsBlock.nativeElement.children[2].play();
-        this.optionsBlock.nativeElement.children[1].children[i].style.cursor = "pointer";
+        //this.optionsBlock.nativeElement.children[1].children[i].style.cursor = "pointer";
         for (let x = 0; x < this.optionsBlock.nativeElement.children[1].children.length; x++) {
           if (x != i) {
             this.optionsBlock.nativeElement.children[1].children[x].style.pointerEvents = "none";

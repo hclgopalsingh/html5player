@@ -150,7 +150,7 @@ button:focus {
   }
 
 .colBox {
-  width: 7.5%;/*12%;*/
+  width:  13%; /*7.5%;/*12%;*/
   border: solid 1px #000;
   display: flex;
   align-self: stretch;

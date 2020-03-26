@@ -30,7 +30,7 @@
         <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.selected ? 
         item?.selectedmonthImg?.location=='content' ? containgFolderPath + '/' + item?.selectedmonthImg?.url : assetsPath + '/' + item?.selectedmonthImg?.url :
         item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
-        [ngClass] = "{'disable-state': item.disabled }" (click) = "onClickCalender(item,'month')">
+        [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected}"  (click) = "onClickCalender(item,'month')">
       </div>
     </div>
     <div class="topBlock">
@@ -40,7 +40,7 @@
         <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.selected ? 
         item?.selectedyearsImg?.location=='content' ? containgFolderPath + '/' + item?.selectedyearsImg?.url : assetsPath + '/' + item?.selectedyearsImg?.url :
         item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
-        [ngClass] = "{'disable-state': item.disabled }" (click) = "onClickCalender(item,'year')">
+        [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">
       </div>
     </div>
     <div class="rightBlock">
@@ -52,53 +52,53 @@
           item?.selectedweekDayImg?.location=='content' ? containgFolderPath + '/' + item?.selectedweekDayImg?.url : assetsPath + '/' + item?.selectedweekDayImg?.url :
           item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" 
           (mousemove)="hoveronWeekDays(item)" (mouseleave)="houtonWeekDays(item)"
-          [ngClass] = "{'disable-state': item.disabled }" (click) = "onClickCalender(item,'weekDays')">
+          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }" (click) = "onClickCalender(item,'weekDays')">
         </div>
       </div>
       <div class="monthDates" #monthDates>
         <div class="blockContent">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')"> 
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
-          <img class="img-fluid" src="" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')"> 
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@
       <div class="modal-content">
 
         <!-- Modal Header -->
-        <div class="modal-header" [ngStyle]="feedbackObj?.style_header">
+        <div class="modal-header" [ngStyle]="styleHeaderPopup">
           <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
@@ -188,7 +188,7 @@
         </div>
 
         <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center"  [ngStyle]="feedbackObj?.style_body">
+        <div class="modal-body d-flex justify-content-center"  [ngStyle]="styleBodyPopup">
           <div id="optionsBlock" #optionsBlock>
             <div class="leftBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseMonths.png"> -->
@@ -196,15 +196,15 @@
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.checkRightorWrong ? 
                 item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url :
-                item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url">
+                item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" [ngClass] = "{'disable-state': item.disabled }">
               </div>
             </div>
             <div class="topBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
               <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url">
               <div class="blockContent">
-                <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.selected ? 
-                item?.selectedyearsImg?.location=='content' ? containgFolderPath + '/' + item?.selectedyearsImg?.url : assetsPath + '/' + item?.selectedyearsImg?.url :
+                <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.checkRightorWrong ? 
+                item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url :
                 item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled }">
               </div>
             </div>
@@ -215,188 +215,61 @@
                 <div class="blockContent">
                   <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.checkRightorWrong ? 
                   item?.weekDayImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.weekDayImginpopUp?.url : assetsPath + '/' + item?.weekDayImginpopUp?.url :
-                  item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url">
+                  item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" [ngClass] = "{'disable-state': item.disabled }">
                 </div>
               </div>
               <div class="monthDates" #monthDatesinPopup>
                 <div class="blockContent">
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" > 
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                  <img class="img-fluid" src="" >
-                </div>
-              </div>
-            </div>
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" > 
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                </div> 
+              </div> 
+            </div> 
           </div>
+          <div class="actionButtonOk">
+            <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.ok_btn?.url : assetsPath + '/' + feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
+            </div>
           <audio #feedbackPopupAudio></audio>
-        </div>
-      </div>
-     </div>
-   </div>
-        <!-- The ShowAnswer Modal -->
-  <div class="modal" id="modalTemp23" #showAnswerRef>
-    <div class="modal-dialog">
-      <!-- <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url"> -->
-      <div class="modal-content">
-
-        <!-- Modal Header -->
-        <div class="modal-header" [ngStyle]="feedbackObj?.style_header">
-          <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
-          <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
-        </div>
-
-        <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
-          <div class="row mx-0 optionsBlock" *ngIf="showtableofOne">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of showAnswerarray">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctstateTxtimg?.url : assetsPath + '/' + item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctcapitalTxtimg?.url : assetsPath + '/' + item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="row mx-0 optionsBlock" *ngIf="showtableofTwo">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table1">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctstateTxtimg?.url : assetsPath + '/' + item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctcapitalTxtimg?.url : assetsPath + '/' + item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table2">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctstateTxtimg?.url : assetsPath + '/' + item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctcapitalTxtimg?.url : assetsPath + '/' + item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="row mx-0 optionsBlock" *ngIf="showtableofThree">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table1">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctstateTxtimg?.url : assetsPath + '/' + item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctcapitalTxtimg?.url : assetsPath + '/' + item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table2">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctstateTxtimg?.url : assetsPath + '/' + item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctcapitalTxtimg?.url : assetsPath + '/' + item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table3">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctstateTxtimg?.url : assetsPath + '/' + item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.location=='content' ? containgFolderPath + '/' + item?.correctcapitalTxtimg?.url : assetsPath + '/' + item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <audio #feedbackshowPopupAudio></audio>
         </div>
       </div>
      </div>

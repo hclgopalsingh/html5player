@@ -830,3 +830,7 @@ info modal modal
 .video_loader img{
 	width:100%;
 }
+
+.controlCursor{
+  cursor: default
+}

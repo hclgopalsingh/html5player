@@ -199,6 +199,7 @@ export class Ntemplate24 implements OnInit {
     }
 
 movePrevious(idx,opt){
+  this.appModel.enableSubmitBtn(true)
    this.appModel.notifyUserAction();
   if(idx-1!=-1){
      let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
@@ -209,6 +210,7 @@ movePrevious(idx,opt){
 }
 moveNext(idx,opt){
     this.appModel.notifyUserAction();
+    this.appModel.enableSubmitBtn(true)
    if(idx+1 <= this.optionObj.optionArray.length-1){
      let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx+1].getBoundingClientRect();
@@ -443,12 +445,12 @@ getAnswer(flag){
                 this.instructionBar.nativeElement.classList = "instructionBase";
                 this.appModel.handlePostVOActivity(false);
                 this.appModel.enableReplayBtn(true);
-                this.appModel.enableSubmitBtn(true);
+                //this.appModel.enableSubmitBtn(true);
             }
         } else {
            this.appModel.handlePostVOActivity(false);
            this.appModel.enableReplayBtn(true);
-           this.appModel.enableSubmitBtn(true);
+           //this.appModel.enableSubmitBtn(true);
         }
     }
 
@@ -781,6 +783,9 @@ getAnswer(flag){
     }
 
      postWrongAttemplt(){
+        setTimeout(()=>{
+          this.appModel.enableSubmitBtn(false);
+        },200)
         this.resetActivity();
         this.appModel.startPreviousTimer();
         this.appModel.notifyUserAction();
