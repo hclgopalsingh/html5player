@@ -648,6 +648,10 @@ export class Ntemplate15 implements OnInit {
 	}
 
 	revertAction(option, event, idx){
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.currentTime = 0;
+			this.instruction.nativeElement.pause();
+		}
 		this.myAudiospeaker.nativeElement.pause();
 		this.myAudiospeaker.nativeElement.currentTime = 0;
 		console.log("option", option)

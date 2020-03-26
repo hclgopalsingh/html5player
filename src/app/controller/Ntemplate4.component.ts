@@ -155,7 +155,16 @@ export class Ntemplate4 implements OnInit {
     ngOnInit() {
         if (this.appModel.isNewCollection) {
 			this.appModel.event = { 'action': 'segmentBegins' };
-		}
+        }
+        let that = this;
+        $( "#navBlock" ).click(function() {
+            if (!that.instructionVO.nativeElement.paused)
+            {
+              that.instructionVO.nativeElement.pause();
+              that.instructionVO.nativeElement.currentTime = 0;
+            }
+          });
+
         this.containgFolderPath = this.getBasePath();
         this.setData();
         this.appModel.getNotification().subscribe(mode => {
