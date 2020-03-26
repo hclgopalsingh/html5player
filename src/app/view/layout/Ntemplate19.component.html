@@ -162,10 +162,10 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
-          <div class="tabularBlock" #tabularBlockinModal>
-            <div class="tabularData">
-              <div class="rowBox" *ngFor="let tabularBlock of tabularBlockObj;let idx = index">
-                <div class="colBox" *ngFor="let block of tabularBlock.blockObj;let idxx = index">
+          <div class="tabularBlock" #tabularBlockinModal style="cursor: default">
+            <div class="tabularData" style="cursor: default">
+              <div class="rowBox" *ngFor="let tabularBlock of tabularBlockObj;let idx = index" style="cursor: default">
+                <div class="colBox" *ngFor="let block of tabularBlock.blockObj;let idxx = index" style="cursor: default">
                   <img *ngIf="!block.dummyimgFlag" class="img-fluid" [src]="block?.imgsrc?.location=='content' ? containgFolderPath + '/' + block?.imgsrc?.url : assetsPath + '/' + block?.imgsrc?.url" (load)="checkImgLoaded();">
                   <img *ngIf="block.dummyimgFlag" class="fluidhidden" [src]="block?.dummyimgsrc?.location=='content' ? containgFolderPath + '/' + block?.dummyimgsrc?.url : assetsPath + '/' + block?.dummyimgsrc?.url" (load)="checkImgLoaded();">
                 </div>

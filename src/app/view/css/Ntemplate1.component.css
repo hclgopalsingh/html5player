@@ -308,10 +308,10 @@ button:focus {
   top: 98%;
   right: 18%;
   cursor: pointer;
-  width: 3.5%;
+  width: 1.5%;
 }
 #playPauseBtn img {
-  width: 100%;
+  width: 200%;
   filter: drop-shadow(2px 4px 6px black);
   max-width: none;
 }

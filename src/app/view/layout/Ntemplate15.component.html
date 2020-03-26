@@ -27,9 +27,9 @@
 
 			<div #ansBlock class="d-flex justify-content-around row1" id="optionsBlock">
 
-			<div class="options" *ngFor="let opts of myoption;let idx = index">
+			<div class="options" *ngFor="let opts of myoption;let idx = index" >
 				<img class="img-fluid bgBlank" [src]="opts?.image?.location=='content' ?assetspath + '/' +opts?.image?.url: assetsfolderlocation + '/'+ opts?.image?.url" id ="{{'optblank'+idx}}" (load)="checkImgLoaded();">
-				<img (click)="stopAllSounds($event)" class="img-fluid" id ="{{'optimage'+idx}}" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)" [src]="opts?.imgsrc?.location=='content' ?assetspath + '/' +opts?.imgsrc?.url: assetsfolderlocation + '/'+ opts?.imgsrc?.url" (load)="checkImgLoaded();">
+				<img *ngIf = "opts.show" (click)="stopAllSounds($event)" class="img-fluid" id ="{{'optimage'+idx}}" on-mousemove="onHoverOptions(opts,idx)" on-mouseenter = "playOptionHover(opts)" on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)" [src]="opts?.imgsrc?.location=='content' ?assetspath + '/' +opts?.imgsrc?.url: assetsfolderlocation + '/'+ opts?.imgsrc?.url" (load)="checkImgLoaded();">
 			</div>
 			</div>
 			<div class="d-flex flex-row justify-content-around" id="answerBlock">
@@ -37,8 +37,8 @@
 					<img class="img-fluid" [src]="question?.imgsrc?.location=='content' ?assetspath + '/' +question?.imgsrc?.url: assetsfolderlocation + '/'+ question?.imgsrc?.url" (load)="checkImgLoaded();">
 
 					<div class="" id="placeholders"><!--d-flex justify-content-start-->
-						<span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id ="{{'div'+idx}}" style="visibility:hidden !important;">
-						<img class="img-fluid" [src]="opts?.ansImg?.location=='content' ?assetspath + '/' +opts?.ansImg?.url: assetsfolderlocation + '/'+ opts?.ansImg?.url">
+						<span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id ="{{'div'+idx}}"  >
+						<img class="img-fluid" [src]="opts?.ansImg?.location=='content' ?assetspath + '/' +opts?.ansImg?.url: assetsfolderlocation + '/'+ opts?.ansImg?.url" (click)="revertAction(opts,$event,idx)" style="cursor:pointer">
 						</span>
 					</div>
 					<!--<div id="disableSpeaker" class="speakerBtn pointer">
@@ -54,7 +54,7 @@
 			</div>
 		</div>
 			<audio id="H" #myAudiohelp #audioEl1 [src]="question?.helpsound?.location=='content' ?assetspath + '/' +question?.helpsound.url: assetsfolderlocation + '/'+ question?.helpsound.url"></audio>
-
+			<audio id="allOpt" #allOpt></audio>
 			<!-- correctAns Modal -->
 
 			<div class="modal correctAns" id="modalTemp15" #correctAns>
@@ -100,6 +100,8 @@
 	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
 	  <source [src]="quesObj?.quesVideo?.location=='content' ? assetspath + '/' + quesObj?.quesVideo?.urlOgv : assetsPath + '/' + quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
 	</video>
+	<div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.location=='content' ? assetspath + '/' + quesObj?.quesPlayPause?.url : assetspath + '/' + quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()"/></div>
+  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.location=='content' ? assetspath + '/' + quesObj?.quesSkip?.urlOgv : assetspath + '/' + quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 </div>
 
 

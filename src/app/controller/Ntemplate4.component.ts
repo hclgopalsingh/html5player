@@ -155,7 +155,16 @@ export class Ntemplate4 implements OnInit {
     ngOnInit() {
         if (this.appModel.isNewCollection) {
 			this.appModel.event = { 'action': 'segmentBegins' };
-		}
+        }
+        let that = this;
+        $( "#navBlock" ).click(function() {
+            if (!that.instructionVO.nativeElement.paused)
+            {
+              that.instructionVO.nativeElement.pause();
+              that.instructionVO.nativeElement.currentTime = 0;
+            }
+          });
+
         this.containgFolderPath = this.getBasePath();
         this.setData();
         this.appModel.getNotification().subscribe(mode => {
@@ -319,6 +328,7 @@ export class Ntemplate4 implements OnInit {
         let copyOpt: any = JSON.parse(JSON.stringify(this.selectedOpt));
         this.selectedOptList.push(copyOpt);
         console.log(this.selectedOptList);
+        $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor")
         $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .18)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .18)) }, 500).addClass("shrink_it");
         this.startCount = 0;
         setTimeout(() => {
@@ -360,7 +370,7 @@ export class Ntemplate4 implements OnInit {
                     clearInterval(this.blinkTimeInterval);
                 }
                 this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
-                this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+                //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
                 for (let i = 0; i < this.options.length; i++) {
                     let optFound = false;
                     for (var j = 0; j < this.selectedOptList.length; j++) {
@@ -704,14 +714,17 @@ export class Ntemplate4 implements OnInit {
                 this.partialFeedbackRef.nativeElement.pause();
                 this.partialFeedbackRef.nativeElement.currentTime = 0;
             }
+        }else if(action == "resume"){
+
         }
+        
     }
 
     checkResponseType() {
-         clearInterval(this.blinkTimeInterval);
         this.attemptType = "manual";
         let fetchedData: any = this.appModel.content.contentData.data;
         if (this.isAllRight) {
+            clearInterval(this.blinkTimeInterval);
             this.appModel.stopAllTimer();
             console.log("show both category A and category B modal for all right");
             if(this.categoryA && this.categoryA.correct.length){
@@ -732,6 +745,7 @@ export class Ntemplate4 implements OnInit {
             }, 0)
         } else {
             if (this.isWrongAttempted) {
+                clearInterval(this.blinkTimeInterval);
                 this.appModel.stopAllTimer();
                 console.log("show category A and category B modal for both right and wrong");
                 if(this.categoryA && (this.categoryA.correct.length || this.categoryA.incorrect.length)){
@@ -939,6 +953,7 @@ export class Ntemplate4 implements OnInit {
         }
         for (let i = 0; i < this.options.length; i++) {
             $(this.mainContainer.nativeElement.children[i + 1]).removeClass('greyOut');
+            $(this.mainContainer.nativeElement.children[i + 1]).removeClass('controlCursor');
         }
         this.selectedOptList.splice(0, this.selectedOptList.length);
         this.leftSelectedIdx = 0;

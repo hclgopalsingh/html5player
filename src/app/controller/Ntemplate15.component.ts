@@ -51,6 +51,7 @@ export class Ntemplate15 implements OnInit {
 
 	@ViewChild('fireworks') fireworks: any;
 	@ViewChild('narrator_voice') narrator_voice: any;
+	@ViewChild('allOpt') allOpt: any;
 	@ViewChild('myAudiospeaker') myAudiospeaker: any;
 	@ViewChild('myAudiohelp') myAudiohelp: any;
 	@ViewChild('container') containerBlock: any;
@@ -82,6 +83,7 @@ export class Ntemplate15 implements OnInit {
 	isPlayVideo: boolean;
 	videoReplayd: boolean;
 	replayconfirmAssets: any;
+	PlayPauseFlag:boolean = true;
 	// initialize all variables
 	i = 0;
 	currentIdx = 0;
@@ -232,7 +234,7 @@ export class Ntemplate15 implements OnInit {
 			}
 			if (action == "replayVideo") {
 				console.log("replaying video")
-				
+				this.PlayPauseFlag = true;
 				this.appModel.videoStraming(true);
 				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 				  $("#optionsBlock .options").addClass("disable_div");
@@ -270,12 +272,14 @@ export class Ntemplate15 implements OnInit {
 	postWrongAttemptTask(){
 		this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
 		this.appModel.notifyUserAction();
-		for (this.j = 0; this.j < this.answers.length; this.j++) {
-			document.getElementById("optimage" + this.j).className = "img-fluid"
-		}
+		// for (this.j = 0; this.j < this.answers.length; this.j++) {
+		// 	document.getElementById("optimage" + this.j).className = "img-fluid"
+		// }
+		this.myoption.forEach(element => {
+			element.show = true;
+		});
 		this.answers = this.appModel.content.contentData.data['answers'];
 		this.tempAnswers.length = 0;
-		this.tempAnswers = JSON.parse(JSON.stringify(this.answers))
 		console.log("this.ansBlock.nativeElement",this.ansBlock.nativeElement);
 		this.i = 0 ;
 		this.j = 0;
@@ -413,11 +417,11 @@ export class Ntemplate15 implements OnInit {
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
 			let fetchedData: any = this.appModel.content.contentData.data;
 			this.speaker = fetchedData.speaker;
-			this.myoption = fetchedData.options;
+			this.myoption = JSON.parse(JSON.stringify(fetchedData.options))
 			this.question = fetchedData.ques;
 			this.feedback = fetchedData.feedback;
 			this.answers = fetchedData.answers;
-			this.tempAnswers = JSON.parse(JSON.stringify(this.answers))
+			this.tempAnswers = []
 			this.isFirstQues = fetchedData.isFirstQues;
 			this.isLastQues = this.appModel.isLastSection;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
@@ -591,7 +595,10 @@ export class Ntemplate15 implements OnInit {
 	}
 
 	clickAnswer(option, event, idx) {
-		this.tempAnswers[this.i] = option;
+		option.image = option.imageorg;
+		this.appModel.notifyUserAction();
+		this.ansBlock.nativeElement.children[idx].className = "options";
+		this.tempAnswers.push(option)
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.pause();
@@ -612,7 +619,8 @@ export class Ntemplate15 implements OnInit {
 			this.myAudiohelp.nativeElement.pause();
 			console.log("when correct answer clicked", event.toElement);
 			// empty cloud
-			event.toElement.className = "img-fluid emptyoption"
+			this.myoption[idx].show = false; 
+			//event.toElement.className = "img-fluid emptyoption"
 			//visibility true and call loadImage()
 			if (this.j < this.answers.length) {
 				console.log("loadImage would be called");
@@ -620,16 +628,37 @@ export class Ntemplate15 implements OnInit {
 				this.j++;
 			}
 
-			setTimeout(() => {
-				document.getElementById("div" + this.i).style.visibility = "visible";
-				this.i++;
-				if (this.i == 5) {
-					this.appModel.enableSubmitBtn(true);
-				}
-			}, 200)
+			// setTimeout(() => {
+			// 	document.getElementById("div" + this.i).style.visibility = "visible";
+			// 	this.i++;
+			// 	if (this.i == 5) {
+			// 		this.appModel.enableSubmitBtn(true);
+			// 	}
+			// }, 200)
+			if(this.tempAnswers.length == this.myoption.length){
+				this.appModel.enableSubmitBtn(true);
+			}
+			else{
+				this.appModel.enableSubmitBtn(false);
+
+			}
 			console.log("check:", this.i, this.answers.length);
 
 		}
+	}
+
+	revertAction(option, event, idx){
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.currentTime = 0;
+			this.instruction.nativeElement.pause();
+		}
+		this.myAudiospeaker.nativeElement.pause();
+		this.myAudiospeaker.nativeElement.currentTime = 0;
+		console.log("option", option)
+		this.tempAnswers.splice(idx, 1)
+		option.show = true;
+		this.appModel.enableSubmitBtn(false);
+
 	}
 
 
@@ -782,6 +811,14 @@ export class Ntemplate15 implements OnInit {
 
 
 		}
+
+		if(this.tempAnswers.length == this.myoption.length){
+			this.appModel.enableSubmitBtn(true);
+		}
+		else{
+			this.appModel.enableSubmitBtn(false);
+		}
+
 	  }
 
 	checkNextActivities() {
@@ -852,6 +889,7 @@ export class Ntemplate15 implements OnInit {
 	}
 	onHoverOptions(option, idx) {
 		//console.log("in",option);
+		this.appModel.notifyUserAction();
 		if (!this.narrator_voice.nativeElement.paused) {
 			console.log("narrator voice still playing");
 		}
@@ -1210,6 +1248,10 @@ export class Ntemplate15 implements OnInit {
 			this.tempAnswers = this.answers ;
 		}
 
+		// this.myoption.forEach(element => {
+		// 	element.show = false;
+		// });
+
 		setTimeout(() => {
 				if (this.feedbackVoRef && this.feedbackVoRef.nativeElement) {
 					this.feedbackVoRef.nativeElement.play();
@@ -1308,5 +1350,62 @@ export class Ntemplate15 implements OnInit {
 
 		}
 	}
+	
+	playOptionHover(opt) {
+		console.log("hererere")
+		this.appModel.notifyUserAction();
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.currentTime = 0;
+			this.instruction.nativeElement.pause();
+		}
+		if(!this.myAudiospeaker.nativeElement.paused){
+			this.myAudiospeaker.nativeElement.pause();
+			this.myAudiospeaker.nativeElement.currentTime = 0;
+		}
+		if (opt && opt.sound) {
+			this.allOpt.nativeElement.src = this.assetspath + "/" + opt.sound + "?someRandomSeed=" + Math.random().toString(36) ;
+		}
+		this.allOpt.nativeElement.play()
+	}
+
+	
+	
+	  endedHandleronSkip() {   
+		if(this.tempAnswers.length == this.myoption.length){
+			this.appModel.enableSubmitBtn(true);
+		}
+		else{
+			this.appModel.enableSubmitBtn(false);
+		} 
+		this.isPlayVideo = false;   
+		this.appModel.navShow = 2;  
+		this.appModel.videoStraming(false);
+		this.appModel.notifyUserAction();   
+	}
+	
+	
+	PlayPauseVideo(){
+	  if(this.PlayPauseFlag)
+	  {
+		this.mainVideo.nativeElement.pause();
+		this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+		this.PlayPauseFlag = false;
+	  }
+	  else{
+		this.mainVideo.nativeElement.play();
+		this.quesObj.quesPlayPause = this.quesObj.quesPause;
+		this.PlayPauseFlag = true;
+	  }
+	  
+	}
+	
+	hoverSkip(){
+	 // this.skipFlag = false;
+	 this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+	}
+	houtSkip(){
+	  this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+	}
+
 
 }

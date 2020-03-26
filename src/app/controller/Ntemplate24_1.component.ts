@@ -207,6 +207,8 @@ export class Ntemplate24_1 implements OnInit {
     }
 
 movePrevious(idx,opt){
+  this.appModel.enableSubmitBtn(true)
+
   if (!this.instructionVO.nativeElement.paused)
     {
       this.instructionVO.nativeElement.pause();
@@ -221,6 +223,8 @@ movePrevious(idx,opt){
   }
 }
 moveNext(idx,opt){
+  this.appModel.enableSubmitBtn(true)
+
   if (!this.instructionVO.nativeElement.paused)
     {
       this.instructionVO.nativeElement.pause();
@@ -481,12 +485,12 @@ getAnswer(flag){
                 this.instructionBar.nativeElement.classList = "instructionBase";
                 this.appModel.handlePostVOActivity(false);
                 this.appModel.enableReplayBtn(true);
-                this.appModel.enableSubmitBtn(true);
+              //  this.appModel.enableSubmitBtn(true);
             }
         } else {
            this.appModel.handlePostVOActivity(false);
            this.appModel.enableReplayBtn(true);
-           this.appModel.enableSubmitBtn(true);
+          // this.appModel.enableSubmitBtn(true);
         }
     }
 
@@ -819,6 +823,9 @@ getAnswer(flag){
     }
 
     postWrongAttemplt(){
+      setTimeout(()=>{
+        this.appModel.enableSubmitBtn(false);
+      },200)
       this.resetActivity();
       this.appModel.startPreviousTimer();
       this.appModel.notifyUserAction();

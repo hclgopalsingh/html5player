@@ -23,11 +23,12 @@ export class Ntemplate11 implements OnInit {
 		this.appModel = appModel;
 		this.assetsfolderlocation = this.appModel.assetsfolderpath;
 		this.appModel.navShow = 2;
-		this.appModel.setLoader(true);
+		this.appModel.setLoader(false);
 		// if error occured during image loading loader wil stop after 5 seconds 
 		this.loaderTimer = setTimeout(() => {
 			this.appModel.setLoader(false);
-		}, 5000);
+			console.log("stopping loader")
+		}, 500);
 		this.appModel.notification.subscribe(
 			(data) => {
 				console.log('Component: constructor - data=', data);
@@ -1012,6 +1013,10 @@ houtSkip(){
 			this.appModel.enableReplayBtn(false);
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			this.narrator.nativeElement.play();
+			this.loaderTimer = setTimeout(() => {
+				this.appModel.setLoader(false);
+				console.log("stopping loader")
+			}, 500);
 			this.narrator.nativeElement.onended = () => {
 				//this.startAnsShowTimer()
 				//this.setBubbleEmpty();
