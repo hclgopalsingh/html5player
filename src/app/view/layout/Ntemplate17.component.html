@@ -4,7 +4,7 @@
 	<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
 		<div class="instructionBase" #instructionBar>
 			<img class="img-fluid" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url"
-				(mouseenter)="playHoverInstruction()" (load)="checkImgLoaded();" />
+				(click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 			<audio #instruction [src]="commonAssets?.instruction_vo?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_vo?.url : assetsPath + '/' + commonAssets?.instruction_vo?.url"></audio>
 		</div>
 	</div>
@@ -16,7 +16,7 @@
 				<div class="optionsList" #selectedRightListRef>
 					<div *ngFor="let opt of rightListArr" [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
 						<img class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />
-						<span *ngIf="opt!=''">{{opt}}</span>
+						<span *ngIf="opt!=''" [ngClass] = "(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'" >{{opt}}</span>
 					</div>
 				</div>
 			</div>
@@ -38,9 +38,10 @@
 						[ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
 						<img *ngIf="selectedOptionArr.length>0" class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url"
 						/>
-						<span>{{opt}}</span>
+						<span [ngClass] = "(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
 					</div>
 				</div>
+				<audio #feedbackPopupAudio></audio>
 			</div>
 			<div class="incorrectBox">
 				<img class="img-fluid" [src]="testAssts?.wrong_container?.location=='content' ? containgFolderPath + '/' + testAssts?.wrong_container?.url : testAssts?.wrong_container?.url"
@@ -48,7 +49,7 @@
 				<div class="optionsList" #selectedWrongListRef>
 					<div *ngFor="let opt of wrongListArr" [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
 						<img class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />
-						<span *ngIf="opt!=''">{{opt}}</span>
+						<span *ngIf="opt!=''" [ngClass] = "(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
 					</div>
 				</div>
 			</div>
@@ -64,25 +65,28 @@
 				</video>-->
 			</div>
 			<div class="inputDiv" #inputDivRef><input type="text" (input)="onInputChange($event)" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
-					placeholder="Type here" [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();" /></div><!---->
-			 <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> 
+					placeholder={{inputFieldText}} [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();" (keypress)="keyPress()" /></div><!---->
+			 <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div>
 			<!-- Number keyboard-->
 			<div class="simple-keyboardImage" *ngIf="keyBoardVersion">
 				<img class="img-fluid" src="../../assets/images/content17/HindiKeyboard.png" alt="">
 				<div class="row1" (mousemove)="hoverRow1($event)" #row1>
-					<div *ngFor="let opt of rowIndex1; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtnMatra(opt.value, opt.index, $event)"></div>								
+					<div *ngFor="let opt of rowIndex1; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtnMatra(opt.value, opt.index, $event)"></div>
 				</div>
 				<div class="row2" (mousemove)="hoverRow2($event)" #row2>
-					<div *ngFor="let opt of rowIndex2; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>					
+					<div *ngFor="let opt of rowIndex2; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>
+					<img *ngFor="let opt of rowIndex2; let idx=index" id = "{{opt.index}}" class="img-fluid vowels" [src]="rowIndex2[idx]?.location=='content' ? containgFolderPath + '/' + rowIndex2[idx]?.url : rowIndex2[idx]?.url"/>
 				</div>
 				<div class="row3" (mousemove)="hoverRow3($event)" #row3>
-					<div *ngFor="let opt of rowIndex3; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>	
+					<div *ngFor="let opt of rowIndex3; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>
+					<img *ngFor="let opt of rowIndex3; let idx=index" id = "{{opt.cons}}" class="img-fluid consonent" [src]="rowIndex3[idx]?.location=='content' ? containgFolderPath + '/' + rowIndex3[idx]?.url : rowIndex3[idx]?.url"/>
+
 				</div>
 				<div class="btmRow" (mousemove)="hoverbtmRow($event)" #btmRow>
-					<div *ngFor="let opt of btmRowIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>					
+					<div *ngFor="let opt of btmRowIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>
 				</div>
 				<div class="numPad" (mousemove)="hovernumPad($event)" #numPad>
-					<div *ngFor="let opt of numPadIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>	
+					<div *ngFor="let opt of numPadIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click) = "clickBtn(opt.value, opt)"></div>
 				</div>
 			</div>
 			 <div class="simple-keyboard hg-theme-default hg-layout-default hideKeyboard" #mathKeyboardRef *ngIf="!keyBoardVersion">
@@ -110,7 +114,7 @@
 				<div class="hg-row">
 					<div class="hg-button hg-standardBtn" (click)="deleteElement()"><span>backspace</span></div>
 				</div>
-			</div> 
+			</div>
 			<!-- end here-->
 			<div class="addBtn" #addBtnRef><img class="img-fluid" [src]="addBtn?.add_btn?.location=='content' ? containgFolderPath + '/' + addBtn?.add_btn?.url : addBtn?.add_btn?.url"
 					(load)="checkImgLoaded();" (click)="addWord();" [ngClass]="{'disablePointer':inputVal==''}" (mousemove)="addBtnHover()"
@@ -124,7 +128,7 @@
 					<div class="wordItem" [ngClass]="(wordObj.word!='')?'submitOpt':'placeHolderOpt'" *ngFor="let wordObj of wordArr; let idx = index;"
 						(click)="moveToBox(idx,wordObj.word);">
 						<img class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />
-						<span>{{wordObj.word}}</span>
+						<span id = "boxWord" [ngClass] = "(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
 					</div>
 				</div>
 			</div>
@@ -171,7 +175,7 @@
 							<div class="optionsList">
 								<div *ngFor="let opt of rightListArr" [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
 									<img class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />
-									<span *ngIf="opt!=''">{{opt}}</span>
+									<span *ngIf="opt!=''" [ngClass] = "(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
 								</div>
 							</div>
 						</div>
@@ -180,7 +184,7 @@
 							<div class="optionsList">
 								<div *ngFor="let opt of wrongListArr" [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
 									<img class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />
-									<span *ngIf="opt!=''">{{opt}}</span>
+									<span *ngIf="opt!=''" [ngClass] = "(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
 								</div>
 							</div>
 						</div>
