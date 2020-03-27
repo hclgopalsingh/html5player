@@ -1669,9 +1669,10 @@ this.edited = false;
       this.feedbackPopupAudio.nativeElement.src= this.commonAssets.moreOptCorrectAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.moreOptCorrectAudio.url : this.assetsPath +"/"+ this.commonAssets.moreOptCorrectAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
-      this.feedbackPopupAudio.nativeElement.onended=()=> {
-      this.closeModal();
       this.popupType = "partialIncorrect";
+      this.feedbackPopupAudio.nativeElement.onended=()=> {
+      this.closeModal(); 
+      
         //this.resetActivity();
       }
     }
@@ -1865,7 +1866,7 @@ this.edited = false;
           this.styleHeaderPopup = this.feedbackObj.style_header;
           this.styleBodyPopup = this.feedbackObj.style_body;
       }
-      if(this.popupType == "partialInCorrect"){
+      if(this.popupType == "partialIncorrect"){
         this.rightanspopUpheader_img = false;
         this.wronganspopUpheader_img = false;
         this.showanspopUpheader_img = false;
