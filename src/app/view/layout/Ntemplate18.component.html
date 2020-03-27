@@ -31,11 +31,11 @@
       <div class="my-auto quesImage">
         <div id="{{idx}}" class="options" *ngFor="let opt of optionObj;let idx = index">
           <div *ngIf="quesFlag">
-            <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="onClickoption(idx,opt.placed)" (mouseenter)="playHoverOption(opt,idx)" (mousemove)="optionHover(opt,idx)"  (mouseleave)="optionHoverOut(opt,idx)">
+            <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="checkAllowed(idx,opt.placed)" (mouseenter)="playHoverOption(opt,idx)" (mousemove)="optionHover(opt,idx)"  (mouseleave)="optionHoverOut(opt,idx)">
             <audio #optionAudio></audio>
           </div>
           <div *ngIf="!quesFlag">
-            <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="onClickoption(idx,opt.placed)">
+            <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="checkAllowed(idx,opt.placed)">
           </div>
           <div>
             <img class="img-fluid" [src]="opt?.dropBoxImg?.location=='content' ? containgFolderPath + '/' + opt?.dropBoxImg?.url : assetsPath + '/' + opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"  (load)="checkImgLoaded();">
