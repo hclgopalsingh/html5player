@@ -164,7 +164,7 @@ button:focus {
 }
 .optionsList div span{
   position: absolute;
-  font-size: 1vmax;
+  font-size: 0.9vmax;
 }
 .modal .optionsList img{
     margin: 1% 7.3%;
