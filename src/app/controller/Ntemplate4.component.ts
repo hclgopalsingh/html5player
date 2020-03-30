@@ -135,6 +135,7 @@ export class Ntemplate4 implements OnInit {
     quesObj: any;
     PlayPauseFlag:boolean = true;
     skipFlag:boolean = true;
+    showAnswerClicked:boolean = false;
 
 
     @ViewChild('mainContainer') mainContainer: any;
@@ -172,6 +173,7 @@ export class Ntemplate4 implements OnInit {
                 console.log("manual mode ", mode);
             } else if (mode == "auto") {
                 console.log("auto mode", mode);
+                this.showAnswerClicked = true;
                 this.getAnswer();
             }
         })
@@ -686,6 +688,7 @@ export class Ntemplate4 implements OnInit {
         this.appModel.notifyUserAction();
         ref.classList = "modal";
         if (action == "showAnswer") {
+            this.showAnswerClicked = true;
             this.getAnswer();
         } else if (action == "submitAnswer") {
             this.checkResponseType();
@@ -894,9 +897,12 @@ export class Ntemplate4 implements OnInit {
     }
 
     disableScreen() {
-        for (let i = 0; i < this.selectedOptList.length; i++) {
-            $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+        if(!this.showAnswerClicked){
+            for (let i = 0; i < this.selectedOptList.length; i++) {
+                $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+            }
         }
+    
         for (let i = 0; i < this.options.length; i++) {
             $(this.mainContainer.nativeElement.children[i + 1]).addClass('greyOut');
         }
