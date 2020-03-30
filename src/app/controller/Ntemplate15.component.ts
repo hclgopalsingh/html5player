@@ -341,6 +341,9 @@ export class Ntemplate15 implements OnInit {
 		if (obj.instruction) {
 			obj.instruction.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.mainVideo && obj.mainVideo.nativeElement) {
+			obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		  }
 	}
 
 
