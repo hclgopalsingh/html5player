@@ -552,6 +552,9 @@ export class Ntemplate23 implements OnInit {
     this.clickedId = event.target.getAttribute('xlink:href');
     console.log("this.Id = "+this.clickedId);
     let idFound = this.myStates.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
+    //if(this.optionSelected!=undefined) {
+      this.optionSelected = idFound.optionSelected;
+    //}
     this.stateIndex =this.myStates.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
     if(idFound && !idFound.clicked) {
       this.appModel.notifyUserAction();
@@ -780,7 +783,7 @@ export class Ntemplate23 implements OnInit {
   let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
   if(indexinSubmitArr!= -1) {
     this.submittedArray[indexinSubmitArr].optionSelected = state.text;
-    this.optionSelected =  state.text;
+    //this.optionSelected =  state.text;
     this.paginationArray[indexinSubmitArr].imgcapital=this.myStates.find(element => element.capital == state.text).capitalTxtimg;
     this.paginationArray[indexinSubmitArr].capital=this.myStates.find(element => element.capital == state.text).capital;
       this.checkCapitalStatus(indexinSubmitArr);
@@ -820,11 +823,11 @@ onSubmit()
 	{
 		//alert("enter in submit");
     //this.questionAudio.nativeElement.pause();
-    if(this.paginationArray.length < this.commonAssets.itemsperPage) {
+    if(this.paginationArray.length <= this.commonAssets.itemsperPage) {
       this.tableofOne = true;
       this.tableofTwo = false;
       this.tableofThree = false;
-    } else if(this.commonAssets.itemsperPage < this.paginationArray.length && this.paginationArray.length < (this.commonAssets.itemsperPage+this.commonAssets.itemsperPage)) {
+    } else if(this.commonAssets.itemsperPage < this.paginationArray.length && this.paginationArray.length <= (this.commonAssets.itemsperPage+this.commonAssets.itemsperPage)) {
       this.tableofOne = false;
       this.tableofTwo =true;
       this.tableofThree = false;
@@ -1414,29 +1417,34 @@ this.edited = false;
              svgElement.attr("height", "100%");
              svgElement.css("width", "auto");            
              
-     if(this.quesAudio != undefined)
-       {
-        this.narrator.nativeElement.src = this.quesAudio.location=="content" ? this.containgFolderPath +"/"+ this.quesAudio.url : this.assetsPath +"/"+ this.quesAudio.url;
-        this.narrator.nativeElement.load();
-        this.narrator.nativeElement.play();
-        this.QuesRef.nativeElement.style.opacity = 1;
-        this.QuesRef.nativeElement.style.pointerEvents = "none";
-        document.getElementById('instructionBar').style.pointerEvents ="none";  
-        this.narrator.nativeElement.onended = () => {
-          this.appModel.handlePostVOActivity(false);
-          this.QuesRef.nativeElement.style.pointerEvents = "";
-          document.getElementById('instructionBar').style.pointerEvents ="";  
-        }
-        
-        //this.QuesRef.nativeElement.style.zIndex = 100;
-        this.appModel.handlePostVOActivity(true);   
-        document.getElementById("mainCanvas").style.pointerEvents = "none";
-        if(!this.flag) {
-         this.initiallyStoreGroups();
-        }
-        //this.MyFormVar.nativeElement.style.opacity = 1;
-        
-           }
+             if(this.quesAudio != undefined && this.quesAudio.url!="")
+             {
+              this.narrator.nativeElement.src = this.quesAudio.location=="content" ? this.containgFolderPath +"/"+ this.quesAudio.url : this.assetsPath +"/"+ this.quesAudio.url;
+              this.narrator.nativeElement.load();
+              this.narrator.nativeElement.play();
+              this.QuesRef.nativeElement.style.opacity = 1;
+              this.QuesRef.nativeElement.style.pointerEvents = "none";
+              document.getElementById('instructionBar').style.pointerEvents ="none";  
+              this.narrator.nativeElement.onended = () => {
+                this.appModel.handlePostVOActivity(false);
+                this.QuesRef.nativeElement.style.pointerEvents = "";
+                document.getElementById('instructionBar').style.pointerEvents ="";  
+              }
+              
+              //this.QuesRef.nativeElement.style.zIndex = 100;
+              this.appModel.handlePostVOActivity(true);   
+              document.getElementById("mainCanvas").style.pointerEvents = "none";
+              if(!this.flag) {
+               this.initiallyStoreGroups();
+              }
+              //this.MyFormVar.nativeElement.style.opacity = 1;
+              
+                 } else {
+                  this.QuesRef.nativeElement.style.opacity = 1;
+                  this.appModel.handlePostVOActivity(false);
+                  this.QuesRef.nativeElement.style.pointerEvents = "";
+                  document.getElementById('instructionBar').style.pointerEvents =""; 
+                 }
            console.log("AA gaya");
            clearInterval(loadImage);
        }
@@ -1666,9 +1674,10 @@ this.edited = false;
       this.feedbackPopupAudio.nativeElement.src= this.commonAssets.moreOptCorrectAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.moreOptCorrectAudio.url : this.assetsPath +"/"+ this.commonAssets.moreOptCorrectAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
-      this.feedbackPopupAudio.nativeElement.onended=()=> {
-      this.closeModal();
       this.popupType = "partialIncorrect";
+      this.feedbackPopupAudio.nativeElement.onended=()=> {
+      this.closeModal(); 
+      
         //this.resetActivity();
       }
     }
@@ -1790,12 +1799,14 @@ this.edited = false;
           }
           if((this.rightAnswerCounter < this.feedbackObj.correct_state.length) && this.wrongAnswerCounter == 0){
             this.infoModalRef.nativeElement.classList = "displayPopup modal";
+            this.playFeedback();
             //this.rightAnswerCounter=0;
           } else {
             this.attemptType = "manual";
+            this.playFeedback();
             this.popupRef.nativeElement.classList = "displayPopup modal";
           }
-        this.playFeedback();
+        
       //}
     }
      else if(id == "showAnswer-modal-id" && flag == "no") {
@@ -1860,7 +1871,7 @@ this.edited = false;
           this.styleHeaderPopup = this.feedbackObj.style_header;
           this.styleBodyPopup = this.feedbackObj.style_body;
       }
-      if(this.popupType == "partialInCorrect"){
+      if(this.popupType == "partialIncorrect"){
         this.rightanspopUpheader_img = false;
         this.wronganspopUpheader_img = false;
         this.showanspopUpheader_img = false;

@@ -1,4 +1,7 @@
-.opacityZero{opacity:0;}
+.opacityZero{
+  opacity:0;
+  pointer-events: none !important;
+}
 .hideit{display:none !important;}
 .showit{display:block !important;}
 .dispFlex{display:flex !important;}

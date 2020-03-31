@@ -843,6 +843,9 @@ houtSkip(){
 		if (obj.titleHelpAudio && obj.titleHelpAudio.nativeElement) {
 			obj.titleHelpAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.mainVideo && obj.mainVideo.nativeElement) {
+      	obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
 	}
 
 

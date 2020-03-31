@@ -659,6 +659,9 @@ export class Ntemplate22 implements OnInit {
     if(flag == "month" && !item.selected) {
       this.monthfromLocalMachine = false;
       this.monthSelected = true;
+      if(this.datesArr.filter((item) => item.selected == true)[0]!=undefined) {
+        this.datesArr.filter((item) => item.selected == true)[0].selected=false;
+      }
       //this.dateSelected=false;
       this.previousItemevent=undefined;
       for(let i=this.startIndex;i>=0;i--) {
@@ -870,6 +873,7 @@ export class Ntemplate22 implements OnInit {
       for(let i = 0;i<days;i++) {
         this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
         this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
+        this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
         if(this.datesArr[i].disable) {
           this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
