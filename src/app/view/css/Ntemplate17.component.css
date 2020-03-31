@@ -10,7 +10,9 @@ button:focus {
   src: url('../../../assets/fonts/Content/K010.ttf') format('truetype');
 }
 
-
+#questionAudioID{
+  cursor: pointer;
+}
 .inputHindiDiv {
   font-family: 'Kruti Dev 010';
 }
@@ -98,6 +100,7 @@ button:focus {
 .videoMainContainer{
   position: absolute;
   top: 0%;
+  z-index: 102;
 
 }
 
@@ -907,7 +910,7 @@ html [type=button] {
 .inputDiv input{
 	width: 100%;
 	height: 100%;
-	border: 2px solid grey;
+	border: 2px solid black;
 	border-radius: 10px;
 	padding: .5rem 1rem;
 	font-size: 4.25rem;
@@ -1027,7 +1030,7 @@ input {
     position: absolute;
     right: 13.25%;
     top: 100%;
-    z-index: 101;
+    z-index: 100;
 }
 
 .simple-keyboardImage {
@@ -1035,7 +1038,7 @@ input {
   position: absolute;
   right: 13.25%;
   top: 100%;
-	z-index: 101;
+	z-index: 100;
   /* max-width: 60.7%;
   position: absolute;
   right: 11.3%;
@@ -1238,6 +1241,10 @@ input {
   display: none !important;
 }
 
+.showKeyboard{
+  display: block !important;
+}
+
 .submitOpt{
   visibility: visible;
   cursor: pointer;
@@ -1246,4 +1253,101 @@ input {
 .placeHolderOpt{
   visibility: hidden;
   pointer-events: none
+}
+
+#infoModalId {
+	/* display: flex;*/
+	background: rgba(0,0,0,.85);
+}
+
+#infoModalId .modal-dialog {
+	width: 50% !important;
+	max-width: 100%;
+	height: 36%;
+	display: flex;
+	justify-content: center;
+}
+
+#infoModalId .modal-content {
+	/* height: auto; */
+	min-width: auto;
+	min-height: auto;
+}
+
+#infoModalId .modal-body {
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: flex-end;
+	flex: auto !important;
+}
+
+#infoModalId .modal-body .msgImage {
+	display: block;/*flex*/
+	text-align: center;/*justify-content: center;*/
+}
+
+#infoModalId .modal-body .actionButtons {
+	text-align: center;
+	margin: 3% 0 2%;
+	width: 100%;
+}
+
+#infoModalId .modal-body .msgImage img {
+	width: 100%;
+}
+
+#infoModalId .modal-body .actionButtons button {
+	border: none;
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	width: 18%;
+  outline: none;
+}
+
+#infoModalId .modal-body .actionButtons img {
+	max-width: 80%;
+}
+
+#infoModalId .bodyText {
+	position: absolute;
+	top: 30%;
+	width: 100%;
+}
+
+#infoModalId .bodyText img {
+	width: 85%;
+}
+
+#infoModalId .modal-title {
+	margin-left: 3%;
+}
+
+#infoModalId .close {
+	/* width: 5%; */
+	margin: 0 1.6% 0 auto;
+}
+
+#infoModalId .modal-footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 15px;
+	border-top: none;
+	position: absolute;
+	width: 100%;
+	bottom: 16%;
+}
+
+#infoModalId .modal-footer button {
+	width: 13%;
+	border: none;
+	background: transparent;
+}
+
+#infoModalId .popupModelBody {
+	padding: 0;
 }
