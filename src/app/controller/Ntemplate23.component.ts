@@ -1417,29 +1417,34 @@ this.edited = false;
              svgElement.attr("height", "100%");
              svgElement.css("width", "auto");            
              
-     if(this.quesAudio != undefined)
-       {
-        this.narrator.nativeElement.src = this.quesAudio.location=="content" ? this.containgFolderPath +"/"+ this.quesAudio.url : this.assetsPath +"/"+ this.quesAudio.url;
-        this.narrator.nativeElement.load();
-        this.narrator.nativeElement.play();
-        this.QuesRef.nativeElement.style.opacity = 1;
-        this.QuesRef.nativeElement.style.pointerEvents = "none";
-        document.getElementById('instructionBar').style.pointerEvents ="none";  
-        this.narrator.nativeElement.onended = () => {
-          this.appModel.handlePostVOActivity(false);
-          this.QuesRef.nativeElement.style.pointerEvents = "";
-          document.getElementById('instructionBar').style.pointerEvents ="";  
-        }
-        
-        //this.QuesRef.nativeElement.style.zIndex = 100;
-        this.appModel.handlePostVOActivity(true);   
-        document.getElementById("mainCanvas").style.pointerEvents = "none";
-        if(!this.flag) {
-         this.initiallyStoreGroups();
-        }
-        //this.MyFormVar.nativeElement.style.opacity = 1;
-        
-           }
+             if(this.quesAudio != undefined && this.quesAudio.url!="")
+             {
+              this.narrator.nativeElement.src = this.quesAudio.location=="content" ? this.containgFolderPath +"/"+ this.quesAudio.url : this.assetsPath +"/"+ this.quesAudio.url;
+              this.narrator.nativeElement.load();
+              this.narrator.nativeElement.play();
+              this.QuesRef.nativeElement.style.opacity = 1;
+              this.QuesRef.nativeElement.style.pointerEvents = "none";
+              document.getElementById('instructionBar').style.pointerEvents ="none";  
+              this.narrator.nativeElement.onended = () => {
+                this.appModel.handlePostVOActivity(false);
+                this.QuesRef.nativeElement.style.pointerEvents = "";
+                document.getElementById('instructionBar').style.pointerEvents ="";  
+              }
+              
+              //this.QuesRef.nativeElement.style.zIndex = 100;
+              this.appModel.handlePostVOActivity(true);   
+              document.getElementById("mainCanvas").style.pointerEvents = "none";
+              if(!this.flag) {
+               this.initiallyStoreGroups();
+              }
+              //this.MyFormVar.nativeElement.style.opacity = 1;
+              
+                 } else {
+                  this.QuesRef.nativeElement.style.opacity = 1;
+                  this.appModel.handlePostVOActivity(false);
+                  this.QuesRef.nativeElement.style.pointerEvents = "";
+                  document.getElementById('instructionBar').style.pointerEvents =""; 
+                 }
            console.log("AA gaya");
            clearInterval(loadImage);
        }
