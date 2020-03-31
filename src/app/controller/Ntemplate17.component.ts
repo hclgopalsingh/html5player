@@ -1,6 +1,10 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs';
+import { timer } from 'rxjs/observable/timer';
+import { defer } from 'rxjs/observable/defer';
+import { interval } from 'rxjs/observable/interval';
+
 import Keyboard from "simple-keyboard";
 import hindiLayout from "simple-keyboard-layouts/build/layouts/hindi";
 import englishLayout from "simple-keyboard-layouts/build/layouts/english";
@@ -77,31 +81,36 @@ export class Ntemplate17 implements OnInit {
   @ViewChild('mathKeyboardRef') mathKeyboardRef: any;
   @ViewChild('modalfeedback17') modalfeedback17: any;
   @ViewChild('bodyContent') bodyContent: any;
-  @ViewChild('row1') Row1:any;
-  @ViewChild('row2') Row2:any;
-  @ViewChild('row3') Row3:any;
-  @ViewChild('btmRow') BtmRow:any;
-  @ViewChild('numPad') NumPad:any;
+  @ViewChild('row1') Row1: any;
+  @ViewChild('row2') Row2: any;
+  @ViewChild('row3') Row3: any;
+  @ViewChild('btmRow') BtmRow: any;
+  @ViewChild('numPad') NumPad: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  
+  @ViewChild('infoModalRef') InfoModalRef: any;
+  @ViewChild('questionVideo') QuestionVideo: any;
+  @ViewChild('questionAudio') QuestionAudio: any;
+
+
+
+
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
     let openFlag: boolean = false;
-    if(!this.keyBoardVersion)
-    {    
-    if (((!this.inputDivRef.nativeElement.contains(event.target))) && ((!this.simpleKeyboardRef.nativeElement.contains(event.target)))) {
-      if (this.keyboard) {
-        //this.keyboard.destroy();
+    if (!this.keyBoardVersion) {
+      if (((!this.inputDivRef.nativeElement.contains(event.target))) && ((!this.simpleKeyboardRef.nativeElement.contains(event.target)))) {
+        if (this.keyboard) {
+          //this.keyboard.destroy();
+        }
+      }
+
+      if (!(this.mathKeyboardRef && this.mathKeyboardRef.nativeElement.contains(event.target)) && !(this.inputDivRef.nativeElement.contains(event.target))) {
+        // this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
       }
     }
 
-    if (!(this.mathKeyboardRef && this.mathKeyboardRef.nativeElement.contains(event.target)) && !(this.inputDivRef.nativeElement.contains(event.target))) {
-      this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
-    }
   }
-
-}
 
   audio = new Audio();
   blink: boolean = false;
@@ -137,7 +146,7 @@ export class Ntemplate17 implements OnInit {
   testAssts: any;
   noAttempts: number = 0;
   stringArr: any = [];
-  feedbackTimer:any;
+  feedbackTimer: any;
 
 
   value = "";
@@ -154,27 +163,40 @@ export class Ntemplate17 implements OnInit {
   maxLength: number = 12;
   btnSelected: string = "";
   blinkFlag: boolean = false;
-  blinkTimer:any;
-  keyBoard1:any;
-  rowIndex1:any;
-  rowIndex2:any;
-  rowIndex3:any;
-  btmRowIndex:any;
-  numPadIndex:any;
-  hindiKeyboardArray:any = [];
-  matraBtnOn:boolean = false;
-  currentMatraNumber:any;
-  matraRepeatArr:any = [];
-  matraCounter:number = 0;
-  keyBoardVersion:boolean;
-  maxCharacter:number = 12;
-  CharacterCounter:number = 0;
-  PlayPauseFlag:boolean = true;
+  blinkTimer: any;
+  keyBoard1: any;
+  rowIndex1: any;
+  rowIndex2: any;
+  rowIndex3: any;
+  btmRowIndex: any;
+  numPadIndex: any;
+  hindiKeyboardArray: any = [];
+  matraBtnOn: boolean = false;
+  currentMatraNumber: any;
+  matraRepeatArr: any = [];
+  matraCounter: number = 0;
+  keyBoardVersion: boolean;
+  maxCharacter: number = 12;
+  CharacterCounter: number = 0;
+  PlayPauseFlag: boolean = true;
   attemptType: string = "";
-  inputFieldText:string = "";
-  feedbackAudio:any;
+  inputFieldText: string = "";
+  feedbackAudio: any;
+  playMyVideo: boolean;
+  infoPopupAssets: any;
+  _questionAreaImage: any;
+  _questionAreaImageFlag: boolean = false;
+  _questionAreaVideo: any;
+  _questionAreaVideoFlag: boolean = false;
+  _questionAreaText: any;
+  _questionAreaTextFlag: boolean = false;
+  _questionAreaAudio: any;
+  _questionAreaAudioFlag: boolean = false;
+  _setQuestionAudio:any;
 
-  
+
+
+
 
   ngAfterViewInit() {
   }
@@ -216,6 +238,9 @@ export class Ntemplate17 implements OnInit {
       }
     } else if (button.length > 1) {
       this.maxLength += button.length - 1;
+    }
+    else {
+      this.addBtnRef.nativeElement.style.opacity = "1";
     }
   };
 
@@ -275,11 +300,14 @@ export class Ntemplate17 implements OnInit {
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
+    if (this.inputVal == "") {
+      this.addBtnRef.nativeElement.style.opacity = "0.5";
+    }
   }
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
-      this.appModel.blinkForLastQues();
+      // this.appModel.blinkForLastQues();
       this.appModel.stopAllTimer();
       if (!this.appModel.eventDone) {
         if (this.isLastQuesAct) {
@@ -298,7 +326,9 @@ export class Ntemplate17 implements OnInit {
 
 
   ngOnInit() {
-    this.attemptType = "auto";    
+    this.attemptType = "auto";
+    this.appModel.notifyUserAction();
+    this.addBtnRef.nativeElement.style.opacity = "0.5";
     this.appModel.functionone(this.templatevolume, this);//start end
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
@@ -318,10 +348,10 @@ export class Ntemplate17 implements OnInit {
       } else if (mode == "auto") {
 
         //show modal of auto
-       // this.appModel.notifyUserAction();
-       // this.appModel.notifyUserAction();
-       this.appModel.notifyUserAction();
-       this.blinkOnLastQues();
+        // this.appModel.notifyUserAction();
+        // this.appModel.notifyUserAction();
+        this.appModel.notifyUserAction();
+        this.blinkOnLastQues();
 
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
@@ -342,7 +372,7 @@ export class Ntemplate17 implements OnInit {
         }
       }
       if (action == "submitAnswer") {
-         this.stopInstructionVO();
+        this.stopInstructionVO();
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
       if (action == "replayVideo") {
@@ -392,7 +422,7 @@ export class Ntemplate17 implements OnInit {
     }
     clearInterval(this.blinkTimer);
     clearInterval(this.feedbackTimer);
-    this.inputDivRef.nativeElement.children[0].style.border = "2px solid grey";
+    this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
   }
 
 
@@ -423,7 +453,7 @@ export class Ntemplate17 implements OnInit {
         this.loadFlag = true;
         clearTimeout(this.loaderTimer);
         this.appModel.handlePostVOActivity(true);
-        this.appModel.enableReplayBtn(false);
+        this.appModel.enableReplayBtn(true);
         this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
@@ -438,16 +468,30 @@ export class Ntemplate17 implements OnInit {
               this.quesVORef.nativeElement.play();
               this.quesVORef.nativeElement.onended = () => {
                 this.appModel.handlePostVOActivity(true);
-                this.appModel.enableReplayBtn(true);
                 this.inputDivRef.nativeElement.classList = "inputDiv";
                 this.instructionBar.nativeElement.classList = "instructionBase";
+                this.appModel.startPreviousTimer();
                 this.appModel.notifyUserAction();
-                this.blinkOnLastQues();
+               // this.blinkOnLastQues();
                 this.blinkTextBox();
+                this.isPlayVideo = false;
+                this.appModel.navShow = 2;
+                this.appModel.videoStraming(false);
+                if(this.QuestionAudio != undefined){
+                this._setQuestionAudio = this._questionAreaAudio;
+                this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+                this.QuestionAudio.nativeElement.play();
+                } 
+
+                if (this.QuestionVideo != undefined) {
+                  this.QuestionVideo.nativeElement.play();
+                }
+
+
               }
             } else {
               this.appModel.handlePostVOActivity(true);
-              this.appModel.enableReplayBtn(true);
+              // this.appModel.enableReplayBtn(true);
               this.inputDivRef.nativeElement.classList = "inputDiv";
               this.instructionBar.nativeElement.classList = "instructionBase";
               this.blinkTextBox();
@@ -485,16 +529,29 @@ export class Ntemplate17 implements OnInit {
       this.wordBox = fetchedData.other_assets.word_box;
       this.testAssts = fetchedData.test_assets;
       this.inputFieldText = this.commonAssets.inputFieldText.info;
+      this.playMyVideo = this.quesObj.quesVideo.PlayVideo;
+      this.infoPopupAssets = fetchedData.info_popup;
+      this._questionAreaImage = this.commonAssets.questionArea[0].image;
+      this._questionAreaVideo = this.commonAssets.questionArea[0].video;
+      this._questionAreaText = this.commonAssets.questionArea[0].text.txt;
+      this._questionAreaAudio = this.commonAssets.questionArea[0].audio;
+
+      this._questionAreaVideoFlag = this.commonAssets.questionArea[0].video.flag;
+      this._questionAreaImageFlag = this.commonAssets.questionArea[0].image.flag;
+      this._questionAreaTextFlag = this.commonAssets.questionArea[0].text.flag;
+      this._questionAreaAudioFlag = this.commonAssets.questionArea[0].audio.flag;
+
+      // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         this.layout = hindiLayout;
-        this.keyBoard1 = fetchedData.Keyboard;      
-      this.rowIndex1 = fetchedData.Keyboard[0].row1;
-      this.rowIndex2 = fetchedData.Keyboard[0].row2;
-      this.rowIndex3 = fetchedData.Keyboard[0].row3;
-      this.btmRowIndex = fetchedData.Keyboard[0].btmRow;
-      this.numPadIndex = fetchedData.Keyboard[0].numPadArray;         
-      this.inputDivRef.nativeElement.children[0].classList.add("inputDiv"); 
-      this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
+        this.keyBoard1 = fetchedData.Keyboard;
+        this.rowIndex1 = fetchedData.Keyboard[0].row1;
+        this.rowIndex2 = fetchedData.Keyboard[0].row2;
+        this.rowIndex3 = fetchedData.Keyboard[0].row3;
+        this.btmRowIndex = fetchedData.Keyboard[0].btmRow;
+        this.numPadIndex = fetchedData.Keyboard[0].numPadArray;
+        this.inputDivRef.nativeElement.children[0].classList.add("inputDiv");
+        this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
         this.layout = englishLayout;
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
@@ -504,15 +561,15 @@ export class Ntemplate17 implements OnInit {
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("inputDiv");
       }
-      
+
     }
 
     for (let i = 0; i < 12; i++) {
       this.rightListArr.push("");
       this.wrongListArr.push("");
     }
-    this.selectedOptionArr.push("");   
-    
+    this.selectedOptionArr.push("");
+
   }
 
   getBasePath() {
@@ -622,20 +679,25 @@ export class Ntemplate17 implements OnInit {
     this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
     this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
     clearInterval(this.blinkTimer);
-    this.inputDivRef.nativeElement.children[0].style.border = "2px solid grey";
+    this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
 
     let interval = setInterval(() => {
       if (this.mainVideo && this.mainVideo.nativeElement) {
         clearInterval(interval);
         this.mainVideo.nativeElement.play();
+        if (this.QuestionVideo != undefined) {
+          this.QuestionVideo.nativeElement.pause();
+          this.QuestionVideo.nativeElement.currentTime = 0;
+        }
+
         this.mainVideo.nativeElement.onended = () => {
-           this.appModel.enableSubmitBtn(true);
-           this.isPlayVideo = false;
-           this.appModel.videoStraming(false);
-           this.appModel.notifyUserAction();
-           this.inputDivRef.nativeElement.classList = "inputDiv";
-           this.instructionBar.nativeElement.classList = "instructionBase";
-           this.blinkTextBox();
+          this.appModel.enableSubmitBtn(true);
+          this.isPlayVideo = false;
+          this.appModel.videoStraming(false);
+          this.appModel.notifyUserAction();
+          this.inputDivRef.nativeElement.classList = "inputDiv";
+          this.instructionBar.nativeElement.classList = "instructionBase";
+          this.blinkTextBox();
         }
       }
     }, 100)
@@ -643,53 +705,55 @@ export class Ntemplate17 implements OnInit {
 
   openKeyBoard() {
     clearInterval(this.blinkTimer);
+    //this.InfoModalRef.nativeElement.classList = "displayPopup modal";
     this.appModel.notifyUserAction();
-    this.inputDivRef.nativeElement.children[0].style.border = "2px solid grey";
+    this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
+    this.inputFieldText = "";
     if (this.quesObj.lang != 'hindi') {
       this.inputDivRef.nativeElement.children[0].maxLength = "12";
-      this.quesContainer.nativeElement.style.marginTop = 0+"%";
-      this.testContainer.nativeElement.style.marginTop = 0+"%";
+      this.quesContainer.nativeElement.style.marginTop = 0 + "%";
+      this.testContainer.nativeElement.style.marginTop = 0 + "%";
     }
     if (this.quesObj.lang == 'hindi') {
       this.keyBoardVersion = this.commonAssets.keyboard.New;
-      this.quesContainer.nativeElement.style.marginTop = 0+"%";
-      this.testContainer.nativeElement.style.marginTop = 0+"%";
+      this.quesContainer.nativeElement.style.marginTop = 0 + "%";
+      this.testContainer.nativeElement.style.marginTop = 0 + "%";
     }
     if (this.layout == "mathLayout") {
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default";
     } else {
-      if(this.quesObj.lang != 'hindi')
-      {
+      if (this.quesObj.lang != 'hindi') {
         this.keyboard = new Keyboard({
           onChange: input => this.onChange(input),
           onKeyPress: button => this.onKeyPress(button),
           layout: this.layout
         });
       }
-      
+
     }
-    this.appModel.enableReplayBtn(false);
+    this.appModel.enableReplayBtn(true);
     console.log(this.inputDivRef.nativeElement.children[0]);
     this.stopInstructionVO();
   }
 
   addWord() {
     this.appModel.notifyUserAction();
+    this.inputFieldText = this.commonAssets.inputFieldText.info;
     if (this.quesObj.lang != 'math') {
       let wordObj = {
         time: new Date().getTime(),
         word: this.inputVal
       }
       this.wordArr.push(wordObj);
-      
-      if(this.keyboard != undefined)
-      {
+
+      if (this.keyboard != undefined) {
         this.keyboard.clearInput();
         this.keyboard.destroy();
       }
-      
+
       this.inputVal = "";
-     
+      this.addBtnRef.nativeElement.style.opacity = "0.5";
+
       this.keyBoardVersion = false;
       this.appModel.enableSubmitBtn(true);
       this.btnPressed = 0;
@@ -701,6 +765,8 @@ export class Ntemplate17 implements OnInit {
       this.optionsBlock.nativeElement.style.opacity = 1;
     } else if (this.quesObj.lang == 'math') {
       this.optionsBlock.nativeElement.style.opacity = 1;
+      this.addBtnRef.nativeElement.style.opacity = "0.5";
+      this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
       if (this.inputVal != '') {
         let wordObj = {
           time: new Date().getTime(),
@@ -733,7 +799,7 @@ export class Ntemplate17 implements OnInit {
     /*$(this.wordBlockRef.nativeElement.children[idx]).addClass('absolutePosition');
     this.wordBlockRef.nativeElement.children[idx].style.left = f_left;
     this.wordBlockRef.nativeElement.children[idx].style.top = f_top;*/
-    $(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-125%', width:'36%'}, 500, () => { this.pushToTestBox(idx, word) });
+    $(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-125%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
     this.wordBlockRef.nativeElement.classList = "wordBlock disableIt";
     this.appModel.notifyUserAction();
   }
@@ -756,7 +822,7 @@ export class Ntemplate17 implements OnInit {
   }
 
   pushToTestBox(idx, word) {
-   this.wordArr[idx].word = "";
+    this.wordArr[idx].word = "";
     this.selectedOptionArr[0] = word;
     this.noAttempts--;
     $("#optionPlaceId").addClass("animateWidth");
@@ -768,15 +834,18 @@ export class Ntemplate17 implements OnInit {
     this.rightListArr[this.currentRightListIdx] = copyTxt;
     this.currentRightListIdx++;
     if (this.noAttempts == 0) {
-     this.feedbackTimer  =  setTimeout(()=>{
-         this.openModal();
-      },500)
+      this.feedbackTimer = setTimeout(() => {
+        this.openModal();
+      }, 500)
+
     }
 
     this.feedbackAudio = this.feedbackObj.right_sound;
-		this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
-
+    if (this.quesObj.lang == 'math') {
+      this.appModel.blinkForLastQues();
+    }
   }
 
   pushToWrongList() {
@@ -785,13 +854,17 @@ export class Ntemplate17 implements OnInit {
     this.wrongListArr[this.currentWrongListIdx] = copyTxt;
     this.currentWrongListIdx++;
     if (this.noAttempts == 0) {
-      this.feedbackTimer  = setTimeout(()=>{
-         this.openModal();
-      },500)
+      this.feedbackTimer = setTimeout(() => {
+        this.openModal();
+      }, 500)
     }
     this.feedbackAudio = this.feedbackObj.wrong_sound;
-		this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
+    if (this.quesObj.lang == 'math') {
+      this.appModel.blinkForLastQues();
+    }
+
   }
 
   openModal() {
@@ -825,20 +898,22 @@ export class Ntemplate17 implements OnInit {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + num;
     this.onChange(editedStr);
+    this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
   operatorClick(operator) {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + operator;
     this.onChange(editedStr);
+    this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
-/*
-  spaceClick() {
-    let editedStr = this.inputVal + " ";
-    this.onChange(editedStr);
-  }
-*/
+  /*
+    spaceClick() {
+      let editedStr = this.inputVal + " ";
+      this.onChange(editedStr);
+    }
+  */
   tabClick() {
     let editedStr = this.inputVal + " ";
     this.onChange(editedStr);
@@ -873,22 +948,22 @@ export class Ntemplate17 implements OnInit {
        this.btnPressed++;
         console.log("added 12 plus");
      }*/
-     if(this.inputVal.length > this.prevEntry.length){
-       this.prevEntry = this.inputVal;
-       this.stopInstructionVO();
-     }
+    if (this.inputVal.length > this.prevEntry.length) {
+      this.prevEntry = this.inputVal;
+      this.stopInstructionVO();
+    }
   }
 
   disableScreen() {
     //this.inputDivRef.nativeElement.children[0].setSelectionRange(this.inputVal.length-1,0);
     this.bodyContent.nativeElement.classList = "bodyContent disableDiv";
-    this.instructionBar.nativeElement.classList="instructionBase disableDiv";
+    this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
   }
 
   blinkTextBox() {
     this.blinkTimer = setInterval(() => {
       if (this.blinkFlag) {
-        this.inputDivRef.nativeElement.children[0].style.border = "2px solid grey";
+        this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
         this.blinkFlag = false;
       } else {
         this.inputDivRef.nativeElement.children[0].style.border = "2px solid yellow";
@@ -897,247 +972,275 @@ export class Ntemplate17 implements OnInit {
     }, 500)
   }
 
-  stopInstructionVO(){
+  stopInstructionVO() {
     if (!this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
-      }
-  }
-
-  hoverRow1(event){   
-   for(let i=0; i<this.keyBoard1[0].row1.length; i++)
-    {
-      this.Row1.nativeElement.children[i].style.left = this.keyBoard1[0].row1[i].left+"%";      
+      this.instruction.nativeElement.currentTime = 0;
+      this.instruction.nativeElement.pause();
     }
   }
 
-  hoverRow2(event){   
-    for(let i=0; i<this.keyBoard1[0].row2.length; i++)
-     {
-       this.Row2.nativeElement.children[i].style.left = this.keyBoard1[0].row2[i].left+"%";      
-     }
-   }
+  hoverRow1(event) {
+    for (let i = 0; i < this.keyBoard1[0].row1.length; i++) {
+      this.Row1.nativeElement.children[i].style.left = this.keyBoard1[0].row1[i].left + "%";
+    }
+  }
 
-   hoverRow3(event){   
-    for(let i=0; i<this.keyBoard1[0].row3.length; i++)
-     {
-       this.Row3.nativeElement.children[i].style.left = this.keyBoard1[0].row3[i].left+"%";   
-       this.Row3.nativeElement.children[i].style.top = this.keyBoard1[0].row3[i].top+"%";   
-     }
-   }
+  hoverRow2(event) {
+    for (let i = 0; i < this.keyBoard1[0].row2.length; i++) {
+      this.Row2.nativeElement.children[i].style.left = this.keyBoard1[0].row2[i].left + "%";
+    }
+  }
 
-
-   hoverbtmRow(event){   
-    for(let i=0; i<this.keyBoard1[0].btmRow.length; i++)
-     {
-       this.BtmRow.nativeElement.children[i].style.left = this.keyBoard1[0].btmRow[i].left+"%"; 
-       this.BtmRow.nativeElement.children[i].style.width = this.keyBoard1[0].btmRow[i].width+"%";           
-     }
-   }
-
-   hovernumPad(event){   
-    for(let i=0; i<this.keyBoard1[0].numPadArray.length; i++)
-     {
-       this.NumPad.nativeElement.children[i].style.left = this.keyBoard1[0].numPadArray[i].left+"%"; 
-       this.NumPad.nativeElement.children[i].style.top = this.keyBoard1[0].numPadArray[i].top+"%";
-       this.NumPad.nativeElement.children[i].style.width = this.keyBoard1[0].numPadArray[i].width+"%";           
-     }
-   }
+  hoverRow3(event) {
+    for (let i = 0; i < this.keyBoard1[0].row3.length; i++) {
+      this.Row3.nativeElement.children[i].style.left = this.keyBoard1[0].row3[i].left + "%";
+      this.Row3.nativeElement.children[i].style.top = this.keyBoard1[0].row3[i].top + "%";
+    }
+  }
 
 
-   clickBtn(id, opt)
-   {    
+  hoverbtmRow(event) {
+    for (let i = 0; i < this.keyBoard1[0].btmRow.length; i++) {
+      this.BtmRow.nativeElement.children[i].style.left = this.keyBoard1[0].btmRow[i].left + "%";
+      this.BtmRow.nativeElement.children[i].style.width = this.keyBoard1[0].btmRow[i].width + "%";
+    }
+  }
+
+  hovernumPad(event) {
+    for (let i = 0; i < this.keyBoard1[0].numPadArray.length; i++) {
+      this.NumPad.nativeElement.children[i].style.left = this.keyBoard1[0].numPadArray[i].left + "%";
+      this.NumPad.nativeElement.children[i].style.top = this.keyBoard1[0].numPadArray[i].top + "%";
+      this.NumPad.nativeElement.children[i].style.width = this.keyBoard1[0].numPadArray[i].width + "%";
+    }
+  }
+
+
+  clickBtn(id, opt) {
     this.appModel.notifyUserAction();
-    if(id == "Normal")
-    {
-    this.matraBtnOn = false;
-    this.matraRepeatArr = [];
-    this.matraCounter = 0;
-    for (let y = 0; y<this.rowIndex2.length; y++) {       
-      document.getElementById("index"+y).style.display = "none";
+    if (id == "Normal") {
+      this.matraBtnOn = false;
+      this.matraRepeatArr = [];
+      this.matraCounter = 0;
+      for (let y = 0; y < this.rowIndex2.length; y++) {
+        document.getElementById("index" + y).style.display = "none";
+      }
+      for (let y = 0; y < this.rowIndex3.length; y++) {
+        document.getElementById("consonent" + y).style.display = "none";
+      }
+
+      for (let i = 0; i < this.rowIndex1.length; i++) {
+        this.Row1.nativeElement.children[i].classList.remove("highlight");
+      }
     }
-    for (let y = 0; y<this.rowIndex3.length; y++) {
-      document.getElementById("consonent"+y).style.display = "none";      
-    }
-   
-    for(let i=0; i<this.rowIndex1.length; i++)
-  {
-    this.Row1.nativeElement.children[i].classList.remove("highlight");
-  }
-    }
-    else if(id == "Spacebar")
-    {
-      if(this.CharacterCounter >= this.maxCharacter)
-      {
-          return;
+    else if (id == "Spacebar") {
+      if (this.CharacterCounter >= this.maxCharacter) {
+        return;
       }
       this.inputDivRef.nativeElement.children[0].value += " ";
       this.hindiKeyboardArray.push(" ");
       this.CharacterCounter += 1;
     }
-    else if(id == "Clear")
-    {
+    else if (id == "Clear") {
       this.inputDivRef.nativeElement.children[0].value = "";
       this.hindiKeyboardArray = [];
       this.CharacterCounter = 0;
       this.inputVal = "";
     }
-    else if(id == "Backspace")
-    {
-      this.hindiKeyboardArray.splice(this.hindiKeyboardArray.length-1, 1);      
+    else if (id == "Backspace") {
+      this.hindiKeyboardArray.splice(this.hindiKeyboardArray.length - 1, 1);
       this.inputDivRef.nativeElement.children[0].value = this.hindiKeyboardArray.join("");
       this.inputVal = String(this.hindiKeyboardArray.join(""));
-      console.log("this.inputVal = "+this.inputVal);
-      if(this.CharacterCounter > 0)
-      {
+      console.log("this.inputVal = " + this.inputVal);
+      if (this.CharacterCounter > 0) {
         this.CharacterCounter -= 1;
       }
-      
+
     }
-    else{
-      if(this.CharacterCounter >= this.maxCharacter)
-      {
-          return;
+    else {
+      if (this.CharacterCounter >= this.maxCharacter) {
+        return;
       }
-      if(this.matraBtnOn == true)
-      {
-        
+      if (this.matraBtnOn == true) {
+
         this.inputDivRef.nativeElement.children[0].value += opt.matras[this.currentMatraNumber].matra;
         this.hindiKeyboardArray.push(opt.matras[this.currentMatraNumber].matra);
+        this.addBtnRef.nativeElement.style.opacity = "1";
       }
-      else{
+      else {
         this.inputDivRef.nativeElement.children[0].value += id;
         this.hindiKeyboardArray.push(id);
+        this.addBtnRef.nativeElement.style.opacity = "1";
       }
       this.inputVal = String(this.hindiKeyboardArray.join(""));
-      console.log("this.inputVal = "+this.inputVal);
+      console.log("this.inputVal = " + this.inputVal);
       this.CharacterCounter += 1;
-      
+
     }
-    
-   }
 
-
-   clickBtnMatra(id, opt, evnt)
-{
-
-  this.currentMatraNumber = id;
-  this.appModel.notifyUserAction();
-
-  for (let y = 0; y<this.rowIndex2.length; y++) {
-    document.getElementById("index"+y).style.display = "block";      
-    document.getElementById("index"+y).style.left = this.rowIndex2[y].left+"%";
   }
 
-  for (let y = 0; y<this.rowIndex3.length; y++) {    
-    
-      if(this.rowIndex3[y].matras[this.currentMatraNumber].matra == "")
-      {
-        document.getElementById("consonent"+y).style.display = "block";      
-        document.getElementById("consonent"+y).style.left = this.rowIndex3[y].left+"%";
-        document.getElementById("consonent"+y).style.top = this.rowIndex3[y].top+"%";
+
+  clickBtnMatra(id, opt, evnt) {
+
+    this.currentMatraNumber = id;
+    this.appModel.notifyUserAction();
+
+    for (let y = 0; y < this.rowIndex2.length; y++) {
+      document.getElementById("index" + y).style.display = "block";
+      document.getElementById("index" + y).style.left = this.rowIndex2[y].left + "%";
+    }
+
+    for (let y = 0; y < this.rowIndex3.length; y++) {
+
+      if (this.rowIndex3[y].matras[this.currentMatraNumber].matra == "") {
+        document.getElementById("consonent" + y).style.display = "block";
+        document.getElementById("consonent" + y).style.left = this.rowIndex3[y].left + "%";
+        document.getElementById("consonent" + y).style.top = this.rowIndex3[y].top + "%";
       }
-      else{
-        document.getElementById("consonent"+y).style.display = "none";
-      }   
-    
-  }
+      else {
+        document.getElementById("consonent" + y).style.display = "none";
+      }
 
-
-  for(let i=0; i<this.rowIndex1.length; i++)
-  {
-    this.Row1.nativeElement.children[i].classList.remove("highlight");
-  }
-  this.Row1.nativeElement.children[id].classList.add("highlight");
-  
-  this.matraBtnOn = true;
-  this.matraRepeatArr.push(id);
-  this.matraCounter += 1;   
-  if(this.matraRepeatArr[0] == this.matraRepeatArr[1])
-  {
-    this.matraBtnOn = false;
-    this.matraRepeatArr = [];
-    this.matraCounter = 0;
-    this.Row1.nativeElement.children[id].classList.remove("highlight");
-    for (let y = 0; y<this.rowIndex2.length; y++) {       
-      document.getElementById("index"+y).style.display = "none";
     }
-    for (let y = 0; y<this.rowIndex3.length; y++) {
-      document.getElementById("consonent"+y).style.display = "none";      
+
+
+    for (let i = 0; i < this.rowIndex1.length; i++) {
+      this.Row1.nativeElement.children[i].classList.remove("highlight");
+    }
+    this.Row1.nativeElement.children[id].classList.add("highlight");
+
+    this.matraBtnOn = true;
+    this.matraRepeatArr.push(id);
+    this.matraCounter += 1;
+    if (this.matraRepeatArr[0] == this.matraRepeatArr[1]) {
+      this.matraBtnOn = false;
+      this.matraRepeatArr = [];
+      this.matraCounter = 0;
+      this.Row1.nativeElement.children[id].classList.remove("highlight");
+      for (let y = 0; y < this.rowIndex2.length; y++) {
+        document.getElementById("index" + y).style.display = "none";
+      }
+      for (let y = 0; y < this.rowIndex3.length; y++) {
+        document.getElementById("consonent" + y).style.display = "none";
+      }
+    }
+    else {
+      if (this.matraCounter > 1) {
+        this.matraRepeatArr.shift();
+      }
     }
   }
-  else{
-    if(this.matraCounter > 1)
-  {
-    this.matraRepeatArr.shift();
-  } 
-  }
-}
 
-checkVideoLoaded() {
-  if (!this.videoReplayd) {
-    this.appModel.setLoader(false);
-    this.appModel.navShow = 1;
-    this.isPlayVideo = true;
-    this.appModel.isVideoPlayed = true;
-    this.appModel.stopAllTimer();
-  }
-}
+  checkVideoLoaded() {
+    if (!this.videoReplayd) {
+      this.appModel.setLoader(false);
+      this.appModel.navShow = 1;
+      this.isPlayVideo = this.playMyVideo;
+      if (this.playMyVideo == false) {
+        this.appModel.navShow = 2;
+        this.appModel.setLoader(false);
+        this.appModel.videoStraming(false);
+        this.QuestionLoaded();
+      }
+      else {
+        this.appModel.isVideoPlayed = true;
+        this.appModel.stopAllTimer();
+      }
 
-endedHandler() {  
+    }
+  }
+
+  endedHandler() {
     this.isPlayVideo = false;
     this.appModel.navShow = 2;
     this.appModel.setLoader(false);
-    this.appModel.startPreviousTimer();  
-}
+    this.appModel.startPreviousTimer();
+  }
 
-endedHandleronSkip() {    
-  this.isPlayVideo = false;   
-  this.appModel.navShow = 2;  
-  this.appModel.videoStraming(false);
-  this.appModel.notifyUserAction();
-  //this.loadFlag = false;
-  //this.checkImgLoaded();
-  $("#inputKeyboard").css("pointer-events", "auto");  
-  $("#instructionBar").removeClass("disable_div");
-  this.instructionBar.nativeElement.classList = "instructionBase";
-  setTimeout(() => {
+  endedHandleronSkip() {
     this.isPlayVideo = false;
+    this.appModel.navShow = 2;
+    this.appModel.videoStraming(false);
+    this.QuestionLoaded();
+
+  }
+
+
+  PlayPauseVideo() {
+    if (this.PlayPauseFlag) {
+      this.mainVideo.nativeElement.pause();
+      this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+      this.PlayPauseFlag = false;
+    }
+    else {
+      this.mainVideo.nativeElement.play();
+      this.quesObj.quesPlayPause = this.quesObj.quesPause;
+      this.PlayPauseFlag = true;
+    }
+
+  }
+
+  hoverSkip() {
+    // this.skipFlag = false;
+    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+  }
+  houtSkip() {
+    this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+  }
+
+  keyPress() {
+    return false;
+  }
+
+  QuestionLoaded() {
     this.appModel.notifyUserAction();
-    this.blinkOnLastQues();
-    //this.startActivity();
-  }, 200)
-}
+    this.instruction.nativeElement.play();
+    this.instruction.nativeElement.onended = () => {
+      this.appModel.handlePostVOActivity(true);
+      this.appModel.enableReplayBtn(true);
+      this.inputDivRef.nativeElement.classList = "inputDiv";
+      this.instructionBar.nativeElement.classList = "instructionBase";
+      this.appModel.notifyUserAction();
 
+      if(this.QuestionAudio != undefined){
+        this._setQuestionAudio = this._questionAreaAudio;
+        this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.QuestionAudio.nativeElement.play();
+        } 
+      
+      if (this.QuestionVideo != undefined) {
+        this.QuestionVideo.nativeElement.play();
+      }
+      //this.blinkOnLastQues();
+      if (this.inputVal == "") {
+        this.blinkTextBox();
+      }
+    }
+  }
 
-PlayPauseVideo(){
-if(this.PlayPauseFlag)
-{
-  this.mainVideo.nativeElement.pause();
-  this.quesObj.quesPlayPause = this.quesObj.quesPlay;
-  this.PlayPauseFlag = false;
-}
-else{
-  this.mainVideo.nativeElement.play();
-  this.quesObj.quesPlayPause = this.quesObj.quesPause;
-  this.PlayPauseFlag = true;
-}
+  hoverOK() {
+    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
+  }
 
-}
+  houtOK() {
+    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+  }
 
-hoverSkip(){
-// this.skipFlag = false;
-this.quesObj.quesSkip = this.quesObj.quesSkipHover;
-}
-houtSkip(){
-this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
-}
+  hoverCloseOk() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+  }
+  houtCloseOk() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+  }
 
-keyPress()
-{
-  return false;
-}
-
+  questionAudioPlay()
+  {
+    if(this.QuestionAudio != undefined){
+      this._setQuestionAudio = this._questionAreaAudio;
+      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.QuestionAudio.nativeElement.play();
+      } 
+  }
 }
 
 
