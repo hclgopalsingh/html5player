@@ -823,11 +823,11 @@ onSubmit()
 	{
 		//alert("enter in submit");
     //this.questionAudio.nativeElement.pause();
-    if(this.paginationArray.length < this.commonAssets.itemsperPage) {
+    if(this.paginationArray.length <= this.commonAssets.itemsperPage) {
       this.tableofOne = true;
       this.tableofTwo = false;
       this.tableofThree = false;
-    } else if(this.commonAssets.itemsperPage < this.paginationArray.length && this.paginationArray.length < (this.commonAssets.itemsperPage+this.commonAssets.itemsperPage)) {
+    } else if(this.commonAssets.itemsperPage < this.paginationArray.length && this.paginationArray.length <= (this.commonAssets.itemsperPage+this.commonAssets.itemsperPage)) {
       this.tableofOne = false;
       this.tableofTwo =true;
       this.tableofThree = false;
