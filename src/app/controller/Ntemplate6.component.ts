@@ -1904,9 +1904,21 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     }
   }
 
+  isPaused(){
+    for (let i = 0; i < this.optionArr.length; i++) {
+     if(!this.optionsClickable.nativeElement.children[0].children[i].children[2].paused){
+      return false;
+     }
+    }
+    return true
+  }
+
+  lastidx:any ;
+
   playHoverOption(opt, i) {
     this.appModel.notifyUserAction();
-    if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused) {
+    
+    if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx!= i) {
       for(let j = 0 ; j < this.optionArr.length ; j++)
         {
         if(!this.optionsClickable.nativeElement.children[0].children[j].children[2].paused)
@@ -1914,7 +1926,8 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
           this.optionsClickable.nativeElement.children[0].children[j].children[2].pause();
         }
       }
-
+      $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).addClass("scaleInAnimation");
+      this.lastidx = i;
       if (opt.imgsrc_audio && opt.audio_location == "content") {
         this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
       }
@@ -1927,14 +1940,17 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.onHoverOption(opt, i);
     }
   }
+
   onHoverOptionOut(opt, i) {
     if (opt && opt != undefined) {
       this.OptionZoomOutAnimation(opt, i);
     }
+    this.lastidx = undefined;
   }
 
   optionHover(opt, i) {
-    $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).addClass("scaleInAnimation");
+  this.playHoverOption(opt, i)  
+  
   }
 
   ngAfterViewChecked() {
