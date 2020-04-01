@@ -1265,6 +1265,7 @@ houtSkip(){
   }
 
   closeModal() {
+        this.appModel.enableReplayBtn(false);
     //for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
     //  this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList.value = "";
     //}

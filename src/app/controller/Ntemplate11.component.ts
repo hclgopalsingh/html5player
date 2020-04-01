@@ -474,6 +474,7 @@ houtSkip(){
 				// 	this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.location == "content" ? this.containgFolderPath + "/" + this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36) : this.containgFolderPath + "/" + this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
 				// 	this.feedbackVoRef.nativeElement.play();
 				// }, 750)
+				this.appModel.enableReplayBtn(false)
 				$(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop}, 1000, () => {
 					console.log("animation completed")
 					setTimeout(() => {
@@ -517,11 +518,11 @@ houtSkip(){
 					//this.ansBlock.nativeElement.children[id].children[1].addClass('wrongImageStyle')
 					// $("#optimage"+id).addClass('wrongImageStyle')
 				},900)
+				this.appModel.enableReplayBtn(false)
 				$(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop}, 1000, () => {
 					this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden';
 					this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible' ;
 					this.ansArrangeBlock.nativeElement.children[2].src  = this.containgFolderPath + "/" + option.imgsrc.url;
-					
 					setTimeout(() => {
 						this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.location == "content" ? this.containgFolderPath + "/" + this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36) : this.containgFolderPath + "/" + this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
 						this.feedbackVoRef.nativeElement.play();
@@ -547,6 +548,7 @@ houtSkip(){
 	sendFeedback(id: string, flag: string) {
 		this.confirmModalRef.nativeElement.classList = "modal";
 		this.correctAns.nativeElement.classList = "modal";
+		this.appModel.enableReplayBtn(false);
 		this.feedbackVoRef.nativeElement.pause();
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
@@ -970,6 +972,7 @@ houtSkip(){
 		this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'hidden' ;
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0}, 1000, () => {
 			console.log("stuffs to do wornog answer pop-up")
+			this.appModel.enableReplayBtn(true);
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
 
 		})
@@ -1163,7 +1166,7 @@ houtSkip(){
 			// this.checkNextActivities();
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 			this.removeEvents();
-			this.blinkOnLastQues()
+			this.blinkOnLastQues();
 		}, 5000)
 
 

@@ -1530,6 +1530,7 @@ houtSkip(){
     this.noOfRightAnsClicked = 0;
     this.noOfWrongAnsClicked = 0;
     if (flag == "yes") {
+      this.appModel.enableSubmitBtn(false);
       $(".bodyContent").css("opacity", "0.3");
       $(".bodyContent").addClass("disable_div");
       setTimeout(() => {
