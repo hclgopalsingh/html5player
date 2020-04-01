@@ -313,12 +313,14 @@ export class Ntemplate17 implements OnInit {
         if (this.isLastQuesAct) {
           this.appModel.eventFired();
           this.appModel.event = { 'action': 'segmentEnds' };
+          this.InfoModalRef.nativeElement.classList = "displayPopup modal";
         }
         if (this.isLastQues) {
           this.appModel.event = { 'action': 'end' };
         }
       }
     } else {
+      this.InfoModalRef.nativeElement.classList = "displayPopup modal";
       this.appModel.moveNextQues();
       console.log("==BlinkOnLastQuestion==");
     }
@@ -394,6 +396,7 @@ export class Ntemplate17 implements OnInit {
     this.appModel.nextBtnEvent().subscribe(() => {
       if (this.appModel.isLastSectionInCollection) {
         this.appModel.event = { 'action': 'segmentEnds' };
+        //this.InfoModalRef.nativeElement.classList = "displayPopup modal";
       }
       if (this.appModel.isLastSection) {
         this.appModel.event = { 'action': 'end' };
@@ -470,8 +473,9 @@ export class Ntemplate17 implements OnInit {
                 this.appModel.handlePostVOActivity(true);
                 this.inputDivRef.nativeElement.classList = "inputDiv";
                 this.instructionBar.nativeElement.classList = "instructionBase";
-                this.appModel.startPreviousTimer();
+               // this.appModel.startPreviousTimer();
                 this.appModel.notifyUserAction();
+                this.appModel.handlePostVOActivity(false);
                // this.blinkOnLastQues();
                 this.blinkTextBox();
                 this.isPlayVideo = false;
@@ -641,6 +645,7 @@ export class Ntemplate17 implements OnInit {
   }
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
     ref.classList = "modal";
     if (action == "replay") {
       this.replayVideo();
@@ -658,6 +663,7 @@ export class Ntemplate17 implements OnInit {
   showReplay(ref, flag: string, action?: string) {
     ref.classList = "modal";
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
     if (flag == "yes") {
       if (action == "replay") {
         this.replayVideo();
@@ -695,6 +701,7 @@ export class Ntemplate17 implements OnInit {
           this.isPlayVideo = false;
           this.appModel.videoStraming(false);
           this.appModel.notifyUserAction();
+          this.appModel.handlePostVOActivity(false);
           this.inputDivRef.nativeElement.classList = "inputDiv";
           this.instructionBar.nativeElement.classList = "instructionBase";
           this.blinkTextBox();
@@ -705,8 +712,8 @@ export class Ntemplate17 implements OnInit {
 
   openKeyBoard() {
     clearInterval(this.blinkTimer);
-    //this.InfoModalRef.nativeElement.classList = "displayPopup modal";
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
     this.inputFieldText = "";
     if (this.quesObj.lang != 'hindi') {
@@ -738,6 +745,7 @@ export class Ntemplate17 implements OnInit {
 
   addWord() {
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
     this.inputFieldText = this.commonAssets.inputFieldText.info;
     if (this.quesObj.lang != 'math') {
       let wordObj = {
@@ -802,6 +810,7 @@ export class Ntemplate17 implements OnInit {
     $(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-125%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
     this.wordBlockRef.nativeElement.classList = "wordBlock disableIt";
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
   }
 
   addToWrongList() {
@@ -811,6 +820,7 @@ export class Ntemplate17 implements OnInit {
     $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)), width: '25%' }, 500, () => this.pushToWrongList());
     this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
   }
 
   addToRightList() {
@@ -819,6 +829,7 @@ export class Ntemplate17 implements OnInit {
     $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)), width: '25%' }, 500, () => this.pushToRightList());
     this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
   }
 
   pushToTestBox(idx, word) {
@@ -1017,6 +1028,7 @@ export class Ntemplate17 implements OnInit {
 
   clickBtn(id, opt) {
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
     if (id == "Normal") {
       this.matraBtnOn = false;
       this.matraRepeatArr = [];
@@ -1084,6 +1096,7 @@ export class Ntemplate17 implements OnInit {
 
     this.currentMatraNumber = id;
     this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
 
     for (let y = 0; y < this.rowIndex2.length; y++) {
       document.getElementById("index" + y).style.display = "block";
@@ -1192,8 +1205,7 @@ export class Ntemplate17 implements OnInit {
     return false;
   }
 
-  QuestionLoaded() {
-    this.appModel.notifyUserAction();
+  QuestionLoaded() {    
     this.instruction.nativeElement.play();
     this.instruction.nativeElement.onended = () => {
       this.appModel.handlePostVOActivity(true);
@@ -1201,6 +1213,7 @@ export class Ntemplate17 implements OnInit {
       this.inputDivRef.nativeElement.classList = "inputDiv";
       this.instructionBar.nativeElement.classList = "instructionBase";
       this.appModel.notifyUserAction();
+      this.appModel.handlePostVOActivity(false);
 
       if(this.QuestionAudio != undefined){
         this._setQuestionAudio = this._questionAreaAudio;
@@ -1212,9 +1225,12 @@ export class Ntemplate17 implements OnInit {
         this.QuestionVideo.nativeElement.play();
       }
       //this.blinkOnLastQues();
+      this.appModel.handlePostVOActivity(false);
       if (this.inputVal == "") {
         this.blinkTextBox();
       }
+      this.appModel.notifyUserAction();
+    this.appModel.handlePostVOActivity(false);
     }
   }
 
