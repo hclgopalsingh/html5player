@@ -99,7 +99,7 @@ export class ApplicationmodelService {
       ['/ntemp7', '/ntemp7ext', 0],
       ['/ntemp18', '/ntemp18ext', 0],
       ['/ntemp24', '/ntemp24ext', 0],
-      ['/ntempMap', '/ntempMapext', 0],
+      ['/ntemp23_1', '/ntemp23_1ext', 0],
       ['/ntemp21', '/ntemp21ext', 0],
       ['/ntemp17', '/ntemp17ext', 0],
       ['/ntemp18_1', '/ntemp18_1ext', 0],
