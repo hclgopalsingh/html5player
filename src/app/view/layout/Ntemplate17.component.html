@@ -291,6 +291,7 @@
 	</div>
 
 	<!-- The infoPopup Modal -->
+	<ng-template [ngIf]="infoModal">
 	<div class="modal" id="infoModalId" #infoModalRef>
 		<div class="modal-dialog">
 			<!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
@@ -317,6 +318,7 @@
 			</div>
 		</div>
 	</div>
+</ng-template>
 
 </div>
 <div class="videoMainContainer" *ngIf="isPlayVideo">
