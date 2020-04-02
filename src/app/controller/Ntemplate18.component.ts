@@ -867,9 +867,11 @@ houtSkip(){
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
+      
       $(".bodyContent").addClass("disable_div");
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
+        $(".instructionBar").css("cursor", "pointer");
         $(".bodyContent").removeClass("disable_div");
         this.isQuesTypeImage = true;
         this.startActivity();

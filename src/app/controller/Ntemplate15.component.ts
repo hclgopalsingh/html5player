@@ -314,8 +314,8 @@ export class Ntemplate15 implements OnInit {
 		if (obj.narrator && obj.narrator.nativeElement) {
 			obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (this.buzzerSound && this.buzzerSound.nativeElement) {
-			this.buzzerSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.buzzerSound && obj.buzzerSound.nativeElement) {
+			obj.buzzerSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 		if (obj.myAudiospeaker && obj.myAudiospeaker.nativeElement) {
 			obj.myAudiospeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -332,18 +332,22 @@ export class Ntemplate15 implements OnInit {
 		if (obj.feedbackVoRef && obj.feedbackVoRef.nativeElement) {
 			obj.feedbackVoRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.audio) {
-			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.audio && obj.audio.nativeElement) {
+			obj.audio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.wrongFeedback) {
-			obj.wrongFeedback.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+			obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.instruction) {
-			obj.instruction.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.instruction && obj.instruction.nativeElement) {
+			obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 		if (obj.mainVideo && obj.mainVideo.nativeElement) {
 			obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		  }
+		if(obj.allOpt && obj.allOpt.nativeElement)
+		{
+			obj.allOpt.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
 	}
 
 
