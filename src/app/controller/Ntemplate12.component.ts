@@ -259,7 +259,10 @@ export class Ntemplate12 implements OnInit {
 	movetop: any;
 
 	checkAnswer(option, event) {
-
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.currentTime = 0;
+			this.instruction.nativeElement.pause();
+		}
 		// Analytics called for attempt counter & first option is clicked
 		this.appModel.notifyUserAction();
 		if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
@@ -332,8 +335,8 @@ export class Ntemplate12 implements OnInit {
 					$("#ansBlock").css("pointer-events", 'auto');
 				}
 				$(".instructionBase img").css("cursor", "pointer");
-				$("#ansBlock .options").addClass("disable_div");
-				$("#ansBlock").css("pointer-events", 'none');
+				// $("#ansBlock .options").addClass("disable_div");
+				// $("#ansBlock").css("pointer-events", 'none');
 			}
 
 		}
@@ -586,6 +589,14 @@ export class Ntemplate12 implements OnInit {
 	}
 
 	ngOnInit() {
+		let that = this;
+        $( "#navBlock" ).click(function() {
+            if (!that.instruction.nativeElement.paused)
+            {
+              that.instruction.nativeElement.pause();
+              that.instruction.nativeElement.currentTime = 0;
+            }
+          });
 		this.assetspath = this.basePath;
 		this.containgFolderPath = this.getBasePath();
 		this.appModel.functionone(this.templatevolume, this);//start end
@@ -691,8 +702,8 @@ export class Ntemplate12 implements OnInit {
 		if (obj.instruction && obj.instruction.nativeElement) {
 			obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.audio) {
-			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.audio && obj.audio.nativeElement) {
+			obj.audio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 	}
 
