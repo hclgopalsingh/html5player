@@ -192,8 +192,8 @@ export class Ntemplate17 implements OnInit {
   _questionAreaTextFlag: boolean = false;
   _questionAreaAudio: any;
   _questionAreaAudioFlag: boolean = false;
-  _setQuestionAudio:any;
-
+  _setQuestionAudio: any;
+  infoModal: boolean = true;
 
 
 
@@ -313,14 +313,19 @@ export class Ntemplate17 implements OnInit {
         if (this.isLastQuesAct) {
           this.appModel.eventFired();
           this.appModel.event = { 'action': 'segmentEnds' };
-          this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+          if (this.InfoModalRef != undefined) {
+            this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+          }
+
         }
         if (this.isLastQues) {
           this.appModel.event = { 'action': 'end' };
         }
       }
     } else {
-      this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+      if (this.InfoModalRef != undefined) {
+        this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+      }
       this.appModel.moveNextQues();
       console.log("==BlinkOnLastQuestion==");
     }
@@ -456,7 +461,7 @@ export class Ntemplate17 implements OnInit {
         this.loadFlag = true;
         clearTimeout(this.loaderTimer);
         this.appModel.handlePostVOActivity(true);
-        this.appModel.enableReplayBtn(true);
+        this.appModel.enableReplayBtn(this.playMyVideo);
         this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
@@ -473,19 +478,19 @@ export class Ntemplate17 implements OnInit {
                 this.appModel.handlePostVOActivity(true);
                 this.inputDivRef.nativeElement.classList = "inputDiv";
                 this.instructionBar.nativeElement.classList = "instructionBase";
-               // this.appModel.startPreviousTimer();
+                // this.appModel.startPreviousTimer();
                 this.appModel.notifyUserAction();
                 this.appModel.handlePostVOActivity(false);
-               // this.blinkOnLastQues();
+                // this.blinkOnLastQues();
                 this.blinkTextBox();
                 this.isPlayVideo = false;
                 this.appModel.navShow = 2;
                 this.appModel.videoStraming(false);
-                if(this.QuestionAudio != undefined){
-                this._setQuestionAudio = this._questionAreaAudio;
-                this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-                this.QuestionAudio.nativeElement.play();
-                } 
+                if (this.QuestionAudio != undefined) {
+                  this._setQuestionAudio = this._questionAreaAudio;
+                  this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+                  this.QuestionAudio.nativeElement.play();
+                }
 
                 if (this.QuestionVideo != undefined) {
                   this.QuestionVideo.nativeElement.play();
@@ -738,7 +743,7 @@ export class Ntemplate17 implements OnInit {
       }
 
     }
-    this.appModel.enableReplayBtn(true);
+    this.appModel.enableReplayBtn(this.playMyVideo);
     console.log(this.inputDivRef.nativeElement.children[0]);
     this.stopInstructionVO();
   }
@@ -880,6 +885,7 @@ export class Ntemplate17 implements OnInit {
 
   openModal() {
     this.feedbackModal.nativeElement.classList = "modal displayPopup";
+    this.infoModal = false;
     this.stopInstructionVO();
   }
 
@@ -969,6 +975,7 @@ export class Ntemplate17 implements OnInit {
     //this.inputDivRef.nativeElement.children[0].setSelectionRange(this.inputVal.length-1,0);
     this.bodyContent.nativeElement.classList = "bodyContent disableDiv";
     this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+    this.appModel.enableReplayBtn(false);
   }
 
   blinkTextBox() {
@@ -1205,22 +1212,22 @@ export class Ntemplate17 implements OnInit {
     return false;
   }
 
-  QuestionLoaded() {    
+  QuestionLoaded() {
     this.instruction.nativeElement.play();
     this.instruction.nativeElement.onended = () => {
       this.appModel.handlePostVOActivity(true);
-      this.appModel.enableReplayBtn(true);
+      this.appModel.enableReplayBtn(this.playMyVideo);
       this.inputDivRef.nativeElement.classList = "inputDiv";
       this.instructionBar.nativeElement.classList = "instructionBase";
       this.appModel.notifyUserAction();
       this.appModel.handlePostVOActivity(false);
 
-      if(this.QuestionAudio != undefined){
+      if (this.QuestionAudio != undefined) {
         this._setQuestionAudio = this._questionAreaAudio;
         this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         this.QuestionAudio.nativeElement.play();
-        } 
-      
+      }
+
       if (this.QuestionVideo != undefined) {
         this.QuestionVideo.nativeElement.play();
       }
@@ -1230,7 +1237,7 @@ export class Ntemplate17 implements OnInit {
         this.blinkTextBox();
       }
       this.appModel.notifyUserAction();
-    this.appModel.handlePostVOActivity(false);
+      this.appModel.handlePostVOActivity(false);
     }
   }
 
@@ -1249,13 +1256,12 @@ export class Ntemplate17 implements OnInit {
     this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
   }
 
-  questionAudioPlay()
-  {
-    if(this.QuestionAudio != undefined){
+  questionAudioPlay() {
+    if (this.QuestionAudio != undefined) {
       this._setQuestionAudio = this._questionAreaAudio;
       this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       this.QuestionAudio.nativeElement.play();
-      } 
+    }
   }
 }
 
