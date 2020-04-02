@@ -130,7 +130,7 @@ button:focus {
 
 .modal .correctBox,
 .modal .incorrectBox{
-	width: 37.5%;
+	width: 43%;/*37.5%;*/
 }
 .optionsList {
     position: absolute;
@@ -169,6 +169,10 @@ button:focus {
   position: absolute;
   font-size: 0.9vmax;
 }
+.modal .optionsList div span{
+  font-size: 1.05vmax;
+}
+
 .modal .optionsList img{
     margin: 1% 7.3%;
 }
@@ -201,7 +205,14 @@ button:focus {
 }
 .bodyContent .refQues {
 	width: 23.7%;
-	text-align: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bodyContent .refQues span {
+  position: absolute;
+  font-size: 2.5vmax;
 }
 .bodyContent .refQues img {
 	/* max-width: 93%; */
@@ -701,8 +712,8 @@ button:focus {
 
 .modal-dialog {
   max-width: 80%;
-  width: 65% !important;
-  height: 60%;
+  width: 90% !important;
+  height: auto;/*60%*/
 }
 
 .modal-content {
@@ -761,8 +772,8 @@ button:focus {
 }
 
 .modal-body {
-	padding: 2%;
-	 background: #afdec0;
+	padding: 4%;
+  background: #afdec0;
 	border: solid .7vmin #85d222;
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -1161,7 +1172,7 @@ input {
 .simple-keyboard.hg-theme-default .hg-button{
 	background: #666 !important;
 	height: auto !important;
-	padding: .6% !important;
+	padding: .34% !important;
 }
 
 .hg-button span{

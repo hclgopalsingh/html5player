@@ -554,16 +554,16 @@ export class Ntemplate17 implements OnInit {
         this.rowIndex3 = fetchedData.Keyboard[0].row3;
         this.btmRowIndex = fetchedData.Keyboard[0].btmRow;
         this.numPadIndex = fetchedData.Keyboard[0].numPadArray;
-        this.inputDivRef.nativeElement.children[0].classList.add("inputDiv");
+        this.inputDivRef.nativeElement.children[0].classList.add("inputHindiDiv");
         this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
         this.layout = englishLayout;
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
-        this.inputDivRef.nativeElement.children[0].classList.remove("inputDiv");
+        this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
       } else if (this.quesObj.lang == "math") {
         this.layout = "mathLayout";
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
-        this.inputDivRef.nativeElement.children[0].classList.remove("inputDiv");
+        this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
       }
 
     }
