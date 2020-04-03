@@ -320,8 +320,9 @@ export class Ntemplate17 implements OnInit {
       this.InfoModalRef.nativeElement.classList = "displayPopup modal";
 
 
-
-      this.appModel.moveNextQues();
+      if (this.quesObj.lang != 'math') {
+        this.appModel.moveNextQues();
+      }      
       console.log("==BlinkOnLastQuestion==");
       this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
       this.nextQuestionTimeronLast = setTimeout(() => {
@@ -520,7 +521,7 @@ export class Ntemplate17 implements OnInit {
                   this.allEnabledwhilequestionVideoPlay();
                 }
               }
-              if(this._questionAreaVideoFlag != true){
+              if (this._questionAreaVideoFlag != true) {
                 this.blinkTextBox();
               }
             }
@@ -724,9 +725,7 @@ export class Ntemplate17 implements OnInit {
           this.QuestionVideo.nativeElement.currentTime = 0;
         }
         this.QuestionVideo.nativeElement.pause();
-          this.QuestionVideo.nativeElement.currentTime = 0;
-          this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
+        this.QuestionVideo.nativeElement.currentTime = 0;      
 
         this.mainVideo.nativeElement.onended = () => {
           this.appModel.enableSubmitBtn(true);
@@ -746,12 +745,15 @@ export class Ntemplate17 implements OnInit {
               this.allEnabledwhilequestionVideoPlay();
             }
           }
-          if(this._questionAreaVideoFlag != true){
+          if (this._questionAreaVideoFlag != true) {
             //this.blinkTextBox();
           }
         }
       }
     }, 100)
+    this.instruction.nativeElement.pause();
+    this.instruction.nativeElement.currentTime = 0;
+   
   }
 
   openKeyBoard() {
@@ -1257,21 +1259,19 @@ export class Ntemplate17 implements OnInit {
   }
 
   QuestionLoaded() {
-    if(this.inputVal == "" && !this.videoReplayd)
-    {
+    if (this.inputVal == "" && !this.videoReplayd) {
       this.instruction.nativeElement.play();
       this.instruction.nativeElement.onended = () => {
-       this.checkinputnull();
+        this.checkinputnull();
       }
     }
-    else{
+    else {
       this.checkinputnull();
     }
-    
+
   }
 
-  checkinputnull()
-  {
+  checkinputnull() {
     this.appModel.handlePostVOActivity(true);
     this.appModel.enableReplayBtn(this.playMyVideo);
     this.inputDivRef.nativeElement.classList = "inputDiv";
@@ -1330,13 +1330,11 @@ export class Ntemplate17 implements OnInit {
     }
   }
 
-  alldisabledwhilequestionVideoPlay()
-  {
+  alldisabledwhilequestionVideoPlay() {
     $("#instructionBar").addClass("disable_div");
     this.appModel.enableReplayBtn(false);
   }
-  allEnabledwhilequestionVideoPlay()
-  {
+  allEnabledwhilequestionVideoPlay() {
     $("#instructionBar").removeClass("disable_div");
     this.appModel.enableReplayBtn(true);
   }
