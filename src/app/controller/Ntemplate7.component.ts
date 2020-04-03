@@ -118,11 +118,12 @@ export class Ntemplate7 implements OnInit {
     @ViewChild('feedbackModalRef') feedbackModalRef: any;
     @ViewChild('feedbackVoRef') feedbackVoRef: any;
     @ViewChild('speakerRef') speakerRef: any;
-
+    @ViewChild('speakerAudioRef') speakerAudioRef; any ;
     ngOnInit() {
         if (this.appModel.isNewCollection) {
             this.appModel.event = { 'action': 'segmentBegins' };
         }
+        this.appModel.functionone(this.templatevolume, this);//start end
         this.containgFolderPath = this.getBasePath();
         this.setData();
         this.appModel.getNotification().subscribe(mode => {
@@ -664,6 +665,9 @@ export class Ntemplate7 implements OnInit {
         if (obj.quesVORef && obj.quesVORef.nativeElement) {
             obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+            obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        } 
         if (obj.instructionVO && obj.instructionVO.nativeElement) {
             obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
@@ -673,9 +677,15 @@ export class Ntemplate7 implements OnInit {
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.mainVideo && obj.mainVideo.nativeElement) {
+        if(obj.mainVideo && obj.mainVideo.nativeElement){
             this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if(obj.speakerAudioRef && obj.speakerAudioRef.nativeElement){
+          this.speakerAudioRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if(obj.feedbackVoRef && obj.feedbackVoRef.nativeElement){
+            this.feedbackVoRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+          }
     }
 
    /* replayVideo() {

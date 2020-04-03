@@ -533,6 +533,9 @@ export class Ntemplate22 implements OnInit {
     if (obj.rightFeedbackVO && obj.rightFeedbackVO.nativeElement) {
       obj.rightFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
     if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
       obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
@@ -863,7 +866,12 @@ export class Ntemplate22 implements OnInit {
         }
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         if(i+1 == this.clickedID && this.clickedID == this.feedbackObj.correct_date) {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
+          // if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
+            this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
+          // }
+          // else {
+          //   this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
+          // }
           this.startIndex++;
           continue;
         } else {
@@ -1225,6 +1233,21 @@ export class Ntemplate22 implements OnInit {
             } else {
               this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
               this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+              /*if(!this.quesObj.disableweekDay) {
+                if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
+                  this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
+                }
+              }
+              if(!this.quesObj.disablemonth) {
+                if(this.monthsArr.filter((item)=>item.selected == true)[0]!=undefined) {
+                  this.monthsArr.filter((item)=>item.selected == true)[0].ImginpopUp = this.monthsArr.filter((item)=>item.selected == true)[0].wrongmonthImg;
+                } 
+              }
+              if(!this.quesObj.disableyear) {
+                if(this.Arryears.filter((item)=>item.selected == true)[0]!=undefined) {
+                  this.Arryears.filter((item)=>item.selected == true)[0].ImginpopUp = this.Arryears.filter((item)=>item.selected == true)[0].wrongyearImg;
+                } 
+              }*/              
             }
             this.popupRef.nativeElement.classList = "displayPopup modal";
             this.playFeedback();

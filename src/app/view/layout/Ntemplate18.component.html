@@ -38,8 +38,8 @@
             <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="checkAllowed(idx,opt.placed)">
           </div>
           <div>
-            <img class="img-fluid" [src]="opt?.dropBoxImg?.location=='content' ? containgFolderPath + '/' + opt?.dropBoxImg?.url : assetsPath + '/' + opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"  (load)="checkImgLoaded();">
-            <img class="img-fluid optItem" [src]="opt?.samplerefquesImg?.location=='content' ? containgFolderPath + '/' + opt?.samplerefquesImg?.url : assetsPath + '/' + opt?.samplerefquesImg?.url" #sampleImg >
+            <img style="cursor: default;" class="img-fluid" [src]="opt?.dropBoxImg?.location=='content' ? containgFolderPath + '/' + opt?.dropBoxImg?.url : assetsPath + '/' + opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"  (load)="checkImgLoaded();">
+            <img style="cursor: default;" class="img-fluid optItem" [src]="opt?.samplerefquesImg?.location=='content' ? containgFolderPath + '/' + opt?.samplerefquesImg?.url : assetsPath + '/' + opt?.samplerefquesImg?.url" #sampleImg >
           </div>
         </div>
       </div>

@@ -1848,6 +1848,7 @@ export class Ntemplate6 implements OnInit {
  
 
   playHoverInstruction() {
+    this.instruction.nativeElement.currentTime = 0;
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
@@ -1856,9 +1857,9 @@ export class Ntemplate6 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        document.getElementById("coverTop").style.display = "block";
+        //document.getElementById("coverTop").style.display = "block";
         this.instruction.nativeElement.onended = () => {
-          document.getElementById("coverTop").style.display = "none";
+          //document.getElementById("coverTop").style.display = "none";
         }
         $(".instructionBase").css("cursor", "pointer");
     }
@@ -1917,7 +1918,10 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
 
   playHoverOption(opt, i) {
     this.appModel.notifyUserAction();
-    
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.instructionVO.nativeElement.pause();
+    }
     if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx!= i) {
       for(let j = 0 ; j < this.optionArr.length ; j++)
         {
@@ -1932,9 +1936,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
       }
       this.optionAudio.nativeElement.load();
-      if (!this.instructionVO.nativeElement.paused) {
-        this.instructionVO.nativeElement.pause();
-      }
+      
       this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
       this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
       this.onHoverOption(opt, i);
@@ -2127,6 +2129,10 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
   checkAnswerMatra(event,id) {
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0
+    }
     if (!event.id.includes("M")) {
       this.appModel.notifyUserAction();
       this.clicked = true;
@@ -2201,6 +2207,14 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
   ngOnInit() {
+    let that = this;
+        $( "#navBlock" ).click(function() {
+            if (!that.instructionVO.nativeElement.paused)
+            {
+              that.instructionVO.nativeElement.pause();
+              that.instructionVO.nativeElement.currentTime = 0;
+            }
+          });
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -2383,9 +2397,9 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
             this.Myspeaker.nativeElement.pause();
             this.Myspeaker.nativeElement.currentTime = 0;
           this.instructionVO.nativeElement.play();
-          document.getElementById("coverTop").style.display = "block";
-          document.getElementById("coverBtm").style.display = "block";
-          $('.speaker').addClass('disable_div');
+          // document.getElementById("coverTop").style.display = "block";
+          // document.getElementById("coverBtm").style.display = "block";
+          
           this.instructionVO.nativeElement.onended = () => {
             if (!this.clicked) {
               document.getElementById("coverTop").style.display = "none";
@@ -2393,12 +2407,12 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
               if (this.clicked) {
                 document.getElementById("coverBtm").style.display = "none";
               }
-              $('.speaker').removeClass('disable_div');
+              
             }
         }
     }
 
-    playSpeaker(ev) {   
+    playSpeaker(ev) {
       this.appModel.notifyUserAction();
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;       
