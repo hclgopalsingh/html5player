@@ -44,7 +44,7 @@ import { Ntemplate9 } from './controller/Ntemplate9.component';
 import { Ntemplate6 } from './controller/Ntemplate6.component';
 import { Ntemplate7 } from './controller/Ntemplate7.component';
 import { Ntemplate5 } from './controller/Ntemplate5.component';
-import { NtemplateMap } from './controller/NtemplateMap.component';
+import { Ntemplate23_1 } from './controller/Ntemplate23_1.component';
 import { Ntemplate18 } from './controller/Ntemplate18.component';
 import { Ntemplate18_1 } from './controller/Ntemplate18_1.component';
 import { Ntemplate19 } from './controller/Ntemplate19.component';
@@ -98,7 +98,7 @@ import { Ntemplate22 } from './controller/Ntemplate22.component';
 	Phase3T01V01,
 	Ntemplate2,
   Ntemplate5,
-  NtemplateMap,
+  Ntemplate23_1,
 	Ntemplate8,
   Ntemplate3,
   Ntemplate1,
