@@ -783,6 +783,7 @@ export class Ntemplate23_1 implements OnInit {
   let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
   if(indexinSubmitArr!= -1) {
     this.submittedArray[indexinSubmitArr].optionSelected = state.text;
+	this.optionSelected = this.submittedArray[indexinSubmitArr].optionSelected;
     //this.optionSelected =  state.text;
     this.paginationArray[indexinSubmitArr].imgcapital=this.myStates.find(element => element.capital == state.text).capitalTxtimg;
     this.paginationArray[indexinSubmitArr].capital=this.myStates.find(element => element.capital == state.text).capital;
@@ -1469,6 +1470,12 @@ this.edited = false;
     }
     if (obj.instruction && obj.instruction.nativeElement) {
       obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackshowPopupAudio && obj.feedbackshowPopupAudio.nativeElement) {
+      obj.feedbackshowPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
  }
 
