@@ -93,7 +93,6 @@ export class Ntemplate17 implements OnInit {
   @ViewChild('infoModalRef') InfoModalRef: any;
   @ViewChild('questionVideo') QuestionVideo: any;
   @ViewChild('questionAudio') QuestionAudio: any;
-  @ViewChild('questionVideo') QuestionVideo: any;
 
 
 
