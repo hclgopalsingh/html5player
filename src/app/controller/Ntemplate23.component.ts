@@ -1466,6 +1466,12 @@ this.edited = false;
     if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
       obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackshowPopupAudio && obj.feedbackshowPopupAudio.nativeElement) {
+      obj.feedbackshowPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
     if (obj.instruction && obj.instruction.nativeElement) {
       obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
