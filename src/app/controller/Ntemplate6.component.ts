@@ -2733,10 +2733,12 @@ document.getElementById("coverBtm").style.display = "block";
       }
     }
     if (action == "showAnswer") {
+      this.styleHeaderPopup = this.confirmAssets.style_header;
+      this.styleBodyPopup = this.confirmAssets.style_body;
       this.flag = true;
-      this.rightanspopUpheader_img = true;
+      this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
-      this.showanspopUpheader_img = false;
+      this.showanspopUpheader_img = true;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
       if (id != undefined) {
         this.attemptType = "";
