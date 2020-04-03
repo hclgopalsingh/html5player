@@ -1848,6 +1848,7 @@ export class Ntemplate6 implements OnInit {
  
 
   playHoverInstruction() {
+    this.instruction.nativeElement.currentTime = 0;
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
@@ -1917,7 +1918,10 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
 
   playHoverOption(opt, i) {
     this.appModel.notifyUserAction();
-    
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.instructionVO.nativeElement.pause();
+    }
     if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx!= i) {
       for(let j = 0 ; j < this.optionArr.length ; j++)
         {
@@ -1932,9 +1936,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
       }
       this.optionAudio.nativeElement.load();
-      if (!this.instructionVO.nativeElement.paused) {
-        this.instructionVO.nativeElement.pause();
-      }
+      
       this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
       this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
       this.onHoverOption(opt, i);

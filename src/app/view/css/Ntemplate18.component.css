@@ -334,6 +334,7 @@ button:focus {
 #instructionBar .instructionBase {
   width: 70%;
   position: relative;
+  cursor: pointer;
 }
 
 .instructionBase .instructionText {
