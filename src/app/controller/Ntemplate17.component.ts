@@ -417,7 +417,7 @@ export class Ntemplate17 implements OnInit {
       if (action == "replayVideo") {
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
+          this.instructionBar.nativeElement.classList = "instructionBase";
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.PlayPauseFlag = true;
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -711,8 +711,8 @@ export class Ntemplate17 implements OnInit {
     this.isPlayVideo = true;
     this.appModel.navShow = 1;
     this.appModel.enableSubmitBtn(false);
-    this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
-    this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
+    this.inputDivRef.nativeElement.classList = "inputDiv";
+    this.instructionBar.nativeElement.classList = "instructionBase";
     clearInterval(this.blinkTimer);
     this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
 
@@ -1198,8 +1198,9 @@ export class Ntemplate17 implements OnInit {
   }
 
   checkVideoLoaded() {
-    if (!this.videoReplayd) {
+    if (this.videoReplayd) {
       this.appModel.setLoader(false);
+        this.appModel.videoStraming(false);
       this.appModel.navShow = 1;
       this.isPlayVideo = this.playMyVideo;
       if (this.playMyVideo == false) {
