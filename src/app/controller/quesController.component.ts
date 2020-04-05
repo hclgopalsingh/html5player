@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 
 import 'jquery';
@@ -34,9 +35,22 @@ export class QuesController implements OnInit {
 	disablePrev:boolean = true;
 	disableNext:boolean = true;
   disableTabs:boolean = true;
+  EVA:boolean = false;
+
+  Template: any;
+  subscription: Subscription;
   
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
+
+    this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
+
+      if(this.Template === 'EVA'){
+        this.EVA = true;
+      }else{
+        this.EVA = false;
+      }
+    });
   }
   pointObjArr: any[] = [];
   questionNo: number = 0;
