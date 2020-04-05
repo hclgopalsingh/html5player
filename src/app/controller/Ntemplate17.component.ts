@@ -202,7 +202,7 @@ export class Ntemplate17 implements OnInit {
   nextQuestionTimerForLastQuestioninSec: any;
   nextQuestionTimerForLastQuestioninMiliSec: any;
   nextQuestionTimeronLast: any;
-  btnCounting:number = 0;
+  btnCounting: number = 0;
 
 
 
@@ -210,13 +210,9 @@ export class Ntemplate17 implements OnInit {
   }
 
   onChange = (input: string) => {
-      console.log("Input changed", input);
-      
-      if(input != '' && input.length<12)
-      {
-        this.inputVal = input; 
-               
-      }
+    console.log("Input changed", input);
+    this.inputVal = input;
+
   };
 
   checkMaxLength() {
@@ -229,10 +225,9 @@ export class Ntemplate17 implements OnInit {
   onKeyPress = (button: string) => {
     console.log("Button pressed", button);
     this.stopInstructionVO();
-   
-    if(button === "{tab}" || button === "{space}" || button === "{enter}" || button === ".com")
-    {
-       return;
+
+    if (button === "{tab}" || button === "{space}" || button === "{enter}" || button === ".com") {
+      return;
     }
     /**
      * If you want to handle the shift and caps lock buttons
@@ -242,21 +237,19 @@ export class Ntemplate17 implements OnInit {
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
       if (this.quesObj.lang == 'eng') {
-        if(this.btnCounting>0)
-        {
-          this.btnCounting-=1;
-          this.inputVal = this.inputVal.substring(0, this.inputVal.length-1);
+        if (this.btnCounting > 0) {
+          this.btnCounting -= 1;
+          this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
         }
-        
+
 
         //this.btnCounting-=1;
       }
-    
-      
-    }  else if(this.btnCounting<12)
-    {
+
+
+    } else if (this.btnCounting < this.maxCharacter) {
       this.inputVal += button;
-      this.btnCounting+=1;
+      this.btnCounting += 1;
     }
     else {
       this.addBtnRef.nativeElement.style.opacity = "1";
@@ -334,7 +327,7 @@ export class Ntemplate17 implements OnInit {
 
       if (this.quesObj.lang != 'math') {
         this.appModel.moveNextQues();
-      }      
+      }
       console.log("==BlinkOnLastQuestion==");
       this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
       this.nextQuestionTimeronLast = setTimeout(() => {
@@ -736,7 +729,7 @@ export class Ntemplate17 implements OnInit {
           this.QuestionVideo.nativeElement.pause();
           this.QuestionVideo.nativeElement.currentTime = 0;
         }
-       // this.QuestionVideo.nativeElement.pause();
+        // this.QuestionVideo.nativeElement.pause();
         //this.QuestionVideo.nativeElement.currentTime = 0;      
 
         this.mainVideo.nativeElement.onended = () => {
@@ -765,7 +758,7 @@ export class Ntemplate17 implements OnInit {
     }, 100)
     this.instruction.nativeElement.pause();
     this.instruction.nativeElement.currentTime = 0;
-   
+
   }
 
   openKeyBoard() {
@@ -789,8 +782,8 @@ export class Ntemplate17 implements OnInit {
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default";
     } else {
       if (this.quesObj.lang != 'hindi') {
-        
-        this.keyboard = new Keyboard({onKeyPress: button => this.onKeyPress(button), layout: this.layout });
+
+        this.keyboard = new Keyboard({ onKeyPress: button => this.onKeyPress(button), layout: this.layout });
       }
 
     }
@@ -817,6 +810,7 @@ export class Ntemplate17 implements OnInit {
       }
 
       this.inputVal = "";
+      this.btnCounting = 0;
       this.addBtnRef.nativeElement.style.opacity = "0.5";
 
       this.keyBoardVersion = false;
@@ -831,6 +825,7 @@ export class Ntemplate17 implements OnInit {
     } else if (this.quesObj.lang == 'math') {
       this.optionsBlock.nativeElement.style.opacity = 1;
       this.addBtnRef.nativeElement.style.opacity = "0.5";
+      this.btnCounting = 0;
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
       if (this.inputVal != '') {
         let wordObj = {
@@ -966,14 +961,22 @@ export class Ntemplate17 implements OnInit {
   numberClick(num) {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + num;
-    this.onChange(editedStr);
+    if (this.btnCounting < this.maxCharacter) {
+      this.onChange(editedStr);
+      this.btnCounting += 1;
+    }
+
     this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
   operatorClick(operator) {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + operator;
-    this.onChange(editedStr);
+    if (this.btnCounting < this.maxCharacter) {
+      this.onChange(editedStr);
+      this.btnCounting += 1;
+    }
+
     this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
@@ -985,13 +988,22 @@ export class Ntemplate17 implements OnInit {
   */
   tabClick() {
     let editedStr = this.inputVal + " ";
-    this.onChange(editedStr);
+    if (this.btnCounting < this.maxCharacter) {
+      this.onChange(editedStr);
+      this.btnCounting += 1;
+    }
+
   }
 
   deleteElement() {
     this.stopInstructionVO();
-    let editedStr = this.inputVal.substr(0, this.inputVal.length - 1);
-    this.onChange(editedStr);
+    if (this.btnCounting > 0) {
+      this.btnCounting -= 1;
+      let editedStr = this.inputVal.substr(0, this.inputVal.length - 1);
+      this.onChange(editedStr);
+
+    }
+
   }
 
   ngDoCheck() {
@@ -1209,7 +1221,7 @@ export class Ntemplate17 implements OnInit {
   checkVideoLoaded() {
     if (this.videoReplayd) {
       this.appModel.setLoader(false);
-        this.appModel.videoStraming(false);
+      this.appModel.videoStraming(false);
       this.appModel.navShow = 1;
       this.isPlayVideo = this.playMyVideo;
       if (this.playMyVideo == false) {
