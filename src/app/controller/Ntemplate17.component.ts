@@ -507,7 +507,7 @@ export class Ntemplate17 implements OnInit {
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
         this.mainVideo.nativeElement.play();
-        this.appModel.enableSubmitBtn(false);
+       // this.appModel.enableSubmitBtn(false);
         this.mainVideo.nativeElement.onended = () => {
           this.isQuesTypeVideo = false;
           setTimeout(() => {
@@ -520,7 +520,7 @@ export class Ntemplate17 implements OnInit {
               // this.appModel.enableReplayBtn(true);
               this.inputDivRef.nativeElement.classList = "inputDiv";
               this.instructionBar.nativeElement.classList = "instructionBase";
-              if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+              if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
                 this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
                 this.QuestionVideo.nativeElement.play();
                 this.alldisabledwhilequestionVideoPlay();
@@ -612,6 +612,7 @@ export class Ntemplate17 implements OnInit {
       this.QuestionVideo.nativeElement.currentTime = 0;
     }
     this.appModel.enableReplayBtn(false);
+    this.appModel.enableSubmitBtn(false);
   }
 
   getBasePath() {
@@ -697,6 +698,7 @@ export class Ntemplate17 implements OnInit {
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();
+      this.appModel.enableReplayBtn(false);
     } else if (action == "showAnswerFeedback") {
       //this.postShowAnswer();
     }
@@ -723,7 +725,7 @@ export class Ntemplate17 implements OnInit {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.navShow = 1;
-    this.appModel.enableSubmitBtn(false);
+    //this.appModel.enableSubmitBtn(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
     this.instructionBar.nativeElement.classList = "instructionBase";
     clearInterval(this.blinkTimer);
@@ -741,14 +743,14 @@ export class Ntemplate17 implements OnInit {
         //this.QuestionVideo.nativeElement.currentTime = 0;      
 
         this.mainVideo.nativeElement.onended = () => {
-          this.appModel.enableSubmitBtn(true);
+         // this.appModel.enableSubmitBtn(true);
           this.isPlayVideo = false;
           this.appModel.videoStraming(false);
           this.appModel.notifyUserAction();
           this.appModel.handlePostVOActivity(false);
           this.inputDivRef.nativeElement.classList = "inputDiv";
           this.instructionBar.nativeElement.classList = "instructionBase";
-          if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+        /*  if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
             this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
             this.QuestionVideo.nativeElement.play();
             this.alldisabledwhilequestionVideoPlay();
@@ -757,7 +759,7 @@ export class Ntemplate17 implements OnInit {
               this.inputDivRef.nativeElement.classList = "inputDiv";
               this.allEnabledwhilequestionVideoPlay();
             }
-          }
+          }*/
           if (this._questionAreaVideoFlag != true) {
             //this.blinkTextBox();
           }
@@ -1305,7 +1307,7 @@ export class Ntemplate17 implements OnInit {
     this.instructionBar.nativeElement.classList = "instructionBase";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
-    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
       this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
       this.QuestionVideo.nativeElement.play();
       this.alldisabledwhilequestionVideoPlay();
@@ -1321,7 +1323,7 @@ export class Ntemplate17 implements OnInit {
       this.QuestionAudio.nativeElement.play();
     }
 
-    if (this.QuestionVideo != undefined) {
+    if (this.QuestionVideo != undefined  && this.videoReplayd == false) {
       this.QuestionVideo.nativeElement.play();
       this.alldisabledwhilequestionVideoPlay();
     }
