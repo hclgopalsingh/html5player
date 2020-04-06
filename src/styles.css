@@ -82,7 +82,7 @@ button:focus {
 #navBlock .nextBtn {
     right: 9%;
 }
-.quesBlock {
+.navQuesBlock {
 	position: absolute;
 	left: 27.5%;
     top: 29%;
@@ -93,13 +93,13 @@ button:focus {
 	justify-content: space-around;
 	z-index: 1;
 }
-.quesBlock img {
+.navQuesBlock img {
 	width: 3.6%;
 }
 .instructionBase,
 #navBlock .prevBtn,
 #navBlock .nextBtn,
 #navBlock .ansBtn,
-.quesBlock img {
+.navQuesBlock img {
 	cursor:pointer;
 }
