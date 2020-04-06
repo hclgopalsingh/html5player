@@ -1972,6 +1972,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
  
   checkAnswer(opt, id) {
     this.appModel.enableReplayBtn(false);
+    this.appModel.handlePostVOActivity(true);
     this.count = 0;
     $(".instructionBase").addClass('disable_div');
     $('.speaker').addClass('disable_div');
@@ -2369,6 +2370,8 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
             this.isPlayVideo = false;
             this.appModel.navShow = 2;
           this.appModel.enableReplayBtn(true);
+          this.appModel.handlePostVOActivity(false);
+
         }
     }
 
@@ -2533,7 +2536,7 @@ document.getElementById("coverBtm").style.display = "block";
                 this.appModel.enableReplayBtn(true);
             }
         } else {
-        this.timerDelayActs =   setTimeout(() =>{
+        this.timerDelayActs = setTimeout(() =>{
                 //this.startActivity();
                 this.appModel.handlePostVOActivity(false);
                 this.appModel.enableReplayBtn(true);
@@ -2867,6 +2870,8 @@ document.getElementById("coverBtm").style.display = "block";
       document.getElementById("coverTop").style.display = "none";
       document.getElementById("coverBtm").style.display = "block";
       this.appModel.enableReplayBtn(true);
+      this.appModel.handlePostVOActivity(false);
+
       $('.instructionBase').removeClass("disable_div");
       this.resetAttempt(this.optionObj[this.currentOptionNumber]);
     }
