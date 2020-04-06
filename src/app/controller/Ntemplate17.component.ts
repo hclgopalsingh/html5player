@@ -697,6 +697,7 @@ export class Ntemplate17 implements OnInit {
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();
+      this.appModel.enableReplayBtn(false);
     } else if (action == "showAnswerFeedback") {
       //this.postShowAnswer();
     }
