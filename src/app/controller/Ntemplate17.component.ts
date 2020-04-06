@@ -12,6 +12,7 @@ import { PlayerConstants } from '../common/playerconstants';
 
 import 'jquery';
 import { InactivityTimerComponent } from './inactivity-timer-component';
+import { retry } from 'rxjs/operators/retry';
 
 
 declare var $: any;
@@ -201,7 +202,7 @@ export class Ntemplate17 implements OnInit {
   nextQuestionTimerForLastQuestioninSec: any;
   nextQuestionTimerForLastQuestioninMiliSec: any;
   nextQuestionTimeronLast: any;
-
+  btnCounting: number = 0;
 
 
 
@@ -209,18 +210,10 @@ export class Ntemplate17 implements OnInit {
   }
 
   onChange = (input: string) => {
-    if (this.btnPressed < 12) {
-      console.log("Input changed", input);
-      this.inputVal = input;
-    }
-    if (this.quesObj.lang != 'hindi') {
-      this.checkMaxLength();
-    }
-    setTimeout(() => {
-      if (this.quesObj.lang == 'hindi') {
-        //this.test();
-      }
-    }, 200)
+    console.log("Input changed", input);
+    this.inputVal = input;
+    this.addBtnRef.nativeElement.style.opacity = "1";
+
   };
 
   checkMaxLength() {
@@ -233,6 +226,10 @@ export class Ntemplate17 implements OnInit {
   onKeyPress = (button: string) => {
     console.log("Button pressed", button);
     this.stopInstructionVO();
+
+    if (button === "{tab}" || button === "{space}" || button === "{enter}" || button === ".com") {
+      return;
+    }
     /**
      * If you want to handle the shift and caps lock buttons
      */
@@ -241,13 +238,23 @@ export class Ntemplate17 implements OnInit {
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
       if (this.quesObj.lang == 'eng') {
+        if (this.btnCounting > 0) {
+          this.btnCounting -= 1;
+          this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
+        }
 
+
+        //this.btnCounting-=1;
       }
-    } else if (button.length > 1) {
-      this.maxLength += button.length - 1;
+
+
+    } else if (this.btnCounting < this.maxCharacter) {
+      this.inputVal += button;
+      this.btnCounting += 1;
+      this.addBtnRef.nativeElement.style.opacity = "1";
     }
     else {
-      this.addBtnRef.nativeElement.style.opacity = "1";
+      
     }
   };
 
@@ -258,7 +265,7 @@ export class Ntemplate17 implements OnInit {
      }*/
   };
 
-  test() {
+  /*test() {
     if (this.inputVal.length > this.prevEntry.length && (this.btnPressed == 11 || this.btnPressed < 11)) {
       this.stringArr.push(this.inputVal.length - this.prevEntry.length);
       this.prevEntry = this.inputVal;
@@ -281,7 +288,7 @@ export class Ntemplate17 implements OnInit {
       this.btnPressed++;
       console.log("added 12 plus");
     }
-  }
+  }*/
 
   handleShift = () => {
     let currentLayout = this.keyboard.options.layoutName;
@@ -320,8 +327,9 @@ export class Ntemplate17 implements OnInit {
       this.InfoModalRef.nativeElement.classList = "displayPopup modal";
 
 
-
-      this.appModel.moveNextQues();
+      if (this.quesObj.lang != 'math') {
+        this.appModel.moveNextQues();
+      }
       console.log("==BlinkOnLastQuestion==");
       this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
       this.nextQuestionTimeronLast = setTimeout(() => {
@@ -416,7 +424,7 @@ export class Ntemplate17 implements OnInit {
       if (action == "replayVideo") {
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
+          this.instructionBar.nativeElement.classList = "instructionBase";
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.PlayPauseFlag = true;
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -520,7 +528,7 @@ export class Ntemplate17 implements OnInit {
                   this.allEnabledwhilequestionVideoPlay();
                 }
               }
-              if(this._questionAreaVideoFlag != true){
+              if (this._questionAreaVideoFlag != true) {
                 this.blinkTextBox();
               }
             }
@@ -548,7 +556,7 @@ export class Ntemplate17 implements OnInit {
         this.appModel.setlastQuesNT();
       }
       this.feedbackObj = fetchedData.feedback;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
+      this.confirmPopupAssets = fetchedData.feedback;
       this.submitPopupAssets = fetchedData.submit_popup;
       this.replayconfirmAssets = fetchedData.replay_confirm;
       this.quesObj = fetchedData.quesObj;
@@ -710,8 +718,8 @@ export class Ntemplate17 implements OnInit {
     this.isPlayVideo = true;
     this.appModel.navShow = 1;
     this.appModel.enableSubmitBtn(false);
-    this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
-    this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
+    this.inputDivRef.nativeElement.classList = "inputDiv";
+    this.instructionBar.nativeElement.classList = "instructionBase";
     clearInterval(this.blinkTimer);
     this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
 
@@ -723,10 +731,8 @@ export class Ntemplate17 implements OnInit {
           this.QuestionVideo.nativeElement.pause();
           this.QuestionVideo.nativeElement.currentTime = 0;
         }
-        this.QuestionVideo.nativeElement.pause();
-          this.QuestionVideo.nativeElement.currentTime = 0;
-          this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
+        // this.QuestionVideo.nativeElement.pause();
+        //this.QuestionVideo.nativeElement.currentTime = 0;      
 
         this.mainVideo.nativeElement.onended = () => {
           this.appModel.enableSubmitBtn(true);
@@ -746,12 +752,15 @@ export class Ntemplate17 implements OnInit {
               this.allEnabledwhilequestionVideoPlay();
             }
           }
-          if(this._questionAreaVideoFlag != true){
+          if (this._questionAreaVideoFlag != true) {
             //this.blinkTextBox();
           }
         }
       }
     }, 100)
+    this.instruction.nativeElement.pause();
+    this.instruction.nativeElement.currentTime = 0;
+
   }
 
   openKeyBoard() {
@@ -775,11 +784,8 @@ export class Ntemplate17 implements OnInit {
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default";
     } else {
       if (this.quesObj.lang != 'hindi') {
-        this.keyboard = new Keyboard({
-          onChange: input => this.onChange(input),
-          onKeyPress: button => this.onKeyPress(button),
-          layout: this.layout
-        });
+
+        this.keyboard = new Keyboard({ onKeyPress: button => this.onKeyPress(button), layout: this.layout });
       }
 
     }
@@ -806,6 +812,7 @@ export class Ntemplate17 implements OnInit {
       }
 
       this.inputVal = "";
+      this.btnCounting = 0;
       this.addBtnRef.nativeElement.style.opacity = "0.5";
 
       this.keyBoardVersion = false;
@@ -820,6 +827,7 @@ export class Ntemplate17 implements OnInit {
     } else if (this.quesObj.lang == 'math') {
       this.optionsBlock.nativeElement.style.opacity = 1;
       this.addBtnRef.nativeElement.style.opacity = "0.5";
+      this.btnCounting = 0;
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
       if (this.inputVal != '') {
         let wordObj = {
@@ -955,14 +963,22 @@ export class Ntemplate17 implements OnInit {
   numberClick(num) {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + num;
-    this.onChange(editedStr);
+    if (this.btnCounting < this.maxCharacter) {
+      this.onChange(editedStr);
+      this.btnCounting += 1;
+    }
+
     this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
   operatorClick(operator) {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + operator;
-    this.onChange(editedStr);
+    if (this.btnCounting < this.maxCharacter) {
+      this.onChange(editedStr);
+      this.btnCounting += 1;
+    }
+
     this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
@@ -974,13 +990,22 @@ export class Ntemplate17 implements OnInit {
   */
   tabClick() {
     let editedStr = this.inputVal + " ";
-    this.onChange(editedStr);
+    if (this.btnCounting < this.maxCharacter) {
+      this.onChange(editedStr);
+      this.btnCounting += 1;
+    }
+
   }
 
   deleteElement() {
     this.stopInstructionVO();
-    let editedStr = this.inputVal.substr(0, this.inputVal.length - 1);
-    this.onChange(editedStr);
+    if (this.btnCounting > 0) {
+      this.btnCounting -= 1;
+      let editedStr = this.inputVal.substr(0, this.inputVal.length - 1);
+      this.onChange(editedStr);
+
+    }
+
   }
 
   ngDoCheck() {
@@ -1196,8 +1221,9 @@ export class Ntemplate17 implements OnInit {
   }
 
   checkVideoLoaded() {
-    if (!this.videoReplayd) {
+    if (this.videoReplayd) {
       this.appModel.setLoader(false);
+      this.appModel.videoStraming(false);
       this.appModel.navShow = 1;
       this.isPlayVideo = this.playMyVideo;
       if (this.playMyVideo == false) {
@@ -1257,21 +1283,19 @@ export class Ntemplate17 implements OnInit {
   }
 
   QuestionLoaded() {
-    if(this.inputVal == "" && !this.videoReplayd)
-    {
+    if (this.inputVal == "" && !this.videoReplayd) {
       this.instruction.nativeElement.play();
       this.instruction.nativeElement.onended = () => {
-       this.checkinputnull();
+        this.checkinputnull();
       }
     }
-    else{
+    else {
       this.checkinputnull();
     }
-    
+
   }
 
-  checkinputnull()
-  {
+  checkinputnull() {
     this.appModel.handlePostVOActivity(true);
     this.appModel.enableReplayBtn(this.playMyVideo);
     this.inputDivRef.nativeElement.classList = "inputDiv";
@@ -1330,13 +1354,11 @@ export class Ntemplate17 implements OnInit {
     }
   }
 
-  alldisabledwhilequestionVideoPlay()
-  {
+  alldisabledwhilequestionVideoPlay() {
     $("#instructionBar").addClass("disable_div");
     this.appModel.enableReplayBtn(false);
   }
-  allEnabledwhilequestionVideoPlay()
-  {
+  allEnabledwhilequestionVideoPlay() {
     $("#instructionBar").removeClass("disable_div");
     this.appModel.enableReplayBtn(true);
   }
