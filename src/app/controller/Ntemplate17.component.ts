@@ -203,6 +203,7 @@ export class Ntemplate17 implements OnInit {
   nextQuestionTimerForLastQuestioninMiliSec: any;
   nextQuestionTimeronLast: any;
   btnCounting: number = 0;
+  _addWordFlag: boolean = false;
 
 
 
@@ -254,7 +255,7 @@ export class Ntemplate17 implements OnInit {
       this.addBtnRef.nativeElement.style.opacity = "1";
     }
     else {
-      
+
     }
   };
 
@@ -425,6 +426,7 @@ export class Ntemplate17 implements OnInit {
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.instructionBar.nativeElement.classList = "instructionBase";
+          this.stopInstructionVO();
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.PlayPauseFlag = true;
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -500,7 +502,7 @@ export class Ntemplate17 implements OnInit {
         this.loadFlag = true;
         clearTimeout(this.loaderTimer);
         this.appModel.handlePostVOActivity(true);
-        this.appModel.enableReplayBtn(this.playMyVideo);
+        // this.appModel.enableReplayBtn(this.playMyVideo);
         this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
@@ -609,6 +611,7 @@ export class Ntemplate17 implements OnInit {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
     }
+    this.appModel.enableReplayBtn(false);
   }
 
   getBasePath() {
@@ -687,6 +690,9 @@ export class Ntemplate17 implements OnInit {
       this.replayVideo();
     } else if (action == "feedbackDone") {
       console.log("feedback done......");
+      if (this.quesObj.lang == 'math') {
+        this.appModel.blinkForLastQues();
+      }
       this.disableScreen();
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
@@ -789,7 +795,7 @@ export class Ntemplate17 implements OnInit {
       }
 
     }
-    this.appModel.enableReplayBtn(this.playMyVideo);
+    //this.appModel.enableReplayBtn(this.playMyVideo);
     console.log(this.inputDivRef.nativeElement.children[0]);
     this.stopInstructionVO();
   }
@@ -799,6 +805,7 @@ export class Ntemplate17 implements OnInit {
     this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
     this.inputFieldText = this.commonAssets.inputFieldText.info;
+    this._addWordFlag = true;
     if (this.quesObj.lang != 'math') {
       let wordObj = {
         time: new Date().getTime(),
@@ -908,9 +915,7 @@ export class Ntemplate17 implements OnInit {
     this.feedbackAudio = this.feedbackObj.right_sound;
     this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
-    if (this.quesObj.lang == 'math') {
-      this.appModel.blinkForLastQues();
-    }
+
   }
 
   pushToWrongList() {
@@ -926,9 +931,7 @@ export class Ntemplate17 implements OnInit {
     this.feedbackAudio = this.feedbackObj.wrong_sound;
     this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
-    if (this.quesObj.lang == 'math') {
-      this.appModel.blinkForLastQues();
-    }
+
 
   }
 
@@ -1329,6 +1332,9 @@ export class Ntemplate17 implements OnInit {
     }
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
+    if (this._addWordFlag == true) {
+      this.appModel.enableSubmitBtn(true);
+    }
   }
 
   hoverOK() {
