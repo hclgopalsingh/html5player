@@ -212,6 +212,7 @@ export class Ntemplate17 implements OnInit {
   onChange = (input: string) => {
     console.log("Input changed", input);
     this.inputVal = input;
+    this.addBtnRef.nativeElement.style.opacity = "1";
 
   };
 
@@ -250,9 +251,10 @@ export class Ntemplate17 implements OnInit {
     } else if (this.btnCounting < this.maxCharacter) {
       this.inputVal += button;
       this.btnCounting += 1;
+      this.addBtnRef.nativeElement.style.opacity = "1";
     }
     else {
-      this.addBtnRef.nativeElement.style.opacity = "1";
+      
     }
   };
 
