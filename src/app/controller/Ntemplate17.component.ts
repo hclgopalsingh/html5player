@@ -204,6 +204,7 @@ export class Ntemplate17 implements OnInit {
   nextQuestionTimeronLast: any;
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
+  _playInstructionFlag:boolean = false;
 
 
 
@@ -308,6 +309,7 @@ export class Ntemplate17 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
+        this._playInstructionFlag = true;
         $(".instructionBase img").css("cursor", "pointer");
       }
     }
@@ -520,7 +522,7 @@ export class Ntemplate17 implements OnInit {
               // this.appModel.enableReplayBtn(true);
               this.inputDivRef.nativeElement.classList = "inputDiv";
               this.instructionBar.nativeElement.classList = "instructionBase";
-              if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
+              if (this.QuestionVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
                 this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
                 this.QuestionVideo.nativeElement.play();
                 this.alldisabledwhilequestionVideoPlay();
@@ -698,6 +700,7 @@ export class Ntemplate17 implements OnInit {
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();
+      $("#instructionBar").addClass("disable_div");
       this.appModel.enableReplayBtn(false);
     } else if (action == "showAnswerFeedback") {
       //this.postShowAnswer();
@@ -1307,7 +1310,7 @@ export class Ntemplate17 implements OnInit {
     this.instructionBar.nativeElement.classList = "instructionBase";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
-    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
+    if (this.QuestionVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
       this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
       this.QuestionVideo.nativeElement.play();
       this.alldisabledwhilequestionVideoPlay();
@@ -1323,7 +1326,7 @@ export class Ntemplate17 implements OnInit {
       this.QuestionAudio.nativeElement.play();
     }
 
-    if (this.QuestionVideo != undefined  && this.videoReplayd == false) {
+    if (this.QuestionVideo != undefined  && this.videoReplayd == false && this._playInstructionFlag == false) {
       this.QuestionVideo.nativeElement.play();
       this.alldisabledwhilequestionVideoPlay();
     }
