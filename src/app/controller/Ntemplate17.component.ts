@@ -507,7 +507,7 @@ export class Ntemplate17 implements OnInit {
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
         this.mainVideo.nativeElement.play();
-        this.appModel.enableSubmitBtn(false);
+       // this.appModel.enableSubmitBtn(false);
         this.mainVideo.nativeElement.onended = () => {
           this.isQuesTypeVideo = false;
           setTimeout(() => {
@@ -612,6 +612,7 @@ export class Ntemplate17 implements OnInit {
       this.QuestionVideo.nativeElement.currentTime = 0;
     }
     this.appModel.enableReplayBtn(false);
+    this.appModel.enableSubmitBtn(false);
   }
 
   getBasePath() {
@@ -724,7 +725,7 @@ export class Ntemplate17 implements OnInit {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.navShow = 1;
-    this.appModel.enableSubmitBtn(false);
+    //this.appModel.enableSubmitBtn(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
     this.instructionBar.nativeElement.classList = "instructionBase";
     clearInterval(this.blinkTimer);
