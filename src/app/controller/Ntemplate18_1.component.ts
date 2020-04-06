@@ -193,9 +193,9 @@ export class Ntemplate18_1 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        $("#optionsBlock").css("pointer-events", "none");
+       
         this.instruction.nativeElement.onended = () => {
-          $("#optionsBlock").css("pointer-events", "");
+         
         }
         $(".instructionBase img").css("cursor", "pointer");
       }
@@ -261,6 +261,10 @@ export class Ntemplate18_1 implements OnInit {
   }
 
   onHoverOption(opt, i) {
+    if (!this.instruction.nativeElement.paused) {
+      this.instruction.nativeElement.currentTime = 0;
+      this.instruction.nativeElement.pause();
+    } 
     if (opt && opt != undefined) {
       if (this.narrator.nativeElement.paused) {
         //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
@@ -626,6 +630,14 @@ export class Ntemplate18_1 implements OnInit {
 
 
   ngOnInit() {
+    let that = this;
+        $( "#navBlock" ).click(function() {
+            if (!that.instruction.nativeElement.paused)
+            {
+              that.instruction.nativeElement.pause();
+              that.instruction.nativeElement.currentTime = 0;
+            }
+          });
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
