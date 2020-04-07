@@ -93,7 +93,7 @@ button:focus {
 	justify-content: space-around;
 	z-index: 1;
 }
-.navQuesBlock img {
+.navQuesBlock div {
 	width: 3.6%;
 }
 .instructionBase,
