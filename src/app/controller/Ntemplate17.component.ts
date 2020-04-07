@@ -913,7 +913,7 @@ export class Ntemplate17 implements OnInit {
     if (this.noAttempts == 0) {
       this.feedbackTimer = setTimeout(() => {
         this.openModal();
-      }, 500)
+      }, 3000)
 
     }
 
@@ -931,7 +931,7 @@ export class Ntemplate17 implements OnInit {
     if (this.noAttempts == 0) {
       this.feedbackTimer = setTimeout(() => {
         this.openModal();
-      }, 500)
+      }, 3000)
     }
     this.feedbackAudio = this.feedbackObj.wrong_sound;
     this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -943,7 +943,7 @@ export class Ntemplate17 implements OnInit {
   openModal() {
     this.feedbackModal.nativeElement.classList = "modal displayPopup";
     this.infoModal = false;
-    this.stopInstructionVO();
+    this.stopInstructionVO();    
   }
 
   hoverRightTick() {
