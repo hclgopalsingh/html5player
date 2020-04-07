@@ -204,7 +204,7 @@ export class Ntemplate17 implements OnInit {
   nextQuestionTimeronLast: any;
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
-  _playInstructionFlag:boolean = false;
+  _playInstructionFlag: boolean = false;
 
 
 
@@ -215,6 +215,10 @@ export class Ntemplate17 implements OnInit {
     console.log("Input changed", input);
     this.inputVal = input;
     this.addBtnRef.nativeElement.style.opacity = "1";
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
+    }
 
   };
 
@@ -257,6 +261,11 @@ export class Ntemplate17 implements OnInit {
     }
     else {
 
+    }
+
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
     }
   };
 
@@ -311,6 +320,13 @@ export class Ntemplate17 implements OnInit {
         this.instruction.nativeElement.play();
         this._playInstructionFlag = true;
         $(".instructionBase img").css("cursor", "pointer");
+        this.instruction.nativeElement.onended = () => {
+          if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+            this.QuestionVideo.nativeElement.play();
+            this.QuestionVideo.nativeElement.onended = () => {
+            }
+          }
+        }       
       }
     }
   }
@@ -423,6 +439,10 @@ export class Ntemplate17 implements OnInit {
       if (action == "submitAnswer") {
         this.stopInstructionVO();
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
+        if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+          this.QuestionVideo.nativeElement.pause();
+          this.QuestionVideo.nativeElement.currentTime = 0;
+        }
       }
       if (action == "replayVideo") {
         this.appModel.videoStraming(true);
@@ -433,6 +453,10 @@ export class Ntemplate17 implements OnInit {
           this.PlayPauseFlag = true;
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
           this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+          if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+            this.QuestionVideo.nativeElement.pause();
+            this.QuestionVideo.nativeElement.currentTime = 0;
+          }
         }
       }
     })
@@ -509,7 +533,7 @@ export class Ntemplate17 implements OnInit {
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
         this.mainVideo.nativeElement.play();
-       // this.appModel.enableSubmitBtn(false);
+        // this.appModel.enableSubmitBtn(false);
         this.mainVideo.nativeElement.onended = () => {
           this.isQuesTypeVideo = false;
           setTimeout(() => {
@@ -702,6 +726,7 @@ export class Ntemplate17 implements OnInit {
       this.showTestScreen();
       $("#instructionBar").addClass("disable_div");
       this.appModel.enableReplayBtn(false);
+      
     } else if (action == "showAnswerFeedback") {
       //this.postShowAnswer();
     }
@@ -746,23 +771,23 @@ export class Ntemplate17 implements OnInit {
         //this.QuestionVideo.nativeElement.currentTime = 0;      
 
         this.mainVideo.nativeElement.onended = () => {
-         // this.appModel.enableSubmitBtn(true);
+          // this.appModel.enableSubmitBtn(true);
           this.isPlayVideo = false;
           this.appModel.videoStraming(false);
           this.appModel.notifyUserAction();
           this.appModel.handlePostVOActivity(false);
           this.inputDivRef.nativeElement.classList = "inputDiv";
           this.instructionBar.nativeElement.classList = "instructionBase";
-        /*  if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-            this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
-            this.QuestionVideo.nativeElement.play();
-            this.alldisabledwhilequestionVideoPlay();
-            this.QuestionVideo.nativeElement.onended = () => {
-              this.blinkTextBox();
-              this.inputDivRef.nativeElement.classList = "inputDiv";
-              this.allEnabledwhilequestionVideoPlay();
-            }
-          }*/
+          /*  if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+              this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
+              this.QuestionVideo.nativeElement.play();
+              this.alldisabledwhilequestionVideoPlay();
+              this.QuestionVideo.nativeElement.onended = () => {
+                this.blinkTextBox();
+                this.inputDivRef.nativeElement.classList = "inputDiv";
+                this.allEnabledwhilequestionVideoPlay();
+              }
+            }*/
           if (this._questionAreaVideoFlag != true) {
             //this.blinkTextBox();
           }
@@ -803,6 +828,10 @@ export class Ntemplate17 implements OnInit {
     //this.appModel.enableReplayBtn(this.playMyVideo);
     console.log(this.inputDivRef.nativeElement.children[0]);
     this.stopInstructionVO();
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
+    }
   }
 
   addWord() {
@@ -853,6 +882,10 @@ export class Ntemplate17 implements OnInit {
     }
     this.stopInstructionVO();
     //this.wordBlockRef.nativeElement.children[0].classList.add("inputDiv");
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
+    }
   }
 
   showTestScreen() {
@@ -943,7 +976,7 @@ export class Ntemplate17 implements OnInit {
   openModal() {
     this.feedbackModal.nativeElement.classList = "modal displayPopup";
     this.infoModal = false;
-    this.stopInstructionVO();    
+    this.stopInstructionVO();
   }
 
   hoverRightTick() {
@@ -1173,6 +1206,11 @@ export class Ntemplate17 implements OnInit {
 
     }
 
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
+    }
+
   }
 
 
@@ -1225,6 +1263,10 @@ export class Ntemplate17 implements OnInit {
       if (this.matraCounter > 1) {
         this.matraRepeatArr.shift();
       }
+    }
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
     }
   }
 
@@ -1326,7 +1368,7 @@ export class Ntemplate17 implements OnInit {
       this.QuestionAudio.nativeElement.play();
     }
 
-    if (this.QuestionVideo != undefined  && this.videoReplayd == false && this._playInstructionFlag == false) {
+    if (this.QuestionVideo != undefined && this.videoReplayd == false && this._playInstructionFlag == false) {
       this.QuestionVideo.nativeElement.play();
       this.alldisabledwhilequestionVideoPlay();
     }
