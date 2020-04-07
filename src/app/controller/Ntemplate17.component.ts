@@ -318,12 +318,15 @@ export class Ntemplate17 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
+        this.appModel.handlePostVOActivity(false);
         this._playInstructionFlag = true;
         $(".instructionBase img").css("cursor", "pointer");
         this.instruction.nativeElement.onended = () => {
           if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
             this.QuestionVideo.nativeElement.play();
+            this.appModel.handlePostVOActivity(false);
             this.QuestionVideo.nativeElement.onended = () => {
+              this.appModel.handlePostVOActivity(false);
             }
           }
         }       
@@ -549,9 +552,11 @@ export class Ntemplate17 implements OnInit {
               if (this.QuestionVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
                 this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
                 this.QuestionVideo.nativeElement.play();
+                this.appModel.handlePostVOActivity(false);
                 this.alldisabledwhilequestionVideoPlay();
                 this.QuestionVideo.nativeElement.onended = () => {
                   this.blinkTextBox();
+                  this.appModel.handlePostVOActivity(false);
                   this.inputDivRef.nativeElement.classList = "inputDiv";
                   this.allEnabledwhilequestionVideoPlay();
                 }
@@ -1355,9 +1360,11 @@ export class Ntemplate17 implements OnInit {
     if (this.QuestionVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
       this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
       this.QuestionVideo.nativeElement.play();
+      this.appModel.handlePostVOActivity(false);
       this.alldisabledwhilequestionVideoPlay();
       this.QuestionVideo.nativeElement.onended = () => {
         this.blinkTextBox();
+        this.appModel.handlePostVOActivity(false);
         this.inputDivRef.nativeElement.classList = "inputDiv";
         this.allEnabledwhilequestionVideoPlay();
       }
@@ -1370,6 +1377,7 @@ export class Ntemplate17 implements OnInit {
 
     if (this.QuestionVideo != undefined && this.videoReplayd == false && this._playInstructionFlag == false) {
       this.QuestionVideo.nativeElement.play();
+      this.appModel.handlePostVOActivity(false);
       this.alldisabledwhilequestionVideoPlay();
     }
     //this.blinkOnLastQues();
