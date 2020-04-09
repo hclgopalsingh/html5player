@@ -516,6 +516,9 @@ export class Ntemplate17 implements OnInit {
     if (obj.quesVORef && obj.quesVORef.nativeElement) {
       obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   close() {
