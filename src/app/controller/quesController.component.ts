@@ -36,21 +36,25 @@ export class QuesController implements OnInit {
 	disableNext:boolean = true;
   disableTabs:boolean = true;
   EVA:boolean = false;
-
+  EnableShowAnswer:boolean = false;
   Template: any;
+  EVAQid:any;
   subscription: Subscription;
   
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
     this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
-
       if(this.Template === 'EVA'){
         this.EVA = true;
       }else{
         this.EVA = false;
       }
+
     });
+
+
+ 
   }
   pointObjArr: any[] = [];
   questionNo: number = 0;
@@ -62,6 +66,13 @@ export class QuesController implements OnInit {
   enableReplayBtn: boolean = false;
   isVideoPlaying:boolean = false;
   ngOnInit() {
+
+    // this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
+    //   this.EnableShowAnswer = data.data;      
+    //   console.log(this.EnableShowAnswer, 'jyoti answer');
+    // });
+
+   
     this.subscriptionQuesNos = this.appModel.getNoOfQues().subscribe(num => {
       console.log("number of questions", num);
       this.noOfQues = num;
@@ -77,10 +88,22 @@ export class QuesController implements OnInit {
     })
     this.subscriptionQuesIndex = this.appModel.getQuesionIdx().subscribe(idx => {
       this.questionNo = idx;
-      console.log("selected question index", this.questionNo);
+      console.log("selected question index", this.questionNo); 
     })
+
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
+
+      
+    this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
+      this.EnableShowAnswer = data.data;
+      if(this.EnableShowAnswer === true){
+        this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+      }
+    });
+      
+      
+
       this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
       console.log(this.quesCtrl);
       console.log("no of tabs should be ", this.quesTabs.length);

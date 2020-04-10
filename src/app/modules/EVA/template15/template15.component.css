@@ -13,7 +13,7 @@
 	align-items: center;
 	justify-content: space-around;
 }
-.options img {
+.options div {
 	width: 25.5%;
 }
 #container .speakerBtn{

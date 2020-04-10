@@ -22,21 +22,18 @@
 </div>
 <!--This section contains common elements for EVA  -->
 <div  *ngIf='EVA'>
-  <div class="container-fluid" id="container">
-  <div id="navBlock">
+  <div id="footerNavBlock">
     <div class="navBase">
-        <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/footerBg.svg">
-        <img class="img-fluid prevBtn" src="../../../assets/images/EvaTemplate15Assets/prevBtn.svg">
-        <img class="img-fluid ansBtn" src="../../../assets/images/EvaTemplate15Assets/ansBtn.svg" title="Show Answer">
-        <div class="quesBlock">
-            <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBulletVisited.svg">
-            <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBulletActive.svg">
-            <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-            <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-            <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
+        <img class="img-fluid" [src]="quesCtrl?.footer?.location=='content' ? containgFolderPath + '/' + quesCtrl?.footer?.url : assetsPath + '/' + quesCtrl?.footer?.url">    
+        <img class="img-fluid prevBtn disable" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()">
+        <img class="img-fluid ansBtn" [src]="quesCtrl?.uttar_dikhayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.uttar_dikhayein?.url : assetsPath + '/' + quesCtrl?.uttar_dikhayein?.url" title="उत्तर दिखाओ" >
+        <div class="navQuesBlock" #quesBlockChild>
+        <div *ngFor="let quesTab of quesTabs; let idx = index">
+          <img class="img-fluid" [src]="quesTab?.ques_tab?.tabcircle?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabcircle?.url : assetsPath + '/' + quesTab?.ques_tab?.tabcircle?.url" >
         </div>
-        <img class="img-fluid nextBtn" src="../../../assets/images/EvaTemplate15Assets/nextBtn.svg">
+        </div>
+        <img class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" (click)="next()">
+
     </div>
+  </div>
 </div>
-</div>
-    </div>

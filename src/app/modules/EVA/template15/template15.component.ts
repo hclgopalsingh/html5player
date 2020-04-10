@@ -1,9 +1,9 @@
 
-import { Component , OnInit ,HostListener ,ViewChild ,OnDestroy} from '@angular/core';
-import {ApplicationmodelService} from '../../../model/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Base } from '../../../controller/base';
 import { PlayerConstants } from '../../../common/playerconstants';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
 
@@ -11,814 +11,832 @@ import 'jquery';
 declare var $: any;
 
 @Component({
-  selector: 'app-template15',
-  templateUrl: './template15.component.html',
-  styleUrls: ['./template15.component.css']
+    selector: 'app-template15',
+    templateUrl: './template15.component.html',
+    styleUrls: ['./template15.component.css']
 })
-export class Template15Component extends Base implements OnInit {
+export class Template15Component implements OnInit {
 
-  constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-    super();
-		this.appModel = appModel;
-		this.assetsfolderlocation=this.appModel.assetsfolderpath;
-		this.appModel.navShow=1;
-		this.appModel.setLoader(true);
-		// if error occured during image loading loader wil stop after 5 seconds 
-      this.loaderTimer = setTimeout(() => {
-        this.appModel.setLoader(false);
-      }, 5000);
+    audio = new Audio();
+    blink: boolean = false;
+    commonAssets: any = "";
+    optionslist: any = [];
+    optionslist_main: any = "";
+    myoption: any = [];
+    question: any = "";
+    feedback: any = "";
+    isLastActivity: any = "";
+    bool: boolean = false;
+    showIntroScreen: boolean;
+    popupType: string = "";
+    helpAudio: any = "";
+    isFirstQues: boolean;
+    isLastQues: boolean = false;
+    isAutoplayOn: boolean;
+    isLastQuesAct: boolean;
 
-      this.appModel.notification.subscribe(
-        (data) => {
-          console.log('Component: constructor - data=', data);
-          switch (data) {
-            case PlayerConstants.CMS_PLAYER_CLOSE:
-              //console.log('VideoComponent: constructor - cmsPlayerClose');
-              this.close();
-              break;
+    noOfImgs: number;
+    noOfImgsLoaded: number = 0;
+    loaderTimer: any;
+    disableHelpBtn: boolean = false;
+    containgFolderPath: string = "";
+    assetsPath: string = "";
+    loadFlag: boolean = false;
+    optionHolder: any = [];
+    optionObj: any;
+    dummyImgs: any = [];
+    questionObj: any;
+    randomArray: any;
+    leftSelectedIdx: number = 0;
+    rightSelectedIdx: number = 0;
+    maxRandomNo: number;
+    elemHolder: any;
+    moveFrom: any;
+    moveTo: any;
+    blinkTimeInterval: any;
+    startCount: number = 0;
+    blinkSide: string = "";
+    selectableOpts: number;
+    selectedOptList: any = [];
+    isAllRight: boolean = false;
+    isWrongAttempted: boolean = false;
+    categoryA: any = {
+        "correct": [],
+        "incorrect": []
+    };
+    categoryB: any = {
+        "correct": [],
+        "incorrect": []
+    };
+    infoPopupAssets: any;
+    confirmAssets: any;
+    confirmSubmitAssets: any;
+    confirmReplayAssets: any;
+    selectedOpt: any = {
+        "idx": undefined,
+        "moveFrom": undefined,
+        "moveTo": undefined
+    };
+    selectedCopy: any;
+    leftRandomArray: any = [];
+    rightRandomArray: any = [];
+    completeRandomArr: any = [];
+    feedbackAssets: any;
+    category: any;
+    currentFeedbackPlaying: string = "categoryA";
+    nextBtnInterval: any;
+    closeFeedbackmodalTimer: any;
+    isPlayVideo: boolean;
+    videoReplayd: boolean = false;
+    maxOpotions: number = 7;
+    currentFeedbackElem: any;
+    timerDelayActs: any;
+    nextFeedbackTimer: any;
+    timerFeedback: any;
+    isVideoLoaded: boolean = false;
+    blinkCategory1: number = 0;
+    blinkCategory2: number = 0;
+    attemptType: string = "";
+    attemptTypeClose: string = "";
+    correctOpt: any = '';
 
-            default:
-              console.log('Component: constructor - default');
-              break;
-          }
+
+    placeHolderArrUp: any = [];
+    placeHolderArrDown: any = [];
+    placeHolderArrUpPopup: any = [];
+    placeHolderArrDownPopup: any = [];
+    upPlaceHolderIndxs: any = [];
+    downPlaceHolderIndxs: any = [];
+    blinkingOpt: any;
+    randomOptIndx: number;
+    optIndxArr: any = [];
+    blinkFlag: boolean = true;
+    optionArr: any = [];
+    optionCommonAssts: any;
+    blinkInterval: any;
+    submittedArr: any = [];
+    responseType: string = "";
+    popupTopAssts: any = [];
+    popupDownAssts: any = [];
+    currentIdx: number = 0;
+    resultType: string = "correct";
+    sortedOptArr: any;
+    currentIndxUp: number = 0;
+    currentIndxDown: number = 0;
+    currentComparison: any;
+    placeToPut: string = "up";
+    runningIndx: number = 0;
+    optionIndex: number;
+    valueOnce: any = [];
+    currentValue: number = 0;
+    idOfImage: number;
+    IdImageArr: any = [];
+    submitButtonCounter: number = 0;
+    showAnswerCounter: number = 0;
+    blinkCounter: number = 0;
+    blinkFlagReverse: boolean = false;
+    RandomIndexValue: any = [];
+    ResizeIndex: number = 0;
+    ResizePos: string = "";
+    RandomResizeIndex: number = 0;
+    ArrPlaceHolder: any = [];
+    Ccounter: number = 0;
+    wrongCounter: number = 0;
+    Order: string = "";
+    optionReverseTopPosition: number = 0;
+    startActivityCounter: number = 0;
+    feedbackObj: any;
+    feedbackAudio: any;
+    rightanspopUpheader_img: boolean = false;
+    wronganspopUpheader_img: boolean = false;
+    showanspopUpheader_img: boolean = false;
+    partialCorrectheaderTxt_img: boolean = false;
+    styleHeaderPopup: any;
+    styleBodyPopup: any;
+    instructiontext: string;
+    timernextseg: any = "";
+    idArray: any = [];
+    hasEventFired: boolean = false;
+    speaker: any;
+
+    @ViewChild('narrator_voice') narrator_voice: any;
+    @ViewChild('audioEl') audioEl: any;
+    @ViewChild('sprite') sprite: any;
+    @ViewChild('speakerNormal') speakerNormal: any;
+
+    @ViewChild('disableSpeaker') disableSpeaker: any;
+    @ViewChild('myAudiohelp') myAudiohelp: any;
+    @ViewChild('myAudiospeaker') myAudiospeaker: any;
+    @ViewChild('maincontent') maincontent: any;
+    @ViewChild('OptionAudio') OptionAudio: any;
+
+    @ViewChild('ansBlock') ansBlock: any;
+    @ViewChild('mainContainer') mainContainer: any;
+    @ViewChild('instructionVO') instructionVO: any;
+    @ViewChild('instructionBar') instructionBar: any;
+    @ViewChild('quesVORef') quesVORef: any;
+    @ViewChild('confirmModalRef') confirmModalRef: any;
+    @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
+    @ViewChild('infoModalRef') infoModalRef: any;
+    @ViewChild('feedbackPopupRef') feedbackPopupRef: any;
+    // @ViewChild('feedbackAudio') feedbackAudio: any;
+    @ViewChild('correctCategory') correctCategory: any;
+    @ViewChild('incorrectCategory') incorrectCategory: any;
+    @ViewChild('mainVideo') mainVideo: any;
+    @ViewChild('confirmReplayRef') confirmReplayRef: any;
+    @ViewChild('partialFeedbackRef') partialFeedbackRef: any;
+    @ViewChild('optionRef') optionRef: any;
+    @ViewChild('upPlaceHolder') upPlaceHolder: any;
+    @ViewChild('downPlaceHolder') downPlaceHolder: any;
+    @ViewChild('scaleBoxRef') scaleBoxRef: any;
+    @ViewChild('modalfeedback20') modalfeedback20: any;
+    @ViewChild('modalFeedbackContainer') modalFeedbackContainer: any;
+    @ViewChild('clapSound') clapSound: any;
+    @ViewChild('ShowAnswerSound') showAnswerSound: any;
+    @ViewChild('WrongSound') WrongSound: any;
+    @ViewChild('PartialWrongSound') PartialWrongSound: any;
+    @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
+    @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+
+
+    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+   
+        this.appModel = appModel;
+        if (!this.appModel.isVideoPlayed) {
+            this.isVideoLoaded = false;
+        } else {
+            this.appModel.setLoader(true);
+            // if error occured during image loading loader wil stop after 5 seconds 
+            this.loaderTimer = setTimeout(() => {
+                this.appModel.setLoader(false);
+            }, 5000);
         }
-      );
+        this.appModel.notification.subscribe(
+            (data) => {
+                console.log('Component: constructor - data=', data);
+                switch (data) {
+                    case PlayerConstants.CMS_PLAYER_CLOSE:
+                        //console.log('VideoComponent: constructor - cmsPlayerClose');
+                        this.close();
+                        break;
+                    default:
+                        console.log('Component: constructor - default');
+                        break;
+                }
+            }
+        );
+        this.assetsPath = this.appModel.assetsfolderpath;
+        this.appModel.navShow = 2;
+    }
 
-   }
 
-   @ViewChild('narrator_voice') narrator_voice: any;
-	 @ViewChild('myAudiohelp') myAudiohelp: any;
-	 @ViewChild('myAudiospeaker') myAudiospeaker: any;
-	 @ViewChild('audioEl') audioEl: any;
-	 @ViewChild('titleNavBtn') titleNavBtn: any;
-	 @ViewChild('container') containerBlock: any; 
-	 @ViewChild('fireworks')  fireworks: any;
-	 @ViewChild('ansBlock')  ansBlock: any;
-	 @ViewChild('helpbtn')  helpbtn: any;
-	 @ViewChild('sprite') sprite: any;
-	 @ViewChild('speakerNormal') speakerNormal: any;
-	 @ViewChild('disableSpeaker')  disableSpeaker: any;
-	 @ViewChild('navBlock') navBlock:any;
-	 @ViewChild('titleAudio')  titleAudio: any;
-	 @ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer:any;
-	 @ViewChild('maincontent') maincontent:any;
-	 @ViewChild('clapSound') clapSound:any;
-	 @ViewChild('buzzerSound') buzzerSound:any;
-		assetsfolderlocation:string="";
-		disableHelpBtn:boolean = false;
-		optimage:any;
-		assetspath:any;
-		//opttext:any;
-		currentIdx = 0;
-		blink:boolean = false;
-		showIntroScreen:boolean;
-		audio =new Audio();
-		bool:boolean=false;
-		timernextseg:any="";
-		idArray:any = [];
-		speakerTimer:any="";
-		speaker:any="";
-		myoption:any=[];
-		question:any="";
-		feedback:any="";
-		answers:any="";
-		optionBlank:any="";
-		Instruction:any="";
-		quesInfo:any="";
-		
-		correctOpt:any;
-		isFirstQues:boolean;
-		isLastQues:boolean = false;
-		isAutoplayOn:boolean;
-		isLastQuesAct:boolean;
-		
-		autoplay_text:string = "";
-		resizeFlag:boolean = false;
-		
-		noOfImgs:number;
-		noOfImgsLoaded:number = 0;
-		loaderTimer:any;
-		common_assets:any = "";
-		LoadFlag:boolean = false;
-		hasEventFired:boolean = false;
-			
-			//quesInfo  = this._sharedService.navigatetoroute;
-			//Instruction=this._sharedService.navigatetoroute.Instruction;
-			//optionslist = this._sharedService.navigatetoroute.main;
-			//optionslist_main = this._sharedService.navigatetoroute.main[this.currentIdx];
-			//speaker = this.appModel.content.contentData.data.speaker;
-			//myoption = this.appModel.content.contentData.data.options;
-			//question = this.appModel.content.contentData.data.ques;
-			//feedback = this.appModel.content.contentData.data.feedback;
-			//answers = this.appModel.content.contentData.data.answers;
-			//optionBlank =this.appModel.content.contentData.data.optionsBlank;
-			
-			  //disable next on last activity last question
-			 // isLastActivity = this._sharedService.isLastActivity;
-		get basePath(): any {
-			 console.log('temponeComponent: path=', this.appModel.content.id + '/' + this.appModel.content.contentData.data['path']);
-			if(this.appModel && this.appModel.content){
-			
-				 return this.appModel.content.id + '';
-			}
-		}	
-		setData(){
-			/*setTimeout(()=>{
-				if(this.navBlock && this.navBlock.nativeElement){
-				this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-			}
-			},0)*/
-			
-			if(this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data){
-				let fetchedData:any =  this.appModel.content.contentData.data;
-				this.common_assets = fetchedData.common_assets;
-			this.speaker = fetchedData.speaker;
-			this.myoption = fetchedData.options;
-			console.log("myoption : "+this.myoption);
-			this.question = fetchedData.ques;
-			this.feedback = fetchedData.feedback;
-			this.answers = fetchedData.answers;
-			this.optionBlank = fetchedData.optionsBlank;
-			this.quesInfo = fetchedData.common_assets;
-			this.isFirstQues = fetchedData.isFirstQues;
-			this.noOfImgs = fetchedData.imgCount;
-			this.isLastQues = this.appModel.isLastSection;
-			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-			//this.isAutoplayOn = this.appModel.autoPlay;
-			if(fetchedData){
-				var disableSpeaker=document.getElementById("disableSpeaker");
-				if(disableSpeaker)
-				disableSpeaker.className = "speakerBtn pointer";
-				var optionsBlock=document.getElementById("optionsBlock")
-				if(optionsBlock)
-				optionsBlock.className = "d-flex flex-row align-items-center justify-content-around row1";
-			//} 
-			}
-			setTimeout(()=>{
-				if(this.navBlock && this.navBlock.nativeElement){
-					this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around";
-				}
-			},200)
-			}else{
-				/*this.speaker = "";
-				this.myoption = [];
-				this.question = "";
-				this.feedback = "";
-				this.answers = ""
-				this.optionBlank = "";
-				this.quesInfo = "";*/
-			}
-			
-			/*setTimeout(()=>{
-				 if(this.appModel){
-					let autoPlay =  this.appModel.isAutoPlay();
-				if(autoPlay){
-					if(this.autoPlayOnOffContainer && this.autoPlayOnOffContainer.nativeElement){
-						this.autoPlayOnOffContainer.nativeElement.children[1].checked = true;
-						this.autoplay_text = "On";
-						this.isAutoplayOn = true;
-						this.appModel.updateAutoPlay(true);
-					}
-				}else{
-					if(this.autoPlayOnOffContainer && this.autoPlayOnOffContainer.nativeElement){
-						this.autoPlayOnOffContainer.nativeElement.children[1].checked = false;
-						this.autoplay_text = "Off";
-						this.isAutoplayOn = false;
-						this.appModel.updateAutoPlay(false);
-					}
-				} 
-				 }
-			 },0)*/
-		}
-			
-			
-		onHoverOptions(option,index){
-			 if(!this.narrator_voice.nativeElement.paused){
-				console.log("narrator voice still playing");
-			 }
-			 else{
-				option.image =option.image_hover;
-				this.ansBlock.nativeElement.children[index].children[0].className = "pointer";
-			 }
-		}
 
-		onHoveroutOptions(option,index){
-			//console.log("out",option);
-			option.image =option.image_original;
-			this.ansBlock.nativeElement.children[index].children[0].className = "";
-		
-			
-			
-		}
-		onHoverhelp(option){
-			//console.log("in",option);
-			if(!this.narrator_voice.nativeElement.paused){
-				this.helpbtn.nativeElement.className="";
-				console.log("narrator voice still playing");
-			}
-			else{
-				option.help =option.helphover;
-				this.helpbtn.nativeElement.className="pointer"; 
-			}
-		}
+    ngOnInit() {        
+        this.attemptType = "";
 
-		onHoverouthelp(option){
-			//console.log("out",option);
-			option.help = option.helpOriginal;
-			
-		}
-		
-		onHoverSpeaker(){
-			if(!this.narrator_voice.nativeElement.paused){
-				this.disableSpeaker.nativeElement.className="speakerBtn";
-				console.log("narrator voice still playing");
-			 }
-			 else{
-				this.disableSpeaker.nativeElement.className="speakerBtn pointer";
-			 }
-		}
-		onHoverAageyBadheinBtn(){
-				this.common_assets.aagey_badhein = this.common_assets.aagey_badhein_hover;
-		}
-		onLeaveAageyBadheinBtn(){
-			this.common_assets.aagey_badhein = this.common_assets.aagey_badhein_original;
-		}
-		onHoverPeecheyBtn(){
-				this.common_assets.peechey_jayein = this.common_assets.peechey_jayein_hover;
-		}
-		onLeavePeecheyBtn(){
-			this.common_assets.peechey_jayein = this.common_assets.peechey_jayein_original;
-		}
-		onHoverZaariRakhein(){
-			this.quesInfo.zaariRakhein = this.quesInfo.zaariRakhein_hover; 
-		}
-		onHoverOutZaariRakhein(){
-			this.quesInfo.zaariRakhein = this.quesInfo.zaariRakhein_original;
-		}
-		
-		playSound(sound) {
-			// plays a sound
-			if(this.myAudiohelp && this.myAudiohelp.nativeElement){
-				this.myAudiohelp.nativeElement.pause();
-			}
-			this.audio.src =  sound;
-			this.audio.load();
-			this.audio.play();		
+        this.setTemplateType();
+        console.log("this.attemptType = " + this.attemptType);
+        if (this.appModel.isNewCollection) {
+            this.appModel.event = { 'action': 'segmentBegins' };
         }
-		
-		helpSpeaker(el : HTMLAudioElement){
-			
-			if(!this.narrator_voice.nativeElement.paused){
-				console.log("narrator voice still playing");
-			}
-			else{
-					if(el.id=="S"){
-					 this.myAudiohelp.nativeElement.pause();
-						if(el.paused) {
-						el.currentTime = 0;
-						el.play(); 
-						}
-						else{
-						el.currentTime = 0;
-						el.play();
-						}
-						//this._sharedService.speaker_counter++;
-						//this._sharedService.speakerbutton();
-						//console.log("speaker_counter:",this._sharedService.speaker_counter);
-						this.speakerTimer = setInterval(()=>{
-							this.checkSpeakerVoice();
-						},100)
-					
-					}
-					else{
-					   console.log("help zone.....");
-					   if(this.myAudiospeaker && this.myAudiospeaker.nativeElement){
-						  this.myAudiospeaker.nativeElement.pause(); 
-					   }
-						el.pause();
-						el.currentTime = 0;
-						el.play();
-						if(this.maincontent){
-							this.maincontent.nativeElement.className = "disable_div";
-						}
-						el.onended =()=>{
-							if(this.maincontent){
-								this.maincontent.nativeElement.className = "";
-							}
-						}
-				 
-					}
-			  
-			}
-		}
-		checkSpeakerVoice(){
-			if(!this.audioEl.nativeElement.paused){
-				//this.speakerNormal.nativeElement.style.display ="none";
-				this.sprite.nativeElement.style.display ="block";
-			}else{
-				//this.speakerNormal.nativeElement.style.display ="block";
-				this.sprite.nativeElement.style.display ="none";
-				clearInterval(this.speakerTimer);
-			}
-			
-		}
-		
-		stopAllSounds(e) {
-	    //console.log("Event", e);
-		 if(!this.narrator_voice.nativeElement.paused){
-			   e.stopPropagation();
-			   console.log("narrator voice still playing");
-		 }
-		 else{}
-		}
-		checkAnswer(option,event,idx) {
-			//this.disableHelpBtn = true;
-			// Analytics called for attempt counter & first option is clicked
-			this.sprite.nativeElement.style.display ="none";
-			this.myAudiospeaker.nativeElement.pause();
-			this.myAudiospeaker.nativeElement.currentTime = 0;
-			if(this.myAudiohelp && this.myAudiohelp.nativeElement){
-				this.myAudiohelp.nativeElement.pause();
-				this.myAudiohelp.nativeElement.currentTime = 0;
-			}
-			
-			if(!this.narrator_voice.nativeElement.paused){
-				console.log("narrator voice still playing");
-			}
-			else{
-				this.disableHelpBtn = true;
-				//this._sharedService.optionclickhandler(option.id,option.imgsrc,this.optionslist_main.id);
-					//this._sharedService.attempt_counter++;  // called when any option is clicked
-					//console.log("attempt_counter>>>>",this._sharedService.attempt_counter);
-					//if(this._sharedService.attempt_counter == 1){
-					//this._sharedService.first_option_selected=option.id;
-					//this._sharedService.first_option_selected_data=option.imgsrc;
-					//console.log("first option selected >>>>",this._sharedService.first_option_selected,this._sharedService.first_option_selected_data);
-				
+        this.containgFolderPath = this.getBasePath();
+        this.setData();
+        this.appModel.getNotification().subscribe(mode => {
+            if (mode == "manual") {
+                console.log("manual mode ", mode);
 
-					// logic to check what user has done is correct
-			if(option.id==this.feedback.correct_ans_index){
+            } else if (mode == "auto") {
+                console.log("auto mode", mode);
+                this.attemptType = "uttarDikhayein";
+                this.popupType = "showanswer"
+                // this.setPopupAssets();
+                // this.getAnswer();
+            }
+        })
+        this.appModel.getConfirmationPopup().subscribe((val) => {
+            if (val == "uttarDikhayein") {
+                if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
+                    this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+                    this.appModel.notifyUserAction();
+                    // this.setPopupAssets();
+                    this.popupType = "showanswer";
+                    //this.blinkOnLastQues();
+                    this.instructionVO.nativeElement.pause();
+                    this.instructionVO.nativeElement.currentTime = 0;
 
-				console.log("i have hit correct sequence");	
-				//this.playSound(this.feedback.write_ans_sound.path);
-				this.clapSound.nativeElement.play();
-				//this.isLastQues = this.appModel.isLastSection;
-					// call to play answer sound and show popup
-					this.correctOpt = option;
-					//this.ans.nativeElement.src=this.feedback.write_ans_popup.image;
-				
-					
-					var popup=document.getElementById("correctAns")
-					if(popup)
-					popup.className ="d-flex align-items-center justify-content-center showit";
-				
-					let elfireworks: HTMLElement = this.fireworks.nativeElement as HTMLElement
-					elfireworks.className = "d-flex align-items-center justify-content-center showit";
-				
-					//disable click on options and speaker
-					var optionsBlock=document.getElementById("optionsBlock")
-					var disableSpeaker=document.getElementById("disableSpeaker")
-					optionsBlock.className = optionsBlock.className.concat(" disable");
-					disableSpeaker.className = disableSpeaker.className.concat(" disable");
-					
-					// question next timeout
-					this.clapSound.nativeElement.onended = () =>{
-						this.checkNextActivities();
-					}
-			}
+                }
+            } else if (val == "submitAnswer") {
+                if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
+                    this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
+                    this.appModel.notifyUserAction();
+                    //this.blinkOnLastQues();
+                    this.instructionVO.nativeElement.pause();
+                    this.instructionVO.nativeElement.currentTime = 0;
+                }
+            } else if (val == "replayVideo") {
+                if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+                    this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
+                    this.appModel.notifyUserAction();
+                    //this.blinkOnLastQues();
+                    this.instructionVO.nativeElement.pause();
+                    this.instructionVO.nativeElement.currentTime = 0;
+                }
+            }
+        })
+        this.appModel.nextBtnEvent().subscribe(() => {
+            if (this.appModel.isLastSectionInCollection) {
+                this.appModel.event = { 'action': 'segmentEnds' };
+            }
+            if (this.appModel.isLastSection) {
+                this.appModel.event = { 'action': 'end' };
+            }
+        })
 
+        this.appModel.postWrongAttempt.subscribe(() => {
+            //  this.resetActivity();
+            //this.appModel.startPreviousTimer();
+            this.appModel.notifyUserAction();
+            //this.blinkOnLastQues();
 
-			else{
+        })
+    }
 
-				console.log("when wrong answer clicked");
-				
-	
-				// call to play answer sound
+    setTemplateType(): void {
+        // send message to subscribers via observable subject
+        this.ActivatedRoute.data.subscribe(data => {
+            this.Sharedservice.sendData(data);
+        })
+    }
+    ngOnDestroy() {
+    }
 
-				//this.playSound(this.feedback.wrong_ans_sound.path);
-				this.buzzerSound.nativeElement.play();
-				if(this.maincontent){
-					this.maincontent.nativeElement.className = "disable_div";
-				}
-				this.buzzerSound.nativeElement.onended = () => {
-					this.optimage.className = "options";
-					setTimeout(()=>{
-						this.maincontent.nativeElement.className = "";
-					},200)
-					//this.opttext.className = "img-fluid";
-					var optionsBlock=document.getElementById("optionsBlock")
-					optionsBlock.className = "d-flex flex-row align-items-center justify-content-around row1";
-						this.optimage.className = "options";
+    ngAfterViewChecked() {
+        this.templatevolume(this.appModel.volumeValue, this);
+    }
 
-						this.idArray =[];
-						for(let i of this.myoption){
-						this.idArray.push(i.id);
-						}
-						this.doRandomize(this.myoption);	
-						console.log("random options array: ",this.myoption);
-				}
+    setData() {
+        this.appModel.notifyUserAction();
+        let fetchedData: any = this.appModel.content.contentData.data;
+        this.optionObj = JSON.parse(JSON.stringify(fetchedData.options));
+        this.instructiontext = fetchedData.instructiontext;
+        this.myoption = fetchedData.options;
+        this.commonAssets = fetchedData.commonassets;
 
-			  
-				//vibrate POC
-				
-				console.log("E:",event);
-				this.optimage=event.path[2];
-				this.optimage.className=this.optimage.className.concat(" animation-shake");
-				//this.opttext=event.toElement;
-				//this.opttext.className=this.opttext.className.concat(" animation-shake");
-				var optionsBlock=document.getElementById("optionsBlock")
-				optionsBlock.className = optionsBlock.className.concat(" disable");
-				
-			
-				/*setTimeout(()=>{
-					
-				},1000)*/
-				//call random
+        console.log(this.commonAssets, 'jyoti common assets');
+        this.speaker = fetchedData.speaker;
+        this.feedback = fetchedData.feedback;
+        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+    }
 
-			}
-			}
-			
-
-		}
-
-
-		doRandomize(array) {
-
-		    var currentIndex = array.length, temporaryValue, randomIndex;
-
-		   // While there remain elements to shuffle...
-		    while (0 !== currentIndex) {
-
-				// Pick a remaining element...
-				randomIndex = Math.floor(Math.random() * currentIndex);
-				currentIndex -= 1;
-				var img_hover1 = array[currentIndex].image_hover;
-				var text1 = array[currentIndex].image;
-				var text1copy = array[currentIndex].image_original;
-				var optionBg1 = array[currentIndex].option_bg;
-				
-				var img_hover2 = array[randomIndex].image_hover;
-				var text2 = array[randomIndex].image;
-				var text2copy = array[randomIndex].image_original;
-				var optionBg2 = array[randomIndex].option_bg;
-				// And swap it with the current element.
-				temporaryValue = array[currentIndex];
-				array[currentIndex] = array[randomIndex];
-				array[randomIndex] = temporaryValue;
-				
-				array[currentIndex].image_hover = img_hover1;
-				array[currentIndex].image = text1;
-				array[currentIndex].image_original = text1copy;
-				array[currentIndex].option_bg = optionBg1;
-				
-				array[randomIndex].image_hover = img_hover2;
-				array[randomIndex].image = text2;
-				array[randomIndex].image_original = text2copy;
-				array[randomIndex].option_bg = optionBg2;
-				
-			}
-			var flag=this.arraysIdentical(array,this.idArray);
-			console.log(flag);
-			if(flag){
-				this.doRandomize(array);
-			}
-			else{
-				
-			}
-
-	    }
-		
-		arraysIdentical(a, b) {
-			console.log("checking:",a,b);
-			var i = a.length;
-			//var bool = false;
-			while (i--) {
-				/*if (a[i].id !== b[i]) 
-					return false;
-				*/
-				
-				if (a[i].id == b[i]) {
-					return true;
-				}
-			}
-			return false;
-		}
-		
-	    isPaused(){
-			return this.audio.paused;
-		} 
-		checkNextActivities(){
-			if(this.isPaused()){
-					this.removeEvents();
-						
-						var popup=document.getElementById("correctAns")
-						popup.className ="d-flex align-items-center justify-content-center hideit";
-						//disable click on options and speaker
-						var optionsBlock=document.getElementById("optionsBlock")
-						optionsBlock.className = optionsBlock.className.concat(" disable");
-						if(!this.appModel.autoPlay && !this.isLastQues && this.isLastQuesAct){
-							this.blink = true;
-						}
-						if((this.appModel.autoPlay && !this.isLastQues) || !((this.isLastQuesAct)) ||((this.isLastQuesAct && this.appModel.autoPlay && !this.isLastQues))){
-							this.next();
-						}else{
-							//disable all the option
-							//this.optionBlock.nativeElement.className= "disableDiv";
-						}
-					//if(this.currentIdx == this.optionslist.length-1 && !this.isLastActivity && this._sharedService.autoplay_var==0){
-					
-						
-					//}
-
-					if(!this.hasEventFired){
-						if(this.isLastQuesAct){
-							this.hasEventFired = true;
-							this.appModel.event = {'action': 'segmentEnds'};
-						}
-						if(this.isLastQues){
-							this.appModel.event = {'action': 'end'};	
-						}
-					}
-					
-			}
-			else{
-				console.log("feedback_audio still playing");
-			}
-		}
-		// previous function
-        previous(){
-			if(this.common_assets && this.common_assets.peechey_jayein){
-			this.common_assets.peechey_jayein = this.common_assets.peechey_jayein_original;
-			}
-			if(this.common_assets && this.common_assets.aagey_badhein){
-			this.common_assets.aagey_badhein = this.common_assets.aagey_badhein_original;
-			}
-			setTimeout(()=>{
-				if(this.navBlock && this.navBlock.nativeElement){
-					this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-				}
-			},0)
-			//console.log("prev",this.currentIdx);	
-			this.blink=false;
-			this.reset();
-			
-            this.currentIdx--;
-			this.appModel.previousSection();
-			//this.setData();
-			this.appModel.setLoader(true);
+    checkAnswer(option, event, idx) {   
+          // setShowAnsEnabled
+        // logic to check what user has done is correct
+        if (option.id == this.feedback.correct_ans_index) {
+            alert('This is correct answer');
+            this.Sharedservice.setShowAnsEnabled(true);
+            this.correctOpt = option;
+            var popup = document.getElementById("correctAns")
+            if (popup)
+                popup.className = "d-flex align-items-center justify-content-center showit";
+            //disable click on options and speaker
+            var optionsBlock = document.getElementById("optionsBlock")
+            var disableSpeaker = document.getElementById("disableSpeaker")
+            optionsBlock.className = optionsBlock.className.concat(" disable");
+            disableSpeaker.className = disableSpeaker.className.concat(" disable");
+            this.checkNextActivities();
+ 
+        } else {
+            this.wrongCounter += 1;
+            if(this.wrongCounter === 4){
+                this.Sharedservice.setShowAnsEnabled(true); 
+            }else{
+                this.Sharedservice.setShowAnsEnabled(false);
+            }
+           
+            this.idArray = [];
+            for (let i of this.myoption) {
+                this.idArray.push(i.id);
+            }        
+            this.doRandomize(this.myoption);
         }
-	
-	
-	    next(){
-				if(!this.hasEventFired){
-					if(this.isLastQuesAct){
-						this.hasEventFired = true;
-						this.appModel.event = {'action': 'segmentEnds'};
-					}
-					if(this.isLastQues){
-						this.appModel.event = {'action': 'end'};	
-					}
-				}
-			if(this.common_assets && this.common_assets.peechey_jayein){
-			this.common_assets.peechey_jayein = this.common_assets.peechey_jayein_original;
-			}
-			if(this.common_assets && this.common_assets.aagey_badhein){
-			this.common_assets.aagey_badhein = this.common_assets.aagey_badhein_original;
-			}
-			
-			if(!this.isLastQues){
-				setTimeout(()=>{
-					if(this.navBlock && this.navBlock.nativeElement){
-						this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-					}
-				},0)
-				this.currentIdx++;                                
-							
-					this.appModel.nextSection();
-					//this.setData();
-					this.appModel.setLoader(true);
-					this.removeEvents();
-					this.reset();
-			}	 
-		}
-	
-	
-		//setEnability(flag, option_ref) {
-		// sets enabled or disabled
-		//	this.bool=true;
-		//	if(this.optionslist.length == option_ref && this.bool ){
-		//		this._sharedService.activityfinished();
-		//		this.bool=false;
-		//	}
-		//}
-
-		removeEvents() {
-			 // remove event handlers for all clickable items in the dom
-			 this.blink=false;
-			 clearTimeout(this.timernextseg);
-			 if(this.fireworks && this.fireworks.nativeElement){
-				  let elfireworks: HTMLElement = this.fireworks.nativeElement as HTMLElement
-				elfireworks.className = "d-flex align-items-center justify-content-center hideit";
-			 }
-			
-  }
-
-  close() {
-    //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
-    this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
-  }
-
-		reset() {
-			  // will reset all what user performed
-			this.audio.pause();
-			if(this.myAudiohelp && this.myAudiohelp.nativeElement)
-			this.myAudiohelp.nativeElement.pause();
-			if(this.myAudiospeaker && this.myAudiospeaker.nativeElement)
-			this.myAudiospeaker.nativeElement.pause();
-			//this._sharedService.correct_option_attempt_counter =0;
-			//this._sharedService.attempt_counter =0;
-			//this._sharedService.first_option_selected =0;
-			//this._sharedService.first_option_selected_data="none";
-			//this._sharedService.speaker_counter =0;
-			if(this.myAudiohelp && this.myAudiohelp.nativeElement)
-			this.myAudiohelp.nativeElement.pause();
-			var popup=document.getElementById("correctAns")
-			if(popup){
-				popup.className ="d-flex align-items-center justify-content-center hideit";
-			}
-			
-			var optionsBlock=document.getElementById("optionsBlock");
-			if(optionsBlock){
-				optionsBlock.className = "d-flex flex-row align-items-center justify-content-around row1";
-			}
-			
-			var disableSpeaker=document.getElementById("disableSpeaker");
-			if(disableSpeaker){
-				disableSpeaker.className = "speakerBtn pointer";
-			}
-			
-			//this.ans.nativeElement.src=this.question.img_sentence_org;
-		
-		}
-
-	
-		/*resizeContainer(){
-			let containerBlock: HTMLElement = this.containerBlock.nativeElement as HTMLElement
-			console.log(this.containerBlock.nativeElement);
-			containerBlock.style.width = "initial";
-			let targetHeight = window.innerHeight;
-			let containerHeight = containerBlock.clientHeight;
-			let containerWidth = containerBlock.clientWidth;
-			if(containerHeight > targetHeight){
-				 this.resizeFlag = true;
-				while (containerHeight > targetHeight) {
-				  containerHeight = containerHeight - (containerHeight * .01);
-				  containerWidth = containerWidth - (containerWidth * .01);
-				}
-			containerBlock.style.width = containerWidth+"px";
-			}
-		}*/
-		
-		closeTitleScreen(){
-			this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeOutAnimation";
-			setTimeout(()=>{
-				this.showIntroScreen = false;
-				this.next();
-			},200)
-			
-		}
-		
-		//start
-
-	     templatevolume(vol,obj) {
-			if(obj.narrator_voice && obj.narrator_voice.nativeElement){
-				obj.narrator_voice.nativeElement.volume = obj.appModel.isMute?0:vol;
-			}
-			if(obj.clapSound && obj.clapSound.nativeElement){
-				obj.clapSound.nativeElement.volume = obj.appModel.isMute?0:vol;
-			}
-			if(obj.buzzerSound && obj.buzzerSound.nativeElement){
-				obj.buzzerSound.nativeElement.volume = obj.appModel.isMute?0:vol;
-			}
-			if(obj.myAudiospeaker && obj.myAudiospeaker.nativeElement){
-				obj.myAudiospeaker.nativeElement.volume = obj.appModel.isMute?0:vol;
-			}
-			if(obj.myAudiohelp && obj.myAudiohelp.nativeElement){
-				obj.myAudiohelp.nativeElement.volume = obj.appModel.isMute?0:vol;
-			}
-			if(obj.titleAudio && obj.titleAudio.nativeElement){
-				obj.titleAudio.nativeElement.volume = obj.appModel.isMute?0:vol;
-			}			
-			if(obj.audioEl && obj.audioEl.nativeElement){
-				obj.audioEl.nativeElement.volume =obj.appModel.isMute?0:vol;
-			}  
-			if(obj.audio){
-				obj.audio.volume =obj.appModel.isMute?0:vol;
-			}
-		 }
-		//end
-		
-		
-					
-		ngOnInit() {
-
-			this.setTemplateType();
-				this.assetspath=this.basePath;
-				this.appModel.functionone(this.templatevolume,this);//start end
-				/*window.onresize = (e) =>{
-				 this.resizeContainer();
-				}*/
-
-				if(this.appModel.isNewCollection){
-				//console.log("chck:",this.appModel.isNewCollection);
-				this.appModel.event = {'action': 'segmentBegins'};
-				}
-				let fetchedData:any=this.appModel.content.contentData.data;
-				console.log("init:",this.appModel.content.contentData.data);
-				if(fetchedData.titleScreen){
-					this.quesInfo=fetchedData;
-					this.showIntroScreen = true;
-					this.noOfImgs = this.quesInfo.imgCount;
-					
-					//if(this.quesInfo.Instruction){
-					//this.playSound(this.quesInfo.Instruction);
-					/*this.timernextseg = setInterval(()=>{
-					if(this.audio.paused){
-						this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit";
-						clearInterval(this.timernextseg);
-							}
-						},200)*/
-					//} 
-				}
-				else{
-					this.showIntroScreen = false;
-					this.setData();
-				}
-				setTimeout(()=>{
-					if(this.navBlock && this.navBlock.nativeElement){
-						this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-					}
-				},0)
-		}
-		
-		 ngAfterViewChecked(){
-			 if(this.titleAudio && this.titleAudio.nativeElement){
-				this.titleAudio.nativeElement.onended = () => {
-				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
-				} 
-			 }
-			 this.templatevolume(this.appModel.volumeValue,this);
-			 /* if(!this.resizeFlag){
-					this.resizeContainer();
-			}*/
-		 }
-		 
-		 checkImgLoaded(){
-			 if(!this.LoadFlag){
-				this.noOfImgsLoaded++;
-				if(this.noOfImgsLoaded>=this.noOfImgs){
-					this.appModel.setLoader(false);
-					clearTimeout(this.loaderTimer);
-					this.LoadFlag = true;
-					if(this.narrator_voice && this.narrator_voice.nativeElement){
-						this.narrator_voice.nativeElement.play();
-					}
-				} 
-			 }
-		}
-		 
-		  updateAutoplay(){
-			if(this.autoPlayOnOffContainer && this.autoPlayOnOffContainer.nativeElement){
-				if(this.autoPlayOnOffContainer.nativeElement.children[1].checked){
-					this.autoplay_text = "On"
-					this.isAutoplayOn = true;
-					this.appModel.updateAutoPlay(true);
-				}else{
-					this.autoplay_text = "Off"
-					this.isAutoplayOn = false;
-					this.appModel.updateAutoPlay(false);
-				}
-			}
-		}
-
-		setTemplateType(): void {
-			// send message to subscribers via observable subject
-			this.ActivatedRoute.data.subscribe(data => {			
-				this.Sharedservice.sendData(data);
-     		})
-			
-		}
+    }
 
 
-		clearData(): void {
-			// clear message
-			this.Sharedservice.clearData();
-		}
+    doRandomize(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+       // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;          
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;           
+        }
+        var flag=this.arraysIdentical(array,this.idArray);
+        if(flag){
+            this.doRandomize(array);
+        }
+        else{           
+        }
+    }
+    
+    arraysIdentical(a, b) {
+        var i = a.length;
+        while (i--) {           
+            if (a[i].id == b[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    isPaused() {
+        return this.audio.paused;
+    }
+
+    removeEvents() {
+        // remove event handlers for all clickable items in the dom
+        this.blink = false;
+        clearTimeout(this.timernextseg);
+    }
+
+    checkNextActivities() {
+        // if (this.isPaused()) {
+        //     this.removeEvents();
+
+        //     var popup = document.getElementById("correctAns")
+        //     popup.className = "d-flex align-items-center justify-content-center hideit";
+        //     //disable click on options and speaker
+        //     var optionsBlock = document.getElementById("optionsBlock")
+        //     optionsBlock.className = optionsBlock.className.concat(" disable");
+        //     if (!this.appModel.autoPlay && !this.isLastQues && this.isLastQuesAct) {
+        //         this.blink = true;
+        //     }
+        //     if ((this.appModel.autoPlay && !this.isLastQues) || !((this.isLastQuesAct)) || ((this.isLastQuesAct && this.appModel.autoPlay && !this.isLastQues))) {
+        //         this.next();
+        //     } else {
+        //         //disable all the option
+        //         //this.optionBlock.nativeElement.className= "disableDiv";
+        //     }
+        //     //if(this.currentIdx == this.optionslist.length-1 && !this.isLastActivity && this._sharedService.autoplay_var==0){
+
+
+        //     //}
+
+        //     if (!this.hasEventFired) {
+        //         if (this.isLastQuesAct) {
+        //             this.hasEventFired = true;
+        //             this.appModel.event = { 'action': 'segmentEnds' };
+        //         }
+        //         if (this.isLastQues) {
+        //             this.appModel.event = { 'action': 'end' };
+        //         }
+        //     }
+
+        // }
+        // else {
+        //     console.log("feedback_audio still playing");
+        // }
+    }
+
+    next() {
+        if (!this.hasEventFired) {
+            if (this.isLastQuesAct) {
+                this.hasEventFired = true;
+                this.appModel.event = { 'action': 'segmentEnds' };
+            }
+            if (this.isLastQues) {
+                this.appModel.event = { 'action': 'end' };
+            }
+        }
+        if (this.commonAssets && this.commonAssets.peechey_jayein) {
+            this.commonAssets.peechey_jayein = this.commonAssets.peechey_jayein_original;
+        }
+        if (this.commonAssets && this.commonAssets.aagey_badhein) {
+            this.commonAssets.aagey_badhein = this.commonAssets.aagey_badhein_original;
+        }
+
+        if (!this.isLastQues) {
+            // setTimeout(()=>{
+            //   if(this.navBlock && this.navBlock.nativeElement){
+            //     this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
+            //   }
+            // },0)
+            this.currentIdx++;
+
+            this.appModel.nextSection();
+            //this.setData();
+            this.appModel.setLoader(true);
+            this.removeEvents();
+            this.reset();
+        }
+    }
+
+    reset() {
+        // will reset all what user performed
+        // this.audio.pause();
+        // if(this.myAudiohelp && this.myAudiohelp.nativeElement)
+        // this.myAudiohelp.nativeElement.pause();
+        // if(this.myAudiospeaker && this.myAudiospeaker.nativeElement)
+        // this.myAudiospeaker.nativeElement.pause();
+        // if(this.myAudiohelp && this.myAudiohelp.nativeElement)
+        // this.myAudiohelp.nativeElement.pause();
+        // var popup=document.getElementById("correctAns")
+        // if(popup){
+        //   popup.className ="d-flex align-items-center justify-content-center hideit";
+        // }
+
+        // var optionsBlock=document.getElementById("optionsBlock");
+        // if(optionsBlock){
+        //   optionsBlock.className = "d-flex flex-row align-items-center justify-content-around row1";
+        // }
+
+        // var disableSpeaker=document.getElementById("disableSpeaker");
+        // if(disableSpeaker){
+        //   disableSpeaker.className = "speakerBtn pointer";
+        // }
+
+        //this.ans.nativeElement.src=this.question.img_sentence_org;
 
 
 
-  }
-  
-  
-  
+    }
+    onHoverOptions(option, index) {
+        option.image = option.image_hover;
+    }
 
+    playOptionHover(opt, idx, el) {
+        if (opt && opt.audio && opt.audio.url) {
+            this.OnHoverOptionAudio(el);
+        }
+    }
+
+
+    OnHoverOptionAudio(el: HTMLAudioElement) {    
+        if (el.id == "optionaudio") {
+            this.OptionAudio.nativeElement.pause();
+            if (el.paused) {
+                el.currentTime = 0;
+                el.play();
+            }
+            else {
+                el.currentTime = 0;
+                el.play();
+            }
+        } else {
+            if (this.OptionAudio && this.OptionAudio.nativeElement) {
+                this.OptionAudio.nativeElement.pause();
+            }
+            el.pause();
+            el.currentTime = 0;
+            el.play();
+            // if(this.maincontent){
+            //     this.maincontent.nativeElement.className = "disable_div";
+            // }
+            el.onended = () => {
+                if (this.maincontent) {
+                    this.maincontent.nativeElement.className = "";
+                }
+            }
+
+        }
+    }
+
+
+    onHoveroutOptions(option, index) {
+        option.image = option.image_original;
+    }
+
+
+
+    // onHoverhelp(option){
+    //  //console.log("in",option);
+    //  if(!this.narrator_voice.nativeElement.paused){
+    //    this.helpbtn.nativeElement.className="";
+    //    console.log("narrator voice still playing");
+    //  }
+    //  else{
+    //    option.help =option.helphover;
+    //    this.helpbtn.nativeElement.className="pointer"; 
+    //  }
+    // }
+
+    onHoverouthelp(option) {
+        option.help = option.helpOriginal;
+    }
+
+    public speakerTimer: any;
+
+    checkSpeakerVoice() {
+        // if(!this.audioEl.nativeElement.paused){
+        //     this.speakerNormal.nativeElement.style.display ="none";
+        //     this.sprite.nativeElement.style.display ="block";
+        // }else{
+        //     this.speakerNormal.nativeElement.style.display ="block";
+        //     this.sprite.nativeElement.style.display ="none";
+        //     clearInterval(this.speakerTimer);
+        // }
+
+    }
+
+    stopAllSounds(e) {
+        if (!this.narrator_voice.nativeElement.paused) {
+            e.stopPropagation();
+        }
+        else { }
+    }
+
+    onHoverSpeaker(speaker) {
+        speaker.imgsrc = speaker.imghover;
+        if (!this.narrator_voice.nativeElement.paused) {
+            this.disableSpeaker.nativeElement.className = "speakerBtn";
+        }
+        else {
+            this.disableSpeaker.nativeElement.className = "speakerBtn pointer";
+        }
+    }
+
+
+    onHoverOutSpeaker(speaker) {
+        speaker.imgsrc = speaker.imgorigional;
+        //  if(!this.narrator_voice.nativeElement.paused){
+        //    this.disableSpeaker.nativeElement.className="speakerBtn";
+        //    console.log("narrator voice still playing");
+        //   }
+        //   else{
+        //    this.disableSpeaker.nativeElement.className="speakerBtn pointer";
+        //   }
+    }
+
+
+    getBasePath() {
+        if (this.appModel && this.appModel.content) {
+            return this.appModel.content.id + '';
+        }
+    }
+
+    helpSpeaker(el: HTMLAudioElement, speaker) {
+
+        if (!this.narrator_voice.nativeElement.paused) {
+            console.log("narrator voice still playing");
+        }
+        else {
+
+            if (el.id == "S") {
+                this.myAudiospeaker.nativeElement.pause();
+                if (el.paused) {
+                    el.currentTime = 0;
+                    el.play();
+                }
+                else {
+                    el.currentTime = 0;
+                    el.play();
+                }
+                this.speakerTimer = setInterval(() => {
+                    speaker.imgsrc = speaker.imgactive;
+                    this.checkSpeakerVoice();
+                }, 100)
+
+            }
+            else {
+                if (this.myAudiospeaker && this.myAudiospeaker.nativeElement) {
+                    this.myAudiospeaker.nativeElement.pause();
+                }
+                el.pause();
+                el.currentTime = 0;
+                el.play();
+                // if(this.maincontent){
+                //     this.maincontent.nativeElement.className = "disable_div";
+                // }
+                el.onended = () => {
+                    if (this.maincontent) {
+                        this.maincontent.nativeElement.className = "";
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
+    playSound(soundAssets, idx) {
+        if (this.audio && this.audio.paused) {
+            if (soundAssets.location == 'content') {
+                this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+            } else {
+                this.audio.src = soundAssets.url;
+            }
+            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                if (i != idx) {
+                    // this.optionRef.nativeElement.children[i].classList = "disableDiv";
+                }
+            }
+            this.audio.load();
+            this.audio.play();
+            this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+            this.instructionVO.nativeElement.pause();
+            this.instructionVO.nativeElement.currentTime = 0;
+            this.audio.onended = () => {
+                this.instructionBar.nativeElement.classList = "instructionBase";
+                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                    if (i != idx) {
+                        //  this.optionRef.nativeElement.children[i].classList = "";
+                    }
+                }
+
+            }
+        }
+    }
+
+    checkImgLoaded() {
+        if (!this.loadFlag) {
+            this.noOfImgsLoaded++;
+            if (this.noOfImgsLoaded >= this.noOfImgs) {
+                this.appModel.setLoader(false);
+                this.loadFlag = true;
+                clearTimeout(this.loaderTimer);
+                this.checkforQVO();
+            }
+        }
+    }
+
+    close() {
+        //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
+        this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
+    }
+
+
+    checkforQVO() {
+        this.isVideoLoaded = true;
+        if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
+            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
+            this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+            this.quesVORef.nativeElement.play();
+            this.appModel.enableReplayBtn(false);
+            this.appModel.enableSubmitBtn(false);
+            this.appModel.handlePostVOActivity(true);
+            this.quesVORef.nativeElement.onended = () => {
+                this.mainContainer.nativeElement.classList = "bodyContent";
+                this.instructionBar.nativeElement.classList = "instructionBase";
+                // this.startActivity();
+                this.appModel.handlePostVOActivity(false);
+                this.appModel.enableReplayBtn(true);
+            }
+        } else {
+            this.timerDelayActs = setTimeout(() => {
+                // this.startActivity();
+                this.appModel.handlePostVOActivity(false);
+                this.appModel.enableReplayBtn(true);
+            }, 1000)
+        }
+    }
+
+
+
+    startBlinkOption() {
+        this.blinkInterval = setInterval(() => {
+            if (this.blinkFlag) {
+                this.blinkFlag = false;
+                if (this.optionRef != undefined && this.submitButtonCounter != this.optionArr.length) {
+                    this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_commonAssets.blink_box.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_commonAssets.blink_box.url : this.assetsPath + '/' + this.optionObj.option_commonAssets.blink_box.url;
+                }
+            } else {
+                this.blinkFlag = true;
+                if (this.optionRef != undefined && this.submitButtonCounter != this.optionArr.length) {
+                    this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_commonAssets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_commonAssets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_commonAssets.default_box_original.url;
+                }
+            }
+        }, 500)
+    }
+
+    blinkOnLastQues() {
+        if (this.appModel.isLastSectionInCollection) {
+            this.appModel.blinkForLastQues(this.attemptType);
+            this.appModel.stopAllTimer();
+            this.disableScreen();
+            if (!this.appModel.eventDone) {
+                if (this.isLastQuesAct) {
+                    this.appModel.eventFired();
+                    this.appModel.event = { 'action': 'segmentEnds' };
+                }
+                if (this.isLastQues) {
+                    this.appModel.event = { 'action': 'end' };
+                }
+            }
+        } else {
+            this.appModel.moveNextQues();
+            this.disableScreen();
+        }
+    }
+
+    disableScreen() {
+        for (let i = 0; i < this.selectedOptList.length; i++) {
+            $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+        }
+        $(this.instructionBar.nativeElement).addClass('greyOut');
+        $(this.mainContainer.nativeElement.children[0]).addClass('greyOut');
+
+        //$(this.mainContainer.nativeElement).addClass("greyOut");
+        clearInterval(this.blinkTimeInterval);
+        if (this.optionHolder != undefined) {
+            this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+            this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+        }
+        if (this.categoryA && this.categoryA.correct && this.categoryA.correct.length) {
+            this.categoryA.correct.splice(0, this.categoryA.correct.length);
+        }
+        if (this.categoryA && this.categoryA.incorrect && this.categoryA.incorrect.length) {
+            this.categoryA.incorrect.splice(0, this.categoryA.incorrect.length);
+        }
+        if (this.categoryB && this.categoryB.correct && this.categoryB.correct.length) {
+            this.categoryB.correct.splice(0, this.categoryB.correct.length);
+        }
+        if (this.categoryB && this.categoryB.incorrect && this.categoryB.incorrect.length) {
+            this.categoryB.incorrect.splice(0, this.categoryA.incorrect.length);
+        }
+        if (this.category && this.category.correct && this.category.correct.length) {
+            this.category.correct.splice(0, this.category.correct.length);
+        }
+        if (this.category && this.category.incorrect && this.category.incorrect.length) {
+            this.category.incorrect.splice(0, this.category.incorrect.length);
+        }
+        /* if (this.instructionBar && this.instructionBar.nativeElement) {
+             this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+         }*/
+        this.appModel.enableReplayBtn(false);
+    }
+
+    templatevolume(vol, obj) {
+
+        if(obj.narrator_voice && obj.narrator_voice.nativeElement){
+            obj.narrator_voice.nativeElement.volume = obj.appModel.isMute?0:vol;
+        }
+
+        if (obj.quesVORef && obj.quesVORef.nativeElement) {
+            obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.instructionVO && obj.instructionVO.nativeElement) {
+            obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        // if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
+        //     obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        // }
+        if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+            obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.audio) {
+            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.mainVideo && obj.mainVideo.nativeElement) {
+            this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+    }
+
+
+
+}

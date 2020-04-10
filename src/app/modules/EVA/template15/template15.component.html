@@ -1,40 +1,39 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <div class="container-fluid" id="container">style="width: 1168px;"
-        <div class="headerBar"><img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/headerBar.svg" /></div>
-        <div id="bgImage"><img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/bg.jpg" /></div>
+<audio #narrator_voice [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
+		
+     <div class="container-fluid" id="container"><!--style="width: 1168px;" -->
+        <div class="headerBar">
+            <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" />
+           </div>
+        <div id="bgImage">
+            <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
+			(load)="checkImgLoaded();" />  
+        </div>
         <div id="instructionBar">
             <div class="instructionBase">
-                <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/instructionBase.svg">
-                <!-- <img class="img-fluid instructionText" src="../../../assets/images/EvaTemplate15Assets/instructionText.svg"> -->
-                <span class="instructionText">यह निर्देशिका पट्टी है, क्र्प्या निर्देशों को यहाँ दर्शाएं यह निर्देशिका पट्टी है, क्र्प्या निर्देशों को यहाँ दर्शाएं यह निर्देशिका पट्टी है, क्र्प्या निर्देशों को यहाँ दर्शाएं</span>
+            <img class="img-fluid" [src]="commonAssets?.instruction_bg
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" />
+                 <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
-        <div id="optionsBlock">
+        <div id="optionsBlock" #ansBlock>
             <div class="options">
-                <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/option1.svg">
-                <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/option2.svg">
-                <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/option3.svg">
-            </div>
-        </div>
-        <div class="speakerBtn">
-            <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/speakerBtn.svg">
-        </div>
-        <!-- <div id="navBlock">
-            <div class="navBase">
-                <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/footerBg.svg">
-                <img class="img-fluid prevBtn" src="../../../assets/images/EvaTemplate15Assets/prevBtn.svg">
-                <img class="img-fluid ansBtn" src="../../../assets/images/EvaTemplate15Assets/ansBtn.svg">
-                <div class="quesBlock">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBulletVisited.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBulletActive.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
+                <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts,$event,idx)">
+                    <img class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"    on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"  (mouseenter)="playOptionHover(opts,idx,audioOp)" (load)="checkImgLoaded();">
+                    <audio id="optionaudio" #OptionAudio #audioOp [src]="opts?.audio?.location=='content' ?containgFolderPath + '/' +opts?.audio?.url: assetsPath + '/'+ opts?.audio?.url" allow="autoplay"></audio>
+ 
                 </div>
-                <img class="img-fluid nextBtn" src="../../../assets/images/EvaTemplate15Assets/nextBtn.svg">
+                    <!-- </div> -->
             </div>
-        </div> -->
+        </div>
+
+
+        <span #disableSpeaker id="disableSpeaker" class="speakerBtn pointer">
+            <div #sprite class="speaker"></div>
+            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="helpSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();">
+            <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
+        </span>
+<!-- 
         <controls class="bottomPlace">		
             <div class="fadeInAnimation" id="controlsContainer">
                 <div class="col-sm-1" id="playPauseContainer" style="margin: 0; position: relative; display: grid; align-items: center; justify-items: center; text-align: center; width:5.33%; padding:0 3px;">
@@ -57,10 +56,8 @@
                     <input class="volumeslider" id="volume-bar" max="1" min="0" step="0.1" style="-webkit-appearance: none; margin: 0px; transform: rotate(-90deg); position: absolute; top: -260%; left: -27%; height: 5px; outline: none; width: 6rem !important; background-color: rgb(192, 192, 192) !important; visibility: hidden;" type="range" ng-reflect-ng-style="[object Object]">
                 </div>
             </div>
-        </controls>
+        </controls> -->
     </div>
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html> -->

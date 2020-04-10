@@ -55,7 +55,7 @@ button:focus {
 	font-size: 1.33vmax;
 	width: 99%;
 }
-#navBlock {
+#footerNavBlock {
 	width: 100%;
 	position: absolute;
 	bottom: 6.1%;
@@ -64,25 +64,25 @@ button:focus {
 	align-items: center;
 	justify-content: space-around;
 }
-#navBlock .prevBtn,
-#navBlock .nextBtn,
-#navBlock .ansBtn {
+#footerNavBlock .prevBtn,
+#footerNavBlock .nextBtn,
+#footerNavBlock .ansBtn {
 	position: absolute;
     top: 12%;
     max-width: 14.7%;
 	cursor:pointer;
 }
-#navBlock .ansBtn {
+#footerNavBlock .ansBtn {
 	max-width: 5.6%;
     left: 2%;
 }
-#navBlock .prevBtn {
+#footerNavBlock .prevBtn {
     left: 9%;
 }
-#navBlock .nextBtn {
+#footerNavBlock .nextBtn {
     right: 9%;
 }
-.bottomnavigation {
+.navQuesBlock {
 	position: absolute;
 	left: 27.5%;
     top: 29%;
@@ -93,13 +93,13 @@ button:focus {
 	justify-content: space-around;
 	z-index: 1;
 }
-.quesBlock img {
+.navQuesBlock div {
 	width: 3.6%;
 }
 .instructionBase,
-#navBlock .prevBtn,
-#navBlock .nextBtn,
-#navBlock .ansBtn,
-.quesBlock img {
+#footerNavBlock .prevBtn,
+#footerNavBlock .nextBtn,
+#footerNavBlock .ansBtn,
+.navQuesBlock img {
 	cursor:pointer;
 }
