@@ -69,6 +69,7 @@ import { Ntemplate22 } from './controller/Ntemplate22.component';
 
 import { Template15Component } from './modules/EVA/template15/template15.component';
 import { SharedserviceService } from '../app/services/sharedservice.service';
+import { Template3Component } from './modules/EVA/template3/template3.component';
 
 
 
@@ -130,7 +131,8 @@ import { SharedserviceService } from '../app/services/sharedservice.service';
 	InactivityTimerComponent,
 	AnimationComponent,
 	Ntemplate17_1,
-	Template15Component
+	Template15Component,
+	Template3Component
   ],
   imports: [
     BrowserModule,
