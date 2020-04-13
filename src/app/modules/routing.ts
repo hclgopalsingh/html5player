@@ -51,6 +51,7 @@ import { Ntemplate15 } from '../controller/Ntemplate15.component';
 import { Ntemplate22 } from '../controller/Ntemplate22.component';
 
 import {Template15Component } from '../modules/EVA/template15/template15.component';
+import { Template3Component } from './EVA/template3/template3.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -149,7 +150,9 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp22ext', component: Ntemplate22, runGuardsAndResolvers: 'always' },
 
 			{ path: 'evatemp15', component: Template15Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp15ext', component: Template15Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'} }
+			{ path: 'evatemp15ext', component: Template15Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'} },
+			{ path: 'evatemp3', component: Template3Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp3ext', component: Template3Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'} }
 		]
 	}
 ];
