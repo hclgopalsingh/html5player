@@ -40,6 +40,7 @@ export class QuesController implements OnInit {
   Template: any;
   EVAQid:any;
   subscription: Subscription;
+  UttarDikhayeinTooltip:any;
   
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -99,6 +100,8 @@ export class QuesController implements OnInit {
       this.EnableShowAnswer = data.data;
       if(this.EnableShowAnswer === true){
         this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+        this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
+
       }
     });
       
@@ -166,6 +169,7 @@ export class QuesController implements OnInit {
             this.quesBlockChild.nativeElement.children[index].children[2].style.opacity = "1";
         }*/
   }
+
 
   confirmAction(action) {
     this.appModel.confirmPopup(action);

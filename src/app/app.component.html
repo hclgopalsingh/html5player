@@ -2,10 +2,11 @@
 	<div class="container-fluid" id="shikshaOuterDivId">
 		<div class="outerMostParent" #contentHolder id="contentHolder">
 			<img src="assets/images/watermark.svg" *ngIf="playerPreview" class="previewImg">
-			<!-- <quesCtrl [style.visibility]="(appModel.navShow==2 && !isTitleScreenActive) ? 'visible':'hidden'"></quesCtrl> -->
+			<quesCtrl [style.visibility]="(appModel.navShow==2 && !isTitleScreenActive) ? 'visible':'hidden'"></quesCtrl>
 
 			
 			<router-outlet></router-outlet>
+			
 			<quesCtrl></quesCtrl>
 			<controls class="bottomPlace" *ngIf="appModel.navShow==1 || appModel.navShow==2"></controls>
 		</div>

@@ -347,7 +347,7 @@ export class Template15Component implements OnInit {
  
         } else {
             this.wrongCounter += 1;
-            if(this.wrongCounter === 4){
+            if(this.wrongCounter === 3){
                 this.Sharedservice.setShowAnsEnabled(true); 
             }else{
                 this.Sharedservice.setShowAnsEnabled(false);
@@ -571,14 +571,14 @@ export class Template15Component implements OnInit {
     public speakerTimer: any;
 
     checkSpeakerVoice() {
-        // if(!this.audioEl.nativeElement.paused){
-        //     this.speakerNormal.nativeElement.style.display ="none";
-        //     this.sprite.nativeElement.style.display ="block";
-        // }else{
-        //     this.speakerNormal.nativeElement.style.display ="block";
-        //     this.sprite.nativeElement.style.display ="none";
-        //     clearInterval(this.speakerTimer);
-        // }
+        if(!this.audioEl.nativeElement.paused){
+            this.speakerNormal.nativeElement.style.display ="none";
+            this.sprite.nativeElement.style.display ="block";
+        }else{
+            this.speakerNormal.nativeElement.style.display ="block";
+            this.sprite.nativeElement.style.display ="none";
+            clearInterval(this.speakerTimer);
+        }
 
     }
 
@@ -652,6 +652,7 @@ export class Template15Component implements OnInit {
                 //     this.maincontent.nativeElement.className = "disable_div";
                 // }
                 el.onended = () => {
+                    alert('voice end');
                     if (this.maincontent) {
                         this.maincontent.nativeElement.className = "";
                     }
