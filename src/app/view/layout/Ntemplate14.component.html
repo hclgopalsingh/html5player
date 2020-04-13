@@ -26,13 +26,13 @@
 					[src]="question?.text?.location=='content' ?assetspath + '/' +question?.text.url: assetsfolderlocation + '/'+ question?.text.url">
 
 				<div class="playerControls d-flex align-items-center justify-content-center">
-					<img class="img-fluid"
+					<img [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
 						[src]="question?.record?.location=='content' ?assetspath + '/' +question?.record.url: assetsfolderlocation + '/'+ question?.record.url"
 						#recordButton (click)="startRecording()" />
-					<img class="img-fluid"
+					<img [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
 						[src]="question?.stop?.location=='content' ?assetspath + '/' +question?.stop.url: assetsfolderlocation + '/'+ question?.stop.url"
-						#stopButton (click)="stopRecording()" disabled>
-					<img #playpause (click)="listen()" class="img-fluid playbtn"
+						#stopButton (click)="stopRecording()" >
+					<img [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid playbtn"
 						[src]="question?.playpause?.location=='content' ?assetspath + '/' +question?.playpause.url: assetsfolderlocation + '/'+ question?.playpause.url">
 					<audio #audioT class="audioT" controls controlsList="nodownload"></audio>
 					<!--<input type="range" step="1" id="$seekbar" value="0">-->

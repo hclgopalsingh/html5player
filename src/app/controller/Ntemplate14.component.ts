@@ -49,6 +49,9 @@ export class Ntemplate14 implements OnInit {
 	loadFlag: boolean = false;
 	quesObj: any;
 	containgFolderPath: string = "";
+	isPlay: boolean = false;
+	isStop:boolean = true;
+	isRecord:boolean = false;
 
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
@@ -257,6 +260,8 @@ export class Ntemplate14 implements OnInit {
 
 	//strats recording the sound
 	startRecording() {
+		this.isStop = false;
+		this.isRecord = true;
 		this.appModel.notifyUserAction()
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
@@ -284,6 +289,7 @@ export class Ntemplate14 implements OnInit {
 	}
 
 	stopRecording() {
+		this.isStop = true;
 		this.appModel.notifyUserAction()
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;

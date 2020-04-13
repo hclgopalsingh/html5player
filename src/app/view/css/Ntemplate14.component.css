@@ -416,3 +416,8 @@ position: absolute;
 top: 0%;
 left: 0;
 }
+
+.disable-ctrl{
+    cursor: default;
+    pointer-events:none;
+}
