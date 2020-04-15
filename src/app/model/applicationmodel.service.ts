@@ -333,12 +333,9 @@ export class ApplicationmodelService {
     console.log('ApplicationmodelService: nextSection - currentSection=',
       this.currentSection, 'contentCollection.collection.length', this.contentCollection.collection.length);
     if (this.currentSection > this.contentCollection.collection.length - 1) {
-
-      console.log('if nextsection jyoti');
       this.nextCollection();
       this.isVideoPlayed = false;
     } else {
-      console.log('else nextsection jyoti');
       this.runContent();
     }
   }

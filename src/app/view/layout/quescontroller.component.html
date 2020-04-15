@@ -22,7 +22,7 @@
 </div>
 <!--This section contains common elements for EVA  -->
 <div  *ngIf='EVA'>
-  <div id="footerNavBlock">
+  <div id="footerNavBlock" #footerNavBlock>
     <div class="navBase">
         <img class="img-fluid" [src]="quesCtrl?.footer?.location=='content' ? containgFolderPath + '/' + quesCtrl?.footer?.url : assetsPath + '/' + quesCtrl?.footer?.url">    
         <img class="img-fluid prevBtn disable" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()"  [ngClass]="{'disableBtn': isFirstQuestion || disablePrev==false}"  (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()">

@@ -1,26 +1,30 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<audio #narrator_voice [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
+<audio #narrator [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
 		
      <div class="container-fluid" id="container"><!--style="width: 1168px;" -->
         <div class="headerBar">
-            <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" />
+            <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
            </div>
         <div id="bgImage">
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
 			(load)="checkImgLoaded();" />  
         </div>
+        <!-- <audio  #wrongFeedback [src]="feedback?.wrong_ans_sound?.path?.location=='content' ? containgFolderPath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsPath + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio> -->
+        <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? containgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsPath + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
+		
+        <div #maincontent>
         <div id="instructionBar">
             <div class="instructionBase">
             <img class="img-fluid" [src]="commonAssets?.instruction_bg
-                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" />
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" (load)="checkImgLoaded();" />
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
         <div id="optionsBlock" #ansBlock>
             <div class="options">
                 <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts,$event,idx)">
-                    <img class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"    on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"  (mouseenter)="playOptionHover(opts,idx,audioOp)" (load)="checkImgLoaded();">
-                    <audio id="optionaudio" #OptionAudio #audioOp [src]="opts?.audio?.location=='content' ?containgFolderPath + '/' +opts?.audio?.url: assetsPath + '/'+ opts?.audio?.url" allow="autoplay"></audio>
+                    <img class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"    on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"   (load)="checkImgLoaded();"> <!--(mouseenter)="playOptionHover(opts,idx,audioOp)"-->
+                    <!-- <audio id="optionaudio" #OptionAudio #audioOp [src]="opts?.audio?.location=='content' ?containgFolderPath + '/' +opts?.audio?.url: assetsPath + '/'+ opts?.audio?.url" allow="autoplay"></audio> -->
  
                 </div>
                     <!-- </div> -->
@@ -30,34 +34,66 @@
 
         <span #disableSpeaker id="disableSpeaker" class="speakerBtn pointer">
             <div #sprite class="speaker"></div>
-            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="helpSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();">
+            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();">
             <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
         </span>
-<!-- 
-        <controls class="bottomPlace">		
-            <div class="fadeInAnimation" id="controlsContainer">
-                <div class="col-sm-1" id="playPauseContainer" style="margin: 0; position: relative; display: grid; align-items: center; justify-items: center; text-align: center; width:5.33%; padding:0 3px;">
-                </div>
-                <div class="col-sm-8" id="sliderContainer" style="margin:0; display: grid; align-items: center; justify-items: center; text-align:center; width:66.66%; padding:0 3px;">
-                </div>
-                <div class="col-sm-1" id="timeContainer" style="margin:0; display: grid; align-items: center; justify-items: center; text-align:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; font-size:13px; color:#fff; font-size: 1vw; padding:0 3px;">
-                </div>
-
-                <div class="col-sm-1" id="autoPlayOnOffContainer" style="margin:0; display: initial; align-items: center; justify-items: center; text-align:center; width:11.33%; padding:2px 3px;">
-                    <label for="onoff" style="color:#ff9900; position:relative; top:2px; font-size: .9em;">Autoplay On</label>
-                    <input id="onoff" style="position:relative; margin:0% 0 0 7%; top:4px;" type="checkbox" value="on">
-                </div>
-                <div class="col-sm-1" id="volumeContainer" style="margin:0 0 0 .4rem; display: grid; align-items: center; text-align:center; width:auto; position:relative; padding:0 3px;">
-                    <img style="max-width: 100%;" src="assets/images/volume.svg">
-                    <div class="" id="MuteVarTemp" style="margin: 0px; display: initial; align-items: center; text-align: center; position: absolute; top: -145%; width: auto; left: 0%; visibility: hidden;" ng-reflect-ng-style="[object Object]">
-                        <input style="position:relative; margin:0 0 0 7%; bottom:-7px;" type="checkbox">
-                        <label style="color:#ff9900; position:relative; top:0; font-size: .9em; margin-bottom:0;">Mute</label>
-                    </div>
-                    <input class="volumeslider" id="volume-bar" max="1" min="0" step="0.1" style="-webkit-appearance: none; margin: 0px; transform: rotate(-90deg); position: absolute; top: -260%; left: -27%; height: 5px; outline: none; width: 6rem !important; background-color: rgb(192, 192, 192) !important; visibility: hidden;" type="range" ng-reflect-ng-style="[object Object]">
-                </div>
-            </div>
-        </controls> -->
+    </div>  <!--END OF MAIN CONTENT-->
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+
+
+    <!-- Popup Modal -->
+    
+	<div class="modal" id="modalTemp17" #correctAns>
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header" [ngStyle]="feedbackPopup?.style_header">
+					<img class="modal-title" [src]="feedbackPopup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackPopup?.headerTxt_img?.url : assetsPath + '/' + feedbackPopup?.headerTxt_img?.url">
+					<img class="close" [src]="feedbackPopup?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackPopup?.close_btn?.url : assetsPath + '/' + feedbackPopup?.close_btn?.url"
+						(click)="wrongAnsClose();" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body d-flex align-items-center" [ngStyle]="feedbackPopup?.style_body">
+					<div class="d-flex align-items-center justify-content-center ansImage">
+						<!-- <img class="img-fluid" [src]="question.bgImgsrc.location=='content' ? containgFolderPath +'/'+ question.bgImgsrc.url : assetsPath +'/'+ question.bgImgsrc.url"> -->
+						<!-- <img class="img-fluid questionImg" [src]="question.imgsrc.location=='content' ? containgFolderPath +'/'+ question.imgsrc.url :  assetsPath +'/'+ question.imgsrc.url"> -->
+					</div>
+					<!-- <img class="img-fluid speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.location=='content' ? containgFolderPath +'/'+ wrongImgOption?.imgsrc?.url : assetsPath +'/'+ wrongImgOption?.imgsrc?.url" on-mouseenter="onWrongImgHoverOption(wrongImgOption,idx)" (load)="checkImgLoaded();"> -->
+					<!-- <div class="speakerd"></div> -->
+				<!-- content -->
+				</div>
+			</div>
+		</div>
+		<audio #feedbackVoRef></audio>
+	</div>
+    <audio #wrongOptAudio [src]=""></audio> 
+
+    <audio #wrongFeedback [src]="wrongPopup?.feedbackVo?.location=='content'? containgFolderPath + '/' +  wrongPopup?.feedbackVo?.url : quesInfo?.wrong_sound?.url"></audio>
+	<audio #rightFeedback [src]="quesInfo?.right_sound?.location=='content' ? containgFolderPath + '/' + quesInfo?.right_sound?.url:quesInfo?.right_sound?.url"></audio>
+
+
+    <div class="modal" id="confirmModal" #confirmModalRef>
+        <div class="modal-dialog">
+          <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
+          <div class="modal-content" #modalRef>
+            <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
+              <!-- <h4 class="modal-title">Modal Heading</h4> -->
+              <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
+              <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
+              <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+            </div>
+    
+            <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+              <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
+              <!-- <div class="actionButtons">
+                <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
+                <button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+              </div> -->
+            </div>
+    
+          </div>
+        </div>
+      </div>

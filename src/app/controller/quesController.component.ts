@@ -18,6 +18,7 @@ declare var $: any;
 
 export class QuesController implements OnInit {
   @ViewChild("quesBlockChild") quesBlockChild: any;
+  @ViewChild('footerNavBlock') footerNavBlock: any;
   appModel: ApplicationmodelService;
   subscriptionQuesNos: Subscription;
   subscriptionQuesIndex: Subscription;
@@ -66,14 +67,9 @@ export class QuesController implements OnInit {
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
   isVideoPlaying:boolean = false;
+  isVOplaying:boolean = false;
   ngOnInit() {
 
-    // this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
-    //   this.EnableShowAnswer = data.data;      
-    //   console.log(this.EnableShowAnswer, 'jyoti answer');
-    // });
-
-   
     this.subscriptionQuesNos = this.appModel.getNoOfQues().subscribe(num => {
       console.log("number of questions", num);
       this.noOfQues = num;
@@ -92,20 +88,32 @@ export class QuesController implements OnInit {
       console.log("selected question index", this.questionNo); 
     })
 
+
+    
+    
+        
+      // **** Disable footer buttons while VO is playing
+      this.subscription = this.Sharedservice.getVoPlayingStatus().subscribe(data => { 
+        this.isVOplaying = data.data;
+        if(this.isVOplaying === true){
+          this.footerNavBlock.nativeElement.className = "disable_div";
+        }else{
+          this.footerNavBlock.nativeElement.className = "";
+        }
+      });
+
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
 
-      
-    this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
-      this.EnableShowAnswer = data.data;
-      if(this.EnableShowAnswer === true){
-        this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
-        this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
+      // **** Enable show answer button
+      this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
+        this.EnableShowAnswer = data.data;
+        if(this.EnableShowAnswer === true){
+          this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+          this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
 
-      }
-    });
-      
-      
+        }
+      });
 
       this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
       console.log(this.quesCtrl);
