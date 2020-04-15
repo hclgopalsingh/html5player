@@ -1,30 +1,6 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="414px" height="340px" viewBox="0 0 414 340">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="415px" height="338px" viewBox="0 0 415 338">
 <defs>
-<filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-<feFlood flood-color="#000000" flood-opacity="0.8" in="SourceGraphic" result="result1"/>
-
-<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
-
-<feGaussianBlur in="result2" stdDeviation="3.3333333333333335,3.3333333333333335" result="result3"/>
-
-<feOffset dx="0.6945927106677217" dy="3.939231012048832" in="result3" result="result4"/>
-
-<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
-</filter>
-
-<g id="Mask_5_MASK_0_FILL">
-<path fill="#FFFFFF" stroke="none" d="
-M 1183.85 735.55
-L 1183.85 369.35 596.65 369.35 596.65 735.55 1183.85 735.55 Z"/>
-</g>
-
-<g id="Duplicate_Items_Folder_Symbol_15_0_Layer0_0_FILL">
-<path fill="#FFB3B3" stroke="none" d="
-M 0 0
-L 0 228.9 284.8 228.9 284.8 0 0 0 Z"/>
-</g>
-
 <g id="Duplicate_Items_Folder_Symbol_4_copy_2_0_Layer0_0_FILL">
 <path fill="#0A0A0A" stroke="none" d="
 M 27.4 -29.85
@@ -39,37 +15,11 @@ Q 15.45 18.8 18.6 10 23.1 0.45 27.4 -5.6 41.45 -23.2 57.85 -23.2 77 -23.2 84.2 -
 L 68.6 84.6 80.5 71.55 89.5 60.6
 Q 110.2 34.6 110.2 11.95 110.2 -10.5 94.55 -24.35 77.75 -39.6 55.5 -39.6 39.9 -39.6 27.4 -29.85 Z"/>
 </g>
-
-<path id="Duplicate_Items_Folder_Symbol_15_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
-M 0 0
-L 284.8 0 284.8 228.9 0 228.9 0 0 Z"/>
 </defs>
 
-<mask id="Mask_Mask_1">
-<g transform="matrix( 3.2697601318359375, 0, 0, 2.9492034912109375, -2705.95,-1384.85) ">
-<use xlink:href="#Mask_5_MASK_0_FILL"/>
-</g>
-</mask>
-
-<g mask="url(#Mask_Mask_1)">
-<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
-<g transform="matrix( 1.34991455078125, 0, 0, 1.34991455078125, 14.8,12.8) ">
-<g transform="matrix( 1, 0, 0, 1, 0,0) ">
-<use xlink:href="#Duplicate_Items_Folder_Symbol_15_0_Layer0_0_FILL"/>
-
-<use xlink:href="#Duplicate_Items_Folder_Symbol_15_0_Layer0_0_1_STROKES"/>
-</g>
-</g>
-</g>
-</g>
-
-<g mask="url(#Mask_Mask_1)">
-<g transform="matrix( 1.154144287109375, 0, 0, 1.154144287109375, 205,168.4) ">
+<g transform="matrix( 1.154144287109375, 0, 0, 1.154144287109375, 207.2,155.15) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Duplicate_Items_Folder_Symbol_4_copy_2_0_Layer0_0_FILL"/>
 </g>
 </g>
-</g>
-
-<g mask="url(#Mask_Mask_1)"/>
 </svg>
