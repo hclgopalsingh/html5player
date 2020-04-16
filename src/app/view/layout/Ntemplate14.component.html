@@ -32,7 +32,7 @@
 					<img [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
 						[src]="question?.stop?.location=='content' ?assetspath + '/' +question?.stop.url: assetsfolderlocation + '/'+ question?.stop.url"
 						#stopButton (click)="stopRecording()" >
-					<img [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid playbtn"
+					<img *ngIf="showPlay" [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid"
 						[src]="question?.playpause?.location=='content' ?assetspath + '/' +question?.playpause.url: assetsfolderlocation + '/'+ question?.playpause.url">
 					<audio #audioT class="audioT" controls controlsList="nodownload"></audio>
 					<!--<input type="range" step="1" id="$seekbar" value="0">-->

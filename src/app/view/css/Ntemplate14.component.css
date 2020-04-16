@@ -52,6 +52,10 @@
 	width: 7.3%;
 }
 
+audio {
+    height: 65%;
+}
+
 #timeline{
     width: 92%;
     height: 4px;
@@ -328,7 +332,13 @@ audio::-webkit-media-controls-panel
 audio {
     /*filter: sepia(100%) saturate(400%) grayscale(0) contrast(200%) hue-rotate(122deg) invert(0%);*/
     width: 100%;
+    border: none;
   }
+
+  audio:focus {
+    outline: none !important;
+  }
+
 .audioT{
 	display:none;
 }
@@ -338,33 +348,33 @@ audio {
 .displayNone{
 	display:none;
 }
-/*
-#audioT{
+
+/* #audioT{
 	  width:100%;
 	  border-style: none;
 	  border-radius:1px;
-}
+} */
 audio::-webkit-media-controls-panel
 {
- background-color:#202020;
+ background-color: #00ccff;
 
 }
-audio::-webkit-media-controls-current-time-display
+/* audio::-webkit-media-controls-current-time-display
 {
 	color:#00ccff;
 }
 audio::-webkit-media-controls-time-remaining-display
 {
 	color:#00ccff;
-}
-audio::-webkit-media-controls-play-button
+} */
+/* audio::-webkit-media-controls-play-button
 {
 	color:#00ccff;
 }
 audio::-webkit-media-controls-timeline{
 	color:#00ccff;
-}
-*/
+} */
+
 .fadeInAnimation {
     opacity: 1;
     animation: fadeIn 0.3s linear;
@@ -392,10 +402,13 @@ audio::-webkit-media-controls-timeline{
 
 audio::-webkit-media-controls-volume-slider {
 display:none;
+pointer-events: none;
+
 }
 
 audio::-webkit-media-controls-mute-button {
 display:none;
+pointer-events: none;
 }
 
 #container #instructionBar {
@@ -420,4 +433,14 @@ left: 0;
 .disable-ctrl{
     cursor: default;
     pointer-events:none;
+}
+
+#playAud{
+    position:relative;
+    top:10px;
+    width:45%;
+    overflow: hidden;
+    direction: ltl;
+    border-top-right-radius: 2em 2em;
+    border-bottom-right-radius: 2em 2em;
 }

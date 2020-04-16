@@ -52,7 +52,13 @@ export class Ntemplate14 implements OnInit {
 	isPlay: boolean = false;
 	isStop:boolean = true;
 	isRecord:boolean = false;
-
+	controlHandler = {
+		isShowAns:false,
+     };
+	showPlay:boolean = false;
+	autoStop:any;
+	
+	
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -86,7 +92,7 @@ export class Ntemplate14 implements OnInit {
 		this.loaderTimer = setTimeout(() => {
 			this.appModel.setLoader(false);
 		}, 5000);
-
+		this.appModel.handleController(this.controlHandler);
 		this.appModel.notification.subscribe(
 			(data) => {
 				console.log('Component: constructor - data=', data);
@@ -194,7 +200,8 @@ export class Ntemplate14 implements OnInit {
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			this.noOfImgs = fetchedData.imgCount;
 			this.quesObj = fetchedData.quesObj;
-
+			this.autoStop = fetchedData.autoStop;
+			console.log("this.autoStop",this.autoStop)
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			if (fetchedData) {
 
@@ -272,28 +279,41 @@ export class Ntemplate14 implements OnInit {
 		this.recordButton.nativeElement.src = this.question.recordActive.url;
 		this.stopButton.nativeElement.src = this.question.stop.url;
 		this.mediaRecorder.start();
+		setTimeout(() => {
+			if(!this.isStop){
+			this.stopRecording();
+			}
+		}, JSON.parse(this.autoStop))
 	}
 
 	listen() {
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.pause();
+			this.instruction.nativeElement.currentTime = 0;
+		}
+		this.isPlay = true;
 		//this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
 		this.audioT.nativeElement.className = "";
-		this.playpause.nativeElement.className = "img-fluid playbtn";
-		this.stopButton.nativeElement.className = "displayNone";
-		this.recordButton.nativeElement.className = "displayNone";
+		//this.playpause.nativeElement.className = "img-fluid playbtn";
+		// this.stopButton.nativeElement.className = "displayNone";
+		// this.recordButton.nativeElement.className = "displayNone";
 		this.audioT.nativeElement.load();
 		this.audioT.nativeElement.play();
-		this.timernextseg = setInterval(() => {
-			//this.checkNextActivities();
-		}, 15000)
+		
 	}
 
 	stopRecording() {
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.pause();
+			this.instruction.nativeElement.currentTime = 0;
+		}
+		this.showPlay = true;
 		this.isStop = true;
 		this.appModel.notifyUserAction()
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
-		this.playpause.nativeElement.className = "img-fluid";
+		// this.playpause.nativeElement.className = "img-fluid";
 		this.mediaRecorder.stop();
 	}
 
@@ -450,18 +470,14 @@ export class Ntemplate14 implements OnInit {
 
 	templatevolume(vol, obj) {
 
-		if (obj.myAudiohelp && obj.myAudiohelp.nativeElement) {
-			obj.myAudiohelp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.narrator && obj.narrator.nativeElement) {
+			obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.titleAudio && obj.titleAudio.nativeElement) {
-			obj.titleAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		if (obj.instruction && obj.instruction.nativeElement) {
+			obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.audio) {
-			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.audioT && obj.audioT.nativeElement) {
-			obj.audioT.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
+
+
 	}
 
 	ngAfterViewChecked() {
@@ -492,17 +508,17 @@ export class Ntemplate14 implements OnInit {
 	checkforQVO() {
 		if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
 			this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetspath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
-			this.appModel.handlePostVOActivity(true);
+			//this.appModel.handlePostVOActivity(true);
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			this.narrator.nativeElement.play();
 			this.narrator.nativeElement.onended = () => {
 				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-				this.appModel.handlePostVOActivity(false);
-				this.appModel.moveNextQues('forwarding')
+				//this.appModel.handlePostVOActivity(false);
+				//this.appModel.moveNextQues('forwarding')
 			}
 		} else {
-			this.appModel.handlePostVOActivity(false);
-			this.appModel.moveNextQues('forwarding')
+			//this.appModel.handlePostVOActivity(false);
+			//this.appModel.moveNextQues('forwarding')
 		}
 	}
 
