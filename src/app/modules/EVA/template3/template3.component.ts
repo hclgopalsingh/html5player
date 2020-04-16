@@ -17,9 +17,18 @@ export class Template3Component extends Base implements OnInit {
 		this.appModel = appModel;
 		this.assetsfolderlocation=this.appModel.assetsfolderpath;
 		this.appModel.navShow=1;
+		// if(this.optionsBlock && this.optionsBlock.nativeElement) {
+		// 	this.optionsBlock.nativeElement.style.opacity="0";
+		// }
 		this.appModel.setLoader(true);
 		// if error occured during image loading loader wil stop after 5 seconds 
       this.loaderTimer = setTimeout(() => {
+		// if(this.optionsBlock && this.optionsBlock.nativeElement) {
+		// 	this.optionsBlock.nativeElement.style.opacity="0";
+		// }
+		// if(document.getElementById("footerNavBlock")) {
+		// 	document.getElementById("footerNavBlock").style.opacity="0";
+		// }
         this.appModel.setLoader(false);
       }, 5000);
 
@@ -60,6 +69,7 @@ export class Template3Component extends Base implements OnInit {
 	 @ViewChild('clapSound') clapSound:any;
 	 @ViewChild('buzzerSound') buzzerSound:any;
 	 @ViewChild('videoStage') videoStage:any;
+	 @ViewChild('optionsBlock') optionsBlock:any;
 		assetsfolderlocation:string="";
 		disableHelpBtn:boolean = false;
 		optimage:any;
@@ -100,6 +110,8 @@ export class Template3Component extends Base implements OnInit {
 		contentgFolderPath: string = "";
 		videoPlayed=false;
 		speakerPlayed=false;
+		instructiontext: string;
+		wrongCount:number=0;
 			
 			//quesInfo  = this._sharedService.navigatetoroute;
 			//Instruction=this._sharedService.navigatetoroute.Instruction;
@@ -130,34 +142,27 @@ export class Template3Component extends Base implements OnInit {
 			
 			if(this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data){
 				let fetchedData:any =  this.appModel.content.contentData.data;
+				this.instructiontext = fetchedData.instructiontext;
 				this.common_assets = fetchedData.commonassets;
 			this.speaker = fetchedData.speaker;
 			this.myoption = fetchedData.optionArray;
-			console.log("myoption : "+this.myoption);
-			this.question = fetchedData.ques;
+			//console.log("myoption : "+this.myoption);
+			this.question = fetchedData.quesObj;
 			this.feedback = fetchedData.feedback;
-			this.answers = fetchedData.answers;
-			this.optionBlank = fetchedData.optionsBlank;
-			this.quesInfo = fetchedData.common_assets;
-			this.isFirstQues = fetchedData.isFirstQues;
+			//this.answers = fetchedData.answers;
+			//this.optionBlank = fetchedData.optionsBlank;
+			//this.quesInfo = fetchedData.common_assets;
+			//this.isFirstQues = fetchedData.isFirstQues;
 			this.noOfImgs = fetchedData.imgCount;
 			this.isLastQues = this.appModel.isLastSection;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			//this.isAutoplayOn = this.appModel.autoPlay;
-			if(fetchedData){
-				var disableSpeaker=document.getElementById("disableSpeaker");
-				if(disableSpeaker)
-				disableSpeaker.className = "speakerBtn pointer";
-				var optionsBlock=document.getElementById("optionsBlock")
-				if(optionsBlock)
-				optionsBlock.className = "d-flex flex-row align-items-center justify-content-around row1";
-			//} 
-			}
-			setTimeout(()=>{
-				if(this.navBlock && this.navBlock.nativeElement){
-					this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around";
-				}
-			},200)
+            this.appModel.setQuesControlAssets(this.common_assets.ques_control);
+			// setTimeout(()=>{
+			// 	if(this.navBlock && this.navBlock.nativeElement){
+			// 		this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around";
+			// 	}
+			// },200)
 			}else{
 				/*this.speaker = "";
 				this.myoption = [];
@@ -362,7 +367,12 @@ export class Template3Component extends Base implements OnInit {
 		checkAnswer(option) {          
 			if(option.id == this.feedback.correct_answer) {
 				 alert("right");
+				 this.Sharedservice.setShowAnsEnabled(true);
 			} else {
+				 this.wrongCount++;
+				 if(this.wrongCount == 3) {
+					this.Sharedservice.setShowAnsEnabled(true);
+				 }
 				 alert("wrong");
 				 this.idArray =[];
 				 for(let i of this.myoption){
@@ -513,11 +523,11 @@ export class Template3Component extends Base implements OnInit {
 			if(this.common_assets && this.common_assets.aagey_badhein){
 			this.common_assets.aagey_badhein = this.common_assets.aagey_badhein_original;
 			}
-			setTimeout(()=>{
-				if(this.navBlock && this.navBlock.nativeElement){
-					this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-				}
-			},0)
+			// setTimeout(()=>{
+			// 	if(this.navBlock && this.navBlock.nativeElement){
+			// 		this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
+			// 	}
+			// },0)
 			//console.log("prev",this.currentIdx);	
 			this.blink=false;
 			this.reset();
@@ -547,11 +557,11 @@ export class Template3Component extends Base implements OnInit {
 			}
 			
 			if(!this.isLastQues){
-				setTimeout(()=>{
-					if(this.navBlock && this.navBlock.nativeElement){
-						this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-					}
-				},0)
+				// setTimeout(()=>{
+				// 	if(this.navBlock && this.navBlock.nativeElement){
+				// 		this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
+				// 	}
+				// },0)
 				this.currentIdx++;                                
 							
 					this.appModel.nextSection();
@@ -714,11 +724,11 @@ export class Template3Component extends Base implements OnInit {
 					this.showIntroScreen = false;
 					this.setData();
 				}
-				setTimeout(()=>{
-					if(this.navBlock && this.navBlock.nativeElement){
-						this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-					}
-				},0)
+				// setTimeout(()=>{
+				// 	if(this.navBlock && this.navBlock.nativeElement){
+				// 		this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
+				// 	}
+				// },0)
 		}
 		
 		 ngAfterViewChecked(){
@@ -738,14 +748,33 @@ export class Template3Component extends Base implements OnInit {
 				this.noOfImgsLoaded++;
 				if(this.noOfImgsLoaded>=this.noOfImgs){
 					this.appModel.setLoader(false);
+					document.getElementById("container").style.opacity="1";
 					clearTimeout(this.loaderTimer);
 					this.LoadFlag = true;
-					if(this.narrator_voice && this.narrator_voice.nativeElement){
-						this.narrator_voice.nativeElement.play();
-					}
+					// this.optionsBlock.nativeElement.style.opacity="1";
+					// document.getElementById("footerNavBlock").style.opacity="1";
+					this.checkforQVO();
+					// if(this.narrator_voice && this.narrator_voice.nativeElement){
+					// 	this.narrator_voice.nativeElement.play();
+					// }
 				} 
 			 }
 		}
+
+		checkforQVO(){
+			if (this.question && this.question.quesInstruction && this.question.quesInstruction.url && this.question.quesInstruction.autoPlay) {
+					//this.narrator_voice.nativeElement.src = this.question.quesInstruction.location=="content" ? this.contentgFolderPath+ "/" + this.question.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36):this.assetsfolderlocation + "/" + this.question.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
+					this.appModel.handlePostVOActivity(true);
+					this.optionsBlock.nativeElement.classList = "disable_div";
+					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="none";
+					this.narrator_voice.nativeElement.play();
+					this.narrator_voice.nativeElement.onended = () => {
+					  //this.appModel.handlePostVOActivity(false);
+					  this.optionsBlock.nativeElement.classList = "";
+					  (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
+					}
+				} 
+			}
 		 
 		  updateAutoplay(){
 			if(this.autoPlayOnOffContainer && this.autoPlayOnOffContainer.nativeElement){
