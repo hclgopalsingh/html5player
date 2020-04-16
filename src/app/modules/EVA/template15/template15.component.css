@@ -16,10 +16,21 @@
 .options div {
 	width: 25.5%;
 }
+.options div img:hover{
+	animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+}
 #container .speakerBtn{
 	width:100%;
 	position:absolute;
-	top:58%;
+	top:61%;
 	text-align: center;
 }
 .speakerBtn img{

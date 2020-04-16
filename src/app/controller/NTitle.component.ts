@@ -47,7 +47,10 @@ export class NTitleComponent implements OnInit{
 		 ngAfterViewChecked(){
 			if(this.titleAudio && this.titleAudio.nativeElement){
 				this.titleAudio.nativeElement.onended = () => {
-				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
+					setTimeout(()=>{
+						this.next();
+					},500)
+				// this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
 				} 
 			 }
 			 this.templatevolume(this.appModel.volumeValue,this);

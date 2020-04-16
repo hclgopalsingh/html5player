@@ -5,8 +5,8 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 export class SharedserviceService {
   
     private subject = new Subject<any>();
-    private Qsubject = new Subject<any>();
     private ShowAnswer = new Subject<any>();
+    private IsVOPlaying = new Subject<any>();
 
 
     sendData(data: any) {
@@ -28,13 +28,14 @@ export class SharedserviceService {
     getShowAnsEnabled(){
         return this.ShowAnswer.asObservable();
     }
-    // setCurrentQuestion(Qid: any){
-    //     this.Qsubject.next({ Qid: Qid });
-    // }
+  
+    setVoplayingStatus(status:any){
+        this.IsVOPlaying.next({data:status});
+    }
 
-    // getCurrentQuestion(): Observable<any> {
-    //     return this.Qsubject.asObservable();
-    // }
+    getVoPlayingStatus(){
+       return this.IsVOPlaying.asObservable();
+    }
 
 
 }

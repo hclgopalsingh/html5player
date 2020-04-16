@@ -7,6 +7,10 @@
 .showit{display:block !important;}
 .dispFlex{display:flex !important;}
 */
+@font-face {
+	font-family: 'Kruti Dev';
+	src: url('assets/fonts/Content/K010.ttf') format('truetype');
+}	
 body{
 	margin:0;
 	background: #000;
@@ -53,7 +57,8 @@ button:focus {
 }
 .instructionBase span.instructionText {
 	color: #fff;
-	font-size: 1.33vmax;
+	font-family: Kruti Dev!important;
+	font-size: 1.31vmax;
 	width: 99%;
 }
 #footerNavBlock {
@@ -100,6 +105,27 @@ button:focus {
 .instructionBase,
 #footerNavBlock .prevBtn,
 #footerNavBlock .nextBtn,
-#footerNavBlock .ansBtn{
+#footerNavBlock .ansBtn {
 	cursor:pointer;
 }
+.disable_div {
+	pointer-events: none;
+  }
+
+
+  .hideit {
+	display: none !important;
+  }
+  
+  .showit {
+	display: block !important;
+  }
+  
+  .rightAnsBg{
+	animation: scaleit 0.2s ease-in;
+}
+#correctAns img{
+	position:absolute;
+	width:70%;
+}
+ 
