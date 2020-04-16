@@ -1129,6 +1129,10 @@ export class Ntemplate4 implements OnInit {
         if(obj.mainVideo && obj.mainVideo.nativeElement){
             this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if(obj.partialFeedbackRef && obj.partialFeedbackRef.nativeElement){
+            this.partialFeedbackRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+    
     }
 
     replayVideo(){

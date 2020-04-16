@@ -49,6 +49,7 @@ import { Ntemplate16 } from '../controller/Ntemplate16.component';
 import { Ntemplate23 } from '../controller/Ntemplate23.component';
 import { Ntemplate15 } from '../controller/Ntemplate15.component';
 import { Ntemplate22 } from '../controller/Ntemplate22.component';
+import { Ntemplate14 } from '../controller/Ntemplate14.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -144,7 +145,9 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp15', component: Ntemplate15, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp15ext', component: Ntemplate15, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp22', component: Ntemplate22, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp22ext', component: Ntemplate22, runGuardsAndResolvers: 'always' }
+			{ path: 'ntemp22ext', component: Ntemplate22, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp14', component: Ntemplate14, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp14ext', component: Ntemplate14, runGuardsAndResolvers: 'always' }
 		]
 	}
 ];

@@ -821,7 +821,9 @@ houtSkip(){
     if (obj.feedbackpartialPopupAudio && obj.feedbackpartialPopupAudio.nativeElement) {
       obj.feedbackpartialPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   checkImgLoaded() {

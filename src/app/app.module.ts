@@ -66,6 +66,7 @@ import { Ntemplate16 } from './controller/Ntemplate16.component';
 import { Ntemplate23 } from './controller/Ntemplate23.component';
 import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
+import { Ntemplate14 } from './controller/Ntemplate14.component';
 
 
 
@@ -122,6 +123,7 @@ import { Ntemplate22 } from './controller/Ntemplate22.component';
   Ntemplate23,
   Ntemplate15,
   Ntemplate22,
+  Ntemplate14,
 	NTitleComponent,
 	QuesController,
 	InactivityTimerComponent,
