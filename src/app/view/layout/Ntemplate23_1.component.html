@@ -177,7 +177,7 @@
                   <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
                 </span>
                 <span>
-                  <img [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+                  <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
                 </span>
               </li>
             </ul>
@@ -200,7 +200,7 @@
                   <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
                 </span>
                 <span>
-                  <img [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+                  <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
                 </span>
               </li>
             </ul>
@@ -217,7 +217,7 @@
                   <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
                 </span>
                 <span>
-                  <img [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+                  <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
                 </span>
               </li>
             </ul>
@@ -240,7 +240,7 @@
                   <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
                 </span>
                 <span>
-                  <img [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+                  <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
                 </span>
               </li>
             </ul>
@@ -257,7 +257,7 @@
                   <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
                 </span>
                 <span>
-                  <img [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+                  <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
                 </span>
               </li>
             </ul>
@@ -274,7 +274,7 @@
                   <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
                 </span>
                 <span>
-                  <img [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+                  <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
                 </span>
               </li>
             </ul>
@@ -326,7 +326,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
@@ -345,7 +345,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
@@ -362,7 +362,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
@@ -381,7 +381,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
@@ -398,7 +398,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
@@ -415,7 +415,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
