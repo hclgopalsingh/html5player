@@ -31,7 +31,7 @@
             </div>   
         </div> 
         <div id="spkrBtn" class="speakerBtn">
-            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url" (mousemove)="onHoverSpeaker()" (mouseleave)="onHoveroutSpeaker()" (click)="playSpeaker()" (load)="checkImgLoaded();" />
+            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (click)="playSpeaker()" (load)="checkImgLoaded();" />
             <audio  [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
         </div>
         <!-- <div id="navBlock">

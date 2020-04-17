@@ -201,6 +201,12 @@ export class Template3Component extends Base implements OnInit {
 			// 	console.log("narrator voice still playing");
 			//  }
 			//  else{
+			let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
+			if(!speakerEle.paused) {
+				speakerEle.pause();
+				speakerEle.currentTime=0;
+				this.speaker.imgsrc=this.speaker.imgorigional;
+			}
 				this.myoption[index].imgsrc =this.myoption[index].imgsrc_hover;
 				//this.ansBlock.nativeElement.children[index].children[0].className = "pointer";
 			 //}
@@ -250,16 +256,16 @@ export class Template3Component extends Base implements OnInit {
 			
 		}
 
-		onHoverSpeaker(){
-           if(!this.videoPlayed && !this.speakerPlayed) {
-			   this.speaker.imgsrc=this.speaker.imghover;
-		   }
-		}
-		onHoveroutSpeaker() {
-			if(!this.videoPlayed && !this.speakerPlayed) {
-				this.speaker.imgsrc=this.speaker.imgorigional;
-			}
-		}
+		// onHoverSpeaker(){
+        //    if(!this.videoPlayed && !this.speakerPlayed) {
+		// 	   this.speaker.imgsrc=this.speaker.imghover;
+		//    }
+		// }
+		// onHoveroutSpeaker() {
+		// 	if(!this.videoPlayed && !this.speakerPlayed) {
+		// 		this.speaker.imgsrc=this.speaker.imgorigional;
+		// 	}
+		// }
 		
 		// onHoverSpeaker(){
 		// 	if(!this.narrator_voice.nativeElement.paused){
@@ -382,14 +388,14 @@ export class Template3Component extends Base implements OnInit {
 			}			
 		}
 		playSpeaker() {
-			(document.getElementById("optionsBlock") as HTMLElement).style.pointerEvents="none";
+			//(document.getElementById("optionsBlock") as HTMLElement).style.pointerEvents="none";
 			this.speakerPlayed=true;
 			this.speaker.imgsrc=this.speaker.imgactive;
 			let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
 			speakerEle.play();
 			speakerEle.onended=() => {
 				this.speaker.imgsrc=this.speaker.imgorigional;
-				(document.getElementById("optionsBlock") as HTMLElement).style.pointerEvents="";
+				//(document.getElementById("optionsBlock") as HTMLElement).style.pointerEvents="";
 				this.speakerPlayed=false;
 			}
 		}
