@@ -514,11 +514,11 @@ export class Ntemplate14 implements OnInit {
 			this.narrator.nativeElement.onended = () => {
 				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
 				//this.appModel.handlePostVOActivity(false);
-				//this.appModel.moveNextQues('forwarding')
+				this.appModel.moveNextQues('forwarding')
 			}
 		} else {
 			//this.appModel.handlePostVOActivity(false);
-			//this.appModel.moveNextQues('forwarding')
+			this.appModel.moveNextQues('forwarding')
 		}
 	}
 
