@@ -130,6 +130,60 @@ button:focus {
 #footerNavBlock .nextBtn,
 #footerNavBlock .nextBtn.blink,
 #footerNavBlock .ansBtn,
-#footerNavBlock .submitBtn {
+#footerNavBlock .submitBtn,
+.popupCloseBtn {
 	cursor:pointer;
+}
+.modal {
+    position: absolute;
+    height: 93.8%;
+    display: flex;
+}
+.modal-dialog {
+	max-width: 84%;
+	min-height: auto;
+	margin: auto;
+}
+.modal-content {
+	border: none;
+    background: transparent;
+}
+.modal-body {
+    padding: 0;
+}
+.modal .closeBtn {
+    position: absolute;
+    right: .8%;
+    max-width: 4.5%;
+    z-index: 1;
+}
+.modal #optionsBlock {
+    top: 7.5% !important;
+    width: 97.4% !important;
+}
+.modal .options {
+	width: 100%;
+}
+.modal .options div {
+    width: 44%;
+}
+.modal .options div:hover{
+	animation: none;
+}
+.rightWrongAns {
+    position: absolute;
+    bottom: 11%;
+    width: 97.4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rightWrongAns img {
+    width: 8%;
+}
+.modal .options img {
+	cursor: default;
+}
+.disableDiv {  
+	pointer-events: none;
 }

@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="415px" height="338px" viewBox="0 0 415 338">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="686px" height="560px" viewBox="0 0 686 560">
 <defs>
 <filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
 <feFlood flood-color="#000000" flood-opacity="0.8" in="SourceGraphic" result="result1"/>
@@ -25,7 +25,7 @@ L 950.85 82.8 950.85 311.7 666.05 311.7 666.05 82.8 Z"/>
 </defs>
 
 <g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
-<g transform="matrix( 1.34991455078125, 0, 0, 1.34991455078125, 16.85,9.15) ">
+<g transform="matrix( 2.2679443359375, 0, 0, 2.2679443359375, 18.25,16.25) ">
 <g transform="matrix( 1, 0, 0, 1, -666.05,-82.8) ">
 <use xlink:href="#Duplicate_Items_Folder_Symbol_16_0_Layer0_0_FILL"/>
 
