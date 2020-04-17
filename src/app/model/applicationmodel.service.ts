@@ -115,7 +115,8 @@ export class ApplicationmodelService {
       ['/ntemp15', '/ntemp15ext', 0],
       ['/ntemp22', '/ntemp22ext', 0],
       ['/evatemp15', '/evatemp15ext', 0],
-      ['/evatemp3', '/evatemp3ext', 0]
+      ['/evatemp3', '/evatemp3ext', 0],
+      ['/evatemp1', '/evatemp1ext', 0]
     ];
     this.externalCommunication = externalCommunication;
     this.dataLoader = dataLoader;
