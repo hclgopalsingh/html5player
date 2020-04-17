@@ -244,14 +244,18 @@ export class QuesController implements OnInit {
 
   hoverNextBtn() {
     if (!this.blinkFlag) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      if(!this.blink) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      }
     }
   }
 
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
+      if(!this.blink) {
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      }
     }
   }
 
@@ -276,7 +280,7 @@ export class QuesController implements OnInit {
 
   setBlinkOnLastQuestion() {
     if(this.EVA) {
-     this.blink=true;
+      this.quesCtrl.blinkingStatus=true;
     } else {
       this.blinkFlag = true;
       let flag = true;

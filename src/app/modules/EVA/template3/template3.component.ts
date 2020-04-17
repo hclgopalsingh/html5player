@@ -157,6 +157,7 @@ export class Template3Component extends Base implements OnInit {
 			this.isLastQues = this.appModel.isLastSection;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			//this.isAutoplayOn = this.appModel.autoPlay;
+			this.common_assets.ques_control.blinkingStatus=false;
             this.appModel.setQuesControlAssets(this.common_assets.ques_control);
 			// setTimeout(()=>{
 			// 	if(this.navBlock && this.navBlock.nativeElement){
