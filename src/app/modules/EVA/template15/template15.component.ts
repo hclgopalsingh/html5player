@@ -263,7 +263,7 @@ export class Template15Component implements OnInit {
         this.rightAnsSoundUrl = this.myoption[this.feedback.correct_ans_index]
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
 
-        this.appModel.setAttemptQues(0);
+        // this.appModel.setAttemptQues(0);
         if (this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
             this.isPlayVideo = true;	
           } else {     
