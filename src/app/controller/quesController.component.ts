@@ -119,6 +119,11 @@ export class QuesController implements OnInit {
       } else {
         this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
       }
+
+
+    
+
+
       console.log(this.quesCtrl);
       console.log("no of tabs should be ", this.quesTabs.length);
 
@@ -158,6 +163,21 @@ export class QuesController implements OnInit {
       this.controlHandle(controllerObj);
     })
   }
+
+
+  hoverUttarDikhayeinEVA() {
+    if(this.EnableShowAnswer){
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
+    }   
+  }
+
+  houtUttarDikhayeinEVA() {
+    if(this.EnableShowAnswer){
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+    }   
+    
+  }
+
 
   selectQuestion(index) {
     if (this.appModel.titleFlag) {

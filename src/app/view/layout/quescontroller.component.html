@@ -25,16 +25,16 @@
   <div id="footerNavBlock" #footerNavBlock>
     <div class="navBase">
         <img class="img-fluid" [src]="quesCtrl?.footer?.location=='content' ? containgFolderPath + '/' + quesCtrl?.footer?.url : assetsPath + '/' + quesCtrl?.footer?.url">    
-        <img class="img-fluid prevBtn" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()"  [ngClass]="{'disableBtn': isFirstQuestion || disablePrev==false}"  (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()">
+        <img class="img-fluid prevBtn" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()"  [ngClass]="{'disableBtn': isFirstQuestion || disablePrev==false}"  (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()" title="पीछे जाएं">
         <img class="img-fluid ansBtn" [src]="quesCtrl?.uttar_dikhayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.uttar_dikhayein?.url : assetsPath + '/' + quesCtrl?.uttar_dikhayein?.url"   title="{{UttarDikhayeinTooltip}}" 
-        [ngStyle]="!EnableShowAnswer && {'cursor': 'default'}"  (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayein()" (mouseleave)="houtUttarDikhayein()">
+        [ngStyle]="!EnableShowAnswer && {'cursor': 'default'}"  (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayeinEVA()" (mouseleave)="houtUttarDikhayeinEVA()">
         <div class="navQuesBlock" #quesBlockChild>
         <div *ngFor="let quesTab of quesTabs; let idx = index">
           <img class="img-fluid" [src]="quesTab?.ques_tab?.tabcircle?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabcircle?.url : assetsPath + '/' + quesTab?.ques_tab?.tabcircle?.url" >
         </div>
         </div>
-        <img class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()">
-        <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()"  [ngStyle]="{'cursor': 'default'}">
+        <img class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()" title="आगे बढ़ें">
+        <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoverSubmitBtn()" (mouseleave) = "houtSubmitBtn()"  [ngClass]="{'disableBtn': disableNext==false}"  [ngStyle]="{'cursor': 'default'}"> 
     </div>
   </div>
 </div>
