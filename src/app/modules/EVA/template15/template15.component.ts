@@ -8,6 +8,7 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
 
 import 'jquery';
+import { BrowserGetTestability } from '@angular/platform-browser/src/browser/testability';
 declare var $: any;
 
 @Component({
@@ -152,7 +153,6 @@ export class Template15Component implements OnInit {
 
     ngOnInit() {        
         this.attemptType = "";
-
         this.setTemplateType();
         console.log("this.attemptType = " + this.attemptType);
         if (this.appModel.isNewCollection) {
@@ -172,36 +172,17 @@ export class Template15Component implements OnInit {
                 // this.getAnswer();
             }
         })
-        this.appModel.getConfirmationPopup().subscribe((val) => {
+        this.appModel.getConfirmationPopup().subscribe((val) => {        
             if (val == "uttarDikhayein") {
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-                    this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+                    this.confirmModalRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
                     this.appModel.notifyUserAction();
                     // this.setPopupAssets();
                     this.popupType = "showanswer";
-                    //this.blinkOnLastQues();
-                    this.instructionVO.nativeElement.pause();
-                    this.instructionVO.nativeElement.currentTime = 0;
-
+                    this.blinkOnLastQues();
                 }
             }
-            // } else if (val == "submitAnswer") {
-            //     if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
-            //         this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
-            //         this.appModel.notifyUserAction();
-            //         //this.blinkOnLastQues();
-            //         this.instructionVO.nativeElement.pause();
-            //         this.instructionVO.nativeElement.currentTime = 0;
-            //     }
-            // } else if (val == "replayVideo") {
-            //     if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-            //         this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
-            //         this.appModel.notifyUserAction();
-            //         //this.blinkOnLastQues();
-            //         this.instructionVO.nativeElement.pause();
-            //         this.instructionVO.nativeElement.currentTime = 0;
-            //     }
-            // }
+            
         })
         this.appModel.nextBtnEvent().subscribe(() => {
             if (this.appModel.isLastSectionInCollection) {
@@ -225,8 +206,8 @@ export class Template15Component implements OnInit {
 				console.log("mode manuall", mode)
 
 			} else if (mode == "auto") {
-				console.log("mode manual2 show answer working", mode)
-				this.showAnswers();
+				// console.log("mode manual2 show answer working", mode)
+				// this.showAnswers();
 			}
 		})
 
@@ -234,11 +215,20 @@ export class Template15Component implements OnInit {
             //  this.resetActivity();
             //this.appModel.startPreviousTimer();
             this.appModel.notifyUserAction();
-            //this.blinkOnLastQues();
+         //   this.blinkOnLastQues();
 
         })
     }
 
+
+    bodyClick(){
+        // if (!this.myAudiospeaker.nativeElement.paused) {
+        //      this.myAudiospeaker.nativeElement.pause();
+            
+        //     this.speaker.imgsrc = this.speaker.imgorigional;
+        //     console.log("speaker voice still playing");
+        // }
+    }
     setTemplateType(): void {
         // send message to subscribers via observable subject
         this.ActivatedRoute.data.subscribe(data => {
@@ -273,6 +263,7 @@ export class Template15Component implements OnInit {
         this.rightAnsSoundUrl = this.myoption[this.feedback.correct_ans_index]
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
 
+        // this.appModel.setAttemptQues(0);
         if (this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
             this.isPlayVideo = true;	
           } else {     
@@ -295,11 +286,16 @@ export class Template15Component implements OnInit {
     
     }
 
+    IsQuesAttempted:boolean;
+
     checkAnswer(option, event, idx) {   
           // setShowAnsEnabled
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
             alert('This is correct answer');
+            // this.appModel.setAttemptQues(1);
+            // this.appModel.saveFeedbackAttempts('correct ans');
+            // this.appModel.saveAttemptedQuestion(1, 'right answer');
             this.Sharedservice.setShowAnsEnabled(true);
             this.correctOpt = option;
             this.wrongImgOption = option
@@ -309,29 +305,60 @@ export class Template15Component implements OnInit {
 			//Analytics
 			//fireworks 
 			this.ifRightAns = true;
-			let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
-			correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
+			let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement           
+               correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
+            
+            setTimeout(() => {
+                if (this.rightFeedback && this.rightFeedback.nativeElement) {
+                    this.rightFeedback.nativeElement.play();
+                }
 
-			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-			$("#instructionBar").css("pointer-events", 'none');
-			this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.location == "content" ? this.containgFolderPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
-			//this.feedbackVoRef.nativeElement.play();
+                //   setTimeout(() => {
+                    
+                //   }, 200)
+                //disable option and question on right attempt
+                this.maincontent.nativeElement.className = "disable_div";
+                this.ansBlock.nativeElement.className = "optionsBlock disable_div disable-click";
+                
+                        $("#optionsBlock ").addClass("disable-click disable-click");
+                        $("#instructionBar").addClass("disable_div disable-click");
+                         this.rightFeedback.nativeElement.onended = () => {
+                          this.sendFeedback('modalTemp17', 'no');
+                    //new code
+                    setTimeout(() => {
+                        this.attemptType = "manual";
+                        //disable option and question on right attempt
+                        console.log("disable option and question on right attempt");
+                        
+                        this.blinkOnLastQues()
+                    }, 200)
+                }
+            }, 200)
 
-			setTimeout(() => {
-				this.feedbackVoRef.nativeElement.play();
-			}, 50)
 
-			
-			setTimeout(()=>{
-				if(!this.popUpClosed){
-				this.removeEvents();
-				this.ifRightAns = false;
-				$("#instructionBar").addClass("disable_div");
-				// $("#optionsBlock .options").css("opacity", "0.3");
-				// $("#instructionBar").css("opacity", "0.3");
-				this.blinkOnLastQues();
-				}
-                },6000 )
+
+
+			// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
+			// $("#instructionBar").css("pointer-events", 'none');
+            // this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.location == "content" ? this.containgFolderPath + "/" + this.feedbackPopup.feedbackVo.url: this.assetsPath + "/" + this.feedbackPopup.feedbackVo.url;
+
+			// //this.feedbackVoRef.nativeElement.play();
+
+			// setTimeout(() => {
+			// 	this.feedbackVoRef.nativeElement.play();
+			// }, 50)
+
+		
+			// setTimeout(()=>{
+			// 	if(!this.popUpClosed){
+			// 	this.removeEvents();
+			// 	this.ifRightAns = false;
+			// 	$("#instructionBar").addClass("disable_div");
+			// 	// $("#optionsBlock .options").css("opacity", "0.3");
+			// 	// $("#instructionBar").css("opacity", "0.3");
+			// 	this.blinkOnLastQues();
+			// 	}
+            //     },6000 )
                 
 
 
@@ -346,6 +373,11 @@ export class Template15Component implements OnInit {
             // this.checkNextActivities();
  
         } else {
+
+            // this.appModel.setAttemptQues(1);
+            // this.appModel.saveFeedbackAttempts('wrong answer');
+
+            // this.appModel.saveAttemptedQuestion(1, 'wrong answer');
             this.wrongCounter += 1;
             if(this.wrongCounter === 3){
                 this.Sharedservice.setShowAnsEnabled(true); 
@@ -388,31 +420,54 @@ export class Template15Component implements OnInit {
 				}
 			}
 		}
-
-
-
             this.doRandomize(this.myoption);
 //}
     }
 
     doRandomize(array) {
+
         var currentIndex = array.length, temporaryValue, randomIndex;
+
        // While there remain elements to shuffle...
         while (0 !== currentIndex) {
+
             // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;          
+            currentIndex -= 1;
+            var img_hover1 = array[currentIndex].image_hover;
+            var text1 = array[currentIndex].image;
+            var text1copy = array[currentIndex].image_original;
+            var optionBg1 = array[currentIndex].option_bg;
+            
+            var img_hover2 = array[randomIndex].image_hover;
+            var text2 = array[randomIndex].image;
+            var text2copy = array[randomIndex].image_original;
+            var optionBg2 = array[randomIndex].option_bg;
             // And swap it with the current element.
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;           
+            array[randomIndex] = temporaryValue;
+            
+            array[currentIndex].image_hover = img_hover1;
+            array[currentIndex].image = text1;
+            array[currentIndex].image_original = text1copy;
+            array[currentIndex].option_bg = optionBg1;
+            
+            array[randomIndex].image_hover = img_hover2;
+            array[randomIndex].image = text2;
+            array[randomIndex].image_original = text2copy;
+            array[randomIndex].option_bg = optionBg2;
+            
         }
         var flag=this.arraysIdentical(array,this.idArray);
+        console.log(flag);
         if(flag){
             this.doRandomize(array);
         }
-        else{           
+        else{
+            
         }
+
     }
     
     arraysIdentical(a, b) {
@@ -454,17 +509,6 @@ export class Template15Component implements OnInit {
 
 	}
 
-    wrongAnsClose(){
-		this.closed = true;
-		this.correctAns.nativeElement.classList = "modal";
-		this.correctAns.nativeElement.classList = "modal";
-		this.appModel.notifyUserAction();
-		// this.appModel.wrongAttemptAnimation();	
-		
-	}
-
-
-
     showAnsModal(opt) {
 		this.attemptType = "hideAnimation"
 		this.ifWrongAns = false;
@@ -480,8 +524,8 @@ export class Template15Component implements OnInit {
 		}
 		$("#instructionBar").addClass("disable_div");
 		$("#instructionBar").css("pointer-events", 'none');
-		$("#ansBlock .options").css("opacity", "0.3");
-		$("#instructionBar").css("opacity", "0.3");
+	//	$("#ansBlock .options").css("opacity", "0.3");
+	//	$("#instructionBar").css("opacity", "0.3");
 		// $("#quesImage").css("opacity", "0.3");
 		// $("#quesImage").css("pointer-events", 'none');
 		// this.feedbackVoRef.nativeElement.src = this.containgFolderPath + "/" + this.feedback.show_Answer_sound.url + "?someRandomSeed=" + Math.random().toString(36) ;
@@ -496,8 +540,6 @@ export class Template15Component implements OnInit {
 		}, 5000);
     }
     
-
-
 	sendFeedback(id: string, flag: string) {
 		console.log(id);
 		console.log(flag);
@@ -531,7 +573,11 @@ export class Template15Component implements OnInit {
 			//   this.checked = true;
 		} else {
 
-			console.log("closing modal")
+            console.log("closing modal");
+
+
+
+
 			this.popUpClosed = true ;
 			//close modal
 			// if (this.instruction.nativeElement) {
@@ -620,13 +666,11 @@ export class Template15Component implements OnInit {
 		
     }
     
-
-
     checkNextActivities() {
         if (this.isPaused()) {
             this.removeEvents();
 
-            var popup = document.getElementById("correctAns")
+            var popup = document.getElementById("modalTemp17")
 
             // this.correctAns.nativeElement.className = "d-flex align-items-center justify-content-center hideit";   
 
@@ -665,6 +709,7 @@ export class Template15Component implements OnInit {
     }
 
     next() {
+        alert('next has been clicked');
         if (!this.hasEventFired) {
             if (this.isLastQuesAct) {
                 this.hasEventFired = true;
@@ -682,11 +727,11 @@ export class Template15Component implements OnInit {
         }
 
         if (!this.isLastQues) {
-            // setTimeout(()=>{
-            //   if(this.footerNavBlock && this.footerNavBlock.nativeElement){
-            //     this.footerNavBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
-            //   }
-            // },0)
+            setTimeout(()=>{
+              if(this.footerNavBlock && this.footerNavBlock.nativeElement){
+                this.footerNavBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
+              }
+            },0)
             this.currentIdx++;
 
             this.appModel.nextSection();
@@ -697,20 +742,15 @@ export class Template15Component implements OnInit {
         }
     }
 
-
-
-
-
-
-
-    checkSpeakerVoice() {
+    checkSpeakerVoice(speaker) {
         if(!this.audioEl.nativeElement.paused){
-            this.speakerNormal.nativeElement.style.display ="none";
-            this.sprite.nativeElement.style.display ="block";
+            // this.speakerNormal.nativeElement.style.display ="none";
+            // this.sprite.nativeElement.style.display ="block";
         }else{
-            this.speakerNormal.nativeElement.style.display ="block";
+            // this.speakerNormal.nativeElement.style.display ="block";
             this.sprite.nativeElement.style.display ="none";
-            clearInterval(this.speakerTimer);
+            speaker.imgsrc = speaker.imgorigional;
+            clearInterval(this.speakerTimer);   
         }
 
     }
@@ -733,8 +773,8 @@ export class Template15Component implements OnInit {
     playSpeaker(el: HTMLAudioElement, speaker) {
         if (!this.narrator.nativeElement.paused) {
             console.log("narrator voice still playing");
-        }
-        else {
+        } else {
+            this.myAudiospeaker.nativeElement.currentTime = 0.0;
             if (el.id == "S") {
                 this.myAudiospeaker.nativeElement.pause();
                 if (el.paused) {
@@ -746,8 +786,8 @@ export class Template15Component implements OnInit {
                 }
                 this.speakerTimer = setInterval(() => {
                     speaker.imgsrc = speaker.imgactive;
-                    this.checkSpeakerVoice();
-                }, 100)
+                    this.checkSpeakerVoice(speaker);
+                }, 10)
             }
             else {
                 if (this.myAudiospeaker && this.myAudiospeaker.nativeElement) {
@@ -760,7 +800,6 @@ export class Template15Component implements OnInit {
                     this.maincontent.nativeElement.className = "disable_div";
                 }
                 el.onended = () => {
-                    alert('voice end');
                     if (this.maincontent) {
                         this.maincontent.nativeElement.className = "";
                     }
@@ -782,6 +821,8 @@ export class Template15Component implements OnInit {
 		this.audio.play();
     }
     
+
+
 
     checkImgLoaded() {
         if (!this.loadFlag) {          
@@ -808,6 +849,8 @@ export class Template15Component implements OnInit {
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
             this.maincontent.nativeElement.className = "disable_div";   
+
+            console.log(  this.maincontent.nativeElement.className, 'disable div jyoti');
             this.Sharedservice.setVoplayingStatus(true);  
             this.narrator.nativeElement.play();
 			this.appModel.setLoader(false);
@@ -845,6 +888,7 @@ export class Template15Component implements OnInit {
         if (this.appModel.isLastSectionInCollection) {
             this.appModel.blinkForLastQues(this.attemptType);
             this.appModel.stopAllTimer();
+            alert('last question');
             // this.disableScreen();
             if (!this.appModel.eventDone) {
                 if (this.isLastQuesAct) {
@@ -872,9 +916,15 @@ export class Template15Component implements OnInit {
         if (obj.quesVORef && obj.quesVORef.nativeElement) {
             obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.instructionVO && obj.instructionVO.nativeElement) {
-            obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        // if (obj.instructionVO && obj.instructionVO.nativeElement) {
+        //     obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        // }
+
+        if (obj.myAudiospeaker && obj.myAudiospeaker.nativeElement) {
+            obj.myAudiospeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+
+
         // if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
         //     obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         // }
@@ -921,18 +971,27 @@ export class Template15Component implements OnInit {
         //   }
     }
 
-    /**OPTION HOVER */
-    onHoverOptions(option, index) {
+    onHoverOptions(option, index) {   
         option.image = option.image_hover;
     }
 
     
-    onHoveroutOptions(option, index) {
+    onHoveroutOptions(option, index) {     
         option.image = option.image_original;
     }
+
+    /**OPTION HOVER */
+  
     //*********UNUSED CODE*************/
 
-    
+      // wrongAnsClose(){
+	// 	this.closed = true;
+	// 	this.correctAns.nativeElement.classList = "modal";
+	// 	this.correctAns.nativeElement.classList = "modal";
+	// 	this.appModel.notifyUserAction();
+	// 	// this.appModel.wrongAttemptAnimation();	
+		
+	// }
 
     // onHoverhelp(option){
     //  //console.log("in",option);
@@ -1062,7 +1121,7 @@ export class Template15Component implements OnInit {
     
 
     // checkAnswerOnSubmit() {
-    //     alert();
+    
 	// 	//check if the option in temanswer array are in right sequence or not
 	// 	let tempCustomId = [];
 	// 	this.tempAnswers.forEach(element => {

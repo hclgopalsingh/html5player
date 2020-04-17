@@ -114,8 +114,11 @@ export class QuesController implements OnInit {
 
         }
       });
-
-      this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+      if(this.EVA) {
+        this.quesTabs = this.quesCtrl.quesTabs;
+      } else {
+        this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+      }
       console.log(this.quesCtrl);
       console.log("no of tabs should be ", this.quesTabs.length);
 
