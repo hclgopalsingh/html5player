@@ -50,6 +50,7 @@ button:focus {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+        pointer-events:none;
 }
 .instructionBase .instructionText {
 	position: absolute;
