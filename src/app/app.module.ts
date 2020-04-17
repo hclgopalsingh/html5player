@@ -70,6 +70,7 @@ import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Template15Component } from './modules/EVA/template15/template15.component';
 import { SharedserviceService } from '../app/services/sharedservice.service';
 import { Template3Component } from './modules/EVA/template3/template3.component';
+import { Template1Component } from './modules/EVA/template1/template1.component';
 
 
 
@@ -132,7 +133,8 @@ import { Template3Component } from './modules/EVA/template3/template3.component'
 	AnimationComponent,
 	Ntemplate17_1,
 	Template15Component,
-	Template3Component
+	Template3Component,
+	Template1Component
   ],
   imports: [
     BrowserModule,

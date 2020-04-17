@@ -42,6 +42,7 @@ export class QuesController implements OnInit {
   EVAQid:any;
   subscription: Subscription;
   UttarDikhayeinTooltip:any;
+  blink:any;
   
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -263,14 +264,18 @@ export class QuesController implements OnInit {
 
   hoverNextBtn() {
     if (!this.blinkFlag) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      if(!this.blink) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      }
     }
   }
 
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
+      if(!this.blink) {
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      }
     }
   }
 
@@ -294,17 +299,21 @@ export class QuesController implements OnInit {
   }
 
   setBlinkOnLastQuestion() {
-    this.blinkFlag = true;
-    let flag = true;
-    this.timeInterval = setInterval(() => {
-      if (flag) {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
-        flag = false;
-      } else {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
-        flag = true;
-      }
-    }, 300)
+    if(this.EVA) {
+      this.quesCtrl.blinkingStatus=true;
+    } else {
+      this.blinkFlag = true;
+      let flag = true;
+      this.timeInterval = setInterval(() => {
+        if (flag) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
+          flag = false;
+        } else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+          flag = true;
+        }
+      }, 300)
+    }
   }
 
   controlHandle(controlObj){
