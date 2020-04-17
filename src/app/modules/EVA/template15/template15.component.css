@@ -15,8 +15,9 @@
 }
 .options div {
 	width: 25.5%;
+	position: relative;
 }
-.options div img:hover{
+.options div:hover{
 	animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
 }
 @keyframes scaleit {
@@ -26,6 +27,11 @@
 	100% {
 		transform: scale(1.1);
 	}
+}
+.options div .subOpt {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 #container .speakerBtn{
 	width:100%;

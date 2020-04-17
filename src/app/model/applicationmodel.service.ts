@@ -62,6 +62,9 @@ export class ApplicationmodelService {
   isVideoPlayed: boolean = false;
 
 
+ 
+
+
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient) {
@@ -195,7 +198,6 @@ export class ApplicationmodelService {
     return this._firstQues.asObservable();
   }
 
-  //alert("in service");
 
   set event(value: any) {
     console.log('ApplicationmodelService: event - value=', value);
@@ -764,7 +766,11 @@ export class ApplicationmodelService {
       "attemptMade": attemptMade,
       "rightAttempt": this.rightAttempt
     }
+    console.log(obj, 'jyoti initialize');
     return obj;
+
+
+    
   }
 
   initializeAtemptMade() {
@@ -907,6 +913,101 @@ export class ApplicationmodelService {
   get autoPlayBtn() {
     return this._autoPlaySubject.asObservable();
   }
+
+
+
+
+
+
+
+/** Check for attempted questions in the end*/
+
+
+// private quesAttempt:any =[];
+// private storedAttempt: any;
+// private attemptedFeedback: any = [];
+
+// // private attemptsNT8: any = [];
+// // private rightAttempt: any = [];
+// // private liveScoreNT8: any;
+// // private feedbackNT8: any = [];
+
+//   setAttemptQues(scoreObj) {
+//     this.storedAttempt = scoreObj;
+
+//     alert(scoreObj);
+//   }
+
+//   getAttemptQuesObj() {
+//     return this.storedAttempt;
+//   }
+
+
+//   saveAttemptedQuestion(attempt, rightAttempt) {
+//     let idx: number;
+//     if (this.isTitleExist) {
+//       idx = this.currentSection - 1;
+//     } else {
+//       idx = this.currentSection;
+//     }
+//     // this.attemptsNT8.push(attempt);
+//     this.quesAttempt[idx] = attempt;
+//     // if (this.rightAttempt && this.rightAttempt.length > 0) {
+//     //   for (let i in rightAttempt) {
+//     //     this.rightAttempt[i] = this.rightAttempt[i] + rightAttempt[i];
+//     //   }
+//     // } else {
+//     //   this.rightAttempt = rightAttempt;
+//     // }
+
+
+//     console.log( this.quesAttempt[idx], 'attempted question jyoti' );
+//   }
+
+//   get attemptCount() {
+//     let attemptMade = Object.assign([], this.quesAttempt);
+//     this.quesAttempt.splice(0, this.quesAttempt.length);
+//     let obj = {
+//       "attemptMade": attemptMade,
+//       "rightAttempt": this.rightAttempt
+//     }
+//     return obj;
+//   }
+
+
+//   saveFeedbackAttempts(feedback) {  
+//     let idx: number;
+//     if (this.isTitleExist) {
+//       idx = this.currentSection - 1;
+//     } else {
+//       idx = this.currentSection;
+//     }
+//     this.feedbackNT8[idx] = feedback;
+
+//     console.log(this.feedbackNT8[idx], 'jyoti feedback attempts');
+//   }
+
+//   initializeAttemptMadeByUser() {
+//     if (this.quesAttempt && this.quesAttempt.length) {
+//       this.quesAttempt.splice(0, this.quesAttempt.length);
+//     }
+//     if (this.isTitleExist) {
+//       this.quesAttempt = new Array(this.contentCollection.collection.length - 1);
+//     } else {
+//       this.quesAttempt = new Array(this.contentCollection.collection.length);
+//     }
+//   }
+
+  // initializeFeedbackArr(num: number) {
+  //   if (this.attemptedFeedback && this.attemptedFeedback.length) {
+  //     this.attemptedFeedback.splice(0, this.attemptedFeedback.length);
+  //   }
+  //   if (this.isTitleExist) {
+  //     this.attemptedFeedback = new Array(num - 1);
+  //   } else {
+  //     this.attemptedFeedback = new Array(num);
+  //   }
+  // }
 }
 
 

@@ -71,21 +71,45 @@ button:focus {
 }
 #footerNavBlock .prevBtn,
 #footerNavBlock .nextBtn,
-#footerNavBlock .ansBtn {
+#footerNavBlock .nextBtn.blink,
+#footerNavBlock .ansBtn,
+#footerNavBlock .submitBtn {
 	position: absolute;
-    top: 12%;
-    max-width: 14.7%;
-	cursor:pointer;
+    top: 10%;
+    width: 15.6%;
 }
 #footerNavBlock .ansBtn {
-	max-width: 5.6%;
-    left: 2%;
+	width: 8.1%;
+    left: .6%;
+}
+#footerNavBlock .submitBtn {
+	width: 8.1%;
+    right: .6%;
 }
 #footerNavBlock .prevBtn {
-    left: 9%;
+    left: 8.9%;
+}
+#footerNavBlock .nextBtn,
+#footerNavBlock .nextBtn.blink {
+	right: 8.9%;
+	z-index: 0;
 }
 #footerNavBlock .nextBtn {
-    right: 9%;
+    z-index: 1;
+}
+#footerNavBlock .nextBtn.blink{
+	animation: blink normal 1.3s infinite ease-in-out;
+	/* -webkit-animation: blink normal .5s infinite ease-in-out; */
+}
+@keyframes blink {
+	0% {
+		z-index: 2;
+		opacity: 1;
+	}
+	100% {
+		z-index: 0;
+		opacity: 0;
+	}
 }
 .navQuesBlock {
 	position: absolute;
@@ -99,32 +123,18 @@ button:focus {
 	z-index: 1;
 }
 .navQuesBlock div {
-	width: 3.6%;
+	width: 5%;
 }
 .instructionBase,
 #footerNavBlock .prevBtn,
 #footerNavBlock .nextBtn,
-#footerNavBlock .ansBtn {
+#footerNavBlock .nextBtn.blink,
+#footerNavBlock .ansBtn,
+#footerNavBlock .submitBtn {
 	cursor:pointer;
 }
+
 .disable_div {
 	pointer-events: none;
   }
-
-
-  .hideit {
-	display: none !important;
-  }
   
-  .showit {
-	display: block !important;
-  }
-  
-  .rightAnsBg{
-	animation: scaleit 0.2s ease-in;
-}
-#correctAns img{
-	position:absolute;
-	width:70%;
-}
- 
