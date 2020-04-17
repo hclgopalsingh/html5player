@@ -321,7 +321,7 @@ position: absolute;
 }
 
 #confirmModal .modal-dialog {
-	width: 60% !important;
+	width: 50% !important;
 	max-width: 100%;
 	height: 36%;
 	display: flex;
@@ -659,7 +659,8 @@ html [type=button] {
 	/* justify-content: space-around; */
 }
 #modalTemp23 .listNames li{
-	display: flex; /*change for Barebon*/
+  display: flex; /*change for Barebon*/
+  width: 100%;
 }
 .listNames span {
   width: 50%;
@@ -679,10 +680,10 @@ html [type=button] {
 }
 #modalTemp23 .listBlock .listHeader img,
 #modalTemp23 .listBlock .listNames img {
-  max-width: 37% !important;
+  max-width: 42% !important;
 }
 #modalTemp23 .listBlock .listNames img {
-  max-width: 75% !important;
+  max-width: 83% !important;
 }
 
 

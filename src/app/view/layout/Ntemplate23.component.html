@@ -215,7 +215,7 @@
                     <img [src]="item?.stateStatus?.location=='content' ? containgFolderPath + '/' + item?.stateStatus?.url : assetsPath + '/' + item?.stateStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
+                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.location=='content' ? containgFolderPath + '/' + item?.capitalStatus?.url : assetsPath + '/' + item?.capitalStatus?.url">
                   </span>
                 </li>
               </ul>
