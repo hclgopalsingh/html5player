@@ -42,6 +42,7 @@ export class QuesController implements OnInit {
   EVAQid:any;
   subscription: Subscription;
   UttarDikhayeinTooltip:any;
+  blink:any;
   
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -274,17 +275,21 @@ export class QuesController implements OnInit {
   }
 
   setBlinkOnLastQuestion() {
-    this.blinkFlag = true;
-    let flag = true;
-    this.timeInterval = setInterval(() => {
-      if (flag) {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
-        flag = false;
-      } else {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
-        flag = true;
-      }
-    }, 300)
+    if(this.EVA) {
+     this.blink=true;
+    } else {
+      this.blinkFlag = true;
+      let flag = true;
+      this.timeInterval = setInterval(() => {
+        if (flag) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
+          flag = false;
+        } else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+          flag = true;
+        }
+      }, 300)
+    }
   }
 
   controlHandle(controlObj){

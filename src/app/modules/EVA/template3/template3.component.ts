@@ -361,6 +361,24 @@ export class Template3Component extends Base implements OnInit {
 			}
 			
 		}
+
+		blinkOnLastQues() {
+			if (this.appModel.isLastSectionInCollection) {
+			  this.appModel.blinkForLastQues("");
+			  this.appModel.stopAllTimer();
+			  if (!this.appModel.eventDone) {
+				if (this.isLastQuesAct) {
+				  this.appModel.eventFired();
+				  this.appModel.event = { 'action': 'segmentEnds' };
+				}
+				if (this.isLastQues) {
+				  this.appModel.event = { 'action': 'exit' };
+				}
+			  }
+			} else {
+			  this.appModel.moveNextQues("");
+			}
+		  }
 		
 		stopAllSounds(e) {
 	    //console.log("Event", e);
@@ -374,6 +392,7 @@ export class Template3Component extends Base implements OnInit {
 			if(option.id == this.feedback.correct_answer) {
 				 alert("right");
 				 this.Sharedservice.setShowAnsEnabled(true);
+				 this.blinkOnLastQues();
 			} else {
 				 this.wrongCount++;
 				 if(this.wrongCount == 3) {
@@ -404,6 +423,7 @@ export class Template3Component extends Base implements OnInit {
 		  console.log("video started");
 		  this.videoPlayed=true;
 		  this.myoption[index].play_button_normal=this.myoption[index].play_button_selected;
+		  this.videoStage.nativeElement.style.opacity=1;
 		  this.videoStage.nativeElement.src=this.myoption[index].videosrc.location=="content" ? this.contentgFolderPath +"/"+ this.myoption[index].videosrc.url : this.assetsfolderlocation +"/"+ this.myoption[index].videosrc.url;
 		  this.videoStage.nativeElement.play();
 		  let optionBlock= document.getElementById("optionsBlock") as HTMLElement;
@@ -411,6 +431,7 @@ export class Template3Component extends Base implements OnInit {
 		  (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="none";
 		  this.videoStage.nativeElement.onended = () => {
 			this.videoPlayed=false;
+			this.videoStage.nativeElement.style.opacity=0;
 			this.myoption[index].play_button_normal=this.myoption[index].play_button_original;
 			optionBlock.style.pointerEvents="";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
@@ -773,9 +794,12 @@ export class Template3Component extends Base implements OnInit {
 					this.appModel.handlePostVOActivity(true);
 					this.optionsBlock.nativeElement.classList = "disable_div";
 					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="none";
+					// let nxtBtndiv=(document.getElementsByClassName("nextBtn")[0] as HTMLElement);
+					// nxtBtndiv.classList.value ="img-fluid nextBtn disableBtn";
 					this.narrator_voice.nativeElement.play();
 					this.narrator_voice.nativeElement.onended = () => {
 					  //this.appModel.handlePostVOActivity(false);
+					//   nxtBtndiv.classList.value="img-fluid nextBtn";
 					  this.optionsBlock.nativeElement.classList = "";
 					  (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
 					}
