@@ -135,26 +135,27 @@ button:focus {
 	cursor:pointer;
 }
 .modal {
-    position: absolute;
-    height: 93.94%;
+    position: absolute !important;
+    height: 93.94% !important;
 	display: flex;
 	background: rgba(0,0,0,.7);
 }
 .modal-dialog {
-	max-width: 84%;
+	max-width: 84% !important;
 	min-height: auto;
 	margin: auto;
 }
 .modal-content {
-	border: none;
-    background: transparent;
+	border: none !important;
+	background: transparent !important;
+	box-shadow: none !important;
 }
 .modal-body {
-    padding: 0;
+    padding: 0 !important;
 }
-.modal .closeBtn {
+.modal .popupCloseBtn {
     position: absolute;
-    right: .8%;
+    right: .9%;
     max-width: 4.5%;
     z-index: 1;
 }
@@ -163,13 +164,13 @@ button:focus {
     width: 97.4% !important;
 }
 .modal .options {
-	width: 100%;
+	width: 100% !important;
 }
 .modal .options div {
-    width: 44%;
+    width: 44% !important;
 }
 .modal .options div:hover{
-	animation: none;
+	animation: none !important;
 }
 .rightWrongAns {
     position: absolute;
