@@ -189,3 +189,7 @@ button:focus {
 .disableDiv {  
 	pointer-events: none;
 }
+.disableBtn{
+	opacity: .5;  
+	pointer-events: none;
+}
