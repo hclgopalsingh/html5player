@@ -1,6 +1,6 @@
 #container #optionsBlock {
     position: absolute;
-    top: 54%;
+    top: 55%;
     width: 100%;
     left: 0%; 
 	display: flex;
@@ -35,7 +35,7 @@
 	text-align: center;
 }
 .speakerBtn img{
-	width:47%;
+	width:61%;
 }
 .options img,
 .speakerBtn img {
@@ -45,21 +45,76 @@
 /*Template specific styles */
 .refQues{
 	position: absolute;
-	top:13%;
-	width: 62%;
+	top:12%;
+	width: 100%;
 	height: 40%;
 	/* text-align: center; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #fff;
+	/* background: #fff; */
   }
-  .refQues img{
-	height: 78%;
-	display: flex;
-	align-items: center;
-	border:solid 0px transparent;
-  }
+  .refQuesContainer{
+	  position:relative;
+	  width:52%;
+  } 
+  .refQuesBlock{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+ .refQuesBlock img:first-child{
+	position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+ }
+ .refQuesBlock img:nth-child(2){
+	position: absolute;
+    left: 33.5%;
+    top: 10.5%;
+    width: 29%;
+ }
+ .refQuesBlock img:nth-child(3){
+	position: absolute;
+    left: 33.5%;
+    top: 10.5%;
+	width: 29%;
+	animation: blink normal 1s infinite ease-in-out;
+ }
+ @keyframes blink{
+	 0%{
+		 z-index: 2;
+		 opacity: 1;
+	 }
+	 100%{
+		z-index: 0;
+		opacity: 0;
+	}
+	 
+ }
+ .refQuesBlock img:last-child{
+	position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+ }
+ .refQuesBlock.onselectopt img:first-child{
+	left:15%;
+ }
+ .refQuesBlock.onselectopt img:nth-child(2){
+	top: 16.5%;
+    width: 38%;
+ }
+ .refQuesBlock.onselectopt img:nth-child(3){
+	display:none;
+ }
+ .refQuesBlock.onselectopt img:last-child{
+	right:8%;
+ }
+  
   #optionsBlock img,
 .optionsBlock img{
 	position:relative;
@@ -68,7 +123,7 @@
   #optionsBlock .options,
 .optionsBlock .options{
 	position: relative;
-  	margin: 0% 4.5%;
+  	margin: 0% 5%;
 	vertical-align:middle;
   	width: 19%;
 	display: flex;
@@ -85,7 +140,7 @@
   position: relative;
 	text-align: center;
 	display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: flex-end;
 }
   .quesImage .optItem{
@@ -95,7 +150,7 @@
   }
   .options:hover{
 	animation: scaleIn 0.5s ease-in-out;
-	transform: scale(1.2);
+	transform: scale(1.1);
   }
   
 @keyframes scaleIn{
@@ -103,6 +158,6 @@
 		transform: scale(1.0)
 	}
 	100%{
-   transform: scale(1.2)
+   transform: scale(1.1)
 	}
 }

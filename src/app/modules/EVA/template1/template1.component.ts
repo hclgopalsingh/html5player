@@ -418,12 +418,39 @@ export class Template1Component implements OnInit {
        // While there remain elements to shuffle...
         while (0 !== currentIndex) {
             // Pick a remaining element...
+            // randomIndex = Math.floor(Math.random() * currentIndex);
+            // currentIndex -= 1;          
+            // And swap it with the current element.
+            // temporaryValue = array[currentIndex];
+            // array[currentIndex] = array[randomIndex];
+            // array[randomIndex] = temporaryValue;
+
+            // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;          
+            currentIndex -= 1;
+            var img_hover1 = array[currentIndex].optBgHover;
+            var text1 = array[currentIndex].url;
+            var text1copy = array[currentIndex].optBgOriginal;
+            var optionBg1 = array[currentIndex].optBg;
+            
+            var img_hover2 = array[randomIndex].optBgHover;
+            var text2 = array[randomIndex].url;
+            var text2copy = array[randomIndex].optBgOriginal;
+            var optionBg2 = array[randomIndex].optBg;
             // And swap it with the current element.
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
             array[randomIndex] = temporaryValue;
+            
+            array[currentIndex].optBgHover = img_hover1;
+            array[currentIndex].url = text1;
+            array[currentIndex].optBgOriginal = text1copy;
+            array[currentIndex].optBg = optionBg1;
+            
+            array[randomIndex].optBgHover = img_hover2;
+            array[randomIndex].url = text2;
+            array[randomIndex].optBgOriginal = text2copy;
+            array[randomIndex].optBg = optionBg2;
         }
         var flag=this.arraysIdentical(array,this.idArray);
         if(flag){
@@ -957,16 +984,17 @@ export class Template1Component implements OnInit {
        //this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
        //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
        this.appModel.stopAllTimer();
-       this.optionSelected = idx;
+       this.optionSelected = idx;       
        if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[1]) {
-           this.boundingClientFrom = this.optionRef.nativeElement.children[this.optionSelected].children[1].getBoundingClientRect();
-           this.boundingClientTo = this.refQues.nativeElement.children[this.quesEmptyTxtIndx].getBoundingClientRect();
-           $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).animate({ left: (this.boundingClientTo.left + this.boundingClientTo.width/2 - this.boundingClientFrom.left), top: (this.boundingClientTo.top - this.boundingClientFrom.top) }, 500);
+        this.boundingClientFrom = this.optionRef.nativeElement.children[this.optionSelected].children[1].getBoundingClientRect();
+        this.boundingClientTo = this.refQues.nativeElement.children[this.quesEmptyTxtIndx].getBoundingClientRect();
+           $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).animate({ left: (this.boundingClientTo.left + this.boundingClientTo.width - this.boundingClientFrom.left), top: (this.boundingClientTo.top - this.boundingClientFrom.top) }, 500);
            setTimeout(() => {
               $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).addClass('invisible');
+              $(this.refQues.nativeElement).addClass('onselectopt');
                this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
                this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = opt;
-               this.isOptionSelected = true;
+               this.isOptionSelected = true;               
            }, 450)
 
            if (opt && opt.isCorrect) {

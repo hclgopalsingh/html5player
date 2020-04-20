@@ -20,12 +20,16 @@
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
-        <div class="refQues" #refQues>
+        <div class="refQues">
+          <div class="refQuesContainer">
           <img class="img-fluid quesBg" [src]="quesObjCopy?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObjCopy?.quesImg?.url : assetsPath + '/' +quesObjCopy?.quesImg?.url"
                     (load)="checkImgLoaded();">
-          <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText">
-            <img [ngClass]="{'dark':true,'engTxtMargin': quesObjCopy?.isEnglish, 'ansSpace': quesTxt?.isHide && !isOptionSelected, 'blinkAnimation':quesTxt?.isHide && !isOptionSelected && isBlankImgLoaded, 'adjustBlink':quesTxt?.isHide && !isOptionSelected}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt="">
-          </ng-container>
+          <div class="refQuesBlock" #refQues>
+            <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText">            
+              <img [ngClass]="{'dark':true,'engTxtMargin': quesObjCopy?.isEnglish, 'ansSpace': quesTxt?.isHide && !isOptionSelected, 'blinkAnimation':quesTxt?.isHide && !isOptionSelected && isBlankImgLoaded, 'adjustBlink':quesTxt?.isHide && !isOptionSelected}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt="">
+            </ng-container>
+          </div>
+        </div>
         </div>
         <!--<audio #quesVORef></audio>-->
         <div class="row mx-0" id="optionsBlock">
