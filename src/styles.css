@@ -194,3 +194,7 @@ button:focus {
 	opacity: 0.5;
 	pointer-events: none;
 }
+
+.fadeContainer{
+	background: rgba(0,0,0,.75);
+}
