@@ -597,4 +597,8 @@ export class Ntemplate14 implements OnInit {
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.notifyUserAction();
 	}
+
+	ngOnDestroy() {
+		this.appModel.stopAllTimer();
+	  }
 }
