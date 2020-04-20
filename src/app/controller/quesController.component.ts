@@ -97,7 +97,7 @@ export class QuesController implements OnInit {
       this.subscription = this.Sharedservice.getVoPlayingStatus().subscribe(data => { 
         this.isVOplaying = data.data;
         if(this.isVOplaying === true){
-          this.footerNavBlock.nativeElement.className = "disable_div";
+          this.footerNavBlock.nativeElement.className = "disableDiv";
         }else{
           this.footerNavBlock.nativeElement.className = "";
         }
@@ -113,6 +113,9 @@ export class QuesController implements OnInit {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
 
+        }else{
+          this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+          this.UttarDikhayeinTooltip="";
         }
       });
       if(this.EVA) {
@@ -169,13 +172,17 @@ export class QuesController implements OnInit {
   hoverUttarDikhayeinEVA() {
     if(this.EnableShowAnswer){
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
+    }else{
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     }   
   }
 
   houtUttarDikhayeinEVA() {
     if(this.EnableShowAnswer){
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
-    }   
+    }  else{
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    }  
     
   }
 
@@ -238,6 +245,8 @@ export class QuesController implements OnInit {
     this.timeInterval = undefined;
     this.blinkFlag = false;
     this.appModel.previousSection();
+    this.EnableShowAnswer=false;
+    this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
   }
@@ -251,6 +260,8 @@ export class QuesController implements OnInit {
        clearInterval(this.timeInterval);
       this.timeInterval = undefined;
       this.blinkFlag = false;
+      this.EnableShowAnswer = false;
+      this.UttarDikhayeinTooltip="";
       this.appModel.nextSection();
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     }
