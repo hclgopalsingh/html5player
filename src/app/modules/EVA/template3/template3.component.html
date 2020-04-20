@@ -15,15 +15,17 @@
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
-        <div id="optionsBlock" #optionsBlock>
+        <div id="optionsBlock" #optionsBlock >
             <div class="options">
                 <div *ngFor= "let item of myoption;let idx = index">
-                    <img class="img-fluid zoom"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mouseenter)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="checkAnswer(item)" (load)="checkImgLoaded();">
+                    <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="checkAnswer(item)" (load)="checkImgLoaded();">
+                    <img class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"  (click)="checkAnswer(item)" (load)="checkImgLoaded();">
                     <img class="img-fluid playBtn"  [src]="item?.play_button_normal?.location=='content' ? contentgFolderPath + '/' + item?.play_button_normal?.url : assetsfolderlocation + '/' + item?.play_button_normal?.url" (mousemove)="onHoverPlay(item,idx)" (mouseleave)="onHoveroutPlay(item,idx)" (click)="playVideo(item,idx)" (load)="checkImgLoaded();">
                 </div>
             </div>
             <div class="stageVideo">
                 <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
+                <img _ngcontent-c7="" class="img-fluid filler" src="../../../assets/images/EVAGlobal/paperPenIcon.svg">
                 <video id="mainVideo" #videoStage>
                     <source src="">
                  

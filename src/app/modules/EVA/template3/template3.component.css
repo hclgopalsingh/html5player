@@ -30,11 +30,17 @@
  width: 100%;
 }
 
+.options div .subOpt {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .zoom {
 	transition: transform .6s;
   }
 
-  .zoom:hover {
+  .options  .zoom:hover {
 	-ms-transform: scale(1.1); /* IE 9 */
 	-webkit-transform: scale(1.1); /* Safari 3-8 */
 	transform: scale(1.1); 
@@ -64,6 +70,9 @@
     width: 51%;
 	right: 9.6%;
 	top: 1.7%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .stageVideo img {
@@ -96,4 +105,14 @@
 
 .disable_div {
 	pointer-events: none;
+}
+
+.disableBtn {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.filler {
+	position: absolute;
+    width: 35%!important;
 }

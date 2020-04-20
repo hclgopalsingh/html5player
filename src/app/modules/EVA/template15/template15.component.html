@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<audio #narrator [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
+<audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
 		
-     <div class="container-fluid" id="container" (click)="bodyClick()"><!--style="width: 1168px;" -->
+     <div class="container-fluid" id="container"><!--style="width: 1168px;" -->
         <div class="headerBar">
             <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
            </div>
@@ -20,7 +20,7 @@
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
-        <div id="optionsBlock" #ansBlock>
+        <div id="optionsBlock" #ansBlock  class="quesOptions">
             <div class="options">
                 <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts,$event,idx)"  >    
                   <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"  (load)="checkImgLoaded();">
@@ -32,71 +32,75 @@
                 </div>
             </div>
         </div>
-
+        <!-- <div id="spkrBtn" class="speakerBtn">
+          <img class="img-fluid" #speakerNormal id="speaker" [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsPath + '/' + speaker?.imgsrc?.url"  (click)="playSpeaker()" (load)="checkImgLoaded();" />
+          <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsPath + '/' + speaker?.sound?.url"></audio>
+      </div> -->
 
         <span #disableSpeaker id="disableSpeaker" class="speakerBtn pointer">
             <div #sprite class="speaker"></div>
-            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();">
+            <div id="spkrBtn" class="speakerBtn">
+            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="चलाऍं">
             <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
-        </span>
+          </div>
+          </span>
     </div>  <!--END OF MAIN CONTENT-->
+
+
+     <!-- Right/Wrong Popup  -->
+     <div class="modal" id="modalTemp17" #ansPopup>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex align-items-center">
+                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+                    <div id="optionsBlock">
+                        <div class="options">
+                            <div>
+                                <img class="img-fluid" [src]="answerImagelocation=='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase">
+                                <img class="img-fluid subOpt" [src]="answerImagelocation=='content' ? containgFolderPath +'/'+ answerImage :  assetsPath +'/'+ answerImage">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rightWrongAns">
+                        <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+                    </div>
+                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+                    (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+                 </div>
+            </div>
+        </div>
+    </div>
+  
+  
+   <!-- show answer Popup  -->
+      <div class="modal" id="showAnswer" #showAnswerRef>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex align-items-center">
+                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+                    <div id="optionsBlock">
+                        <div class="options">
+                            <div>
+                                <img class="img-fluid" [src]="showAnswerPopup?.image?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsPath +'/'+ showAnswerPopup?.image?.url">
+                                <img class="img-fluid subOpt" [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
+                            </div>
+                        </div>
+                    </div>
+                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+                 </div>
+            </div>
+        </div>
+    </div>
+
     </div>
     
 
 
-    <!-- Popup Modal -->
-    
-	<div class="modal" id="modalTemp17" #correctAns>
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-	
-				<!-- Modal Header -->
-				<div class="modal-header" [ngStyle]="feedbackPopup?.style_header">
-					<img class="modal-title" [src]="feedbackPopup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackPopup?.headerTxt_img?.url : assetsPath + '/' + feedbackPopup?.headerTxt_img?.url">
-					<img class="close" [src]="feedbackPopup?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackPopup?.close_btn?.url : assetsPath + '/' + feedbackPopup?.close_btn?.url"
-						(click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-				</div>
-	
-				<!-- Modal body -->
-				<div class="modal-body d-flex align-items-center" [ngStyle]="feedbackPopup?.style_body">
-					<div class="d-flex align-items-center justify-content-center ansImage">
-						<!-- <img class="img-fluid" [src]="question.bgImgsrc.location=='content' ? containgFolderPath +'/'+ question.bgImgsrc.url : assetsPath +'/'+ question.bgImgsrc.url"> -->
-						<!-- <img class="img-fluid questionImg" [src]="question.imgsrc.location=='content' ? containgFolderPath +'/'+ question.imgsrc.url :  assetsPath +'/'+ question.imgsrc.url"> -->
-					</div>
-					<!-- <img class="img-fluid speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.location=='content' ? containgFolderPath +'/'+ wrongImgOption?.imgsrc?.url : assetsPath +'/'+ wrongImgOption?.imgsrc?.url" on-mouseenter="onWrongImgHoverOption(wrongImgOption,idx)" (load)="checkImgLoaded();"> -->
-					<!-- <div class="speakerd"></div> -->
-				<!-- content -->
-				</div>
-			</div>
-		</div>
-		<audio #feedbackVoRef></audio>
-	</div>
-    <audio #wrongOptAudio [src]=""></audio> 
+    <!-- Popup Modal Audios -->
+  <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
+  <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+  <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
+  <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
 
-    <audio #wrongFeedback [src]="wrongPopup?.feedbackVo?.location=='content'? containgFolderPath + '/' +  wrongPopup?.feedbackVo?.url : quesInfo?.wrong_sound?.url"></audio>
-	<audio #rightFeedback [src]="quesInfo?.right_sound?.location=='content' ? containgFolderPath + '/' + quesInfo?.right_sound?.url:quesInfo?.right_sound?.url"></audio>
-
-
-    <div class="modal" id="confirmModal" #confirmModalRef>
-        <div class="modal-dialog">
-          <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
-          <div class="modal-content" #modalRef>
-            <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
-              <!-- <h4 class="modal-title">Modal Heading</h4> -->
-              <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
-              <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-              <img class="close" 
-              [src]="confirmPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-            </div>
-    
-            <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
-              <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
-              <!-- <div class="actionButtons">
-                <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
-                <button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
-              </div> -->
-            </div>
-    
-          </div>
-        </div>
-      </div>
+  

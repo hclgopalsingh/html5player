@@ -42,6 +42,7 @@ export class QuesController implements OnInit {
   EVAQid:any;
   subscription: Subscription;
   UttarDikhayeinTooltip:any;
+  blink:any;
   
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -96,7 +97,7 @@ export class QuesController implements OnInit {
       this.subscription = this.Sharedservice.getVoPlayingStatus().subscribe(data => { 
         this.isVOplaying = data.data;
         if(this.isVOplaying === true){
-          this.footerNavBlock.nativeElement.className = "disable_div";
+          this.footerNavBlock.nativeElement.className = "disableDiv";
         }else{
           this.footerNavBlock.nativeElement.className = "";
         }
@@ -112,6 +113,9 @@ export class QuesController implements OnInit {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
 
+        }else{
+          this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+          this.UttarDikhayeinTooltip="";
         }
       });
       if(this.EVA) {
@@ -119,6 +123,11 @@ export class QuesController implements OnInit {
       } else {
         this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
       }
+
+
+    
+
+
       console.log(this.quesCtrl);
       console.log("no of tabs should be ", this.quesTabs.length);
 
@@ -158,6 +167,25 @@ export class QuesController implements OnInit {
       this.controlHandle(controllerObj);
     })
   }
+
+
+  hoverUttarDikhayeinEVA() {
+    if(this.EnableShowAnswer){
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
+    }else{
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    }   
+  }
+
+  houtUttarDikhayeinEVA() {
+    if(this.EnableShowAnswer){
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+    }  else{
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    }  
+    
+  }
+
 
   selectQuestion(index) {
     if (this.appModel.titleFlag) {
@@ -217,6 +245,8 @@ export class QuesController implements OnInit {
     this.timeInterval = undefined;
     this.blinkFlag = false;
     this.appModel.previousSection();
+    this.EnableShowAnswer=false;
+    this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
   }
@@ -230,6 +260,9 @@ export class QuesController implements OnInit {
        clearInterval(this.timeInterval);
       this.timeInterval = undefined;
       this.blinkFlag = false;
+      this.EnableShowAnswer = false;
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+      this.UttarDikhayeinTooltip="";
       this.appModel.nextSection();
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     }
@@ -243,14 +276,18 @@ export class QuesController implements OnInit {
 
   hoverNextBtn() {
     if (!this.blinkFlag) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      if(!this.blink) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      }
     }
   }
 
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
+      if(!this.blink) {
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      }
     }
   }
 
@@ -274,17 +311,21 @@ export class QuesController implements OnInit {
   }
 
   setBlinkOnLastQuestion() {
-    this.blinkFlag = true;
-    let flag = true;
-    this.timeInterval = setInterval(() => {
-      if (flag) {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
-        flag = false;
-      } else {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
-        flag = true;
-      }
-    }, 300)
+    if(this.EVA) {
+      this.quesCtrl.blinkingStatus=true;
+    } else {
+      this.blinkFlag = true;
+      let flag = true;
+      this.timeInterval = setInterval(() => {
+        if (flag) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
+          flag = false;
+        } else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+          flag = true;
+        }
+      }, 300)
+    }
   }
 
   controlHandle(controlObj){
