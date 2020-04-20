@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/
 import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs';
 
+
 declare const MediaRecorder: any;
 declare const navigator: any;
 import 'jquery';
@@ -306,7 +307,7 @@ export class Ntemplate14 implements OnInit {
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
-		this.appModel.moveNextQues();
+		this.appModel.moveNextQues("noBlink");
 	}
 
 	listen() {
@@ -497,7 +498,7 @@ export class Ntemplate14 implements OnInit {
 					$("#instructionBar").addClass("disable_div");
 					this.InfoModalRef.nativeElement.classList = "displayPopup modal";					//this.appModel.enableReplayBtn(true);
 					//this.setFeedbackAudio();
-					this.appModel.moveNextQues();
+					this.appModel.moveNextQues("noBlink");
 				}
 				
 
@@ -596,5 +597,4 @@ export class Ntemplate14 implements OnInit {
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.notifyUserAction();
 	}
-
 }
