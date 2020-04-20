@@ -28,8 +28,8 @@
     <div class="listBlock">
       <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
       <div class="listHeader">
-        <img class="img-fluid" src="../../assets/images/Template-23/StateHeader.png" />
-        <img class="img-fluid" src="../../assets/images/Template-23/CapitalHeader.png" />
+        <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
       </div>
       <ul class="listNames">
         <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 12, currentPage: p }">

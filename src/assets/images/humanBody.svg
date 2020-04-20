@@ -1,0 +1,372 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 1256 1080" id="mySvg">
+<defs>
+<g id="head_0_Layer0_0_FILL">
+<path fill="#1C1C1C" stroke="none" d="
+M 940.65 195.95
+Q 922.35 177.65 896.5 177.65 870.65 177.65 852.35 195.95 834.05 214.25 834.05 240.1 834.05 265.95 852.35 284.25 870.65 302.55 896.5 302.55 922.35 302.55 940.65 284.25 958.95 265.95 958.95 240.1 958.95 214.25 940.65 195.95 Z"/>
+</g>
+
+<g id="neck_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 917.6 169.05
+Q 897.65 174.5 880 168.8
+L 880 198.2 917.6 198.3 917.6 169.05 Z"/>
+</g>
+
+<g id="torso_0_Layer0_0_FILL">
+<path fill="#3A3A3A" stroke="none" d="
+M 963.4 213.15
+Q 953.55 203.3 939.6 203.3
+L 858 203.3
+Q 844.05 203.3 834.2 213.15 824.35 223 824.35 236.95
+L 824.35 449.8
+Q 824.35 463.75 834.2 473.6 844.05 483.45 858 483.45
+L 939.6 483.45
+Q 953.55 483.45 963.4 473.6 973.25 463.75 973.25 449.8
+L 973.25 236.95
+Q 973.25 223 963.4 213.15 Z"/>
+</g>
+
+<g id="right_biceps_0_Layer0_0_FILL">
+<path fill="#3C3535" stroke="none" d="
+M 759.3 323.25
+L 781.8 341.85 828.7 276.85 829.7 221 759.3 323.25 Z"/>
+</g>
+
+<g id="left_biceps_0_Layer0_0_FILL">
+<path fill="#3C3535" stroke="none" d="
+M 1076 227.25
+L 1073.05 198.25 945.45 199.45
+Q 953.1689453125 201.2384765625 959.2 206.45 968.4 214.4 968.4 225.6
+L 968.4 230.8 1076 227.25 Z"/>
+</g>
+
+<g id="right_forarm_0_Layer0_0_FILL">
+<path fill="#3C3535" stroke="none" d="
+M 781.8 341.85
+L 759.3 323.25 647.9 372.15 659.65 387.8 781.8 341.85 Z"/>
+</g>
+
+<g id="left_forarm_0_Layer0_0_FILL">
+<path fill="#3C3535" stroke="none" d="
+M 1182.1 151.3
+L 1175.6 132.85 1073.05 198.3 1076 227.3 1182.1 151.3 Z"/>
+</g>
+
+<g id="right_palm_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 647.9 372.15
+L 613.7 354.6
+Q 607.6 358.55 622.5 375.2
+L 585.35 392.75
+Q 574.75 408.45 593.15 412.3 643.2 403.8 659.65 387.8
+L 647.9 372.15 Z"/>
+</g>
+
+<g id="left_palm_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 1175.6 132.85
+L 1182.1 151.3
+Q 1204.5 146.5 1239.45 109.65 1246.45 92.2 1227.55 92.3
+L 1192.3 113.4
+Q 1186.7 91.8 1180 94.65
+L 1175.6 132.85 Z"/>
+</g>
+
+<g id="palvis_0_Layer0_0_FILL">
+<path fill="#646464" stroke="none" d="
+M 839 530.1
+Q 829.15 539.95 829.15 553.9
+L 829.15 613.05
+Q 829.15 627 839 636.85 848.85 646.7 862.8 646.7
+L 921.95 646.7
+Q 935.9 646.7 945.75 636.85 955.6 627 955.6 613.05
+L 955.6 553.9
+Q 955.6 539.95 945.75 530.1 935.9 520.25 921.95 520.25
+L 862.8 520.25
+Q 848.85 520.25 839 530.1 Z"/>
+</g>
+
+<g id="right_thigh_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 845.4 541.15
+Q 838.2380859375 533.9880859375 836.25 524.7
+L 857.95 751.2
+Q 885.4 769.1 904.05 750.25
+L 900.05 551 869.2 551
+Q 855.25 551 845.4 541.15 Z"/>
+</g>
+
+<g id="left_thigh_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 961.6 523.1
+Q 959.962109375 533.387890625 952.2 541.15 942.35 551 928.4 551
+L 899.6 551 1053.15 668.4
+Q 1090.65 680.45 1100.85 657.3
+L 962 519.35
+Q 961.9013671875 521.26875 961.6 523.1 Z"/>
+</g>
+
+<g id="right_knee_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 904.05 750.25
+Q 885.4 769.1 857.95 751.2
+L 872.8 949.5 908.1 949.5 904.05 750.25 Z"/>
+</g>
+
+<g id="left_knee_0_Layer0_0_FILL">
+<path fill="#544545" stroke="none" d="
+M 1100.85 657.3
+Q 1090.65 680.45 1053.15 668.4
+L 1001.55 839.1 1031.3 849.45 1100.85 657.3 Z"/>
+</g>
+
+<g id="right_foot_0_Layer0_0_FILL">
+<path fill="#182631" stroke="none" d="
+M 918 979.8
+L 908.5 949.5 873.2 949.5 844.4 992.8
+Q 834.7 1008.8 844.4 1018.4 851.45 1026.6 905.35 1021.45 930.65 1019.15 918 979.8 Z"/>
+</g>
+
+<g id="left_foot_0_Layer0_0_FILL">
+<path fill="#182631" stroke="none" d="
+M 1001.35 839.7
+Q 980.730078125 866.194921875 982.15 870.65 985.0265625 888.008984375 1016.7 920.85 1048.428125 953.70078125 1060.75 945 1076.980859375 933.4541015625 1059.1 900.35
+L 1030.85 849 1001.35 839.7 Z"/>
+</g>
+
+<path id="head_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 958.95 240.1
+Q 958.95 265.95 940.65 284.25 922.35 302.55 896.5 302.55 870.65 302.55 852.35 284.25 834.05 265.95 834.05 240.1 834.05 214.25 852.35 195.95 870.65 177.65 896.5 177.65 922.35 177.65 940.65 195.95 958.95 214.25 958.95 240.1 Z"/>
+
+<path id="neck_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 880 168.8
+Q 897.65 174.5 917.6 169.05
+L 917.6 198.3 880 198.2 880 168.8 Z"/>
+
+<path id="torso_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M -38.16387329101565 -112.84608764648434
+L 38.175506591796875 -112.84608764648434
+Q 51.226172637939385 -112.84608764648434 60.44115905761714 -104.9096954345703 69.6561454772949 -96.97330322265623 69.6561454772949 -85.73343811035156
+L 69.6561454772949 85.76514892578126
+Q 69.6561454772949 97.00501403808596 60.44115905761714 104.94140625000006 51.226172637939385 112.8777984619141 38.175506591796875 112.8777984619141
+L -38.16387329101565 112.8777984619141
+Q -51.21453933715827 112.8777984619141 -60.429525756835915 104.94140625000006 -69.64451217651367 97.00501403808596 -69.64451217651367 85.76514892578126
+L -69.64451217651367 -85.73343811035156
+Q -69.64451217651367 -96.97330322265623 -60.429525756835915 -104.9096954345703 -51.21453933715827 -112.84608764648434 -38.16387329101565 -112.84608764648434 Z"/>
+
+<path id="right_biceps_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 829.7 221
+L 759.3 323.25 781.8 341.85 828.7 276.85 829.7 221 Z"/>
+
+<path id="left_biceps_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 945.475 199.45
+L 1073.05 198.25 1076 227.25 968.4 230.825 968.4 225.6
+Q 968.4 214.4 959.2 206.45 953.1689453125 201.2384765625 945.475 199.45 945.13125 199.3689453125 944.775 199.3 941.06171875 198.5 936.95 198.5"/>
+
+<path id="right_forarm_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 759.3 323.25
+L 647.9 372.15 659.65 387.8 781.8 341.85 759.3 323.25 Z"/>
+
+<path id="left_forarm_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 1073.05 198.3
+L 1175.6 132.85 1182.1 151.3 1076 227.3 1073.05 198.3 Z"/>
+
+<path id="right_palm_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 659.65 387.8
+L 647.9 372.15 613.7 354.6
+Q 607.6 358.55 622.5 375.2
+L 585.35 392.75
+Q 574.75 408.45 593.15 412.3 643.2 403.8 659.65 387.8 Z"/>
+
+<path id="left_palm_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 1182.1 151.3
+L 1175.6 132.85 1180 94.65
+Q 1186.7 91.8 1192.3 113.4
+L 1227.55 92.3
+Q 1246.45 92.2 1239.45 109.65 1204.5 146.5 1182.1 151.3 Z"/>
+
+<path id="palvis_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 862.8 520.25
+L 921.95 520.25
+Q 935.9 520.25 945.75 530.1 955.6 539.95 955.6 553.9
+L 955.6 613.05
+Q 955.6 627 945.75 636.85 935.9 646.7 921.95 646.7
+L 862.8 646.7
+Q 848.85 646.7 839 636.85 829.15 627 829.15 613.05
+L 829.15 553.9
+Q 829.15 539.95 839 530.1 848.85 520.25 862.8 520.25 Z"/>
+
+<path id="right_thigh_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 836.275 524.7
+Q 835.821484375 522.4876953125 835.65 520.175
+L 835.6 518.95
+Q 835.55 518.15 835.55 517.35
+M 836.275 524.7
+L 857.95 751.2
+Q 885.4 769.1 904.05 750.25
+L 900.05 551 869.2 551
+Q 855.25 551 845.4 541.15 838.2380859375 533.9880859375 836.275 524.7 Z"/>
+
+<path id="left_thigh_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 899.6 551
+L 928.4 551
+Q 942.35 551 952.2 541.15 959.962109375 533.387890625 961.6 523.1 961.9013671875 521.26875 962 519.35
+L 1100.85 657.3
+Q 1090.65 680.45 1053.15 668.4
+L 899.6 551 Z"/>
+
+<path id="right_knee_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 872.8 949.5
+L 908.1 949.5 904.05 750.25
+Q 885.4 769.1 857.95 751.2
+L 872.8 949.5 Z"/>
+
+<path id="left_knee_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 1031.3 849.45
+L 1001.55 839.1 1053.15 668.4
+Q 1090.65 680.45 1100.85 657.3
+L 1031.3 849.45 Z"/>
+
+<path id="right_foot_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 873.2 949.5
+L 844.4 992.8
+Q 834.7 1008.8 844.4 1018.4 851.45 1026.6 905.35 1021.45 930.65 1019.15 918 979.8
+L 908.5 949.5 873.2 949.5 Z"/>
+
+<path id="left_foot_0_Layer0_0_1_STROKES" stroke="#000000" stroke-width="4.7" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 1030.85 849
+L 1059.1 900.35
+Q 1076.980859375 933.4541015625 1060.75 945 1048.428125 953.70078125 1016.725 920.85 985.0265625 888.008984375 982.15 870.65 980.730078125 866.194921875 1001.35 839.7
+L 1030.85 849 Z"/>
+</defs>
+
+<g id="head" transform="matrix( 1, 0, 0, 1, 898.8,109.2) ">
+<g transform="matrix( 1, 0, 0, 1, -896.5,-240.1) ">
+<use xlink:href="#head_0_Layer0_0_FILL"/>
+
+<use xlink:href="#head_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="neck" transform="matrix( 1, 0, 0, 1, 898.8,183.55) ">
+<g transform="matrix( 1, 0, 0, 1, -898.8,-183.55) ">
+<use xlink:href="#neck_0_Layer0_0_FILL"/>
+
+<use xlink:href="#neck_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="torso" transform="matrix( 1, 0, 0, 1, 898.75,311.35) ">
+<g transform="matrix( 0.9355316162109375, 0, 0, 0.80572509765625, -840.85,-276.65) ">
+<use xlink:href="#torso_0_Layer0_0_FILL"/>
+
+<use xlink:href="#torso_0_Layer0_0_1_STROKES" transform="matrix( 1.06890869140625, 0, 0, 1.2411041259765625, 898.75,343.35) "/>
+</g>
+</g>
+
+<g id="right_biceps" transform="matrix( 1, 0, 0, 1, 794.5,281.4) ">
+<g transform="matrix( 1, 0, 0, 1, -794.5,-281.4) ">
+<use xlink:href="#right_biceps_0_Layer0_0_FILL"/>
+
+<use xlink:href="#right_biceps_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="left_biceps" transform="matrix( 1, 0, 0, 1, 1006.45,214.55) ">
+<g transform="matrix( 1, 0, 0, 1, -1006.45,-214.55) ">
+<use xlink:href="#left_biceps_0_Layer0_0_FILL"/>
+
+<use xlink:href="#left_biceps_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="right_forarm" transform="matrix( 1, 0, 0, 1, 714.85,355.5) ">
+<g transform="matrix( 1, 0, 0, 1, -714.85,-355.5) ">
+<use xlink:href="#right_forarm_0_Layer0_0_FILL"/>
+
+<use xlink:href="#right_forarm_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="left_forarm" transform="matrix( 1, 0, 0, 1, 1127.55,180.05) ">
+<g transform="matrix( 1, 0, 0, 1, -1127.55,-180.05) ">
+<use xlink:href="#left_forarm_0_Layer0_0_FILL"/>
+
+<use xlink:href="#left_forarm_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="right_palm" transform="matrix( 1, 0, 0, 1, 620.55,383.45) ">
+<g transform="matrix( 1, 0, 0, 1, -620.55,-383.45) ">
+<use xlink:href="#right_palm_0_Layer0_0_FILL"/>
+
+<use xlink:href="#right_palm_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="left_palm" transform="matrix( 1, 0, 0, 1, 1208.45,121.8) ">
+<g transform="matrix( 1, 0, 0, 1, -1208.45,-121.8) ">
+<use xlink:href="#left_palm_0_Layer0_0_FILL"/>
+
+<use xlink:href="#left_palm_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="palvis" transform="matrix( 1, 0, 0, 1, 898.75,487.75) ">
+<g transform="matrix( 1, 0, 0, 1, -892.35,-583.45) ">
+<use xlink:href="#palvis_0_Layer0_0_FILL"/>
+
+<use xlink:href="#palvis_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="right_thigh" transform="matrix( 1, 0, 0, 1, 869.8,638.6) ">
+<g transform="matrix( 1, 0, 0, 1, -869.8,-638.6) ">
+<use xlink:href="#right_thigh_0_Layer0_0_FILL"/>
+
+<use xlink:href="#right_thigh_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="left_thigh" transform="matrix( 1, 0, 0, 1, 1000.2,595.95) ">
+<g transform="matrix( 1, 0, 0, 1, -1000.2,-595.95) ">
+<use xlink:href="#left_thigh_0_Layer0_0_FILL"/>
+
+<use xlink:href="#left_thigh_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="right_knee" transform="matrix( 1, 0, 0, 1, 883,849.85) ">
+<g transform="matrix( 1, 0, 0, 1, -883,-849.85) ">
+<use xlink:href="#right_knee_0_Layer0_0_FILL"/>
+
+<use xlink:href="#right_knee_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="left_knee" transform="matrix( 1, 0, 0, 1, 1051.2,753.35) ">
+<g transform="matrix( 1, 0, 0, 1, -1051.2,-753.35) ">
+<use xlink:href="#left_knee_0_Layer0_0_FILL"/>
+
+<use xlink:href="#left_knee_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="right_foot" transform="matrix( 1, 0, 0, 1, 880.85,986.45) ">
+<g transform="matrix( 1, 0, 0, 1, -880.85,-986.45) ">
+<use xlink:href="#right_foot_0_Layer0_0_FILL"/>
+
+<use xlink:href="#right_foot_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+
+<g id="left_foot" transform="matrix( 1, 0, 0, 1, 1025.25,893.25) ">
+<g transform="matrix( 1, 0, 0, 1, -1025.25,-893.25) ">
+<use xlink:href="#left_foot_0_Layer0_0_FILL"/>
+
+<use xlink:href="#left_foot_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+</svg>
