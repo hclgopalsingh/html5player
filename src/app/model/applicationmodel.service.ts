@@ -628,7 +628,8 @@ export class ApplicationmodelService {
         let observ = this.moveNextQuesSubject.observers[this.moveNextQuesSubject.observers.length - 1];
         this.moveNextQuesSubject.observers.splice(0, this.moveNextQuesSubject.observers.length);
         this.moveNextQuesSubject.observers.push(observ);
-        this.moveNextQuesSubject.next()
+        this.moveNextQuesSubject.next();
+        this.blinkForLastQues();
       }
     } else {
       this.stopAllTimer();
