@@ -26,13 +26,13 @@
 					[src]="question?.text?.location=='content' ?assetspath + '/' +question?.text.url: assetsfolderlocation + '/'+ question?.text.url">
 
 				<div class="playerControls d-flex align-items-center justify-content-center">
-					<img [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
+					<img style="margin-left: 5%" *ngIf="removeBtn" [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
 						[src]="question?.record?.location=='content' ?assetspath + '/' +question?.record.url: assetsfolderlocation + '/'+ question?.record.url"
 						#recordButton (click)="startRecording()" />
-					<img [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
+					<img *ngIf="removeBtn" [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
 						[src]="question?.stop?.location=='content' ?assetspath + '/' +question?.stop.url: assetsfolderlocation + '/'+ question?.stop.url"
 						#stopButton (click)="stopRecording()" >
-					<img *ngIf="showPlay" [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid"
+					<img *ngIf="showPlay && removeBtn" [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid"
 						[src]="question?.playpause?.location=='content' ?assetspath + '/' +question?.playpause.url: assetsfolderlocation + '/'+ question?.playpause.url">
 					<audio #audioT class="audioT" controls controlsList="nodownload"></audio>
 					<!--<input type="range" step="1" id="$seekbar" value="0">-->
@@ -70,3 +70,33 @@
 		[src]="quesInfo.Instruction?.location=='content' ?assetspath + '/' +quesInfo.Instruction.url: assetsfolderlocation + '/'+ quesInfo.Instruction.url"
 		autoplay="autoplay"></audio>
 </div>
+
+<!-- The infoPopup Modal -->
+<ng-template [ngIf]="infoModal">
+	<div class="modal" id="infoModalId" #infoModalRef>
+		<div class="modal-dialog">
+			<!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
+			<div class="modal-content" #modalRef>
+				<div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
+					<!-- <h4 class="modal-title">Modal Heading</h4> -->
+					<img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.headerTxt_img?.url : assetsPath + '/' + infoPopupAssets?.headerTxt_img?.url">
+					<!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
+					<img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url"
+						(click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverCloseOk()" (mouseleave)="houtCloseOk()">
+				</div>
+
+				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
+					<div class="msgImage">
+						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url">
+					</div>
+					<div class="actionButtons">
+						<button type="button" (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverOK()" (mouseleave)="houtOK()">
+							<img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url">
+						</button>
+					</div>
+				</div>
+				<audio #feedbackInfoAudio></audio>
+			</div>
+		</div>
+	</div>
+</ng-template>
