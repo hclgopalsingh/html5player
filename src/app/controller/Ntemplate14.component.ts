@@ -1,5 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { Subject, Observable, Subscription } from 'rxjs';
+
 
 declare const MediaRecorder: any;
 declare const navigator: any;
@@ -50,15 +52,19 @@ export class Ntemplate14 implements OnInit {
 	quesObj: any;
 	containgFolderPath: string = "";
 	isPlay: boolean = false;
-	isStop:boolean = true;
-	isRecord:boolean = false;
+	isStop: boolean = true;
+	isRecord: boolean = false;
 	controlHandler = {
-		isShowAns:false,
-     };
-	showPlay:boolean = false;
-	autoStop:any;
-	
-	
+		isShowAns: false,
+	};
+	showPlay: boolean = false;
+	autoStop: any;
+	removeBtn: boolean = true;
+	infoModal: boolean = true;
+	infoPopupAssets: any;
+	tempSubscription: Subscription;
+
+
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -79,6 +85,8 @@ export class Ntemplate14 implements OnInit {
 	@ViewChild('maincontent') maincontent: any;
 	@ViewChild('instruction') instruction: any;
 	@ViewChild('narrator') narrator: any;
+	@ViewChild('feedbackModal') feedbackModal: any;
+	@ViewChild('infoModalRef') InfoModalRef: any;
 
 
 
@@ -201,7 +209,9 @@ export class Ntemplate14 implements OnInit {
 			this.noOfImgs = fetchedData.imgCount;
 			this.quesObj = fetchedData.quesObj;
 			this.autoStop = fetchedData.autoStop;
-			console.log("this.autoStop",this.autoStop)
+			console.log("this.autoStop", this.autoStop)
+			this.infoPopupAssets = fetchedData.info_popup;
+
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			if (fetchedData) {
 
@@ -231,7 +241,20 @@ export class Ntemplate14 implements OnInit {
 		option.help = option.helpOriginal;
 
 	}
+	hoverOK() {
+		this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
+	}
 
+	houtOK() {
+		this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+	}
+
+	hoverCloseOk() {
+		this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+	}
+	houtCloseOk() {
+		this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+	}
 	onHoverAageyBadheinBtn() {
 		this.common_assets.aagey_badhein = this.common_assets.aagey_badhein_hover;
 	}
@@ -280,10 +303,11 @@ export class Ntemplate14 implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stop.url;
 		this.mediaRecorder.start();
 		setTimeout(() => {
-			if(!this.isStop){
-			this.stopRecording();
+			if (!this.isStop) {
+				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
+		this.appModel.moveNextQues("noBlink");
 	}
 
 	listen() {
@@ -295,12 +319,13 @@ export class Ntemplate14 implements OnInit {
 		//this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
 		this.audioT.nativeElement.className = "";
+		this.removeBtn = false;
 		//this.playpause.nativeElement.className = "img-fluid playbtn";
 		// this.stopButton.nativeElement.className = "displayNone";
 		// this.recordButton.nativeElement.className = "displayNone";
 		this.audioT.nativeElement.load();
 		this.audioT.nativeElement.play();
-		
+
 	}
 
 	stopRecording() {
@@ -426,13 +451,12 @@ export class Ntemplate14 implements OnInit {
 
 	ngOnInit() {
 		let that = this;
-        $( "#navBlock" ).click(function() {
-            if (!that.instruction.nativeElement.paused)
-            {
-              that.instruction.nativeElement.pause();
-              that.instruction.nativeElement.currentTime = 0;
-            }
-          });
+		$("#navBlock").click(function () {
+			if (!that.instruction.nativeElement.paused) {
+				that.instruction.nativeElement.pause();
+				that.instruction.nativeElement.currentTime = 0;
+			}
+		});
 		this.assetspath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 		this.containgFolderPath = this.getBasePath();
@@ -460,6 +484,32 @@ export class Ntemplate14 implements OnInit {
 				this.navBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around disable_div";
 			}
 		}, 0)
+
+		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
+			if (mode == "manual") {
+				//show modal for manual
+
+				//   if (this.popupRef && this.popupRef.nativeElement) {
+				// 	$("#instructionBar").addClass("disable_div");
+				// 	this.popupRef.nativeElement.classList = "displayPopup modal";
+				//   }
+			} else if (mode == "auto") {
+				if (this.InfoModalRef && this.InfoModalRef.nativeElement ) {
+					$("#instructionBar").addClass("disable_div");
+					this.InfoModalRef.nativeElement.classList = "displayPopup modal";					//this.appModel.enableReplayBtn(true);
+					//this.setFeedbackAudio();
+					this.appModel.moveNextQues("noBlink");
+				}
+				
+
+			}
+		})
+
+
+
+
+
+
 	}
 
 	getBasePath() {
@@ -476,8 +526,9 @@ export class Ntemplate14 implements OnInit {
 		if (obj.instruction && obj.instruction.nativeElement) {
 			obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-
-
+		if (obj.audioT && obj.audioT.nativeElement) {
+			obj.audioT.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
 	}
 
 	ngAfterViewChecked() {
@@ -513,12 +564,12 @@ export class Ntemplate14 implements OnInit {
 			this.narrator.nativeElement.play();
 			this.narrator.nativeElement.onended = () => {
 				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-				//this.appModel.handlePostVOActivity(false);
-				this.appModel.moveNextQues('forwarding')
+				this.appModel.handlePostVOActivity(false);
+				//this.appModel.moveNextQues('forwarding')
 			}
 		} else {
-			//this.appModel.handlePostVOActivity(false);
-			this.appModel.moveNextQues('forwarding')
+			this.appModel.handlePostVOActivity(false);
+			//this.appModel.moveNextQues('forwarding')
 		}
 	}
 
@@ -536,4 +587,18 @@ export class Ntemplate14 implements OnInit {
 		}
 	}
 
+	openModal() {
+		this.feedbackModal.nativeElement.classList = "modal displayPopup";
+		this.infoModal = false;
+	}
+
+	sendFeedback(ref, flag: string, action?: string) {
+		ref.classList = "modal";
+		this.appModel.handlePostVOActivity(false);
+		this.appModel.notifyUserAction();
+	}
+
+	ngOnDestroy() {
+		this.appModel.stopAllTimer();
+	  }
 }
