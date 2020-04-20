@@ -261,6 +261,7 @@ export class QuesController implements OnInit {
       this.timeInterval = undefined;
       this.blinkFlag = false;
       this.EnableShowAnswer = false;
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
       this.UttarDikhayeinTooltip="";
       this.appModel.nextSection();
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
