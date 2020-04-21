@@ -33,8 +33,8 @@
           <img class="img-fluid" [src]="quesTab?.ques_tab?.tabcircle?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabcircle?.url : assetsPath + '/' + quesTab?.ques_tab?.tabcircle?.url" >
         </div>
         </div>
-        <img *ngIf="quesCtrl?.blinkingStatus" class="img-fluid nextBtn blink" [src]="quesCtrl?.aagey_badhein_blink?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein_blink?.url : assetsPath + '/' + quesCtrl?.aagey_badhein_blink?.url" (click)="next()" title="आगे बढ़ें" >
-        <img class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()" title="आगे बढ़ें">
+        <img *ngIf="quesCtrl?.blinkingStatus" class="img-fluid nextBtn blink" [src]="quesCtrl?.aagey_badhein_blink?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein_blink?.url : assetsPath + '/' + quesCtrl?.aagey_badhein_blink?.url" (click)="next()" title="आगे बढ़ें"  >
+        <img class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()" title="आगे बढ़ें" >
         <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()"  [ngStyle]="{'cursor': 'default'}" >
     </div>
   </div>
