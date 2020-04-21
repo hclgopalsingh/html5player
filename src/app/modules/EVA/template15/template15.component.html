@@ -9,10 +9,7 @@
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
 			(load)="checkImgLoaded();" />  
         </div>
-        <!-- <audio  #wrongFeedback [src]="feedback?.wrong_ans_sound?.path?.location=='content' ? containgFolderPath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsPath + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio> -->
-        <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? containgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsPath + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
-		
-        <div #maincontent>
+          <div #maincontent>
         <div id="instructionBar">
             <div class="instructionBase">
             <img class="img-fluid" [src]="commonAssets?.instruction_bg
@@ -25,11 +22,7 @@
                 <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts,$event,idx)"  >    
                   <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"  (load)="checkImgLoaded();">
                   <img class="img-fluid subOpt" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
-                
-                 <!-- <img class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"    on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"   (load)="checkImgLoaded();"> -->
-                  <!-- (mouseenter)="playOptionHover(opts,idx,audioOp)" -->
-                    <!-- <audio id="optionaudio" #OptionAudio #audioOp [src]="opts?.audio?.location=='content' ?containgFolderPath + '/' +opts?.audio?.url: assetsPath + '/'+ opts?.audio?.url" allow="autoplay"></audio> --> 
-                </div>
+           </div>
             </div>
         </div>
         <!-- <div id="spkrBtn" class="speakerBtn">
@@ -65,7 +58,7 @@
                         <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
                     </div>
                     <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+                    (click)="closePopup('answerPopup',answerPopupType)" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
                  </div>
             </div>
         </div>
@@ -87,7 +80,7 @@
                         </div>
                     </div>
                     <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+                    (click)="closePopup('showAnswer','');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
                  </div>
             </div>
         </div>

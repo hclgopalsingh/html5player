@@ -69,7 +69,9 @@ export class QuesController implements OnInit {
   enableReplayBtn: boolean = false;
   isVideoPlaying:boolean = false;
   isVOplaying:boolean = false;
+  isLastQues:boolean = false;
   ngOnInit() {
+
 
     this.subscriptionQuesNos = this.appModel.getNoOfQues().subscribe(num => {
       console.log("number of questions", num);
@@ -105,7 +107,8 @@ export class QuesController implements OnInit {
 
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
-
+      this.isLastQues = this.quesCtrl.isLastQues;
+      console.log( this.isLastQues ,'last question', 'jyoti');
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
