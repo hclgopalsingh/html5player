@@ -22,6 +22,7 @@ export class QuesController implements OnInit {
   subscriptionQuesIndex: Subscription;
   subscriptionControlAssets: Subscription;
   firstQusubscription: Subscription;
+  blinkerSubscription: Subscription;
   controlAssets: any;
   isFirstQuestion: any = false;
   subcriptionUttarDikhayein: Subscription;
@@ -74,6 +75,15 @@ export class QuesController implements OnInit {
       this.assetsPath = this.appModel.assetsfolderpath;
       this.containgFolderPath = this.appModel.content.id;
     })
+
+    this.blinkerSubscription = this.appModel.getblinkingNextBtn().subscribe(resetBlink=> {
+      if(resetBlink) {
+        this.blinkFlag = false;
+        clearInterval(this.timeInterval);
+        this.timeInterval = undefined;
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      }
+    });
 
     this.firstQusubscription = this.appModel.getIsFirstQuestion().subscribe(flag => {
       this.isFirstQuestion = flag;
@@ -242,5 +252,8 @@ export class QuesController implements OnInit {
     this.disablePrev = controlObj.isPrev;
     this.hideShowAnswer = controlObj.isShowAns;
     this.disableTabs = controlObj.isTab;
+  }
+  ngOnDestroy() {
+    this.blinkerSubscription.unsubscribe();
   }
 }

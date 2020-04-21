@@ -185,6 +185,7 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
       () => {
         this.appModel.logOutUser("move next segment#######");
         this.appModel.invokeTempSubject("moveNextQues","");
+        this.appModel.resetBlinkingTimer();
         console.log("move to next question", this.moveNextQuesTimer);
         this.unsubscribeTimer(this.timerNextQues);
       }
