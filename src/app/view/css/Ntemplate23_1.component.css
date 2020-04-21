@@ -900,8 +900,8 @@ nav {
 }
 #dropdownviaTooltip {
 	width: 12vmax;/*change for Barebon */
-  left: 52%;
-	top: 5%;
+  left: 0%;
+	top: 0%;
 	opacity: 0;
 }
 .parentGroup:first-child{
