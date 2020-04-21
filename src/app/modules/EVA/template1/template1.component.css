@@ -1,32 +1,3 @@
-#container #optionsBlock {
-    position: absolute;
-    top: 55%;
-    width: 100%;
-    left: 0%; 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.options {
-	width: 86%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.options div {
-	width: 25.5%;
-}
-.options div img:hover{
-	animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
-}
-@keyframes scaleit {
-	0% {
-		transform: scale(1);
-	}
-	100% {
-		transform: scale(1.1);
-	}
-}
 #container .speakerBtn{
 	width:auto;
 	position:absolute;
@@ -48,30 +19,81 @@
 	top:12%;
 	width: 100%;
 	height: 40%;
-	/* text-align: center; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* background: #fff; */
   }
   .refQuesContainer{
 	  position:relative;
 	  width:52%;
   } 
   .refQuesBlock{
-	position: absolute;
+	/* position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
+	height: 100%; */
+	position: absolute;
+    top: 0;
     width: 100%;
     height: 100%;
+    /* width: 42%; */
+    /* height: 40%; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* background: #fff; */
+    /* border: solid 2px #000; */
+    /* border-radius: 2vmin;*/
 }
- .refQuesBlock img:first-child{
+.refQuesBlock img{
+	height: 78%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.dark{
+	-webkit-filter: grayscale(100%) brightness(0) saturate(0); filter: grayscale(100%) brightness(0) saturate(0);
+
+}
+.ansSpace{
+	border-radius: 10px;
+    border: 6px solid transparent;
+}
+.blinkAnimation{
+	animation: blink normal 1s infinite ease-in-out;
+}
+@keyframes blink{
+	0%{
+		/* z-index: 2;
+		opacity: 1; */
+		border-radius: 10px;
+       	border: 6px solid transparent;
+	}
+	100%{
+	   /* z-index: 0;
+	   opacity: 0; */
+	   border-radius: 10px;
+       border: 6px solid blue;
+   }
+	
+}
+ /* .refQuesBlock img:first-child{
 	position: absolute;
     left: 0;
     top: 0;
     width: 100%;
- }
- .refQuesBlock img:nth-child(2){
+ } */
+ /* .refQuesBlock img:nth-child(2){
 	position: absolute;
     left: 33.5%;
     top: 10.5%;
@@ -83,8 +105,8 @@
     top: 10.5%;
 	width: 29%;
 	animation: blink normal 1s infinite ease-in-out;
- }
- @keyframes blink{
+ } */
+ /* @keyframes blink{
 	 0%{
 		 z-index: 2;
 		 opacity: 1;
@@ -94,14 +116,14 @@
 		opacity: 0;
 	}
 	 
- }
- .refQuesBlock img:last-child{
+ } */
+ /* .refQuesBlock img:last-child{
 	position: absolute;
     right: 0;
     top: 0;
     width: 100%;
- }
- .refQuesBlock.onselectopt img:first-child{
+ } */
+ /* .refQuesBlock.onselectopt img:first-child{
 	left:15%;
  }
  .refQuesBlock.onselectopt img:nth-child(2){
@@ -113,16 +135,41 @@
  }
  .refQuesBlock.onselectopt img:last-child{
 	right:8%;
- }
-  
-  #optionsBlock img,
-.optionsBlock img{
-	position:relative;
-  max-width: 100%;
+ } */
+ #container #optionsBlock {
+    position: absolute;
+    top: 55%;
+    width: 100%;
+    left: 0%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
+.options {
+	width: 86%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* .options div {
+	width: 25.5%;
+}
+.options div img:hover{
+	animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+} */
+ 
   #optionsBlock .options,
 .optionsBlock .options{
 	position: relative;
+	max-width: 100%;
   	margin: 0% 5%;
 	vertical-align:middle;
   	width: 19%;
@@ -147,6 +194,8 @@
 	position: absolute !important;
 	width: auto;
 	height: 90%;
+	-webkit-filter: grayscale(100%) brightness(0) saturate(0); filter: grayscale(100%) brightness(0) saturate(0);
+
   }
   .options:hover{
 	animation: scaleIn 0.5s ease-in-out;
