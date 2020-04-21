@@ -189,6 +189,14 @@ export class QuesController implements OnInit {
     
   }
 
+  hoveronSubmitBtn() {
+
+  }
+
+  hleaveSubmitBtn() {
+
+  }
+
 
   selectQuestion(index) {
     if (this.appModel.titleFlag) {
@@ -214,8 +222,9 @@ export class QuesController implements OnInit {
 
 
   confirmAction(action) {
-    this.appModel.confirmPopup(action);
-
+    if(this.EnableShowAnswer) {
+      this.appModel.confirmPopup(action);
+    }
   }
 
   hoverUttarDikhayein() {

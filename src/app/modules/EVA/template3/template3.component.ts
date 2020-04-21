@@ -140,6 +140,7 @@ export class Template3Component extends Base implements OnInit {
 		closed:boolean = false;
 		wrongTimer:any;
 		showAnswerPopup:any;
+		popupclosedinRightWrongAns:boolean=false;
 			
 			//quesInfo  = this._sharedService.navigatetoroute;
 			//Instruction=this._sharedService.navigatetoroute.Instruction;
@@ -191,6 +192,7 @@ export class Template3Component extends Base implements OnInit {
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			this.common_assets.ques_control.blinkingStatus=false;
+			this.common_assets.ques_control.uttar_dikhayein=this.common_assets.ques_control.uttar_dikhayein_disable;
             this.appModel.setQuesControlAssets(this.common_assets.ques_control);
 			// setTimeout(()=>{
 			// 	if(this.navBlock && this.navBlock.nativeElement){
@@ -415,18 +417,17 @@ export class Template3Component extends Base implements OnInit {
 			// 	}			
 		  }
 		
-		stopAllSounds(e) {
-	    //console.log("Event", e);
-		 if(!this.narrator_voice.nativeElement.paused){
-			   e.stopPropagation();
-			   console.log("narrator voice still playing");
-		 }
-		 else{}
-		}
+		// stopAllSounds(e) {
+	    // //console.log("Event", e);
+		//  if(!this.narrator_voice.nativeElement.paused){
+		// 	   e.stopPropagation();
+		// 	   console.log("narrator voice still playing");
+		//  }
+		//  else{}
+		// }
 		checkAnswer(option) {          
 			if(option.id == this.feedback.correct_answer) {
 				 //alert("right");
-				 this.Sharedservice.setShowAnsEnabled(true);
 				 this.blinkOnLastQues();
 				 this.correctOpt = option;
                  this.attemptType = "manual";
@@ -447,9 +448,13 @@ export class Template3Component extends Base implements OnInit {
                     this.clapSound.nativeElement.play();
                     setTimeout(() => {
                        this.clapSound.nativeElement.pause();     
-                       this.clapSound.nativeElement.currentTime = 0;  
-					  this.rightFeedback.nativeElement.play();
-					  this.videoStageonpopUp.nativeElement.play();
+					   this.clapSound.nativeElement.currentTime = 0;
+					   if(!this.popupclosedinRightWrongAns) {
+						this.rightFeedback.nativeElement.play();
+						this.videoStageonpopUp.nativeElement.play();
+					   } else {
+						this.Sharedservice.setShowAnsEnabled(true);
+					   } 
                     }, 2000)
                 }          
                 //disable option and question on right attempt
@@ -461,7 +466,8 @@ export class Template3Component extends Base implements OnInit {
                         $(".quesOptions .options").css("opacity", "0.3");
                          this.rightFeedback.nativeElement.onended = () => {
                             setTimeout(() => {
-                                this.closePopup('answerPopup');
+								this.closePopup('answerPopup');
+								this.Sharedservice.setShowAnsEnabled(true);
                                 console.log('popup closed');
                             }, 10000)
                     //new code
@@ -501,8 +507,11 @@ export class Template3Component extends Base implements OnInit {
 				}
 				this.videoStageonpopUp.nativeElement.play();		
                 this.wrongFeedback.nativeElement.onended = () => {
+					if(this.wrongCount == 3) {
+						this.Sharedservice.setShowAnsEnabled(true);
+					 }
                     setTimeout(() => {
-                        this.closePopup('answerPopup');
+						this.closePopup('answerPopup');
                         console.log('popup closed');
                     }, 10000);
 
@@ -517,9 +526,6 @@ export class Template3Component extends Base implements OnInit {
                 }
             
 		 },20); 
-		 if(this.wrongCount == 3) {
-			this.Sharedservice.setShowAnsEnabled(true);
-		 }
 			 this.doRandomize(this.myoption);
 			}			
 		}
@@ -1026,7 +1032,12 @@ export class Template3Component extends Base implements OnInit {
 			this.showAnswerfeedback.nativeElement.pause();      
 			this.showAnswerfeedback.nativeElement.currentTime = 0;
 		   
-	
+	        if(Type=== "answerPopup") {
+				this.popupclosedinRightWrongAns=true;
+				if(this.wrongCount == 3) {
+					this.Sharedservice.setShowAnsEnabled(true);
+				 }
+			}
 			if(Type === 'showAnswer'){
 			
 				setTimeout(() => {
