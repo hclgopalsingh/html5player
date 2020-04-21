@@ -81,6 +81,7 @@ export class Template3Component extends Base implements OnInit {
 	 @ViewChild('videoStageonpopUp') videoStageonpopUp: any;
 	 @ViewChild('showAnswerVO') showAnswerVO: any;
 	 @ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
+	 @ViewChild('overlay') overlay: any;
 
 		assetsfolderlocation:string="";
 		disableHelpBtn:boolean = false;
@@ -401,7 +402,8 @@ export class Template3Component extends Base implements OnInit {
 		blinkOnLastQues() {
 			if (this.appModel.isLastSectionInCollection) {
 			  this.appModel.blinkForLastQues("");
-			  this.appModel.stopAllTimer();
+			  this.Sharedservice.moveNext();
+			  //this.appModel.stopAllTimer();
 			  if (!this.appModel.eventDone) {
 				if (this.isLastQuesAct) {
 				  this.appModel.eventFired();
@@ -412,9 +414,9 @@ export class Template3Component extends Base implements OnInit {
 				}
 			  }
 			 } 
-			//else {
-			//     this.appModel.moveNextQues("");
-			// 	}			
+			else {
+			    this.appModel.moveNextQues("");
+			 	}			
 		  }
 		
 		// stopAllSounds(e) {
@@ -425,10 +427,12 @@ export class Template3Component extends Base implements OnInit {
 		//  }
 		//  else{}
 		// }
-		checkAnswer(option) {          
+		checkAnswer(option) {
+			this.popupclosedinRightWrongAns=false;          
 			if(option.id == this.feedback.correct_answer) {
 				 //alert("right");
-				 this.blinkOnLastQues();
+				 //this.blinkOnLastQues();
+				 clearTimeout( this.wrongTimer);
 				 this.correctOpt = option;
                  this.attemptType = "manual";
 			this.appModel.stopAllTimer();          
@@ -467,7 +471,7 @@ export class Template3Component extends Base implements OnInit {
                          this.rightFeedback.nativeElement.onended = () => {
                             setTimeout(() => {
 								this.closePopup('answerPopup');
-								this.Sharedservice.setShowAnsEnabled(true);
+								//this.Sharedservice.setShowAnsEnabled(true);
                                 console.log('popup closed');
                             }, 10000)
                     //new code
@@ -475,14 +479,13 @@ export class Template3Component extends Base implements OnInit {
                         this.attemptType = "manual";
                         //disable option and question on right attempt
                         console.log("disable option and question on right attempt");
-                        
-                        this.blinkOnLastQues()
                     }, 200)
                 }
             })
 				 
 			} else {
 				 this.wrongCount++;
+				 clearTimeout( this.wrongTimer);
 				 //alert("wrong");
 				 this.idArray =[];
 				 for(let i of this.myoption){
@@ -507,22 +510,19 @@ export class Template3Component extends Base implements OnInit {
 				}
 				this.videoStageonpopUp.nativeElement.play();		
                 this.wrongFeedback.nativeElement.onended = () => {
-					if(this.wrongCount == 3) {
-						this.Sharedservice.setShowAnsEnabled(true);
-					 }
-                    setTimeout(() => {
+                    this.wrongTimer=setTimeout(() => {
 						this.closePopup('answerPopup');
                         console.log('popup closed');
                     }, 10000);
 
 
-                    if(!this.closed){
-                        this.wrongTimer = setTimeout(() => {
-                            this.ansPopup.nativeElement.classList = "modal";
-                            this.appModel.notifyUserAction();
-                            // this.appModel.wrongAttemptAnimation();	
-                        }, 2000);
-                    }
+                    // if(!this.closed){
+                    //     this.wrongTimer = setTimeout(() => {
+                    //         this.ansPopup.nativeElement.classList = "modal";
+                    //         this.appModel.notifyUserAction();
+                    //         // this.appModel.wrongAttemptAnimation();	
+                    //     }, 2000);
+                    // }
                 }
             
 		 },20); 
@@ -561,39 +561,82 @@ export class Template3Component extends Base implements OnInit {
 		}
 
 
+		// doRandomize(array) {
+
+		//     var currentIndex = array.length, temporaryValue, randomIndex;
+
+		//    // While there remain elements to shuffle...
+		//     while (0 !== currentIndex) {
+
+		// 		// Pick a remaining element...
+		// 		randomIndex = Math.floor(Math.random() * currentIndex);
+		// 		currentIndex -= 1;
+		// 		var img_hover1 = array[currentIndex].imgsrc_hover;
+		// 		var text1 = array[currentIndex].imgsrc;
+		// 		var text1copy = array[currentIndex].image_original;
+		// 		//var optionBg1 = array[currentIndex].option_bg;
+				
+		// 		var img_hover2 = array[randomIndex].imgsrc_hover;
+		// 		var text2 = array[randomIndex].imgsrc;
+		// 		var text2copy = array[randomIndex].image_original;
+		// 		//var optionBg2 = array[randomIndex].option_bg;
+		// 		// And swap it with the current element.
+		// 		temporaryValue = array[currentIndex];
+		// 		array[currentIndex] = array[randomIndex];
+		// 		array[randomIndex] = temporaryValue;
+				
+		// 		// array[currentIndex].imgsrc_hover = img_hover1;
+		// 		// array[currentIndex].imgsrc = text1;
+		// 		// array[currentIndex].image_original = text1copy;
+		// 		// //array[currentIndex].option_bg = optionBg1;
+				
+		// 		// array[randomIndex].imgsrc_hover = img_hover2;
+		// 		// array[randomIndex].imgsrc = text2;
+		// 		// array[randomIndex].image_original = text2copy;
+		// 		//array[randomIndex].option_bg = optionBg2;
+				
+		// 	}
+		// 	var flag=this.arraysIdentical(array,this.idArray);
+		// 	console.log(flag);
+		// 	if(flag){
+		// 		this.doRandomize(array);
+		// 	}
+		// 	else{
+				
+		// 	}
+
+	    // }
+		
 		doRandomize(array) {
-
-		    var currentIndex = array.length, temporaryValue, randomIndex;
-
+			var currentIndex = array.length, temporaryValue, randomIndex;
 		   // While there remain elements to shuffle...
-		    while (0 !== currentIndex) {
-
+			while (0 !== currentIndex) {
 				// Pick a remaining element...
 				randomIndex = Math.floor(Math.random() * currentIndex);
 				currentIndex -= 1;
 				var img_hover1 = array[currentIndex].imgsrc_hover;
-				var text1 = array[currentIndex].imgsrc;
+				var text1 = array[currentIndex].imgsrc_letter;
 				var text1copy = array[currentIndex].image_original;
-				//var optionBg1 = array[currentIndex].option_bg;
+				var optionBg1 = array[currentIndex].image_original;
 				
 				var img_hover2 = array[randomIndex].imgsrc_hover;
-				var text2 = array[randomIndex].imgsrc;
+				var text2 = array[randomIndex].imgsrc_letter;
 				var text2copy = array[randomIndex].image_original;
-				//var optionBg2 = array[randomIndex].option_bg;
+				var optionBg2 = array[randomIndex].image_original;
 				// And swap it with the current element.
 				temporaryValue = array[currentIndex];
 				array[currentIndex] = array[randomIndex];
 				array[randomIndex] = temporaryValue;
 				
-				// array[currentIndex].imgsrc_hover = img_hover1;
-				// array[currentIndex].imgsrc = text1;
-				// array[currentIndex].image_original = text1copy;
-				// //array[currentIndex].option_bg = optionBg1;
+				array[currentIndex].imgsrc_hover = img_hover1;
+				array[currentIndex].imgsrc_letter = text1;
+				array[currentIndex].image_original = text1copy;
+				array[currentIndex].imgsrc = optionBg1;
 				
-				// array[randomIndex].imgsrc_hover = img_hover2;
-				// array[randomIndex].imgsrc = text2;
-				// array[randomIndex].image_original = text2copy;
-				//array[randomIndex].option_bg = optionBg2;
+				array[randomIndex].imgsrc_hover = img_hover2;
+				array[randomIndex].imgsrc_letter = text2;
+				array[randomIndex].image_original = text2copy;
+				array[randomIndex].imgsrc = optionBg2;
 				
 			}
 			var flag=this.arraysIdentical(array,this.idArray);
@@ -604,9 +647,9 @@ export class Template3Component extends Base implements OnInit {
 			else{
 				
 			}
+	
+		}
 
-	    }
-		
 		arraysIdentical(a, b) {
 			console.log("checking:",a,b);
 			var i = a.length;
@@ -948,7 +991,7 @@ export class Template3Component extends Base implements OnInit {
 				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
 				} 
 			 }
-			 this.common_assets.ques_control.blinkingStatus=false;
+			 //this.common_assets.ques_control.blinkingStatus=false;
 			 this.templatevolume(this.appModel.volumeValue,this);
 			 /* if(!this.resizeFlag){
 					this.resizeContainer();
@@ -983,9 +1026,11 @@ export class Template3Component extends Base implements OnInit {
 					// let nxtBtndiv=(document.getElementsByClassName("nextBtn")[0] as HTMLElement);
 					// nxtBtndiv.classList.value ="img-fluid nextBtn disableBtn";
 					this.narrator_voice.nativeElement.play();
+					this.Sharedservice.setVoplayingStatus(true); 
 					this.narrator_voice.nativeElement.onended = () => {
 					  //this.appModel.handlePostVOActivity(false);
 					//   nxtBtndiv.classList.value="img-fluid nextBtn";
+					  this.Sharedservice.setVoplayingStatus(false); 
 					  this.optionsBlock.nativeElement.classList = "";
 					  (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
 					}
@@ -1034,9 +1079,17 @@ export class Template3Component extends Base implements OnInit {
 		   
 	        if(Type=== "answerPopup") {
 				this.popupclosedinRightWrongAns=true;
-				if(this.wrongCount == 3) {
+				if(this.ifRightAns) {
 					this.Sharedservice.setShowAnsEnabled(true);
-				 }
+					this.overlay.nativeElement.classList.value="fadeContainer";
+					this.blinkOnLastQues();
+				} else {
+					if(this.wrongCount == 3 && this.ifWrongAns) {
+						this.Sharedservice.setShowAnsEnabled(true);
+					 } else {
+						this.Sharedservice.setShowAnsEnabled(false);
+					 }
+				}
 			}
 			if(Type === 'showAnswer'){
 			

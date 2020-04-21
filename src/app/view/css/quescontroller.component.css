@@ -236,6 +236,7 @@
 }
 
 #footerNavBlock .nextBtn.blink{
-	animation: blink normal 1.3s infinite ease-in-out;
+	animation:blink normal 1s infinite ease-in-out
+	/* animation: blink normal 1.3s infinite ease-in-out; */
 	/* -webkit-animation: blink normal .5s infinite ease-in-out; */
 }
