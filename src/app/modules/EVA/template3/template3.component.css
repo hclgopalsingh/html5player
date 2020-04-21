@@ -116,3 +116,35 @@
 	position: absolute;
     width: 35%!important;
 }
+
+#modalTemp17 .stageVideo {
+    position: absolute;
+    width: 48%;
+    right: 27%;
+    top: 6.7%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+	align-items: center;
+}
+
+#showAnswer .stageVideo {
+    position: absolute;
+    width: 48%;
+    right: 27%;
+    top: 17%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+	align-items: center;
+}
