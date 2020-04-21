@@ -98,17 +98,17 @@ button:focus {
     z-index: 1;
 }
 #footerNavBlock .nextBtn.blink{
-	animation: blink normal 1.3s infinite ease-in-out;
-	/* -webkit-animation: blink normal .5s infinite ease-in-out; */
+	animation: blink normal 1s infinite ease-in-out;
 }
 @keyframes blink {
 	0% {
 		z-index: 2;
-		opacity: 1;
+	}
+	40% {
+		z-index: 2;
 	}
 	100% {
 		z-index: 0;
-		opacity: 0;
 	}
 }
 .navQuesBlock {
@@ -139,6 +139,7 @@ button:focus {
     height: 93.94% !important;
 	display: flex;
 	background: rgba(0,0,0,.7);
+	/* display: none; */
 }
 .modal-dialog {
 	max-width: 84% !important;
@@ -160,7 +161,11 @@ button:focus {
     z-index: 1;
 }
 .modal #optionsBlock {
-    top: 7.5% !important;
+	top: 7.5% !important;
+    width: 97.4% !important;
+}
+.modal #optionsBlock.onShowAns {
+	top: 18.5% !important;
     width: 97.4% !important;
 }
 .modal .options {
@@ -186,10 +191,18 @@ button:focus {
 .modal .options img {
 	cursor: default;
 }
-.disableDiv {  
+.disableDiv,
+.disableBtn {  
 	pointer-events: none;
 }
 .disableBtn{
 	opacity: .5;  
-	pointer-events: none;
+}
+.fadeContainer{
+    background: rgba(0,0,0,.75);
+    position: absolute;
+    width: 100%;
+    height: 83.9%;
+    top: 0;
+    z-index: 3;
 }
