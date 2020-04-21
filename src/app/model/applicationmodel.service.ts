@@ -54,6 +54,7 @@ export class ApplicationmodelService {
   _animationAssets = new Subject<any>();
   _wrongAttemptAnimation = new Subject<any>();
   _autoPlaySubject = new Subject<any>();
+  _blinkingSubject =  new Subject<any>();
   //_resetTimerOnNewSeg = new Subject<any>();
   private attemptsNT8: any = [];
   private rightAttempt: any = [];
@@ -257,7 +258,6 @@ export class ApplicationmodelService {
     this.subject.observers.push(observ);
     this.subject.next(data.id);
   }
-
   private initFailed(error): void {
     console.error('ApplicationmodelService: initFailed - error = ', error);
   }
@@ -628,7 +628,8 @@ export class ApplicationmodelService {
         let observ = this.moveNextQuesSubject.observers[this.moveNextQuesSubject.observers.length - 1];
         this.moveNextQuesSubject.observers.splice(0, this.moveNextQuesSubject.observers.length);
         this.moveNextQuesSubject.observers.push(observ);
-        this.moveNextQuesSubject.next()
+        this.moveNextQuesSubject.next();
+        this.blinkForLastQues();
       }
     } else {
       this.stopAllTimer();
@@ -903,6 +904,12 @@ export class ApplicationmodelService {
   }
   get autoPlayBtn() {
     return this._autoPlaySubject.asObservable();
+  }
+  getblinkingNextBtn() {
+    return this._blinkingSubject.asObservable();
+  }
+  resetBlinkingTimer() {
+    this._blinkingSubject.next(true);
   }
 }
 
