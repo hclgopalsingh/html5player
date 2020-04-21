@@ -229,6 +229,10 @@ export class Ntemplate23_1 implements OnInit {
   styleBodyPopup:any;
   popupType:any ="";
   optionSelected:any;
+  listStateHeader: any;
+  listCapitalHeader: any;
+  DropDownTitleUpper:any;
+  DropDownTitleLower:any;
 
   playHoverInstruction() {
    if (!this.narrator.nativeElement.paused) {
@@ -1561,6 +1565,10 @@ this.edited = false;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+      this.listStateHeader = this.commonAssets.listHeader.StateHeader;
+      this.listCapitalHeader = this.commonAssets.listHeader.CapitalHeader;
+      this.DropDownTitleUpper = this.commonAssets.listHeader.UpperTitle;
+      this.DropDownTitleLower = this.commonAssets.listHeader.LowerTitle;
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }

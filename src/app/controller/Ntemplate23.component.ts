@@ -231,6 +231,8 @@ export class Ntemplate23 implements OnInit {
   optionSelected: any;
   listStateHeader: any;
   listCapitalHeader: any;
+  DropDownTitleUpper:any;
+  DropDownTitleLower:any;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -1525,6 +1527,8 @@ export class Ntemplate23 implements OnInit {
       this.ques_control = fetchedData.commonassets.ques_control;
       this.listStateHeader = this.commonAssets.listHeader.StateHeader;
       this.listCapitalHeader = this.commonAssets.listHeader.CapitalHeader;
+      this.DropDownTitleUpper = this.commonAssets.listHeader.UpperTitle;
+      this.DropDownTitleLower = this.commonAssets.listHeader.LowerTitle;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;

@@ -10,10 +10,14 @@
       <img class="img-fluid" src="images/burst.gif">
   </div>
   -->
-  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div id="bgImage">
+    <img class="img-fluid" [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : commonAssets?.background?.url"
+      (load)="checkImgLoaded();" />
+  </div>
   <div class="d-flex flex-row justify-content-around" id="instructionBar">
     <div class="instructionBase">
-      <img class="img-fluid" [src]="commonAssets?.instruction_bg?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : commonAssets?.instruction_bg?.url" (load)="checkImgLoaded();" (click)="playHoverInstruction()" />
+      <img class="img-fluid" [src]="commonAssets?.instruction_bg?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : commonAssets?.instruction_bg?.url"
+        (load)="checkImgLoaded();" (click)="playHoverInstruction()" />
       <audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction?.url:commonAssets?.instruction?.url"></audio>
       <!--
    <img class="img-fluid instructionText" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
@@ -33,13 +37,17 @@
       </div>
       <ul class="listNames">
         <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 12, currentPage: p }">
-          <span><img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url"></span>
-          <span><img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url"></span>
+          <span>
+            <img [src]="item?.state?.location=='content' ? containgFolderPath + '/' + item?.state?.url : assetsPath + '/' + item?.state?.url">
+          </span>
+          <span>
+            <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.location=='content' ? containgFolderPath + '/' + item?.imgcapital?.url : assetsPath + '/' + item?.imgcapital?.url">
+          </span>
         </li>
       </ul>
       <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
-        <!-- <li>
+    <!-- <li>
           <span><img class="" src="../../assets/images/Template-23/00001.png"></span>
           <span><img class="" src="../../assets/images/Template-23/00002.png"></span>
         </li>
@@ -56,59 +64,68 @@
         </ul>
       </nav> -->
 
-	<!-- <form id="myForm" #MyForm>
+    <!-- <form id="myForm" #MyForm>
 <textarea id="lfname" name="fname" rows="10" cols="90"></textarea>
     </form> -->
 
 
 
-    <div id="mainques" #quesRef  (mousemove)="MouseOver($event)" (mouseout)="MouseOut($event)" (click)="onClick($event)" (dblclick)="ondblClick($event)"></div>
+    <div id="mainques" #quesRef (mousemove)="MouseOver($event)" (mouseout)="MouseOut($event)" (click)="onClick($event)" (dblclick)="ondblClick($event)"></div>
     <!-- <ul>
       <li *ngFor="let item of collection | paginate: { itemsPerPage: 10, currentPage: p }"> {{item}} </li>
     </ul> -->
 
     <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
-    <div id = "maintooltip">
-      <div id = {{index.tooltipID}} class="tooltipHidden" *ngFor="let index of myStates"><img class="img-fluid" [src]="commonAssets?.tooltipImg?.location=='content' ? containgFolderPath + '/' + commonAssets?.tooltipImg?.url : commonAssets?.tooltipImg?.url"/></div>
+    <div id="maintooltip">
+      <div id={{index.tooltipID}} class="tooltipHidden" *ngFor="let index of myStates">
+        <img class="img-fluid" [src]="commonAssets?.tooltipImg?.location=='content' ? containgFolderPath + '/' + commonAssets?.tooltipImg?.url : commonAssets?.tooltipImg?.url"
+        />
+      </div>
     </div>
-    
+
     <div id="dropdownviaTooltip">
       <div class="btn-group parentGroup" role="group" aria-label="Button group with nested dropdown">
-        <p>State: <span class="capitalName">{{selectedStateinTooltip}}</span></p>
+        <p>{{DropDownTitleUpper}}
+          <span class="capitalName">{{selectedStateinTooltip}}</span>
+        </p>
         <img class="dropdownCloseBtn" (click)="onTooltipclick()" src="../../assets/images/Template-23/dropdownCloseBtn.png">
       </div>
       <div class="btn-group parentGroup" role="group" aria-label="Button group with nested dropdown">
-        <p>Capital: <span class="capitalName">{{optionSelected}}</span></p>
+        <p>{{DropDownTitleLower}}
+          <span class="capitalName">{{optionSelected}}</span>
+        </p>
         <div class="btn-group childGroup" role="group">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
 
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item"  *ngFor = "let capital of copiedstates" (click)="stateName($event.target)">{{capital}}</a>
+            <a class="dropdown-item" *ngFor="let capital of copiedstates" (click)="stateName($event.target)">{{capital}}</a>
           </div>
         </div>
       </div>
     </div>
-      <svg id="mainCanvas">
-	  <line id="line0" x1="0" y1="0" x2="0" y2="0" style="stroke:rgb(0,0,0);stroke-width:2"/>
-	  </svg>
+    <svg id="mainCanvas">
+      <line id="line0" x1="0" y1="0" x2="0" y2="0" style="stroke:rgb(0,0,0);stroke-width:2" />
+    </svg>
 
-	  <audio id="playerAudioId" #playerAudio></audio>
-	  <!-- <div class="stateName" #stateId>
+    <audio id="playerAudioId" #playerAudio></audio>
+    <!-- <div class="stateName" #stateId>
 	    <select class="form-control" value="" (change)="stateName($event.target)" [disabled]="isValid" id = "MySelect" #mySelect>
          <option value="">Please select</option>
          <option *ngFor="let state of myDropDownStates" [value]="state?.textField" >{{state?.textField}}</option>
         </select>
 	  </div> -->
     <div id="dropdown" class="dropdownhidden">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
         Select
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item"  *ngFor = "let capital of copiedstates" (click)="stateName($event.target)">{{capital}}</a>
+        <a class="dropdown-item" *ngFor="let capital of copiedstates" (click)="stateName($event.target)">{{capital}}</a>
       </div>
     </div>
-   <!-- <ngx-select-dropdown id="dropdown" class = "dropdownhidden"(change)="stateName($event)"  [(ngModel)]="dataModel" [config]="this.config" [options]="this.options"></ngx-select-dropdown> -->
+    <!-- <ngx-select-dropdown id="dropdown" class = "dropdownhidden"(change)="stateName($event)"  [(ngModel)]="dataModel" [config]="this.config" [options]="this.options"></ngx-select-dropdown> -->
   </div>
 
   <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.right_ans_sound?.url: assetsPath + '/' + feedbackObj?.right_ans_sound?.url"></audio>
@@ -122,14 +139,21 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url"
+            (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
+          <div class="msgImage">
+            <img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url">
+          </div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('showAnswer-modal-id','answer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+            <button type="button" (click)="showFeedback('showAnswer-modal-id','answer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()">
+              <img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url">
+            </button>
+            <button type="button" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()">
+              <img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url">
+            </button>
           </div>
         </div>
 
@@ -146,13 +170,18 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.headerTxt_img?.url : assetsPath + '/' + infoPopupAssets?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url"
+            (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url"></div>
+          <div class="msgImage">
+            <img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url">
+          </div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url"></button>
+            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()" (mouseleave)="houtOK()">
+              <img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url">
+            </button>
           </div>
         </div>
         <audio #feedbackInfoAudio></audio>
@@ -162,23 +191,30 @@
 
   <div class="modal" id="confirmModal" #confirmSubmitRef>
     <div class="modal-dialog">
-        <div class="modal-content" #modalRef>
-          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
-            <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.headerTxt_img?.url : assetsPath + '/' + confirmSubmitAssets?.headerTxt_img?.url">
-            <img class="close" [src]="confirmSubmitAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.close_btn?.url : assetsPath + '/' + confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
+          <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.headerTxt_img?.url : assetsPath + '/' + confirmSubmitAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmSubmitAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.close_btn?.url : assetsPath + '/' + confirmSubmitAssets?.close_btn?.url"
+            (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
+          <div class="msgImage">
+            <img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_text?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_text?.url">
           </div>
-          <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
-            <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_text?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_text?.url"></div>
-            <div class="actionButtons">
-              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_btn?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_btn?.url"></button>
-              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.decline_btn?.url : assetsPath + '/' + confirmSubmitAssets?.decline_btn?.url"></button>
-            </div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()">
+              <img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_btn?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_btn?.url">
+            </button>
+            <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()">
+              <img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.decline_btn?.url : assetsPath + '/' + confirmSubmitAssets?.decline_btn?.url">
+            </button>
           </div>
         </div>
+      </div>
     </div>
   </div>
 
-     <!-- The Modal -->
+  <!-- The Modal -->
   <div class="modal" id="modalTemp23" #popupRef>
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url"> -->
@@ -187,16 +223,17 @@
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="styleHeaderPopup">
           <!-- <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url"> -->
-          
-        <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.rightAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.rightAnswerheaderTxt_img?.url">
-				<img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.wrongAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.wrongAnswerheaderTxt_img?.url">
-				<img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.showAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.showAnswerheaderTxt_img?.url">
-				<img *ngIf="partialCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialCorrectheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.partialCorrectheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.partialCorrectheaderTxt_img?.url">
-        <img *ngIf="partialInCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialInCorrectheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.partialInCorrectheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.partialInCorrectheaderTxt_img?.url">
+
+          <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.rightAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.rightAnswerheaderTxt_img?.url">
+          <img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.wrongAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.wrongAnswerheaderTxt_img?.url">
+          <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.showAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.showAnswerheaderTxt_img?.url">
+          <img *ngIf="partialCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialCorrectheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.partialCorrectheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.partialCorrectheaderTxt_img?.url">
+          <img *ngIf="partialInCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialInCorrectheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.partialInCorrectheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.partialInCorrectheaderTxt_img?.url">
 
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url"
+            type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
           <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
         </div>
 
@@ -206,8 +243,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+                <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of paginationArray">
@@ -225,8 +262,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table1">
@@ -242,8 +279,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table2">
@@ -261,8 +298,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table1">
@@ -278,8 +315,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table2">
@@ -295,8 +332,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table3">
@@ -313,9 +350,9 @@
           <audio #feedbackPopupAudio></audio>
         </div>
       </div>
-     </div>
-   </div>
-        <!-- The ShowAnswer Modal -->
+    </div>
+  </div>
+  <!-- The ShowAnswer Modal -->
   <div class="modal" id="modalTemp23" #showAnswerRef>
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url"> -->
@@ -326,7 +363,8 @@
           <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url"
+            type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
           <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
         </div>
 
@@ -336,8 +374,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of showAnswerarray">
@@ -355,8 +393,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table1">
@@ -372,8 +410,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table2">
@@ -391,8 +429,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+        <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table1">
@@ -408,8 +446,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+                <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table2">
@@ -425,8 +463,8 @@
             <div class="listBlock">
               <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
               <div class="listHeader">
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerState.png" />
-                <img class="img-fluid" src="../../assets/images/Template-23/AnswerCapital.png" />
+                <img class="img-fluid" [src]="listStateHeader" />
+                <img class="img-fluid" [src]="listCapitalHeader" />
               </div>
               <ul class="listNames">
                 <li *ngFor="let item of table3">
@@ -443,6 +481,6 @@
           <audio #feedbackshowPopupAudio></audio>
         </div>
       </div>
-     </div>
-   </div>
+    </div>
+  </div>
 </div>
