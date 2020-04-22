@@ -94,6 +94,7 @@ export class Template15Component implements OnInit {
     @ViewChild('mainContainer') mainContainer: any;  
     @ViewChild('instructionBar') instructionBar: any;
     @ViewChild('clapSound') clapSound: any;
+    @ViewChild('overlay') overlay:any;
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) { 
         this.appModel = appModel;
@@ -152,7 +153,6 @@ export class Template15Component implements OnInit {
                     this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             
                     if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-                        console.log('show answer play jyoti');
                         this.showAnswerfeedback.nativeElement.play();
                     }
                     this.popupType = "showanswer";
@@ -216,17 +216,14 @@ export class Template15Component implements OnInit {
     setData() {
         this.appModel.notifyUserAction();
         let fetchedData: any = this.appModel.content.contentData.data;
-        // this.optionObj = JSON.parse(JSON.stringify(fetchedData.options));
         this.instructiontext = fetchedData.instructiontext;
         this.myoption = fetchedData.options;
         this.commonAssets = fetchedData.commonassets;
         this.speaker = fetchedData.speaker;
         this.feedback = fetchedData.feedback;
         this.questionObj = fetchedData.quesObj;
-        // this.question = fetchedData.ques;
         this.noOfImgs = fetchedData.imgCount;
         this.popupAssets = fetchedData.feedback.popupassets;
-        // this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
 		this.correct_ans_index = this.feedback.correct_ans_index;
 		this.rightPopup = this.feedback.right_ans_sound;
         this.wrongPopup = this.feedback.wrong_ans_sound;
@@ -236,24 +233,7 @@ export class Template15Component implements OnInit {
         this.commonAssets.ques_control.blinkingStatus=false;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-        // this.rightAnsSoundUrl = this.myoption[this.feedback.correct_ans_index]
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-
-        // this.appModel.setAttemptQues(0);
-        // if (this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
-        //     this.isPlayVideo = true;	
-        //   } else {     
-        //     this.isPlayVideo = false;
-        //      this.tempTimer = setTimeout(() => {
-        //         this.noOfImgsLoaded = 0;
-        //         this.appModel.setLoader(true);
-        //         this.loaderTimer = setTimeout(() => {
-        //             this.appModel.setLoader(false);
-        //         }, 5000)
-        //     }, this.quesInfo.formatTimeout)
-
-        //   }
-
         setTimeout(() => {
             if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
                 this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
@@ -430,7 +410,12 @@ export class Template15Component implements OnInit {
     closePopup(Type,answerType){
         if(answerType === 'right'){
             this.Sharedservice.setShowAnsEnabled(true);
-            this.maincontent.nativeElement.className = "fadeContainer";
+            this.overlay.nativeElement.className = "fadeContainer";
+
+            console.log(this.popupType)
+            setTimeout(()=>{
+                this.appModel.nextSection(); 
+            }, 10000)
         }
 
         if(answerType === 'wrong'){
@@ -470,6 +455,7 @@ export class Template15Component implements OnInit {
                 
 			}, 1000);
         }else{
+           
            
         }
      
@@ -638,7 +624,7 @@ export class Template15Component implements OnInit {
         if(this.lastQuestionCheck){
             setTimeout(()=>{                
                 this.next();
-              },10000);
+              },5 * 60 * 1000);
         }
         if (this.appModel.isLastSectionInCollection) {
           this.appModel.blinkForLastQues();

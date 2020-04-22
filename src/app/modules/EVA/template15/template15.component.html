@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
-		
+	<div class="" #overlay></div>	
      <div class="container-fluid" id="container"><!--style="width: 1168px;" -->
         <div class="headerBar">
             <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
@@ -71,7 +71,7 @@
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="optionsBlock">
+                    <div id="optionsBlock" class="onShowAns ">
                         <div class="options">
                             <div>
                                 <img class="img-fluid" [src]="showAnswerPopup?.image?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsPath +'/'+ showAnswerPopup?.image?.url">
