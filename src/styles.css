@@ -138,7 +138,7 @@ button:focus {
     height: 93.94% !important;
 	display: flex;
 	background: rgba(0,0,0,.7);
-	/* display: none; */
+	display: none;
 }
 .modal-dialog {
 	max-width: 84% !important;
@@ -175,6 +175,7 @@ button:focus {
 }
 .modal .options div:hover{
 	animation: none !important;
+	transform: none !important;
 }
 .rightWrongAns {
     position: absolute;
