@@ -36,15 +36,21 @@
     left: 0;
 }
 
-.zoom {
-	transition: transform .6s;
-  }
+.options div:hover{
+    transform: scale(1.1);
+    transition: transform .6s;
+	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
+}
 
-  .options  .zoom:hover {
-	-ms-transform: scale(1.1); /* IE 9 */
-	-webkit-transform: scale(1.1); /* Safari 3-8 */
+/* .zoom {
+	transition: transform .6s;
+  } */
+
+  /* .options  .zoom:hover {
+	-ms-transform: scale(1.1); 
+	-webkit-transform: scale(1.1); 
 	transform: scale(1.1); 
-  }
+  } */
 
 /* .options div img:hover{
     animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
