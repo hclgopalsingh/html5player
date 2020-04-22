@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<audio #narrator [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
+<audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
 		
      <div class="container-fluid" id="container">
         <div class="headerBar">
@@ -9,9 +9,7 @@
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
 			(load)="checkImgLoaded();" />  
         </div>
-        <audio  #wrongFeedback [src]="feedback?.wrong_ans_sound?.path?.location=='content' ? containgFolderPath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsPath + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
-        <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? containgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsPath + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
-		
+       
         <div #maincontent>
         <div id="instructionBar">
             <div class="instructionBase">
@@ -32,12 +30,12 @@
         </div>
         </div>
         <audio #quesVORef></audio>
-        <div class="row mx-0" id="optionsBlock">
+        <div class="row mx-0" id="optionsBlock" #ansBlock>
             <div class="my-auto quesImage" #optionRef id="optionTestId">
-                <div class="options" *ngFor="let opt of optionObj.opts;let idx = index" on-mousemove='onHoverOptions(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="selectOpt(opt,idx)">
-                    <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
+                <div id="{{'opt'+idx}}" class="options" *ngFor="let opt of myoption;let idx = index" on-mousemove='onHoverOptions(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="selectOpt(opt,idx)">
+                    <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
                     (load)="checkImgLoaded();">
-                    <img class="img-fluid optItem" [src]="opt?.location=='content' ? containgFolderPath + '/' + opt?.url : assetsPath + '/' +opt?.url"
+                    <img class="img-fluid optItem" id="{{'optimage'+idx}}" [src]="opt?.location=='content' ? containgFolderPath + '/' + opt?.url : assetsPath + '/' +opt?.url"
                      (load)="checkImgLoaded();">
                 </div>
             </div>
