@@ -54,6 +54,7 @@ export class Ntemplate14 implements OnInit {
 	isPlay: boolean = false;
 	isStop: boolean = true;
 	isRecord: boolean = false;
+	isRecording: boolean = false;
 	controlHandler = {
 		isShowAns: false,
 	};
@@ -183,6 +184,10 @@ export class Ntemplate14 implements OnInit {
 			if (this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.currentTime = 0;
 				this.instruction.nativeElement.play();
+
+				if(	!this.audioT.nativeElement.paused){
+					this.audioT.nativeElement.pause();
+				}
 				this.instruction.nativeElement.onended = () => {
 					$("#ansBlock .options").removeClass("disable_div");
 					$("#ansBlock").css("pointer-events", 'auto');
@@ -292,6 +297,7 @@ export class Ntemplate14 implements OnInit {
 	startRecording() {
 		this.isStop = false;
 		this.isRecord = true;
+		this.isRecording =true;
 		this.appModel.notifyUserAction()
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
@@ -329,6 +335,7 @@ export class Ntemplate14 implements OnInit {
 	}
 
 	stopRecording() {
+		this.isRecording =false;
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
@@ -505,11 +512,16 @@ export class Ntemplate14 implements OnInit {
 			}
 		})
 
+	}
 
-
-
-
-
+	ngAfterViewInit(){
+		let that = this;
+		document.getElementById("audioplay").addEventListener("play",function(){
+			if (!that.instruction.nativeElement.paused) {
+				that.instruction.nativeElement.pause();
+				that.instruction.nativeElement.currentTime = 0;
+			}
+		});
 	}
 
 	getBasePath() {
