@@ -799,7 +799,7 @@ nav {
 	z-index: 100;
 }
 #dropdownviaTooltip {
-	width: 12vmax;/*change for Barebon */
+	width: 15.25%;/*22 Apr changes*//*12vmax-change for Barebon */
   left: 0%;
 	top: 0%;
 	opacity: 0;
@@ -828,7 +828,8 @@ nav {
 	font-size: .7vmax;
 }
 .childGroup{
-	width: 17%;
+  width: 17%;
+  position: initial !important; /*22 Apr changes*/
 }
 .childGroup .dropdown-toggle::after {
   right: 35% !important;
@@ -864,9 +865,10 @@ nav {
 }
 #dropdownviaTooltip .dropdown-menu {
 	height: 6.3vmax;/*change for Barebon - whole set of properties*/
-  left: auto !important;
-  right: -.14vmax;
-  width: 12.1vmax !important;
+  /* left: auto !important;*//*22 Apr changes*/
+  /*right: -.14vmax;*/
+  width: 103.4% !important;/*22 Apr changes*//*12.1vmax !important*/
+  margin: 0 0 0 -1.8%;/*22 Apr changes*/
 	/*height: 6.7vmax;
 	left: auto !important;
 	right: -.2vmax;
