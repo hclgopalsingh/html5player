@@ -629,12 +629,16 @@ export class ApplicationmodelService {
         this.moveNextQuesSubject.observers.splice(0, this.moveNextQuesSubject.observers.length);
         this.moveNextQuesSubject.observers.push(observ);
         this.moveNextQuesSubject.next();
+        if(flag != "noBlink"){
         this.blinkForLastQues();
+        }
       }
     } else {
       this.stopAllTimer();
       if (this.isLastSectionInCollection) {
+        if(flag != "noBlink"){
         this.blinkForLastQues();
+        }
       }
       /*
       move next segment timer  dont delete
