@@ -72,15 +72,18 @@ export class Template1Component implements OnInit {
     fixedOptions:any = [];
     quesEmptyTxtIndx: number = -1;
     isOptionSelected: boolean = false;
+    quesObj: any;
     quesObjCopy: any;
     optionSelected: number = -1;
     boundingClientFrom: any;
     boundingClientTo: any;
     emptyOpt:any;
     isRightSelected: boolean = false;
+    isWrongSelected: boolean = false;
     myoption: any = [];
     optionObj: any;
     questionObj: any;
+    correct_opt_index: any;
 
     // @ViewChild('narrator') narrator: any;
     @ViewChild('instruction') instruction: any;
@@ -163,6 +166,7 @@ export class Template1Component implements OnInit {
      this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {        
             if (val == "uttarDikhayein") {
                 if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+                    this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index;//Setting data for showAnswer Popup
                     this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             
                     if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
@@ -248,9 +252,16 @@ export class Template1Component implements OnInit {
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+        this.quesObj = JSON.parse(JSON.stringify(this.questionObj));
         this.quesObjCopy = JSON.parse(JSON.stringify(this.questionObj));
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.myoption = fetchedData.options.opts;
+        for (let i = 0; i < this.optionObj.opts.length; i++) {
+            if (this.optionObj.opts[i].isCorrect) {
+                this.correct_opt_index = this.optionObj.opts[i];
+                break;
+            }
+        }
         for (let i = 0; i < this.questionObj.questionText.length; i++) {
             if (this.questionObj.questionText[i].isBlank) {
                 this.quesEmptyTxtIndx = i;
@@ -344,7 +355,8 @@ export class Template1Component implements OnInit {
         }
 
         if(this.answerPopupType  === 'wrong'){
-            if(this.wrongCounter === 3){
+            //this.resetQuestion();//To reset question on wrong attempt
+            if(this.wrongCounter >= 3){
                 this.Sharedservice.setShowAnsEnabled(true); 
             }else{
                 this.Sharedservice.setShowAnsEnabled(false);
@@ -690,9 +702,12 @@ onHoverSpeaker(speaker) {
                this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = opt;
                this.isOptionSelected = true;               
            }, 50)
-
+           this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup
+          
            if (opt && opt.isCorrect) {
                // handle for correct attempt
+               this.isRightSelected=true;
+               this.isWrongSelected=false;
                this.answerPopupType = 'right';
                 this.blinkOnLastQues();
                 this.correctOpt = opt;
@@ -719,14 +734,15 @@ onHoverSpeaker(speaker) {
                            }
                         }, 2000)
                     }
-                    this.disableQuestion();   //Disable Question on Right Attempt  
+                    //this.disableQuestion();   //Disable Question on Right Attempt  
                 },1000)                
            
             } else {          
                //handle for wrong attempt
+               this.isRightSelected=false;
+               this.isWrongSelected=true;
                this.answerPopupType = 'wrong';
                this.wrongCounter += 1;               
-               console.log("Shef"+this.wrongCounter);
                this.idArray = [];
                for (let i of this.myoption) {
                    this.idArray.push(i.id);
@@ -734,10 +750,10 @@ onHoverSpeaker(speaker) {
                setTimeout(()=>{
                     let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
                     ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                    opt.image = opt.image_original;
+                //    opt.image = opt.image_original;
                 //    this.answerImageBase = opt.image.url;
                 //    this.answerImage = opt.imgsrc.url;
-                //    this.answerImagelocation = opt.image.location;
+                //    this.answerImagelocation = opt.image.location;                
                 this.popupIcon = this.popupAssets.wrong_icon.url;
                 this.popupIconLocation = this.popupAssets.wrong_icon.location;
                 this.appModel.stopAllTimer();
@@ -790,14 +806,20 @@ onHoverSpeaker(speaker) {
    }
    resetQuestion(){
     /*Reset Question and Option*/               
-    setTimeout(() =>{
-        setTimeout(()=>{
+    // setTimeout(() =>{
+    //     setTimeout(()=>{
+    //     this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
+    //     },50)
+    //     setTimeout(()=>{
+    //         this.doRandomize(this.myoption)
+    //     },200)
+    //  },100)   
+    setTimeout(()=>{
         this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
         },50)
         setTimeout(()=>{
             this.doRandomize(this.myoption)
-        },200)
-     },200)    
+        },200) 
     this.isOptionSelected = false;
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
     

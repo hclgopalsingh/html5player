@@ -53,13 +53,18 @@
           <div class="modal-content">
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                  <div id="optionsBlock">
+                  <!-- <div id="optionsBlock">
                       <div class="options">
                           <div>
                               <img class="img-fluid" [src]="answerImagelocation=='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase">
                               <img class="img-fluid subOpt" [src]="answerImagelocation=='content' ? containgFolderPath +'/'+ answerImage :  assetsPath +'/'+ answerImage">
                           </div>
                       </div>
+                  </div> -->
+                  <div class="refQuesBlock">
+                    <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
+                    <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
+                    </ng-container>
                   </div>
                   <div class="rightWrongAns">
                       <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
@@ -78,13 +83,18 @@
           <div class="modal-content">
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                  <div id="optionsBlock">
+                  <!-- <div id="optionsBlock">
                       <div class="options">
                           <div>
                               <img class="img-fluid" [src]="showAnswerPopup?.image?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsPath +'/'+ showAnswerPopup?.image?.url">
                               <img class="img-fluid subOpt" [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
                           </div>
                       </div>
+                  </div> -->
+                  <div class="refQuesBlock">
+                    <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
+                    <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
+                    </ng-container>
                   </div>
                   <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
                   (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
