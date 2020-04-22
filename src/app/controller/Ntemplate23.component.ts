@@ -229,6 +229,7 @@ export class Ntemplate23 implements OnInit {
   styleBodyPopup: any;
   popupType: any = "";
   optionSelected: any;
+  singleClicknotAllowed:boolean=false;
   listStateHeader: any;
   listCapitalHeader: any;
   DropDownTitleUpper:any;
@@ -428,13 +429,16 @@ export class Ntemplate23 implements OnInit {
   }
 
   MouseOver(event) {
-    //var MyTextField = (document.getElementById("lfname") as HTMLInputElement);
-    this.appModel.notifyUserAction();
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.pause();
-    }
-    this.Id = event.target.getAttribute('xlink:href');
-    console.log("this.Id = " + this.Id);
+      //var MyTextField = (document.getElementById("lfname") as HTMLInputElement);
+      this.appModel.notifyUserAction();
+      this.Id = event.target.getAttribute('xlink:href');
+      if(this.Id!= null) {             
+      if(!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.pause();
+      }
+      }
+      console.log("this.Id = "+this.Id);
+
     if (this.Id == null) {
       if (this.stateIndex != undefined && this.myStates[this.stateIndex] != undefined && !this.myStates[this.stateIndex].clicked) {
         $(this.QuesRef.nativeElement.children[0].children[this.stateIndex + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", this.originalcolor);
@@ -544,94 +548,99 @@ export class Ntemplate23 implements OnInit {
     return this.copiedstates;
   }
 
-  onClick(event) {
-    if (this.stateIndex != undefined && this.myStates[this.stateIndex] != undefined && !this.myStates[this.stateIndex].clicked) {
-      $(this.QuesRef.nativeElement.children[0].children[this.stateIndex + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", this.originalcolor);
-      //this.QuesRef.nativeElement.children[0].children[this.stateIndex+1].innerHTML = this.storeHtml;
-    }
-    this.appModel.enableSubmitBtn(false);
-    this.clickedId = event.target.getAttribute('xlink:href');
-    console.log("this.Id = " + this.clickedId);
-    let idFound = this.myStates.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
-    if (idFound != undefined) {
-      this.optionSelected = idFound.optionSelected;
-    }
-    this.stateIndex = this.myStates.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
-    if (idFound && !idFound.clicked) {
-      this.appModel.notifyUserAction();
-      this.countofClick++;
-      document.getElementById("dropdown").style.opacity = "1";
-      document.getElementById("dropdown").style.pointerEvents = "";
-      document.getElementById('dropdownviaTooltip').style.opacity = "0";
-      console.log("clicked");
-      idFound.clicked = true;
-      this.submittedArray.push(idFound);
-      this.tempObj = <any>{};
-      this.tempObj.state = idFound.stateTxtimg;
-      this.checkStateStatus(idFound);
-      //this.tempObj.capital = "";
-      this.paginationArray.push(this.tempObj);
-      if (this.countofClick > this.commonAssets.itemsperPage) {
-        this.countofClick = 1;
-        //this.commonAssets.itemsperPage=this.commonAssets.itemsperPage+10;
-        this.p++;
+   onClick(event)
+  {	 
+    if(!this.singleClicknotAllowed) {
+      if(this.stateIndex!= undefined && this.myStates[this.stateIndex]!=undefined && !this.myStates[this.stateIndex].clicked) {
+        $(this.QuesRef.nativeElement.children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
+        //this.QuesRef.nativeElement.children[0].children[this.stateIndex+1].innerHTML = this.storeHtml;
       }
-      //let tooltipDom = document.getElementById('tooltip'+(this.stateIndex+1));
-      //tooltipDom.classList.value="tooltipshow";
-      $("#tooltip" + (this.stateIndex + 1)).removeClass("tooltipHidden");
-      $("#tooltip" + (this.stateIndex + 1)).addClass("tooltipshow");
-      document.getElementById("tooltip" + (this.stateIndex + 1)).style.pointerEvents = "none";
-      //this.Tooltip.nativeElement.style.opacity = 1;
-      document.getElementById("tooltip" + (this.stateIndex + 1)).style.left = this.myStates[this.stateIndex].left + "%";
-      document.getElementById("tooltip" + (this.stateIndex + 1)).style.top = this.myStates[this.stateIndex].top + "%";
-      //let colorofState= $(document.getElementById("clickques").children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].getAttribute("fill");
-      //$(document.getElementById("mainques").children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",idFound.onclickColor);
-      $(document.getElementById("mainques").children[0].children[this.stateIndex + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", idFound.onclickColor);
-      //$(document.getElementById("mainques").children[0].children[this.stateIndex+1]).css("pointer-events","none");
-      document.getElementById('dropdown').style.pointerEvents = "";
-      document.getElementById("dropdown").classList.remove("dropdownhidden");
-      var statebound = document.getElementById("dropdown").children[0].getBoundingClientRect();
-
-      if ($(window).width() > $("#container").width() + 100) {
-        var stateboundX = statebound.left / ($("#container").width() / 0.9) * 100;
-        var stateboundY = statebound.top / ($("#container").height() * 1.1) * 100;
+      this.appModel.enableSubmitBtn(false);  
+      this.clickedId = event.target.getAttribute('xlink:href');
+      console.log("this.Id = "+this.clickedId);
+      let idFound = this.myStates.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
+      if(idFound!=undefined) {
+        this.optionSelected = idFound.optionSelected;
       }
-      else {
-        var stateboundX = statebound.left / ($("#container").width()) * 100;
-        var stateboundY = statebound.top / ($("#container").height() * 1.1) * 100;
+      this.stateIndex =this.myStates.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
+      if(idFound && !idFound.clicked) {
+        this.appModel.notifyUserAction();
+        this.countofClick++;
+        document.getElementById("dropdown").style.opacity="1";
+        document.getElementById("dropdown").style.pointerEvents="";
+        document.getElementById('dropdownviaTooltip').style.opacity = "0";
+        console.log("clicked");
+        idFound.clicked = true;
+        this.submittedArray.push(idFound);
+        this.tempObj=<any>{};
+        this.tempObj.state = idFound.stateTxtimg;
+        this.checkStateStatus(idFound);
+        //this.tempObj.capital = "";
+        this.paginationArray.push(this.tempObj);
+        if(this.countofClick > this.commonAssets.itemsperPage) {
+          this.countofClick = 1;
+          //this.commonAssets.itemsperPage=this.commonAssets.itemsperPage+10;
+          this.p++;
+        }
+        //let tooltipDom = document.getElementById('tooltip'+(this.stateIndex+1));
+        //tooltipDom.classList.value="tooltipshow";
+        $("#tooltip"+(this.stateIndex+1)).removeClass("tooltipHidden");
+        $("#tooltip"+(this.stateIndex+1)).addClass("tooltipshow");
+        document.getElementById("tooltip"+(this.stateIndex+1)).style.pointerEvents= "none";
+        //this.Tooltip.nativeElement.style.opacity = 1;
+        document.getElementById("tooltip"+(this.stateIndex+1)).style.left = this.myStates[this.stateIndex].left+"%";
+        document.getElementById("tooltip"+(this.stateIndex+1)).style.top = this.myStates[this.stateIndex].top+"%";
+        //let colorofState= $(document.getElementById("clickques").children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].getAttribute("fill");
+        //$(document.getElementById("mainques").children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",idFound.onclickColor);
+        $(document.getElementById("mainques").children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",idFound.onclickColor);
+        //$(document.getElementById("mainques").children[0].children[this.stateIndex+1]).css("pointer-events","none");
+        document.getElementById('dropdown').style.pointerEvents = "";
+        document.getElementById("dropdown").classList.remove("dropdownhidden");
+        var statebound = document.getElementById("dropdown").children[0].getBoundingClientRect();
+      
+      if($( window ).width() > $("#container").width()+100)
+      {
+        var stateboundX = statebound.left/($("#container").width()/0.9)*100;
+        var stateboundY = statebound.top/($("#container").height()*1.1)*100;
       }
-
-
-
-      document.getElementById("line0").setAttribute("x1", (stateboundX * 1 + 2) + "%");
-      document.getElementById("line0").setAttribute("y1", stateboundY * 0.8 + "%");
-      document.getElementById("line0").setAttribute("x2", parseInt(this.myStates[this.stateIndex].left) + "%");
-      document.getElementById("line0").setAttribute("y2", parseInt(this.myStates[this.stateIndex].top) + "%");
-      document.getElementById("line0").style.opacity = "1";
-      //document.getElementById("dropdown")[0].className = "dropdown";
-      //document.getElementById("mainques").style.pointerEvents = "none";
-      for (let i = 0; i < document.getElementById("mainques").children[0].children.length; i++) {
-        if (i != (this.stateIndex + 1)) {
-          (document.getElementById("mainques").children[0].children[i] as HTMLElement).style.pointerEvents = "none"
+      else{
+        var stateboundX = statebound.left/($("#container").width())*100;
+        var stateboundY = statebound.top/($("#container").height()*1.1)*100;
+      }
+      
+      
+      
+        document.getElementById("line0").setAttribute("x1",(stateboundX*1 +2)+"%");
+        document.getElementById("line0").setAttribute("y1",stateboundY*0.8+"%");
+        document.getElementById("line0").setAttribute("x2",parseInt(this.myStates[this.stateIndex].left)+"%");
+        document.getElementById("line0").setAttribute("y2",parseInt(this.myStates[this.stateIndex].top)+"%");
+        document.getElementById("line0").style.opacity = "1";	
+        //document.getElementById("dropdown")[0].className = "dropdown";
+        //document.getElementById("mainques").style.pointerEvents = "none";
+        for(let i =0;i<document.getElementById("mainques").children[0].children.length;i++) {
+          if(i != (this.stateIndex+1)) {
+          (document.getElementById("mainques").children[0].children[i] as HTMLElement).style.pointerEvents="none"
+          } else {
+            this.singleClicknotAllowed= true;
+          }
+          }  
+      } else {
+        if(idFound!=undefined) {
+          console.log("new dropdown will open");
+          this.appModel.enableSubmitBtn(false);
+          this.selectedStateinTooltip = idFound.textField;
+          //this.appModel.enableSubmitBtn(true); 
+          //document.getElementById('dropdownviaTooltip').style.zIndex = "999";
+          document.getElementById('dropdownviaTooltip').style.pointerEvents="";
+          document.getElementById('dropdownviaTooltip').style.opacity = "1";
+          document.getElementById('dropdown').style.pointerEvents = "none";
+          document.getElementById('dropdownviaTooltip').style.left = this.myStates[this.stateIndex].ddTooltipleft+"%";
+          document.getElementById('dropdownviaTooltip').style.top = this.myStates[this.stateIndex].ddTooltiptop+"%";
         }
       }
-    } else {
-      if (idFound != undefined) {
-        console.log("new dropdown will open");
-        this.appModel.enableSubmitBtn(false);
-        this.selectedStateinTooltip = idFound.textField;
-        //this.appModel.enableSubmitBtn(true); 
-        //document.getElementById('dropdownviaTooltip').style.zIndex = "999";
-        document.getElementById('dropdownviaTooltip').style.pointerEvents = "";
-        document.getElementById('dropdownviaTooltip').style.opacity = "1";
-        document.getElementById('dropdown').style.pointerEvents = "none";
-        document.getElementById('dropdownviaTooltip').style.left = this.myStates[this.stateIndex].ddTooltipleft + "%";
-        document.getElementById('dropdownviaTooltip').style.top = this.myStates[this.stateIndex].ddTooltiptop + "%";
-      }
-    }
-
-
-
+        
+      
+      
     //       this.edited = true;
     // 	this.onClickFlag = true;
     // 	//let Linee = this.Line.nativeElement.getBoundingClientRect();
@@ -661,7 +670,7 @@ export class Ntemplate23 implements OnInit {
     // 	this.Tooltip.nativeElement.style.top = this.myStates[x].top+"%"; 
     // 	this.StateId.nativeElement.style.opacity = 1;
     // 	var statebound = this.StateId.nativeElement.getBoundingClientRect();
-
+      
     // 	if($( window ).width() > $("#container").width()+100)
     // 	{
     // 		var stateboundX = statebound.left/($("#container").width()/0.9)*100;
@@ -671,14 +680,14 @@ export class Ntemplate23 implements OnInit {
     // 		var stateboundX = statebound.left/($("#container").width())*100;
     // 		var stateboundY = statebound.top/($("#container").height()*1.1)*100;
     // 	}
-
-
-
+      
+      
+      
     // 	document.getElementById("line0").setAttribute("x1",stateboundX*1+"%");
     //     document.getElementById("line0").setAttribute("y1",stateboundY*0.8+"%");
     //     document.getElementById("line0").setAttribute("x2",parseInt(this.myStates[x].left)+"%");
     //     document.getElementById("line0").setAttribute("y2",parseInt(this.myStates[x].top)+"%");	
-
+       
     // 	 this.rightAnswer.push(this.myStates[x].textField);
     // 	 this.storeEvent = $(event.target);
     // 	 this.selectedFillPart.push($($(this.storeEvent.parent().parent().last())));
@@ -686,10 +695,10 @@ export class Ntemplate23 implements OnInit {
     // 	  {
     // 		  	this.strokeOver(); 
     // 	  }			  
-
+       
     // 	 this.stateCounter = 0;
     //        this.currentState = $($($(event.target).parent().parent().last().siblings()[this.myStates.length].children[0].children[0]).attr("xlink:href"));		 
-
+          
     // 	 if(this.currentState != undefined)
     // 	 { 
     // 	 this.currentState.attr("stroke-width", "2");
@@ -709,6 +718,7 @@ export class Ntemplate23 implements OnInit {
     //  }
     //  }
     // }      
+    }
   }
 
   checkStateStatus(state) {
@@ -725,12 +735,12 @@ export class Ntemplate23 implements OnInit {
     }
   }
 
-  ondblClick(event) {
+   ondblClick(event) {
     //alert("double click");
-    document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
-    document.getElementById('dropdownviaTooltip').style.opacity = "0";
+    document.getElementById('dropdownviaTooltip').style.pointerEvents="none";
+    document.getElementById('dropdownviaTooltip').style.opacity="0";
     //if(this.paginationArray.length<=1) {
-
+      
 
     // } else {
     //   document.getElementById("line0").style.opacity = "1";
@@ -739,42 +749,45 @@ export class Ntemplate23 implements OnInit {
     //this.Tooltip.nativeElement.style.opacity = 0;
     // let tooltipDom = (document.getElementById("tooltip"+(this.stateIndex+1)) as HTMLInputElement)
     // tooltipDom.classList.value="tooltipHidden";
-    $("#tooltip" + (this.stateIndex + 1)).removeClass("tooltipshow");
-    $("#tooltip" + (this.stateIndex + 1)).addClass("tooltipHidden");
     this.Id = event.target.getAttribute('xlink:href');
-    console.log("this.Id = " + this.Id);
-    let idFound = this.myStates.find(element => element.id == this.Id || element.strokeId == this.Id);
-    this.stateIndex = this.myStates.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-    if (this.stateIndex != -1) {
-      document.getElementById("line0").style.opacity = "0";
-      //this.appModel.enableSubmitBtn(true);
-      document.getElementById("dropdown").style.opacity = "0";
-      document.getElementById("dropdown").style.pointerEvents = "none";
-      for (let i = 0; i < document.getElementById("mainques").children[0].children.length; i++) {
-        if (i != (this.stateIndex + 1)) {
-          (document.getElementById("mainques").children[0].children[i] as HTMLElement).style.pointerEvents = "";
+    console.log("this.Id = "+this.Id);
+    if(this.Id!=null) {
+      $("#tooltip"+(this.stateIndex+1)).removeClass("tooltipshow");
+      $("#tooltip"+(this.stateIndex+1)).addClass("tooltipHidden");
+      let idFound = this.myStates.find(element => element.id == this.Id || element.strokeId == this.Id);
+      this.stateIndex =this.myStates.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
+      if(this.stateIndex!=-1) {
+        document.getElementById("line0").style.opacity = "0";
+        //this.appModel.enableSubmitBtn(true);
+        document.getElementById("dropdown").style.opacity="0";
+    document.getElementById("dropdown").style.pointerEvents="none";
+        for(let i =0;i<document.getElementById("mainques").children[0].children.length;i++) {
+          if(i != (this.stateIndex+1)) {
+          (document.getElementById("mainques").children[0].children[i] as HTMLElement).style.pointerEvents="";
+          }
+          }
+          this.singleClicknotAllowed=false;
+      }
+      if(idFound) {
+        this.countofClick--;
+        $(document.getElementById("mainques").children[0].children[this.stateIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
+        idFound.clicked = false;
+      }
+      let indexinSubmitArr = this.submittedArray.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
+      if(indexinSubmitArr!=-1) {
+        this.submittedArray.splice(indexinSubmitArr,1);
+        this.paginationArray.splice(indexinSubmitArr,1);
+        if(this.paginationArray.length == 0) {
+          this.appModel.enableSubmitBtn(false);
+        } else {
+          this.appModel.enableSubmitBtn(true);
+        }
+        if(this.countofClick == 0 && this.countofClick < this.commonAssets.itemsperPage) {
+          this.countofClick = 10;
+          this.p--;
         }
       }
-    }
-    if (idFound) {
-      this.countofClick--;
-      $(document.getElementById("mainques").children[0].children[this.stateIndex + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", this.originalcolor);
-      idFound.clicked = false;
-    }
-    let indexinSubmitArr = this.submittedArray.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-    if (indexinSubmitArr != -1) {
-      this.submittedArray.splice(indexinSubmitArr, 1);
-      this.paginationArray.splice(indexinSubmitArr, 1);
-      if (this.paginationArray.length == 0) {
-        this.appModel.enableSubmitBtn(false);
-      } else {
-        this.appModel.enableSubmitBtn(true);
-      }
-      if (this.countofClick == 0 && this.countofClick < this.commonAssets.itemsperPage) {
-        this.countofClick = 10;
-        this.p--;
-      }
-    }
+    } 
   }
 
   strokeOver() {
@@ -822,14 +835,15 @@ export class Ntemplate23 implements OnInit {
         (document.getElementById("mainques").children[0].children[i] as HTMLElement).style.pointerEvents = "";
       }
     }
-    document.getElementById("mainques").style.pointerEvents = " ";
-    this.QuesRef.nativeElement.style.pointerEvents = "auto";
-    //this.Tooltip.nativeElement.style.pointerEvents = "none";
-    this.appModel.enableSubmitBtn(true);
-    document.getElementById("dropdown").style.opacity = "0";
-    document.getElementById("dropdown").style.pointerEvents = "none";
-    document.getElementById("line0").style.opacity = "0";
-    //this.MySelect.nativeElement.style.pointerEvents = "none";
+    this.singleClicknotAllowed=false;
+  document.getElementById("mainques").style.pointerEvents = " ";
+  this.QuesRef.nativeElement.style.pointerEvents = "auto";
+  //this.Tooltip.nativeElement.style.pointerEvents = "none";
+  this.appModel.enableSubmitBtn(true);
+  document.getElementById("dropdown").style.opacity="0";
+  document.getElementById("dropdown").style.pointerEvents="none";
+  document.getElementById("line0").style.opacity="0";
+  //this.MySelect.nativeElement.style.pointerEvents = "none";
 
     //   if(state.value != this.myStates[this.currentindex].textField)
     // {
@@ -1732,6 +1746,7 @@ export class Ntemplate23 implements OnInit {
         (document.getElementById("mainques").children[0].children[i] as HTMLElement).style.pointerEvents = "";
       }
     }
+    this.singleClicknotAllowed=false;
     document.getElementById("line0").setAttribute("x1", "0");
     document.getElementById("line0").setAttribute("x2", "0");
     document.getElementById("line0").setAttribute("y1", "0");
