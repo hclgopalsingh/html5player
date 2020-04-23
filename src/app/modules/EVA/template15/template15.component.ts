@@ -1,24 +1,18 @@
 
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Base } from '../../../controller/base';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
 
-import 'jquery';
-import { BrowserGetTestability } from '@angular/platform-browser/src/browser/testability';
-declare var $: any;
 
 @Component({
     selector: 'app-template15',
     templateUrl: './template15.component.html',
     styleUrls: ['./template15.component.css']
 })
-export class Template15Component implements OnInit {
-
-    
+export class Template15Component implements OnInit {  
     blink: boolean = false;
     commonAssets: any = "";
 	rightPopup: any;
@@ -76,6 +70,8 @@ export class Template15Component implements OnInit {
     isPopupClosed:boolean = false;
     answerPopupType:any;
     lastQuestionCheck:any;
+    popupclosedinRightWrongAns:boolean=false;
+    ifWrongAns:boolean= false;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -127,6 +123,12 @@ export class Template15Component implements OnInit {
 
 
     ngOnInit() {        
+
+
+        if(this.isLastQues){
+            this.next();
+            console.log('last question move');
+        }
         this.attemptType = "";
         this.setTemplateType();
         console.log("this.attemptType = " + this.attemptType);
@@ -210,7 +212,9 @@ export class Template15Component implements OnInit {
     }
 
     ngAfterViewChecked() {
+        // console.log(this.LastquestimeStart, 'timer jyoti');
         this.templatevolume(this.appModel.volumeValue, this);
+        
     }
 
     setData() {
@@ -243,14 +247,13 @@ export class Template15Component implements OnInit {
     }
 
     
-    checkAnswer(option, event, idx) {   
+    checkAnswer(option) { 
+        this.popupclosedinRightWrongAns=false;      
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
             this.answerPopupType = 'right';
             this.blinkOnLastQues();
             this.correctOpt = option;
-            // this.wrongImgOption = option
-			// this.feedbackPopup = this.rightPopup;
 			this.attemptType = "manual";
 			this.appModel.stopAllTimer();          
             this.answerImageBase = option.image_original.url;
@@ -264,26 +267,39 @@ export class Template15Component implements OnInit {
               ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
               option.image = option.image_original;
             setTimeout(() => {
+                // if (this.rightFeedback && this.rightFeedback.nativeElement) {
+                //     this.clapSound.nativeElement.play();
+                //     setTimeout(() => {
+                //        this.clapSound.nativeElement.pause();     
+                //        this.clapSound.nativeElement.currentTime = 0;
+                //        if(!this.isPopupClosed){
+                //         this.rightFeedback.nativeElement.play();
+                //        }
+                //     }, 2000)
+                // }         
+                
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     this.clapSound.nativeElement.play();
                     setTimeout(() => {
                        this.clapSound.nativeElement.pause();     
-                       this.clapSound.nativeElement.currentTime = 0;
-                       if(!this.isPopupClosed){
-                        this.rightFeedback.nativeElement.play();
-                       }
+					   this.clapSound.nativeElement.currentTime = 0;
+					   if(!this.popupclosedinRightWrongAns) {
+						this.rightFeedback.nativeElement.play();
+						
+					   } else {
+						this.Sharedservice.setShowAnsEnabled(true);
+					   } 
                     }, 2000)
-                }          
+                }    
+
+
                 //disable option and question on right attempt
                 this.maincontent.nativeElement.className = "disableDiv";
                 this.ansBlock.nativeElement.className = "optionsBlock disableDiv disable-click";
                 
-                        $("#optionsBlock ").addClass("disable-click disable-click");
-                        $("#instructionBar").addClass("disableDiv disable-click");
-                        $(".quesOptions .options").css("opacity", "0.3");
                          this.rightFeedback.nativeElement.onended = () => {
                             setTimeout(() => {
-                                this.closePopup('answerPopup',this.answerPopupType);
+                                this.closePopup('answerPopup');
                                 console.log('popup closed');
                             }, 10000)
                     //new code
@@ -299,6 +315,7 @@ export class Template15Component implements OnInit {
  
         } else {
             this.answerPopupType = 'wrong';
+            this.ifWrongAns = true;
             this.idArray = [];
             for (let i of this.myoption) {
                 this.idArray.push(i.id);
@@ -316,26 +333,36 @@ export class Template15Component implements OnInit {
             this.wrongCounter += 1;
            
 			 setTimeout(() => {
-				if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+				// if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+				// 	this.wrongFeedback.nativeElement.play();
+				// }		
+                // this.wrongFeedback.nativeElement.onended = () => {
+                //     setTimeout(() => {
+                //         this.closePopup('answerPopup');
+                //         console.log('popup closed');
+                //     }, 10000)
+
+
+                //     // if(!this.closed){
+                //     //     this.wrongTimer = setTimeout(() => {
+                //     //         this.ansPopup.nativeElement.classList = "modal";
+                //     //         this.appModel.notifyUserAction();
+                //     //         // this.appModel.wrongAttemptAnimation();	
+                //     //     }, 2000);
+                //     // }
+                // }
+                if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
 					this.wrongFeedback.nativeElement.play();
-				}		
+				}
+				
                 this.wrongFeedback.nativeElement.onended = () => {
-                    setTimeout(() => {
-                        this.closePopup('answerPopup',this.answerPopupType);
+                    this.wrongTimer=setTimeout(() => {
+						this.closePopup('answerPopup');
                         console.log('popup closed');
-                    }, 10000)
-
-
-                    if(!this.closed){
-                        this.wrongTimer = setTimeout(() => {
-                            this.ansPopup.nativeElement.classList = "modal";
-                            this.appModel.notifyUserAction();
-                            // this.appModel.wrongAttemptAnimation();	
-                        }, 2000);
-                    }
+                    }, 10000);      
                 }
             
-         },20);
+         });
             this.doRandomize(this.myoption);
 		}
             
@@ -396,42 +423,15 @@ export class Template15Component implements OnInit {
     }
 
 
-    // isPaused() {
-    //     return this.audio.paused;
-    // }
-
     removeEvents() {
         // remove event handlers for all clickable items in the dom
         this.blink = false;
         clearTimeout(this.timernextseg);
     }
 
-   
-    closePopup(Type,answerType){
-        if(answerType === 'right'){
-            this.Sharedservice.setShowAnsEnabled(true);
-            this.overlay.nativeElement.className = "fadeContainer";
-
-            console.log(this.popupType)
-            setTimeout(()=>{
-                this.appModel.nextSection(); 
-            }, 10000)
-        }
-
-        if(answerType === 'wrong'){
-            if(this.wrongCounter === 3){
-                this.Sharedservice.setShowAnsEnabled(true); 
-            }else{
-                this.Sharedservice.setShowAnsEnabled(false);
-            }
-        }   
-        this.isPopupClosed = true;
+    closePopup(Type){
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
-        
-        this.clapSound.nativeElement.pause();
-        this.clapSound.nativeElement.currentTime = 0;
-
         this.wrongFeedback.nativeElement.pause();    
         this.wrongFeedback.nativeElement.currentTime = 0;
 
@@ -441,7 +441,24 @@ export class Template15Component implements OnInit {
         this.showAnswerfeedback.nativeElement.pause();      
         this.showAnswerfeedback.nativeElement.currentTime = 0;
        
-
+        if(Type=== "answerPopup") {
+            this.popupclosedinRightWrongAns=true;
+            if(this.ifRightAns) {
+                this.Sharedservice.setShowAnsEnabled(true);
+                this.overlay.nativeElement.classList.value="fadeContainer";
+                this.blinkOnLastQues();
+                        setTimeout(()=>{
+                this.appModel.nextSection();
+                this.Sharedservice.setShowAnsEnabled(false); 
+            }, 10000)
+            } else {
+                if(this.wrongCounter >= 3 && this.ifWrongAns) {
+                    this.Sharedservice.setShowAnsEnabled(true);
+                 } else {
+                    this.Sharedservice.setShowAnsEnabled(false);
+                 }
+            }
+        }
         if(Type === 'showAnswer'){
         
             setTimeout(() => {
@@ -450,19 +467,70 @@ export class Template15Component implements OnInit {
                 if(!this.showAnswerfeedback.nativeElement.pause()){
                     this.appModel.nextSection(); 
                 }else{
-                    console.log('show answer voice still playing jyoti');
+                    // console.log('show answer voice still playing jyoti');
                 }
                 
-			}, 1000);
+            }, 1000);
         }else{
-           
            
         }
      
     }
-
    
-    
+    // closePopup(Type){
+
+    //     // alert(this.answerPopupType);
+    //     if(this.answerPopupType === 'right'){
+    //         this.Sharedservice.setShowAnsEnabled(true);
+    //         this.overlay.nativeElement.className = "fadeContainer";
+
+    //         setTimeout(()=>{
+    //             this.appModel.nextSection(); 
+    //         }, 10000)
+    //     }
+
+    //     if(this.answerPopupType === 'wrong'){
+    //         if(this.wrongCounter === 3){
+    //             this.Sharedservice.setShowAnsEnabled(true); 
+    //         }else{
+    //             this.Sharedservice.setShowAnsEnabled(false);
+    //         }
+    //     }   
+    //     this.isPopupClosed = true;
+    //     this.showAnswerRef.nativeElement.classList = "modal";
+    //     this.ansPopup.nativeElement.classList = "modal";
+        
+    //     this.clapSound.nativeElement.pause();
+    //     this.clapSound.nativeElement.currentTime = 0;
+
+    //     this.wrongFeedback.nativeElement.pause();    
+    //     this.wrongFeedback.nativeElement.currentTime = 0;
+
+    //     this.rightFeedback.nativeElement.pause();     
+    //     this.rightFeedback.nativeElement.currentTime = 0;
+
+    //     this.showAnswerfeedback.nativeElement.pause();      
+    //     this.showAnswerfeedback.nativeElement.currentTime = 0;
+       
+
+    //     if(Type === 'showAnswer'){     
+    //         setTimeout(() => {
+    //             this.showAnswerfeedback.nativeElement.pause();      
+    //             this.showAnswerfeedback.nativeElement.currentTime = 0;
+    //             if(!this.showAnswerfeedback.nativeElement.pause()){
+    //                 this.appModel.nextSection(); 
+    //             }else{
+                    
+    //             }
+                
+	// 		}, 10000);
+    //     }else{
+           
+           
+    //     }
+     
+    // }
+  
     checkNextActivities() {
         if (this.instruction.nativeElement.pause()) {
             this.removeEvents();
@@ -498,7 +566,6 @@ export class Template15Component implements OnInit {
         }
     }
 
-  
 
     checkSpeakerVoice(speaker) {
         if(!this.audioEl.nativeElement.paused){
@@ -520,7 +587,6 @@ export class Template15Component implements OnInit {
         else { }
     }
 
-   
 
     getBasePath() {
         if (this.appModel && this.appModel.content) {
@@ -594,20 +660,18 @@ export class Template15Component implements OnInit {
       
         this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
     }
-
-
-   
+ 
 	checkforQVO() {
 		if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
             this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content" 
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
             this.maincontent.nativeElement.className = "disableDiv";   
-            this.Sharedservice.setVoplayingStatus(true);  
+            // this.Sharedservice.setVoplayingStatus(true);  
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
 			this.instruction.nativeElement.onended = () => {
-                this.Sharedservice.setVoplayingStatus(false);
+                // this.Sharedservice.setVoplayingStatus(false);
                 this.appModel.handlePostVOActivity(false);              
                 this.maincontent.nativeElement.className = "";
 			}
@@ -616,12 +680,12 @@ export class Template15Component implements OnInit {
 		}
 	}
 
-
-
+    LastquestimeStart:boolean = false;
 
     blinkOnLastQues() {
-
+        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         if(this.lastQuestionCheck){
+            this.LastquestimeStart = true;
             setTimeout(()=>{                
                 this.next();
               },5 * 60 * 1000);

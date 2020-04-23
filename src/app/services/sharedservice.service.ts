@@ -7,6 +7,7 @@ export class SharedserviceService {
     private subject = new Subject<any>();
     private ShowAnswer = new Subject<any>();
     private IsVOPlaying = new Subject<any>();
+    private AageyBadhe = new Subject<any>();
     private moveNextSubject = new Subject<any>();
 
 
@@ -37,6 +38,16 @@ export class SharedserviceService {
     getVoPlayingStatus(){
        return this.IsVOPlaying.asObservable();
     }
+
+
+    setLastQuesAageyBadheStatus(status:any){
+        this.AageyBadhe.next({data:status});
+    }
+
+    getLastQuesAageyBadheStatus(){
+       return this.AageyBadhe.asObservable();
+    }
+
 
     public moveNext(){
         this.moveNextSubject.next();
