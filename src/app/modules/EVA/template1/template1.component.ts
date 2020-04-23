@@ -527,7 +527,7 @@ export class Template1Component implements OnInit {
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
             this.maincontent.nativeElement.className = "disableDiv";   
-            this.Sharedservice.setVoplayingStatus(true);  
+            //this.Sharedservice.setVoplayingStatus(true);  
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
 			this.instruction.nativeElement.onended = () => {
@@ -551,6 +551,7 @@ export class Template1Component implements OnInit {
               },10000);
         }
         if (this.appModel.isLastSectionInCollection) {
+          //this.Sharedservice.setLastQuesAageyBadheStatus(false);
           this.appModel.blinkForLastQues();
           this.appModel.stopAllTimer();
           if (!this.appModel.eventDone) {
