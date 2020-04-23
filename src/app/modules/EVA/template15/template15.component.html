@@ -19,7 +19,7 @@
         </div>
         <div id="optionsBlock" #ansBlock  class="quesOptions">
             <div class="options">
-                <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts,$event,idx)"  >    
+                <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts)"  >    
                   <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"  (load)="checkImgLoaded();">
                   <img class="img-fluid subOpt" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
            </div>
@@ -58,7 +58,7 @@
                         <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
                     </div>
                     <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('answerPopup',answerPopupType)" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+                    (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
                  </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showAnswer','');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
                  </div>
             </div>
         </div>

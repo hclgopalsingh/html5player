@@ -18,7 +18,7 @@ declare var $: any;
 
 export class QuesController implements OnInit {
   @ViewChild("quesBlockChild") quesBlockChild: any;
-  @ViewChild('footerNavBlock') footerNavBlock: any;
+  @ViewChild('nextBtn') nextBtn: any;
   appModel: ApplicationmodelService;
   subscriptionQuesNos: Subscription;
   subscriptionQuesIndex: Subscription;
@@ -68,7 +68,7 @@ export class QuesController implements OnInit {
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
   isVideoPlaying:boolean = false;
-  isVOplaying:boolean = false;
+  isLastQuesAageyBadhe:boolean = false;
   isLastQues:boolean = false;
   ngOnInit() {
 
@@ -91,24 +91,21 @@ export class QuesController implements OnInit {
       console.log("selected question index", this.questionNo); 
     })
 
-
-    
-    
-        
-      // **** Disable footer buttons while VO is playing
-      this.subscription = this.Sharedservice.getVoPlayingStatus().subscribe(data => { 
-        this.isVOplaying = data.data;
-        if(this.isVOplaying === true){
-          this.footerNavBlock.nativeElement.className = "disableDiv";
-        }else{
-          this.footerNavBlock.nativeElement.className = "";
-        }
-      });
-
+       
+      // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
-      console.log( this.isLastQues ,'last question', 'jyoti');
+      if(this.isLastQues){
+        this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
+         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
+         this.isLastQuesAageyBadhe = data.data;
+        if(!this.isLastQuesAageyBadhe){
+          this.nextBtn.nativeElement.className = "img-fluid nextBtn";
+        }
+      });
+
+      }
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
