@@ -584,11 +584,11 @@ export class Template3Component extends Base implements OnInit {
 					// let nxtBtndiv=(document.getElementsByClassName("nextBtn")[0] as HTMLElement);
 					// nxtBtndiv.classList.value ="img-fluid nextBtn disableBtn";
 					this.narrator_voice.nativeElement.play();
-					this.Sharedservice.setVoplayingStatus(true); 
+					//this.Sharedservice.setVoplayingStatus(true); 
 					this.narrator_voice.nativeElement.onended = () => {
 					  //this.appModel.handlePostVOActivity(false);
 					//   nxtBtndiv.classList.value="img-fluid nextBtn";
-					  this.Sharedservice.setVoplayingStatus(false); 
+					  //this.Sharedservice.setVoplayingStatus(false); 
 					  this.optionsBlock.nativeElement.classList = "";
 					  (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
 					}
