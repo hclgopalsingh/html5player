@@ -36,7 +36,7 @@
             </div>   
         </div> 
         <div id="spkrBtn" class="speakerBtn">
-            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (click)="playSpeaker()" (load)="checkImgLoaded();" title="चलाऍं"/>
+            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" (load)="checkImgLoaded();" title="चलाऍं"/>
             <audio #speakerVolume [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
         </div>
     </div>
