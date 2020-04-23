@@ -548,10 +548,9 @@ export class Template1Component implements OnInit {
         if(this.lastQuestionCheck){
             setTimeout(()=>{                
                 this.next();
-              },10000);
+              },5 * 60 * 1000);
         }
         if (this.appModel.isLastSectionInCollection) {
-          //this.Sharedservice.setLastQuesAageyBadheStatus(false);
           this.appModel.blinkForLastQues();
           this.appModel.stopAllTimer();
           if (!this.appModel.eventDone) {
