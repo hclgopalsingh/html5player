@@ -481,7 +481,7 @@ export class TemplatetwoComponent extends Base implements OnInit{
 			}
 			var flag=this.arraysIdentical(array,this.idArray);
 			console.log(flag);
-			if(flag){
+			if(flag == true){
 				this.doRandomize(array);
 			}
 			else{

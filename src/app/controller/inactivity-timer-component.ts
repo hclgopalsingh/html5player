@@ -3,6 +3,7 @@ import { Subject, Subscription } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { timer } from 'rxjs/observable/timer';
 import {ApplicationmodelService} from '../model/applicationmodel.service';
+import {SharedserviceService} from '../services/sharedservice.service';
 
 @Component({
   selector: 'checkIdol',
@@ -16,7 +17,7 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
   mt = 0;
   st = 0;
   
-  lastQuesTimer:number = 5;
+  lastQuesTimer:number = .5;
   moveNextQuesTimer:number = 5;
   uttarDikhayeinTimer:any = 5;
 
@@ -28,7 +29,7 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
   currentRunningTimer:string ="";
   tempTimer:string="";
 
-  constructor(private appModel: ApplicationmodelService) {
+  constructor(private appModel: ApplicationmodelService,private sharedService: SharedserviceService) {
 
   }
 
@@ -64,7 +65,9 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
       this.resetTimerForNextSeg();
     })
     */
-
+    this.sharedService.moveNextNotification.subscribe(()=>{
+      this.resetTimerForNextSeg();
+    });
     this.appModel.moveNewQues.subscribe(() =>{
       if(this.timerNextQues){
         this.unsubscribeTimer(this.timerNextQues);

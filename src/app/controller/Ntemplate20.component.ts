@@ -27,25 +27,25 @@ export class Ntemplate20 implements OnInit {
         } else {
             this.appModel.setLoader(true);
             // if error occured during image loading loader wil stop after 5 seconds 
-          this.loaderTimer = setTimeout(() => {
-            this.appModel.setLoader(false);
-          }, 5000);
-      }
-      this.appModel.notification.subscribe(
-        (data) => {
-          console.log('Component: constructor - data=', data);
-          switch (data) {
-            case PlayerConstants.CMS_PLAYER_CLOSE:
-              //console.log('VideoComponent: constructor - cmsPlayerClose');
-              this.close();
-              break;
-
-            default:
-              console.log('Component: constructor - default');
-              break;
-          }
+            this.loaderTimer = setTimeout(() => {
+                this.appModel.setLoader(false);
+            }, 5000);
         }
-      );
+        this.appModel.notification.subscribe(
+            (data) => {
+                console.log('Component: constructor - data=', data);
+                switch (data) {
+                    case PlayerConstants.CMS_PLAYER_CLOSE:
+                        //console.log('VideoComponent: constructor - cmsPlayerClose');
+                        this.close();
+                        break;
+
+                    default:
+                        console.log('Component: constructor - default');
+                        break;
+                }
+            }
+        );
         this.assetsPath = this.appModel.assetsfolderpath;
         this.appModel.navShow = 2;
     }
@@ -61,7 +61,7 @@ export class Ntemplate20 implements OnInit {
     isLastActivity: any = "";
     bool: boolean = false;
     showIntroScreen: boolean;
-    popupType:string =  "";
+    popupType: string = "";
     helpAudio: any = "";
     isFirstQues: boolean;
     isLastQues: boolean = false;
@@ -130,7 +130,7 @@ export class Ntemplate20 implements OnInit {
     blinkCategory1: number = 0;
     blinkCategory2: number = 0;
     attemptType: string = "";
-	attemptTypeClose: string = "";
+    attemptTypeClose: string = "";
 
 
 
@@ -158,34 +158,34 @@ export class Ntemplate20 implements OnInit {
     currentIndxDown: number = 0;
     currentComparison: any;
     placeToPut: string = "up";
-    runningIndx:number = 0;
-	optionIndex:number;
-	valueOnce:any = [];
-	currentValue:number = 0;
-	idOfImage:number;
-	IdImageArr:any = [];
-	submitButtonCounter:number = 0;
-	showAnswerCounter:number = 0;
-	blinkCounter:number = 0;
-	blinkFlagReverse:boolean = false;
-	RandomIndexValue:any = [];
-	ResizeIndex:number = 0;
-	ResizePos:string = "";
-	RandomResizeIndex:number = 0;
-	ArrPlaceHolder:any = [];
-	Ccounter:number = 0;
-	wrongCounter:number = 0;
-	Order:string = "";
-	optionReverseTopPosition:number = 0;
-	startActivityCounter:number = 0;
-	feedbackObj: any;
-	feedbackAudio: any;
+    runningIndx: number = 0;
+    optionIndex: number;
+    valueOnce: any = [];
+    currentValue: number = 0;
+    idOfImage: number;
+    IdImageArr: any = [];
+    submitButtonCounter: number = 0;
+    showAnswerCounter: number = 0;
+    blinkCounter: number = 0;
+    blinkFlagReverse: boolean = false;
+    RandomIndexValue: any = [];
+    ResizeIndex: number = 0;
+    ResizePos: string = "";
+    RandomResizeIndex: number = 0;
+    ArrPlaceHolder: any = [];
+    Ccounter: number = 0;
+    wrongCounter: number = 0;
+    Order: string = "";
+    optionReverseTopPosition: number = 0;
+    startActivityCounter: number = 0;
+    feedbackObj: any;
+    feedbackAudio: any;
     rightanspopUpheader_img: boolean = false;
     wronganspopUpheader_img: boolean = false;
     showanspopUpheader_img: boolean = false;
     partialCorrectheaderTxt_img: boolean = false;
-    styleHeaderPopup:any;
-    styleBodyPopup:any;
+    styleHeaderPopup: any;
+    styleBodyPopup: any;
 
 
 
@@ -197,7 +197,7 @@ export class Ntemplate20 implements OnInit {
     @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
     @ViewChild('infoModalRef') infoModalRef: any;
     @ViewChild('feedbackPopupRef') feedbackPopupRef: any;
-   // @ViewChild('feedbackAudio') feedbackAudio: any;
+    // @ViewChild('feedbackAudio') feedbackAudio: any;
     @ViewChild('correctCategory') correctCategory: any;
     @ViewChild('incorrectCategory') incorrectCategory: any;
     @ViewChild('mainVideo') mainVideo: any;
@@ -209,18 +209,18 @@ export class Ntemplate20 implements OnInit {
     @ViewChild('scaleBoxRef') scaleBoxRef: any;
     @ViewChild('modalfeedback20') modalfeedback20: any;
     @ViewChild('modalFeedbackContainer') modalFeedbackContainer: any;
-	@ViewChild('clapSound') clapSound: any;
-	@ViewChild('ShowAnswerSound') showAnswerSound: any;	
-	@ViewChild('WrongSound') WrongSound: any;
-	@ViewChild('PartialWrongSound') PartialWrongSound: any;
-	@ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
-	@ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-	
-	
+    @ViewChild('clapSound') clapSound: any;
+    @ViewChild('ShowAnswerSound') showAnswerSound: any;
+    @ViewChild('WrongSound') WrongSound: any;
+    @ViewChild('PartialWrongSound') PartialWrongSound: any;
+    @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
+    @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+
+
 
     ngOnInit() {
-		this.attemptType = "";
-		console.log("this.attemptType = "+this.attemptType);
+        this.attemptType = "";
+        console.log("this.attemptType = " + this.attemptType);
         if (this.appModel.isNewCollection) {
             this.appModel.event = { 'action': 'segmentBegins' };
         }
@@ -229,7 +229,7 @@ export class Ntemplate20 implements OnInit {
         this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
                 console.log("manual mode ", mode);
-				
+
             } else if (mode == "auto") {
                 console.log("auto mode", mode);
                 this.attemptType = "uttarDikhayein";
@@ -245,25 +245,25 @@ export class Ntemplate20 implements OnInit {
                     this.appModel.notifyUserAction();
                     this.setPopupAssets();
                     this.popupType = "showanswer";
-					//this.blinkOnLastQues();
-					this.instructionVO.nativeElement.pause();
+                    //this.blinkOnLastQues();
+                    this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
-					
+
                 }
             } else if (val == "submitAnswer") {
                 if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
                     this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
                     this.appModel.notifyUserAction();
-					//this.blinkOnLastQues();
-					this.instructionVO.nativeElement.pause();
+                    //this.blinkOnLastQues();
+                    this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
                 }
             } else if (val == "replayVideo") {
                 if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
                     this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
                     this.appModel.notifyUserAction();
-					//this.blinkOnLastQues();
-					this.instructionVO.nativeElement.pause();
+                    //this.blinkOnLastQues();
+                    this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
                 }
             }
@@ -281,8 +281,8 @@ export class Ntemplate20 implements OnInit {
             this.resetActivity();
             //this.appModel.startPreviousTimer();
             this.appModel.notifyUserAction();
-			//this.blinkOnLastQues();
-			
+            //this.blinkOnLastQues();
+
         })
     }
 
@@ -294,7 +294,7 @@ export class Ntemplate20 implements OnInit {
     }
 
     setData() {
-		this.appModel.notifyUserAction();
+        this.appModel.notifyUserAction();
         let fetchedData: any = this.appModel.content.contentData.data;
         this.timerFeedback = fetchedData.feedback_next_timer;
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
@@ -305,9 +305,9 @@ export class Ntemplate20 implements OnInit {
         this.optionCommonAssts = this.optionObj.option_common_assets;
         this.commonAssets = fetchedData.commonassets;
         this.questionObj = fetchedData.quesObj;
-		this.ArrPlaceHolder = this.commonAssets.rightSequence;
-		this.Order = this.commonAssets.order.orderType;
-		this.feedbackObj = fetchedData.feedback;
+        this.ArrPlaceHolder = this.commonAssets.rightSequence;
+        this.Order = this.commonAssets.order.orderType;
+        this.feedbackObj = fetchedData.feedback;
 
         for (let i = 0; i < this.optionObj.place_holder.no_s; i++) {
             this.placeHolderArrUp.push(this.optionObj.place_holder);
@@ -364,25 +364,24 @@ export class Ntemplate20 implements OnInit {
     }
 
     optionHover(idx, opt) {
-       // this.optionRef.nativeElement.children[idx].children[0].src = this.optionCommonAssts.default_box_hover.location == 'content' ? this.containgFolderPath + "/" + this.optionCommonAssts.default_box_hover.url : this.assetsPath + '/' + this.optionCommonAssts.default_box_hover.url;
+        // this.optionRef.nativeElement.children[idx].children[0].src = this.optionCommonAssts.default_box_hover.location == 'content' ? this.containgFolderPath + "/" + this.optionCommonAssts.default_box_hover.url : this.assetsPath + '/' + this.optionCommonAssts.default_box_hover.url;
         $(this.optionRef.nativeElement.children[idx]).addClass("scaleInAnimation");
-		$(this.optionRef.nativeElement.children[idx]).removeClass("scaleOutAnimation");
-		this.optionRef.nativeElement.children[idx].style.zIndex = "100";
-	}
+        $(this.optionRef.nativeElement.children[idx]).removeClass("scaleOutAnimation");
+        this.optionRef.nativeElement.children[idx].style.zIndex = "100";
+    }
     optionLeave(idx, opt) {
-       // this.optionRef.nativeElement.children[idx].children[0].src = this.optionCommonAssts.default_box_hover.location == 'content' ? this.containgFolderPath + "/" + this.optionCommonAssts.default_box_original.url : this.assetsPath + '/' + this.optionCommonAssts.default_box_original.url;
+        // this.optionRef.nativeElement.children[idx].children[0].src = this.optionCommonAssts.default_box_hover.location == 'content' ? this.containgFolderPath + "/" + this.optionCommonAssts.default_box_original.url : this.assetsPath + '/' + this.optionCommonAssts.default_box_original.url;
         $(this.optionRef.nativeElement.children[idx]).addClass("scaleOutAnimation");
-		$(this.optionRef.nativeElement.children[idx]).removeClass("scaleInAnimation");
-		this.optionRef.nativeElement.children[idx].style.zIndex = "99";
-	}
+        $(this.optionRef.nativeElement.children[idx]).removeClass("scaleInAnimation");
+        this.optionRef.nativeElement.children[idx].style.zIndex = "99";
+    }
 
     playOptionHover(idx, opt) {
         if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
-			if($(this.optionRef.nativeElement.children[idx])[0].getBoundingClientRect().top !=  this.optionReverseTopPosition)
-			{
-				this.playSound(opt.mouse_over_audio, idx);
-			}            
-			
+            if ($(this.optionRef.nativeElement.children[idx])[0].getBoundingClientRect().top != this.optionReverseTopPosition) {
+                this.playSound(opt.mouse_over_audio, idx);
+            }
+
         }
     }
 
@@ -395,7 +394,7 @@ export class Ntemplate20 implements OnInit {
             }
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
                 if (i != idx) {
-                   // this.optionRef.nativeElement.children[i].classList = "disableDiv";
+                    // this.optionRef.nativeElement.children[i].classList = "disableDiv";
                 }
             }
             this.audio.load();
@@ -425,12 +424,12 @@ export class Ntemplate20 implements OnInit {
                 this.checkforQVO();
             }
         }
-  }
+    }
 
-  close() {
-    //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
-    this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
-  }
+    close() {
+        //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
+        this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
+    }
 
     checkVideoLoaded() {
         if (!this.videoReplayd) {
@@ -486,13 +485,13 @@ export class Ntemplate20 implements OnInit {
     }
 
     getRandomIndxBlink() {
-        let indx = this.getRandomIndx();			
-		this.optionIndex = indx;
+        let indx = this.getRandomIndx();
+        this.optionIndex = indx;
         this.randomOptIndx = this.optIndxArr[indx];
         if (this.optionArr[this.randomOptIndx] && this.optionArr[this.randomOptIndx].imgsrc) {
             let opt = {
                 imgsrc: this.optionArr[this.randomOptIndx].imgsrc,
-				idImage: this.optionArr[this.randomOptIndx].imgsrc.idImage,
+                idImage: this.optionArr[this.randomOptIndx].imgsrc.idImage,
                 selected: true,
                 place: '',
                 value: this.optionArr[this.randomOptIndx].value,
@@ -503,7 +502,7 @@ export class Ntemplate20 implements OnInit {
 
             }
             this.blinkingOpt = opt;
-			this.idOfImage = this.blinkingOpt.idImage;
+            this.idOfImage = this.blinkingOpt.idImage;
             this.optIndxArr.splice(indx, 1);
             this.startBlinkOption();
         }
@@ -511,42 +510,40 @@ export class Ntemplate20 implements OnInit {
     }
 
     getRandomIndx() {
-		var randomvalue = Math.floor(Math.random() * this.optIndxArr.length);
-		return randomvalue;       
+        var randomvalue = Math.floor(Math.random() * this.optIndxArr.length);
+        return randomvalue;
     }
-	
+
 
     startBlinkOption() {
         this.blinkInterval = setInterval(() => {
             if (this.blinkFlag) {
                 this.blinkFlag = false;
-				if(this.optionRef != undefined && this.submitButtonCounter != this.optionArr.length)
-				{
-			      this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_common_assets.blink_box.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.blink_box.url : this.assetsPath + '/' + this.optionObj.option_common_assets.blink_box.url;
-				}
+                if (this.optionRef != undefined && this.submitButtonCounter != this.optionArr.length) {
+                    this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_common_assets.blink_box.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.blink_box.url : this.assetsPath + '/' + this.optionObj.option_common_assets.blink_box.url;
+                }
             } else {
                 this.blinkFlag = true;
-				if(this.optionRef != undefined && this.submitButtonCounter != this.optionArr.length)
-				{
-                this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
-				}
-			}
+                if (this.optionRef != undefined && this.submitButtonCounter != this.optionArr.length) {
+                    this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
+                }
+            }
         }, 500)
     }
 
     playInstruction() {
         if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
             this.instructionVO.nativeElement.play();
-			this.appModel.enableSubmitBtn(false);
-			this.appModel.enableReplayBtn(false);
-			//$(".placeholder").addClass("disable_div");
-			//$(".instructionBar .instructionBase").addClass("disable_div");
-            this.attemptType = "PlayInstruction";			
-           /* for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
-                    this.optionRef.nativeElement.children[i].classList = "disableDiv";                
-            }*/		
+            this.appModel.enableSubmitBtn(false);
+            this.appModel.enableReplayBtn(false);
+            //$(".placeholder").addClass("disable_div");
+            //$(".instructionBar .instructionBase").addClass("disable_div");
+            this.attemptType = "PlayInstruction";
+            /* for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
+                     this.optionRef.nativeElement.children[i].classList = "disableDiv";                
+             }*/
             this.instructionVO.nativeElement.onended = () => {
-				this.disableOnInstruction();		
+                this.disableOnInstruction();
             }
         }
     }
@@ -613,653 +610,562 @@ export class Ntemplate20 implements OnInit {
     }
 
     sendFeedback(ref, flag: string, action?: string) {
-		
+
         this.appModel.notifyUserAction();
-		//this.blinkOnLastQues();
+        //this.blinkOnLastQues();
         ref.classList = "modal";
         if (action == "showAnswer") {
-            this.popupType  = "showanswer"
+            this.popupType = "showanswer"
             this.getAnswer();
-			this.feedbackAudio = this.feedbackObj.show_Answer_sound;
-			this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-            this.feedbackPopupAudio.nativeElement.play();	
-            this.attemptType = "showAnswer";				
+            this.feedbackAudio = this.feedbackObj.show_Answer_sound;
+            this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.feedbackPopupAudio.nativeElement.play();
+            this.attemptType = "showAnswer";
             this.feedbackPopupAudio.nativeElement.onended = () => {
-				 setTimeout(() => {		   
-           this.appModel.notifyUserAction();
-		   this.blinkOnLastQues();
-           //this.modalfeedback20.nativeElement.classList = "modal";	   
-		   this.fadeEverything();	
-        }, 1000)
-			}
-        			
+                setTimeout(() => {
+                    this.appModel.notifyUserAction();
+                    this.blinkOnLastQues();
+                    //this.modalfeedback20.nativeElement.classList = "modal";	   
+                    this.fadeEverything();
+                }, 1000)
+            }
+
         } else if (action == "submitAnswer") {
-			if(this.submitButtonCounter != this.optionArr.length)
-			{
-				this.infoModalRef.nativeElement.classList = "displayPopup modal";
-				let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
-				this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+            if (this.submitButtonCounter != this.optionArr.length) {
+                this.infoModalRef.nativeElement.classList = "displayPopup modal";
+                let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
+                this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
                 this.feedbackInfoAudio.nativeElement.play();
-			}
-			else{
-			this.popupTopAssts = [];
-			this.popupDownAssts = [];			
-            this.checkResponseType();
-			this.appModel.enableSubmitBtn(false);	
-			this.appModel.enableReplayBtn(true);
-			}                 			
-        } 
-		else if(action == "partialFeedback")
-		{
-			this.infoModalRef.nativeElement.classList = "modal";
-         if (this.feedbackInfoAudio && !this.feedbackInfoAudio.nativeElement.paused) {
-         this.feedbackInfoAudio.nativeElement.pause();
-         this.feedbackInfoAudio.nativeElement.currentTime = 0;
-         }
-		}
-		else if(action == "fadeEverything")
-		{
-			this.attemptTypeClose = "fadeEverything";
-			this.fadeEverything();
-				
-           			
-		}
-		else if (action == "feedbackDone") {
+            }
+            else {
+                this.popupTopAssts = [];
+                this.popupDownAssts = [];
+                this.checkResponseType();
+                this.appModel.enableSubmitBtn(false);
+                this.appModel.enableReplayBtn(true);
+            }
+        }
+        else if (action == "partialFeedback") {
+            this.infoModalRef.nativeElement.classList = "modal";
+            if (this.feedbackInfoAudio && !this.feedbackInfoAudio.nativeElement.paused) {
+                this.feedbackInfoAudio.nativeElement.pause();
+                this.feedbackInfoAudio.nativeElement.currentTime = 0;
+            }
+        }
+        else if (action == "fadeEverything") {
+            this.attemptTypeClose = "fadeEverything";
+            this.fadeEverything();
+
+
+        }
+        else if (action == "feedbackDone") {
             if (this.responseType = "wrong") {
                 this.appModel.wrongAttemptAnimation();
             } else if (this.responseType = "allcorrect") {
                 this.disableScreen();
-               // this.blinkOnLastQues();
+                // this.blinkOnLastQues();
             }
         } else if (action == "replay") {
             this.replayVideo();
         } else if (action == "resetActivity") {
-            this.resetActivity();			
+            this.resetActivity();
         } else if (action == "partialFeedback") {
             if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement && !this.partialFeedbackRef.nativeElement.paused) {
                 this.partialFeedbackRef.nativeElement.pause();
                 this.partialFeedbackRef.nativeElement.currentTime = 0;
             }
         }
-		
-		if(flag == "no")
-		{
-			if(this.attemptType != "")
-			{
-				this.disableOnInstruction();			
-			}
-			
-		}
-    }
-	
-	disableOnInstruction()
-	{
-		if(this.submitButtonCounter > 0)
-				{
-				 this.appModel.enableSubmitBtn(true);
-				 this.appModel.enableReplayBtn(false);
-				}
-				else{
-					this.appModel.enableSubmitBtn(false);
-					this.appModel.enableReplayBtn(true);
-				}				
-				
-			$(".placeholder").removeClass("disable_div");
-			$(".instructionBar .instructionBase").removeClass("disable_div");			
-            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
-                    this.optionRef.nativeElement.children[i].classList = "";                
+
+        if (flag == "no") {
+            if (this.attemptType != "") {
+                this.disableOnInstruction();
             }
-	}
-	
-	fadeEverything()
-	{
-		 if(this.attemptTypeClose == "fadeEverything" || this.attemptTypeClose == "")
-			 {				 
-			if(this.attemptType == "manual")
-			{
-				this.feedbackPopupAudio.nativeElement.pause();
-				this.feedbackPopupAudio.nativeElement.currentTime = 0;
-				this.appModel.blinkForLastQues(this.attemptType);
-				this.resultType = "correct";
-			}
-			else if(this.attemptType == "wrong")
-			{
-			  this.feedbackPopupAudio.nativeElement.pause();
-			  this.feedbackPopupAudio.nativeElement.currentTime = 0;
-			  this.appModel.wrongAttemptAnimation();
-			  this.resultType = "wrong";
-			  setTimeout(() => {
-			this.startActivityCounter = 0;	  
-			this.startActivityCounter += 1;	  
-            this.resetOptions();
-        }, 3000)
-			  return;
-			}
-			else if(this.attemptType == "showAnswer")
-			{
-				this.feedbackPopupAudio.nativeElement.pause();
-                this.feedbackPopupAudio.nativeElement.currentTime = 0;                
-			}
-			else if(this.attemptType == "uttarDikhayein")
-			{
-			}
-			else if(this.attemptType == "PartialWrong"){
-			  
-             this.feedbackPopupAudio.nativeElement.pause();
-			 this.feedbackPopupAudio.nativeElement.currentTime = 0;
-			  this.appModel.wrongAttemptAnimation();
-			  this.resultType = "partialCorrect";
-			  setTimeout(() => {
-			this.startActivityCounter = 0;	  
-			this.startActivityCounter += 1;	  
-            this.resetOptions();
-        }, 3000)
-			  return;
-			}
-			else{}
-			 }
-			 
-		    this.appModel.enableSubmitBtn(false);
-            this.appModel.enableReplayBtn(false);            
-			$(".placeholder").addClass("disable_div");
-			$(".instructionBar .instructionBase").addClass("disable_div");			          
-            $(".options").css("opacity", "0.3");
-			$(".blockBelowLine .placeholder .lowerimages .number_1").css("opacity", "0.3");
-			$(".blockBelowLine .placeholder .lowerimages .number_2").css("opacity", "0.3");
-			$(".blockAboveLine .placeholder .upperimages .number_1").css("opacity", "0.3");
-            $(".blockAboveLine .placeholder .upperimages .number_2").css("opacity", "0.3");
-			$(".optionBase").css("opacity", "0.3");
-			
-			$(".instructionBar").css("opacity", "0.3");	
-			$(".bodyContent .scaleBlock").css("opacity", "0.3");
-            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
-                    this.optionRef.nativeElement.children[i].classList = "disableDiv";                
-            }			
-			if(this.optionRef != undefined && this.attemptType == "showAnswer")
-			{
-			    this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
-			}
-			clearInterval(this.blinkInterval);
-			this.attemptType = "";
-	}
-	
+
+        }
+    }
+
+    disableOnInstruction() {
+        if (this.submitButtonCounter > 0) {
+            this.appModel.enableSubmitBtn(true);
+            this.appModel.enableReplayBtn(false);
+        }
+        else {
+            this.appModel.enableSubmitBtn(false);
+            this.appModel.enableReplayBtn(true);
+        }
+
+        $(".placeholder").removeClass("disable_div");
+        $(".instructionBar .instructionBase").removeClass("disable_div");
+        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+            this.optionRef.nativeElement.children[i].classList = "";
+        }
+    }
+
+    fadeEverything() {
+        if (this.attemptTypeClose == "fadeEverything" || this.attemptTypeClose == "") {
+            if (this.attemptType == "manual") {
+                this.feedbackPopupAudio.nativeElement.pause();
+                this.feedbackPopupAudio.nativeElement.currentTime = 0;
+                this.appModel.blinkForLastQues(this.attemptType);
+                this.resultType = "correct";
+            }
+            else if (this.attemptType == "wrong") {
+                this.feedbackPopupAudio.nativeElement.pause();
+                this.feedbackPopupAudio.nativeElement.currentTime = 0;
+                this.appModel.wrongAttemptAnimation();
+                this.resultType = "wrong";
+                setTimeout(() => {
+                    this.startActivityCounter = 0;
+                    this.startActivityCounter += 1;
+                    this.resetOptions();
+                }, 3000)
+                return;
+            }
+            else if (this.attemptType == "showAnswer") {
+                this.feedbackPopupAudio.nativeElement.pause();
+                this.feedbackPopupAudio.nativeElement.currentTime = 0;
+            }
+            else if (this.attemptType == "uttarDikhayein") {
+            }
+            else if (this.attemptType == "PartialWrong") {
+
+                this.feedbackPopupAudio.nativeElement.pause();
+                this.feedbackPopupAudio.nativeElement.currentTime = 0;
+                this.appModel.wrongAttemptAnimation();
+                this.resultType = "partialCorrect";
+                setTimeout(() => {
+                    this.startActivityCounter = 0;
+                    this.startActivityCounter += 1;
+                    this.resetOptions();
+                }, 3000)
+                return;
+            }
+            else { }
+        }
+
+        this.appModel.enableSubmitBtn(false);
+        this.appModel.enableReplayBtn(false);
+        $(".placeholder").addClass("disable_div");
+        $(".instructionBar .instructionBase").addClass("disable_div");
+        $(".options").css("opacity", "0.3");
+        $(".blockBelowLine .placeholder .lowerimages .number_1").css("opacity", "0.3");
+        $(".blockBelowLine .placeholder .lowerimages .number_2").css("opacity", "0.3");
+        $(".blockAboveLine .placeholder .upperimages .number_1").css("opacity", "0.3");
+        $(".blockAboveLine .placeholder .upperimages .number_2").css("opacity", "0.3");
+        $(".optionBase").css("opacity", "0.3");
+
+        $(".instructionBar").css("opacity", "0.3");
+        $(".bodyContent .scaleBlock").css("opacity", "0.3");
+        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+            this.optionRef.nativeElement.children[i].classList = "disableDiv";
+        }
+        if (this.optionRef != undefined && this.attemptType == "showAnswer") {
+            this.optionRef.nativeElement.children[this.randomOptIndx].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
+        }
+        clearInterval(this.blinkInterval);
+        this.attemptType = "";
+    }
+
 
     checkResponseType() {
         clearInterval(this.blinkTimeInterval);
-        this.attemptType = "manual";		
-		var count:number = 0;
-		var kCount:number = 0;
-		this.wrongCounter = 0;
-		var Range:number = 0;
-		
+        this.attemptType = "manual";
+        var count: number = 0;
+        var kCount: number = 0;
+        this.wrongCounter = 0;
+        var Range: number = 0;
+
         this.submittedArr = this.getSelectedArr();
-		
-		
-		for(let i=0; i<this.submittedArr.length; i++)		{							
-			
-			for(let j=0; j<2; j++)
-			{
-				if(this.submittedArr[i][j] != undefined)
-				{			         
-						 if(this.Order == "ascending")
-						 {   
-					         if(this.submittedArr[i][j].selected != undefined)
-							 {                   
-                                      if(this.optionObj.given_values[1] != undefined)
-										   {
-											    if(i >= this.optionObj.given_values[1].index)
-											{
-											 kCount = 1;											 
-											}
-										   }						 
-									
-                                    if(i < this.optionObj.given_values[kCount].index)
-									{     
-								            for(let m = i+1; m<this.optionObj.given_values[kCount].index; m++)
-											 {
-												 if(this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined)
-												 {
-													count = m+1;
-												 }
-												 else{
-													 count = m;
-												 }
-												 
-											 
-											 
-											 if(this.submittedArr[count] && this.submittedArr[count][0])
-											 {
-												 if(this.submittedArr[count][0].selected != undefined)
-												 {
-												  if(this.submittedArr[i][j].value > this.submittedArr[count][0].value)
-											 {				
-											   if(this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }                                              											   
-											 } 
-												 }			 
-											  
-                                              											 
-											 }										 
 
-                                             if(this.submittedArr[count] && this.submittedArr[count][1])
-											 {
-												 if(this.submittedArr[count][1].selected != undefined)
-												 {
-												  if(this.submittedArr[i][j].value > this.submittedArr[count][1].value)
-											 {
-				                               if(this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }											   
-                                               										   
-											 } 
-												 }
-                                                
-											 }
-											
-											 }
-											 
-											 if(this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = false;
-                                            											 
-											  }	                                           											  
-											
-									}
 
-                                if(i > this.optionObj.given_values[kCount].index)
-									{
-										if(kCount == 1)
-										{
-											Range = this.submittedArr.length;											
-										}
-										else{
-											if(this.optionObj.given_values[1] != undefined)
-											{
-												Range = this.optionObj.given_values[1].index;
-											}
-											
-										}
-										
-										 for(let m = i+1; m<Range; m++)
-											 {
-												if(this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined)
-												 {
-													count = m+1;
-												 }
-												 else{
-													 count = m;
-												 }
-												
-											 
-											 
-											 if(this.submittedArr[count] && this.submittedArr[count][0])
-											 {
-												 if(this.submittedArr[count][0].selected != undefined)
-												 {
-												  if(this.submittedArr[i][j].value > this.submittedArr[count][0].value)
-											 {				
-											   if(this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }
-                                               										   
-											 }
-												 }                
-											  	
-											 
-											 
-											 }
-											 
-											 if(this.submittedArr[count] && this.submittedArr[count][1])
-											 {
-												 if(this.submittedArr[count][1].selected != undefined)
-												 {
-												  if(this.submittedArr[i][j].value > this.submittedArr[count][1].value)
-											 {				
-											   if(this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }
-                                              											   
-											 }
-												 }										 
-											 
-											 }
-											  
-											 }
-											 
-											 if(this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = false;                                            											 
-											  }	
-                                           
-                                        											  
-											
-									} 
+        for (let i = 0; i < this.submittedArr.length; i++) {
 
-                                if(i == this.optionObj.given_values[kCount].index)
-									{											 
-											 if(this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = false;
-                                             											 
-                                              }											
-									}
-                                  if(this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined)
-								  {
-									 this.submittedArr[i][0].isAtCorrectPos = false;
-                                     this.submittedArr[i][1].isAtCorrectPos = false;
-                                     /*if(this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value)
-                                     {					 
-                                    this.submittedArr[i][j].isAtCorrectPos = true;                                            
-                                     }	*/
-								  }								 
-								  
-								   if(i == this.optionObj.given_values[kCount].index)
-									{											 
-											 if(this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = true;											 
-											  }	
-											//break;
-									}
+            for (let j = 0; j < 2; j++) {
+                if (this.submittedArr[i][j] != undefined) {
+                    if (this.Order == "ascending") {
+                        if (this.submittedArr[i][j].selected != undefined) {
+                            if (this.optionObj.given_values[1] != undefined) {
+                                if (i >= this.optionObj.given_values[1].index) {
+                                    kCount = 1;
+                                }
+                            }
 
-									 if(this.submittedArr[i][j].isAtCorrectPos == false)
-									{
-										
-									if(this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined)
-								      {
-									  this.wrongCounter += 1;
-								      }
-									  
-								  else{
-									  this.wrongCounter += 1;
-								      }
-										
-									}
-									
-										
-									
-									
-						       }	
+                            if (i < this.optionObj.given_values[kCount].index) {
+                                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
+                                    if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
+                                        count = m + 1;
+                                    }
+                                    else {
+                                        count = m;
+                                    }
 
-							   
-						   }
-						   
-					  if(this.Order == "descending")
-						 {   
-					         if(this.submittedArr[i][j].selected != undefined)
-							 {                   
-                                      if(this.optionObj.given_values[1] != undefined)
-										   {
-											    if(i >= this.optionObj.given_values[1].index)
-											{
-											 kCount = 1;											 
-											}
-										   }						 
-									
-                                    if(i < this.optionObj.given_values[kCount].index)
-									{     
-								            for(let m = i+1; m<this.optionObj.given_values[kCount].index; m++)
-											 {
-												 if(this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined)
-												 {
-													count = m+1;
-												 }
-												 else{
-													 count = m;
-												 }
-												 
-											 
-											 
-											 if(this.submittedArr[count] && this.submittedArr[count][0])
-											 {
-												 if(this.submittedArr[count][0].selected != undefined)
-												 {
-												  if(this.submittedArr[i][j].value < this.submittedArr[count][0].value)
-											 {				
-											   if(this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }                                              											   
-											 } 
-												 }
-											 
-											  
-                                              											 
-											 }										 
 
-                                             if(this.submittedArr[count] && this.submittedArr[count][1])
-											 {
-												 if(this.submittedArr[count][1].selected != undefined)
-												 {
-												  if(this.submittedArr[i][j].value < this.submittedArr[count][1].value)
-											 {
-				                               if(this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }											   
-                                               										   
-											 } 
-												 }
-                                               
-											 }
-											 
-											 }
-											 
-											 if(this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = false;
-                                            											 
-											  }	                                           											  
-											
-									}
 
-                                if(i > this.optionObj.given_values[kCount].index)
-									{
-										if(kCount == 1)
-										{
-											Range = this.submittedArr.length;											
-										}
-										else{
-											if(this.optionObj.given_values[1] != undefined)
-											{
-												Range = this.optionObj.given_values[1].index;
-											}
-										}
-										 for(let m = i+1; m<=Range; m++)
-											 { 
-										         if(this.submittedArr[m] != undefined){
-												if(this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined)
-												 {
-													count = m+1;
-												 }
-												 
-												 else{
-													 count = m;
-												 }
-												 }
-												
-											 
-											 
-											 if(this.submittedArr[count] && this.submittedArr[count][0])
-											 {
-												 
-												  if(this.submittedArr[i][j].value < this.submittedArr[count][0].value)
-											 {				
-											   if(this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }
-                                               										   
-											 }          
-											  	
-											 
-											 
-											 }
-											 
-											 if(this.submittedArr[count] && this.submittedArr[count][1])
-											 {								 
-												 
-												  if(this.submittedArr[i][j].value < this.submittedArr[count][1].value)
-											 {				
-											   if(this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value)
-											   {
-												   this.submittedArr[i][j].isAtCorrectPos = false;
-											   }
-                                              											   
-											 }					 
-											 
-											 
-											 }
-											  
-											 }
-											 
-											 if(this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = false;                                            											 
-											  }	
-                                           
-                                        											  
-											
-									} 
+                                    if (this.submittedArr[count] && this.submittedArr[count][0]) {
+                                        if (this.submittedArr[count][0].selected != undefined) {
+                                            if (this.submittedArr[i][j].value > this.submittedArr[count][0].value) {
+                                                if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
+                                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                                }
+                                            }
+                                        }
 
-                                if(i == this.optionObj.given_values[kCount].index)
-									{											 
-											 if(this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = false;
-                                             											 
-											  }											
-									}
-                                  if(this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined)
-								  {
-									 this.submittedArr[i][0].isAtCorrectPos = false;
-                                     this.submittedArr[i][1].isAtCorrectPos = false;
-                                     /*if(this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value)
-                                        {					 
-                                           this.submittedArr[i][j].isAtCorrectPos = true;                                            
-                                        }	*/
-								  }								  
-								  
-								   if(i == this.optionObj.given_values[kCount].index)
-									{											 
-											 if(this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value)
-											  {					 
-											 this.submittedArr[i][j].isAtCorrectPos = true;											 
-											  }	
-											//break;
-									}
 
-									if(this.submittedArr[i][j].isAtCorrectPos == false)
-									{
-										
-									if(this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined)
-								      {
-									  this.wrongCounter += 1;
-								      }
-									  
-								  else{
-									  this.wrongCounter += 1;
-								      }
-										
-									}
-									
-										
-									
-									
-						       }	
+                                    }
 
-							   
-						   }					
-				       }
-				
-			        }
-					
-			
-	        	 }
-		
-		
-			
-			if(this.wrongCounter == this.submitButtonCounter)
-			{
-                    this.resultType = "wrong";
-                    this.popupType = "wrong"				
-                    this.wrongCounter = 0;
-					this.appModel.notifyUserAction();
-			}
-			else if(this.wrongCounter == 0)
-			{
-                this.resultType = "correct";				
-                this.wrongCounter = 0;	
-                this.popupType = "correct"
-                this.appModel.notifyUserAction();				
-			}
-			else{
-				this.resultType = "partialCorrect";				
-                this.wrongCounter = 0;
-                this.popupType = "partialCorrect"	
-                this.appModel.notifyUserAction();				
-			}
-        
-        if(this.resultType != "")
-		{
-		
+                                    if (this.submittedArr[count] && this.submittedArr[count][1]) {
+                                        if (this.submittedArr[count][1].selected != undefined) {
+                                            if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
+                                                if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
+                                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = false;
+
+                                }
+
+                            }
+
+                            if (i > this.optionObj.given_values[kCount].index) {
+                                if (kCount == 1) {
+                                    Range = this.submittedArr.length;
+                                }
+                                else {
+                                    if (this.optionObj.given_values[1] != undefined) {
+                                        Range = this.optionObj.given_values[1].index;
+                                    }
+
+                                }
+
+                                for (let m = i + 1; m < Range; m++) {
+                                    if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
+                                        count = m + 1;
+                                    }
+                                    else {
+                                        count = m;
+                                    }
+
+
+
+                                    if (this.submittedArr[count] && this.submittedArr[count][0]) {
+                                        if (this.submittedArr[count][0].selected != undefined) {
+                                            if (this.submittedArr[i][j].value > this.submittedArr[count][0].value) {
+                                                if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
+                                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                                }
+
+                                            }
+                                        }
+
+
+
+                                    }
+
+                                    if (this.submittedArr[count] && this.submittedArr[count][1]) {
+                                        if (this.submittedArr[count][1].selected != undefined) {
+                                            if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
+                                                if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
+                                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                }
+
+
+
+                            }
+
+                            if (i == this.optionObj.given_values[kCount].index) {
+                                if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = false;
+
+                                }
+                            }
+                            if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
+                                this.submittedArr[i][0].isAtCorrectPos = false;
+                                this.submittedArr[i][1].isAtCorrectPos = false;
+                                /*if(this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value)
+                                {					 
+                               this.submittedArr[i][j].isAtCorrectPos = true;                                            
+                                }	*/
+                            }
+
+                            if (i == this.optionObj.given_values[kCount].index) {
+                                if (this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = true;
+                                }
+                                //break;
+                            }
+
+                            if (this.submittedArr[i][j].isAtCorrectPos == false) {
+
+                                if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
+                                    this.wrongCounter += 1;
+                                }
+
+                                else {
+                                    this.wrongCounter += 1;
+                                }
+
+                            }
+
+
+
+
+                        }
+
+
+                    }
+
+                    if (this.Order == "descending") {
+                        if (this.submittedArr[i][j].selected != undefined) {
+                            if (this.optionObj.given_values[1] != undefined) {
+                                if (i >= this.optionObj.given_values[1].index) {
+                                    kCount = 1;
+                                }
+                            }
+
+                            if (i < this.optionObj.given_values[kCount].index) {
+                                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
+                                    if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
+                                        count = m + 1;
+                                    }
+                                    else {
+                                        count = m;
+                                    }
+
+
+
+                                    if (this.submittedArr[count] && this.submittedArr[count][0]) {
+                                        if (this.submittedArr[count][0].selected != undefined) {
+                                            if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
+                                                if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
+                                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                                }
+                                            }
+                                        }
+
+
+
+                                    }
+
+                                    if (this.submittedArr[count] && this.submittedArr[count][1]) {
+                                        if (this.submittedArr[count][1].selected != undefined) {
+                                            if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
+                                                if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
+                                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = false;
+
+                                }
+
+                            }
+
+                            if (i > this.optionObj.given_values[kCount].index) {
+                                if (kCount == 1) {
+                                    Range = this.submittedArr.length;
+                                }
+                                else {
+                                    if (this.optionObj.given_values[1] != undefined) {
+                                        Range = this.optionObj.given_values[1].index;
+                                    }
+                                }
+                                for (let m = i + 1; m <= Range; m++) {
+                                    if (this.submittedArr[m] != undefined) {
+                                        if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
+                                            count = m + 1;
+                                        }
+
+                                        else {
+                                            count = m;
+                                        }
+                                    }
+
+
+
+                                    if (this.submittedArr[count] && this.submittedArr[count][0]) {
+
+                                        if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
+                                            if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
+                                                this.submittedArr[i][j].isAtCorrectPos = false;
+                                            }
+
+                                        }
+
+
+
+                                    }
+
+                                    if (this.submittedArr[count] && this.submittedArr[count][1]) {
+
+                                        if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
+                                            if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
+                                                this.submittedArr[i][j].isAtCorrectPos = false;
+                                            }
+
+                                        }
+
+
+                                    }
+
+                                }
+
+                                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = false;
+                                }
+
+
+
+                            }
+
+                            if (i == this.optionObj.given_values[kCount].index) {
+                                if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = false;
+
+                                }
+                            }
+                            if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
+                                this.submittedArr[i][0].isAtCorrectPos = false;
+                                this.submittedArr[i][1].isAtCorrectPos = false;
+                                /*if(this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value)
+                                   {					 
+                                      this.submittedArr[i][j].isAtCorrectPos = true;                                            
+                                   }	*/
+                            }
+
+                            if (i == this.optionObj.given_values[kCount].index) {
+                                if (this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value) {
+                                    this.submittedArr[i][j].isAtCorrectPos = true;
+                                }
+                                //break;
+                            }
+
+                            if (this.submittedArr[i][j].isAtCorrectPos == false) {
+
+                                if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
+                                    this.wrongCounter += 1;
+                                }
+
+                                else {
+                                    this.wrongCounter += 1;
+                                }
+
+                            }
+
+
+
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+
+        }
+
+
+
+        if (this.wrongCounter == this.submitButtonCounter) {
+            this.resultType = "wrong";
+            this.popupType = "wrong"
+            this.wrongCounter = 0;
+            this.appModel.notifyUserAction();
+        }
+        else if (this.wrongCounter == 0) {
+            this.resultType = "correct";
+            this.wrongCounter = 0;
+            this.popupType = "correct"
+            this.appModel.notifyUserAction();
+        }
+        else {
+            this.resultType = "partialCorrect";
+            this.wrongCounter = 0;
+            this.popupType = "partialCorrect"
+            this.appModel.notifyUserAction();
+        }
+
+        if (this.resultType != "") {
+
             if (this.optIndxArr.length == 0 && this.resultType == "correct") {
                 this.responseType = "allCorrect";
                 console.log("all Correct congratessssss");
-				this.feedbackAudio = this.feedbackObj.correctAudio;
-			    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+                this.feedbackAudio = this.feedbackObj.correctAudio;
+                this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
 
-				this.feedbackPopupAudio.nativeElement.play();
-				this.attemptType = "manual";					
-        this.feedbackPopupAudio.nativeElement.onended = () => {
-		setTimeout(() => {
-           this.appModel.notifyUserAction();
-		   this.blinkOnLastQues();
-           //this.modalfeedback20.nativeElement.classList = "modal";
-		   //this.fadeEverything();	
-        }, 1000)
-			}
-			
-               // this.feedback.headerTxt_img = this.feedback.wrong_headerTxt_img;
+                this.feedbackPopupAudio.nativeElement.play();
+                this.attemptType = "manual";
+                this.feedbackPopupAudio.nativeElement.onended = () => {
+                    setTimeout(() => {
+                        this.appModel.notifyUserAction();
+                        this.blinkOnLastQues();
+                        //this.modalfeedback20.nativeElement.classList = "modal";
+                        //this.fadeEverything();	
+                    }, 1000)
+                }
+
+                // this.feedback.headerTxt_img = this.feedback.wrong_headerTxt_img;
             } else if (this.resultType == "wrong") {
                 this.responseType = "wrongAttempt";
                 console.log("wrongggg oopppssssss");
-				this.feedbackAudio = this.feedbackObj.incorrectAudio;
-			    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-				
-				this.feedbackPopupAudio.nativeElement.play();
-                this.attemptType = "wrong";				
-                this.feedbackPopupAudio.nativeElement.onended = () => {		
-                this.appModel.notifyUserAction();		        
-                //this.modalfeedback20.nativeElement.classList = "modal";
-				//this.fadeEverything();
-			}
-			
+                this.feedbackAudio = this.feedbackObj.incorrectAudio;
+                this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+
+                this.feedbackPopupAudio.nativeElement.play();
+                this.attemptType = "wrong";
+                this.feedbackPopupAudio.nativeElement.onended = () => {
+                    this.appModel.notifyUserAction();
+                    //this.modalfeedback20.nativeElement.classList = "modal";
+                    //this.fadeEverything();
+                }
+
                 //this.feedback.headerTxt_img = this.feedback.right_headerTxt_img;
             }
-			else if (this.resultType == "partialCorrect") {               
-               this.responseType = "partialAttempt";
-			   this.attemptType = "PartialWrong";
-			    this.feedbackAudio = this.feedbackObj.partialIncorrect_sound;
-			    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+            else if (this.resultType == "partialCorrect") {
+                this.responseType = "partialAttempt";
+                this.attemptType = "PartialWrong";
+                this.feedbackAudio = this.feedbackObj.partialIncorrect_sound;
+                this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
 
-			   this.feedbackPopupAudio.nativeElement.play();				   
-               this.feedbackPopupAudio.nativeElement.onended = () => {
-		   setTimeout(() => {
-           this.appModel.notifyUserAction();
-		  // this.blinkOnLastQues();
-           //this.modalfeedback20.nativeElement.classList = "modal";
-		   //this.fadeEverything();	
-        }, 1000)
-			}
-			   
-			   
-               //this.feedback.headerTxt_img = this.feedback.right_headerTxt_img;
+                this.feedbackPopupAudio.nativeElement.play();
+                this.feedbackPopupAudio.nativeElement.onended = () => {
+                    setTimeout(() => {
+                        this.appModel.notifyUserAction();
+                        // this.blinkOnLastQues();
+                        //this.modalfeedback20.nativeElement.classList = "modal";
+                        //this.fadeEverything();	
+                    }, 1000)
+                }
+
+
+                //this.feedback.headerTxt_img = this.feedback.right_headerTxt_img;
             }
             for (let i = 0; i < this.submittedArr.length; i++) {
                 if (this.submittedArr[i][0] == undefined) {
@@ -1283,7 +1189,7 @@ export class Ntemplate20 implements OnInit {
             }
 
             this.confirmModalRef.nativeElement.classList = "modal";
-            this.confirmSubmitRef.nativeElement.classList = "modal";	
+            this.confirmSubmitRef.nativeElement.classList = "modal";
             this.modalfeedback20.nativeElement.classList = "modal displayPopup";
             this.setPopupAssets();
         }
@@ -1338,11 +1244,10 @@ export class Ntemplate20 implements OnInit {
 
         //$(this.mainContainer.nativeElement).addClass("greyOut");
         clearInterval(this.blinkTimeInterval);
-		if(this.optionHolder != undefined)
-		{		
-        this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-        this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
-		}
+        if (this.optionHolder != undefined) {
+            this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+            this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+        }
         if (this.categoryA && this.categoryA.correct && this.categoryA.correct.length) {
             this.categoryA.correct.splice(0, this.categoryA.correct.length);
         }
@@ -1410,35 +1315,33 @@ export class Ntemplate20 implements OnInit {
 
 
     getAnswer() {
-		
+
         let addedArr = this.optionObj.given_values.concat(this.optionArr);
         let optCopy = JSON.parse(JSON.stringify(addedArr));
         this.sortedOptArr = optCopy.sort((a, b) => {
-			if(this.Order == "ascending")
-			{
-				return a.value - b.value;
-			}
-			if(this.Order == "descending")
-			{
-				return b.value - a.value;
-			}
-            
+            if (this.Order == "ascending") {
+                return a.value - b.value;
+            }
+            if (this.Order == "descending") {
+                return b.value - a.value;
+            }
+
         })
         this.setGivenValue();
-		this.feedbackAudio = this.feedbackObj.show_Answer_sound;
-		this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackAudio = this.feedbackObj.show_Answer_sound;
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
 
-		this.feedbackPopupAudio.nativeElement.play();	
+        this.feedbackPopupAudio.nativeElement.play();
         this.feedbackPopupAudio.nativeElement.onended = () => {
-		setTimeout(() => {
-           this.appModel.notifyUserAction();
-		   this.blinkOnLastQues();
-           //this.modalfeedback20.nativeElement.classList = "modal";
-		   this.fadeEverything();	
-        }, 1000)
-			}
-		
-		
+            setTimeout(() => {
+                this.appModel.notifyUserAction();
+                this.blinkOnLastQues();
+                //this.modalfeedback20.nativeElement.classList = "modal";
+                this.fadeEverything();
+            }, 1000)
+        }
+
+
     }
 
     templatevolume(vol, obj) {
@@ -1448,11 +1351,11 @@ export class Ntemplate20 implements OnInit {
         if (obj.instructionVO && obj.instructionVO.nativeElement) {
             obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-       // if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
-       //     obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-       // }
-		 if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
-         obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        // if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
+        //     obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        // }
+        if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+            obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
@@ -1473,230 +1376,216 @@ export class Ntemplate20 implements OnInit {
                 console.log("video eneded in replay function");
                 this.appModel.startPreviousTimer();
                 this.appModel.notifyUserAction();
-				this.blinkOnLastQues();
+                this.blinkOnLastQues();
             }
         }, 500)
     }
 
     selectPosition(index, pos) {
-		this.instructionVO.nativeElement.pause();
+        this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
-		this.disableOnInstruction();
-		this.appModel.notifyUserAction();
-       if(this.submitButtonCounter == this.optionArr.length)
-		{
-			return;
-		}			
-        this.ResizeIndex = 	index;
-		this.ResizePos = pos;
-		console.log("index = "+index);		
-		//this.appModel.notifyUserAction();
-		//this.blinkOnLastQues();
+        this.disableOnInstruction();
+        this.appModel.notifyUserAction();
+        if (this.submitButtonCounter == this.optionArr.length) {
+            return;
+        }
+        this.ResizeIndex = index;
+        this.ResizePos = pos;
+        console.log("index = " + index);
+        //this.appModel.notifyUserAction();
+        //this.blinkOnLastQues();
         this.appModel.enableReplayBtn(false);
         this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
         clearInterval(this.blinkInterval);
-		this.RandomResizeIndex = this.randomOptIndx;
+        this.RandomResizeIndex = this.randomOptIndx;
         let from = this.optionRef.nativeElement.children[this.randomOptIndx].getBoundingClientRect();
         if (pos == 'up') {
             let to = this.upPlaceHolder.nativeElement.children[index].getBoundingClientRect();
             this.blinkingOpt.toCord = to;
             //$(this.optionRef.nativeElement.children[this.randomOptIndx]).addClass("setPosRelative");
             $(this.optionRef.nativeElement.children[this.randomOptIndx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500, () => { this.pushToUpPlaceHolder(index, from) });
-            
-		} else if (pos == 'down') {
+
+        } else if (pos == 'down') {
             let to = this.downPlaceHolder.nativeElement.children[index].getBoundingClientRect();
             this.blinkingOpt.toCord = to;
             // $(this.optionRef.nativeElement.children[this.randomOptIndx]).addClass("setPosRelative");
             $(this.optionRef.nativeElement.children[this.randomOptIndx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500, () => { this.pushToDownPlaceHolder(index, from) });
-            
-		}
-		
-		if(index == this.idOfImage)
-		{
-			console.log("coorectMatch");
-			this.IdImageArr.push(index);			
-		}
-		else{
-			console.log("WrongMatch");				
-		}
-       	
+
+        }
+
+        if (index == this.idOfImage) {
+            console.log("coorectMatch");
+            this.IdImageArr.push(index);
+        }
+        else {
+            console.log("WrongMatch");
+        }
+
     }
-	
-	// onResize(event) {       
-        // if (this.ResizePos == 'up') {
-            // let to = this.upPlaceHolder.nativeElement.children[this.ResizeIndex].getBoundingClientRect();           
-            // $(this.optionRef.nativeElement.children[this.RandomResizeIndex]).animate({ left: (to.left), top: (to.top) });
-           
-		// } else if (this.ResizePos == 'down') {
-            // let to = this.optionRef.nativeElement.children[this.RandomResizeIndex].getBoundingClientRect();            
-            // $(this.optionRef.nativeElement.children[this.RandomResizeIndex]).animate({ left: (to.left), top: (to.top) });
-           
-		// }
-		 
-  
-// }
+
+    // onResize(event) {       
+    // if (this.ResizePos == 'up') {
+    // let to = this.upPlaceHolder.nativeElement.children[this.ResizeIndex].getBoundingClientRect();           
+    // $(this.optionRef.nativeElement.children[this.RandomResizeIndex]).animate({ left: (to.left), top: (to.top) });
+
+    // } else if (this.ResizePos == 'down') {
+    // let to = this.optionRef.nativeElement.children[this.RandomResizeIndex].getBoundingClientRect();            
+    // $(this.optionRef.nativeElement.children[this.RandomResizeIndex]).animate({ left: (to.left), top: (to.top) });
+
+    // }
+
+
+    // }
 
     pushToUpPlaceHolder(index, from) {
-		this.submitButtonCounter += 1;
-       // $(this.optionRef.nativeElement.children[this.randomOptIndx]).css('top', 'auto').css('left', 'auto');
+        this.submitButtonCounter += 1;
+        // $(this.optionRef.nativeElement.children[this.randomOptIndx]).css('top', 'auto').css('left', 'auto');
         this.blinkingOpt.place = 'up';
         this.placeHolderArrUp.splice(index, 1, this.blinkingOpt)
         this.optionRef.nativeElement.children[this.randomOptIndx].style.visibility = "hidden";
         this.appModel.enableSubmitBtn(true);
-		this.appModel.enableReplayBtn(false);
+        this.appModel.enableReplayBtn(false);
         this.getRandomIndxBlink();
         setTimeout(() => {
             this.mainContainer.nativeElement.classList = "bodyContent";
         }, 500)
-		if(this.submitButtonCounter >= this.optionArr.length)
-		{
-			this.appModel.enableSubmitBtn(true);
-			this.appModel.enableReplayBtn(false);
-		}
-		this.blinkCounter ++;
-		//console.log("this.blinkCounter = "+this.blinkCounter+" = this.optionArr.length = "+this.optionArr.length);
+        if (this.submitButtonCounter >= this.optionArr.length) {
+            this.appModel.enableSubmitBtn(true);
+            this.appModel.enableReplayBtn(false);
+        }
+        this.blinkCounter++;
+        //console.log("this.blinkCounter = "+this.blinkCounter+" = this.optionArr.length = "+this.optionArr.length);
     }
 
     pushToDownPlaceHolder(index, from) {
-		this.submitButtonCounter += 1;
+        this.submitButtonCounter += 1;
         //$(this.optionRef.nativeElement.children[this.randomOptIndx]).css('top', 'auto').css('left', 'auto');
         this.blinkingOpt.place = 'down';
         this.placeHolderArrDown.splice(index, 1, this.blinkingOpt)
         this.optionRef.nativeElement.children[this.randomOptIndx].style.visibility = "hidden";
-		//this.RandomIndexValue.push(this.randomOptIndx);
+        //this.RandomIndexValue.push(this.randomOptIndx);
         this.appModel.enableSubmitBtn(true);
-		this.appModel.enableReplayBtn(false);
+        this.appModel.enableReplayBtn(false);
         this.getRandomIndxBlink();
         setTimeout(() => {
             this.mainContainer.nativeElement.classList = "bodyContent";
         }, 500)
-		if(this.submitButtonCounter >= this.optionArr.length)
-		{
-			this.appModel.enableSubmitBtn(true);
-			this.appModel.enableReplayBtn(false);
-		}
-		this.blinkCounter ++;
-		//console.log("this.blinkCounter = "+this.blinkCounter+" = this.optionArr.length = "+this.optionArr.length);
+        if (this.submitButtonCounter >= this.optionArr.length) {
+            this.appModel.enableSubmitBtn(true);
+            this.appModel.enableReplayBtn(false);
+        }
+        this.blinkCounter++;
+        //console.log("this.blinkCounter = "+this.blinkCounter+" = this.optionArr.length = "+this.optionArr.length);
     }
 
     reversePosition(opt, idx, pos) {
-		this.instructionVO.nativeElement.pause();
+        this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
-		this.disableOnInstruction();
-		 if(opt.imgsrc.Bg != undefined)
-		{
-			return;
-		}	
-		this.appModel.notifyUserAction();
-		//this.blinkOnLastQues();
+        this.disableOnInstruction();
+        if (opt.imgsrc.Bg != undefined) {
+            return;
+        }
+        this.appModel.notifyUserAction();
+        //this.blinkOnLastQues();
         if (pos == 'up') {
             /*let from = this.upPlaceHolder.nativeElement.children[idx].getBoundingClientRect();//opt.toCord;
             let to = this.optionRef.nativeElement.children[opt.index].getBoundingClientRect(); //opt.fromCord;*/
             this.optionRef.nativeElement.children[opt.index].style.zIndex = "5";
-			this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
-			this.placeHolderArrUp.splice(idx, 1, this.optionObj.place_holder);
+            this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
+            this.placeHolderArrUp.splice(idx, 1, this.optionObj.place_holder);
             $(this.optionRef.nativeElement.children[opt.index]).animate({ left: 0, top: 0 }, 500, () => { this.deleteUpPlaceHolder(opt, idx) });
-			this.optionReverseTopPosition = $(this.optionRef.nativeElement.children[opt.index])[0].getBoundingClientRect().top
-			
-			
-			
-            
-		} else if (pos == 'down') {
+            this.optionReverseTopPosition = $(this.optionRef.nativeElement.children[opt.index])[0].getBoundingClientRect().top
+
+
+
+
+        } else if (pos == 'down') {
             // /* let from = this.downPlaceHolder.nativeElement.children[idx].getBoundingClientRect();//opt.toCord;
-             // let to = this.optionRef.nativeElement.children[opt.index].getBoundingClientRect(); //opt.fromCord;*/
+            // let to = this.optionRef.nativeElement.children[opt.index].getBoundingClientRect(); //opt.fromCord;*/
             //$(this.optionRef.nativeElement.children[this.randomOptIndx]).addClass("setPosRelative");
-           // this.downPlaceHolder.nativeElement.children[idx].style.zIndex = "5";
-		    this.optionRef.nativeElement.children[opt.index].style.zIndex = "5";
-			this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
-			this.placeHolderArrDown.splice(idx, 1, this.optionObj.place_holder);
+            // this.downPlaceHolder.nativeElement.children[idx].style.zIndex = "5";
+            this.optionRef.nativeElement.children[opt.index].style.zIndex = "5";
+            this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
+            this.placeHolderArrDown.splice(idx, 1, this.optionObj.place_holder);
             $(this.optionRef.nativeElement.children[opt.index]).animate({ left: 0, top: 0 }, 500, () => { this.deleteDownPlaceHolder(opt, idx) });
-			this.optionReverseTopPosition = $(this.optionRef.nativeElement.children[opt.index])[0].getBoundingClientRect().top
-			
-			
-            
-		}
-		this.IdImageArr.pop();
-		   
-		
-		
+            this.optionReverseTopPosition = $(this.optionRef.nativeElement.children[opt.index])[0].getBoundingClientRect().top
+
+
+
+        }
+        this.IdImageArr.pop();
+
+
+
     }
 
     deleteUpPlaceHolder(opt, idx) {
-				
-		//this.appModel.enableSubmitBtn(false);
-       // this.placeHolderArrUp.splice(idx, 1, this.optionObj.place_holder);
+
+        //this.appModel.enableSubmitBtn(false);
+        // this.placeHolderArrUp.splice(idx, 1, this.optionObj.place_holder);
         //this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
         this.optIndxArr.push(opt.index);
         this.optionRef.nativeElement.children[opt.index].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
-      
-		if(this.submitButtonCounter == this.optionArr.length)
-		{
-			this.getRandomIndxBlink();			
-		}
-		
-		this.blinkCounter --;
-		this.submitButtonCounter -= 1;
-		 if(this.submitButtonCounter == 0)
-		{
-			this.appModel.enableSubmitBtn(false);
-			this.appModel.enableReplayBtn(true);
-			
-		}
-		
-	}
+
+        if (this.submitButtonCounter == this.optionArr.length) {
+            this.getRandomIndxBlink();
+        }
+
+        this.blinkCounter--;
+        this.submitButtonCounter -= 1;
+        if (this.submitButtonCounter == 0) {
+            this.appModel.enableSubmitBtn(false);
+            this.appModel.enableReplayBtn(true);
+
+        }
+
+    }
 
     deleteDownPlaceHolder(opt, idx) {
-		
-		//this.appModel.enableSubmitBtn(false);        
+
+        //this.appModel.enableSubmitBtn(false);        
         //this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
         this.optIndxArr.push(opt.index);
         this.optionRef.nativeElement.children[opt.index].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
-         
-		if(this.submitButtonCounter == this.optionArr.length)
-		{
-			this.getRandomIndxBlink();			
-		}
-		
-		this.blinkCounter --;
-		this.submitButtonCounter -= 1;
-		if(this.submitButtonCounter == 0)
-		{
-			this.appModel.enableSubmitBtn(false);
-			this.appModel.enableReplayBtn(true);
-			
-		}
-		
-   }	
-   
-   resetOptions()
-   {  
-		
-	   for(let i = 0; i<this.optionArr.length; i++)
-	   {
-	   this.optionRef.nativeElement.children[i].style.zIndex = "5";
-	   this.optionRef.nativeElement.children[i].style.visibility = "visible";	  
-       $(this.optionRef.nativeElement.children[i]).animate({ left: 0, top: 0 }, 500);
-	   if(this.optionRef != undefined)
-			{
-			    this.optionRef.nativeElement.children[i].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
-			}
-	   }
-	    for(let j = 0; j<this.placeHolderArrDown.length; j++)
-	   {	   
-	    this.placeHolderArrDown.splice(j, 1, this.optionObj.place_holder);
-		this.placeHolderArrUp.splice(j, 1, this.optionObj.place_holder);
-	   }
-	   setTimeout(() => {
-		   if(this.startActivityCounter == 1)
-		   {
-			  this.optIndxArr = [];		   
-              this.startActivity();
-			  this.startActivityCounter += 1;
-		   }
-           		   
+
+        if (this.submitButtonCounter == this.optionArr.length) {
+            this.getRandomIndxBlink();
+        }
+
+        this.blinkCounter--;
+        this.submitButtonCounter -= 1;
+        if (this.submitButtonCounter == 0) {
+            this.appModel.enableSubmitBtn(false);
+            this.appModel.enableReplayBtn(true);
+
+        }
+
+    }
+
+    resetOptions() {
+
+        for (let i = 0; i < this.optionArr.length; i++) {
+            this.optionRef.nativeElement.children[i].style.zIndex = "5";
+            this.optionRef.nativeElement.children[i].style.visibility = "visible";
+            $(this.optionRef.nativeElement.children[i]).animate({ left: 0, top: 0 }, 500);
+            if (this.optionRef != undefined) {
+                this.optionRef.nativeElement.children[i].children[0].src = this.optionObj.option_common_assets.default_box_original.location == 'content' ? this.containgFolderPath + "/" + this.optionObj.option_common_assets.default_box_original.url : this.assetsPath + '/' + this.optionObj.option_common_assets.default_box_original.url;
+            }
+        }
+        for (let j = 0; j < this.placeHolderArrDown.length; j++) {
+            this.placeHolderArrDown.splice(j, 1, this.optionObj.place_holder);
+            this.placeHolderArrUp.splice(j, 1, this.optionObj.place_holder);
+        }
+        setTimeout(() => {
+            if (this.startActivityCounter == 1) {
+                this.optIndxArr = [];
+                this.startActivity();
+                this.startActivityCounter += 1;
+            }
+
         }, 500)
-		
-		for (let i in this.optionObj.given_values) {
+
+        for (let i in this.optionObj.given_values) {
             let opt = {
                 imgsrc: '',
                 place: '',
@@ -1714,61 +1603,57 @@ export class Ntemplate20 implements OnInit {
                 this.placeHolderArrUp.splice(this.optionObj.given_values[i].index, 1, opt);
             }
         }
-	   this.submitButtonCounter = 0;
-	   //this.appModel.notifyUserAction();
-   }
-   
+        this.submitButtonCounter = 0;
+        //this.appModel.notifyUserAction();
+    }
 
-	
-	 setGivenValue() { 
-     this.showAnswerCounter=0;	 
-	 for(let i = 0; i<this.sortedOptArr.length; i++)
-	 {
-		 let opt = {
-					 imgsrc: '',
-					 selected: true,
-					 place: '',
-					 value: '',
-					 index: '',					 
-					 BlueBg:false,
-					 isAtCorrectPos: true
-                   }
-				   opt.imgsrc = this.sortedOptArr[i].imgsrc;
-                   opt.value = this.sortedOptArr[i].value;
-                   opt.index = this.sortedOptArr[i].index;
-			       opt.BlueBg = this.sortedOptArr[i].BlueBg;    
-                   opt.place = this.sortedOptArr[i].place;	
-                   				   
-				   if(opt.BlueBg == false)
-				   {			
-                    if(opt.place == 'down')
-					{
-						 this.placeHolderArrDownPopup.splice(this.showAnswerCounter, 1, opt);  
-					}	
-					else{
-						this.placeHolderArrUpPopup.splice(this.showAnswerCounter, 1, opt);
-					}				   
-				   this.showAnswerCounter+=1;				   
-				   }
-                   else{
-					   if(opt.place == 'up')
-					   {						   
-				           this.placeHolderArrUpPopup.splice(this.showAnswerCounter, 1, opt);
-					   }
-					   else{					   
-				           this.placeHolderArrDownPopup.splice(this.showAnswerCounter, 1, opt);
-					   }				   				   
-				   }				   
-     }
-		this.popupTopAssts = this.placeHolderArrUpPopup;
+
+
+    setGivenValue() {
+        this.showAnswerCounter = 0;
+        for (let i = 0; i < this.sortedOptArr.length; i++) {
+            let opt = {
+                imgsrc: '',
+                selected: true,
+                place: '',
+                value: '',
+                index: '',
+                BlueBg: false,
+                isAtCorrectPos: true
+            }
+            opt.imgsrc = this.sortedOptArr[i].imgsrc;
+            opt.value = this.sortedOptArr[i].value;
+            opt.index = this.sortedOptArr[i].index;
+            opt.BlueBg = this.sortedOptArr[i].BlueBg;
+            opt.place = this.sortedOptArr[i].place;
+
+            if (opt.BlueBg == false) {
+                if (opt.place == 'down') {
+                    this.placeHolderArrDownPopup.splice(this.showAnswerCounter, 1, opt);
+                }
+                else {
+                    this.placeHolderArrUpPopup.splice(this.showAnswerCounter, 1, opt);
+                }
+                this.showAnswerCounter += 1;
+            }
+            else {
+                if (opt.place == 'up') {
+                    this.placeHolderArrUpPopup.splice(this.showAnswerCounter, 1, opt);
+                }
+                else {
+                    this.placeHolderArrDownPopup.splice(this.showAnswerCounter, 1, opt);
+                }
+            }
+        }
+        this.popupTopAssts = this.placeHolderArrUpPopup;
         this.popupDownAssts = this.placeHolderArrDownPopup;
         this.confirmModalRef.nativeElement.classList = "modal";
         this.confirmSubmitRef.nativeElement.classList = "modal";
         this.modalfeedback20.nativeElement.classList = "modal displayPopup";
         this.setPopupAssets();
     }
-	
-	
+
+
     pushToUp() {
         if (this.currentComparison.value > this.sortedOptArr[this.currentIdx].value) {
             this.placeHolderArrUpPopup.splice(this.currentIndxUp, 1, this.sortedOptArr[this.currentIdx]);
@@ -1794,11 +1679,11 @@ export class Ntemplate20 implements OnInit {
             this.currentIndxDown = this.currentComparison.index + 1;
         }
     }
-    
-    setPopupAssets(){
+
+    setPopupAssets() {
         console.log(this.feedbackObj)
-        console.log("check pop up type", "this.attemptType:", this.attemptType, "this.resultType:", this.resultType, "this.popupType:",this.popupType)
-        if(this.popupType == "wrong"){
+        console.log("check pop up type", "this.attemptType:", this.attemptType, "this.resultType:", this.resultType, "this.popupType:", this.popupType)
+        if (this.popupType == "wrong") {
             this.rightanspopUpheader_img = false;
             this.wronganspopUpheader_img = true;
             this.showanspopUpheader_img = false;
@@ -1806,7 +1691,7 @@ export class Ntemplate20 implements OnInit {
             this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
             this.styleBodyPopup = this.feedbackObj.wrong_style_body;
         }
-        if(this.popupType == "partialCorrect"){
+        if (this.popupType == "partialCorrect") {
             this.rightanspopUpheader_img = false;
             this.wronganspopUpheader_img = false;
             this.showanspopUpheader_img = false;
@@ -1814,7 +1699,7 @@ export class Ntemplate20 implements OnInit {
             this.styleHeaderPopup = this.feedbackObj.style_header;
             this.styleBodyPopup = this.feedbackObj.style_body;
         }
-        if(this.popupType == "correct"){
+        if (this.popupType == "correct") {
             this.rightanspopUpheader_img = true;
             this.wronganspopUpheader_img = false;
             this.showanspopUpheader_img = false;
@@ -1822,7 +1707,7 @@ export class Ntemplate20 implements OnInit {
             this.styleHeaderPopup = this.feedbackObj.style_header;
             this.styleBodyPopup = this.feedbackObj.style_body;
         }
-        if(this.popupType == "showanswer"){
+        if (this.popupType == "showanswer") {
             this.rightanspopUpheader_img = false;
             this.wronganspopUpheader_img = false;
             this.showanspopUpheader_img = true;

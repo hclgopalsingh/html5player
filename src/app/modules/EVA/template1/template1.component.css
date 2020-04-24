@@ -1,0 +1,108 @@
+#container #optionsBlock {
+    position: absolute;
+    top: 54%;
+    width: 100%;
+    left: 0%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.options {
+	width: 86%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.options div {
+	width: 25.5%;
+}
+.options div img:hover{
+	animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+}
+#container .speakerBtn{
+	width:auto;
+	position:absolute;
+	top:26%;
+	right:0;
+	text-align: center;
+}
+.speakerBtn img{
+	width:47%;
+}
+.options img,
+.speakerBtn img {
+	cursor:pointer;
+}
+
+/*Template specific styles */
+.refQues{
+	position: absolute;
+	top:13%;
+	width: 62%;
+	height: 40%;
+	/* text-align: center; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fff;
+  }
+  .refQues img{
+	height: 78%;
+	display: flex;
+	align-items: center;
+	border:solid 0px transparent;
+  }
+  #optionsBlock img,
+.optionsBlock img{
+	position:relative;
+  max-width: 100%;
+}
+  #optionsBlock .options,
+.optionsBlock .options{
+	position: relative;
+  	margin: 0% 4.5%;
+	vertical-align:middle;
+  	width: 19%;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	animation: scaleit 0.4s ease-in;
+}
+.optionsBlock .quesImage.autoWidth .options{
+	width: auto;
+	/* height: 100%; */
+}
+.quesImage{
+	width: 100%;
+  position: relative;
+	text-align: center;
+	display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+  .quesImage .optItem{
+	position: absolute !important;
+	width: auto;
+	height: 90%;
+  }
+  .options:hover{
+	animation: scaleIn 0.5s ease-in-out;
+	transform: scale(1.2);
+  }
+  
+@keyframes scaleIn{
+	0%{
+		transform: scale(1.0)
+	}
+	100%{
+   transform: scale(1.2)
+	}
+}

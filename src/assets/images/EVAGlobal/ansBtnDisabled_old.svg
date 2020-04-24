@@ -1,0 +1,127 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="109px" height="82px" viewBox="0 0 109 82">
+<defs>
+<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="-8.75" y1="41.475" x2="-8.75" y2="-41.37500000000001" spreadMethod="pad">
+<stop  offset="0%" stop-color="#518E00"/>
+
+<stop  offset="100%" stop-color="#89BB00"/>
+</linearGradient>
+
+<filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#A3F000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="1.3333333333333333,1.3333333333333333" result="result3"/>
+
+<feFlood flood-color="#2C4E00" flood-opacity="1" in="SourceGraphic" result="result4"/>
+
+<feComposite in2="SourceGraphic" in="result4" operator="in" result="result5"/>
+
+<feGaussianBlur in="result5" stdDeviation="1.3333333333333333,1.3333333333333333" result="result6"/>
+
+<feOffset dx="2.8284271247461903" dy="2.8284271247461903" in="result3" result="result7"/>
+
+<feOffset dx="-2.8284271247461903" dy="-2.8284271247461903" in="result3" result="result8"/>
+
+<feOffset dx="-2.8284271247461903" dy="-2.8284271247461903" in="result6" result="result9"/>
+
+<feOffset dx="2.8284271247461903" dy="2.8284271247461903" in="result6" result="result10"/>
+
+<feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 255 0 0 0 0 255 0 0 0 0 255 0 0 0 255 0" result="result11"/>
+
+<feFlood flood-color="#000000" flood-opacity="0" in="SourceGraphic" result="result12"/>
+
+<feComposite in2="result8" in="result7" operator="arithmetic" k1="0" k2="-1" k3="1" k4="0" result="result13"/>
+
+<feComposite in2="result10" in="result9" operator="arithmetic" k1="0" k2="-1" k3="1" k4="0" result="result14"/>
+
+<feComposite in2="result12" in="result13" operator="xor" result="result15"/>
+
+<feComposite in2="result15" in="result14" operator="xor" result="result16"/>
+
+<feComposite in2="result11" in="result16" operator="in" result="result17"/>
+
+<feBlend mode="normal" in2="SourceGraphic" in="result17" result="result18"/>
+
+<feColorMatrix in="result18" type="matrix" values="0.45432704000000007 0.19890816 0.026764800000000002 0 0.07968627450980392 0.10072703999999999 0.55250816 0.026764800000000002 0 0.07968627450980392 0.10072703999999999 0.19890816 0.3803648 0 0.07968627450980392 0 0 0 1 0 " result="result19"/>
+</filter>
+
+<filter id="Filter_2" x="-23.046297740658062%" y="-20.81760951523096%" width="146.09259548131612%" height="141.6352190304619%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="1.3333333333333333,1.3333333333333333" result="result3"/>
+
+<feOffset dx="1.4142135623730951" dy="1.4142135623730951" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+</filter>
+
+<g id="Symbol_20_0_Layer0_0_FILL">
+<path fill="url(#Gradient_1)" stroke="none" d="
+M 46.2 -23.4
+Q 46.2 -41.4 28.2 -41.4
+L -45.7 -41.4
+Q -63.7 -41.4 -63.7 -23.4
+L -63.7 23.45
+Q -63.7 41.45 -45.7 41.45
+L 28.2 41.45
+Q 46.2 41.45 46.2 23.45
+L 46.2 -23.4 Z"/>
+</g>
+
+<g id="Symbol_12_copy_3_0_Layer0_0_FILL">
+<path fill="#6DB8FF" stroke="none" d="
+M -36.6 -39.25
+Q -42.041796875 -38.8703125 -42.2 -32.65
+L -42.2 36.65 19.9 36.7 19.9 -39.25 -36.6 -39.25 Z"/>
+</g>
+
+<g id="Symbol_12_copy_3_0_Layer0_1_FILL">
+<path fill="#9CCFFF" stroke="none" d="
+M -30.3 29.6
+L 25.85 29.65 25.85 -39.3 -30.25 -39.3 -30.3 29.6
+M -33.9 -39.3
+L -36.6 -39.3 -36.65 29.6 -33.95 29.6 -33.9 -39.3 Z"/>
+
+<path fill="#72BAFF" stroke="none" d="
+M -30.25 -39.3
+L -33.9 -39.3 -33.95 29.6 -30.3 29.6 -30.25 -39.3 Z"/>
+</g>
+
+<g id="Symbol_12_copy_3_0_Layer0_2_FILL">
+<path fill="#DBDBDB" stroke="none" d="
+M 25.85 42.85
+Q 23.1287109375 37.855859375 26 29.45
+L -36.6 29.45
+Q -41.95703125 31.4255859375 -42.1 36.55 -42.24296875 41.6744140625 -36.6 43
+L 25.85 42.85 Z"/>
+</g>
+</defs>
+
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, 63.7,41.4) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_20_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+
+<g filter="url(#Filter_2)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 0.6085357666015625, -0.000244140625, 0.000244140625, 0.6085357666015625, 54.95,39.95) ">
+<g transform="matrix( 1, 0, 0, 1, 8.1,0) ">
+<use xlink:href="#Symbol_12_copy_3_0_Layer0_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 8.1,0) ">
+<use xlink:href="#Symbol_12_copy_3_0_Layer0_1_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 8.1,0) ">
+<use xlink:href="#Symbol_12_copy_3_0_Layer0_2_FILL"/>
+</g>
+</g>
+</g>
+</svg>
