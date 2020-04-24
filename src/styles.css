@@ -82,14 +82,14 @@ button:focus{
 }
 #footerNavBlock .ansBtn{
 	width: 8.1%;
-    left: .6%;
+    left: .5%;
 }
 #footerNavBlock .submitBtn{
 	width: 8.1%;
-    right: .6%;
+    right: .5%;
 }
 #footerNavBlock .prevBtn{
-    left: 8.9%;
+    left: 9.1%;
 }
 #footerNavBlock .nextBtn,
 #footerNavBlock .nextBtn.blink{
