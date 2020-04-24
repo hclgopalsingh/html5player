@@ -64,7 +64,7 @@ export class Ntemplate14 implements OnInit {
 	infoModal: boolean = true;
 	infoPopupAssets: any;
 	tempSubscription: Subscription;
-
+	isFirstTrial: boolean = true;
 
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
@@ -216,7 +216,8 @@ export class Ntemplate14 implements OnInit {
 			this.autoStop = fetchedData.autoStop;
 			console.log("this.autoStop", this.autoStop)
 			this.infoPopupAssets = fetchedData.info_popup;
-
+			console.log("this.isLastQuesAct",this.isLastQuesAct)
+			console.log("this.isLastQues",this.isLastQues)
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			if (fetchedData) {
 
@@ -298,7 +299,7 @@ export class Ntemplate14 implements OnInit {
 		this.isStop = false;
 		this.isRecord = true;
 		this.isRecording =true;
-		this.appModel.notifyUserAction()
+		this.appModel.stopAllTimer()
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
@@ -313,7 +314,6 @@ export class Ntemplate14 implements OnInit {
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
-		this.appModel.moveNextQues("noBlink");
 	}
 
 	listen() {
@@ -347,6 +347,7 @@ export class Ntemplate14 implements OnInit {
 		this.recordButton.nativeElement.src = this.question.record.url;
 		// this.playpause.nativeElement.className = "img-fluid";
 		this.mediaRecorder.stop();
+		this.appModel.moveNextQues("noBlink")
 	}
 
 	checkNextActivities() {
@@ -456,6 +457,19 @@ export class Ntemplate14 implements OnInit {
 		}, 200)
 	}
 
+	lastPopUptimer: any;
+	handleTimer(){
+		console.log("heeree in")
+		let that = this
+		 this.lastPopUptimer = setTimeout(() => {
+			 console.log("here also");
+			 that.blinkOnLastQues();
+			 that.InfoModalRef.nativeElement.classList = "modal";
+			 that.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+
+		}, 300000)
+	}
+
 	ngOnInit() {
 		let that = this;
 		$("#navBlock").click(function () {
@@ -505,8 +519,17 @@ export class Ntemplate14 implements OnInit {
 					$("#instructionBar").addClass("disable_div");
 					this.InfoModalRef.nativeElement.classList = "displayPopup modal";					//this.appModel.enableReplayBtn(true);
 					//this.setFeedbackAudio();
+					if(this.appModel.isLastSectionInCollection)
+					{
+						//close after 5 mins disable and thn blink
+						console.log("here")
+						this.handleTimer()
+					}
+					else{
 					this.appModel.moveNextQues("noBlink");
-				}
+					}
+				
+					}
 				
 
 			}
@@ -516,12 +539,31 @@ export class Ntemplate14 implements OnInit {
 
 	ngAfterViewInit(){
 		let that = this;
+		
 		document.getElementById("audioplay").addEventListener("play",function(){
+			that.appModel.stopAllTimer();
 			if (!that.instruction.nativeElement.paused) {
 				that.instruction.nativeElement.pause();
 				that.instruction.nativeElement.currentTime = 0;
 			}
 		});
+		document.getElementById("audioplay").addEventListener("pause",function(){
+			if (that.isFirstTrial){
+				that.appModel.moveNextQues("noBlink");
+			}
+			else{
+				that.appModel.moveNextQues();
+			}
+		});
+
+		document.getElementById("audioplay").addEventListener("ended",function(){
+			if(that.isFirstTrial){
+				that.appModel.moveNextQues();
+				that.isFirstTrial  = false;
+			}
+			//that.appModel.notifyUserAction();
+		});
+
 	}
 
 	getBasePath() {
@@ -613,4 +655,23 @@ export class Ntemplate14 implements OnInit {
 	ngOnDestroy() {
 		this.appModel.stopAllTimer();
 	  }
+
+	  blinkOnLastQues(type?) {
+		if (this.appModel.isLastSectionInCollection) {
+			this.appModel.blinkForLastQues();
+			this.appModel.stopAllTimer();
+			if (!this.appModel.eventDone) {
+				if (this.isLastQuesAct) {
+					this.appModel.eventFired();
+					this.appModel.event = { 'action': 'segmentEnds' };
+				}
+				if (this.isLastQues) {
+					this.appModel.event = { 'action': 'exit' };
+				}
+			}
+		} else {
+			this.appModel.moveNextQues(type);
+		}
+	}
+
 }
