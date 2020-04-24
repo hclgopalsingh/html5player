@@ -1,0 +1,34 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="173px" height="173px" viewBox="0 0 173 173">
+<defs>
+<filter id="Filter_1" x="-28.20240790056828%" y="-20%" width="156.40481580113655%" height="140%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="1,1" result="result3"/>
+
+<feOffset dx="2.121320343559643" dy="2.121320343559643" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+</filter>
+
+<path id="Symbol_14_copy_5_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 12.05 -14.15
+Q 13.4 -13.3 14.6 -11.95 19.2 -7.15 19.2 -0.25 19.2 6.6 14.6 11.45 13.35 12.85 11.95 13.8
+M 6.85 -6.7
+Q 7.7 -6.2 8.45 -5.45 10.45 -3.3 10.45 -0.35 10.45 2.65 8.45 4.8 7.6 5.7 6.65 6.15
+M 17.3 -21.9
+Q 19.15 -20.6 20.85 -18.85 28.05 -11.5 28.05 -1.1 28.05 9.25 20.85 16.6 19.1 18.4 17.2 19.75"/>
+</defs>
+
+<g transform="matrix( 0.44873046875, 0, 0, 0.44873046875, 82.4,82.4) ">
+<g filter="url(#Filter_1)" transform="matrix( 2.2285003662109375, 0, 0, 2.2285003662109375, -183.6,-183.6) ">
+<g transform="matrix( 1.3153839111328125, 0, 0, 1.3153839111328125, 105.15,84.3) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_14_copy_5_0_Layer0_0_1_STROKES"/>
+</g>
+</g>
+</g>
+</g>
+</svg>
