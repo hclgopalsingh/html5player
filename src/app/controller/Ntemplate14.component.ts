@@ -522,7 +522,7 @@ export class Ntemplate14 implements OnInit {
 					if(this.appModel.isLastSectionInCollection)
 					{
 						//close after 5 mins disable and thn blink
-						console.log("here")
+						console.log("will wait 5 mins here")
 						this.handleTimer()
 					}
 					else{
