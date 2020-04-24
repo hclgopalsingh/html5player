@@ -229,7 +229,10 @@ export class QuesController implements OnInit {
 
 
   confirmAction(action) {
-    if(this.EnableShowAnswer) {
+    if(this.EnableShowAnswer && this.EVA) {
+      this.appModel.confirmPopup(action);
+    }
+    if(!this.EVA) {
       this.appModel.confirmPopup(action);
     }
   }
@@ -265,7 +268,12 @@ export class QuesController implements OnInit {
     this.blinkFlag = false;
     this.appModel.previousSection();
     this.EnableShowAnswer=false;
-    this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    if(this.EVA) {
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    } else {
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+    }
+
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
   }
@@ -280,7 +288,12 @@ export class QuesController implements OnInit {
       this.timeInterval = undefined;
       this.blinkFlag = false;
       this.EnableShowAnswer = false;
-      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+      if(this.EVA) {
+        this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+      } else {
+        this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+      }
+      //this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
       this.UttarDikhayeinTooltip="";
       this.appModel.nextSection();
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
