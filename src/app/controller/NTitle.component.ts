@@ -12,30 +12,35 @@ declare var $: any;
 
 })
 
+
 export class NTitleComponent implements OnInit{
-	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService) {
+
+
+		
+	@ViewChild('container')  containerBlock: any;
+	@ViewChild('titleNavBtn')  titleNavBtn: any;
+	@ViewChild('titleAudio')  titleAudio: any;
+	
+   quesInfo:any = "";
+   
+   noOfImgs:number;
+   noOfImgsLoaded:number = 0;
+   loaderTimer:any;
+   containgFolderPath:string = "";
+   assetsPath:string = "";
+   loadFlag:boolean = false;
+
+	// private appModel: ApplicationmodelService;
+	constructor(private appModel: ApplicationmodelService) {
 		this.appModel = appModel;
 		this.assetsPath=this.appModel.assetsfolderpath;
 		this.appModel.setLoader(true);
 		// if error occured during image loading loader wil stop after 5 seconds 
 		this.loaderTimer = setTimeout(()=>{
 			this.appModel.setLoader(false);
-		},5000)
+		},5000);
 	}
-		
-		 @ViewChild('container')  containerBlock: any;
-		 @ViewChild('titleNavBtn')  titleNavBtn: any;
-         @ViewChild('titleAudio')  titleAudio: any;
-         
-        quesInfo:any = "";
-        
-		noOfImgs:number;
-		noOfImgsLoaded:number = 0;
-		loaderTimer:any;
-		containgFolderPath:string = "";
-		assetsPath:string = "";
-        loadFlag:boolean = false;
+	
 
 		 onHoverZaariRakhein(){
 			this.quesInfo.jariRakheinBtn = this.quesInfo.jariRakheinBtn_hover; 
@@ -47,8 +52,16 @@ export class NTitleComponent implements OnInit{
 		 ngAfterViewChecked(){
 			if(this.titleAudio && this.titleAudio.nativeElement){
 				this.titleAudio.nativeElement.onended = () => {
-				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
-				} 
+
+					if(this.quesInfo.templateType && this.quesInfo.templateType === 'EVA'){
+						setTimeout(()=>{
+						  this.next();
+						},5000)
+					}else{
+						this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";		
+					}
+				
+						} 
 			 }
 			 this.templatevolume(this.appModel.volumeValue,this);
 		 }

@@ -2,7 +2,15 @@
 /*html{
 	width:100%;
 	height:100%;
-}*/
+}
+.hideit{display:none !important;}
+.showit{display:block !important;}
+.dispFlex{display:flex !important;}
+*/
+@font-face {
+	font-family: 'Kruti Dev';
+	src: url('assets/fonts/Content/K010.ttf') format('truetype');
+}	
 body{
 	margin:0;
 	background: #000;
@@ -11,4 +19,190 @@ body{
 	height:100%;
 	overflow:hidden;
 	position:relative;
+}
+button:focus {
+    outline: none !important;
+}
+#container{
+	position: relative;
+	padding:0;
+	max-width: 1920px;
+}
+#container .headerBar{
+	position: absolute;
+	top: 0;
+}
+.headerBar img{
+	vertical-align: top;
+}
+#container #instructionBar {
+	width: 100%;
+	position: absolute;
+	top: 3.5%;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+#instructionBar .instructionBase {
+	width: 79%;
+	position: relative;    
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.instructionBase .instructionText {
+	position: absolute;
+}
+.instructionBase span.instructionText {
+	color: #fff;
+	font-family: Kruti Dev!important;
+	font-size: 1.31vmax;
+	width: 99%;
+}
+#footerNavBlock {
+	width: 100%;
+	position: absolute;
+	bottom: 6.1%;
+	left: 0%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+#footerNavBlock .prevBtn,
+#footerNavBlock .nextBtn,
+#footerNavBlock .nextBtn.blink,
+#footerNavBlock .ansBtn,
+#footerNavBlock .submitBtn {
+	position: absolute;
+    top: 10%;
+    width: 15.6%;
+}
+#footerNavBlock .ansBtn {
+	width: 8.1%;
+    left: .6%;
+}
+#footerNavBlock .submitBtn {
+	width: 8.1%;
+    right: .6%;
+}
+#footerNavBlock .prevBtn {
+    left: 8.9%;
+}
+#footerNavBlock .nextBtn,
+#footerNavBlock .nextBtn.blink {
+	right: 8.9%;
+	z-index: 0;
+}
+#footerNavBlock .nextBtn {
+    z-index: 1;
+}
+#footerNavBlock .nextBtn.blink{
+	animation: blink normal 1s infinite ease-in-out;
+}
+@keyframes blink {
+	0% {
+		z-index: 2;
+	}
+	40% {
+		z-index: 2;
+	}
+	100% {
+		z-index: 0;
+	}
+}
+.navQuesBlock {
+	position: absolute;
+	left: 27.5%;
+    top: 29%;
+    width: 45%;
+    height: 46%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	z-index: 1;
+}
+.navQuesBlock div {
+	width: 5%;
+}
+#footerNavBlock .prevBtn,
+#footerNavBlock .nextBtn,
+#footerNavBlock .nextBtn.blink,
+#footerNavBlock .ansBtn,
+#footerNavBlock .submitBtn,
+.popupCloseBtn {
+	cursor:pointer;
+}
+.modal {
+    position: absolute !important;
+    height: 93.94% !important;
+	display: flex;
+	background: rgba(0,0,0,.7);
+	display: none;
+}
+.modal-dialog {
+	max-width: 84% !important;
+	min-height: auto;
+	margin: auto;
+}
+.modal-content {
+	border: none !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+.modal-body {
+    padding: 0 !important;
+}
+.modal .popupCloseBtn {
+    position: absolute;
+    right: .9%;
+    max-width: 4.5%;
+    z-index: 1;
+}
+.modal #optionsBlock {
+	top: 7.5% !important;
+    width: 97.4% !important;
+}
+.modal #optionsBlock.onShowAns {
+	top: 18.5% !important;
+    width: 97.4% !important;
+}
+.modal .options {
+	width: 100% !important;
+}
+.modal .options div {
+    width: 44% !important;
+}
+.modal .options div:hover{
+	animation: none !important;
+	transform: none !important;
+}
+.rightWrongAns {
+    position: absolute;
+    bottom: 11%;
+    width: 97.4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rightWrongAns img {
+    width: 8%;
+}
+.modal .options img {
+	cursor: default;
+}
+.disableDiv,
+.disableBtn {  
+	pointer-events: none;
+}
+.disableBtn{
+	opacity: .5;  
+}
+.fadeContainer{
+    background: rgba(0,0,0,.75);
+    position: absolute;
+    width: 100%;
+    height: 83.9%;
+    top: 0;
+    z-index: 3;
 }
