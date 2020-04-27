@@ -654,6 +654,7 @@ export class Ntemplate14 implements OnInit {
 
 	ngOnDestroy() {
 		this.appModel.stopAllTimer();
+		this.appModel.resetBlinkingTimer();	
 	  }
 
 	  blinkOnLastQues(type?) {
