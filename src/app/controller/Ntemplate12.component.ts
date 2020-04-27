@@ -662,7 +662,7 @@ export class Ntemplate12 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttemplt();
 		});
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 

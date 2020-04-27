@@ -1451,6 +1451,7 @@ this.edited = false;
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
