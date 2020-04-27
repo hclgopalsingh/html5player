@@ -1155,7 +1155,7 @@ houtSkip(){
 		});
 		console.log("id",id)
 		this.myoption[id].imgsrc.url = "";
-
+		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
 			this.feedbackVoRef.nativeElement.src = this.commonAssets.show_sound.location == "content" ? this.containgFolderPath + "/" + this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36) : this.containgFolderPath + "/" + this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
 			this.feedbackVoRef.nativeElement.play();

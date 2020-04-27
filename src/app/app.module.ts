@@ -68,6 +68,11 @@ import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 
+import { Template15Component } from './modules/EVA/template15/template15.component';
+import { SharedserviceService } from '../app/services/sharedservice.service';
+import { Template3Component } from './modules/EVA/template3/template3.component';
+import { Template1Component } from './modules/EVA/template1/template1.component';
+
 
 
 @NgModule({
@@ -128,7 +133,10 @@ import { Ntemplate14 } from './controller/Ntemplate14.component';
 	QuesController,
 	InactivityTimerComponent,
 	AnimationComponent,
-	Ntemplate17_1
+	Ntemplate17_1,
+	Template15Component,
+	Template3Component,
+	Template1Component
   ],
   imports: [
     BrowserModule,
@@ -140,7 +148,7 @@ import { Ntemplate14 } from './controller/Ntemplate14.component';
 	NouisliderModule,
 	NgxPaginationModule
   ],
-  providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService],
+  providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 
 import 'jquery';
@@ -17,6 +18,7 @@ declare var $: any;
 
 export class QuesController implements OnInit {
   @ViewChild("quesBlockChild") quesBlockChild: any;
+  @ViewChild('nextBtn') nextBtn: any;
   appModel: ApplicationmodelService;
   subscriptionQuesNos: Subscription;
   subscriptionQuesIndex: Subscription;
@@ -35,9 +37,28 @@ export class QuesController implements OnInit {
 	disablePrev:boolean = true;
 	disableNext:boolean = true;
   disableTabs:boolean = true;
+  EVA:boolean = false;
+  EnableShowAnswer:boolean = false;
+  Template: any;
+  EVAQid:any;
+  subscription: Subscription;
+  UttarDikhayeinTooltip:any;
+  blink:any;
   
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
+
+    this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
+      if(this.Template === 'EVA'){
+        this.EVA = true;
+      }else{
+        this.EVA = false;
+      }
+
+    });
+
+
+ 
   }
   pointObjArr: any[] = [];
   questionNo: number = 0;
@@ -48,7 +69,11 @@ export class QuesController implements OnInit {
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
   isVideoPlaying:boolean = false;
+  isLastQuesAageyBadhe:boolean = false;
+  isLastQues:boolean = false;
   ngOnInit() {
+
+
     this.subscriptionQuesNos = this.appModel.getNoOfQues().subscribe(num => {
       console.log("number of questions", num);
       this.noOfQues = num;
@@ -64,11 +89,46 @@ export class QuesController implements OnInit {
     })
     this.subscriptionQuesIndex = this.appModel.getQuesionIdx().subscribe(idx => {
       this.questionNo = idx;
-      console.log("selected question index", this.questionNo);
+      console.log("selected question index", this.questionNo); 
     })
+
+       
+      // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
-      this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+      this.isLastQues = this.quesCtrl.isLastQues;
+      if(this.isLastQues){
+        this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
+         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
+         this.isLastQuesAageyBadhe = data.data;
+        if(!this.isLastQuesAageyBadhe){
+          this.nextBtn.nativeElement.className = "img-fluid nextBtn";
+        }
+      });
+
+      }
+      // **** Enable show answer button
+      this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
+        this.EnableShowAnswer = data.data;
+        if(this.EnableShowAnswer === true){
+          this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+          this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
+
+        }else{
+          this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+          this.UttarDikhayeinTooltip="";
+        }
+      });
+      if(this.EVA) {
+        this.quesTabs = this.quesCtrl.quesTabs;
+      } else {
+        this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+      }
+
+
+    
+
+
       console.log(this.quesCtrl);
       console.log("no of tabs should be ", this.quesTabs.length);
 
@@ -118,6 +178,33 @@ export class QuesController implements OnInit {
     })
   }
 
+
+  hoverUttarDikhayeinEVA() {
+    if(this.EnableShowAnswer){
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
+    }else{
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    }   
+  }
+
+  houtUttarDikhayeinEVA() {
+    if(this.EnableShowAnswer){
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+    }  else{
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    }  
+    
+  }
+
+  hoveronSubmitBtn() {
+
+  }
+
+  hleaveSubmitBtn() {
+
+  }
+
+
   selectQuestion(index) {
     if (this.appModel.titleFlag) {
       this.appModel.selectQues(index + 1);
@@ -140,9 +227,14 @@ export class QuesController implements OnInit {
         }*/
   }
 
-  confirmAction(action) {
-    this.appModel.confirmPopup(action);
 
+  confirmAction(action) {
+    if(this.EnableShowAnswer && this.EVA) {
+      this.appModel.confirmPopup(action);
+    }
+    if(!this.EVA) {
+      this.appModel.confirmPopup(action);
+    }
   }
 
   hoverUttarDikhayein() {
@@ -175,6 +267,13 @@ export class QuesController implements OnInit {
     this.timeInterval = undefined;
     this.blinkFlag = false;
     this.appModel.previousSection();
+    this.EnableShowAnswer=false;
+    if(this.EVA) {
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+    } else {
+      this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+    }
+
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
   }
@@ -188,6 +287,14 @@ export class QuesController implements OnInit {
        clearInterval(this.timeInterval);
       this.timeInterval = undefined;
       this.blinkFlag = false;
+      this.EnableShowAnswer = false;
+      if(this.EVA) {
+        this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+      } else {
+        this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
+      }
+      //this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
+      this.UttarDikhayeinTooltip="";
       this.appModel.nextSection();
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     }
@@ -201,14 +308,18 @@ export class QuesController implements OnInit {
 
   hoverNextBtn() {
     if (!this.blinkFlag) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      if(!this.blink) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
+      }
     }
   }
 
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
+      if(!this.blink) {
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      }
     }
   }
 
@@ -232,17 +343,21 @@ export class QuesController implements OnInit {
   }
 
   setBlinkOnLastQuestion() {
-    this.blinkFlag = true;
-    let flag = true;
-    this.timeInterval = setInterval(() => {
-      if (flag) {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
-        flag = false;
-      } else {
-        this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
-        flag = true;
-      }
-    }, 300)
+    if(this.EVA) {
+      this.quesCtrl.blinkingStatus=true;
+    } else {
+      this.blinkFlag = true;
+      let flag = true;
+      this.timeInterval = setInterval(() => {
+        if (flag) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
+          flag = false;
+        } else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+          flag = true;
+        }
+      }, 300)
+    }
   }
 
   controlHandle(controlObj){

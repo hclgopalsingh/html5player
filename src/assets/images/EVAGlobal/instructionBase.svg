@@ -1,0 +1,47 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1510px" height="90px" viewBox="0 0 1510 90">
+<defs>
+<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="-62.05" y1="-28.275000000000006" x2="-62.05" y2="37.575" spreadMethod="pad">
+<stop  offset="0%" stop-color="#3B6FA2"/>
+
+<stop  offset="100%" stop-color="#163054"/>
+</linearGradient>
+
+<filter id="Filter_1" x="-20%" y="-27.14443813291037%" width="140%" height="154.28887626582073%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="3.3333333333333335,3.3333333333333335" result="result3"/>
+
+<feOffset dx="3.5355339059327378" dy="3.5355339059327378" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+
+<feColorMatrix in="result5" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result6"/>
+</filter>
+
+<g id="Instruction_bar_copy_0_Layer0_0_FILL">
+<path fill="url(#Gradient_1)" stroke="none" d="
+M 713.45 -20.45
+Q 713.45 -37.55 696.35 -37.55
+L -696.4 -37.55
+Q -713.5 -37.55 -713.5 -20.45
+L -713.5 20.5
+Q -713.5 37.6 -696.4 37.6
+L 696.35 37.6
+Q 713.45 37.6 713.45 20.5
+L 713.45 -20.45 Z"/>
+</g>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 751.3,41.75) ">
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, -751.3,-41.75) ">
+<g transform="matrix( 1.04998779296875, 0, 0, 1.04998779296875, 751.3,41.75) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Instruction_bar_copy_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

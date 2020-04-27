@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import {ApplicationmodelService} from './model/applicationmodel.service';
-
+import { SharedserviceService } from './services/sharedservice.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,8 +12,19 @@ import {ApplicationmodelService} from './model/applicationmodel.service';
 })
 export class AppComponent {
 	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService, private router: Router) {
+	constructor(appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
+
+
+
+		this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
+			if(this.Template === 'EVA'){
+			  this.EVA = true;
+			}else{
+			  this.EVA = false;
+			}
+	  
+		  });
 	}
 	title = 'app';
 	@ViewChild('contentHolder') contentHolder: any;
@@ -31,6 +43,9 @@ export class AppComponent {
 	audioSrc:any = "";
 	timeout:number = 5000;
 	timer:any;
+	EVA:boolean = false;
+	subscription: Subscription;
+	Template: any;
 
 
 	/*@HostListener('document:keyup', ['$event'])

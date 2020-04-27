@@ -1,0 +1,63 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="67px" height="67px" viewBox="0 0 67 67">
+<defs>
+<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="883.5" y1="-34.60000000000001" x2="883.5" y2="48.2" spreadMethod="pad">
+<stop  offset="0%" stop-color="#00CCFF"/>
+
+<stop  offset="0%" stop-color="#00CCFF"/>
+
+<stop  offset="100%" stop-color="#004758"/>
+</linearGradient>
+
+<filter id="Filter_1" x="-23.997255417542263%" y="-24.073743152064345%" width="147.99451083508453%" height="148.14748630412868%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="1,1" result="result3"/>
+
+<feOffset dx="1.4142135623730951" dy="1.4142135623730951" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+</filter>
+
+<g id="Symbol_2_1_Layer0_0_MEMBER_0_FILL">
+<path fill="url(#Gradient_1)" stroke="none" d="
+M 883.1 -40.25
+Q 867.35 -40.25 856.2 -29.25 845.2 -18.1 845.2 -2.35 845.2 13.3 856.2 24.4 867.35 35.6 883.1 35.6 898.75 35.6 909.9 24.4 921 13.3 921 -2.35 921 -18.1 909.9 -29.25 898.75 -40.25 883.1 -40.25 Z"/>
+</g>
+
+<g id="Duplicate_Items_Folder_Symbol_1_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M 1115.6 -118.95
+Q 1109.2 -118.95 1105.5 -116 1101.85 -113.1 1101.85 -107.8 1101.85 -103.25 1105.8 -100.05 1109.6 -96.8 1115.35 -96.8
+L 1179.5 -96.8 1179.5 -31.05
+Q 1179.5 -25.65 1182.7 -21.65 1185.95 -17.85 1190.35 -17.85 1195.6 -17.85 1198.55 -21.55 1201.45 -25.2 1201.45 -31.65
+L 1201.45 -96.8 1265.35 -96.8
+Q 1271.8 -96.8 1275.45 -99.75 1279.1 -102.8 1279.1 -107.8 1279.1 -112.5 1275.3 -115.7 1271.35 -118.95 1265.6 -118.95
+L 1201.45 -118.95 1201.45 -184.4
+Q 1201.45 -190 1198.25 -193.95 1194.85 -197.9 1190.35 -197.9 1185.2 -197.9 1182.4 -194.25 1179.5 -190.55 1179.5 -184
+L 1179.5 -118.95 1115.6 -118.95 Z"/>
+</g>
+
+<path id="Symbol_2_1_Layer0_0_MEMBER_0_1_STROKES" stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 921 -2.35
+Q 921 13.3 909.9 24.4 898.75 35.6 883.1 35.6 867.35 35.6 856.2 24.4 845.2 13.3 845.2 -2.35 845.2 -18.1 856.2 -29.25 867.35 -40.25 883.1 -40.25 898.75 -40.25 909.9 -29.25 921 -18.1 921 -2.35 Z"/>
+</defs>
+
+<g transform="matrix( 0.856964111328125, 0, 0, 0.856964111328125, 33.6,33.6) ">
+<g transform="matrix( 1, 0, 0, 1, -883.1,2.3) ">
+<use xlink:href="#Symbol_2_1_Layer0_0_MEMBER_0_FILL"/>
+
+<use xlink:href="#Symbol_2_1_Layer0_0_MEMBER_0_1_STROKES"/>
+</g>
+
+<g filter="url(#Filter_1)" transform="matrix( 1.166900634765625, 0, 0, 1.166900634765625, -39.2,-39.2) ">
+<g transform="matrix( 0.856964111328125, 0, 0, 0.856964111328125, 33.85,33.55) ">
+<g transform="matrix( 0.19488525390625, -0.19488525390625, 0.19488525390625, 0.19488525390625, -211,253) ">
+<use xlink:href="#Duplicate_Items_Folder_Symbol_1_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

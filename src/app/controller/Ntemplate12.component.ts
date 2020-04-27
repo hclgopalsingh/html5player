@@ -813,6 +813,7 @@ export class Ntemplate12 implements OnInit {
 		});
 		console.log("id", id)
 		this.myoption[id].imgsrc.url = "";
+		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
 			// this.checkNextActivities();
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
