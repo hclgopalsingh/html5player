@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
-		
+    <div class="" #overlay></div>	
      <div class="container-fluid" id="container">
         <div class="headerBar">
             <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
@@ -8,8 +8,7 @@
         <div id="bgImage">
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
 			(load)="checkImgLoaded();" />  
-        </div>
-       
+        </div>    
         <div #maincontent>
         <div id="instructionBar">
             <div class="instructionBase">
@@ -18,21 +17,52 @@
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
+        <!-- <div id="optionsBlock">
+            <div class="refQues">
+                <div>
+                    <img src="../../../assets/images/letters/hindi/akshar/ee.png">
+                </div>
+                <div class="quesBox">
+                    <img src="../../../assets/images/letters/hindi/akshar/ma.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/a.png">
+                    <img class="ansImg matra_aa" src="../../../assets/images/letters/hindi/matra/aa.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/ai.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/an.png">
+                    <img class="ansImg matra_au" src="../../../assets/images/letters/hindi/matra/au.png">
+                    <img class="ansImg matra_ee" src="../../../assets/images/letters/hindi/matra/ee.png">
+                    <img class="ansImg matra_i" src="../../../assets/images/letters/hindi/matra/i.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/Lower_bindi.png">
+                    <img class="ansImg matra_o" src="../../../assets/images/letters/hindi/matra/o.png">
+                    <img class="ansImg matra_oo" src="../../../assets/images/letters/hindi/matra/oo.png">
+                    <img class="ansImg matra_R_matraa_1" src="../../../assets/images/letters/hindi/matra/R_matraa_1.png">
+                    <img class="ansImg matra_R_matraa_2" src="../../../assets/images/letters/hindi/matra/R_matraa_2.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/R_matraa_3.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/R_matraa_4.png">
+                    <img class="ansImg" src="../../../assets/images/letters/hindi/matra/u.png">
+                </div>
+                <div>
+                    <img src="../../../assets/images/letters/hindi/akshar/ra.png">
+                </div>
+                <div>
+                    <img src="../../../assets/images/letters/hindi/akshar/tta.png">
+                </div>
+            </div>
+        </div> -->
         <div class="refQues">
-          <div class="refQuesContainer">
-          <img class="img-fluid quesBg" [src]="quesObjCopy?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObjCopy?.quesImg?.url : assetsPath + '/' +quesObjCopy?.quesImg?.url"
-                    (load)="checkImgLoaded();">
-          <div class="refQuesBlock" #refQues>
-            <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText">            
-              <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObjCopy?.isEnglish, 'ansSpace': quesTxt?.isBlank && !isOptionSelected, 'blinkAnimation':quesTxt?.isBlank && !isOptionSelected, 'adjustBlink':quesTxt?.isBlank && !isOptionSelected}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt="">
-            </ng-container>
-          </div>
-        </div>
+          <!-- <div class="refQuesContainer">      -->
+            <div class="refQuesBlock" #refQues>
+                <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText">
+                    <div [ngClass]="{'quesBox':quesTxt?.addMatra && !isOptionSelected}">
+                    <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObjCopy?.isEnglish, 'ansSpace': quesTxt?.isBlank && !isOptionSelected, 'blinkAnimation':quesTxt?.isBlank && !isOptionSelected}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt="">
+                    </div>            
+                </ng-container>
+            </div>
+        <!-- </div> -->
         </div>
         <audio #quesVORef></audio>
         <div class="row mx-0" id="optionsBlock" #ansBlock>
             <div class="my-auto quesImage" #optionRef id="optionTestId">
-                <div id="{{'opt'+idx}}" class="options" *ngFor="let opt of myoption;let idx = index" on-mousemove='onHoverOptions(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="selectOpt(opt,idx)">
+                <div id="{{'opt'+idx}}" class="options" *ngFor="let opt of myoption;let idx = index" on-mousemove='onHoverOptions(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="opt?.isMatra? selectOptMatra(opt,idx) : selectOpt(opt,idx)">
                     <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
                     (load)="checkImgLoaded();">
                     <img class="img-fluid optItem" id="{{'optimage'+idx}}" [src]="opt?.location=='content' ? containgFolderPath + '/' + opt?.url : assetsPath + '/' +opt?.url"
@@ -40,11 +70,21 @@
                 </div>
             </div>
         </div>
-        <div #disableSpeaker id="disableSpeaker" class="speakerBtn pointer" title="सुनो">
+        <div class="speakerBlock">
+            <div class="speakerBtn">
+                <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerBtnSelected.svg">
+                <div class="waveAnimation">
+                    <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerWave1.svg">
+                    <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerWave2.svg">
+                    <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerWave3.svg">
+                </div>    
+            </div>
+        </div>
+        <!-- <div #disableSpeaker id="disableSpeaker" class="speakerBtn pointer" title="सुनो">
             <div #sprite class="speaker"></div>
             <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();">
             <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
-        </div>
+        </div> -->
     </div>  <!--END OF MAIN CONTENT-->
 
     <!-- Right/Wrong Popup  -->
@@ -61,11 +101,14 @@
                           </div>
                       </div>
                   </div> -->
-                  <div class="refQuesBlock">
-                    <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
-                    <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
-                    </ng-container>
+                  <div class="refQues">
+                    <div class="refQuesBlock">
+                        <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
+                        <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
+                        </ng-container>
+                      </div>
                   </div>
+                  
                   <div class="rightWrongAns">
                       <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
                   </div>
@@ -91,11 +134,13 @@
                           </div>
                       </div>
                   </div> -->
-                  <div class="refQuesBlock">
-                    <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
-                    <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
-                    </ng-container>
-                  </div>
+                  <div class="refQues">
+                    <div class="refQuesBlock">
+                        <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
+                        <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
+                        </ng-container>
+                      </div>
+                  </div>                  
                   <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
                   (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
                </div>

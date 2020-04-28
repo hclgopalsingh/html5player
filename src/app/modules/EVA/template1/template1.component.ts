@@ -6,6 +6,7 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
     selector: 'app-template1',
@@ -71,6 +72,7 @@ export class Template1Component implements OnInit {
     lastQuestionCheck:any;
     fixedOptions:any = [];
     quesEmptyTxtIndx: number = -1;
+    quesMatraTxtIndx: number = -1;
     isOptionSelected: boolean = false;
     quesObj: any;
     quesObjCopy: any;
@@ -84,6 +86,9 @@ export class Template1Component implements OnInit {
     optionObj: any;
     questionObj: any;
     correct_opt_index: any;
+    popupclosedinRightWrongAns:boolean=false;
+    ifWrongAns:boolean= false;
+    index: any;
 
     // @ViewChild('narrator') narrator: any;
     @ViewChild('instruction') instruction: any;
@@ -107,6 +112,7 @@ export class Template1Component implements OnInit {
     // @ViewChild('feedbackVoRef') feedbackVoRef: any;
     @ViewChild('optionRef') optionRef: any;
     @ViewChild('refQues') refQues: any;
+    @ViewChild('overlay') overlay:any;
 
 
 
@@ -143,6 +149,12 @@ export class Template1Component implements OnInit {
 
 
     ngOnInit() {        
+
+
+        if(this.isLastQues){
+            this.next();
+            console.log('last question move');
+        }
         this.attemptType = "";
         this.setTemplateType();
         console.log("this.attemptType = " + this.attemptType);
@@ -166,11 +178,9 @@ export class Template1Component implements OnInit {
      this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {        
             if (val == "uttarDikhayein") {
                 if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-                    this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index;//Setting data for showAnswer Popup
                     this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             
                     if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-                        console.log('show answer play jyoti');
                         this.showAnswerfeedback.nativeElement.play();
                     }
                     this.popupType = "showanswer";
@@ -266,6 +276,9 @@ export class Template1Component implements OnInit {
             if (this.questionObj.questionText[i].isBlank) {
                 this.quesEmptyTxtIndx = i;
                 break;
+            }else if(this.questionObj.questionText[i].addMatra) {
+                this.quesMatraTxtIndx = i;
+                break;
             }
         }
 
@@ -347,28 +360,57 @@ export class Template1Component implements OnInit {
         clearTimeout(this.timernextseg);
     }
 
-    closePopup(Type,answerType){
-        //console.log(this.answerPopupType);
-        if(this.answerPopupType === 'right'){
-            this.Sharedservice.setShowAnsEnabled(true);
-            this.maincontent.nativeElement.className = "fadeContainer";
-        }
+    // closePopup(Type,answerType){
+    //     if(this.answerPopupType === 'right'){
+    //         this.Sharedservice.setShowAnsEnabled(true);
+    //         this.maincontent.nativeElement.className = "fadeContainer";
+    //     }
 
-        if(this.answerPopupType  === 'wrong'){
-            //this.resetQuestion();//To reset question on wrong attempt
-            if(this.wrongCounter >= 3){
-                this.Sharedservice.setShowAnsEnabled(true); 
-            }else{
-                this.Sharedservice.setShowAnsEnabled(false);
-            }            
-        }   
-        this.isPopupClosed = true;
+    //     if(this.answerPopupType  === 'wrong'){
+    //         if(this.wrongCounter >= 3){
+    //             this.Sharedservice.setShowAnsEnabled(true); 
+    //         }else{
+    //             this.Sharedservice.setShowAnsEnabled(false);
+    //         }            
+    //     }   
+    //     this.isPopupClosed = true;
+    //     this.showAnswerRef.nativeElement.classList = "modal";
+    //     this.ansPopup.nativeElement.classList = "modal";
+        
+    //     this.clapSound.nativeElement.pause();
+    //     this.clapSound.nativeElement.currentTime = 0;
+
+    //     this.wrongFeedback.nativeElement.pause();    
+    //     this.wrongFeedback.nativeElement.currentTime = 0;
+
+    //     this.rightFeedback.nativeElement.pause();     
+    //     this.rightFeedback.nativeElement.currentTime = 0;
+
+    //     this.showAnswerfeedback.nativeElement.pause();      
+    //     this.showAnswerfeedback.nativeElement.currentTime = 0;
+       
+
+    //     if(Type === 'showAnswer'){
+        
+    //         setTimeout(() => {
+    //             this.showAnswerfeedback.nativeElement.pause();      
+    //             this.showAnswerfeedback.nativeElement.currentTime = 0;
+    //             if(!this.showAnswerfeedback.nativeElement.pause()){
+    //                 //this.appModel.nextSection(); 
+    //             }else{
+    //                 console.log('show answer voice still playing jyoti');
+    //             }
+                
+	// 		}, 1000);
+    //     }else{
+           
+    //     }
+     
+    // }
+
+    closePopup(Type){
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
-        
-        this.clapSound.nativeElement.pause();
-        this.clapSound.nativeElement.currentTime = 0;
-
         this.wrongFeedback.nativeElement.pause();    
         this.wrongFeedback.nativeElement.currentTime = 0;
 
@@ -377,27 +419,43 @@ export class Template1Component implements OnInit {
 
         this.showAnswerfeedback.nativeElement.pause();      
         this.showAnswerfeedback.nativeElement.currentTime = 0;
-       
-
+        
+        console.log(Type);
+        if(Type=== "answerPopup") {
+            this.popupclosedinRightWrongAns=true;
+            if(this.ifRightAns) {
+                this.Sharedservice.setShowAnsEnabled(true);
+                this.overlay.nativeElement.classList.value="fadeContainer";
+                this.blinkOnLastQues();
+                        setTimeout(()=>{
+                this.appModel.nextSection();
+                this.Sharedservice.setShowAnsEnabled(false); 
+            }, 10000)
+            } else {
+                if(this.wrongCounter >= 3 && this.ifWrongAns) {
+                    this.Sharedservice.setShowAnsEnabled(true);
+                 } else {
+                    this.Sharedservice.setShowAnsEnabled(false);
+                 }
+            }
+        }
         if(Type === 'showAnswer'){
         
             setTimeout(() => {
                 this.showAnswerfeedback.nativeElement.pause();      
                 this.showAnswerfeedback.nativeElement.currentTime = 0;
                 if(!this.showAnswerfeedback.nativeElement.pause()){
-                    //this.appModel.nextSection(); 
+                    this.appModel.nextSection(); 
                 }else{
-                    console.log('show answer voice still playing jyoti');
+                    // console.log('show answer voice still playing jyoti');
                 }
                 
-			}, 1000);
+            }, 1000);
         }else{
            
         }
      
     }
-
-
 
     checkNextActivities() {
         if (this.instruction.nativeElement.pause()) {
@@ -531,7 +589,7 @@ export class Template1Component implements OnInit {
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
 			this.instruction.nativeElement.onended = () => {
-                this.Sharedservice.setVoplayingStatus(false);
+                // this.Sharedservice.setVoplayingStatus(false);
                 this.appModel.handlePostVOActivity(false);              
                 this.maincontent.nativeElement.className = "";
 			}
@@ -542,10 +600,11 @@ export class Template1Component implements OnInit {
 
 
 
-
+    LastquestimeStart:boolean = false;
     blinkOnLastQues() {
-
+        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         if(this.lastQuestionCheck){
+            this.LastquestimeStart = true;
             setTimeout(()=>{                
                 this.next();
               },5 * 60 * 1000);
@@ -685,17 +744,113 @@ onHoverSpeaker(speaker) {
             this.reset();
         }
     }
-    /** On selecting an option **/
+    /** On selecting a Matra option **/
+    saveOpt : any;
+    selectOptMatra(opt,idx){
+        this.popupclosedinRightWrongAns=false; 
+        this.optionSelected = idx;
+        this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
+        this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.add('invisible');
+        for(let x=0; x<this.refQues.nativeElement.children.length;x++){
+            if(this.refQues.nativeElement.children[x].classList.value=='quesBox'){
+                this.saveOpt=this.refQues.nativeElement.children[x];
+            }
+        }
+        let showMatra=opt.location == "content" ? this.containgFolderPath + "/" + opt.url: this.assetsPath + "/" + opt.url;        
+        this.saveOpt.insertAdjacentHTML("beforeend", '<img id="ansImg" style="position: absolute;filter: grayscale(100%) brightness(0) saturate(0);height: 87%;" src='+showMatra+'>');
+        let optionURL=opt.url;
+        let matraName=optionURL.split('.')[0].split('/').pop();
+        if(matraName=='aa' || matraName=='au' || matraName=='ee' || matraName=='o'){
+            document.getElementById("ansImg").style.right='6%';
+        }else if(matraName=='oo'){
+            document.getElementById("ansImg").style.right='10%';
+        }else if(matraName=='i'){
+            document.getElementById("ansImg").style.left='6%';
+        }else if(matraName=='R_matraa_1'){
+            document.getElementById("ansImg").style.right='25%';
+        }else if(matraName=='R_matraa_1'){
+            document.getElementById("ansImg").style.right='30%';
+        }
+        this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup
+        if (opt && opt.isCorrect) {
+            // handle for correct attempt
+            this.isRightSelected=true;
+            this.isWrongSelected=false;
+            this.answerPopupType = 'right';
+             this.blinkOnLastQues();
+             this.correctOpt = opt;
+             this.attemptType = "manual";
+             this.appModel.stopAllTimer();          
+             // this.answerImageBase = opt.image_original.url;
+             // this.answerImage = opt.imgsrc.url;
+             // this.answerImagelocation = opt.image_original.location;
+             this.popupIcon = this.popupAssets.right_icon.url;
+             this.popupIconLocation = this.popupAssets.right_icon.location;
+
+             this.ifRightAns = true;
+             setTimeout(()=>{
+                 let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
+                 ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+                 //opt.image = opt.image_original;
+                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
+                     this.clapSound.nativeElement.play();
+                     setTimeout(() => {
+                        this.clapSound.nativeElement.pause();     
+                        this.clapSound.nativeElement.currentTime = 0;
+                        if(!this.popupclosedinRightWrongAns) {
+                         this.rightFeedback.nativeElement.play();
+                         
+                        } else {
+                         this.Sharedservice.setShowAnsEnabled(true);
+                        } 
+                     }, 2000)
+                 }
+                 //this.disableQuestion();   //Disable Question on Right Attempt  
+             },1000)                
+        
+         } else {          
+            //handle for wrong attempt
+            this.isRightSelected=false;
+            this.isWrongSelected=true;
+            this.answerPopupType = 'wrong';
+            this.wrongCounter += 1;
+            this.ifWrongAns=true;               
+            this.idArray = [];
+            for (let i of this.myoption) {
+                this.idArray.push(i.id);
+            } 
+            setTimeout(()=>{
+             let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
+             ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+             this.popupIcon = this.popupAssets.wrong_icon.url;
+             this.popupIconLocation = this.popupAssets.wrong_icon.location;
+             this.appModel.stopAllTimer();
+             //play wrong feed back audio
+             
+             if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+                 this.wrongFeedback.nativeElement.play();
+             }		
+             this.wrongFeedback.nativeElement.onended = () => {
+                 setTimeout(() => {
+                     this.closePopup('answerPopup');
+                     console.log('Wrong popup closed');                                                   
+                 }, 10000)                    
+             }
+             this.resetQuestion();//To reset question on wrong attempt
+             document.getElementById("ansImg").remove();//Remove existing matra
+            },1000)
+        }
+    }
+    /** On selecting an akshar **/
     selectOpt(opt, idx) {
         //this.appModel.enableReplayBtn(false);
        //disable click
        //this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
        //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
        //this.appModel.stopAllTimer();
+       this.popupclosedinRightWrongAns=false; 
        this.optionSelected = idx;       
        if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[1]) {
-        //this.boundingClientFrom = this.optionRef.nativeElement.children[this.optionSelected].children[1].getBoundingClientRect();
-        //this.boundingClientTo = this.refQues.nativeElement.children[this.quesEmptyTxtIndx].getBoundingClientRect();
            setTimeout(() => {
                this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.add('invisible');
                this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
@@ -729,9 +884,12 @@ onHoverSpeaker(speaker) {
                         setTimeout(() => {
                            this.clapSound.nativeElement.pause();     
                            this.clapSound.nativeElement.currentTime = 0;
-                           if(!this.isPopupClosed){
+                           if(!this.popupclosedinRightWrongAns) {
                             this.rightFeedback.nativeElement.play();
-                           }
+                            
+                           } else {
+                            this.Sharedservice.setShowAnsEnabled(true);
+                           } 
                         }, 2000)
                     }
                     //this.disableQuestion();   //Disable Question on Right Attempt  
@@ -742,18 +900,15 @@ onHoverSpeaker(speaker) {
                this.isRightSelected=false;
                this.isWrongSelected=true;
                this.answerPopupType = 'wrong';
+               this.ifWrongAns=true;
                this.wrongCounter += 1;               
                this.idArray = [];
                for (let i of this.myoption) {
                    this.idArray.push(i.id);
                } 
                setTimeout(()=>{
-                    let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-                    ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                //    opt.image = opt.image_original;
-                //    this.answerImageBase = opt.image.url;
-                //    this.answerImage = opt.imgsrc.url;
-                //    this.answerImagelocation = opt.image.location;                
+                let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
+                ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 this.popupIcon = this.popupAssets.wrong_icon.url;
                 this.popupIconLocation = this.popupAssets.wrong_icon.location;
                 this.appModel.stopAllTimer();
@@ -764,21 +919,12 @@ onHoverSpeaker(speaker) {
                 }		
                 this.wrongFeedback.nativeElement.onended = () => {
                     setTimeout(() => {
-                        this.closePopup('answerPopup',this.answerPopupType);
+                        this.closePopup('answerPopup');
                         console.log('Wrong popup closed');                                                   
-                    }, 10000)
-
-                    if(!this.closed){
-                        this.wrongTimer = setTimeout(() => {
-                            this.ansPopup.nativeElement.classList = "modal";
-                            this.appModel.notifyUserAction();
-                        }, 2000);
-                    }
+                    }, 10000)                    
                 }
                 this.resetQuestion();//To reset question on wrong attempt
-               },1000)              
-             
-                
+               },1000)
            }
        }
    }
@@ -791,7 +937,7 @@ onHoverSpeaker(speaker) {
         // $(".quesOptions .options").css("opacity", "0.3");
         this.rightFeedback.nativeElement.onended = () => {
             setTimeout(() => {
-                this.closePopup('answerPopup',this.answerPopupType);
+                this.closePopup('answerPopup');
                 console.log('Right popup closed');
             }, 10000)
             //new code
@@ -805,15 +951,7 @@ onHoverSpeaker(speaker) {
         }
    }
    resetQuestion(){
-    /*Reset Question and Option*/               
-    // setTimeout(() =>{
-    //     setTimeout(()=>{
-    //     this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
-    //     },50)
-    //     setTimeout(()=>{
-    //         this.doRandomize(this.myoption)
-    //     },200)
-    //  },100)   
+    /*Reset Question and Option*/            
     setTimeout(()=>{
         this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
         },50)
@@ -822,7 +960,6 @@ onHoverSpeaker(speaker) {
         },200) 
     this.isOptionSelected = false;
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
-    
     /*Reset Question and Option Complete*/
    }
     //*********UNUSED CODE*************/
