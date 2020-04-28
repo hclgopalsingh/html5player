@@ -525,6 +525,7 @@ export class Template3Component extends Base implements OnInit {
 				})
 				this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {        
 					if (val == "uttarDikhayein") {
+						this.appModel.stopAllTimer();
 						if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
 							this.videoonshowAnspopUp.nativeElement.src=this.showAnswerPopup.videoAnimation.location=="content" ? this.contentgFolderPath +"/"+ this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation +"/"+ this.showAnswerPopup.videoAnimation.url;
 							this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
@@ -533,10 +534,15 @@ export class Template3Component extends Base implements OnInit {
 							if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
 								console.log('show answer play jyoti');
 								this.showAnswerfeedback.nativeElement.play();
+								this.showAnswerfeedback.nativeElement.onended=() => {
+									this.closePopup("showanswer");
+								}
 								this.videoonshowAnspopUp.nativeElement.play();
 							}
-							this.popupType = "showanswer";
-							this.blinkOnLastQues();
+							//this.popupType = "showanswer";
+							// if(this.ifRightAns) {
+							// 	this.blinkOnLastQues();
+							// }
 						}
 					}
 					
@@ -629,27 +635,29 @@ export class Template3Component extends Base implements OnInit {
 					this.overlay.nativeElement.classList.value="fadeContainer";
 					this.blinkOnLastQues();
 				} else {
-					if(this.wrongCount == 3 && this.ifWrongAns) {
+					if(this.wrongCount >= 3 && this.ifWrongAns) {
 						this.Sharedservice.setShowAnsEnabled(true);
 					 } else {
 						this.Sharedservice.setShowAnsEnabled(false);
 					 }
 				}
 			}
-			if(Type === 'showAnswer'){
-			
-				setTimeout(() => {
-					this.showAnswerfeedback.nativeElement.pause();      
-					this.showAnswerfeedback.nativeElement.currentTime = 0;
-					if(!this.showAnswerfeedback.nativeElement.pause()){
-						this.appModel.nextSection(); 
-					}else{
-						console.log('show answer voice still playing jyoti');
-					}
+			else if(Type === 'showanswer'){
+				if(this.ifRightAns) {
+					this.blinkOnLastQues();
+				}
+				// setTimeout(() => {
+				// 	this.showAnswerfeedback.nativeElement.pause();      
+				// 	this.showAnswerfeedback.nativeElement.currentTime = 0;
+				// 	if(!this.showAnswerfeedback.nativeElement.pause()){
+				// 		this.appModel.nextSection(); 
+				// 	}else{
+				// 		console.log('show answer voice still playing jyoti');
+				// 	}
 					
-				}, 1000);
+				// }, 1000);
 			}else{
-			   
+
 			}
 		 
 		}
