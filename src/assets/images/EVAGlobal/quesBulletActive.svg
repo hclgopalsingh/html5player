@@ -71,12 +71,6 @@
 <feBlend mode="normal" in2="SourceGraphic" in="result17" result="result18"/>
 </filter>
 
-<g id="Duplicate_Items_Folder_Question_Dot_Yellow_0_Layer2_0_FILL">
-<path fill="#FF0000" stroke="none" d="
-M -332.3 464.15
-Q -332.3 458.3 -336.5 454.1 -340.65 449.95 -346.55 449.95 -352.4 449.95 -356.6 454.1 -360.75 458.3 -360.75 464.15 -360.75 470.05 -356.6 474.2 -352.4 478.4 -346.55 478.4 -340.65 478.4 -336.5 474.2 -332.3 470.05 -332.3 464.15 Z"/>
-</g>
-
 <g id="Symbol_6_copy_2_0_Layer0_0_FILL">
 <path fill="url(#Gradient_1)" stroke="none" d="
 M -0.05 -14.2
@@ -90,14 +84,11 @@ M 4.15 -9.65
 Q 6.2 -8.55 7.75 -6.65"/>
 </defs>
 
-<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, 20,20) ">
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, -20,-20) ">
 <g transform="matrix( 1.29022216796875, 0, 0, 1.29022216796875, 18.75,18.6) ">
-<g transform="matrix( 1, 0, 0, 1, 346.5,-464.15) ">
-<use xlink:href="#Duplicate_Items_Folder_Question_Dot_Yellow_0_Layer2_0_FILL"/>
-</g>
-
-<g filter="url(#Filter_2)" transform="matrix( 0.775054931640625, 0, 0, 0.775054931640625, -14.5,-14.4) ">
-<g transform="matrix( 1.29022216796875, 0, 0, 1.29022216796875, 18.75,18.6) ">
+<g filter="url(#Filter_2)" transform="matrix( 0.775054931640625, 0, 0, 0.775054931640625, -30,-29.9) ">
+<g transform="matrix( 1.29022216796875, 0, 0, 1.29022216796875, 38.75,38.6) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Symbol_6_copy_2_0_Layer0_0_FILL"/>
 </g>
@@ -106,6 +97,7 @@ Q 6.2 -8.55 7.75 -6.65"/>
 
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Duplicate_Items_Folder_Question_Dot_Yellow_0_Layer0_0_1_STROKES"/>
+</g>
 </g>
 </g>
 </g>

@@ -90,14 +90,15 @@ M 9.6 -3.75
 Q 9.85 -3.2 10.15 -2.55"/>
 </defs>
 
-<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1, 0, 0, 1, 20,20) ">
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, -20,-20) ">
 <g transform="matrix( 1.29022216796875, 0, 0, 1.29022216796875, 18.75,18.6) ">
 <g transform="matrix( 1, 0, 0, 1, 346.5,-464.15) ">
 <use xlink:href="#Duplicate_Items_Folder_Question_Dot_Red_0_Layer2_0_FILL"/>
 </g>
 
-<g filter="url(#Filter_2)" transform="matrix( 0.775054931640625, 0, 0, 0.775054931640625, -14.5,-14.4) ">
-<g transform="matrix( 1.29022216796875, 0, 0, 1.29022216796875, 18.75,18.6) ">
+<g filter="url(#Filter_2)" transform="matrix( 0.775054931640625, 0, 0, 0.775054931640625, -30,-29.9) ">
+<g transform="matrix( 1.29022216796875, 0, 0, 1.29022216796875, 38.75,38.6) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Symbol_6_0_Layer0_0_FILL"/>
 </g>
@@ -106,6 +107,7 @@ Q 9.85 -3.2 10.15 -2.55"/>
 
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Duplicate_Items_Folder_Question_Dot_Red_0_Layer0_0_1_STROKES"/>
+</g>
 </g>
 </g>
 </g>
