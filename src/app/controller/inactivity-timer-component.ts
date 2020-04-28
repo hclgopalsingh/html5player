@@ -28,6 +28,9 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
   timerNextSegment: Subscription;
   currentRunningTimer:string ="";
   tempTimer:string="";
+  EVA:boolean = false;
+	subscription: Subscription;
+	Template: any;
 
   constructor(private appModel: ApplicationmodelService,private sharedService: SharedserviceService) {
 
@@ -65,6 +68,14 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
       this.resetTimerForNextSeg();
     })
     */
+   this.subscription = this.sharedService.getData().subscribe(data => { this.Template = data.data.TemplateType; 
+    if(this.Template === 'EVA'){
+      this.EVA = true;
+    }else{
+      this.EVA = false;
+    }
+  
+    });
     this.sharedService.moveNextNotification.subscribe(()=>{
       this.resetTimerForNextSeg();
     });
@@ -179,6 +190,9 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
     this.resetAllTimer();
     this.currentRunningTimer="nextQuestion";
     const interval = 1000;
+    if(this.EVA) {
+      this.moveNextQuesTimer=1/6;
+    }
     const moveNextQues = this.moveNextQuesTimer*60;
     this.timerNextQues = timer(0, interval).pipe(
       take(moveNextQues)

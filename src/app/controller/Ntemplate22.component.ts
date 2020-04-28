@@ -76,146 +76,39 @@ export class Ntemplate22 implements OnInit {
 
 
   audio = new Audio();
-  blink: boolean = false;
-  currentIdx = 0;
   commonAssets: any = "";
-  optionslist: any = [];
-  optionslist_main: any = "";
-  myoption: any = [];
-  question: any = "";
   feedback: any = "";
   narratorAudio: any;
-  isLastActivity: any = "";
   checked: boolean = false;
   selected: boolean = false;
-  bool: boolean = false;
-  showIntroScreen: boolean;
-
-  helpAudio: any = "";
-  correctOpt: any;
-  idArray: any = [];
   isFirstQues: boolean;
   isLastQues: boolean = false;
-  isAutoplayOn: boolean;
   isLastQuesAct: boolean;
-
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
-  disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
-  optionObj: any;
-  optArr1: any;
-  optArr2: any;
   ques_control: any;
   feedbackObj: any;
   popupAssets: any;
   confirmPopupAssets: any;
-  noOfRightAns: any;
   tempSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
   quesObj:any;
-  fileUrls:string ="";
-  initColorCircle:string = "";
-  initColorRectangle:string = "";
-  stateCounter:number = 0;
-  maharashtraCounter:number = 0;
-  Id:any;
-  
-  Jammu:any;
-  Rajasthan:any;
-  Maharashtra:any;
-  MadhyaPradesh:any;
-  
-  Index_1:any;
-  Index_2:any;
-  
-  storeHtml:any;
-  storeEvent:any;
-  elseCounter:any;
-  currentState:any;
-  
-  triangle:any;
-  mainShape:any;
-  
-
-  
-  i:number = 0;
-  j:number = 0;
-  noOfSVG:number;
-  edited = false;
-  clickEv = false;
-  answer:any;
-  stateValue:any = [];
-  submitFlag = true;
-  checkCounter:number = 0;
+  Id:any; 
   quesAudio:any;
   CorrectAudio:any;
   WrongAudio:any;
   partiallyCorrectAudio:any;
-  mouseOutFlag = true;
-  selectedOutlineCounter:number = 0;
-  onClickFlag = false;
-  overState = true;
-  storeState:any = [];
-  _i:any;
-  myDropDownStates:any = [];
-  rightAnswer:any = [];
   myRightAnswer:any = [];
-  Submitcounter:number = 0;
-  selectedFillPart:any = [];
   rightAnswerCounter:number = 0;
-  redColorArray:any = [];
-  greenColorArray:any = [];
   wrongAnswerCounter:number = 0;
-  greenColorCounter:number = 0;
-  RightSubmit:any = [];
-  textFeildValue:any = [];
-  redGreenFlag:boolean;
-  accessLine:any;
-  dAttr:any;
-  lineColor:any;
   confirmSubmitAssets: any;
   showAnswerCounter:number = 0;
-  autoTimer:boolean = true;
-  autoShowAnswerCounter:number = 1;
-  groupArray:any = [];
-  duplicateGroupArray:any = [];
-  isValid = false;
-  partiallyCorrectFlag:boolean = false;
-  currentindex:number = 0;
-  currentIndexofrightAnswer:number = 0;
-  flag: boolean = false;
-  clickedId:string;
-  stateIndex:number;
-  options:any=[];
-  config: any ={};
-  coloronHover: string;
-  originalcolor: string;
-  submittedArray: any =[];
-  tempObj = <any>{};
-  p: number = 1;
-  paginationArray: any = [];
-  countofClick: number = 0;
-  tableofOne: boolean;
-  tableofTwo: boolean;
-  tableofThree: boolean;
-  showtableofOne: boolean;
-  showtableofTwo: boolean;
-  showtableofThree: boolean;
-  table1:any;
-  table2:any;
-  table3:any;
-  selectedStateinTooltip:any;
-  rightstateCounter:number =0;
-  rightcapitalCounter: number = 0;
-  wrongstateCounter:number =0;
-  wrongcapitalCounter:number =0;
   showAnswerarray:any=[];
-  copiedstates:any=[];
   attemptType: string = "";
   optionSelected:any;
   styleHeaderPopup:any;
@@ -266,75 +159,75 @@ export class Ntemplate22 implements OnInit {
   //  this.questionAudio.nativeElement.play();
   }
 
-  optionHover(opt, i, j) {
-   // $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
-  }
+  // optionHover(opt, i, j) {
+  //  // $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
+  // }
 
-  onHoverOption(opt, i, j) {
-    if (opt && opt != undefined) {
-      if (this.narrator.nativeElement.paused) {
-        $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
-      }
-    }
-  }
+  // onHoverOption(opt, i, j) {
+  //   if (opt && opt != undefined) {
+  //     if (this.narrator.nativeElement.paused) {
+  //       $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
+  //     }
+  //   }
+  // }
 
-  playHoverOption(opt, i, j) {
-    if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
-      if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-      } else {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-      }
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
-      if (!this.instruction.nativeElement.paused) {
-       // this.instruction.nativeElement.pause();
-      }
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].play();
-      if (i == 0) {
-        this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
-      } else {
-        this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
-      }
-      for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
-        if (x != j) {
-          this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "none";
-        }
-      }
-      //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].onended = () => {
-        if (i == 0) {
-          this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
-        } else {
-          this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
-        }
-        for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
-          if (x != j) {
-            this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "";
-          }
-        }
-      } 
-      this.onHoverOption(opt, i, j);
-    }
-  }
-  onHoverOptionOut(opt, i, j) {
-    if (opt && opt != undefined) {
-      this.OptionZoomOutAnimation(opt, i, j);
-    }
-  }
+  // playHoverOption(opt, i, j) {
+  //   if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
+  //     if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
+  //     } else {
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
+  //     }
+  //     this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
+  //     if (!this.instruction.nativeElement.paused) {
+  //      // this.instruction.nativeElement.pause();
+  //     }
+  //     this.optionsBlock.nativeElement.children[i].children[j].children[1].play();
+  //     if (i == 0) {
+  //       this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
+  //     } else {
+  //       this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
+  //     }
+  //     for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
+  //       if (x != j) {
+  //         this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "none";
+  //       }
+  //     }
+  //     //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+  //     this.optionsBlock.nativeElement.children[i].children[j].children[1].onended = () => {
+  //       if (i == 0) {
+  //         this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
+  //       } else {
+  //         this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
+  //       }
+  //       for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
+  //         if (x != j) {
+  //           this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "";
+  //         }
+  //       }
+  //     } 
+  //     this.onHoverOption(opt, i, j);
+  //   }
+  // }
+  // onHoverOptionOut(opt, i, j) {
+  //   if (opt && opt != undefined) {
+  //     this.OptionZoomOutAnimation(opt, i, j);
+  //   }
+  // }
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
   }
 
-  OptionZoomOutAnimation(opt, i, j) {
-    if (!this.checked && this.narrator.nativeElement.paused) {
-      $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleOutAnimation");
-      setTimeout(() => {
-        $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleInAnimation");
-        $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleOutAnimation");
-      }, 500);
-    }
-  }
+  // OptionZoomOutAnimation(opt, i, j) {
+  //   if (!this.checked && this.narrator.nativeElement.paused) {
+  //     $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleOutAnimation");
+  //     setTimeout(() => {
+  //       $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleInAnimation");
+  //       $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleOutAnimation");
+  //     }, 500);
+  //   }
+  // }
   // checkAnswer(opt, i, j) {
   //   if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
   //     console.log("narrator/instruction voice still playing");
@@ -948,7 +841,6 @@ export class Ntemplate22 implements OnInit {
       let datesArr = fetchedData.datesArr;
       this.datesArr = JSON.parse(JSON.stringify(datesArr));
       this.narratorAudio = fetchedData.commonassets.narrator;
-      //this.subjectQuesControl.next(fetchedData.commonassets);
       this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
       this.ques_control = fetchedData.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
@@ -958,11 +850,6 @@ export class Ntemplate22 implements OnInit {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.optionObj = fetchedData.optionObj;
-      //this.optArr1 = this.optionObj[0].optionsArr;
-      //this.optArr2 = this.optionObj[1].optionsArr;
-      //this.optionCommonAssets = fetchedData.option_common_assets;
-      //console.log(this.optionCommonAssets);
       this.feedbackObj = fetchedData.feedback;
       this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
       this.quesObj = fetchedData.quesObj[0];
@@ -970,33 +857,12 @@ export class Ntemplate22 implements OnInit {
       this.monthSelected = this.quesObj.monthSelected;
       this.dateSelected = this.quesObj.dateSelected;
       this.weekDaySelected=this.quesObj.weekdaySelected;
-       this.setDatefromJSON();
-      // this.myStates = fetchedData.statesArr;
-      // this.myStates.map((element) => element.clicked = false);
-      // let arr=[];
-      // for(let i=0;i<this.myStates.length;i++) {
-      //   arr.push(this.myStates[i].capital);
-      // }
-     // this.copiedstates = arr.filter((item,index) => arr.indexOf(item) === index);
-      this.copiedstates.sort();
-	  this.myDropDownStates = fetchedData.DropDownArr;
-	  this.myRightAnswer = fetchedData.rigthAnswer;
-	  this.RightSubmit = fetchedData.rigthAnsweronSubmit;
-	  this.noOfSVG = this.commonAssets.totalSVG;
-    this.confirmSubmitAssets = fetchedData.submit_confirm;
-    //this.infoPopupAssets = fetchedData.info_popup;
-    //console.log("this.myStates = "+this.myStates.length);
-    this.fileUrls = fetchedData.svgFilesArr;
-    //this.mainSvgfile = fetchedData.svgInfo;
-    //this.hoverSvgfile = fetchedData.svgFilesArr.hoverSvgImg;
-    //this.clickSvgfile = fetchedData.svgFilesArr.clickSvgImg;
-    //this.hoverSvg = this.fileUrls.hoverSvgImg.url;
-    //this.clickSvg = this.fileUrls.clickSvgImg.url;
-	  this.quesAudio = this.commonAssets.QuestionAudio;
-	  this.CorrectAudio = this.commonAssets.CorrectAudio;
-	  this.WrongAudio = this.commonAssets.WrongAudio;
-    this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
-    this.options = fetchedData.statesArr;
+      this.setDatefromJSON();
+      this.confirmSubmitAssets = fetchedData.submit_confirm;
+      this.quesAudio = this.commonAssets.QuestionAudio;
+      this.CorrectAudio = this.commonAssets.CorrectAudio;
+      this.WrongAudio = this.commonAssets.WrongAudio;
+      this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
     }
 
   }
@@ -1088,31 +954,6 @@ export class Ntemplate22 implements OnInit {
     } 
   }
 
-  resetActivity() {
-    //this.submittedArray=[];
-    for(let i=0;i<this.submittedArray.length;i++) {
-      this.submittedArray[i].clicked = false;
-      document.getElementById(this.submittedArray[i].tooltipID).style.pointerEvents="";
-      document.getElementById(this.submittedArray[i].tooltipID).style.left="0";
-      document.getElementById(this.submittedArray[i].tooltipID).style.top="0";
-      //document.getElementById(this.submittedArray[i].tooltipID).classList.value="tooltipHidden";
-      $("#"+this.submittedArray[i].tooltipID).removeClass("tooltipshow");
-      $("#"+this.submittedArray[i].tooltipID).addClass("tooltipHidden");
-      //let index=this.myStates.findIndex(element => element.id == this.submittedArray[i].id);
-      //$(document.getElementById("mainques").children[0].children[index+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
-      }
-      this.submittedArray=[];
-      document.getElementById('dropdownviaTooltip').style.opacity = "0";
-      document.getElementById("line0").setAttribute("x1","0");
-      document.getElementById("line0").setAttribute("x2","0");
-      document.getElementById("line0").setAttribute("y1","0");
-      document.getElementById("line0").setAttribute("y2","0");
-      document.getElementById("dropdown").classList.add("dropdownhidden");
-    this.appModel.enableSubmitBtn(false);
-    this.paginationArray=[];
-    this.rightAnswerCounter=0;
-    this.wrongAnswerCounter=0;
-  }
 
   showAnswerFeedback() {
     if(this.feedbackObj.correct_month!="") {
@@ -1282,8 +1123,6 @@ export class Ntemplate22 implements OnInit {
       setTimeout(() => {
        // $("#instructionBar").removeClass("disable_div");
       }, 1000);
-      //$("#optionsBlock .options").removeClass("disable_div");
-      //$("#optionsBlock .options").css("opacity", "unset");
     }
     }
   }

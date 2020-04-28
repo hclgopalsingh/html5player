@@ -8,9 +8,10 @@ import { InitializationAPI, Helper, Info } from './initializationapi';
 import { DataHandler } from './interfaces/dataHandler';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 
 declare var $: any;
@@ -61,6 +62,9 @@ export class ApplicationmodelService {
   private liveScoreNT8: any;
   private feedbackNT8: any = [];
   isVideoPlayed: boolean = false;
+  EVA:boolean = false;
+	subscription: Subscription;
+	Template: any;
 
 
  
@@ -68,10 +72,18 @@ export class ApplicationmodelService {
 
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
-    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient) {
+    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient,private Sharedservice: SharedserviceService) {
     this.httpHandler = httpHandler;
     this.commonLoader = commonLoader;
     this.router = router;
+    this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
+			if(this.Template === 'EVA'){
+			  this.EVA = true;
+			}else{
+			  this.EVA = false;
+			}
+	  
+		  });
 
     this.config = [
       ['/video', '/videoext', 0],
@@ -636,7 +648,7 @@ export class ApplicationmodelService {
         this.moveNextQuesSubject.observers.splice(0, this.moveNextQuesSubject.observers.length);
         this.moveNextQuesSubject.observers.push(observ);
         this.moveNextQuesSubject.next();
-        if(flag != "noBlink"){
+        if(flag != "noBlink" &&  !this.EVA){
         this.blinkForLastQues();
         }
       }
