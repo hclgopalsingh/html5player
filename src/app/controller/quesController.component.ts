@@ -106,7 +106,17 @@ export class QuesController implements OnInit {
         }
       });
 
+       //*********  Move to next segment after 5 min of last question attempt */
+       this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
+        if(data.data){
+          setTimeout(()=>{             
+            this.appModel.nextSection();
+              },5 * 60 * 1000);
+        }
+      })
+
       }
+   
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
@@ -344,7 +354,9 @@ export class QuesController implements OnInit {
 
   setBlinkOnLastQuestion() {
     if(this.EVA) {
-      this.quesCtrl.blinkingStatus=true;
+      if(this.EnableShowAnswer === true){
+        this.quesCtrl.blinkingStatus=true;
+        }
     } else {
       this.blinkFlag = true;
       let flag = true;
