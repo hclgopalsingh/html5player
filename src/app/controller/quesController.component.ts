@@ -97,6 +97,7 @@ export class QuesController implements OnInit {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if(this.isLastQues){
+  
         this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
          this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
          this.isLastQuesAageyBadhe = data.data;
@@ -105,7 +106,18 @@ export class QuesController implements OnInit {
         }
       });
 
+
+      //*********  Move to next segment after 5 min of last question attempt */
+      this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
+        if(data.data){
+          setTimeout(()=>{   
+            console.log('move to next ques automatic');             
+            this.appModel.nextSection();
+              },5 * 60 * 1000);
+        }
+      })
       }
+
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
@@ -265,6 +277,8 @@ export class QuesController implements OnInit {
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_hover;
   }
   next() {
+    //** Set Aggey badhe is clicked to stop */
+
     if(this.appModel && !this.appModel.isLastSection){
        clearInterval(this.timeInterval);
       this.timeInterval = undefined;
@@ -321,7 +335,9 @@ export class QuesController implements OnInit {
 
   setBlinkOnLastQuestion() {
     if(this.EVA) {
+      if(this.EnableShowAnswer === true){
       this.quesCtrl.blinkingStatus=true;
+      }
     } else {
       this.blinkFlag = true;
       let flag = true;
