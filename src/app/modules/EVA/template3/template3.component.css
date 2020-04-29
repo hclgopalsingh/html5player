@@ -42,28 +42,6 @@
 	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
 }
 
-/* .zoom {
-	transition: transform .6s;
-  } */
-
-  /* .options  .zoom:hover {
-	-ms-transform: scale(1.1); 
-	-webkit-transform: scale(1.1); 
-	transform: scale(1.1); 
-  } */
-
-/* .options div img:hover{
-    animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
-} */
-
-@keyframes scaleit {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
-}
 
 .options .playBtn {
  position: absolute;
@@ -101,9 +79,7 @@
 	top:69.2%;
 	right: 1.8%;
 }
-/* .speakerBtn img{
-	width:9%;
-} */
+
 .options img,
 .speakerBtn img {
 	cursor:pointer;
