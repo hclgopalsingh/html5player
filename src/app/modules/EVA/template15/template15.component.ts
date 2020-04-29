@@ -124,7 +124,7 @@ export class Template15Component implements OnInit {
 
 
     ngOnInit() {        
-
+        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
          this.sprite.nativeElement.style="display:none";
         this.attemptType = "";
         this.setTemplateType();
@@ -150,27 +150,20 @@ export class Template15Component implements OnInit {
         
      this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {        
             if (val == "uttarDikhayein") {
-                // this.appModel.stopAllTimer(); 
-
                 clearTimeout(this.popupTime);
-
                 if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                      
-                    this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-            
+                    this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";           
                     if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
                         this.showAnswerfeedback.nativeElement.play();
-                       
                     }
                     this.popupType = "showanswer";
-
                     this.showAnswerfeedback.nativeElement.onended = () => {
                          setTimeout(() => {
                             this.closePopup('showAnswer');
                          }, 10000);
                     }
-
-                    this.blinkOnLastQues();
+                    // this.blinkOnLastQues();
                 }
             }
             
@@ -178,7 +171,6 @@ export class Template15Component implements OnInit {
 
         
         this.appModel.nextBtnEvent().subscribe(() => {
-            alert();
             if (this.appModel.isLastSectionInCollection) {
                 this.appModel.event = { 'action': 'segmentEnds' };
             }
@@ -272,22 +264,10 @@ export class Template15Component implements OnInit {
             this.answerImagelocation = option.image_original.location;
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
-
 			this.ifRightAns = true;
 			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
              
-            setTimeout(() => {
-                // if (this.rightFeedback && this.rightFeedback.nativeElement) {
-                //     this.clapSound.nativeElement.play();
-                //     setTimeout(() => {
-                //        this.clapSound.nativeElement.pause();     
-                //        this.clapSound.nativeElement.currentTime = 0;
-                //        if(!this.isPopupClosed){f
-                //         this.rightFeedback.nativeElement.play();
-                //        }
-                //     }, 2000)
-                // }         
-                
+            setTimeout(() => {      
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     option.image = option.image_hover;
                     this.clapSound.nativeElement.play();
@@ -297,27 +277,21 @@ export class Template15Component implements OnInit {
                     this.clapSound.nativeElement.currentTime = 0;
                         ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";  
 					   if(!this.popupclosedinRightWrongAns) {
-						this.rightFeedback.nativeElement.play();
-						
+						this.rightFeedback.nativeElement.play();				
 					   } else {
 						this.Sharedservice.setShowAnsEnabled(true);
                        } 
-
-
                     }, 2000);
 
                     
-
                     this.rightFeedback.nativeElement.onended = () => {
                         setTimeout(() => {
                             this.closePopup('answerPopup');
                         }, 10000)
                             //new code
                             setTimeout(() => {
-                                this.attemptType = "manual";
-                                //disable option and question on right attempt
-                                
-                                this.blinkOnLastQues()
+                                this.attemptType = "manual";                              
+                               this.blinkOnLastQues()
                             }, 200)
                         }
                 }    
@@ -325,9 +299,7 @@ export class Template15Component implements OnInit {
 
                 //disable option and question on right attempt
                 this.maincontent.nativeElement.className = "disableDiv";
-                this.ansBlock.nativeElement.className = "optionsBlock disableDiv disable-click";
-                
-              
+                this.ansBlock.nativeElement.className = "optionsBlock disableDiv disable-click";             
             })
  
         } else if(option.id != this.feedback.correct_ans_index) {
@@ -350,24 +322,6 @@ export class Template15Component implements OnInit {
             this.wrongCounter += 1;
            
 			 setTimeout(() => {
-				// if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-				// 	this.wrongFeedback.nativeElement.play();
-				// }		
-                // this.wrongFeedback.nativeElement.onended = () => {
-                //     setTimeout(() => {
-                //         this.closePopup('answerPopup');
-                //         console.log('popup closed');
-                //     }, 10000)
-
-
-                //     // if(!this.closed){
-                //     //     this.wrongTimer = setTimeout(() => {
-                //     //         this.ansPopup.nativeElement.classList = "modal";
-                //     //         this.appModel.notifyUserAction();
-                //     //         // this.appModel.wrongAttemptAnimation();	
-                //     //     }, 2000);
-                //     // }
-                // }
                 if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
 					this.wrongFeedback.nativeElement.play();
 				}
@@ -381,8 +335,6 @@ export class Template15Component implements OnInit {
          });
             this.doRandomize(this.myoption);
 		}
-            
-//}
     }
 
     doRandomize(array) {
@@ -478,8 +430,7 @@ export class Template15Component implements OnInit {
                  }
             }
         }
-        if(Type === 'showAnswer'){
-        
+        if(Type === 'showAnswer'){     
             this.popupTime =   setTimeout(() => {
                 this.showAnswerfeedback.nativeElement.pause();      
                 this.showAnswerfeedback.nativeElement.currentTime = 0;
@@ -490,8 +441,6 @@ export class Template15Component implements OnInit {
                 }
                 
             }, 10000);
-        }else{
-           
         }
      
     }
