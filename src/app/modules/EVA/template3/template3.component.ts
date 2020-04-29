@@ -26,10 +26,9 @@ export class Template3Component extends Base implements OnInit {
 
       this.appModel.notification.subscribe(
         (data) => {
-          console.log('Component: constructor - data=', data);
           switch (data) {
             case PlayerConstants.CMS_PLAYER_CLOSE:
-              //console.log('VideoComponent: constructor - cmsPlayerClose');
+              console.log('VideoComponent: constructor - cmsPlayerClose');
               this.close();
               break;
 
@@ -135,7 +134,6 @@ export class Template3Component extends Base implements OnInit {
 			
 
 		get basePath(): any {
-			 console.log('temponeComponent: path=', this.appModel.content.id + '/' + this.appModel.content.contentData.data['path']);
 			if(this.appModel && this.appModel.content){
 			
 				 return this.appModel.content.id + '';
@@ -148,7 +146,6 @@ export class Template3Component extends Base implements OnInit {
 				this.common_assets = fetchedData.commonassets;
 			this.speaker = fetchedData.speaker;
 			this.myoption = fetchedData.optionArray;
-			//console.log("myoption : "+this.myoption);
 			this.question = fetchedData.quesObj;
 			this.feedback = fetchedData.feedback;
 			this.popupAssets = fetchedData.feedback.popupassets;
@@ -217,21 +214,6 @@ export class Template3Component extends Base implements OnInit {
 			if(!this.videoPlayed) {
 			  this.myoption[index].play_button_normal =this.myoption[index].play_button_original;
 			}	
-		}
-		onHoverhelp(option){
-			if(!this.narrator_voice.nativeElement.paused){
-				this.helpbtn.nativeElement.className="";
-				console.log("narrator voice still playing");
-			}
-			else{
-				option.help =option.helphover;
-				this.helpbtn.nativeElement.className="pointer"; 
-			}
-		}
-
-		onHoverouthelp(option){
-			option.help = option.helpOriginal;
-			
 		}
 
 		onHoverSpeaker(){
@@ -306,13 +288,11 @@ export class Template3Component extends Base implements OnInit {
                             setTimeout(() => {
 								this.closePopup('answerPopup');
 								//this.Sharedservice.setShowAnsEnabled(true);
-                                console.log('popup closed');
                             }, 10000)
                     //new code
                     setTimeout(() => {
                         this.attemptType = "manual";
                         //disable option and question on right attempt
-                        console.log("disable option and question on right attempt");
                     }, 200)
                 }
             })
@@ -342,7 +322,6 @@ export class Template3Component extends Base implements OnInit {
                 this.wrongFeedback.nativeElement.onended = () => {
                     this.wrongTimer=setTimeout(() => {
 						this.closePopup('answerPopup');
-                        console.log('popup closed');
                     }, 10000);
                 }
             
@@ -365,7 +344,6 @@ export class Template3Component extends Base implements OnInit {
 		}
 
 		playVideo(option,index) {
-		  console.log("video started");
 		  this.videoPlayed=true;
 		  this.myoption[index].play_button_normal=this.myoption[index].play_button_selected;
 		  this.videoStage.nativeElement.style.opacity=1;
@@ -416,7 +394,6 @@ export class Template3Component extends Base implements OnInit {
 				
 			}
 			var flag=this.arraysIdentical(array,this.idArray);
-			console.log(flag);
 			if(flag){
 				this.doRandomize(array);
 			}
@@ -427,7 +404,6 @@ export class Template3Component extends Base implements OnInit {
 		}
 
 		arraysIdentical(a, b) {
-			console.log("checking:",a,b);
 			var i = a.length;
 			//var bool = false;
 			while (i--) {				
@@ -503,11 +479,9 @@ export class Template3Component extends Base implements OnInit {
 				this.appModel.functionone(this.templatevolume,this);//start end
 
 				if(this.appModel.isNewCollection){
-				//console.log("chck:",this.appModel.isNewCollection);
 				this.appModel.event = {'action': 'segmentBegins'};
 				}
 				let fetchedData:any=this.appModel.content.contentData.data;
-				console.log("init:",this.appModel.content.contentData.data);
 				if(fetchedData.titleScreen){
 					this.quesInfo=fetchedData;
 					this.showIntroScreen = true;
@@ -519,10 +493,8 @@ export class Template3Component extends Base implements OnInit {
 				}
 				this.appModel.getNotification().subscribe(mode => {
 					if (mode == "manual") {
-						console.log("manual mode ", mode);
 		
 					} else if (mode == "auto") {
-						console.log("auto mode", mode);
 						this.attemptType = "uttarDikhayein";
 						this.popupType = "showanswer"
 					}
@@ -542,10 +514,7 @@ export class Template3Component extends Base implements OnInit {
 						if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
 							this.videoonshowAnspopUp.nativeElement.src=this.showAnswerPopup.videoAnimation.location=="content" ? this.contentgFolderPath +"/"+ this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation +"/"+ this.showAnswerPopup.videoAnimation.url;
 							this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-						   
-						   console.log(this.showAnswerfeedback.nativeElement, 'jyoti feedback count');
 							if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-								console.log('show answer play jyoti');
 								this.showAnswerfeedback.nativeElement.play();
 								this.showAnswerfeedback.nativeElement.onended=() => {
 									this.closePopup("showanswer");
@@ -660,16 +629,6 @@ export class Template3Component extends Base implements OnInit {
 				if(this.ifRightAns) {
 					this.blinkOnLastQues();
 				}
-				// setTimeout(() => {
-				// 	this.showAnswerfeedback.nativeElement.pause();      
-				// 	this.showAnswerfeedback.nativeElement.currentTime = 0;
-				// 	if(!this.showAnswerfeedback.nativeElement.pause()){
-				// 		this.appModel.nextSection(); 
-				// 	}else{
-				// 		console.log('show answer voice still playing jyoti');
-				// 	}
-					
-				// }, 1000);
 			}else{
 
 			}
