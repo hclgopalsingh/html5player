@@ -191,10 +191,11 @@ export class Template3Component extends Base implements OnInit {
 			
 			
 		onHoverOptions(option,index){
-			let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
+			let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement ;
 			if(!speakerEle.paused) {
 				speakerEle.pause();
 				speakerEle.currentTime=0;
+				this.sprite.nativeElement.style="display:none";
 				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
 				this.speakerPlayed=false;
 				this.speaker.imgsrc=this.speaker.imgorigional;
@@ -353,9 +354,11 @@ export class Template3Component extends Base implements OnInit {
 			this.speakerPlayed=true;
 			this.speaker.imgsrc=this.speaker.imgactive;
 			this.speakerVolume.nativeElement.play();
+			this.sprite.nativeElement.style="display:flex";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="none";
 			this.speakerVolume.nativeElement.onended=() => {
 				this.speaker.imgsrc=this.speaker.imgorigional;
+				this.sprite.nativeElement.style="display:none";
 				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
 				this.speakerPlayed=false;
 			}
@@ -495,6 +498,7 @@ export class Template3Component extends Base implements OnInit {
 		ngOnInit() {
             this.attemptType = "";
 			this.setTemplateType();
+			this.sprite.nativeElement.style="display:none";
 				this.contentgFolderPath=this.basePath;
 				this.appModel.functionone(this.templatevolume,this);//start end
 
@@ -526,6 +530,15 @@ export class Template3Component extends Base implements OnInit {
 				this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {        
 					if (val == "uttarDikhayein") {
 						this.appModel.stopAllTimer();
+						let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement ;
+						if(!speakerEle.paused) {
+							speakerEle.pause();
+							speakerEle.currentTime=0;
+							this.sprite.nativeElement.style="display:none";
+							(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents="";
+							this.speakerPlayed=false;
+							this.speaker.imgsrc=this.speaker.imgorigional;
+						}
 						if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
 							this.videoonshowAnspopUp.nativeElement.src=this.showAnswerPopup.videoAnimation.location=="content" ? this.contentgFolderPath +"/"+ this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation +"/"+ this.showAnswerPopup.videoAnimation.url;
 							this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
