@@ -114,7 +114,6 @@ export class QuesController implements OnInit {
               },5 * 60 * 1000);
         }
       })
-
       }
    
       // **** Enable show answer button
