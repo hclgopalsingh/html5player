@@ -262,8 +262,6 @@ export class Template3Component extends Base implements OnInit {
 
 
 			this.ifRightAns = true;
-			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
-               ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
               option.image = option.image_original;
             setTimeout(() => {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
@@ -271,6 +269,8 @@ export class Template3Component extends Base implements OnInit {
                     setTimeout(() => {
                        this.clapSound.nativeElement.pause();     
 					   this.clapSound.nativeElement.currentTime = 0;
+					   let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
+                       ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					   if(!this.popupclosedinRightWrongAns) {
 						this.rightFeedback.nativeElement.play();
 						this.videoStageonpopUp.nativeElement.play();
