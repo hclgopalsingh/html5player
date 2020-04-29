@@ -72,7 +72,7 @@ import { Template15Component } from './modules/EVA/template15/template15.compone
 import { SharedserviceService } from '../app/services/sharedservice.service';
 import { Template3Component } from './modules/EVA/template3/template3.component';
 import { Template1Component } from './modules/EVA/template1/template1.component';
-
+import { Template8Component } from './modules/EVA/template8/template8.component';
 
 
 @NgModule({
@@ -136,7 +136,8 @@ import { Template1Component } from './modules/EVA/template1/template1.component'
 	Ntemplate17_1,
 	Template15Component,
 	Template3Component,
-	Template1Component
+	Template1Component,
+	Template8Component
   ],
   imports: [
     BrowserModule,
