@@ -567,6 +567,7 @@ export class Template3Component extends Base implements OnInit {
 				this.noOfImgsLoaded++;
 				if(this.noOfImgsLoaded>=this.noOfImgs){
 					this.appModel.setLoader(false);
+					this.Sharedservice.setShowAnsEnabled(false);
 					//this.Sharedservice.setShowAnsEnabled(false);
 					document.getElementById("container").style.opacity="1";
 					clearTimeout(this.loaderTimer);
