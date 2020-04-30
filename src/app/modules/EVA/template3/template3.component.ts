@@ -146,8 +146,8 @@ export class Template3Component extends Base implements OnInit {
 				let fetchedData:any =  this.appModel.content.contentData.data;
 				this.instructiontext = fetchedData.instructiontext;
 				this.common_assets = fetchedData.commonassets;
-			this.speaker = fetchedData.speaker;
-			this.myoption = fetchedData.optionArray;
+			this.speaker = JSON.parse(JSON.stringify(fetchedData.speaker));
+			this.myoption = JSON.parse(JSON.stringify(fetchedData.optionArray));
 			//console.log("myoption : "+this.myoption);
 			this.question = fetchedData.quesObj;
 			this.feedback = fetchedData.feedback;
