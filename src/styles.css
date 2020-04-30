@@ -305,9 +305,3 @@ button:focus{
     top: 0;
     z-index: 3;
 }
-
-@media (max-width: 1366px) and (min-width: 1100px){
-    .instructionBase span.instructionText{
-        font-size: 1.06vmax;
-    }
-}

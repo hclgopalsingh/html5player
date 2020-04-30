@@ -125,7 +125,7 @@ export class Template15Component implements OnInit {
 
 
     ngOnInit() {        
-        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
+        // this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         this.Sharedservice.setShowAnsEnabled(false);
          this.sprite.nativeElement.style="display:none";
         this.attemptType = "";
@@ -446,7 +446,7 @@ export class Template15Component implements OnInit {
                 if(!this.lastQuestionCheck){
                  this.popupTime = setTimeout(()=>{
                 //   this.appModel.nextSection();
-                 this.Sharedservice.setShowAnsEnabled(false); 
+                //  this.Sharedservice.setShowAnsEnabled(false); 
                     }, 10000)
                }else if(this.lastQuestionCheck){              
                 this.Sharedservice.setTimeOnLastQues(true);
@@ -575,7 +575,7 @@ export class Template15Component implements OnInit {
 
 
     blinkOnLastQues() {
-        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
+        // this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         if(this.lastQuestionCheck){
             this.LastquestimeStart = true;
         }

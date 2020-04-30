@@ -98,13 +98,13 @@ export class QuesController implements OnInit {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if(this.isLastQues){
-        this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
-         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
-         this.isLastQuesAageyBadhe = data.data;
-        if(!this.isLastQuesAageyBadhe){
-          this.nextBtn.nativeElement.className = "img-fluid nextBtn";
-        }
-      });
+        // this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
+        //  this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
+        //  this.isLastQuesAageyBadhe = data.data;
+        // if(!this.isLastQuesAageyBadhe){
+        //   this.nextBtn.nativeElement.className = "img-fluid nextBtn";
+        // }
+      // });
 
        //*********  Move to next segment after 5 min of last question attempt */
        this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
