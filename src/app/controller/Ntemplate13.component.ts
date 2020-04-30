@@ -412,7 +412,7 @@ export class Ntemplate13 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttemplt();
 		});
-
+		this.appModel.resetBlinkingTimer();
 
 	}
 
@@ -907,6 +907,7 @@ export class Ntemplate13 implements OnInit {
 
 
 	showAnsModal(opt) {
+		this.appModel.stopAllTimer();
 		this.attemptType = "hideAnimation"
 		this.ifWrongAns = false;
 		this.ifRightAns = false;
@@ -931,6 +932,8 @@ export class Ntemplate13 implements OnInit {
 			setTimeout(() => {
 				this.feedbackVoRef.nativeElement.play();
 			}, 50)
+		this.appModel.resetBlinkingTimer();
+
 		setTimeout(() => {
 			this.removeEvents();
 			this.blinkOnLastQues();
