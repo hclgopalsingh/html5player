@@ -297,7 +297,7 @@ export class VideoComponent implements OnInit {
 
   updatePlay(event) {
 	//console.log("this.mainVideo.nativeElement.currentTime:",this.mainVideo.nativeElement.currentTime);  
-    this.isPlaying ? this.pauseVideo() : this.playVideo();
+    this.isPlaying ? this.playVideo() : this.pauseVideo();
 	this.fadeOutFlag = true;
 	setTimeout(()=>{
 		this.fadeOutFlag = false;
@@ -362,7 +362,7 @@ export class VideoComponent implements OnInit {
   }
 
   private playVideo(ct?: number) {
-   this.isPlaying = true;
+   this.isPlaying = false;
    if(this.mainVideo && this.mainVideo.nativeElement){
 	   if(ct) {
 		   this.currentTime = ct;
@@ -374,7 +374,7 @@ export class VideoComponent implements OnInit {
   }
 
   private pauseVideo() {
-    this.isPlaying = false;
+    this.isPlaying = true;
     if(this.mainVideo && this.mainVideo.nativeElement){
 		this.mainVideo.nativeElement.pause();
 	}
