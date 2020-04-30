@@ -463,8 +463,12 @@ export class Ntemplate18_1 implements OnInit {
         //this.moveTo = this.refQues.nativeElement.children[this.prevIdx].children[0].getBoundingClientRect();
         //this.moveleft = this.moveFrom.left - this.moveTo.left;
         //this.movetop = this.moveFrom.top - this.moveTo.top;
+        $("#optionsBlock .options").addClass("disable_div");
+        $("#optionsBlock .options").addClass("disable-click");
         $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
+          $("#optionsBlock .options").removeClass("disable_div");
+          $("#optionsBlock .options").removeClass("disable-click");
           for (let x = 0; x < this.optionObj.length; x++) {
             this.optionsBlock.nativeElement.children[0].children[x].children[1].children[0].style.pointerEvents = "";
           }
@@ -502,8 +506,12 @@ export class Ntemplate18_1 implements OnInit {
         this.moveTo = this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
+        $("#optionsBlock .options").addClass("disable_div");
+        $("#optionsBlock .options").addClass("disable-click");
         $(this.refQues.nativeElement.children[this.index1].children[0]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
+          $("#optionsBlock .options").removeClass("disable_div");
+        $("#optionsBlock .options").removeClass("disable-click");
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.containgFolderPath + "/" + this.refQuesObj[this.index1].imgsrc_original.url;
           this.refQues.nativeElement.children[this.index1].children[0].style.visibility = "hidden";
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItemVisible";
@@ -570,6 +578,9 @@ export class Ntemplate18_1 implements OnInit {
 
   onClickquesFromOpt(idx, opt) {
     console.log("click on ques");
+    $("#optionsBlock .options").addClass("disable_div");
+    $("#optionsBlock .options").addClass("disable-click");
+    console.log("diSabled");
     this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
     this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
     if (opt.placed) {
@@ -580,6 +591,8 @@ export class Ntemplate18_1 implements OnInit {
       //this.movetop = this.moveFrom.top - this.moveTo.top;
       $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
         clearInterval(this.blinkTimeInterval);
+        $("#optionsBlock .options").removeClass("disable_div");
+        $("#optionsBlock .options").removeClass("disable-click");
         this.countofAnimation--;
         if (this.countofAnimation == 0) {
           this.appModel.enableSubmitBtn(false);
