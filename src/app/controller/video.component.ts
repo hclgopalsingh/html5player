@@ -570,7 +570,7 @@ export class VideoComponent implements OnInit {
   endedHandler(event) {
     console.log('VideoComponent: endedHandler');
     this.appModel.event = {'action': 'segmentEnds'};
-	this.isPlaying = false;
+	this.isPlaying = true;
 	if((this.appModel.autoPlay && !this.isLastQues) || !((this.isLastQuesAct)) ||((this.isLastQuesAct && this.appModel.autoPlay && !this.isLastQues))){
 		if(this.videoOuterMost && this.videoOuterMost.nativeElement 
 			   && this.videoOuterMost.nativeElement.parentElement && 
