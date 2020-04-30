@@ -55,9 +55,12 @@ button:focus{
 .instructionBase span.instructionText{
 	color: #fff;
 	font-family: Kruti Dev!important;
-	font-size: 1.31vmax;
-	width: 99%;
-	position: absolute;
+	font-weight: normal;
+	font-size: 1.5vmax;
+    width: 98%;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
 }
 /*** Footer Navbar classes ***/
 #footerNavBlock{
