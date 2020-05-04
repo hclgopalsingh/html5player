@@ -27,12 +27,12 @@
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
 	z-index: 1;
 } 
-.modal .refQues{
+/* .modal .refQues{
 	background: transparent;	
 	border-radius: 0;
 	box-shadow: none;
 	z-index: 1;
-} 
+}  */
 .refQues div{
 	height: 89%;
 	display: flex;
@@ -42,7 +42,7 @@
 } 
 .refQues div img{
 	filter: grayscale(100%) brightness(0) saturate(0);
-	height: 87%;
+	height: 100%;/*87%;*/
 }
 .refQues div img.ansImg{
 	position: absolute;
@@ -50,10 +50,11 @@
 .refQues div.quesBox{
 	position: relative;
 	width: auto;/*13.7vmax;*/
+	padding: 0 2.5vmax;
 }
 .refQues div.quesBox.fillBlank{
 	position: relative;
-	width: 9vmax;/*13.7vmax;*/
+	width: 10vmax;
 }
 /*** Matra Positioning Classes ***/
 div.matra_i{
