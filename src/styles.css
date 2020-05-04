@@ -313,6 +313,11 @@ button:focus{
 	border-radius: 1vmax;
 	animation: borderBlink normal 1s infinite linear;
 }
+.modal .refQues div.quesBox::before {
+	border: none;
+	border-radius: none;
+	animation: none;
+}
 /*** Global Blink Option  ***/
 @keyframes optionBlink{
 	25%{
