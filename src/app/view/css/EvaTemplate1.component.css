@@ -34,7 +34,7 @@
 	z-index: 1;
 }  */
 .refQues div{
-	height: 89%;
+	height: 83%;/*89%*/;
 	display: flex;
 	justify-content: center;
     align-items: center;
