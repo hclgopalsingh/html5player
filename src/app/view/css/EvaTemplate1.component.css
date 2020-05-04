@@ -52,6 +52,9 @@
 	width: auto;/*13.7vmax;*/
 	padding: 0 2.5vmax;
 }
+.modal .refQues div.quesBox{
+	padding: 0;
+}
 .refQues div.quesBox.fillBlank{
 	position: relative;
 	width: 10vmax;
