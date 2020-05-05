@@ -783,7 +783,7 @@ export class Ntemplate23 implements OnInit {
           this.appModel.enableSubmitBtn(true);
         }
         if(this.countofClick == 0 && this.countofClick < this.commonAssets.itemsperPage) {
-          this.countofClick = 10;
+          this.countofClick = 12;
           this.p--;
         }
       }
