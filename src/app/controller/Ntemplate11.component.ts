@@ -960,6 +960,7 @@ houtSkip(){
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttemplt();
 		});
+		this.appModel.resetBlinkingTimer();
 	}
 
 

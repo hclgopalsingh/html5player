@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <audio #narrator_voice [src]="common_assets?.instruction?.location=='content' ? contentgFolderPath + '/' +common_assets?.instruction.url: assetsfolderlocation + '/'+ common_assets?.instruction.url"></audio>
     <div class="" #overlay></div>	
-    <div class="container-fluid" id="container" style="opacity: 0;;"><!--style="width: 1168px;" -->
+    <div class="container-fluid eva" id="container" style="opacity: 0;;"><!--style="width: 1168px;" -->
         <div class="headerBar">
             <img class="img-fluid" [src]="common_assets?.header_bar?.location =='content' ? contentgFolderPath + '/' + common_assets?.header_bar?.url : assetsfolderlocation + '/' + common_assets?.header_bar?.url" (load)="checkImgLoaded();" />
         </div>
@@ -37,61 +37,20 @@
         </div> 
         <div id="spkrBtn" class="speakerBtn">
             <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" (load)="checkImgLoaded();" title="चलाऍं"/>
+            <div class="waveAnimation" #sprite>
+                <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
+                <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?contentgFolderPath + '/' +speaker?.wave2.url: assetsfolderlocation + '/'+ speaker?.wave2.url">
+                <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?contentgFolderPath + '/' +speaker?.wave3.url: assetsfolderlocation + '/'+ speaker?.wave3.url">
+            </div> 
             <audio #speakerVolume [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
         </div>
     </div>
-        <!-- <div id="navBlock">
-            <div class="navBase">
-                <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/footerBg.svg">
-                <img class="img-fluid prevBtn" src="../../../assets/images/EvaTemplate15Assets/prevBtn.svg">
-                <img class="img-fluid ansBtn" src="../../../assets/images/EvaTemplate15Assets/ansBtn.svg">
-                <div class="quesBlock">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBulletVisited.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBulletActive.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-                    <img class="img-fluid" src="../../../assets/images/EvaTemplate15Assets/quesBullet.svg">
-                </div>
-                <img class="img-fluid nextBtn" src="../../../assets/images/EvaTemplate15Assets/nextBtn.svg">
-            </div>
-        </div> -->
-        <!-- <controls class="bottomPlace">		
-            <div class="fadeInAnimation" id="controlsContainer">
-                <div class="col-sm-1" id="playPauseContainer" style="margin: 0; position: relative; display: grid; align-items: center; justify-items: center; text-align: center; width:5.33%; padding:0 3px;">
-                </div>
-                <div class="col-sm-8" id="sliderContainer" style="margin:0; display: grid; align-items: center; justify-items: center; text-align:center; width:66.66%; padding:0 3px;">
-                </div>
-                <div class="col-sm-1" id="timeContainer" style="margin:0; display: grid; align-items: center; justify-items: center; text-align:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; font-size:13px; color:#fff; font-size: 1vw; padding:0 3px;">
-                </div>
-
-                <div class="col-sm-1" id="autoPlayOnOffContainer" style="margin:0; display: initial; align-items: center; justify-items: center; text-align:center; width:11.33%; padding:2px 3px;">
-                    <label for="onoff" style="color:#ff9900; position:relative; top:2px; font-size: .9em;">Autoplay On</label>
-                    <input id="onoff" style="position:relative; margin:0% 0 0 7%; top:4px;" type="checkbox" value="on">
-                </div>
-                <div class="col-sm-1" id="volumeContainer" style="margin:0 0 0 .4rem; display: grid; align-items: center; text-align:center; width:auto; position:relative; padding:0 3px;">
-                    <img style="max-width: 100%;" src="assets/images/volume.svg">
-                    <div class="" id="MuteVarTemp" style="margin: 0px; display: initial; align-items: center; text-align: center; position: absolute; top: -145%; width: auto; left: 0%; visibility: hidden;" ng-reflect-ng-style="[object Object]">
-                        <input style="position:relative; margin:0 0 0 7%; bottom:-7px;" type="checkbox">
-                        <label style="color:#ff9900; position:relative; top:0; font-size: .9em; margin-bottom:0;">Mute</label>
-                    </div>
-                    <input class="volumeslider" id="volume-bar" max="1" min="0" step="0.1" style="-webkit-appearance: none; margin: 0px; transform: rotate(-90deg); position: absolute; top: -260%; left: -27%; height: 5px; outline: none; width: 6rem !important; background-color: rgb(192, 192, 192) !important; visibility: hidden;" type="range" ng-reflect-ng-style="[object Object]">
-                </div>
-            </div>
-        </controls> -->
              <!-- Right/Wrong Popup  -->
      <div class="modal" id="modalTemp17" #ansPopup>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
-                    <!-- <div id="optionsBlock">
-                        <div class="options">
-                            <div>
-                                <img class="img-fluid" [src]="answerImagelocation=='content' ? contentgFolderPath +'/'+ answerImageBase :  assetsfolderlocation +'/'+ answerImageBase">
-                                <img class="img-fluid subOpt" [src]="answerImagelocation=='content' ? contentgFolderPath +'/'+ answerImage :  assetsfolderlocation +'/'+ answerImage">
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="stageVideo">
                         <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
                         <video id="mainVideo" #videoStageonpopUp>
@@ -115,14 +74,6 @@
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
-                    <!-- <div id="optionsBlock">
-                        <div class="options">
-                            <div>
-                                <img class="img-fluid" [src]="showAnswerPopup?.image?.location=='content' ? contentgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsfolderlocation +'/'+ showAnswerPopup?.image?.url">
-                                <img class="img-fluid subOpt" [src]="showAnswerPopup?.imgsrc?.location=='content' ? contentgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsfolderlocation +'/'+ showAnswerPopup?.imgsrc?.url">
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="stageVideo">
                         <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
                         <video id="mainVideo" #videoonshowAnspopUp>
@@ -131,7 +82,7 @@
                           </video>
                     </div> 
                     <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+                    (click)="closePopup('showanswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
                  </div>
             </div>
         </div>

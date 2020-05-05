@@ -9,6 +9,8 @@ export class SharedserviceService {
     private IsVOPlaying = new Subject<any>();
     private AageyBadhe = new Subject<any>();
     private moveNextSubject = new Subject<any>();
+    private isAageyBadhe = new Subject<any>();
+    private isTimerActive = new Subject<any>();
 
 
     sendData(data: any) {
@@ -48,7 +50,21 @@ export class SharedserviceService {
        return this.AageyBadhe.asObservable();
     }
 
+    setIsAggeyBadheClicked(status:any){
+        this.isAageyBadhe.next({data:status});
+    }
 
+    getIsAggeyBadheClicked(){
+        return this.isAageyBadhe.asObservable();
+    }
+
+    setTimeOnLastQues(Questimer:any){
+        this.isTimerActive.next({data:Questimer});
+    }
+
+    getTimerOnLastQues(){
+        return this.isTimerActive.asObservable();
+    }
     public moveNext(){
         this.moveNextSubject.next();
       }
@@ -58,4 +74,11 @@ export class SharedserviceService {
       }
 
 
+
+
+
+
+
+
+      
 }

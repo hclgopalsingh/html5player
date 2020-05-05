@@ -10,7 +10,8 @@
 }
 .options {
 	width: 15%;
-	position: absolute;
+    position: absolute;
+    z-index: 1;
 	left: 10.5%;
 	top: 0.1%;
 	display: flex;
@@ -28,6 +29,7 @@
 .options div {
  position: relative;
  width: 100%;
+ transition: transform .6s;
 }
 
 .options div .subOpt {
@@ -38,32 +40,9 @@
 
 .options div:hover{
     transform: scale(1.1);
-    transition: transform .6s;
 	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
 }
 
-/* .zoom {
-	transition: transform .6s;
-  } */
-
-  /* .options  .zoom:hover {
-	-ms-transform: scale(1.1); 
-	-webkit-transform: scale(1.1); 
-	transform: scale(1.1); 
-  } */
-
-/* .options div img:hover{
-    animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
-} */
-
-@keyframes scaleit {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
-}
 
 .options .playBtn {
  position: absolute;
@@ -92,7 +71,7 @@
     position: absolute;
     left: .9%;
 	top: 1.1%;
-	clip-path: inset(6% 5.3% 7.3% 5.5% round 1vmax);
+	clip-path: inset(1.7% 1% 1% 1% round 4vmax);
 }
 #container .speakerBtn{
 	width:7%;
@@ -101,9 +80,7 @@
 	top:69.2%;
 	right: 1.8%;
 }
-/* .speakerBtn img{
-	width:9%;
-} */
+
 .options img,
 .speakerBtn img {
 	cursor:pointer;
@@ -127,7 +104,7 @@
     position: absolute;
     width: 48%;
     right: 27%;
-    top: 6.7%;
+    top: 8.7%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -153,4 +130,13 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
 	align-items: center;
+}
+
+.rightWrongAns{
+    position: absolute;
+    bottom: 8.5%;
+    width: 97.4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

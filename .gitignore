@@ -1,4 +1,4 @@
 dist
 node_modules
-src/assets/config/init.json
 package-lock.json
+.src/assets/config/init.json

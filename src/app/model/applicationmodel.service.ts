@@ -8,9 +8,10 @@ import { InitializationAPI, Helper, Info } from './initializationapi';
 import { DataHandler } from './interfaces/dataHandler';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable } from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { Subject, Observable, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 
 declare var $: any;
@@ -54,24 +55,36 @@ export class ApplicationmodelService {
   _animationAssets = new Subject<any>();
   _wrongAttemptAnimation = new Subject<any>();
   _autoPlaySubject = new Subject<any>();
-  _blinkingSubject =  new Subject<any>();
+  _blinkingSubject = new Subject<any>();
   //_resetTimerOnNewSeg = new Subject<any>();
   private attemptsNT8: any = [];
   private rightAttempt: any = [];
   private liveScoreNT8: any;
   private feedbackNT8: any = [];
   isVideoPlayed: boolean = false;
+  EVA: boolean = false;
+  subscription: Subscription;
+  Template: any;
 
 
- 
+
 
 
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
-    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient) {
+    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
     this.httpHandler = httpHandler;
     this.commonLoader = commonLoader;
     this.router = router;
+    this.subscription = this.Sharedservice.getData().subscribe(data => {
+    this.Template = data.data.TemplateType;
+      if (this.Template === 'EVA') {
+        this.EVA = true;
+      } else {
+        this.EVA = false;
+      }
+
+    });
 
     this.config = [
       ['/video', '/videoext', 0],
@@ -121,7 +134,8 @@ export class ApplicationmodelService {
       ['/evatemp15', '/evatemp15ext', 0],
       ['/evatemp3', '/evatemp3ext', 0],
       ['/evatemp1', '/evatemp1ext', 0],
-      ['/ntemp14', '/ntemp14ext', 0]
+      ['/ntemp14', '/ntemp14ext', 0],
+      ['/evatemp8', '/evatemp8ext', 0]
     ];
     this.externalCommunication = externalCommunication;
     this.dataLoader = dataLoader;
@@ -183,13 +197,47 @@ export class ApplicationmodelService {
   //    }
   //  }
   //}
-
-    private init(): void {
-        console.info('ApplicationmodelService: init');
-
-        // load startup config
-        this.httpHandler.get('./assets/config/init.json', this.initLoaded.bind(this), this.initFailed.bind(this));
+  templatevolume(vol, obj) {
+    if (obj.narrator && obj.narrator.nativeElement) {
+      obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.optionAudio && obj.optionAudio.nativeElement) {
+      obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.rightFeedbackVO && obj.rightFeedbackVO.nativeElement) {
+      obj.rightFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
+      obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackshowPopupAudio && obj.feedbackshowPopupAudio.nativeElement) {
+      obj.feedbackshowPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackpartialPopupAudio && obj.feedbackpartialPopupAudio.nativeElement) {
+      obj.feedbackpartialPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.instruction && obj.instruction.nativeElement) {
+      obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.mainVideo && obj.mainVideo.nativeElement) {
+      obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.quesVORef && obj.quesVORef.nativeElement) {
+      obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+  }
+  private init(): void {
+    console.info('ApplicationmodelService: init');
+
+    // load startup config
+    this.httpHandler.get('./assets/config/init.json', this.initLoaded.bind(this), this.initFailed.bind(this));
+  }
 
   get content(): Content {
     if (this.contentCollection && this.contentCollection.collection && this.contentCollection.collection[this.currentSection]) {
@@ -278,7 +326,7 @@ export class ApplicationmodelService {
     this.currentSection = 0;
     let noOfQues;
     let dataObj = this.contentCollection.collection[0].contentData.data;
-    console.log("dataObj--------------->",dataObj)
+    console.log("dataObj--------------->", dataObj)
     if (dataObj["titleScreen"]) {
       noOfQues = this.contentCollection.collection.length - 1;
       this.refernceStore.setTitleFlag(true);
@@ -404,8 +452,8 @@ export class ApplicationmodelService {
     const functionalityType = this.contentCollection.collection[this.currentSection].contentLogic.functionalityType;
     this.navigateToRoute(this.config[functionalityType][this.config[functionalityType][2]]);
     this.updateConfig(functionalityType);
-   
-    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 ||  functionalityType == 46 ||  functionalityType == 47) {
+
+    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48) {
       this.setQuestionNo();
       let data = this.content.contentData.data;
       let firsQflag = data['commonassets'].isFirstQues;
@@ -418,11 +466,11 @@ export class ApplicationmodelService {
   }
 
   private updateConfig(value: number): void {
-    
+
     this.config[value][2] = (this.config[value][2] === 0) ? 1 : 0;
   }
   private navigateToRoute(value: string): void {
-  
+
     this.router.navigateByUrl(value);
   }
 
@@ -604,7 +652,7 @@ export class ApplicationmodelService {
     this.subjectQuesControl.next(controlAssets);
   }
 
-  getQuesControlAssets() {  
+  getQuesControlAssets() {
     return this.subjectQuesControl.asObservable();
   }
 
@@ -636,15 +684,15 @@ export class ApplicationmodelService {
         this.moveNextQuesSubject.observers.splice(0, this.moveNextQuesSubject.observers.length);
         this.moveNextQuesSubject.observers.push(observ);
         this.moveNextQuesSubject.next();
-        if(flag != "noBlink"){
-        this.blinkForLastQues();
+        if (flag != "noBlink" && !this.EVA) {
+          this.blinkForLastQues();
         }
       }
     } else {
       this.stopAllTimer();
       if (this.isLastSectionInCollection) {
-        if(flag != "noBlink"){
-        this.blinkForLastQues();
+        if (flag != "noBlink") {
+          this.blinkForLastQues();
         }
       }
       /*
@@ -777,7 +825,7 @@ export class ApplicationmodelService {
     return obj;
 
 
-    
+
   }
 
   initializeAtemptMade() {
@@ -848,7 +896,7 @@ export class ApplicationmodelService {
   }
 
   handleController(obj) {
-    console.log("handle controller",obj);
+    console.log("handle controller", obj);
     this._controllerHandle.next(obj);
   }
 

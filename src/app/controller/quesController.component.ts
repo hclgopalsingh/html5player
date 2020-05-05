@@ -98,18 +98,28 @@ export class QuesController implements OnInit {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if(this.isLastQues){
-        this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
-         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
-         this.isLastQuesAageyBadhe = data.data;
-        if(!this.isLastQuesAageyBadhe){
-          this.nextBtn.nativeElement.className = "img-fluid nextBtn";
-        }
-      });
+        // this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
+        //  this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
+        //  this.isLastQuesAageyBadhe = data.data;
+        // if(!this.isLastQuesAageyBadhe){
+        //   this.nextBtn.nativeElement.className = "img-fluid nextBtn";
+        // }
+      // });
 
+       //*********  Move to next segment after 5 min of last question attempt */
+       this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
+        if(data.data){
+          setTimeout(()=>{             
+            this.appModel.nextSection();
+              },5 * 60 * 1000);
+        }
+      })
       }
+   
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
+        console.log(this.EnableShowAnswer, 'show answer enable ques controller');
         if(this.EnableShowAnswer === true){
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
@@ -266,13 +276,14 @@ export class QuesController implements OnInit {
     clearInterval(this.timeInterval);
     this.timeInterval = undefined;
     this.blinkFlag = false;
-    this.appModel.previousSection();
+    
     this.EnableShowAnswer=false;
     if(this.EVA) {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     } else {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
     }
+    this.appModel.previousSection();
 
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
@@ -344,7 +355,9 @@ export class QuesController implements OnInit {
 
   setBlinkOnLastQuestion() {
     if(this.EVA) {
-      this.quesCtrl.blinkingStatus=true;
+      // if(this.EnableShowAnswer === true){
+         this.quesCtrl.blinkingStatus=true;
+        // }
     } else {
       this.blinkFlag = true;
       let flag = true;

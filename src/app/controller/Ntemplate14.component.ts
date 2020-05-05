@@ -308,7 +308,12 @@ export class Ntemplate14 implements OnInit {
 		this.audioT.nativeElement.pause();
 		this.recordButton.nativeElement.src = this.question.recordActive.url;
 		this.stopButton.nativeElement.src = this.question.stop.url;
-		this.mediaRecorder.start();
+		if (this.mediaRecorder){
+			this.mediaRecorder.start();
+		}
+		else{
+			console.log("Microphone access is not allowed")
+		}
 		setTimeout(() => {
 			if (!this.isStop) {
 				this.stopRecording();

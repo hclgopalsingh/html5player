@@ -296,7 +296,7 @@ export class Ntemplate12 implements OnInit {
 					}, 200)
 					setTimeout(() => {
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-					}, 8000)
+					}, 5000)
 				});
 			}
 			else {
@@ -662,7 +662,7 @@ export class Ntemplate12 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttemplt();
 		});
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 

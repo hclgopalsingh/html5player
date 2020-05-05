@@ -333,7 +333,7 @@ export class Ntemplate18_1 implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
+    this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
   //OptionZoomOutAnimation(opt, i, j) {
@@ -463,6 +463,8 @@ export class Ntemplate18_1 implements OnInit {
         //this.moveTo = this.refQues.nativeElement.children[this.prevIdx].children[0].getBoundingClientRect();
         //this.moveleft = this.moveFrom.left - this.moveTo.left;
         //this.movetop = this.moveFrom.top - this.moveTo.top;
+        $("#optionsBlock .options").addClass("disable_div");
+        $("#optionsBlock .options").addClass("disable-click");
         $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
           for (let x = 0; x < this.optionObj.length; x++) {
@@ -489,6 +491,10 @@ export class Ntemplate18_1 implements OnInit {
 
           //  //this.getRandomIndex(this.indexArray.length);
           //}
+          setTimeout(()=>{
+            $("#optionsBlock .options").removeClass("disable_div");
+          $("#optionsBlock .options").removeClass("disable-click");
+          },200)
         });
       } else {
         //if (this.refcpyArray.length > this.originalArray.length) {
@@ -502,6 +508,8 @@ export class Ntemplate18_1 implements OnInit {
         this.moveTo = this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
+        $("#optionsBlock .options").addClass("disable_div");
+        $("#optionsBlock .options").addClass("disable-click");
         $(this.refQues.nativeElement.children[this.index1].children[0]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.containgFolderPath + "/" + this.refQuesObj[this.index1].imgsrc_original.url;
@@ -553,6 +561,11 @@ export class Ntemplate18_1 implements OnInit {
 
           //  //this.getRandomIndex(this.indexArray.length);
           //}
+          setTimeout(()=>{
+            $("#optionsBlock .options").removeClass("disable_div");
+          $("#optionsBlock .options").removeClass("disable-click");
+          },200)
+          
         });
       }
       //if (this.feedback.correct_ans_index.includes(opt.id)) {
@@ -570,6 +583,9 @@ export class Ntemplate18_1 implements OnInit {
 
   onClickquesFromOpt(idx, opt) {
     console.log("click on ques");
+    $("#optionsBlock .options").addClass("disable_div");
+    $("#optionsBlock .options").addClass("disable-click");
+    console.log("diSabled");
     this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
     this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
     if (opt.placed) {
@@ -580,6 +596,7 @@ export class Ntemplate18_1 implements OnInit {
       //this.movetop = this.moveFrom.top - this.moveTo.top;
       $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
         clearInterval(this.blinkTimeInterval);
+        
         this.countofAnimation--;
         if (this.countofAnimation == 0) {
           this.appModel.enableSubmitBtn(false);
@@ -601,6 +618,10 @@ export class Ntemplate18_1 implements OnInit {
 
         //  //this.getRandomIndex(this.indexArray.length);
         //}
+        setTimeout(()=>{
+        $("#optionsBlock .options").removeClass("disable_div");
+        $("#optionsBlock .options").removeClass("disable-click");
+        },200)
       });
     }
   }
@@ -776,37 +797,12 @@ export class Ntemplate18_1 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
 		});
-
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttempt(){
     this.resetAttempt();
     this.appModel.notifyUserAction();
-  }
-
-
-  templatevolume(vol, obj) {
-    if (obj.narrator && obj.narrator.nativeElement) {
-      obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.mainVideo && obj.mainVideo.nativeElement) {
-      obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.optionAudio && obj.optionAudio.nativeElement) {
-      obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
-      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.instruction && obj.instruction.nativeElement) {
-      obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackpartialPopupAudio && obj.feedbackpartialPopupAudio.nativeElement) {
-      obj.feedbackpartialPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
-      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
   }
 
   checkImgLoaded() {
