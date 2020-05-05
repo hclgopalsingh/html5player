@@ -313,6 +313,27 @@ button:focus{
 	border-radius: 1vmax;
 	animation: borderBlink normal 1s infinite linear;
 }
+.modal .refQues div.quesBox::before {
+	border: none;
+	border-radius: none;
+	animation: none;
+}
+/*** Global Blink Option  ***/
+@keyframes optionBlink{
+	25%{
+		filter: none;
+		/* filter: hue-rotate(36deg) invert(0%) saturate(100%) sepia(0);; */
+	}
+	50%{
+		filter: none;
+	}
+	100%{
+		filter: grayscale(100%) brightness(0) saturate(0);
+	}
+}
+.globalOptionBlink {
+	animation: optionBlink normal 1.3s infinite linear;
+}
 /*** Misc classes ***/
 .disableDiv,
 .disableBtn{  
