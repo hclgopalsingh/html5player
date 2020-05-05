@@ -80,13 +80,13 @@ div.matra_i img[src*='i.png']{
 }
 div.matra_aa img[src*='aa.png'],
 div.matra_ee img[src*='ee.png'],
-/* div.matra_o img[src*='o.png'], */
+div.matra_o img[src*='o.png'],
 div.matra_au img[src*='au.png']{
 	right: -3vmax;
 }
-div.matra_o img[src*='o.png']{
+/* div.matra_o img[src*='o.png']{
 	right: -2.9vmax;
-}
+} */
 div.matra_u img[src*='u.png']{
 	right: .1vmax;
 }
@@ -167,7 +167,7 @@ img[src*='tr.png'],
 img[src*='tt.png'],
 img[src*='v.png'],
 img[src*='y.png']{
-	margin-right: -1.1vmax;
+	margin-right: -1.2vmax;
 }
 .rightWrongAns{
     bottom: 18%;
