@@ -335,7 +335,7 @@ export class Ntemplate17 implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
+    this.appModel.templatevolume(this.appModel.volumeValue, this);
     if (this.inputVal == "") {
       this.addBtnRef.nativeElement.style.opacity = "0.5";
     }
@@ -396,7 +396,7 @@ export class Ntemplate17 implements OnInit {
     this.attemptType = "auto";
     this.appModel.notifyUserAction();
     this.addBtnRef.nativeElement.style.opacity = "0.5";
-    this.appModel.functionone(this.templatevolume, this);//start end
+    this.appModel.functionone(this.appModel.templatevolume, this);//start end
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -501,24 +501,6 @@ export class Ntemplate17 implements OnInit {
     clearInterval(this.blinkTimer);
     clearInterval(this.feedbackTimer);
     this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
-  }
-
-
-
-
-  templatevolume(vol, obj) {
-    if (obj.mainVideo && obj.mainVideo.nativeElement) {
-      obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.instruction && obj.instruction.nativeElement) {
-      obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.quesVORef && obj.quesVORef.nativeElement) {
-      obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
-      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
   }
 
   close() {

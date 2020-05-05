@@ -327,7 +327,7 @@ export class Ntemplate23 implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
+    this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
   OptionZoomOutAnimation(opt, i, j) {
@@ -1470,36 +1470,6 @@ export class Ntemplate23 implements OnInit {
       console.log("Nahin AAya");
 
     }, 100);
-  }
-
-  templatevolume(vol, obj) {
-    if (obj.narrator && obj.narrator.nativeElement) {
-      obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.optionAudio && obj.optionAudio.nativeElement) {
-      obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.rightFeedbackVO && obj.rightFeedbackVO.nativeElement) {
-      obj.rightFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
-      obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
-      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackshowPopupAudio && obj.feedbackshowPopupAudio.nativeElement) {
-      obj.feedbackshowPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
-      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.instruction && obj.instruction.nativeElement) {
-      obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
-      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
   }
 
   checkImgLoaded() {
