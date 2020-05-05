@@ -18,7 +18,7 @@
             </div>
         </div>        
         <div class="refQues">
-            <div class="refQuesBlock" #refQues>
+            <div id="refQuesBlockId" class="refQuesBlock" #refQues>
                 <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText; let idx=index">
                     <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'',quesTxt?.addMatra && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'fillBlank':'']">
                         <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObjCopy?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
@@ -31,7 +31,6 @@
                 </ng-container>
             </div>
         </div>
-        <audio #quesVORef></audio>
         <div class="row mx-0" id="optionsBlock" #ansBlock>
             <div class="my-auto quesImage" #optionRef id="optionTestId">
                 <div id="{{'opt'+idx}}" class="options" *ngFor="let opt of myoption;let idx = index" on-mousemove='onHoverOptions(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="opt?.isMatra? selectOptMatra(opt,idx) : selectOpt(opt,idx)">
@@ -62,13 +61,6 @@
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                   
-                  <!-- <div class="refQues">
-                    <div class="refQuesBlock">
-                        <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
-                        <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
-                        </ng-container>
-                      </div>
-                  </div> -->
                   <div class="refQues">
                     <div class="refQuesBlock" #refQues>
                         <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
@@ -76,7 +68,7 @@
                                 <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
                                 (load)="checkImgLoaded();">
                                 <ng-template [ngIf]="quesTxt?.hasmatra">
-                                <img class="dark matraImg" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
+                                <img [ngClass]="{'dark':true, 'matraImg':true, 'globalOptionBlink':quesTxt?.addMatra}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
                                 (load)="checkImgLoaded();">
                                 </ng-template>                    
                             </div>            
@@ -101,14 +93,7 @@
           <div class="modal-content">
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                  
-                  <!-- <div class="refQues">
-                    <div class="refQuesBlock">
-                        <ng-container *ngFor="let quesTxt of quesObj?.questionText;let idx = index">
-                        <img [ngClass]="{'optionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected)), 'dark':true, 'engTxtMargin': quesObj?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url" (load)="checkImgLoaded();">
-                        </ng-container>
-                      </div>
-                  </div>                   -->
+                 
                   <div class="refQues">
                     <div class="refQuesBlock" #refQues>
                         <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
@@ -116,7 +101,7 @@
                                 <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
                                 (load)="checkImgLoaded();">
                                 <ng-template [ngIf]="quesTxt?.hasmatra">
-                                <img class="dark matraImg" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
+                                <img [ngClass]="{'dark':true, 'matraImg':true, 'globalOptionBlink':quesTxt?.addMatra}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
                                 (load)="checkImgLoaded();">
                                 </ng-template>                    
                             </div>            

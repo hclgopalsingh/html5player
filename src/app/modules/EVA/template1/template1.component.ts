@@ -91,6 +91,7 @@ export class Template1Component implements OnInit {
     popupclosedinRightWrongAns:boolean=false;
     ifWrongAns:boolean= false;
     index: any;
+    aksharQuestion:boolean=false;
 
     // @ViewChild('narrator') narrator: any;
     @ViewChild('instruction') instruction: any;
@@ -177,10 +178,18 @@ export class Template1Component implements OnInit {
                 // this.getAnswer();
             }
         })
-     this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => { 
-        this.quesObj.questionText[this.quesEmptyTxtIndx] = this.optionObj.opts[this.correct_opt_index];//Saving selected option for showing in Popup       
+     this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {         
             if (val == "uttarDikhayein") {
                 if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+                    //Saving correct option for showing in Popup 
+                    if(this.aksharQuestion){
+                        this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index; 
+                    }else{
+                        this.quesObj.questionText[this.quesMatraTxtIndx].hasmatra=true;
+                        this.quesObj.questionText[this.quesMatraTxtIndx].matravalue=this.correct_opt_index.url.split('.')[0].split('/').pop();
+                        this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
+                        this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
+                    }
                     this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             
                     if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
@@ -289,6 +298,7 @@ export class Template1Component implements OnInit {
                 continue;
             }
         }
+
         setTimeout(() => {
             if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
                 this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
@@ -640,28 +650,30 @@ export class Template1Component implements OnInit {
 
     templatevolume(vol, obj) {
 
-        if(obj.narrator && obj.narrator.nativeElement){
-            obj.narrator.nativeElement.volume = obj.appModel.isMute?0:vol;
+        if(obj.audioEl && obj.audioEl.nativeElement){
+            obj.audioEl.nativeElement.volume = obj.appModel.isMute?0:vol;
         }
-
         if (obj.quesVORef && obj.quesVORef.nativeElement) {
             obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.instructionVO && obj.instructionVO.nativeElement) {
-            obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        if (obj.instruction && obj.instruction.nativeElement) {
+            obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }        
+        if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+            obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        // if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
-        //     obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        // }
-        if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
-            obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
+            obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.clapSound && obj.clapSound.nativeElement) {
+            obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
+            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        // if (obj.mainVideo && obj.mainVideo.nativeElement) {
-        //     this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        // }
+        }        
     }
 
     /* HOVER CODE */
@@ -755,6 +767,8 @@ onHoverSpeaker(speaker) {
     /** On selecting a Matra option **/
     saveOpt : any;
     selectOptMatra(opt,idx){
+        document.getElementById('refQuesBlockId').style.width=document.getElementById('refQuesBlockId').offsetWidth+'px';
+        this.aksharQuestion=false;
         this.popupclosedinRightWrongAns=false; 
         this.optionSelected = idx;
         this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
@@ -769,10 +783,9 @@ onHoverSpeaker(speaker) {
         let matraName=optionURL.split('.')[0].split('/').pop();
         this.saveOpt.classList.add('matra_'+matraName);
         let showMatra=opt.location == "content" ? this.containgFolderPath + "/" + opt.url: this.assetsPath + "/" + opt.url;        
-        this.saveOpt.insertAdjacentHTML("beforeend", '<img id="ansImg" style="position: absolute;filter: grayscale(100%) brightness(0) saturate(0);height: 87%;" src='+showMatra+'>');
+        this.saveOpt.insertAdjacentHTML("beforeend", '<img id="ansImg" style="position: absolute;filter: grayscale(100%) brightness(0) saturate(0);height: 100%;" src='+showMatra+'>');
         //let aksharURL=this.questionObj.questionText[this.quesMatraTxtIndx].url;
-        // let aksharName=aksharURL.split('.')[0].split('/').pop();
-        
+        // let aksharName=aksharURL.split('.')[0].split('/').pop();        
         // if((aksharName=='ka' && matraName=='rBtmLeft.png') || (aksharName=='fa' && matraName=='rBtmLeft.png')){
         //     document.getElementById("ansImg").style.left='1vmax';
         // }else if(matraName=='i'){
@@ -793,7 +806,11 @@ onHoverSpeaker(speaker) {
         //     document.getElementById("ansImg").style.right='.5vmax';
         // }
         
-        this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup
+        //Saving selected matra in questionObject to show in popup
+        this.quesObj.questionText[this.quesMatraTxtIndx].hasmatra=true;
+        this.quesObj.questionText[this.quesMatraTxtIndx].matravalue=matraName;
+        this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=opt.url;
+        this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=opt.location;
         
         if (opt && opt.isCorrect) { 
             // handle for correct attempt           
@@ -856,6 +873,7 @@ onHoverSpeaker(speaker) {
              }
             this.resetQuestion();//To reset question on wrong attempt
             document.getElementById("ansImg").remove();//Remove existing matra
+            this.saveOpt.classList="quesBox";            
            },1000)
         }
     }
@@ -866,6 +884,8 @@ onHoverSpeaker(speaker) {
        //this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
        //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
        //this.appModel.stopAllTimer();
+       document.getElementById('refQuesBlockId').style.width=document.getElementById('refQuesBlockId').offsetWidth+'px';
+       this.aksharQuestion=true;
        this.popupclosedinRightWrongAns=false; 
        this.optionSelected = idx;       
        if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[1]) {
@@ -875,8 +895,8 @@ onHoverSpeaker(speaker) {
                this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = opt;
                this.isOptionSelected = true;               
            }, 50)
-           this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup
-          
+           this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup         
+           
            if (opt && opt.isCorrect) {
                // handle for correct attempt
                this.isRightSelected=true;
@@ -978,6 +998,7 @@ onHoverSpeaker(speaker) {
         },200) 
     this.isOptionSelected = false;
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
+    document.getElementById('refQuesBlockId').style.width='auto';
     /*Reset Question and Option Complete*/
    }
     //*********UNUSED CODE*************/
