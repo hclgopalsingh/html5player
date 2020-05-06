@@ -125,8 +125,8 @@ export class Template15Component implements OnInit {
 
 
     ngOnInit() {        
-        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
-        this.Sharedservice.setShowAnsEnabled(false);
+        // this.Sharedservice.setLastQuesAageyBadheStatus(false); 
+        // this.Sharedservice.setShowAnsEnabled(false);
          this.sprite.nativeElement.style="display:none";
         this.attemptType = "";
         this.setTemplateType();
@@ -284,7 +284,7 @@ export class Template15Component implements OnInit {
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
             this.answerPopupType = 'right';
-            this.blinkOnLastQues();
+            // this.blinkOnLastQues();
             this.correctOpt = option;
 			this.attemptType = "manual";
 			this.appModel.stopAllTimer();          
@@ -308,7 +308,8 @@ export class Template15Component implements OnInit {
 					   if(!this.popupclosedinRightWrongAns) {
 						this.rightFeedback.nativeElement.play();				
 					   } else {
-						this.Sharedservice.setShowAnsEnabled(true);
+                        this.Sharedservice.setShowAnsEnabled(true);
+                        console.log('set enable answer1');
                        } 
                     }, 2000);
 
@@ -441,12 +442,13 @@ export class Template15Component implements OnInit {
             this.popupclosedinRightWrongAns=true;
             if(this.ifRightAns) {
                 this.Sharedservice.setShowAnsEnabled(true);
+                console.log('set enable answer2');
                 this.overlay.nativeElement.classList.value="fadeContainer";
                 this.blinkOnLastQues();
                 if(!this.lastQuestionCheck){
                  this.popupTime = setTimeout(()=>{
                 //   this.appModel.nextSection();
-                 this.Sharedservice.setShowAnsEnabled(false); 
+                //  this.Sharedservice.setShowAnsEnabled(false); 
                     }, 10000)
                }else if(this.lastQuestionCheck){              
                 this.Sharedservice.setTimeOnLastQues(true);
@@ -454,13 +456,17 @@ export class Template15Component implements OnInit {
             } else if(this.ifWrongAns) {
                 if(this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
+                    console.log('set enable answer3');
                  } else {
                     this.Sharedservice.setShowAnsEnabled(false);
+                    console.log('set enable false answer4'); 
                  }
             }
         }
         if(Type === 'showAnswer'){
-            this.blinkOnLastQues();
+            if(this.ifRightAns) {
+              this.blinkOnLastQues();
+            }
         }else{
 
         }
@@ -540,7 +546,9 @@ export class Template15Component implements OnInit {
         if (!this.loadFlag) {          
             this.noOfImgsLoaded++;
             if (this.noOfImgsLoaded >= this.noOfImgs) {
-                this.appModel.setLoader(false);       
+                this.appModel.setLoader(false);   
+                this.Sharedservice.setShowAnsEnabled(false);  
+                console.log('set enable false answer5');  
                 this.loadFlag = true;
                 clearTimeout(this.loaderTimer);
                 this.checkforQVO();
@@ -575,7 +583,7 @@ export class Template15Component implements OnInit {
 
 
     blinkOnLastQues() {
-        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
+        // this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         if(this.lastQuestionCheck){
             this.LastquestimeStart = true;
         }
@@ -665,52 +673,5 @@ export class Template15Component implements OnInit {
     onHoveroutOptions(option, index) {     
         option.image = option.image_original;
     }
-
-    // previous(){
-    //     if(this.commonAssets && this.commonAssets.peechey_jayein){
-    //     this.commonAssets.peechey_jayein = this.commonAssets.peechey_jayein_original;
-    //     }
-    //     if(this.commonAssets && this.commonAssets.aagey_badhein){
-    //     this.commonAssets.aagey_badhein = this.commonAssets.aagey_badhein_original;
-    //     }
-    //     this.blink=false;
-          
-    //     this.currentIdx--;
-    //     this.appModel.previousSection();
-    //     this.appModel.setLoader(true);
-    // }
-    
-    // next() {
-    //     if (!this.hasEventFired) {
-    //         if (this.isLastQuesAct) {
-    //             this.hasEventFired = true;
-    //             this.appModel.event = { 'action': 'segmentEnds' };
-    //         }
-    //         if (this.isLastQues) {
-    //             this.appModel.event = { 'action': 'end' };
-    //         }
-    //     }
-    //     if (this.commonAssets && this.commonAssets.peechey_jayein) {
-    //         this.commonAssets.peechey_jayein = this.commonAssets.peechey_jayein_original;
-    //     }
-    //     if (this.commonAssets && this.commonAssets.aagey_badhein) {
-    //         this.commonAssets.aagey_badhein = this.commonAssets.aagey_badhein_original;
-    //     }
-
-    //     if (!this.isLastQues) {
-    //         setTimeout(()=>{
-    //           if(this.footerNavBlock && this.footerNavBlock.nativeElement){
-    //             this.footerNavBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disableDiv";
-    //           }
-    //         },0)
-    //         this.currentIdx++;
-
-    //         this.appModel.nextSection();
-    //         //this.setData();
-    //         this.appModel.setLoader(true);
-    //         this.removeEvents();
-    //     }
-    // }
-
 
 }
