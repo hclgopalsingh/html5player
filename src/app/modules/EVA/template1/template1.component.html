@@ -17,8 +17,8 @@
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>        
-        <div class="refQues">
-            <div id="refQuesBlockId" class="refQuesBlock" #refQues>
+        <div id="refQuesBlock">
+            <div id="refQuesId" class="refQues" #refQues>
                 <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText; let idx=index">
                     <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'',quesTxt?.addMatra && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'fillBlank':'']">
                         <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObjCopy?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
@@ -43,7 +43,7 @@
         </div>       
         <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
             <div id="spkrBtn" class="speakerBtn">
-            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="चलाऍं">
+            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
             <div class="waveAnimation" #sprite>
                 <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
                 <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
@@ -61,8 +61,8 @@
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                   
-                  <div class="refQues">
-                    <div class="refQuesBlock" #refQues>
+                  <div id="refQuesBlock">
+                    <div class="refQues" #refQues>
                         <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
                             <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'']">
                                 <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
@@ -94,8 +94,8 @@
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                  
-                  <div class="refQues">
-                    <div class="refQuesBlock" #refQues>
+                  <div id="refQuesBlock">
+                    <div class="refQues" #refQues>
                         <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
                             <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'']">
                                 <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""

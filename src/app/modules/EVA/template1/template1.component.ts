@@ -92,6 +92,7 @@ export class Template1Component implements OnInit {
     ifWrongAns:boolean= false;
     index: any;
     aksharQuestion:boolean=false;
+    LastquestimeStart:boolean = false;
 
     // @ViewChild('narrator') narrator: any;
     @ViewChild('instruction') instruction: any;
@@ -196,7 +197,7 @@ export class Template1Component implements OnInit {
                         this.showAnswerfeedback.nativeElement.play();
                     }
                     this.popupType = "showanswer";
-                    this.blinkOnLastQues();
+                    //this.blinkOnLastQues();
                 }
             }
             
@@ -215,7 +216,7 @@ export class Template1Component implements OnInit {
         this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
 				//show modal for manual
-				this.appModel.notifyUserAction();
+				//this.appModel.notifyUserAction();
 				if (this.ansPopup && this.ansPopup.nativeElement) {
 					//$("#instructionBar").addClass("disableDiv");
 					this.ansPopup.nativeElement.classList = "displayPopup modal";
@@ -233,7 +234,7 @@ export class Template1Component implements OnInit {
         this.appModel.postWrongAttempt.subscribe(() => {
             //  this.resetActivity();
             //this.appModel.startPreviousTimer();
-            this.appModel.notifyUserAction();
+            //this.appModel.notifyUserAction();
          //   this.blinkOnLastQues();
 
         })
@@ -254,7 +255,7 @@ export class Template1Component implements OnInit {
     }
 
     setData() {
-        this.appModel.notifyUserAction();
+        //this.appModel.notifyUserAction();
         let fetchedData: any = this.appModel.content.contentData.data;
         this.optionObj = JSON.parse(JSON.stringify(fetchedData.options));
         this.instructiontext = fetchedData.instructiontext;
@@ -458,16 +459,18 @@ export class Template1Component implements OnInit {
         }
         if(Type === 'showAnswer'){
         
-            setTimeout(() => {
-                this.showAnswerfeedback.nativeElement.pause();      
-                this.showAnswerfeedback.nativeElement.currentTime = 0;
-                if(!this.showAnswerfeedback.nativeElement.pause()){
-                    this.appModel.nextSection(); 
-                }else{
-                    // console.log('show answer voice still playing jyoti');
-                }
+            // setTimeout(() => {
+            //     this.showAnswerfeedback.nativeElement.pause();      
+            //     this.showAnswerfeedback.nativeElement.currentTime = 0;
+            //     if(!this.showAnswerfeedback.nativeElement.pause()){
+            //         this.appModel.nextSection(); 
+            //     }else{
+            //     }
                 
-            }, 1000);
+            // }, 1000);
+            if(this.ifRightAns) {
+                this.blinkOnLastQues();
+            }
         }else{
            
         }
@@ -618,14 +621,10 @@ export class Template1Component implements OnInit {
 
 
 
-    LastquestimeStart:boolean = false;
     blinkOnLastQues() {
-        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
+        // this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         if(this.lastQuestionCheck){
             this.LastquestimeStart = true;
-            setTimeout(()=>{                
-                this.next();
-              },5 * 60 * 1000);
         }
         if (this.appModel.isLastSectionInCollection) {
           this.appModel.blinkForLastQues();
@@ -641,10 +640,9 @@ export class Template1Component implements OnInit {
             }
           }
         } else {
-        //   this.appModel.moveNextQues();
-        }
+            this.appModel.moveNextQues("");
+             }
       }
-
 
   
 
@@ -767,7 +765,7 @@ onHoverSpeaker(speaker) {
     /** On selecting a Matra option **/
     saveOpt : any;
     selectOptMatra(opt,idx){
-        document.getElementById('refQuesBlockId').style.width=document.getElementById('refQuesBlockId').offsetWidth+'px';
+        document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
         this.aksharQuestion=false;
         this.popupclosedinRightWrongAns=false; 
         this.optionSelected = idx;
@@ -817,7 +815,7 @@ onHoverSpeaker(speaker) {
             this.isRightSelected=true;
             this.isWrongSelected=false;
             this.answerPopupType = 'right';
-             this.blinkOnLastQues();
+             //this.blinkOnLastQues();
              this.correctOpt = opt;
              this.attemptType = "manual";
              this.appModel.stopAllTimer();
@@ -884,7 +882,7 @@ onHoverSpeaker(speaker) {
        //this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
        //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
        //this.appModel.stopAllTimer();
-       document.getElementById('refQuesBlockId').style.width=document.getElementById('refQuesBlockId').offsetWidth+'px';
+       document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
        this.aksharQuestion=true;
        this.popupclosedinRightWrongAns=false; 
        this.optionSelected = idx;       
@@ -902,7 +900,7 @@ onHoverSpeaker(speaker) {
                this.isRightSelected=true;
                this.isWrongSelected=false;
                this.answerPopupType = 'right';
-                this.blinkOnLastQues();
+                //this.blinkOnLastQues();
                 this.correctOpt = opt;
                 this.attemptType = "manual";
                 this.appModel.stopAllTimer();          
@@ -984,7 +982,7 @@ onHoverSpeaker(speaker) {
                 //disable option and question on right attempt
                 console.log("disable option and question on right attempt");
                 
-                this.blinkOnLastQues()
+                //this.blinkOnLastQues()
             }, 200)
         }
    }
@@ -998,7 +996,7 @@ onHoverSpeaker(speaker) {
         },200) 
     this.isOptionSelected = false;
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
-    document.getElementById('refQuesBlockId').style.width='auto';
+    document.getElementById('refQuesId').style.width='auto';
     /*Reset Question and Option Complete*/
    }
     //*********UNUSED CODE*************/
