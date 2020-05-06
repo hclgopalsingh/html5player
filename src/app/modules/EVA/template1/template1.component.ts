@@ -426,6 +426,53 @@ export class Template1Component implements OnInit {
      
     // }
 
+    // closePopup(Type){
+    //     this.showAnswerRef.nativeElement.classList = "modal";
+    //     this.ansPopup.nativeElement.classList = "modal";
+    //     this.wrongFeedback.nativeElement.pause();    
+    //     this.wrongFeedback.nativeElement.currentTime = 0;
+
+    //     this.rightFeedback.nativeElement.pause();     
+    //     this.rightFeedback.nativeElement.currentTime = 0;
+
+    //     this.showAnswerfeedback.nativeElement.pause();      
+    //     this.showAnswerfeedback.nativeElement.currentTime = 0;
+        
+    //     if(Type=== "answerPopup") {
+    //         this.popupclosedinRightWrongAns=true;
+    //         if(this.ifRightAns) {
+    //             this.Sharedservice.setShowAnsEnabled(true);
+    //             this.overlay.nativeElement.classList.value="fadeContainer";
+    //             this.blinkOnLastQues();
+    //                     setTimeout(()=>{
+    //             this.appModel.nextSection();
+    //             this.Sharedservice.setShowAnsEnabled(false); 
+    //         }, 10000)
+    //         } else {
+    //             if(this.wrongCounter >= 3 && this.ifWrongAns) {
+    //                 this.Sharedservice.setShowAnsEnabled(true);
+    //              } else {
+    //                 this.Sharedservice.setShowAnsEnabled(false);
+    //              }
+    //         }
+    //     }
+    //     if(Type === 'showAnswer'){
+        
+    //         setTimeout(() => {
+    //             this.showAnswerfeedback.nativeElement.pause();      
+    //             this.showAnswerfeedback.nativeElement.currentTime = 0;
+    //             if(!this.showAnswerfeedback.nativeElement.pause()){
+    //                 this.appModel.nextSection(); 
+    //             }else{
+    //             }
+                
+    //         }, 1000);
+            
+    //     }else{
+           
+    //     }
+     
+    // }
     closePopup(Type){
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
@@ -437,43 +484,40 @@ export class Template1Component implements OnInit {
 
         this.showAnswerfeedback.nativeElement.pause();      
         this.showAnswerfeedback.nativeElement.currentTime = 0;
-        
-        console.log(Type);
+       
         if(Type=== "answerPopup") {
             this.popupclosedinRightWrongAns=true;
             if(this.ifRightAns) {
                 this.Sharedservice.setShowAnsEnabled(true);
+                console.log('set enable answer2');
                 this.overlay.nativeElement.classList.value="fadeContainer";
                 this.blinkOnLastQues();
-                        setTimeout(()=>{
-                this.appModel.nextSection();
-                this.Sharedservice.setShowAnsEnabled(false); 
-            }, 10000)
-            } else {
+                if(!this.lastQuestionCheck){
+                // this.popupTime = setTimeout(()=>{
+                //   this.appModel.nextSection();
+                //  this.Sharedservice.setShowAnsEnabled(false); 
+                 //   }, 10000)
+               }else if(this.lastQuestionCheck){              
+                this.Sharedservice.setTimeOnLastQues(true);
+                }
+            } else if(this.ifWrongAns) {
                 if(this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
+                    console.log('set enable answer3');
                  } else {
                     this.Sharedservice.setShowAnsEnabled(false);
+                    console.log('set enable false answer4'); 
                  }
             }
         }
         if(Type === 'showAnswer'){
-        
-            // setTimeout(() => {
-            //     this.showAnswerfeedback.nativeElement.pause();      
-            //     this.showAnswerfeedback.nativeElement.currentTime = 0;
-            //     if(!this.showAnswerfeedback.nativeElement.pause()){
-            //         this.appModel.nextSection(); 
-            //     }else{
-            //     }
-                
-            // }, 1000);
             if(this.ifRightAns) {
-                this.blinkOnLastQues();
+              this.blinkOnLastQues();
             }
         }else{
-           
+
         }
+
      
     }
 
