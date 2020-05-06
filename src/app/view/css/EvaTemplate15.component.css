@@ -7,6 +7,9 @@
 	align-items: center;
 	justify-content: center;
 }
+.modal #optionsBlock{
+	top: 7.5% !important;
+}
 .options{
 	width: 86%;
 	display: flex;

@@ -165,11 +165,11 @@ button:focus{
     max-width: 4.5%;
     z-index: 1;
 }
-.eva .modal #optionsBlock{
-	top: 7.5% !important;
+.eva .modal #optionsBlock,
+.eva .modal #refQuesBlock{
     width: 97.4% !important;
 }
-.eva .modal #optionsBlock.onShowAns{
+.eva .modal .onShowAns{
 	top: auto !important;
     width: 97.4% !important;
 }

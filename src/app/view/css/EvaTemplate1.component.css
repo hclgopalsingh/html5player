@@ -1,4 +1,4 @@
-#container #optionsBlock{
+#container #refQuesBlock{
     position: absolute;
     top: 13.5%;
     width: 100%;
@@ -8,7 +8,7 @@
 	align-items: center;
 	justify-content: center;
 }
-#container .modal #optionsBlock{
+#container .modal #refQuesBlock{
     top: 18.5% !important;
     height: 39%;
 }
