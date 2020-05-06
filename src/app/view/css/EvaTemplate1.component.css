@@ -1,4 +1,4 @@
-#container #refQuesBlock{
+#refQuesBlock{
     position: absolute;
     top: 13.5%;
     width: 100%;
@@ -8,14 +8,14 @@
 	align-items: center;
 	justify-content: center;
 }
-#container .modal #refQuesBlock{
-    top: 18.5% !important;
+.modal #refQuesBlock{
+    top: 18.5%;
     height: 39%;
 }
 .refQues{
 	width: auto;
     height: 100%;
-    padding: 0 6vmax;
+    padding: 0 6%;
 	display: flex;
 	justify-content: center;
 	align-items: center;

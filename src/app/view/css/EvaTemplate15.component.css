@@ -1,4 +1,4 @@
-#container #optionsBlock{
+#optionsBlock{
     position: absolute;
     top: 16.5%;
     width: 100%;
@@ -8,7 +8,7 @@
 	justify-content: center;
 }
 .modal #optionsBlock{
-	top: 7.5% !important;
+	top: 7.5%;
 }
 .options{
 	width: 86%;
