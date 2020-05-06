@@ -284,6 +284,7 @@ export class Ntemplate20 implements OnInit {
             //this.blinkOnLastQues();
 
         })
+        this.appModel.resetBlinkingTimer();
     }
 
     ngOnDestroy() {
@@ -616,6 +617,7 @@ export class Ntemplate20 implements OnInit {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.popupType = "showanswer"
+            this.appModel.resetBlinkingTimer();
             this.getAnswer();
             this.feedbackAudio = this.feedbackObj.show_Answer_sound;
             this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);

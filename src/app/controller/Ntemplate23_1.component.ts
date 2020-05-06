@@ -1795,6 +1795,7 @@ this.edited = false;
   }
 
   showAnswerFeedback() {
+    this.appModel.resetBlinkingTimer();
     this.showAnswerarray=[];
     for(let i=0;i<this.feedbackObj.correct_state.length;i++) {
       let findState = this.myStates.find(element => element.textField == this.feedbackObj.correct_state[i]);
