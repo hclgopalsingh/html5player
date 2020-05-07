@@ -711,7 +711,9 @@ export class Ntemplate17 implements OnInit {
       if (this.quesObj.lang == 'math') {
         this.appModel.blinkForLastQues();
       }
-      this.appModel.moveNextQues();
+      else{
+        this.appModel.moveNextQues();
+      }
       this.disableScreen();
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
