@@ -466,6 +466,7 @@ export class Ntemplate3 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     })
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -945,6 +946,7 @@ export class Ntemplate3 implements OnInit {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
+      this.appModel.resetBlinkingTimer();
       this.rightAnspopupAssets.sort((a, b) => { return a.id - b.id; });
       if (this.rightAnspopupAssets.length > 4) {
         this.rightansArray1 = this.rightAnspopupAssets.slice(0, 4);

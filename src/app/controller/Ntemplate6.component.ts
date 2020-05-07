@@ -2277,6 +2277,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -2739,6 +2740,7 @@ document.getElementById("coverBtm").style.display = "block";
       this.styleHeaderPopup = this.confirmAssets.style_header;
       this.styleBodyPopup = this.confirmAssets.style_body;
       this.flag = true;
+      this.appModel.resetBlinkingTimer();
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;

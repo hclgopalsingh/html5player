@@ -413,7 +413,6 @@ export class Ntemplate13 implements OnInit {
 			this.postWrongAttemplt();
 		});
 		this.appModel.resetBlinkingTimer();
-
 	}
 
 
@@ -858,34 +857,6 @@ export class Ntemplate13 implements OnInit {
 	}
 
 
-
-	closeModal() {
-		if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
-			this.feedbackPopupAudio.nativeElement.pause();
-			this.feedbackPopupAudio.nativeElement.currentTime = 0;
-		}
-		if (this.feedbackpartialPopupAudio && !this.feedbackpartialPopupAudio.nativeElement.paused) {
-			this.feedbackpartialPopupAudio.nativeElement.pause();
-			this.feedbackpartialPopupAudio.nativeElement.currentTime = 0;
-		}
-		this.popupRef.nativeElement.classList = "modal";
-		this.partialpopupRef.nativeElement.classList = "modal";
-		this.infoModalRef.nativeElement.classList = "modal";
-		//this.resetAttempt();
-		this.appModel.notifyUserAction();
-
-		if (this.checked) {
-			this.blinkOnLastQues();
-		}
-
-		if (!this.checked) {
-			setTimeout(() => {
-				$("#instructionBar").removeClass("disable_div");
-			}, 1000);
-		}
-
-	}
-
 	blinkOnLastQues() {
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
@@ -933,56 +904,18 @@ export class Ntemplate13 implements OnInit {
 				this.feedbackVoRef.nativeElement.play();
 			}, 50)
 		this.appModel.resetBlinkingTimer();
-
+			//TRY HEREfetchedData.commonassets.ques_control
+			let TempObj = JSON.parse(JSON.stringify(this.commonAssets.ques_control))
+			TempObj.blink_btn1 = TempObj.aagey_badhein
+			TempObj.blink_btn2 = TempObj.aagey_badhein
+			this.appModel.setQuesControlAssets(TempObj);
 		setTimeout(() => {
 			this.removeEvents();
 			this.blinkOnLastQues();
+			this.appModel.setQuesControlAssets(this.commonAssets.ques_control)
 		}, 5000);
 	}
-
-	doCommonAfterCloseThings() {
-		if (this.ifWrongAns) {
-			this.removeEvents();
-			this.appModel.wrongAttemptAnimation();
-			this.idArray = [];
-			for (let i of this.myoption) {
-				this.idArray.push(i.id);
-			}
-			setTimeout(() => {
-				this.optionBlock.nativeElement.children[0].className = "options";
-				this.optionBlock.nativeElement.children[1].className = "options";
-				this.optionBlock.nativeElement.children[2].className = "options";
-
-			}, 5000)
-			this.doRandomize(this.myoption);
-			setTimeout(() => {
-				this.optionBlock.nativeElement.className = "";
-			}, 200)
-			for (let i in this.myoption) {
-				this.optionBlock.nativeElement.children[i].children[1].className = "speaker";
-			}
-			this.ifWrongAns = false;
-		}
-
-		if (this.ifRightAns) {
-			this.removeEvents();
-			this.ifRightAns = false;
-			$("#instructionBar").addClass("disable_div");
-			$("#optionsBlock .options").css("opacity", "0.3");
-			$("#instructionBar").css("opacity", "0.3");
-			$("#quesImage").css("opacity", "0.3");
-			$("#quesImage").css("pointer-events", 'none');
-			this.blinkOnLastQues();
-		}
-		else if(!this.ifRightAns && !this.ifRightAns){
-			this.removeEvents();
-			$("#instructionBar").addClass("disable_div");
-			$("#optionsBlock .options").css("opacity", "0.3");
-			$("#instructionBar").css("opacity", "0.3");
-			$("#quesImage").css("opacity", "0.3");
-			$("#quesImage").css("pointer-events", 'none');
-
-		}
-	}
+//TRY HERE
+	
 
 }

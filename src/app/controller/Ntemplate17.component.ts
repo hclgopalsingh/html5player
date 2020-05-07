@@ -350,7 +350,7 @@ export class Ntemplate17 implements OnInit {
 
 
       if (this.quesObj.lang != 'math') {
-        this.appModel.moveNextQues();
+        this.appModel.moveNextQues("noBlink");
       }
       console.log("==BlinkOnLastQuestion==");
       this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
@@ -490,6 +490,7 @@ export class Ntemplate17 implements OnInit {
         }
       }, 200)
     }
+    this.appModel.resetBlinkingTimer();
   }
 
   ngOnDestroy() {
@@ -711,6 +712,7 @@ export class Ntemplate17 implements OnInit {
         this.appModel.blinkForLastQues();
       }
       this.disableScreen();
+      this.appModel.blinkForLastQues();
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();

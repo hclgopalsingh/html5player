@@ -160,6 +160,8 @@ export class Ntemplate7 implements OnInit {
          this.appModel.postWrongAttempt.subscribe(() =>{
              this.postWrongAttemplt();
         })
+
+        this.appModel.resetBlinkingTimer();
     }
 
     ngOnDestroy() {
@@ -414,6 +416,7 @@ export class Ntemplate7 implements OnInit {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.isShowans  = true;
+            this.appModel.resetBlinkingTimer();
             this.getAnswer();
             this.appModel.stopAllTimer();
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
