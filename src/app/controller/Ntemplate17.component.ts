@@ -350,7 +350,7 @@ export class Ntemplate17 implements OnInit {
 
 
       if (this.quesObj.lang != 'math') {
-        this.appModel.moveNextQues("noBlink");
+        this.appModel.moveNextQues();
       }
       console.log("==BlinkOnLastQuestion==");
       this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
@@ -711,8 +711,8 @@ export class Ntemplate17 implements OnInit {
       if (this.quesObj.lang == 'math') {
         this.appModel.blinkForLastQues();
       }
+      this.appModel.moveNextQues();
       this.disableScreen();
-      this.appModel.blinkForLastQues();
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();
