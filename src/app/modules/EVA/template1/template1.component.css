@@ -1,3 +1,6 @@
+div#contentHolder {	
+	width: 100% !important;	
+}
 #container .speakerBtn{
 	width:auto;
 	position:absolute;
@@ -94,15 +97,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	box-sizing: border-box;
 }
 .modal #refQuesBlock{
     top: 18.5% !important;
-    height: 39%;
+	height: 39%;
+	width:97.4%;
 }
 .refQues{
 	width: auto;
+	/* max-width: 70%; */
     height: 100%;
-    padding: 0 6%;
+    padding: 0 6vmax;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -113,6 +119,7 @@
 	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65); */
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
 	z-index: 1;
+	box-sizing: border-box;
 } 
 .refQues div {
 	height: 83%;/*89%*/;
