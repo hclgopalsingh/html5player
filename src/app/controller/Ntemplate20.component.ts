@@ -611,7 +611,7 @@ export class Ntemplate20 implements OnInit {
     }
 
     sendFeedback(ref, flag: string, action?: string) {
-
+        console.log("action",action)
         this.appModel.notifyUserAction();
         //this.blinkOnLastQues();
         ref.classList = "modal";
@@ -657,7 +657,7 @@ export class Ntemplate20 implements OnInit {
         else if (action == "fadeEverything") {
             this.attemptTypeClose = "fadeEverything";
             this.fadeEverything();
-
+            this.blinkOnLastQues();
 
         }
         else if (action == "feedbackDone") {
@@ -677,7 +677,6 @@ export class Ntemplate20 implements OnInit {
                 this.partialFeedbackRef.nativeElement.currentTime = 0;
             }
         }
-
         if (flag == "no") {
             if (this.attemptType != "") {
                 this.disableOnInstruction();
