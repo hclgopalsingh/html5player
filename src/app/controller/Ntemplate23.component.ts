@@ -1536,10 +1536,8 @@ export class Ntemplate23 implements OnInit {
       for (let i = 0; i < this.myStates.length; i++) {
         arr.push(this.myStates[i].capital);
       }
-      // let filteredarray = arr.filter(function (el) {
-      //   return el != "";
-      // });
-      this.copiedstates = arr.filter(function (el) {
+      let filteredarray = arr.filter((item,index) => arr.indexOf(item) === index);
+      this.copiedstates = filteredarray.filter(function (el) {
         return el != "";
       });
       this.copiedstates.sort();
