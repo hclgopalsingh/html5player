@@ -65,7 +65,7 @@ export class Ntemplate14 implements OnInit {
 	infoPopupAssets: any;
 	tempSubscription: Subscription;
 	isFirstTrial: boolean = true;
-
+	showstop = false;
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -299,6 +299,7 @@ export class Ntemplate14 implements OnInit {
 		this.isStop = false;
 		this.isRecord = true;
 		this.isRecording =true;
+		this.showstop = true;
 		this.appModel.stopAllTimer()
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
@@ -307,13 +308,13 @@ export class Ntemplate14 implements OnInit {
 		this.disableHelpBtn = true;
 		this.audioT.nativeElement.pause();
 		this.recordButton.nativeElement.src = this.question.recordActive.url;
-		this.stopButton.nativeElement.src = this.question.stop.url;
 		if (this.mediaRecorder){
 			this.mediaRecorder.start();
 		}
 		else{
 			console.log("Microphone access is not allowed")
 		}
+		//this.stopButton.nativeElement.src = this.question.stop.url;
 		setTimeout(() => {
 			if (!this.isStop) {
 				this.stopRecording();
@@ -326,6 +327,7 @@ export class Ntemplate14 implements OnInit {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
 		}
+		this.showPlay= false;
 		this.isPlay = true;
 		//this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
@@ -341,11 +343,13 @@ export class Ntemplate14 implements OnInit {
 
 	stopRecording() {
 		this.isRecording =false;
+		this.showstop= false
+		this.removeBtn = false;
+		this.showPlay =true;
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
 		}
-		this.showPlay = true;
 		this.isStop = true;
 		this.appModel.notifyUserAction()
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
