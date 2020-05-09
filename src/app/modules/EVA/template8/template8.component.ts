@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 export class Template8Component implements OnInit {
     blink: boolean = false;
     commonAssets: any = "";
+    ques: any = "";
     rightPopup: any;
     wrongPopup: any;
     wrongTimer: any;
@@ -92,6 +93,7 @@ export class Template8Component implements OnInit {
     @ViewChild('instructionBar') instructionBar: any;
     @ViewChild('clapSound') clapSound: any;
     @ViewChild('overlay') overlay: any;
+    @ViewChild('correctQuestionStatement') correctQuestionStatement:any;
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
         this.appModel = appModel;
@@ -222,14 +224,18 @@ export class Template8Component implements OnInit {
         this.templatevolume(this.appModel.volumeValue, this);
 
 
+
     }
 
     setData() {
+        
         this.appModel.notifyUserAction();
         let fetchedData: any = this.appModel.content.contentData.data;
         this.instructiontext = fetchedData.instructiontext;
         this.myoption = fetchedData.options;
         this.commonAssets = fetchedData.commonassets;
+        debugger;
+        this.ques = fetchedData.ques;
         this.speaker = fetchedData.speaker;
         this.feedback = fetchedData.feedback;
         this.questionObj = fetchedData.quesObj;
@@ -269,6 +275,9 @@ export class Template8Component implements OnInit {
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
             this.ifRightAns = true;
+            debugger;
+            this.correctQuestionStatement.nativeElement.classList.remove('hide');
+    
             let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 
             setTimeout(() => {

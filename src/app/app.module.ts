@@ -73,6 +73,10 @@ import { SharedserviceService } from '../app/services/sharedservice.service';
 import { Template3Component } from './modules/EVA/template3/template3.component';
 import { Template1Component } from './modules/EVA/template1/template1.component';
 import { Template8Component } from './modules/EVA/template8/template8.component';
+import { QuestionBlockComponent } from './modules/EVA/template8/question-block/question-block.component';
+import { OptionComponent } from './modules/EVA/template8/option/option.component';
+import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
+import { OptionBlockComponent } from './modules/EVA/template8/option-block/option-block.component';
 
 
 @NgModule({
@@ -137,7 +141,11 @@ import { Template8Component } from './modules/EVA/template8/template8.component'
 		Template15Component,
 		Template3Component,
 		Template1Component,
-		Template8Component
+		Template8Component,
+		QuestionBlockComponent,
+		OptionComponent,
+		InstructionBarComponent,
+		OptionBlockComponent
 	],
 	imports: [
 		BrowserModule,
