@@ -144,7 +144,7 @@ button:focus{
     height: 93.94% !important;
 	display: flex;
 	background: rgba(0,0,0,.7);
-	display: none;
+	/* display: none; */
 }
 .eva .modal-dialog{
 	max-width: 84% !important;

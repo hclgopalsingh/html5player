@@ -1,0 +1,58 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="341px" height="243px" viewBox="0 0 341 243">
+<defs>
+<radialGradient id="Gradient_1" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="354.32500000000005" fx="0" fy="0" gradientTransform="matrix( 0.9999999999999999, 0, 0, 0.6591758978339095, 1.85,2.05) " spreadMethod="pad">
+<stop  offset="0%" stop-color="#FFFFFF"/>
+
+<stop  offset="34.11764705882353%" stop-color="#FFFFFF"/>
+
+<stop  offset="57.64705882352941%" stop-color="#FFFFFF"/>
+
+<stop  offset="80.3921568627451%" stop-color="#FFFFFF"/>
+
+<stop  offset="90.98039215686275%" stop-color="#E9E9E9"/>
+
+<stop  offset="100%" stop-color="#CBCBCB"/>
+</radialGradient>
+
+<filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="3.3333333333333335,3.3333333333333335" result="result3"/>
+
+<feOffset dx="3.5355339059327378" dy="3.5355339059327378" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+
+<feColorMatrix in="result5" type="matrix" values="1.5706760172035514 1.2786240120280021 -1.849300029231554 0 0 -0.4884870453971147 0.9768434356198222 0.5116436097772922 0 0 1.3246240894321397 -1.5092780555051521 1.1846539660730124 0 0 0 0 0 1 0 " result="result6"/>
+</filter>
+
+<g id="Paper_0_Layer0_0_FILL">
+<path fill="#03C400" stroke="none" d="
+M -0.1 -256.25
+Q -151.4 -256.25 -258.35 -181.2 -365.35 -106.15 -365.35 -0.05 -365.35 106.1 -258.35 181.15 -151.4 256.25 -0.1 256.25 151.2 256.25 258.2 181.15 365.2 106.1 365.2 0 365.2 -106.15 258.2 -181.2 151.2 -256.25 -0.1 -256.25
+M -239.4 -166.3
+Q -140.35 -235.2 -0.25 -235.2 139.85 -235.2 239 -166.3 338.05 -97.45 338.05 0 338.05 97.4 239 166.25 139.85 235.2 -0.25 235.2 -140.35 235.2 -239.4 166.25 -338.5 97.4 -338.5 -0.05 -338.5 -97.45 -239.4 -166.3 Z"/>
+
+<path fill="#006600" stroke="none" d="
+M -0.25 -235.2
+Q -140.35 -235.2 -239.4 -166.3 -338.5 -97.45 -338.5 -0.05 -338.5 97.4 -239.4 166.25 -140.35 235.2 -0.25 235.2 139.85 235.2 239 166.25 338.05 97.4 338.05 0 338.05 -97.45 239 -166.3 139.85 -235.2 -0.25 -235.2
+M -234.35 -153.3
+Q -137.35 -216.8 -0.25 -216.8 136.9 -216.8 233.9 -153.3 330.85 -89.85 330.85 0 330.85 89.8 233.9 153.25 136.9 216.8 -0.25 216.8 -137.35 216.8 -234.35 153.25 -331.3 89.8 -331.3 -0.05 -331.3 -89.85 -234.35 -153.3 Z"/>
+
+<path fill="url(#Gradient_1)" stroke="none" d="
+M -0.25 -216.8
+Q -137.35 -216.8 -234.35 -153.3 -331.3 -89.85 -331.3 -0.05 -331.3 89.8 -234.35 153.25 -137.35 216.8 -0.25 216.8 136.9 216.8 233.9 153.25 330.85 89.8 330.85 0 330.85 -89.85 233.9 -153.3 136.9 -216.8 -0.25 -216.8 Z"/>
+</g>
+</defs>
+
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 0.4438934326171875, 0, 0, 0.4438934326171875, 164.5,116.05) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Paper_0_Layer0_0_FILL"/>
+</g>
+</g>
+</g>
+</svg>
