@@ -233,6 +233,12 @@ export class ApplicationmodelService {
     if (obj.quesVORef && obj.quesVORef.nativeElement) {
       obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.QuestionVideo && obj.QuestionVideo.nativeElement) {
+      obj.QuestionVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.QuestionAudio && obj.QuestionAudio.nativeElement) {
+      obj.QuestionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
   private init(): void {
     console.info('ApplicationmodelService: init');
