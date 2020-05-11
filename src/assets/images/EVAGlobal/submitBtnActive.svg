@@ -1,13 +1,19 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="152px" height="82px" viewBox="0 0 152 82">
 <defs>
-<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="0" y1="41.475" x2="0" y2="-41.37500000000001" spreadMethod="pad">
+<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="0.6375" y1="44.2" x2="0.3625" y2="-44.7" spreadMethod="pad">
+<stop  offset="0.7843137254901961%" stop-color="#133556"/>
+
+<stop  offset="100%" stop-color="#2A8EF0"/>
+</linearGradient>
+
+<linearGradient id="Gradient_2" gradientUnits="userSpaceOnUse" x1="0" y1="41.475" x2="0" y2="-41.37500000000001" spreadMethod="pad">
 <stop  offset="0%" stop-color="#214F7C"/>
 
 <stop  offset="100%" stop-color="#1F76CB"/>
 </linearGradient>
 
-<linearGradient id="Gradient_2" gradientUnits="userSpaceOnUse" x1="1.45" y1="-54.9375" x2="1.45" y2="24.4375" spreadMethod="pad">
+<linearGradient id="Gradient_3" gradientUnits="userSpaceOnUse" x1="1.45" y1="-54.9375" x2="1.45" y2="24.4375" spreadMethod="pad">
 <stop  offset="0%" stop-color="#3C3C3C"/>
 
 <stop  offset="34.509803921568626%" stop-color="#6B6B6B"/>
@@ -19,7 +25,7 @@
 <stop  offset="100%" stop-color="#313131"/>
 </linearGradient>
 
-<linearGradient id="Gradient_3" gradientUnits="userSpaceOnUse" x1="-0.65" y1="-28.7" x2="-0.65" y2="29.400000000000002" spreadMethod="pad">
+<linearGradient id="Gradient_4" gradientUnits="userSpaceOnUse" x1="-0.65" y1="-28.7" x2="-0.65" y2="29.400000000000002" spreadMethod="pad">
 <stop  offset="0%" stop-color="#FFFFFF"/>
 
 <stop  offset="59.6078431372549%" stop-color="#ECECEC"/>
@@ -28,48 +34,10 @@
 </linearGradient>
 
 <filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-<feFlood flood-color="#5AA8F5" flood-opacity="1" in="SourceGraphic" result="result1"/>
-
-<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
-
-<feGaussianBlur in="result2" stdDeviation="1.3333333333333333,1.3333333333333333" result="result3"/>
-
-<feFlood flood-color="#051E37" flood-opacity="1" in="SourceGraphic" result="result4"/>
-
-<feComposite in2="SourceGraphic" in="result4" operator="in" result="result5"/>
-
-<feGaussianBlur in="result5" stdDeviation="1.3333333333333333,1.3333333333333333" result="result6"/>
-
-<feOffset dx="2.8284271247461903" dy="2.8284271247461903" in="result3" result="result7"/>
-
-<feOffset dx="-2.8284271247461903" dy="-2.8284271247461903" in="result3" result="result8"/>
-
-<feOffset dx="-2.8284271247461903" dy="-2.8284271247461903" in="result6" result="result9"/>
-
-<feOffset dx="2.8284271247461903" dy="2.8284271247461903" in="result6" result="result10"/>
-
-<feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 255 0 0 0 0 255 0 0 0 0 255 0 0 0 255 0" result="result11"/>
-
-<feFlood flood-color="#000000" flood-opacity="0" in="SourceGraphic" result="result12"/>
-
-<feComposite in2="result8" in="result7" operator="arithmetic" k1="0" k2="-1" k3="1" k4="0" result="result13"/>
-
-<feComposite in2="result10" in="result9" operator="arithmetic" k1="0" k2="-1" k3="1" k4="0" result="result14"/>
-
-<feComposite in2="result12" in="result13" operator="xor" result="result15"/>
-
-<feComposite in2="result15" in="result14" operator="xor" result="result16"/>
-
-<feComposite in2="result11" in="result16" operator="in" result="result17"/>
-
-<feBlend mode="normal" in2="SourceGraphic" in="result17" result="result18"/>
-</filter>
-
-<filter id="Filter_2" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
 <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0.15294117647058825 0 1 0 0 0.15294117647058825 0 0 1 0 0.15294117647058825 0 0 0 1 0 " result="result1"/>
 </filter>
 
-<filter id="Filter_3" x="-20%" y="-22.915334239076014%" width="140%" height="145.83066847815203%" color-interpolation-filters="sRGB">
+<filter id="Filter_2" x="-20%" y="-22.915334239076014%" width="140%" height="145.83066847815203%" color-interpolation-filters="sRGB">
 <feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
 
 <feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
@@ -97,8 +65,21 @@ Q 76.4 -41.4 58.4 -41.4
 L 16.2 -41.4 Z"/>
 </g>
 
-<g id="Symbol_15_copy_0_Layer0_0_FILL">
+<g id="Duplicate_Items_Folder_Symbol_20_copy_2_0_Layer0_1_FILL">
 <path fill="url(#Gradient_2)" stroke="none" d="
+M 72.9 -23.4
+Q 72.9 -37.9 58.4 -37.9
+L -58.4 -37.9
+Q -72.9 -37.9 -72.9 -23.4
+L -72.9 23.45
+Q -72.9 37.95 -58.4 37.95
+L 58.4 37.95
+Q 72.9 37.95 72.9 23.45
+L 72.9 -23.4 Z"/>
+</g>
+
+<g id="Symbol_15_copy_0_Layer0_0_FILL">
+<path fill="url(#Gradient_3)" stroke="none" d="
 M 61.5 -21.25
 Q 53.554296875 -30.1259765625 42.2 -30.1
 L -42.2 -30.1
@@ -138,7 +119,7 @@ L -56.15 -16.85
 Q -49.85 -23.6 -41 -23.6
 L 41 -23.6 Z"/>
 
-<path fill="url(#Gradient_3)" stroke="none" d="
+<path fill="url(#Gradient_4)" stroke="none" d="
 M 56.15 -16.8
 Q 49.85 -23.55 41 -23.6
 L -41 -23.6
@@ -202,15 +183,17 @@ L -20.2 5.45 Z"/>
 </defs>
 
 <g transform="matrix( 0.9949951171875, 0, 0, 0.9949951171875, 76.4,43.7) ">
-<g filter="url(#Filter_1)" transform="matrix( 1.0050201416015625, 0, 0, 1.0050201416015625, -76.75,-43.9) ">
-<g transform="matrix( 0.9949951171875, 0, 0, 0.9949951171875, 76.4,41.55) ">
+<g transform="matrix( 1, 0, 0, 1, 0,-2.15) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Duplicate_Items_Folder_Symbol_20_copy_2_0_Layer0_0_FILL"/>
 </g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Duplicate_Items_Folder_Symbol_20_copy_2_0_Layer0_1_FILL"/>
 </g>
 </g>
 
-<g filter="url(#Filter_2)" transform="matrix( 1.0050201416015625, 0, 0, 1.0050201416015625, -76.75,-43.9) ">
+<g filter="url(#Filter_1)" transform="matrix( 1.0050201416015625, 0, 0, 1.0050201416015625, -76.75,-43.9) ">
 <g transform="matrix( 0.9949951171875, 0, 0, 0.9949951171875, 76.4,41.6) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Symbol_15_copy_0_Layer0_0_FILL"/>
@@ -218,7 +201,7 @@ L -20.2 5.45 Z"/>
 </g>
 </g>
 
-<g filter="url(#Filter_3)" transform="matrix( 1.0050201416015625, 0, 0, 1.0050201416015625, -76.75,-43.9) ">
+<g filter="url(#Filter_2)" transform="matrix( 1.0050201416015625, 0, 0, 1.0050201416015625, -76.75,-43.9) ">
 <g transform="matrix( 0.9148101806640625, 0, 0, 0.9148101806640625, 76.4,39.75) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Duplicate_Items_Folder_Symbol_10_copy_0_Layer0_0_FILL"/>
