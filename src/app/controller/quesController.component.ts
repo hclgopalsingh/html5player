@@ -119,7 +119,6 @@ export class QuesController implements OnInit {
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
-        console.log(this.EnableShowAnswer, 'show answer enable ques controller');
         if(this.EnableShowAnswer === true){
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
