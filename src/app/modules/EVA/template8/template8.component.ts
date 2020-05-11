@@ -93,7 +93,9 @@ export class Template8Component implements OnInit {
     @ViewChild('instructionBar') instructionBar: any;
     @ViewChild('clapSound') clapSound: any;
     @ViewChild('overlay') overlay: any;
-    @ViewChild('correctQuestionStatement') correctQuestionStatement:any;
+    @ViewChild('questionBlock') questionBlock: any;
+    @ViewChild('feedbackQuestionBlock') feedbackQuestionBlock: any;
+    @ViewChild('showAnswerQuestionBlock') showAnswerQuestionBlock: any;
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
         this.appModel = appModel;
@@ -136,6 +138,7 @@ export class Template8Component implements OnInit {
         }
         this.containgFolderPath = this.getBasePath();
         this.setData();
+        this.getCorrectOptionData();
         this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
                 console.log("manual mode ", mode);
@@ -162,6 +165,8 @@ export class Template8Component implements OnInit {
                 this.speaker.imgsrc = this.speaker.imgorigional;
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+                this.showAnswerQuestionBlock.selectedOption(this.getCorrectOptionData());
+                //this.showAnswerQuestionBlock.dataCorrectOption = 
                 // this.videoonshowAnspopUp.nativeElement.src=this.showAnswerPopup.videoAnimation.location=="content" ? this.contentgFolderPath +"/"+ this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation +"/"+ this.showAnswerPopup.videoAnimation.url;
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
@@ -228,13 +233,11 @@ export class Template8Component implements OnInit {
     }
 
     setData() {
-        
         this.appModel.notifyUserAction();
         let fetchedData: any = this.appModel.content.contentData.data;
         this.instructiontext = fetchedData.instructiontext;
         this.myoption = fetchedData.options;
         this.commonAssets = fetchedData.commonassets;
-        debugger;
         this.ques = fetchedData.ques;
         this.speaker = fetchedData.speaker;
         this.feedback = fetchedData.feedback;
@@ -259,9 +262,29 @@ export class Template8Component implements OnInit {
 
     }
 
+    getCorrectOptionData() {
+        for (let element of this.myoption) {
+            if (this.correct_ans_index == element.id) {
+                return element;
+            }
+        }
+    }
 
-    checkAnswer(option) {
+
+    checkAnswer(event, option) {
+        debugger;
+        
+        //hiding selected option image
+        let target = event.currentTarget as HTMLElement;
+        target.children[1].classList.add("hide"); 
+
         this.popupclosedinRightWrongAns = false;
+        this.questionBlock.selectedOption(option);
+        this.questionBlock.blinking(false);
+
+        this.feedbackQuestionBlock.selectedOption(option);
+
+
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
             this.answerPopupType = 'right';
@@ -269,20 +292,16 @@ export class Template8Component implements OnInit {
             this.correctOpt = option;
             this.attemptType = "manual";
             this.appModel.stopAllTimer();
-            this.answerImageBase = option.image_original.url;
+            this.answerImageBase = option.img_original.url;
             this.answerImage = option.imgsrc.url;
-            this.answerImagelocation = option.image_original.location;
+            this.answerImagelocation = option.img_original.location;
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
             this.ifRightAns = true;
-            debugger;
-            this.correctQuestionStatement.nativeElement.classList.remove('hide');
-    
             let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-
             setTimeout(() => {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
-                    option.image = option.image_hover;
+                    option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
 
                     setTimeout(() => {
@@ -322,22 +341,28 @@ export class Template8Component implements OnInit {
             for (let i of this.myoption) {
                 this.idArray.push(i.id);
             }
+
             let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-            ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-            option.image = option.image_original;
-            this.answerImageBase = option.image.url;
-            this.answerImage = option.imgsrc.url;
-            this.answerImagelocation = option.image.location;
-            this.popupIcon = this.popupAssets.wrong_icon.url;
-            this.popupIconLocation = this.popupAssets.wrong_icon.location;
-            //this.appModel.stopAllTimer();
-            //play wrong feed back audio
-            this.wrongCounter += 1;
 
             setTimeout(() => {
-                if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-                    this.wrongFeedback.nativeElement.play();
-                }
+
+                setTimeout(() => {
+                    ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+                    option.image = option.img_original;
+                    this.answerImageBase = option.image.url;
+                    this.answerImage = option.imgsrc.url;
+                    this.answerImagelocation = option.image.location;
+                    this.popupIcon = this.popupAssets.wrong_icon.url;
+                    this.popupIconLocation = this.popupAssets.wrong_icon.location;
+                    //this.appModel.stopAllTimer();
+                    //play wrong feed back audio
+                    this.wrongCounter += 1;
+
+                    if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+                        this.wrongFeedback.nativeElement.play();
+                    }
+
+                }, 2000);
 
                 this.wrongFeedback.nativeElement.onended = () => {
                     this.wrongTimer = setTimeout(() => {
@@ -346,7 +371,7 @@ export class Template8Component implements OnInit {
                 }
 
             });
-            this.doRandomize(this.myoption);
+
         }
     }
 
@@ -357,28 +382,28 @@ export class Template8Component implements OnInit {
             // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex -= 1;
-            var img_hover1 = array[currentIndex].image_hover;
+            var img_hover1 = array[currentIndex].img_hover;
             var text1 = array[currentIndex].image;
-            var text1copy = array[currentIndex].image_original;
+            var text1copy = array[currentIndex].img_original;
             var optionBg1 = array[currentIndex].option_bg;
 
-            var img_hover2 = array[randomIndex].image_hover;
+            var img_hover2 = array[randomIndex].img_hover;
             var text2 = array[randomIndex].image;
-            var text2copy = array[randomIndex].image_original;
+            var text2copy = array[randomIndex].img_original;
             var optionBg2 = array[randomIndex].option_bg;
             // And swap it with the current element.
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
             array[randomIndex] = temporaryValue;
 
-            array[currentIndex].image_hover = img_hover1;
+            array[currentIndex].img_hover = img_hover1;
             array[currentIndex].image = text1;
-            array[currentIndex].image_original = text1copy;
+            array[currentIndex].img_original = text1copy;
             array[currentIndex].option_bg = optionBg1;
 
-            array[randomIndex].image_hover = img_hover2;
+            array[randomIndex].img_hover = img_hover2;
             array[randomIndex].image = text2;
-            array[randomIndex].image_original = text2copy;
+            array[randomIndex].img_original = text2copy;
             array[randomIndex].option_bg = optionBg2;
 
         }
@@ -410,6 +435,7 @@ export class Template8Component implements OnInit {
     }
 
     closePopup(Type) {
+        this.doRandomize(this.myoption);
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();
@@ -436,6 +462,7 @@ export class Template8Component implements OnInit {
                     this.Sharedservice.setTimeOnLastQues(true);
                 }
             } else if (this.ifWrongAns) {
+                this.questionBlock.reset();
                 if (this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
                 } else {
@@ -642,59 +669,11 @@ export class Template8Component implements OnInit {
             this.myAudiospeaker.nativeElement.currentTime = 0;
             this.speaker.imgsrc = this.speaker.imgorigional;
         }
-        option.image = option.image_hover;
+        option.image = option.img_hover;
     }
 
 
     onHoveroutOptions(option, index) {
-        option.image = option.image_original;
+        option.image = option.img_original;
     }
-
-    // previous(){
-    //     if(this.commonAssets && this.commonAssets.peechey_jayein){
-    //     this.commonAssets.peechey_jayein = this.commonAssets.peechey_jayein_original;
-    //     }
-    //     if(this.commonAssets && this.commonAssets.aagey_badhein){
-    //     this.commonAssets.aagey_badhein = this.commonAssets.aagey_badhein_original;
-    //     }
-    //     this.blink=false;
-
-    //     this.currentIdx--;
-    //     this.appModel.previousSection();
-    //     this.appModel.setLoader(true);
-    // }
-
-    // next() {
-    //     if (!this.hasEventFired) {
-    //         if (this.isLastQuesAct) {
-    //             this.hasEventFired = true;
-    //             this.appModel.event = { 'action': 'segmentEnds' };
-    //         }
-    //         if (this.isLastQues) {
-    //             this.appModel.event = { 'action': 'end' };
-    //         }
-    //     }
-    //     if (this.commonAssets && this.commonAssets.peechey_jayein) {
-    //         this.commonAssets.peechey_jayein = this.commonAssets.peechey_jayein_original;
-    //     }
-    //     if (this.commonAssets && this.commonAssets.aagey_badhein) {
-    //         this.commonAssets.aagey_badhein = this.commonAssets.aagey_badhein_original;
-    //     }
-
-    //     if (!this.isLastQues) {
-    //         setTimeout(()=>{
-    //           if(this.footerNavBlock && this.footerNavBlock.nativeElement){
-    //             this.footerNavBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disableDiv";
-    //           }
-    //         },0)
-    //         this.currentIdx++;
-
-    //         this.appModel.nextSection();
-    //         //this.setData();
-    //         this.appModel.setLoader(true);
-    //         this.removeEvents();
-    //     }
-    // }
-
-
 }

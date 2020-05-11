@@ -19,39 +19,18 @@
     </div>
 
     <div #maincontent>
-        <div id="instructionBar">
-            <div class="instructionBase">
-                <img class="img-fluid"
-                    [src]="commonAssets?.instruction_bg
-                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url"
-                    (load)="checkImgLoaded();" />
-                <span class="instructionText">{{instructiontext}}</span>
-            </div>
-        </div>
-        <app-question-block>
 
+        <app-instruction-bar id="instructionBar" [data]="commonAssets?.instruction_bg"
+            [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
+            (load)="checkImgLoaded();"></app-instruction-bar>
+
+        <app-question-block #questionBlock id="questionBlock" [contentPath]="containgFolderPath" [data]="this.ques"
+            containerType="main_screen">
         </app-question-block>
-        <div id="questionBlock">
-            <!--div id="refQuesBlock"></div-->
-            <div class="questionBase">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBase?.url" />
-            </div>
-            <div class="questionStatement">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionStatement?.url" />
-            </div>
-            <div class="questionBlinkingPink">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingPink?.url" />
-            </div>
-            <div class="questionBlinkingBlue blink-image">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingBlue?.url" />
-            </div>
-            <div id="correctQuestionStatement" #correctQuestionStatement class="questionAnswer hide">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionAnswer?.url" />
-            </div>
-        </div>
+
         <div id="optionsBlock" #ansBlock class="quesOptions">
             <div class="options">
-                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts)">
+                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer($event, opts)">
                     <img class="img-fluid" id="{{'optblank'+idx}}"
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
                         (load)="checkImgLoaded();">
@@ -91,24 +70,9 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="questionBlock">
-                        <!--div id="refQuesBlock"></div-->
-                        <div class="questionBase">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBase?.url" />
-                        </div>
-                        <div class="questionStatement">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionStatement?.url" />
-                        </div>
-                        <div class="questionBlinkingPink">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingPink?.url" />
-                        </div>
-                        <div class="questionBlinkingBlue blink-image">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingBlue?.url" />
-                        </div>
-                        <div id="correctQuestionStatement" #correctQuestionStatement class="questionAnswer hide">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionAnswer?.url" />
-                        </div>
-                    </div>
+                    <app-question-block #feedbackQuestionBlock id="questionBlock" [contentPath]="containgFolderPath"
+                        [data]="this.ques" containerType="right_wrong_popup">
+                    </app-question-block>
                     <div class="rightWrongAns">
                         <img class="img-fluid"
                             [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
@@ -129,16 +93,9 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="optionsBlock" class="onShowAns ">
-                        <div class="options">
-                            <div>
-                                <img class="img-fluid"
-                                    [src]="showAnswerPopup?.image?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsPath +'/'+ showAnswerPopup?.image?.url">
-                                <img class="img-fluid subOpt"
-                                    [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
-                            </div>
-                        </div>
-                    </div>
+                    <app-question-block #showAnswerQuestionBlock id="questionBlock" [contentPath]="containgFolderPath"
+                        [data]="this.ques" containerType="show_answer_popup">
+                    </app-question-block>
                     <img class="popupCloseBtn"
                         [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
                         (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()"

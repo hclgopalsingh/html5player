@@ -1,3 +1,22 @@
-<div class="questionBlock">
-  question-block works!
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<div class="questionBase">
+  <img class="img-fluid" [src]="contentPath + '/' + data?.questionBase?.url" />
+</div>
+<div class="questionStatement">
+  <img class="img-fluid" [src]="contentPath + '/' + data?.questionStatement?.url" />
+</div>
+<div #blinkingBlock>
+  <div class="questionBlinkingPink">
+    <img class="img-fluid" [src]="contentPath + '/' + data?.questionBlinkingPink?.url" />
+  </div>
+  <div class="questionBlinkingBlue blink-image">
+    <img class="img-fluid" [src]="contentPath + '/' + data?.questionBlinkingBlue?.url" />
+  </div>
+</div>
+<div #selectedOptionBlock class="questionAnswer">
+  <img class="img-fluid" [src]="selectedOptionURL" />
+</div>
+<div #selectedOptionBlockBlink class="questionAnswer blink-image">
+  <img class="img-fluid" [src]="selectedOptionBlinkURL" />
 </div>
