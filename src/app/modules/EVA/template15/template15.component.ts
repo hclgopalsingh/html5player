@@ -76,7 +76,8 @@ export class Template15Component implements OnInit {
     popupTime:any
     LastquestimeStart:boolean = false;
     audio = new Audio();
-
+    clapTimer:any;
+    
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
     @ViewChild('sprite') sprite: any;
@@ -200,7 +201,7 @@ export class Template15Component implements OnInit {
         })
     }
 
-    clapTimer:any;
+    
     ngOnDestroy() {
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
