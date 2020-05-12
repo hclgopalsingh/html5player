@@ -82,6 +82,8 @@ export class Template1Component implements OnInit {
     LastquestimeStart:boolean = false;
     audio = new Audio();
     saveOpt : any;
+    rightSelectTimer:any;
+    wrongSelectTimer:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -209,6 +211,8 @@ export class Template1Component implements OnInit {
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
+        clearTimeout(this.rightSelectTimer);
+        clearTimeout(this.wrongSelectTimer);
     }
 
     ngAfterViewChecked() {
@@ -607,7 +611,7 @@ export class Template1Component implements OnInit {
              this.popupIconLocation = this.popupAssets.right_icon.location;
 
              this.ifRightAns = true;
-             setTimeout(()=>{
+             this.rightSelectTimer=setTimeout(()=>{
                 
                  if (this.rightFeedback && this.rightFeedback.nativeElement) {
                      this.clapSound.nativeElement.play();
@@ -623,7 +627,7 @@ export class Template1Component implements OnInit {
                         } else {
                          this.Sharedservice.setShowAnsEnabled(true);
                         } 
-                     }, 2000)                     
+                     }, 2000);                     
                  }
                  this.rightFeedback.nativeElement.onended = () => {
                     this.rightTimer=setTimeout(() => {
@@ -648,7 +652,7 @@ export class Template1Component implements OnInit {
             for (let i of this.myoption) {
                 this.idArray.push(i.id);
             } 
-            setTimeout(()=>{
+            this.wrongSelectTimer=setTimeout(()=>{
              let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
              ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
              this.popupIcon = this.popupAssets.wrong_icon.url;
@@ -697,7 +701,7 @@ export class Template1Component implements OnInit {
                 this.popupIconLocation = this.popupAssets.right_icon.location;
 
                 this.ifRightAns = true;
-                setTimeout(()=>{                    
+                this.rightSelectTimer=setTimeout(()=>{                    
                     if (this.rightFeedback && this.rightFeedback.nativeElement) {
                         this.clapSound.nativeElement.play();
                         this.clapTimer=setTimeout(() => {
@@ -712,7 +716,7 @@ export class Template1Component implements OnInit {
                            } else {
                             this.Sharedservice.setShowAnsEnabled(true);
                            } 
-                        }, 2000)
+                        }, 2000);
                         
                     }
                     this.rightFeedback.nativeElement.onended = () => {
@@ -738,7 +742,7 @@ export class Template1Component implements OnInit {
                for (let i of this.myoption) {
                    this.idArray.push(i.id);
                } 
-               setTimeout(()=>{
+               this.wrongSelectTimer=setTimeout(()=>{
                 let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
                 ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 this.popupIcon = this.popupAssets.wrong_icon.url;
