@@ -48,6 +48,7 @@ export class Template1Component implements OnInit {
     closed:boolean = false;
     correct_ans_index: any;
     speakerTimer: any;
+    clapTimer:any;
     showAnswerPopup:any;
     showAnswerVO:any;
     ifRightAns: boolean = false;
@@ -134,9 +135,6 @@ export class Template1Component implements OnInit {
     ngOnInit() {        
 
         this.sprite.nativeElement.style="display:none";
-        if(this.isLastQues){
-            this.next();
-        }
         this.attemptType = "";
         this.setTemplateType();
         if (this.appModel.isNewCollection) {
@@ -210,6 +208,7 @@ export class Template1Component implements OnInit {
     ngOnDestroy() {
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
+        clearTimeout(this.clapTimer);
     }
 
     ngAfterViewChecked() {
@@ -612,7 +611,7 @@ export class Template1Component implements OnInit {
                 
                  if (this.rightFeedback && this.rightFeedback.nativeElement) {
                      this.clapSound.nativeElement.play();
-                     setTimeout(() => {
+                     this.clapTimer=setTimeout(() => {
                         this.clapSound.nativeElement.pause();     
                         this.clapSound.nativeElement.currentTime = 0;
                         let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
@@ -701,7 +700,7 @@ export class Template1Component implements OnInit {
                 setTimeout(()=>{                    
                     if (this.rightFeedback && this.rightFeedback.nativeElement) {
                         this.clapSound.nativeElement.play();
-                        setTimeout(() => {
+                        this.clapTimer=setTimeout(() => {
                            this.clapSound.nativeElement.pause();     
                            this.clapSound.nativeElement.currentTime = 0;
                            let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
