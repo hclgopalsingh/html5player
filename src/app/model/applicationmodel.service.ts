@@ -135,7 +135,8 @@ export class ApplicationmodelService {
       ['/evatemp3', '/evatemp3ext', 0],
       ['/evatemp1', '/evatemp1ext', 0],
       ['/ntemp14', '/ntemp14ext', 0],
-      ['/evatemp8', '/evatemp8ext', 0]
+      ['/evatemp8', '/evatemp8ext', 0],
+      ['/evatemp2', '/evatemp2ext', 0]
     ];
     this.externalCommunication = externalCommunication;
     this.dataLoader = dataLoader;
@@ -459,7 +460,7 @@ export class ApplicationmodelService {
     this.navigateToRoute(this.config[functionalityType][this.config[functionalityType][2]]);
     this.updateConfig(functionalityType);
 
-    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48) {
+    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49) {
       this.setQuestionNo();
       let data = this.content.contentData.data;
       let firsQflag = data['commonassets'].isFirstQues;
