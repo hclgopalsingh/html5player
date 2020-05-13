@@ -29,15 +29,16 @@
         </app-question-block>
 
         <div id="optionsBlock" #ansBlock class="quesOptions">
-            <div class="options">
-                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer($event, opts)">
+            <div class="options" #optionRef>
+                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"
+                    (click)="checkAnswer($event, opts)">
                     <img class="img-fluid" id="{{'optblank'+idx}}"
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
                         (load)="checkImgLoaded();">
                     <img class="img-fluid subOpt" id="{{'optimage'+idx}}"
                         [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url"
                         on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
-                        (load)="checkImgLoaded();">
+                        on-mouseenter='playOptionHover(opts,idx)' (load)="checkImgLoaded();">
                 </div>
             </div>
         </div>
@@ -47,7 +48,7 @@
                 <img #speakerNormal id="speaker" class="img-fluid"
                     [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
                     (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
-                    (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="चलाऍं">
+                    (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
                 <div class="waveAnimation" #sprite>
                     <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
                          + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
