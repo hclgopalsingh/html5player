@@ -240,3 +240,7 @@
 	/* animation: blink normal 1.3s infinite ease-in-out; */
 	/* -webkit-animation: blink normal .5s infinite ease-in-out; */
 }
+.disableNavBtn{
+	opacity: 0.5;
+	pointer-events: none;
+}
