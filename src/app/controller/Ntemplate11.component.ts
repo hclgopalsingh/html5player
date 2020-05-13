@@ -444,6 +444,7 @@ houtSkip(){
 
 	checkAnswer(option, event, id) {
 		this.disableHelpBtn = true;
+		$( "#navBlock" ).addClass("disableNavBtn")
 		// Analytics called for attempt counter & first option is clicked
 		if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
 			this.myAudiohelp.nativeElement.pause();
@@ -490,7 +491,7 @@ houtSkip(){
 						this.removeEvents();
 						this.blinkOnLastQues()
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-
+						$( "#navBlock" ).removeClass("disableNavBtn")
 					}, 200)
 					// this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
 					// this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible'
@@ -969,6 +970,7 @@ houtSkip(){
 		//shake options
 		// this.isAnsWrong = false;
 		// $("#optimage"+this.itemid).removeClass('wrongImageStyle')
+		$( "#navBlock" ).removeClass("disableNavBtn")
 		this.ansBlock.nativeElement.children[this.itemid].children[1].style.visibility = 'visible';
 		this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'hidden' ;
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0}, 1000, () => {
