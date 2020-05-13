@@ -2279,6 +2279,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.postWrongAttemplt();
     });
     $( "#navBlock" ).removeClass("disableNavBtn")
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
