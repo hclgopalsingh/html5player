@@ -34,8 +34,9 @@
 						#stopButton (click)="stopRecording()" >
 					<img *ngIf="showPlay" [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid"
 						[src]="question?.playpause?.location=='content' ?assetspath + '/' +question?.playpause.url: assetsfolderlocation + '/'+ question?.playpause.url">
-					<audio #audioT class="audioT" id="audioplay" controls controlsList="nodownload"></audio>
+					<audio #audioT class="audioT" id="audioplay" controls controlsList="nodownload" (timeupdate)="isCalled()"></audio>
 					<!--<input type="range" step="1" id="$seekbar" value="0">-->
+					<span *ngIf="!showPlay && !removeBtn" id="tracktime">{{curTime}} / {{endTime}}</span>
 				</div>
 			</div>
 

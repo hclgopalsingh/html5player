@@ -58,6 +58,8 @@ export class Ntemplate14 implements OnInit {
 	controlHandler = {
 		isShowAns: false,
 	};
+	curTime:any = 0;
+	endTime:any = 0;
 	showPlay: boolean = false;
 	autoStop: any;
 	removeBtn: boolean = true;
@@ -684,4 +686,22 @@ export class Ntemplate14 implements OnInit {
 		}
 	}
 
+	isCalled(){
+		console.log("getting it",Math.floor(this.audioT.nativeElement.currentTime))
+		console.log("this.audioT.nativeElement.endTime",this.audioT.nativeElement.duration)
+		this.curTime = this.convertTostandard(this.audioT.nativeElement.currentTime)
+		this.endTime = this.convertTostandard(this.audioT.nativeElement.duration)
+	}
+
+	convertTostandard(value){
+			const sec = parseInt(value, 10); // convert value to number if it's string
+			let hours:any   = Math.floor(sec / 3600); // get hours
+			let minutes:any = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+			let seconds:any = sec - (hours * 3600) - (minutes * 60); //  get seconds
+			// add 0 if value < 10
+			if (hours   < 10) {hours   = "0"+hours;}
+			if (minutes < 10) {minutes = "0"+minutes;}
+			if (seconds < 10) {seconds = "0"+seconds;}
+			return +minutes+':'+seconds; // Return is HH : MM : SS
+	}
 }
