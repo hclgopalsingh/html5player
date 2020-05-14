@@ -48,14 +48,22 @@
      border-bottom: none !important; 
 }
 .successFailure .modal-dialog{
-	height: 85%;/*60.5%;*/
+	height: 100%;/*60.5%;*/
     max-width: fit-content;
     width: fit-content;
 	display: flex;
     justify-content: center;
-    align-items: center;
+	align-items: center;
+	margin: 0 auto !important;
 }
 .successFailure .modal-content,
 .successFailure .modal-content img{
 	/*height: 100%;*/
+}
+
+.successFailure .modal-body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
 }
