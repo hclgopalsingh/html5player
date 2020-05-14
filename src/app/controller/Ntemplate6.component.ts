@@ -1972,7 +1972,8 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
  
   checkAnswer(opt, id) {
     this.appModel.enableReplayBtn(false);
-    $( "#navBlock" ).addClass("disableNavBtn")
+    this.appModel.enableNavBtn(true);
+    //$( "#navBlock" ).addClass("disableNavBtn")
     this.appModel.handlePostVOActivity(true);
     this.count = 0;
     $(".instructionBase").addClass('disable_div');
@@ -2278,12 +2279,14 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
-    $( "#navBlock" ).removeClass("disableNavBtn")
+    //$( "#navBlock" ).removeClass("disableNavBtn")
+    this.appModel.enableNavBtn(false);
     this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
     //this.resetAttempt();
+    this.appModel.enableNavBtn(false);
     $( "#navBlock" ).removeClass("disableNavBtn")
   }
 
@@ -2692,7 +2695,8 @@ document.getElementById("coverBtm").style.display = "block";
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-      $( "#navBlock" ).removeClass("disableNavBtn")
+      //$( "#navBlock" ).removeClass("disableNavBtn")
+      this.appModel.enableNavBtn(false);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
@@ -2725,6 +2729,7 @@ document.getElementById("coverBtm").style.display = "block";
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         $( "#navBlock" ).removeClass("disableNavBtn")
+        this.appModel.enableNavBtn(false);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();

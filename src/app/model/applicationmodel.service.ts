@@ -45,6 +45,7 @@ export class ApplicationmodelService {
   _postVOSubject = new Subject<any>();
   _lastQues = new Subject<any>();
   _submitBtnSub = new Subject<any>();
+  _navBtnSub = new Subject<any>();
   _replayBtnSub = new Subject<any>();
   _videoStraming = new Subject<any>();
   _controllerHandle = new Subject<any>();
@@ -980,6 +981,15 @@ export class ApplicationmodelService {
   resetBlinkingTimer() {
     this._blinkingSubject.next(true);
   }
+
+  enableNavBtn(flag) {
+    this._navBtnSub.next(flag);
+  }
+
+  get enableFlagNav() {
+    return this._navBtnSub.asObservable();
+  }
+
 }
 
 
