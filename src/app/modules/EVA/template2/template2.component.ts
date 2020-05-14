@@ -92,7 +92,8 @@ export class Template2Component implements OnInit {
   @ViewChild('instructionBar') instructionBar: any;
   @ViewChild('clapSound') clapSound: any;
   @ViewChild('overlay') overlay: any;
-  rightTimer: NodeJS.Timer;
+  clappingTimer: any;
+
   constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     if (!this.appModel.isVideoPlayed) {
@@ -209,6 +210,7 @@ export class Template2Component implements OnInit {
   }
   ngOnDestroy() {
     this.showAnswerSubscription.unsubscribe();
+    clearTimeout(this.clappingTimer);
   }
 
   ngAfterViewChecked() {
@@ -352,12 +354,13 @@ onHoverOutSpeaker(speaker) {
     // logic to check what user has done is correct
     if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
       let optRefEl = optRef.children[1] as HTMLElement;
-      let ansRef = document.getElementById("answer"+this.correctAnswerCounter) as HTMLElement;
-      if (!ansRef || !optRefEl) {
+      if (!optRefEl) {
         return;
       }
-      ++this.correctAnswerCounter;
+      this.correctAnswerCounter++;
+      let ansRef = document.getElementById("answer"+this.correctAnswerCounter) as HTMLElement;
       ansRef.insertAdjacentElement("beforeend", optRefEl);
+      this.wrongCounter = 0;
       this.answerPopupType = 'right';
       clearTimeout(this.wrongTimer);
       this.correctOpt = option;
@@ -373,12 +376,12 @@ onHoverOutSpeaker(speaker) {
       this.ifRightAns = true;
       let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
 
-      setTimeout(() => {
+       setTimeout(() => {
         if (this.rightFeedback && this.rightFeedback.nativeElement) {
-          option.image = option.image_hover;
+          //option.image = option.image_hover;
           this.clapSound.nativeElement.play();
 
-          setTimeout(() => {
+          this.clappingTimer = setTimeout(() => {
             this.clapSound.nativeElement.pause();
             this.clapSound.nativeElement.currentTime = 0;
             if (this.correctAnswerCounter === 4) {
@@ -445,6 +448,9 @@ onHoverOutSpeaker(speaker) {
         this.wrongFeedback.nativeElement.onended = () => {
             this.ansBlock.nativeElement.className = "optionsBlock";
             this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+            if (this.wrongCounter >= 3 && this.ifWrongAns) {
+              this.Sharedservice.setShowAnsEnabled(true);
+            }
           // this.wrongTimer = setTimeout(() => {
           //   this.closePopup('answerPopup');
           // }, 10000);
