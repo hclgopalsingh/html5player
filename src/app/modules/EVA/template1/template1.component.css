@@ -273,7 +273,7 @@ div.matra_rBtmRight img[src*='ha.png'] + img[src*='rBtmRight.png']{
 	top: -.8vmax;
 }
 div.matra_rBtmCenter img[src*='rBtmCenter.png']{
-	/* right: .3vmax; */
+	right: .3vmax;
 }
 /*** Akshar Positioning Classes ***/
 img[src*='ad.png'],
