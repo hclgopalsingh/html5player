@@ -137,6 +137,7 @@ export class Template1Component implements OnInit {
     ngOnInit() {        
 
         this.sprite.nativeElement.style="display:none";
+        this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
         if (this.appModel.isNewCollection) {
@@ -152,28 +153,29 @@ export class Template1Component implements OnInit {
                 this.popupType = "showanswer"
             }
         })
-     this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {         
-            if (val == "uttarDikhayein") {
-                if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-                    //Saving correct option for showing in Popup 
-                    if(this.aksharQuestion){
-                        this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index; 
-                    }else{
-                        this.quesObj.questionText[this.quesMatraTxtIndx].hasmatra=true;
-                        this.quesObj.questionText[this.quesMatraTxtIndx].matravalue=this.correct_opt_index.url.split('.')[0].split('/').pop();
-                        this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
-                        this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
-                    }
-                    this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-            
-                    if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-                        this.showAnswerfeedback.nativeElement.play();
-                    }
-                    this.popupType = "showanswer";
-                    //this.blinkOnLastQues();
-                }
+     this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {  
+        this.appModel.stopAllTimer();
+        if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+            //Saving correct option for showing in Popup 
+            if(this.aksharQuestion){
+                this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index; 
+            }else{
+                this.quesObj.questionText[this.quesMatraTxtIndx].hasmatra=true;
+                this.quesObj.questionText[this.quesMatraTxtIndx].matravalue=this.correct_opt_index.url.split('.')[0].split('/').pop();
+                this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
+                this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
             }
-            
+            this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+            if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
+                this.showAnswerfeedback.nativeElement.play();
+                this.showAnswerfeedback.nativeElement.onended=() => {
+                    setTimeout(() => {
+                            this.closePopup('showAnswer');
+                    }, 10000);
+                }                   
+            }						
+        }          
+                        
         })
 
         
@@ -187,22 +189,22 @@ export class Template1Component implements OnInit {
         })
 
         this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
-			if (mode == "manual") {
+			if(mode == "manual") {
 				//show modal for manual
+				this.appModel.notifyUserAction();
 				if (this.ansPopup && this.ansPopup.nativeElement) {
 					this.ansPopup.nativeElement.classList = "displayPopup modal";
 				}
-
-
-			} else if (mode == "auto") {
+			}else if (mode == "auto") {
+				// this.showAnswers();
 			}
 		})
 
         
     }
 
+    /******Set template type for EVA******/
     setTemplateType(): void {
-        // send message to subscribers via observable subject
         this.ActivatedRoute.data.subscribe(data => {
             this.Sharedservice.sendData(data);
         })
@@ -337,7 +339,8 @@ export class Template1Component implements OnInit {
                 this.Sharedservice.setShowAnsEnabled(true);
                 this.overlay.nativeElement.classList.value="fadeContainer";
                 this.blinkOnLastQues();
-                if(!this.lastQuestionCheck){                
+                if(!this.lastQuestionCheck){  
+                                 
                 }else if(this.lastQuestionCheck){              
                 this.Sharedservice.setTimeOnLastQues(true);
                 }
@@ -420,11 +423,13 @@ export class Template1Component implements OnInit {
     }
    
 
+    /****function to check loaded image*****/
     checkImgLoaded() {
         if (!this.loadFlag) {          
             this.noOfImgsLoaded++;
             if (this.noOfImgsLoaded >= this.noOfImgs) {
-                this.appModel.setLoader(false);       
+                this.appModel.setLoader(false);   
+                this.Sharedservice.setShowAnsEnabled(false); 
                 this.loadFlag = true;
                 clearTimeout(this.loaderTimer);
                 this.checkforQVO();
