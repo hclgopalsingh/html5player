@@ -2,19 +2,19 @@
     position: absolute;
     top: 13%;
     width: 100%;
-    height: 69%;
+    height: 68.7%;
     left: 0%; 
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 0;
+	z-index: 1;
 }
 .modal #refQuesBlock{
     top: 18.5%;
     /* height: 39%; */
 }
 .refQues{
-	width: 38%;
+	width: 38.8%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -25,7 +25,7 @@
 .refQues .boxBottom,
 .refQues .boxLeft{
     position: absolute;
-    width:40%;
+    width:41.5%;
     top: 14%;
     left: 29.4%;
     display: flex;
@@ -61,7 +61,9 @@
     border-radius: 0;
 }
 #container .speakerBlock{
-	top: auto;
+	width: 94.5%;
+    top: auto;
+    padding: .7% 0 0 .7%; /*.3vmax 0 0 .32vmax;*/
 	z-index: 1;
 }
 .speakerBlock .speakerBtn {
@@ -70,7 +72,8 @@
 #optionsBlock{
     position: absolute;
     top: 13%;
-    width: 79%;
+	width: 79%;
+	height: 68.7%;
     left: 10.6%; 
 	display: flex;
 	align-items: center;
@@ -80,14 +83,15 @@
 	/* top: 7.5%; */
 }
 .options{
-	width: 23%;
+	width: 22%;
+	height: 100%;
 	position: absolute;
     left: 0;
     top: 0;
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-around;
+	align-content: space-between;
+	justify-content: center;
 	z-index: 2;
 }
 .options + .options{
@@ -120,7 +124,7 @@
 div.subOpt img{
 	max-width: 16%;
 }
-.options img{
+.options{
 	cursor:pointer;
 }
 .rightWrongAns{
