@@ -207,8 +207,6 @@ export class Ntemplate24_1 implements OnInit {
     }
 
 movePrevious(idx,opt){
-  this.appModel.enableSubmitBtn(true)
-
   if (!this.instructionVO.nativeElement.paused)
     {
       this.instructionVO.nativeElement.pause();
@@ -216,6 +214,7 @@ movePrevious(idx,opt){
     }
    this.appModel.notifyUserAction();
   if(idx-1!=-1){
+    this.appModel.enableSubmitBtn(true)
      let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx-1].getBoundingClientRect();
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
@@ -223,8 +222,6 @@ movePrevious(idx,opt){
   }
 }
 moveNext(idx,opt){
-  this.appModel.enableSubmitBtn(true)
-
   if (!this.instructionVO.nativeElement.paused)
     {
       this.instructionVO.nativeElement.pause();
@@ -232,6 +229,7 @@ moveNext(idx,opt){
     }
     this.appModel.notifyUserAction();
    if(idx+1 <= this.optionObj.optionArray.length-1){
+    this.appModel.enableSubmitBtn(true)
      let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx+1].getBoundingClientRect();
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
@@ -554,7 +552,6 @@ getAnswer(flag){
             this.appModel.navShow = 2;
             this.appModel.enableReplayBtn(true);
    }
-   this.appModel.enableSubmitBtn(true);
     }
 
     endedHandleronSkip() {    
@@ -753,7 +750,7 @@ getAnswer(flag){
   replayVideo() {
     this.videoReplayd = true;
     this.isPlayVideo = true;
-    this.appModel.enableSubmitBtn(false);
+    // this.appModel.enableSubmitBtn(false);
     $("#optionsBlock .options").addClass("disable_div");
     $(".instructionBase").addClass("disable_div");
     setTimeout(() => {
