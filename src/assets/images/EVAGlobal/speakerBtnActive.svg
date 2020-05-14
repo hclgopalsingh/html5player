@@ -43,10 +43,16 @@
 <stop  offset="100%" stop-color="#FFD400"/>
 </linearGradient>
 
-<linearGradient id="Gradient_4" gradientUnits="userSpaceOnUse" x1="-0.15" y1="13.000000000000014" x2="-0.15" y2="-144.7" spreadMethod="pad">
-<stop  offset="0%" stop-color="#FFED39"/>
+<linearGradient id="Gradient_4" gradientUnits="userSpaceOnUse" x1="8.425" y1="3.700000000000003" x2="8.175" y2="-112.7" spreadMethod="pad">
+<stop  offset="0%" stop-color="#FFFFFF" stop-opacity="0.24705882352941178"/>
 
-<stop  offset="100%" stop-color="#FFD739" stop-opacity="0"/>
+<stop  offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+</linearGradient>
+
+<linearGradient id="Gradient_5" gradientUnits="userSpaceOnUse" x1="-151.4875" y1="-120.9" x2="51.587500000000006" y2="-120.9" spreadMethod="pad">
+<stop  offset="0%" stop-color="#FFFFFF" stop-opacity="0.4980392156862745"/>
+
+<stop  offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
 </linearGradient>
 
 <filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
@@ -62,14 +68,10 @@
 </filter>
 
 <filter id="Filter_2" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-<feColorMatrix in="SourceGraphic" type="matrix" values="-0.23943552 0.4377331200000001 0.04170239999999996 0 0.1864313725490196 0.11576448 0.08253312000000002 0.04170240000000001 0 0.18643137254901962 0.11576448000000004 0.4377331200000001 -0.31349760000000004 0 0.1864313725490196 0 0 0 1 0 " result="result1"/>
-</filter>
-
-<filter id="Filter_3" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
 <feColorMatrix in="SourceGraphic" type="matrix" values="-0.9795533500547117 1.8778196825735738 0.10173366748113799 0 0 0.47084359275677506 0.3336220521069827 0.1955343551362421 0 0 0.5428788029295637 1.7670558647810064 -1.30993466771057 0 0 0 0 0 1 0 " result="result1"/>
 </filter>
 
-<filter id="Filter_4" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+<filter id="Filter_3" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
 <feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
 
 <feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
@@ -95,6 +97,12 @@ L 181.75 4.9
 Q 181.85 2.5 181.85 0 181.85 -75.25 128.55 -128.55 Z"/>
 </g>
 
+<g id="Speaker_Button_1_copy_1_Layer2_0_FILL">
+<path fill="#404040" stroke="none" d="
+M 114.3 -114.35
+Q 67 -161.65 0 -161.65 -67 -161.65 -114.35 -114.35 -161.65 -66.95 -161.65 0.05 -161.65 67 -114.35 114.35 -67 161.7 0 161.7 67 161.7 114.3 114.35 161.7 67 161.7 0.05 161.7 -66.95 114.3 -114.35 Z"/>
+</g>
+
 <g id="Symbol_25_0_Layer1_0_FILL">
 <path fill="#EFB400" stroke="none" d="
 M 114.3 -114.35
@@ -102,27 +110,9 @@ Q 67 -161.65 0 -161.65 -67 -161.65 -114.35 -114.35 -161.65 -66.95 -161.65 0.05 -
 </g>
 
 <g id="Symbol_25_0_Layer1_1_FILL">
-<path fill="#FFCC00" stroke="none" d="
-M 259.1 162.3
-Q 219.9 123.1 164.4 123.1 108.9 123.1 69.65 162.3 30.6443359375 201.3552734375 30.45 256.5 30.45 256.75 30.45 257 30.45 307.6 69.65 343.35 108.9 379.15 164.4 379.15 219.9 379.15 259.1 343.35 298.35 307.6 298.35 257 298.35 256.75 298.35 256.5 298.1552734375 201.3552734375 259.1 162.3 Z"/>
-</g>
-
-<g id="Symbol_25_0_Layer1_2_FILL">
 <path fill="url(#Gradient_3)" stroke="none" d="
-M 152.7 -0.05
-Q 152.7 -0.35 152.7 -0.65 152.45 -63.5 107.95 -108 63.25 -152.7 0 -152.7 -63.25 -152.7 -108 -108 -152.45 -63.5 -152.7 -0.65 -152.7 -0.35 -152.7 -0.05 -152.7 57.65 -108 98.4 -63.25 139.2 0 139.2 63.25 139.2 107.95 98.4 152.7 57.65 152.7 -0.05 Z"/>
-</g>
-
-<g id="Symbol_25_0_Layer1_3_FILL">
-<path fill="url(#Gradient_4)" stroke="none" d="
-M 134.75 -31
-Q 133.35 -66.55 94.2 -105.7 55.1 -144.75 -0.2 -144.75 -55.55 -144.75 -94.7 -105.7 -133.75 -66.55 -137.5 -30.65 -141.3 5.25 -84.3 -1.25 -27.3 -7.75 18.25 -6 63.75 -4.3 99.95 0.15 136.15 4.6 134.75 -31 Z"/>
-</g>
-
-<g id="Symbol_25_0_Layer1_4_FILL">
-<path fill="#FFFFFF" fill-opacity="0.24705882352941178" stroke="none" d="
-M 193.2 141.1
-Q 180.7 136 163.05 136 145.35 136 132.85 141.1 120.4 146.2 120.4 153.4 120.3943359375 160.605859375 135.1 157.8 149.8666015625 155.03203125 167.2 156.15 184.583203125 157.2677734375 195.15 158.9 205.70546875 160.5939453125 205.7 153.4 205.7 146.2 193.2 141.1 Z"/>
+M 114.3 -114.35
+Q 67 -161.65 0 -161.65 -67 -161.65 -114.35 -114.35 -161.65 -66.95 -161.65 0.05 -161.65 67 -114.35 114.35 -67 161.7 0 161.7 67 161.7 114.3 114.35 161.7 67 161.7 0.05 161.7 -66.95 114.3 -114.35 Z"/>
 </g>
 
 <g id="Symbol_14_copy_0_Layer0_0_FILL">
@@ -149,6 +139,26 @@ L -22 -14.9 -22 12.05 -3.95 24.95
 Q -2.6802734375 25.841015625 -1.2 25.65 0.3431640625 25.5134765625 1.35 24.35 2.400390625 23.2259765625 2.4 21.7
 L 2.35 -24.5 Z"/>
 </g>
+
+<g id="Speaker_Button_1_copy_1_Layer0_0_MEMBER_0_FILL">
+<path fill="url(#Gradient_4)" stroke="none" d="
+M 137.1 -7.35
+Q 136.9 -63.65 96.95 -103.6 56.9 -143.7 0.15 -143.7 -56.6 -143.7 -96.7 -103.6 -136.55 -63.65 -136.8 -7.35 0.2 24.6 137.1 -7.35 Z"/>
+</g>
+
+<g id="Speaker_Button_1_copy_1_Layer0_0_MEMBER_1_FILL">
+<path fill="url(#Gradient_5)" stroke="none" d="
+M -51.8 -136.5
+L -42.85 -118.55
+Q -22.1755859375 -127.5513671875 0.5 -128.95
+L -0.05 -146.6
+Q -2.8634765625 -146.7412109375 -5.7 -146.75 -30.1802734375 -146.826171875 -51.8 -136.5
+M 13.75 -129.15
+Q 26.1154296875 -128.712890625 39.05 -126.15
+L 42.85 -135.25
+Q 29.36328125 -141.651171875 15.75 -144.5
+L 13.75 -129.15 Z"/>
+</g>
 </defs>
 
 <g transform="matrix( 0.44873046875, 0, 0, 0.44873046875, 82.4,82.4) ">
@@ -160,55 +170,23 @@ L 2.35 -24.5 Z"/>
 </g>
 </g>
 
+<g transform="matrix( 1.01953125, 0, 0, 1.01953125, 0.25,0.1) ">
+<use xlink:href="#Speaker_Button_1_copy_1_Layer2_0_FILL"/>
+</g>
+
 <g filter="url(#Filter_2)" transform="matrix( 2.2285003662109375, 0, 0, 2.2285003662109375, -183.6,-183.6) ">
-<g transform="matrix( 0.457489013671875, 0, 0, 0.457489013671875, 82.5,82.4) ">
-<g transform="matrix( 1, 0, 0, 1, 0,0) ">
-<use xlink:href="#Symbol_25_0_Layer1_0_FILL"/>
-</g>
-
-<g transform="matrix( 1.139984130859375, 0, 0, 1.139984130859375, -187.65,-293.15) ">
-<use xlink:href="#Symbol_25_0_Layer1_1_FILL"/>
-</g>
-
-<g transform="matrix( 1.019989013671875, 0, 0, 1.019989013671875, -0.3,0) ">
-<use xlink:href="#Symbol_25_0_Layer1_2_FILL"/>
-</g>
-
-<g transform="matrix( 1, 0, 0, 1, 0,0) ">
-<use xlink:href="#Symbol_25_0_Layer1_3_FILL"/>
-</g>
-
-<g transform="matrix( 1.139984130859375, 0, 0, 1.139984130859375, -187.65,-293.15) ">
-<use xlink:href="#Symbol_25_0_Layer1_4_FILL"/>
-</g>
-</g>
-</g>
-
-<g filter="url(#Filter_3)" transform="matrix( 2.2285003662109375, 0, 0, 2.2285003662109375, -183.6,-183.6) ">
 <g transform="matrix( 0.4397430419921875, 0, 0, 0.4397430419921875, 82.5,82.4) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Symbol_25_0_Layer1_0_FILL"/>
 </g>
 
-<g transform="matrix( 1.139984130859375, 0, 0, 1.139984130859375, -187.65,-293.15) ">
+<g transform="matrix( 0.96038818359375, 0, 0, 0.96038818359375, 0,0) ">
 <use xlink:href="#Symbol_25_0_Layer1_1_FILL"/>
 </g>
-
-<g transform="matrix( 1.019989013671875, 0, 0, 1.019989013671875, -0.3,0) ">
-<use xlink:href="#Symbol_25_0_Layer1_2_FILL"/>
-</g>
-
-<g transform="matrix( 1, 0, 0, 1, 0,0) ">
-<use xlink:href="#Symbol_25_0_Layer1_3_FILL"/>
-</g>
-
-<g transform="matrix( 1.139984130859375, 0, 0, 1.139984130859375, -187.65,-293.15) ">
-<use xlink:href="#Symbol_25_0_Layer1_4_FILL"/>
-</g>
 </g>
 </g>
 
-<g filter="url(#Filter_4)" transform="matrix( 2.2285003662109375, 0, 0, 2.2285003662109375, -183.6,-183.6) ">
+<g filter="url(#Filter_3)" transform="matrix( 2.2285003662109375, 0, 0, 2.2285003662109375, -183.6,-183.6) ">
 <g transform="matrix( 1.3153839111328125, 0, 0, 1.3153839111328125, 105.2,84.3) ">
 <g transform="matrix( 1, 0, 0, 1, -6.3,0) ">
 <use xlink:href="#Symbol_14_copy_0_Layer0_0_FILL"/>
@@ -222,6 +200,14 @@ L 2.35 -24.5 Z"/>
 <use xlink:href="#Symbol_14_copy_0_Layer0_2_FILL"/>
 </g>
 </g>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Speaker_Button_1_copy_1_Layer0_0_MEMBER_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,8.95) ">
+<use xlink:href="#Speaker_Button_1_copy_1_Layer0_0_MEMBER_1_FILL"/>
 </g>
 </g>
 </svg>
