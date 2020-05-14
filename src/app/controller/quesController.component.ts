@@ -68,6 +68,7 @@ export class QuesController implements OnInit {
   blinkFlag: boolean = false;
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
+  enableNavBtns: boolean = false;
   isVideoPlaying:boolean = false;
   isLastQuesAageyBadhe:boolean = false;
   isLastQues:boolean = false;
@@ -171,7 +172,14 @@ export class QuesController implements OnInit {
     this.appModel.enableFlagSubmit.subscribe((flag) => {
       this.enableSubmitBtn = flag
 
-	})
+  })
+  
+  this.appModel.enableFlagNav.subscribe((flag) => {
+    console.log("nav wala flaggg")
+    this.enableNavBtns = flag
+  })
+
+
 	this.appModel.enableFlagReplay.subscribe((flag) => {
 		this.enableReplayBtn = flag
     })

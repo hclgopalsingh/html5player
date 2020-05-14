@@ -28,7 +28,7 @@ button:focus {
 
 .bodyContent {
   position: absolute;
-  top: 17%; /*18%;*/
+  top: 18%; /*18%;*/
   width: 100%;
   left: 0;
   height: 69%; /*67%;*/
@@ -389,7 +389,7 @@ button:focus {
   width: 70%;
 }
 
-#container .instructionBar {
+#container #instructionBar {
   position: absolute;
   top: 10%;
   width: 100%;
