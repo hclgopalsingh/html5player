@@ -49,7 +49,7 @@
 .refQues .boxRight img,
 .refQues .boxBottom img,
 .refQues .boxLeft img{
-	max-width: 18.6%;
+	max-width: 61%;
 }
 .refQues>img,
 .options div>img{
@@ -122,7 +122,7 @@
 	z-index: 3;
 }
 div.subOpt img{
-	max-width: 16%;
+	max-width: 58%;
 }
 .options{
 	cursor:pointer;
