@@ -80,7 +80,7 @@
   </div>
   <div id="optionsBlock" #ansBlock>
       <div class="options">
-          <div #leftOptRef class="options" *ngFor="let opt of myoption.leftoption;let idx = index" (click)="checkAnswer(opt, leftOptRef)">
+          <div #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index" (click)="checkAnswer(opt, leftOptRef)">
               <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" (load)="checkImgLoaded();">
               <div class="subOpt">
                   <img class="img-fluid" *ngFor="let subOpt of opt.digits" [src]="subOpt?.location=='content' ? containgFolderPath + '/' + subOpt?.url : assetsPath + '/' +subOpt?.url" (load)="checkImgLoaded();">
@@ -106,7 +106,7 @@
           </div> -->
       </div>
       <div class="options">
-        <div #rightOptRef class="options" *ngFor="let opt of myoption.rightoption;let idx = index" (click)="checkAnswer(opt, rightOptRef)">
+        <div #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index" (click)="checkAnswer(opt, rightOptRef)">
           <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" (load)="checkImgLoaded();">
           <div class="subOpt">
               <img class="img-fluid" *ngFor="let subOpt of opt.digits" [src]="subOpt?.location=='content' ? containgFolderPath + '/' + subOpt?.url : assetsPath + '/' +subOpt?.url" (load)="checkImgLoaded();">
@@ -245,6 +245,16 @@
     </div>
   </div>
 
+  celebration
+  <div class="modal" id="celebrations" #celebrationPopup>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+          <img class="img-fluid" [src]="popupAssets?.celebrations?.location=='content' ? containgFolderPath +'/'+ popupAssets?.celebrations?.url :  assetsPath +'/'+ popupAssets?.celebrations?.url">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- show answer Popup  -->
   <div class="modal" id="showAnswer" #showAnswerRef>
@@ -285,3 +295,5 @@
   [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
 <audio #showAnswerfeedback
   [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
+  <audio #multiCorrectFeedback
+  [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>
