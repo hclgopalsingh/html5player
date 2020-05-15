@@ -536,7 +536,9 @@ houtSkip(){
 					}, 750)
 					
 					this.feedbackVoRef.nativeElement.onended=()=>{
+						if(this.isAnsWrong){
 							this.appModel.wrongAttemptAnimation();
+						}
 					}
 					
 
@@ -976,7 +978,7 @@ houtSkip(){
 		//shake options
 		// this.isAnsWrong = false;
 		// $("#optimage"+this.itemid).removeClass('wrongImageStyle')
-		
+		this.isAnsWrong = false
 		this.ansBlock.nativeElement.children[this.itemid].children[1].style.visibility = 'visible';
 		this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'hidden' ;
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0}, 1000, () => {
@@ -1051,6 +1053,7 @@ houtSkip(){
 
 
 	blinkOnLastQues() {
+		console.log("this.attemptType",this.attemptType)
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
@@ -1154,7 +1157,6 @@ houtSkip(){
 	showAnswer() {
 		this.attemptType = "hideAnimation"
 		this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-		//this.checkAnswer(obj,obj)
 		this.ans.nativeElement.src = this.assetspath + '/' +this.feedback.correct_ans_url;
 		this.confirmModalRef.nativeElement.classList="modal";
 		this.ans.nativeElement.style.visibility = 'visible';
@@ -1176,7 +1178,7 @@ houtSkip(){
 		setTimeout(() => {
 			// this.checkNextActivities();
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-			this.removeEvents();
+			//this.removeEvents();
 			this.blinkOnLastQues();
 		}, 5000)
 
