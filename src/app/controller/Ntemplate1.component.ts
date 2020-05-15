@@ -378,6 +378,7 @@ export class Ntemplate1 implements OnInit {
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.popupRef.nativeElement.classList = "displayPopup modal";
+          this.appModel.resetBlinkingTimer();
           this.setFeedbackAudio();
         }
       } else if (mode == "auto") {
@@ -463,6 +464,7 @@ export class Ntemplate1 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     })
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -682,6 +684,7 @@ export class Ntemplate1 implements OnInit {
         this.styleBodyPopup = this.feedbackObj.style_body;
         setTimeout(() => {
           this.appModel.invokeTempSubject('showModal', 'manual');
+          this.appModel.resetBlinkingTimer();
         }, 100);
       }
       if ((this.noOfRightAnsClicked < this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
@@ -905,9 +908,10 @@ houtSkip(){
       } else {
         setTimeout(() => {
           this.closeModal();
+          this.blinkOnLastQues();
+          this.appModel.moveNextQues();
         }, 2000);
-        this.blinkOnLastQues();
-        this.appModel.moveNextQues();
+        
       }
     }
 
@@ -931,9 +935,10 @@ houtSkip(){
     } else {
       setTimeout(() => {
         this.closeModal();
+        this.blinkOnLastQues();
+        this.appModel.moveNextQues();
       }, 2000);
-      this.blinkOnLastQues();
-      this.appModel.moveNextQues();
+      
     }
   }
   playrightFeedbackAudioforPartialPopup(i) {

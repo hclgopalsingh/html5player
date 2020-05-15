@@ -496,8 +496,7 @@ ngAfterViewChecked() {
 				this.postWrongAttemplt()
 				},750 )
 		});
-
-
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt(){
@@ -731,6 +730,7 @@ ngAfterViewChecked() {
         this.rightanspopUpheader_img = false;
         this.showanspopUpheader_img = true;
         this.appModel.invokeTempSubject('showModal', 'manual');
+        this.appModel.resetBlinkingTimer();
       }, 100);
 
       $("#instructionBar").addClass("disable_div");

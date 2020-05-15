@@ -215,6 +215,7 @@ export class Ntemplate21 implements OnInit {
         this.appModel.postWrongAttempt.subscribe(() =>{
             this.showAnswer();
         })
+        this.appModel.resetBlinkingTimer();
     }
 
      ngAfterViewChecked() {
@@ -628,6 +629,7 @@ export class Ntemplate21 implements OnInit {
 
     showAnswer(){
         this.popupType = "showanswer"
+        this.appModel.resetBlinkingTimer();
          this.appModel.stopAllTimer();
         if(this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused){
             this.instructionVO.nativeElement.pause();

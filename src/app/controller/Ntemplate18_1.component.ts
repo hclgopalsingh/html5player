@@ -1549,6 +1549,7 @@ houtSkip(){
       $(".bodyContent").addClass("disable_div");
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
+        this.appModel.resetBlinkingTimer();
       }, 100);
 
       $("#instructionBar").addClass("disable_div");

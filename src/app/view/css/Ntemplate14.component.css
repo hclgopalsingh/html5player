@@ -679,7 +679,7 @@ audio::-webkit-media-controls-time-remaining-display{
 
   #tracktime{
     color: turquoise;
-    width: 15%;
+    min-width: 18%;
     font-size: 1.2em;
     padding-left: 2%;
   }

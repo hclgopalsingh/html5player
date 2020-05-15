@@ -454,6 +454,7 @@ export class Ntemplate5 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -590,6 +591,7 @@ export class Ntemplate5 implements OnInit {
       this.showanspopUpheader_img = true;
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
+      this.appModel.resetBlinkingTimer();
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
         if (this.rightAnspopupAssets.imgsrc && this.rightAnspopupAssets.imgsrc.location == "content") {
@@ -613,6 +615,7 @@ export class Ntemplate5 implements OnInit {
           }
         }, 2000);
         //this.blinkOnLastQues();
+        this.closeModal();
         this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
         $("#instructionBar").addClass("disable_div");
         this.appModel.notifyUserAction();

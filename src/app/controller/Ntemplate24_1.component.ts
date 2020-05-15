@@ -377,6 +377,7 @@ optionLeave(idx, opt) {
     this.appModel.postWrongAttempt.subscribe(() =>{
       this.postWrongAttemplt();
  })
+    this.appModel.resetBlinkingTimer();
   }
 
    ngOnDestroy(){
@@ -385,6 +386,7 @@ optionLeave(idx, opt) {
 
 getAnswer(flag){
     if(flag=='showAnswer'){
+      this.appModel.resetBlinkingTimer();
         this.isAllRight = true;
         this.answerFeedback = 'showAnswer';
         this.assetsFeedback.splice(0,this.assetsFeedback.length);
