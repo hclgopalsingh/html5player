@@ -68,6 +68,7 @@ export class QuesController implements OnInit {
   blinkFlag: boolean = false;
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
+  enableNavBtns: boolean = false;
   isVideoPlaying:boolean = false;
   isLastQuesAageyBadhe:boolean = false;
   isLastQues:boolean = false;
@@ -119,7 +120,6 @@ export class QuesController implements OnInit {
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
-        console.log(this.EnableShowAnswer, 'show answer enable ques controller');
         if(this.EnableShowAnswer === true){
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
@@ -172,7 +172,14 @@ export class QuesController implements OnInit {
     this.appModel.enableFlagSubmit.subscribe((flag) => {
       this.enableSubmitBtn = flag
 
-	})
+  })
+  
+  this.appModel.enableFlagNav.subscribe((flag) => {
+    console.log("nav wala flaggg")
+    this.enableNavBtns = flag
+  })
+
+
 	this.appModel.enableFlagReplay.subscribe((flag) => {
 		this.enableReplayBtn = flag
     })

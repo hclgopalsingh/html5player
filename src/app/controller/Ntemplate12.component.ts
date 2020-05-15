@@ -112,7 +112,9 @@ export class Ntemplate12 implements OnInit {
 	loadFlag: boolean = false;
 	quesObj: any;
 	containgFolderPath: string = "";
-
+	controlHandler = {
+		isTab:true
+	 };
 	get basePath(): any {
 		// console.log('temponeComponent: path=', this.appModel.content.id + '/' + this.appModel.content.contentData.data['path']);
 		if (this.appModel && this.appModel.content) {
@@ -259,6 +261,9 @@ export class Ntemplate12 implements OnInit {
 	movetop: any;
 
 	checkAnswer(option, event) {
+		$( "#navBlock" ).addClass("disableNavBtn")
+		this.controlHandler.isTab = false;
+    	this.appModel.handleController(this.controlHandler);
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.pause();
@@ -291,8 +296,11 @@ export class Ntemplate12 implements OnInit {
 					this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
 					setTimeout(() => {
 						// this.checkNextActivities();
+						this.controlHandler.isTab = true;
+    					this.appModel.handleController(this.controlHandler);
 						this.removeEvents();
 						this.blinkOnLastQues()
+						$( "#navBlock" ).removeClass("disableNavBtn")
 					}, 200)
 					setTimeout(() => {
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
@@ -671,6 +679,9 @@ export class Ntemplate12 implements OnInit {
 		this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'hidden';
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
 			console.log("stuffs to do after wornog answer pop-up")
+			$( "#navBlock" ).removeClass("disableNavBtn")
+			this.controlHandler.isTab = true;
+			this.appModel.handleController(this.controlHandler);
 			this.ansBlock.nativeElement.children[this.itemid].children[1].style.height = 'auto'
 			this.ansBlock.nativeElement.children[this.itemid].children[1].style.width = 'auto'
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
