@@ -28,7 +28,7 @@ export class VideoComponent implements OnInit {
 
   public displayVolume = false;
   public displaySpecial = false;
-  public isPlaying = true;
+  public isPlaying = false;
   public time = PlayerConstants.TIME_FORMAT;
   isAutoplayOn:boolean;
   text:any = "";

@@ -275,13 +275,14 @@ export class QuesController implements OnInit {
     clearInterval(this.timeInterval);
     this.timeInterval = undefined;
     this.blinkFlag = false;
-    this.appModel.previousSection();
+    
     this.EnableShowAnswer=false;
     if(this.EVA) {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     } else {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
     }
+    this.appModel.previousSection();
 
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
@@ -353,9 +354,9 @@ export class QuesController implements OnInit {
 
   setBlinkOnLastQuestion() {
     if(this.EVA) {
-      if(this.EnableShowAnswer === true){
-        this.quesCtrl.blinkingStatus=true;
-        }
+      // if(this.EnableShowAnswer === true){
+         this.quesCtrl.blinkingStatus=true;
+        // }
     } else {
       this.blinkFlag = true;
       let flag = true;
