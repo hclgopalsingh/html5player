@@ -12,6 +12,9 @@ export class QuestionBlockComponent implements OnInit {
   @Input() dataCorrectOption: any;
   @ViewChild('blinkingBlock') blinkingBlock: any;
   @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
+  @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;  
+  @ViewChild('questionBase') questionBase: any;
+  @ViewChild('questionStatement') questionStatement: any;  
 
   selectedOptionURL: String = "";
   selectedOptionBlinkURL: String = "";
@@ -72,10 +75,19 @@ export class QuestionBlockComponent implements OnInit {
 
       case "right_wrong_popup":
         this.blinking(false);
-        //this.selectedOption(this.dataCorrectOption);
+        this.selectedOptionBlockBlink.nativeElement.classList.add('right_wrong_popup');
+        this.selectedOptionBlock.nativeElement.classList.add('right_wrong_popup');
+        this.blinkingBlock.nativeElement.classList.add('right_wrong_popup');
+        this.questionBase.nativeElement.classList.add('right_wrong_popup');
+        this.questionStatement.nativeElement.classList.add('right_wrong_popup');
         break;
 
       case "show_answer_popup":
+        this.selectedOptionBlockBlink.nativeElement.classList.add('right_wrong_popup');
+        this.selectedOptionBlock.nativeElement.classList.add('right_wrong_popup');
+        this.blinkingBlock.nativeElement.classList.add('right_wrong_popup');
+        this.questionBase.nativeElement.classList.add('right_wrong_popup');
+        this.questionStatement.nativeElement.classList.add('right_wrong_popup');
         this.blinking(false);
         this.selectedOption(this.dataCorrectOption);
         break;

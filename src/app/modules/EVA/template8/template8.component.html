@@ -24,7 +24,7 @@
             [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
             (load)="checkImgLoaded();"></app-instruction-bar>
 
-        <app-question-block #questionBlock id="questionBlock" [contentPath]="containgFolderPath" [data]="this.ques"
+        <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath" [data]="this.ques"
             containerType="main_screen">
         </app-question-block>
 
@@ -71,9 +71,11 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <app-question-block #feedbackQuestionBlock id="questionBlock" [contentPath]="containgFolderPath"
-                        [data]="this.ques" containerType="right_wrong_popup">
-                    </app-question-block>
+                    <div id="refQuesBlock">
+                        <app-question-block #feedbackQuestionBlock class="questionBlockPopup"
+                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="right_wrong_popup">
+                        </app-question-block>
+                    </div>
                     <div class="rightWrongAns">
                         <img class="img-fluid"
                             [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
@@ -94,9 +96,11 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <app-question-block #showAnswerQuestionBlock id="questionBlock" [contentPath]="containgFolderPath"
-                        [data]="this.ques" containerType="show_answer_popup">
-                    </app-question-block>
+                    <div id="refQuesBlockShowAnswer">
+                        <app-question-block #showAnswerQuestionBlock class="questionBlockPopup"
+                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="show_answer_popup">
+                        </app-question-block>
+                    </div>
                     <img class="popupCloseBtn"
                         [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
                         (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()"

@@ -1,9 +1,7 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<div class="questionBase">
+<div #questionBase class="questionBase">
   <img class="img-fluid" [src]="contentPath + '/' + data?.questionBase?.url" />
 </div>
-<div class="questionStatement">
+<div #questionStatement class="questionStatement">
   <img class="img-fluid" [src]="contentPath + '/' + data?.questionStatement?.url" />
 </div>
 <div #blinkingBlock>

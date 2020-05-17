@@ -12,6 +12,12 @@
 	justify-content: center;
 }
 
+.right_wrong_popup {
+    top: auto !important;
+    width: 80%;
+    left: auto;
+}
+
 /* Firefox old*/
 @-moz-keyframes blink {
     25% {
@@ -68,7 +74,7 @@
 }
 
 .show {
-    display: block;
+    display: flex !important;
 }
 
 .hide {

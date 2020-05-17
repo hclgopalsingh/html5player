@@ -130,8 +130,6 @@ export class Template8Component implements OnInit {
         // this.appModel.navShow = 2;
     }
 
-
-
     ngOnInit() {
         this.sprite.nativeElement.style = "display:none";
         this.ifRightAns = false;
@@ -168,6 +166,7 @@ export class Template8Component implements OnInit {
                 this.speaker.imgsrc = this.speaker.imgorigional;
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+                this.stopAllSounds();
                 this.showAnswerQuestionBlock.selectedOption(this.getCorrectOptionData());
 
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
@@ -215,6 +214,24 @@ export class Template8Component implements OnInit {
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
+        this.stopAllSounds();
+    }
+
+    stopAllSounds() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+
+        this.wrongFeedback.nativeElement.pause();
+        this.wrongFeedback.nativeElement.currentTime = 0;
+
+        this.rightFeedback.nativeElement.pause();
+        this.rightFeedback.nativeElement.currentTime = 0;
+
+        this.clapSound.nativeElement.pause();
+        this.clapSound.nativeElement.currentTime = 0;
+
+        this.showAnswerfeedback.nativeElement.pause();
+        this.showAnswerfeedback.nativeElement.currentTime = 0;
     }
 
     ngAfterViewChecked() {
@@ -281,6 +298,7 @@ export class Template8Component implements OnInit {
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
         target.children[1].classList.add("hide");
+        target.children[1].classList.remove("show");
 
         this.popupclosedinRightWrongAns = false;
         this.questionBlock.selectedOption(option);
@@ -403,14 +421,11 @@ export class Template8Component implements OnInit {
             array[randomIndex].option_bg = optionBg2;
 
         }
+
         var flag = this.arraysIdentical(array, this.idArray);
         if (flag) {
             this.doRandomize(array);
         }
-        else {
-
-        }
-
     }
 
     /*****Check if array is identical******/
