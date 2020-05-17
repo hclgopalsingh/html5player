@@ -9,10 +9,9 @@
 	justify-content: center;
 	z-index: 1;
 }
-.modal #refQuesBlock{
+/* .modal #refQuesBlock{
     top: 18.5%;
-    /* height: 39%; */
-}
+} */
 .refQues{
 	width: 38.8%;
 	display: flex;
@@ -26,7 +25,7 @@
 .refQues .boxLeft{
     position: absolute;
     width:41.5%;
-    top: 14%;
+    top: 17%;
     left: 29.4%;
     display: flex;
     justify-content: center;
@@ -38,7 +37,7 @@
     left: 58.5%;
 }
 .refQues .boxBottom{
-    top: 72%;
+    top: 76%;
     left: 29.4%;
 }
 .refQues .boxLeft{
@@ -127,6 +126,31 @@ div.subOpt img{
 .options{
 	cursor:pointer;
 }
-.rightWrongAns{
+.eva .modal-dialog {
+	width: 100% !important;
+	margin: 0 auto;
+}
+.eva .modal-content {
+	height: 100%;
+}
+.eva .modal-body{
+	justify-content: center;
+}
+.modal-body .celebrate{
+	width: 55%;
+}
+.modal-body .celebrate img{
+	width: 100%;
+}
+/* .rightWrongAns{
     bottom: 18%;
+} */
+/*** Media Query for 1366*768 ***/
+@media screen and (min-width: 1366px) and (max-width: 1366px){
+	#container{
+		width: 1162px;
+	}
+} 
+.eva .modal{
+	display: flex; /*assign 'none' to turn the popup off */
 }
