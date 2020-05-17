@@ -124,8 +124,6 @@ export class Template15Component implements OnInit {
         // this.appModel.navShow = 2;
     }
 
-
-
     ngOnInit() {       
         this.sprite.nativeElement.style="display:none";
         this.ifRightAns = false;
