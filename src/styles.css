@@ -176,9 +176,6 @@ button:focus{
 .eva .modal .options{
 	width: 100% !important;
 }
-.eva .modal .options div{
-    width: 44% !important;
-}
 .eva .modal .options div:hover{
 	animation: none !important;
 	transform: none !important;

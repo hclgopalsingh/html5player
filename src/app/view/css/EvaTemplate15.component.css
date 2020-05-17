@@ -21,6 +21,9 @@
 	position: relative;
 	transition: transform .2s;
 }
+.modal .options div{
+	width: 44%;
+}
 .options div:hover{
 	transform: scale(1.1);
 	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */

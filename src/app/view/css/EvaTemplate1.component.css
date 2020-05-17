@@ -1,8 +1,8 @@
 #refQuesBlock{
     position: absolute;
-    top: 13.5%;
+    top: 14%;/*13.5%*/
     width: 100%;
-    height: 33%;
+    height: 35%;/*33%*/
     left: 0%; 
 	display: flex;
 	align-items: center;
@@ -13,33 +13,46 @@
     height: 39%;
 }
 .refQues{
-	width: auto;
-    height: 100%;
-    padding: 0 6%;
+	width: fit-content;
+    height: 94%;/*100%*/
+    padding: 0 5%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 1;
+	position: relative;
 	/* background: radial-gradient(circle, rgba(255,241,198,1) 0%, rgba(255,232,156,1) 90%); */
+} 
+/*** Media Query for 1366*768 ***/
+@media screen and (min-width: 1366px) and (max-width: 1366px){
+	#container{
+		width: 1162px;
+	}
+	.refQues{
+		padding: 0 4%;
+	}
+} 
+.refQues:before{
+	content: '';
+    position: absolute;
+    top: -4.5%;
+    width: 100%;
+    height: 109%;
 	background: linear-gradient(180deg, rgba(255,241,198,1) 0%, rgba(255,232,156,1) 100%);	
 	border-radius: 2vmin;
-	/* -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
-	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65); */
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
-	z-index: 1;
-} 
-/* .modal .refQues{
-	background: transparent;	
-	border-radius: 0;
-	box-shadow: none;
-	z-index: 1;
-}  */
+    z-index: -1;
+}
 .refQues div{
-	height: 83%;/*89%*/;
+	height: 91%;/*83%*/;
 	display: flex;
 	justify-content: center;
     align-items: center;
     position: relative;
 } 
+.modal .refQues div {
+	height: 100%;
+}
 .refQues div img{
 	filter: grayscale(100%) brightness(0) saturate(0);
 	height: 100%;/*87%;*/
@@ -58,6 +71,60 @@
 .refQues div.quesBox.fillBlank{
 	position: relative;
 	width: 10vmax;
+}
+/*** Option Classes ***/
+#container #optionsBlock {
+    position: absolute;
+    top: 54%;
+	width: 100%;
+	height: 27%;
+    left: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.quesImage {
+	width: 100%;
+	height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* align-items: flex-end; */
+}
+.quesImage .optItem {
+    position: relative !important;
+    width: auto;
+    height: 90%;
+}
+#optionsBlock .options {
+    position: relative;
+    max-width: 100%;
+    margin: 0% 5%;
+    vertical-align: middle;
+    width: 19%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* animation: scaleit 0.4s ease-in; */
+	background: #ff9797;
+    border-radius: 2vmin;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
+	transition: transform .2s;
+}
+#optionsBlock .options:nth-child(2) {
+	background: #9EFBFF;
+}
+#optionsBlock .options:nth-child(3) {
+	background: #B6FDA4;
+}
+#optionsBlock .options:hover{
+	transform: scale(1.1);
+}
+.options img {
+    filter: grayscale(100%) brightness(0) saturate(0);
+}
+.options img {
+    cursor: pointer;
 }
 /*** Matra Positioning Classes ***/
 div.matra_i{
