@@ -8,6 +8,7 @@
 
 	<audio #buzzerSound
 		[src]="feedback?.wrong_ans_sound?.path?.location=='content' ? assetspath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+	<audio #feedbackVoRef></audio>
 
 	<div id="bgImage"><img
 			[src]="commonassets?.background?.location=='content' ? assetspath + '/' +commonassets?.background?.url: assetsfolderlocation + '/'+ commonassets?.background?.url"

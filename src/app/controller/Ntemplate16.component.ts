@@ -695,6 +695,7 @@ export class Ntemplate16 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
 		});
+		this.appModel.resetBlinkingTimer();
 	}
 
 	postWrongAttempt() {
@@ -996,6 +997,7 @@ export class Ntemplate16 implements OnInit {
 		this.attemptType = "no animation";
 		this.confirmModalRef.nativeElement.classList="modal";
 		this.confirmReplayRef.nativeElement.classList="modal";
+		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
 			$("#instructionBar").addClass("disable_div");
 			$("#optionsBlock ").addClass("disable-click");

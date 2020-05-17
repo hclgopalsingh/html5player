@@ -407,6 +407,7 @@ export class Ntemplate22 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -932,6 +933,7 @@ export class Ntemplate22 implements OnInit {
 
 
   showAnswerFeedback() {
+    this.appModel.resetBlinkingTimer();
     if(this.feedbackObj.correct_month!="") {
       this.date.setDate(this.feedbackObj.correct_date);
       //let indexofRightdate = this.datesArr.findIndex((item)=> item.id == this.feedbackObj.correct_date);

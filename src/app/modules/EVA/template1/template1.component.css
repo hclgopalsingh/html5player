@@ -173,6 +173,9 @@ div#contentHolder {
 	left: 0;
 	border: solid .5vmax #0029d0;
 	border-radius: 1vmax;
+	animation: none;
+}
+.refQues div.quesBox.blinkOn::before {
 	animation: borderBlink normal 1s infinite linear;
 }
 .modal .refQues div.quesBox::before {
@@ -270,7 +273,7 @@ div.matra_rBtmRight img[src*='ha.png'] + img[src*='rBtmRight.png']{
 	top: -.8vmax;
 }
 div.matra_rBtmCenter img[src*='rBtmCenter.png']{
-	/* right: .3vmax; */
+	right: .3vmax;
 }
 /*** Akshar Positioning Classes ***/
 img[src*='ad.png'],

@@ -137,7 +137,9 @@ export class Ntemplate11 implements OnInit {
 	replayconfirmAssets: any;
 	tempTimer:any;
 	PlayPauseFlag:boolean = true;
-
+	controlHandler = {
+		isTab:true
+	 };
 
 
 
@@ -445,6 +447,8 @@ houtSkip(){
 	checkAnswer(option, event, id) {
 		this.disableHelpBtn = true;
 		$( "#navBlock" ).addClass("disableNavBtn")
+		this.controlHandler.isTab = false;
+    	this.appModel.handleController(this.controlHandler);
 		// Analytics called for attempt counter & first option is clicked
 		if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
 			this.myAudiohelp.nativeElement.pause();
@@ -492,6 +496,8 @@ houtSkip(){
 						this.blinkOnLastQues()
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 						$( "#navBlock" ).removeClass("disableNavBtn")
+						this.controlHandler.isTab = true;
+    					this.appModel.handleController(this.controlHandler);
 					}, 200)
 					// this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
 					// this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible'
@@ -530,7 +536,9 @@ houtSkip(){
 					}, 750)
 					
 					this.feedbackVoRef.nativeElement.onended=()=>{
+						if(this.isAnsWrong){
 							this.appModel.wrongAttemptAnimation();
+						}
 					}
 					
 
@@ -970,14 +978,16 @@ houtSkip(){
 		//shake options
 		// this.isAnsWrong = false;
 		// $("#optimage"+this.itemid).removeClass('wrongImageStyle')
-		$( "#navBlock" ).removeClass("disableNavBtn")
+		this.isAnsWrong = false
 		this.ansBlock.nativeElement.children[this.itemid].children[1].style.visibility = 'visible';
 		this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'hidden' ;
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0}, 1000, () => {
 			console.log("stuffs to do wornog answer pop-up")
 			this.appModel.enableReplayBtn(true);
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-
+			$( "#navBlock" ).removeClass("disableNavBtn")
+			this.controlHandler.isTab = true;
+			this.appModel.handleController(this.controlHandler);
 		})
 	}
 
@@ -1043,6 +1053,7 @@ houtSkip(){
 
 
 	blinkOnLastQues() {
+		console.log("this.attemptType",this.attemptType)
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
@@ -1146,7 +1157,6 @@ houtSkip(){
 	showAnswer() {
 		this.attemptType = "hideAnimation"
 		this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-		//this.checkAnswer(obj,obj)
 		this.ans.nativeElement.src = this.assetspath + '/' +this.feedback.correct_ans_url;
 		this.confirmModalRef.nativeElement.classList="modal";
 		this.ans.nativeElement.style.visibility = 'visible';
@@ -1168,7 +1178,7 @@ houtSkip(){
 		setTimeout(() => {
 			// this.checkNextActivities();
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-			this.removeEvents();
+			//this.removeEvents();
 			this.blinkOnLastQues();
 		}, 5000)
 
