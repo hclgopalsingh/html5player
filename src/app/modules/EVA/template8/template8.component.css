@@ -8,13 +8,14 @@
 	justify-content: center;
 }
 .options {
-	width: 86%;
+	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: center;
 }
 .options div {
-	width: 20%;
+	width: 17.5%;
+	margin: 0 2.2%;
 	position: relative;
 	transition: transform .2s;
 }
@@ -75,11 +76,23 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+    height: 50%;
+	top: 11%;
+	width: 100%;
+	flex-wrap: wrap;
+	align-content: center;
+}
+
+.modal #refQuesBlock {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
     height: 70%;
     top: 5%;
 }
 
-#refQuesBlockShowAnswer {
+.modal #refQuesBlockShowAnswer {
 	width:97.4%;
 	position: absolute;
 	display: flex;
@@ -92,4 +105,7 @@
 #container .speakerBlock{
 	top: 25%;
 	left: 43%;
+	/* justify-content: flex-end;
+	align-content: center;
+	height: 100%; */
 }

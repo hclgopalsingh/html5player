@@ -19,15 +19,33 @@
     </div>
 
     <div #maincontent>
-
         <app-instruction-bar id="instructionBar" [data]="commonAssets?.instruction_bg"
             [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
             (load)="checkImgLoaded();"></app-instruction-bar>
-
-        <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath" [data]="this.ques"
-            containerType="main_screen">
-        </app-question-block>
-
+        <div id="refQuesBlock">
+            <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath"
+                [data]="this.ques" containerType="main_screen">
+            </app-question-block>
+            <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
+                <!-- <div #sprite class="speaker"></div> -->
+                <div id="spkrBtn" class="speakerBtn">
+                    <img #speakerNormal id="speaker" class="img-fluid"
+                        [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
+                        (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
+                        (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
+                    <div class="waveAnimation" #sprite>
+                        <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
+                             + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
+                        <img class="img-fluid"
+                            [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
+                        <img class="img-fluid"
+                            [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
+                    </div>
+                    <audio id="S" #myAudiospeaker #audioEl
+                        [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
+                </div>
+            </div>
+        </div>
         <div id="optionsBlock" #ansBlock class="quesOptions">
             <div class="options" #optionRef>
                 <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"
@@ -42,25 +60,7 @@
                 </div>
             </div>
         </div>
-        <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
-            <!-- <div #sprite class="speaker"></div> -->
-            <div id="spkrBtn" class="speakerBtn">
-                <img #speakerNormal id="speaker" class="img-fluid"
-                    [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
-                    (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
-                    (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
-                <div class="waveAnimation" #sprite>
-                    <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
-                         + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
-                    <img class="img-fluid"
-                        [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
-                    <img class="img-fluid"
-                        [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
-                </div>
-                <audio id="S" #myAudiospeaker #audioEl
-                    [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
-            </div>
-        </div>
+
     </div>
     <!--END OF MAIN CONTENT-->
 
