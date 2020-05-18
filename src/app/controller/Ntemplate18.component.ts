@@ -794,7 +794,7 @@ houtSkip(){
     this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
 		});
-
+    this.appModel.resetBlinkingTimer()
   }
 
   postWrongAttempt(){
@@ -1538,6 +1538,7 @@ houtSkip(){
       $(".bodyContent").css("opacity", "0.3");
       $(".bodyContent").addClass("disable_div");
       setTimeout(() => {
+        this.appModel.resetBlinkingTimer();
         this.appModel.invokeTempSubject('showModal', 'manual');
       }, 100);
 
