@@ -40,7 +40,7 @@
     height: 109%;
 	background: linear-gradient(180deg, rgba(255,241,198,1) 0%, rgba(255,232,156,1) 100%);	
 	border-radius: 2vmin;
-	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
+	box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.55);
     z-index: -1;
 }
 .refQues div{
@@ -108,8 +108,10 @@
     /* animation: scaleit 0.4s ease-in; */
 	background: #ff9797;
     border-radius: 2vmin;
-    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.65);
+	border: solid .45vmax transparent;
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.55);
 	transition: transform .2s;
+    cursor: pointer;
 }
 #optionsBlock .options:nth-child(2) {
 	background: #9EFBFF;
@@ -119,12 +121,10 @@
 }
 #optionsBlock .options:hover{
 	transform: scale(1.1);
+	border-color: #f00;
 }
 .options img {
     filter: grayscale(100%) brightness(0) saturate(0);
-}
-.options img {
-    cursor: pointer;
 }
 /*** Matra Positioning Classes ***/
 div.matra_i{
