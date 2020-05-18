@@ -542,9 +542,9 @@ export class Template1Component implements OnInit {
     }
 
     /**OPTION HOVER */
-    onHoverOptions(option, index) {
-        option.optBg = option.optBgHover;        
-    }
+    // onHoverOptions(option, index) {
+    //     option.optBg = option.optBgHover;        
+    // }
     playOptionHover(option, index){
         if (option && option.audio && option.audio.url) {
             this.playSound(option.audio, index);
@@ -575,9 +575,9 @@ export class Template1Component implements OnInit {
         }
      }
     
-    onHoveroutOptions(option, index) {
-        option.optBg = option.optBgOriginal;
-    }
+    // onHoveroutOptions(option, index) {
+    //     option.optBg = option.optBgOriginal;
+    // }
     
     /** On selecting a Matra option **/    
     selectOptMatra(opt,idx){
@@ -586,7 +586,7 @@ export class Template1Component implements OnInit {
         this.popupclosedinRightWrongAns=false; 
         this.optionSelected = idx;
         this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
-        this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.add('invisible');
+        this.optionRef.nativeElement.children[this.optionSelected].children[0].classList.add('invisible');
         for(let x=0; x<this.refQues.nativeElement.children.length;x++){
             if(this.refQues.nativeElement.children[x].classList.value=='quesBox blinkOn'){
                 this.saveOpt=this.refQues.nativeElement.children[x];
@@ -599,6 +599,7 @@ export class Template1Component implements OnInit {
                 this.optionRef.nativeElement.children[i].classList.add("disableDiv");
             }
         }
+		this.speakerNormal.nativeElement.classList.add("disableDiv");
         let optionURL=opt.url;
         let matraName=optionURL.split('.')[0].split('/').pop();
         this.saveOpt.classList.add('matra_'+matraName);
@@ -692,9 +693,9 @@ export class Template1Component implements OnInit {
        this.aksharQuestion=true;
        this.popupclosedinRightWrongAns=false; 
        this.optionSelected = idx;       
-       if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[1]) {
+       if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[0]) {
            setTimeout(() => {
-               this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.add('invisible');
+               this.optionRef.nativeElement.children[this.optionSelected].children[0].classList.add('invisible');
                this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
                this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = opt;
                this.isOptionSelected = true;               
@@ -707,6 +708,7 @@ export class Template1Component implements OnInit {
                 this.optionRef.nativeElement.children[i].classList.add("disableDiv");
             }
         }
+		this.speakerNormal.nativeElement.classList.add("disableDiv");
            
            if (opt && opt.isCorrect) {
                // handle for correct attempt
@@ -786,7 +788,7 @@ export class Template1Component implements OnInit {
    /*Reset Question and Option*/ 
    resetQuestion(){               
     setTimeout(()=>{
-        this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
+        this.optionRef.nativeElement.children[this.optionSelected].children[0].classList.remove('invisible');
         },50)
         setTimeout(()=>{
             this.doRandomize(this.myoption)
@@ -800,6 +802,7 @@ export class Template1Component implements OnInit {
             this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
         }
     }
+	this.speakerNormal.nativeElement.classList.remove("disableDiv");
    }
     
 	
