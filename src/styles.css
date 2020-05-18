@@ -176,9 +176,6 @@ button:focus{
 .eva .modal .options{
 	width: 100% !important;
 }
-.eva .modal .options div{
-    width: 44% !important;
-}
 .eva .modal .options div:hover{
 	animation: none !important;
 	transform: none !important;
@@ -201,6 +198,7 @@ button:focus{
 #container .speakerBlock{
 	width:100%;
 	position:absolute;
+	top:61%;
 	display: flex;
     justify-content: center;
     align-items: center;

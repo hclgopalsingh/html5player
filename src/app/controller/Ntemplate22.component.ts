@@ -648,6 +648,18 @@ export class Ntemplate22 implements OnInit {
       this.previousItemevent = item.target;
       item.target.style.pointerEvents = "none";
       itemDate.selected = true;
+      if(this.weekDaySelected) {
+        this.date.setDate(this.clickedID);
+        if(this.ArrweekDays[this.date.getDay()-1].id == this.ArrweekDays.filter((item) => item.selected == true)[0].id && this.monthsArr[this.date.getMonth()].id==this.feedback.correct_month) {
+          this.isCorrectweekDay = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].checkRightorWrong = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item) => item.selected == true)[0].rightweekDayImg;
+         } else {
+          this.isCorrectweekDay = false;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].checkRightorWrong = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item) => item.selected == true)[0].wrongweekDayImg;
+         }
+      }
        if(this.feedbackObj.correct_date!= "" && this.clickedID == this.feedbackObj.correct_date) {
          this.isCorrectDate = true;
          //this.monthDatesinPopup.nativeElement.children[0].children[item.target.getAttribute("id")].src = itemDate.rightdateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.rightdateImg.url : this.assetsPath +"/"+ itemDate.rightdateImg.url;
@@ -666,14 +678,33 @@ export class Ntemplate22 implements OnInit {
         this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       }
       item.selected = true;
-      if(this.feedbackObj.correct_weekDay!= "" && item.id == this.feedbackObj.correct_weekDay) {
-        this.isCorrectweekDay = true;
-        item.checkRightorWrong = true;
-        item.weekDayImginpopUp = item.rightweekDayImg;
+      if(this.feedbackObj.correct_weekDay!= "") {
+        if(item.id == this.feedbackObj.correct_weekDay) {
+          this.isCorrectweekDay = true;
+          item.checkRightorWrong = true;
+          item.weekDayImginpopUp = item.rightweekDayImg;
+        } else {
+          this.isCorrectweekDay = false;
+          item.checkRightorWrong = true;
+          item.weekDayImginpopUp = item.wrongweekDayImg;
+        }
       } else {
-        this.isCorrectweekDay = false;
-        item.checkRightorWrong = true;
-        item.weekDayImginpopUp = item.wrongweekDayImg;
+         if(this.clickedID!=undefined) {
+           this.date.setDate(this.clickedID);
+           if(this.ArrweekDays[this.date.getDay()-1].id == item.id && this.monthsArr[this.date.getMonth()].id==this.feedback.correct_month) {
+            this.isCorrectweekDay = true;
+            item.checkRightorWrong = true;
+            item.weekDayImginpopUp = item.rightweekDayImg;
+           } else if(this.ArrweekDays[this.date.getDay()-1].id == item.id && this.feedback.correct_month=="") {
+            this.isCorrectweekDay = true;
+            item.checkRightorWrong = true;
+            item.weekDayImginpopUp = item.rightweekDayImg;
+           } else {
+            this.isCorrectweekDay = false;
+            item.checkRightorWrong = true;
+            item.weekDayImginpopUp = item.wrongweekDayImg;
+           }
+         }
       }
     }
     if(this.monthSelected && this.yearSelected && this.dateSelected && this.weekDaySelected) {
@@ -982,18 +1013,32 @@ export class Ntemplate22 implements OnInit {
       //   this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       // }
     }
-    if(this.feedbackObj.correct_weekDay!="") {
-      if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
-        this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
-        this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+    if(this.feedbackObj.correct_weekDay == "") {
+      if(this.feedbackObj.correct_date!="") {
+        this.date.setDate(this.feedbackObj.correct_date);
+        this.ArrweekDays[this.date.getDay()-1].checkRightorWrong=true;
+        this.ArrweekDays[this.date.getDay()-1].weekDayImginpopUp = this.ArrweekDays[this.date.getDay()-1].rightweekDayImg;
       }
-      let indexofRightweekday=this.ArrweekDays.findIndex((item)=> item.id == this.feedbackObj.correct_weekDay);
-      this.ArrweekDays[indexofRightweekday].checkRightorWrong=true;
-        this.ArrweekDays[indexofRightweekday].weekDayImginpopUp = this.ArrweekDays[indexofRightweekday].rightweekDayImg;
+      else {
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
+      }
     } else {
-      if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
-        this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
-        this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      if(this.feedbackObj.correct_weekDay!="") {
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
+        let indexofRightweekday=this.ArrweekDays.findIndex((item)=> item.id == this.feedbackObj.correct_weekDay);
+        this.ArrweekDays[indexofRightweekday].checkRightorWrong=true;
+          this.ArrweekDays[indexofRightweekday].weekDayImginpopUp = this.ArrweekDays[indexofRightweekday].rightweekDayImg;
+      } else {
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
       }
     }
     this.setCalender("showAnspopup");

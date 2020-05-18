@@ -1721,6 +1721,8 @@ export class Ntemplate23 implements OnInit {
       }
     }
     this.singleClicknotAllowed=false;
+    this.countofClick=0;
+    this.p=1;
     document.getElementById("line0").setAttribute("x1", "0");
     document.getElementById("line0").setAttribute("x2", "0");
     document.getElementById("line0").setAttribute("y1", "0");
