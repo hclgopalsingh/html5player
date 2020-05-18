@@ -216,6 +216,7 @@ export class Template2Component implements OnInit {
   ngOnDestroy() {
     this.showAnswerSubscription.unsubscribe();
     clearTimeout(this.clappingTimer);
+    clearTimeout(this.rightTimer);
   }
 
   ngAfterViewChecked() {
@@ -228,7 +229,7 @@ export class Template2Component implements OnInit {
     this.appModel.notifyUserAction();
     let fetchedData: any = this.appModel.content.contentData.data;
     this.instructiontext = fetchedData.instructiontext;
-    this.myoption = fetchedData.options;
+    this.myoption = JSON.parse(JSON.stringify(fetchedData.options));
     this.commonAssets = fetchedData.commonassets;
     this.speaker = fetchedData.speaker;
     this.feedback = fetchedData.feedback;
@@ -355,14 +356,17 @@ export class Template2Component implements OnInit {
     speaker.imgsrc = speaker.imgorigional;
   }
 
-  checkAnswer(option, optRef) {
+  checkAnswer(option, optRef, index) {
     this.popupclosedinRightWrongAns = false;
-    // logic to check what user has done is correct
-    if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
-      let optRefEl = optRef.children[1] as HTMLElement;
-      if (!optRefEl) {
+    let optRefEl;
+      if (optRef && optRef.children[1] && optRef.children[1].children[0]) {
+        optRefEl = optRef.children[1].children[0] as HTMLElement;
+      }
+      else {
         return;
       }
+    // logic to check what user has done is correct
+    if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
       this.correctAnswerCounter++;
       let ansRef = document.getElementById("answer" + this.correctAnswerCounter) as HTMLElement;
       ansRef.insertAdjacentElement("beforeend", optRefEl);
@@ -381,7 +385,12 @@ export class Template2Component implements OnInit {
       // this.popupIcon = this.popupAssets.right_icon.url;
       // this.popupIconLocation = this.popupAssets.right_icon.location;
       this.ifRightAns = true;
-
+      if (index <= 2) {
+        this.myoption.leftoption[index].selected = true;
+      }
+      else {
+        this.myoption.rightoption[index-3].selected = true;
+      }
       let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement
 
       setTimeout(() => {
@@ -392,7 +401,7 @@ export class Template2Component implements OnInit {
           setTimeout(() => {
             if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
               this.clapSound.nativeElement.play();
-              celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";  
+              celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
               this.clappingTimer = setTimeout(() => {
                 this.clapSound.nativeElement.pause();
                 this.clapSound.nativeElement.currentTime = 0;
@@ -420,7 +429,7 @@ export class Template2Component implements OnInit {
             this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
             this.rightTimer = setTimeout(() => {
               this.closePopup('answerPopup');
-          }, 10000)
+            }, 10000)
           }
         }
         else if (this.rightFeedback && this.rightFeedback.nativeElement) {
@@ -470,10 +479,10 @@ export class Template2Component implements OnInit {
       clearTimeout(this.wrongTimer);
       this.answerPopupType = 'wrong';
       this.ifWrongAns = true;
-      this.idArray = [];
-      for (let i of this.myoption) {
-        this.idArray.push(i.id);
-      }
+      // this.idArray = [];
+      // for (let i of this.myoption) {
+      //   this.idArray.push(i.id);
+      // }
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
       //let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
@@ -487,7 +496,6 @@ export class Template2Component implements OnInit {
       //this.appModel.stopAllTimer();
       //play wrong feed back audio
       this.wrongCounter += 1;
-
       setTimeout(() => {
         if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
           this.wrongFeedback.nativeElement.play();
@@ -495,6 +503,12 @@ export class Template2Component implements OnInit {
 
         this.wrongFeedback.nativeElement.onended = () => {
           this.ansBlock.nativeElement.className = "optionsBlock";
+          let mainArray = [...this.myoption.leftoption, ...this.myoption.rightoption];
+          this.idArray = [];
+          for (let i of mainArray) {
+            this.idArray.push(i.id);
+          }
+          this.doRandomize(mainArray);
           this.disableSpeaker.nativeElement.classList.remove("disableDiv");
           if (this.wrongCounter >= 3 && this.ifWrongAns) {
             this.Sharedservice.setShowAnsEnabled(true);
@@ -505,7 +519,7 @@ export class Template2Component implements OnInit {
         }
 
       });
-      //this.doRandomize(this.myoption);
+
     }
   }
 
@@ -516,34 +530,38 @@ export class Template2Component implements OnInit {
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-      var img_hover1 = array[currentIndex].image_hover;
-      var text1 = array[currentIndex].image;
-      var text1copy = array[currentIndex].image_original;
-      var optionBg1 = array[currentIndex].option_bg;
+      // var img_hover1 = array[currentIndex].image_hover;
+      // var text1 = array[currentIndex].image;
+      // var text1copy = array[currentIndex].image_original;
+      var optionBg1 = array[currentIndex].optBg;
 
-      var img_hover2 = array[randomIndex].image_hover;
-      var text2 = array[randomIndex].image;
-      var text2copy = array[randomIndex].image_original;
-      var optionBg2 = array[randomIndex].option_bg;
+      // var img_hover2 = array[randomIndex].image_hover;
+      // var text2 = array[randomIndex].image;
+      // var text2copy = array[randomIndex].image_original;
+      var optionBg2 = array[randomIndex].optBg;
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
 
-      array[currentIndex].image_hover = img_hover1;
-      array[currentIndex].image = text1;
-      array[currentIndex].image_original = text1copy;
-      array[currentIndex].option_bg = optionBg1;
+      // array[currentIndex].image_hover = img_hover1;
+      // array[currentIndex].image = text1;
+      // array[currentIndex].image_original = text1copy;
+      array[currentIndex].optBg = optionBg1;
 
-      array[randomIndex].image_hover = img_hover2;
-      array[randomIndex].image = text2;
-      array[randomIndex].image_original = text2copy;
-      array[randomIndex].option_bg = optionBg2;
+      // array[randomIndex].image_hover = img_hover2;
+      // array[randomIndex].image = text2;
+      // array[randomIndex].image_original = text2copy;
+      array[randomIndex].optBg = optionBg2;
 
     }
     var flag = this.arraysIdentical(array, this.idArray);
     if (flag) {
       this.doRandomize(array);
+    }
+    else {
+      this.myoption.leftoption = array.slice(0, array.length / 2);
+      this.myoption.rightoption = array.slice(array.length / 2, array.length);
     }
   }
 
@@ -584,8 +602,8 @@ export class Template2Component implements OnInit {
         this.blinkOnLastQues();
         if (!this.lastQuestionCheck) {
           this.popupTime = setTimeout(() => {
-            this.appModel.nextSection();
-            this.Sharedservice.setShowAnsEnabled(false);
+            // this.appModel.nextSection();
+            // this.Sharedservice.setShowAnsEnabled(false);
           }, 10000)
         } else if (this.lastQuestionCheck) {
           this.Sharedservice.setTimeOnLastQues(true);
@@ -613,9 +631,6 @@ export class Template2Component implements OnInit {
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
     if (this.lastQuestionCheck) {
       this.LastquestimeStart = true;
-      // setTimeout(()=>{                
-      //     this.next();
-      //   },5 * 60 * 1000);
     }
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues();
@@ -631,7 +646,7 @@ export class Template2Component implements OnInit {
         }
       }
     } else {
-      //   this.appModel.moveNextQues();
+      this.appModel.moveNextQues("");
     }
   }
 
