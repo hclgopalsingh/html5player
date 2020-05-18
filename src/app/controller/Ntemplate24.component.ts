@@ -659,7 +659,13 @@ getAnswer(flag){
   
    sendFeedback(ref, flag: string, action?: string) {
         this.appModel.notifyUserAction();
+        document.getElementById("optionsBlock").style.pointerEvents="none";
         ref.classList = "modal";
+        setTimeout(() => {
+          if(action=="noShowAnswer" || action=="resetActivity") {
+            document.getElementById("optionsBlock").style.pointerEvents="";
+          }
+        }, 1000);
         if (action == "showAnswer") {
           this.popupType = "showanswer"
             this.getAnswer('showAnswer');
@@ -679,7 +685,11 @@ getAnswer(flag){
                 this.disableScreen();
                 this.blinkOnLastQues();
             }else {
-                this.appModel.wrongAttemptAnimation();
+              document.getElementById("optionsBlock").style.pointerEvents="none";
+              this.appModel.wrongAttemptAnimation();
+              setTimeout(()=>{
+               document.getElementById("optionsBlock").style.pointerEvents="";
+             },4000); 
             }
         }else if(action=="partialFeedback"){
           this.popupType = "partialCorrect"
@@ -775,7 +785,11 @@ getAnswer(flag){
                           this.blinkOnLastQues();
                           
                      }else {
+                         document.getElementById("optionsBlock").style.pointerEvents="none";
                          this.appModel.wrongAttemptAnimation();
+                         setTimeout(()=>{
+                          document.getElementById("optionsBlock").style.pointerEvents="";
+                        },4000);                         
                      }
                 },1000)
             }
