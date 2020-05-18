@@ -338,6 +338,7 @@ optionLeave(idx, opt) {
          this.appModel.postWrongAttempt.subscribe(() =>{
              this.postWrongAttemplt();
         })
+        this.appModel.resetBlinkingTimer();
   }
 
    ngOnDestroy(){
@@ -347,6 +348,7 @@ optionLeave(idx, opt) {
 getAnswer(flag){
     this.appModel.stopAllTimer();
     if(flag=='showAnswer'){
+        this.appModel.resetBlinkingTimer();
         this.isAllRight = true;
         this.attemptType = "auto";
         this.answerFeedback = 'showAnswer';
@@ -660,12 +662,13 @@ getAnswer(flag){
    sendFeedback(ref, flag: string, action?: string) {
         this.appModel.notifyUserAction();
         document.getElementById("optionsBlock").style.pointerEvents="none";
-        ref.classList = "modal";
-        setTimeout(() => {
-          if(action=="noShowAnswer" || action=="resetActivity") {
-            document.getElementById("optionsBlock").style.pointerEvents="";
-          }
-        }, 1000);
+        ref.classList="modal";
+        setTimeout(
+        () => {
+        if(action=="noShowAnswer" || action=="resetActivity") {
+        document.getElementById("optionsBlock").style.pointerEvents="";
+        }
+        }, 1000) ;
         if (action == "showAnswer") {
           this.popupType = "showanswer"
             this.getAnswer('showAnswer');
@@ -685,11 +688,12 @@ getAnswer(flag){
                 this.disableScreen();
                 this.blinkOnLastQues();
             }else {
-              document.getElementById("optionsBlock").style.pointerEvents="none";
-              this.appModel.wrongAttemptAnimation();
-              setTimeout(()=>{
-               document.getElementById("optionsBlock").style.pointerEvents="";
-             },4000); 
+                document.getElementById("optionsBlock").style.pointerEvents="none ";
+                setTimeout(
+                  () => {
+                  document.getElementById("optionsBlock").style.pointerEvents="";
+                  }, 4000) ;
+                this.appModel.wrongAttemptAnimation();
             }
         }else if(action=="partialFeedback"){
           this.popupType = "partialCorrect"
@@ -785,11 +789,12 @@ getAnswer(flag){
                           this.blinkOnLastQues();
                           
                      }else {
-                         document.getElementById("optionsBlock").style.pointerEvents="none";
-                         this.appModel.wrongAttemptAnimation();
-                         setTimeout(()=>{
-                          document.getElementById("optionsBlock").style.pointerEvents="";
-                        },4000);                         
+                      document.getElementById("optionsBlock").style.pointerEvents="none ";
+                      setTimeout(
+                        () => {
+                        document.getElementById("optionsBlock").style.pointerEvents="";
+                        }, 4000) ;
+                      this.appModel.wrongAttemptAnimation();
                      }
                 },1000)
             }

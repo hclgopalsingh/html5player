@@ -1736,6 +1736,7 @@ export class Ntemplate23 implements OnInit {
 
   showAnswerFeedback() {
     this.showAnswerarray = [];
+    this.appModel.resetBlinkingTimer();
     for (let i = 0; i < this.feedbackObj.correct_state.length; i++) {
       let findState = this.myStates.find(element => element.textField == this.feedbackObj.correct_state[i]);
       this.showAnswerarray.push(findState);

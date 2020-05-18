@@ -31,10 +31,10 @@
 .playerControls {
     position: absolute;
     width: 94%;
-	height:17%;
-    bottom: 3%;
+	  height:12%;
+    bottom: 5%;
     left: 3%;
-	display: flex;
+	  display: flex;
     align-items: center;
 }
 .playerControls img {
@@ -669,3 +669,17 @@ left: 0;
 #infoModalId .popupModelBody {
 	padding: 0;
 }
+audio::-webkit-media-controls-time-remaining-display{
+  display: none;
+  
+  }
+  audio::-webkit-media-controls-current-time-display{
+    display: none;
+  }
+
+  #tracktime{
+    color: turquoise;
+    min-width: 18%;
+    font-size: 1.2em;
+    padding-left: 2%;
+  }

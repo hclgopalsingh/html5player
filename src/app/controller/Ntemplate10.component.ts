@@ -392,7 +392,6 @@ export class Ntemplate10 implements OnInit {
 		}
 		console.log("myoption",this.myoption,this.optBackup)
 		this.attemptType = "hideAnimation"
-		this.blinkOnLastQues();	
 		$(".speakerBtn ").addClass("disable_div");
 
 		$("#instructionBar").addClass("disable_div");	  
@@ -400,7 +399,9 @@ export class Ntemplate10 implements OnInit {
 		$("#optionsBlock").css("cursor", "inherit");
 		$("#optionsBlock").css("opacity", "1");
 		$("#instructionBar").css("opacity", "1");
+		this.appModel.resetBlinkingTimer();
 		setTimeout(()=>{
+			this.blinkOnLastQues();	
 			$("#optionsBlock").css("opacity", "0.3");
 			$("#instructionBar").css("opacity", "0.3");	
 		},5000)
@@ -589,7 +590,7 @@ export class Ntemplate10 implements OnInit {
 				},750 )
 		});
 		this.appModel.handleController(this.controlHandler);
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 

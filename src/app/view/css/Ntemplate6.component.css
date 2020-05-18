@@ -16,7 +16,7 @@ button:focus {
 }
 .bodyContent{
   position: absolute;
-  top: 18%;/*20%;*/
+  top: 18% !important;/*20%;*/
   width: 100%;
   left: 0;
   height: 69%;/*67%;*/
@@ -26,6 +26,10 @@ button:focus {
   align-items: center;
   align-content: space-around;
 }
+.bodyState{
+  top: 18% !important;/*20%;*/
+}
+
 .displayPopup {
   display: flex!important;
   justify-content: center;
@@ -869,4 +873,9 @@ button:focus {
   100% {
     transform: scale(1.0)
   }
+}
+
+.disableNavBtn{
+	opacity: 0.5;
+	pointer-events: none;
 }

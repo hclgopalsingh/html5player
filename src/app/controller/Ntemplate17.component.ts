@@ -490,6 +490,7 @@ export class Ntemplate17 implements OnInit {
         }
       }, 200)
     }
+    this.appModel.resetBlinkingTimer();
   }
 
   ngOnDestroy() {
@@ -709,6 +710,9 @@ export class Ntemplate17 implements OnInit {
       console.log("feedback done......");
       if (this.quesObj.lang == 'math') {
         this.appModel.blinkForLastQues();
+      }
+      else{
+        this.appModel.moveNextQues();
       }
       this.disableScreen();
       // this.postFeedbackAction();
