@@ -32,8 +32,9 @@
     align-items: center;
 	z-index: 3;
 }
-.refQues .boxRight{
-    top: 44%;
+.refQues .boxRight,
+.refQues .boxLeft{
+    top: 46.5%;
     left: 58.5%;
 }
 .refQues .boxBottom{
@@ -41,14 +42,13 @@
     left: 29.4%;
 }
 .refQues .boxLeft{
-    top: 44%;
     left: 0;
 }
 .refQues .boxTop img,
 .refQues .boxRight img,
 .refQues .boxBottom img,
 .refQues .boxLeft img{
-	max-width: 61%;
+	max-width: 64%;
 }
 .refQues>img,
 .options div>img{
@@ -152,5 +152,5 @@ div.subOpt img{
 	}
 } 
 .eva .modal{
-	display: flex; /*assign 'none' to turn the popup off */
+	display: none; /*assign 'none' to turn the popup off */
 }
