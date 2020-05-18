@@ -595,9 +595,10 @@ export class Template1Component implements OnInit {
         this.saveOpt.classList.remove('quesBox');
         /*Disable Other options*/
         for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-            if (i != idx) {
-                this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-            }
+			this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            // if (i != idx) {
+                // this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            // }
         }
 		this.speakerNormal.nativeElement.classList.add("disableDiv");
         let optionURL=opt.url;
@@ -704,9 +705,10 @@ export class Template1Component implements OnInit {
            
            /*Disable Other options*/
         for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-            if (i != idx) {
-                this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-            }
+			this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            // if (i != idx) {
+                // this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            // }
         }
 		this.speakerNormal.nativeElement.classList.add("disableDiv");
            
@@ -798,9 +800,10 @@ export class Template1Component implements OnInit {
     document.getElementById('refQuesId').style.width='auto';
     /*Enable Other options*/
     for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-        if (this.optionRef.nativeElement.children[i].classList.contains("disableDiv")) {
-            this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-        }
+		this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+        // if (this.optionRef.nativeElement.children[i].classList.contains("disableDiv")) {
+            // this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+        // }
     }
 	this.speakerNormal.nativeElement.classList.remove("disableDiv");
    }
