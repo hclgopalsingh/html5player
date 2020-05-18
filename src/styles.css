@@ -201,7 +201,6 @@ button:focus{
 #container .speakerBlock{
 	width:100%;
 	position:absolute;
-	top:61%;
 	display: flex;
     justify-content: center;
     align-items: center;
