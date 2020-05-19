@@ -39,9 +39,12 @@
 #container .speakerBtn{
 	width:100%;
 	position:absolute;
-	top:61%;
 	text-align: center;
+	top:auto;
+	right: 2%;
 }
+
+
 .speakerBtn img{
 	width:9%;
 }
@@ -103,9 +106,6 @@
 }
 
 #container .speakerBlock{
-	top: 25%;
-	left: 43%;
-	/* justify-content: flex-end;
-	align-content: center;
-	height: 100%; */
+	top: 0;
+	height: 100%;
 }

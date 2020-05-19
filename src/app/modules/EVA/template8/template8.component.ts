@@ -217,9 +217,14 @@ export class Template8Component implements OnInit {
         this.stopAllSounds();
     }
 
-    stopAllSounds() {
+    stopOptionsSound(){
         this.audio.pause();
         this.audio.currentTime = 0;
+    }
+
+    stopAllSounds() {
+        
+        this.stopOptionsSound();
 
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;
@@ -293,8 +298,7 @@ export class Template8Component implements OnInit {
 
     /****Check answer on option click*****/
     checkAnswer(event, option) {
-        debugger;
-
+        this.stopOptionsSound();
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
         target.children[1].classList.add("hide");
@@ -448,8 +452,7 @@ export class Template8Component implements OnInit {
         }
     }
     closePopup(Type) {
-        this.doRandomize(this.myoption);
-        this.resetOptionsState();
+        
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();
@@ -463,6 +466,7 @@ export class Template8Component implements OnInit {
         if (Type === "answerPopup") {
             this.popupclosedinRightWrongAns = true;
             if (this.ifRightAns) {
+                clearTimeout(this.rightTimer);
                 this.Sharedservice.setShowAnsEnabled(true);
                 this.overlay.nativeElement.classList.value = "fadeContainer";
                 this.blinkOnLastQues();
@@ -475,6 +479,9 @@ export class Template8Component implements OnInit {
                     this.Sharedservice.setTimeOnLastQues(true);
                 }
             } else if (this.ifWrongAns) {
+                clearTimeout(this.wrongTimer);
+                this.doRandomize(this.myoption);
+                this.resetOptionsState();
                 this.questionBlock.reset();
                 if (this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
@@ -505,6 +512,7 @@ export class Template8Component implements OnInit {
 
     /*****Play speaker audio*****/
     playSpeaker(el: HTMLAudioElement, speaker) {
+        this.stopAllSounds();
         if (!this.instruction.nativeElement.paused) {
             console.log("instruction voice still playing");
         } else {
@@ -585,6 +593,7 @@ export class Template8Component implements OnInit {
 
     /***** Blink on last question ******/
     blinkOnLastQues() {
+        debugger;
         if (this.lastQuestionCheck) {
             this.LastquestimeStart = true;
         }

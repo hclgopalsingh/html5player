@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-question-block',
@@ -12,9 +12,10 @@ export class QuestionBlockComponent implements OnInit {
   @Input() dataCorrectOption: any;
   @ViewChild('blinkingBlock') blinkingBlock: any;
   @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
-  @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;  
+  @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;
   @ViewChild('questionBase') questionBase: any;
-  @ViewChild('questionStatement') questionStatement: any;  
+  @ViewChild('questionStatement') questionStatement: any;
+  @Output() load = new EventEmitter();
 
   selectedOptionURL: String = "";
   selectedOptionBlinkURL: String = "";
@@ -41,19 +42,19 @@ export class QuestionBlockComponent implements OnInit {
   selectedOption(option) {
     if (option) {
       this.selectedOptionBlock.nativeElement.classList.remove('hide');
-      this.selectedOptionBlock.nativeElement.classList.add('show');   
-      
+      this.selectedOptionBlock.nativeElement.classList.add('show');
+
       switch (this.containerType) {
         case "main_screen":
           this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
           //this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
           break;
-  
+
         case "right_wrong_popup":
           this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
           this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
           break;
-  
+
         case "show_answer_popup":
           this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
           this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
@@ -64,6 +65,10 @@ export class QuestionBlockComponent implements OnInit {
       this.selectedOptionBlock.nativeElement.classList.remove('show');
       this.selectedOptionBlock.nativeElement.classList.add('hide');
     }
+  }
+
+  checkImgLoaded() {
+    this.load.emit();
   }
 
   reset() {
