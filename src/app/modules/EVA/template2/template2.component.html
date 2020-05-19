@@ -4,8 +4,7 @@
   [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url"
   autoplay="autoplay"></audio>
 <div class="" #overlay></div>
-<div class="container-fluid" id="container">
-  <!--style="width: 1168px;" -->
+<div class="container-fluid eva" id="container">
   <div class="headerBar">
     <img class="img-fluid"
       [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url"
@@ -27,48 +26,20 @@
       </div>
     </div>
 
-
     <div id="refQuesBlock">
-      <!--id="optionsBlock"-->
       <div class="refQues">
         <img class="img-fluid"
           [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url">
         <div class="boxTop" id="answer1">
-          <!-- <img class="img-fluid" src="../../../assets/images/digits/4.png">
-              <img class="img-fluid" src="../../../assets/images/digits/5.png">
-              <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              <img class="img-fluid" src="../../../assets/images/digits/7.png"> -->
-          <!-- <img class="img-fluid" src=""> -->
         </div>
         <div class="boxRight" id="answer2">
-          <!-- <img class="img-fluid" src="../../../assets/images/digits/4.png">
-              <img class="img-fluid" src="../../../assets/images/digits/5.png">
-              <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              <img class="img-fluid" src="../../../assets/images/digits/7.png"> -->
-          <!-- <img class="img-fluid" src=""> -->
         </div>
         <div class="boxBottom" id="answer3">
-          <!-- <img class="img-fluid" src="../../../assets/images/digits/4.png">
-              <img class="img-fluid" src="../../../assets/images/digits/5.png">
-              <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              <img class="img-fluid" src="../../../assets/images/digits/7.png"> -->
-          <!-- <img class="img-fluid" src=""> -->
         </div>
         <div class="boxLeft" id="answer4">
-          <!-- <img class="img-fluid" src="../../../assets/images/digits/4.png">
-              <img class="img-fluid" src="../../../assets/images/digits/5.png">
-              <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              <img class="img-fluid" src="../../../assets/images/digits/7.png"> -->
-          <!-- <img class="img-fluid" src=""> -->
         </div>
         <div class="speakerBlock" #disableSpeaker id="disableSpeaker">
           <div id="spkrBtn" class="speakerBtn">
-            <!-- <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerBtnSelected.svg">
-                  <div class="waveAnimation">
-                      <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerWave1.svg">
-                      <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerWave2.svg">
-                      <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerWave3.svg">
-                  </div>     -->
             <img #speakerNormal id="speaker" class="img-fluid"
               [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
               (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
@@ -96,30 +67,12 @@
             (load)="checkImgLoaded();">
           <span *ngIf="!opt.selected">
             <div class="subOpt">
-              <img class="img-fluid" *ngFor="let subOpt of opt.digits"
-                [src]="subOpt?.location=='content' ? containgFolderPath + '/' + subOpt?.url : assetsPath + '/' +subOpt?.url"
+              <img class="img-fluid"
+                [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url"
                 (load)="checkImgLoaded();">
-              <!-- <img class="img-fluid" src="../../../assets/images/digits/0.png"> -->
             </div>
           </span>
         </div>
-        <!-- <div>
-              <img class="img-fluid" src="../../../assets/images/EvaTemplate2Assets/optionBg2.svg">
-              <div class="subOpt">
-                  <img class="img-fluid" src="../../../assets/images/digits/2.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/4.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/5.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              </div>
-          </div>
-          <div>
-              <img class="img-fluid" src="../../../assets/images/EvaTemplate2Assets/optionBg3.svg">
-              <div class="subOpt">
-                  <img class="img-fluid" src="../../../assets/images/digits/4.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/5.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              </div>
-          </div> -->
       </div>
       <div class="options">
         <div #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
@@ -129,114 +82,16 @@
             (load)="checkImgLoaded();">
           <span *ngIf="!opt.selected">
             <div class="subOpt">
-              <img class="img-fluid" *ngFor="let subOpt of opt.digits"
-                [src]="subOpt?.location=='content' ? containgFolderPath + '/' + subOpt?.url : assetsPath + '/' +subOpt?.url"
+              <img class="img-fluid"
+                [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url"
                 (load)="checkImgLoaded();">
-              <!-- <img class="img-fluid" src="../../../assets/images/digits/0.png"> -->
             </div>
           </span>
         </div>
-        <!-- <div>
-              <img class="img-fluid" src="../../../assets/images/EvaTemplate2Assets/optionBg4.svg">
-              <div class="subOpt">
-                  <img class="img-fluid" src="../../../assets/images/digits/2.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/4.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/5.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              </div>
-          </div>
-          <div>
-              <img class="img-fluid" src="../../../assets/images/EvaTemplate2Assets/optionBg5.svg">
-              <div class="subOpt">
-                  <img class="img-fluid" src="../../../assets/images/digits/5.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/0.png">
-              </div>
-          </div>
-          <div>
-              <img class="img-fluid" src="../../../assets/images/EvaTemplate2Assets/optionBg6.svg">
-              <div class="subOpt">
-                  <img class="img-fluid" src="../../../assets/images/digits/4.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/5.png">
-                  <img class="img-fluid" src="../../../assets/images/digits/9.png">
-              </div>
-          </div> -->
       </div>
     </div>
-    <!-- <div id="optionsBlock" #ansBlock class="quesOptions">
-      <div class="options"> -->
-    <!-- <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts)">
-          <img class="img-fluid" id="{{'optblank'+idx}}"
-            [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
-            (load)="checkImgLoaded();"> -->
-    <!-- <img class="img-fluid subOpt" id="{{'optimage'+idx}}"
-            [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url"
-            on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
-            (load)="checkImgLoaded();"> -->
-    <!-- </div> -->
-    <!-- <div class="row">
-          <div class="col-md-4">
-            <div id="{{'opt'+idx}}" *ngFor="let opts of myoptionleft;let idx = index">
-              <img class="img-fluid" id="{{'optblank'+idx}}"
-              [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
-              (load)="checkImgLoaded();">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <img class="img-fluid" id="{{'optblank'+idx}}"
-              [src]="common_assets?.centerImage?.location=='content' ?containgFolderPath + '/' +common_assets?.centerImage?.url: assetsPath + '/'+ common_assets?.centerImage?.url"
-              (load)="checkImgLoaded();">
-          </div>
-          <div class="col-md-4">
-            <div id="{{'opt'+idx}}" *ngFor="let opts of myoptionright;let idx = index">
-              <img class="img-fluid" id="{{'optblank'+idx}}"
-              [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
-              (load)="checkImgLoaded();">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div id="spkrBtn" class="speakerBtn">
-          <img class="img-fluid" #speakerNormal id="speaker" [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsPath + '/' + speaker?.imgsrc?.url"  (click)="playSpeaker()" (load)="checkImgLoaded();" />
-          <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsPath + '/' + speaker?.sound?.url"></audio>
-      </div> -->
-
-    <!-- <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
-      <div id="spkrBtn" class="speakerBtn">
-        <img #speakerNormal id="speaker" class="img-fluid"
-          [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
-          (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
-          (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="चलाऍं">
-        <div class="waveAnimation" #sprite>
-          <img class="img-fluid"
-            [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
-          <img class="img-fluid"
-            [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
-          <img class="img-fluid"
-            [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
-        </div>
-        <audio id="S" #myAudiospeaker #audioEl
-          [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
-      </div>
-    </div> -->
-
   </div>
   <!--END OF MAIN CONTENT-->
-
-
-  <!-- <div class="speakerBlock">
-        <div class="speakerBtn">
-            <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerBtnSelected.svg">
-            <div class="waveAnimation">
-                <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerWave1.svg">
-                <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerWave2.svg">
-                <img class="img-fluid" src="../../../assets/images/EVAGlobal/speakerWave3.svg">
-            </div>    
-        </div>
-    </div> -->
-
-
-
 
   <!-- Right/Wrong Popup  -->
   <div class="modal" id="modalTemp17" #ansPopup>
@@ -273,15 +128,17 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-body d-flex align-items-center">
-          <img class="img-fluid"
-            [src]="popupAssets?.celebrations?.location=='content' ? containgFolderPath +'/'+ popupAssets?.celebrations?.url :  assetsPath +'/'+ popupAssets?.celebrations?.url">
+          <div class="celebrate">
+            <img class="img-fluid"
+              [src]="popupAssets?.celebrations?.location=='content' ? containgFolderPath +'/'+ popupAssets?.celebrations?.url :  assetsPath +'/'+ popupAssets?.celebrations?.url">
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- show answer Popup  -->
-  <div class="modal" id="showAnswer" #showAnswerRef>
+  <!-- <div class="modal" id="showAnswer" #showAnswerRef>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-body d-flex align-items-center">
@@ -304,7 +161,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </div>
 
