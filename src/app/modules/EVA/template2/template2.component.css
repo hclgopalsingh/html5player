@@ -33,7 +33,7 @@
     position: absolute;
     width:41.5%;
     top: 17%;
-    left: 28%;
+    left: 29.5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +54,7 @@
 }
 .refQues .boxBottom{
     top: 76%;
-    left: 28%;
+    left: 29.5%;
 }
 .refQues .boxLeft{
     left: 0;

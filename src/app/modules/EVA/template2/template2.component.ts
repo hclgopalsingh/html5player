@@ -327,6 +327,15 @@ export class Template2Component implements OnInit {
     speaker.imgsrc = speaker.imgorigional;
   }
 
+  setClappingTimer(feedback) {
+    this.clapSound.nativeElement.play();
+    this.clappingTimer = setTimeout(() => {
+      this.clapSound.nativeElement.pause();
+      this.clapSound.nativeElement.currentTime = 0;
+      feedback.nativeElement.play();
+    }, 2000);
+  }
+
   checkAnswer(option, optRef, index) {
     this.popupclosedinRightWrongAns = false;
     let optRefEl;
@@ -363,12 +372,7 @@ export class Template2Component implements OnInit {
             if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
               //document.getElementById("refQuesBlock").style.visibility="hidden";
               celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-              this.clapSound.nativeElement.play();
-              this.clappingTimer = setTimeout(() => {
-                this.clapSound.nativeElement.pause();
-                this.clapSound.nativeElement.currentTime = 0;
-                this.multiCorrectFeedback.nativeElement.play();
-              }, 2000);
+              this.setClappingTimer(this.multiCorrectFeedback);
             }
           }, 4000);
           this.multiCorrectFeedback.nativeElement.onended = () => {
@@ -382,13 +386,7 @@ export class Template2Component implements OnInit {
           }
         }
         else if (this.rightFeedback && this.rightFeedback.nativeElement) {
-          this.clapSound.nativeElement.play();
-          this.clappingTimer = setTimeout(() => {
-            this.clapSound.nativeElement.pause();
-            this.clapSound.nativeElement.currentTime = 0;
-            this.rightFeedback.nativeElement.play();
-          }, 2000);
-
+          this.setClappingTimer(this.rightFeedback);
           this.rightFeedback.nativeElement.onended = () => {
             this.ansBlock.nativeElement.className = "optionsBlock";
             this.disableSpeaker.nativeElement.classList.remove("disableDiv");
