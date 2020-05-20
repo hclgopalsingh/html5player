@@ -2742,6 +2742,7 @@ document.getElementById("coverBtm").style.display = "block";
         this.appModel.enableNavBtn(false);
         this.controlHandler.isTab = true;
         this.appModel.handleController(this.controlHandler);
+        this.appModel.handlePostVOActivity(false);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
