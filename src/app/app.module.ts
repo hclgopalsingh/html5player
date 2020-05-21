@@ -69,8 +69,6 @@ import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 
 import { Template15Component } from './modules/EVA/template15/template15.component';
-import { Template15_day1_Act1Component } from './modules/EVA/template15_Day1_Act1/template15.component';
-import { Template15_day1_Act2Component } from './modules/EVA/template15_Day1_Act2/template15.component';
 import { SharedserviceService } from '../app/services/sharedservice.service';
 import { Template3Component } from './modules/EVA/template3/template3.component';
 import { Template1Component } from './modules/EVA/template1/template1.component';
@@ -137,8 +135,6 @@ import { Template8Component } from './modules/EVA/template8/template8.component'
 	AnimationComponent,
 	Ntemplate17_1,
 	Template15Component,
-	Template15_day1_Act1Component,
-	Template15_day1_Act2Component,
 	Template3Component,
 	Template1Component,
 	Template8Component

@@ -52,8 +52,6 @@ import { Ntemplate22 } from '../controller/Ntemplate22.component';
 import { Ntemplate14 } from '../controller/Ntemplate14.component';
 
 import {Template15Component } from '../modules/EVA/template15/template15.component';
-import {Template15_day1_Act1Component } from '../modules/EVA/template15_Day1_Act1/template15.component';
-import {Template15_day1_Act2Component } from '../modules/EVA/template15_Day1_Act2/template15.component';
 import { Template3Component } from './EVA/template3/template3.component';
 import { Template1Component } from '../modules/EVA/template1/template1.component';
 import { Template8Component } from '../modules/EVA/template8/template8.component';
@@ -157,10 +155,6 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp14ext', component: Ntemplate14, runGuardsAndResolvers: 'always' },
 			{ path: 'evatemp15', component: Template15Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp15ext', component: Template15Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'} },
-			{ path: 'evatemp15', component: Template15_day1_Act1Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp15ext', component: Template15_day1_Act1Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'} },
-			{ path: 'evatemp15', component: Template15_day1_Act2Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp15ext', component: Template15_day1_Act2Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'} },
 			{ path: 'evatemp3', component: Template3Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp3ext', component: Template3Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp1', component: Template1Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
