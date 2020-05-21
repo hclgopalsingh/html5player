@@ -15,13 +15,8 @@ export class Template2Component implements OnInit {
   commonAssets: any = "";
   rightPopup: any;
   wrongPopup: any;
-  wrongTimer: any;
-  i = 0;
-  j: number = 0;
   myoption: any = [];
   feedback: any = "";
-  bool: boolean = false;
-  popupType: string = "";
   isLastQues: boolean = false;
   isAutoplayOn: boolean;
   isLastQuesAct: boolean;
@@ -32,9 +27,6 @@ export class Template2Component implements OnInit {
   assetsPath: string = "";
   loadFlag: boolean = false;
   questionObj: any;
-  blinkTimeInterval: any;
-  blinkSide: string = "";
-  isWrongAttempted: boolean = false;
   confirmAssets: any;
   feedbackAssets: any;
   isPlayVideo: boolean;
@@ -49,10 +41,8 @@ export class Template2Component implements OnInit {
   instructiontext: string;
   timernextseg: any = "";
   idArray: any = [];
-  hasEventFired: boolean = false;
   speaker: any;
   tempSubscription: Subscription;
-  closed: boolean = false;
   correct_ans_index: any = [];
   speakerTimer: any;
   showAnswerPopup: any;
@@ -66,7 +56,6 @@ export class Template2Component implements OnInit {
   popupIcon: any;
   popupIconLocation: any;
   isPopupClosed: boolean = false;
-  answerPopupType: any;
   lastQuestionCheck: any;
   popupclosedinRightWrongAns: boolean = false;
   ifWrongAns: boolean = false;
@@ -88,8 +77,6 @@ export class Template2Component implements OnInit {
   @ViewChild('maincontent') maincontent: any;
   @ViewChild('footerNavBlock') footerNavBlock: any;
   @ViewChild('ansBlock') ansBlock: any;
-  @ViewChild('mainContainer') mainContainer: any;
-  @ViewChild('instructionBar') instructionBar: any;
   @ViewChild('clapSound') clapSound: any;
   @ViewChild('overlay') overlay: any;
   @ViewChild('celebrationPopup') celebrationsPopup: any;
@@ -143,7 +130,7 @@ export class Template2Component implements OnInit {
       } else if (mode == "auto") {
         console.log("auto mode", mode);
         this.attemptType = "uttarDikhayein";
-        this.popupType = "showanswer"
+        //this.popupType = "showanswer"
       }
     })
 
@@ -196,6 +183,7 @@ export class Template2Component implements OnInit {
 
   }
 
+  /****Set data for the Template****/
   setData() {
     this.appModel.notifyUserAction();
     let fetchedData: any = this.appModel.content.contentData.data;
@@ -233,6 +221,7 @@ export class Template2Component implements OnInit {
     })
   }
 
+  /******* Volume control for all VO  *******/
   templatevolume(vol, obj) {
     if (obj.instruction && obj.instruction.nativeElement) {
       obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -260,6 +249,7 @@ export class Template2Component implements OnInit {
     }
   }
 
+  /*****Play speaker audio*****/
   playSpeaker(el: HTMLAudioElement, speaker) {
     if (!this.instruction.nativeElement.paused) {
       console.log("instruction voice still playing");
@@ -350,9 +340,8 @@ export class Template2Component implements OnInit {
       this.correctAnswerCounter++;
       let ansRef = document.getElementById("answer" + this.correctAnswerCounter) as HTMLElement;
       ansRef.insertAdjacentElement("beforeend", optRefEl);
-      this.wrongCounter = 0; // Reset Wrong option attempt
-      this.answerPopupType = 'right';
-      clearTimeout(this.wrongTimer);
+      //this.answerPopupType = 'right';
+      //clearTimeout(this.wrongTimer);
       this.attemptType = "manual";
       this.appModel.stopAllTimer();
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
@@ -395,8 +384,7 @@ export class Template2Component implements OnInit {
       })
 
     } else {
-      clearTimeout(this.wrongTimer);
-      this.answerPopupType = 'wrong';
+      //this.answerPopupType = 'wrong';
       this.ifWrongAns = true;
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
@@ -510,10 +498,11 @@ export class Template2Component implements OnInit {
     } else {
 
     }
-
   }
+
+  /***** Blink on last question ******/
   blinkOnLastQues() {
-    this.Sharedservice.setLastQuesAageyBadheStatus(false);
+    //this.Sharedservice.setLastQuesAageyBadheStatus(false);
     if (this.lastQuestionCheck) {
       this.LastquestimeStart = true;
     }
