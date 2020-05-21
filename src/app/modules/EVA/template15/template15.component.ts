@@ -18,7 +18,8 @@ export class Template15Component implements OnInit {
 	rightPopup: any;
 	wrongPopup: any;
     wrongTimer:any;
-    rightTimer:any;
+    rightTimer:any;   
+    clapTimer:any;
     i = 0;
     j: number = 0;
     myoption: any = [];   
@@ -76,7 +77,6 @@ export class Template15Component implements OnInit {
     popupTime:any
     LastquestimeStart:boolean = false;
     audio = new Audio();
-    clapTimer:any;
     
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
