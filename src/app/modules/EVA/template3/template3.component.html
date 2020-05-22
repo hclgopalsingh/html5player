@@ -19,9 +19,9 @@
             </div>
         </div>
         <div id="optionsBlock" #optionsBlock >
-            <div class="options">
-                <div *ngFor= "let item of myoption;let idx = index">
-                    <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="checkAnswer(item)" (load)="checkImgLoaded();">
+            <div class="options" #optionRef>
+                <div *ngFor= "let item of myoption;let idx = index" (mouseenter)="playOptionHover(item,idx)">
+                    <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="checkAnswer(item)"  (load)="checkImgLoaded();">
                     <img class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"  (click)="checkAnswer(item)" (load)="checkImgLoaded();">
                     <img class="img-fluid playBtn"  [src]="item?.play_button_normal?.location=='content' ? contentgFolderPath + '/' + item?.play_button_normal?.url : assetsfolderlocation + '/' + item?.play_button_normal?.url" (mousemove)="onHoverPlay(item,idx)" (mouseleave)="onHoveroutPlay(item,idx)" (click)="playVideo(item,idx)" (load)="checkImgLoaded();" title="चलाऍं">
                 </div>
