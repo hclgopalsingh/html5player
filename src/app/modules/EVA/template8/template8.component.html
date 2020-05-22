@@ -18,7 +18,7 @@
             (load)="checkImgLoaded();" />
     </div>
 
-    <div #maincontent>
+    <div #maincontent class="hide">
         <app-instruction-bar id="instructionBar" [data]="commonAssets?.instruction_bg"
             [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
             (load)="checkImgLoaded();"></app-instruction-bar>
@@ -71,7 +71,12 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+                    
                     <div id="refQuesBlock">
+                        <!-- <div class="rightWrongSelectedAns">
+                            <img class="img-fluid"
+                                [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+                        </div> -->
                         <app-question-block #feedbackQuestionBlock class="questionBlockPopup"
                             [contentPath]="containgFolderPath" [data]="this.ques" containerType="right_wrong_popup">
                         </app-question-block>

@@ -19,6 +19,7 @@ export class Template8Component implements OnInit {
     rightPopup: any;
     wrongPopup: any;
     wrongTimer: any;
+    wrongTimerAudio: any;
     rightTimer: any;
     i = 0;
     j: number = 0;
@@ -93,7 +94,6 @@ export class Template8Component implements OnInit {
     @ViewChild('maincontent') maincontent: any;
     @ViewChild('footerNavBlock') footerNavBlock: any;
     @ViewChild('ansBlock') ansBlock: any;
-    @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionBar') instructionBar: any;
     @ViewChild('clapSound') clapSound: any;
     @ViewChild('overlay') overlay: any;
@@ -106,10 +106,12 @@ export class Template8Component implements OnInit {
         this.appModel = appModel;
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
+            //debugger;
         } else {
             this.appModel.setLoader(true);
             // if error occured during image loading loader wil stop after 5 seconds 
             this.loaderTimer = setTimeout(() => {
+                debugger;
                 this.appModel.setLoader(false);
             }, 5000);
         }
@@ -139,6 +141,8 @@ export class Template8Component implements OnInit {
         this.containgFolderPath = this.getBasePath();
 
         this.getCorrectOptionData();
+
+
         console.log("this.attemptType = " + this.attemptType);
         if (this.appModel.isNewCollection) {
             this.appModel.event = { 'action': 'segmentBegins' };
@@ -211,19 +215,22 @@ export class Template8Component implements OnInit {
 
 
     ngOnDestroy() {
+        debugger;
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
+        clearTimeout(this.wrongTimer);
+        clearTimeout(this.wrongTimerAudio);
         clearTimeout(this.clapTimer);
         this.stopAllSounds();
     }
 
-    stopOptionsSound(){
+    stopOptionsSound() {
         this.audio.pause();
         this.audio.currentTime = 0;
     }
 
     stopAllSounds() {
-        
+
         this.stopOptionsSound();
 
         this.wrongFeedback.nativeElement.pause();
@@ -363,7 +370,7 @@ export class Template8Component implements OnInit {
 
             setTimeout(() => {
 
-                setTimeout(() => {
+                this.wrongTimerAudio = setTimeout(() => {
                     ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                     option.image = option.img_original;
                     this.answerImageBase = option.image.url;
@@ -452,7 +459,7 @@ export class Template8Component implements OnInit {
         }
     }
     closePopup(Type) {
-        
+        debugger;
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();
@@ -558,6 +565,7 @@ export class Template8Component implements OnInit {
         if (!this.loadFlag) {
             this.noOfImgsLoaded++;
             if (this.noOfImgsLoaded >= this.noOfImgs) {
+                (this.maincontent.nativeElement as HTMLElement).classList.remove("hide");
                 this.appModel.setLoader(false);
                 this.Sharedservice.setShowAnsEnabled(false);
                 this.loadFlag = true;

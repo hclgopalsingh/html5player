@@ -55,8 +55,9 @@
 
 .questionBlock {
 	position: absolute;
-    top: 17%;
-    width: 74%;
+    top: auto;
+	width: 74%;
+	height: 100%;
     left: 13%; 
 	display: flex;
 	align-items: center;
@@ -108,4 +109,11 @@
 #container .speakerBlock{
 	top: 0;
 	height: 100%;
+}
+
+.rightWrongSelectedAns {
+	width: 100%;
+    position: absolute;
+    left: auto;
+    top: auto;
 }
