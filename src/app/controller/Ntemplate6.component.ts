@@ -2874,6 +2874,10 @@ document.getElementById("coverBtm").style.display = "block";
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
+    this.appModel.enableNavBtn(false);
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
     $('.speaker').removeClass('disable_div');
     this.optionsClickable.nativeElement.classList = "row mx-0"

@@ -931,9 +931,9 @@ removeAssetsFromPopup(id:string){
 		sendFeedback(id:string,flag:string) {
 			this.appModel.notifyUserAction();
 			this.confirmModalRef.nativeElement.classList="modal";
-			this.appModel.resetBlinkingTimer();
 			if(flag=="yes"){
 				setTimeout(() =>{
+					this.appModel.resetBlinkingTimer();
 					this.appModel.invokeTempSubject('showModal','manual');
 				},100)
 			}
