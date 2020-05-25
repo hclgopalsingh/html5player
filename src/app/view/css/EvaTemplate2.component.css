@@ -149,5 +149,5 @@ div.subOpt img{
 	}
 } 
 .eva .modal{
-	display: flex; /*assign 'none' to turn the popup off */
+	display: none; /*assign 'none' to turn the popup off */
 }
