@@ -18,22 +18,18 @@
             </div>
         </div>
         <div id="optionsBlock" #ansBlock  class="quesOptions">
-            <div class="options">
+            <div class="options" #optionRef>
                 <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts)"  >    
-                  <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"  (load)="checkImgLoaded();">
-                  <img class="img-fluid subOpt" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
-           </div>
+                  <img #optionBg class="img-fluid" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"  (load)="checkImgLoaded();">
+                  <img #optionImg class="img-fluid subOpt" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" on-mouseenter='playOptionHover(opts,idx)' (load)="checkImgLoaded();">
+                 </div>
             </div>
-        </div>
-        <!-- <div id="spkrBtn" class="speakerBtn">
-          <img class="img-fluid" #speakerNormal id="speaker" [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsPath + '/' + speaker?.imgsrc?.url"  (click)="playSpeaker()" (load)="checkImgLoaded();" />
-          <audio id="S" #myAudiospeaker #audioEl [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsPath + '/' + speaker?.sound?.url"></audio>
-      </div> -->
-
+        </div> 
+       
         <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
             <!-- <div #sprite class="speaker"></div> -->
             <div id="spkrBtn" class="speakerBtn">
-            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="चलाऍं">
+            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
             <div class="waveAnimation" #sprite>
                 <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
                 <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
@@ -44,21 +40,6 @@
         </div>
         
     </div>  <!--END OF MAIN CONTENT-->
-
-
-    <!-- <div class="speakerBlock">
-        <div class="speakerBtn">
-            <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerBtnSelected.svg">
-            <div class="waveAnimation">
-                <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerWave1.svg">
-                <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerWave2.svg">
-                <img class="img-fluid" src="../../../assets/images/evaGlobal/speakerWave3.svg">
-            </div>    
-        </div>
-    </div> -->
-
-
-
 
      <!-- Right/Wrong Popup  -->
      <div class="modal" id="modalTemp17" #ansPopup>
@@ -91,10 +72,10 @@
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="optionsBlock" class="onShowAns ">
+                    <div id="optionsBlock" class="onShowAns">
                         <div class="options">
                             <div>
-                                <img class="img-fluid" [src]="showAnswerPopup?.image?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsPath +'/'+ showAnswerPopup?.image?.url">
+                                <img class="img-fluid" [src]="answerImagelocation =='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase">
                                 <img class="img-fluid subOpt" [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
                             </div>
                         </div>

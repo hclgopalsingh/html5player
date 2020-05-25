@@ -1,3 +1,6 @@
-<p>
-  instruction-bar works!
-</p>
+<div class="instructionBase">
+  <img class="img-fluid"
+    [src]="data?.location =='content' ? contentPath + '/' + data?.url : assetsPath + '/' + data?.url"
+    (load)="checkImgLoaded();" />
+  <span class="instructionText">{{instructiontext}}</span>
+</div>

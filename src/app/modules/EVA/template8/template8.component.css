@@ -49,7 +49,7 @@
 	cursor:pointer;
 }
 
-#questionBlock {
+.questionBlock {
 	position: absolute;
     top: 17%;
     width: 74%;
@@ -59,76 +59,37 @@
 	justify-content: center;
 }
 
-#questionBlock .questionBase, 
-#questionBlock .questionStatement, 
-#questionBlock .questionBlinkingBlue,
-#questionBlock .questionBlinkingPink, 
-#questionBlock .questionAnswer  {
+.questionBlockPopup {
 	position: absolute;
-    top: 0%;
+    left: 0; 
+    top: 0;
     width: 100%;
-    left: 0%; 
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#refQuesBlock {
+	position: absolute;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+    height: 70%;
+    top: 5%;
+}
+
+#refQuesBlockShowAnswer {
+	width:97.4%;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    height: 90%;
+    top: 5%;
 }
 
 #container .speakerBlock{
 	top: 25%;
 	left: 43%;
-}
-
-/* Firefox old*/
-@-moz-keyframes blink {
-    25% {
-        opacity:0;
-    }
-    50% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-} 
-
-@-webkit-keyframes blink {
-    25% {
-        opacity:0;
-    }
-    50% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-/* IE */
-@-ms-keyframes blink {
-    25% {
-        opacity:0;
-    }
-    50% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-} 
-/* Opera and prob css3 final iteration */
-@keyframes blink {
-    25% {
-        opacity:0;
-    }
-    50% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-} 
-.blink-image {
-    -moz-animation: blink normal 1.5s infinite ease-in-out; /* Firefox */
-    -webkit-animation: blink normal 1.5s infinite ease-in-out; /* Webkit */
-    -ms-animation: blink normal 1.5s infinite ease-in-out; /* IE */
-    animation: blink normal 1.5s infinite ease-in-out; /* Opera and prob css3 final iteration */
 }

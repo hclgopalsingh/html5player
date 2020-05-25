@@ -58,6 +58,8 @@ export class Ntemplate14 implements OnInit {
 	controlHandler = {
 		isShowAns: false,
 	};
+	curTime:any = 0;
+	endTime:any = 0;
 	showPlay: boolean = false;
 	autoStop: any;
 	removeBtn: boolean = true;
@@ -65,7 +67,7 @@ export class Ntemplate14 implements OnInit {
 	infoPopupAssets: any;
 	tempSubscription: Subscription;
 	isFirstTrial: boolean = true;
-
+	showstop = false;
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -299,6 +301,7 @@ export class Ntemplate14 implements OnInit {
 		this.isStop = false;
 		this.isRecord = true;
 		this.isRecording =true;
+		this.showstop = true;
 		this.appModel.stopAllTimer()
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
@@ -307,13 +310,13 @@ export class Ntemplate14 implements OnInit {
 		this.disableHelpBtn = true;
 		this.audioT.nativeElement.pause();
 		this.recordButton.nativeElement.src = this.question.recordActive.url;
-		this.stopButton.nativeElement.src = this.question.stop.url;
 		if (this.mediaRecorder){
 			this.mediaRecorder.start();
 		}
 		else{
 			console.log("Microphone access is not allowed")
 		}
+		//this.stopButton.nativeElement.src = this.question.stop.url;
 		setTimeout(() => {
 			if (!this.isStop) {
 				this.stopRecording();
@@ -326,6 +329,7 @@ export class Ntemplate14 implements OnInit {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
 		}
+		this.showPlay= false;
 		this.isPlay = true;
 		//this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
@@ -341,11 +345,13 @@ export class Ntemplate14 implements OnInit {
 
 	stopRecording() {
 		this.isRecording =false;
+		this.showstop= false
+		this.removeBtn = false;
+		this.showPlay =true;
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
 		}
-		this.showPlay = true;
 		this.isStop = true;
 		this.appModel.notifyUserAction()
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
@@ -680,4 +686,22 @@ export class Ntemplate14 implements OnInit {
 		}
 	}
 
+	isCalled(){
+		console.log("getting it",Math.floor(this.audioT.nativeElement.currentTime))
+		console.log("this.audioT.nativeElement.endTime",this.audioT.nativeElement.duration)
+		this.curTime = this.convertTostandard(this.audioT.nativeElement.currentTime)
+		this.endTime = this.convertTostandard(this.audioT.nativeElement.duration)
+	}
+
+	convertTostandard(value){
+			const sec = parseInt(value, 10); // convert value to number if it's string
+			let hours:any   = Math.floor(sec / 3600); // get hours
+			let minutes:any = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+			let seconds:any = sec - (hours * 3600) - (minutes * 60); //  get seconds
+			// add 0 if value < 10
+			if (hours   < 10) {hours   = "0"+hours;}
+			if (minutes < 10) {minutes = "0"+minutes;}
+			if (seconds < 10) {seconds = "0"+seconds;}
+			return +minutes+':'+seconds; // Return is HH : MM : SS
+	}
 }

@@ -19,46 +19,26 @@
     </div>
 
     <div #maincontent>
-        <div id="instructionBar">
-            <div class="instructionBase">
-                <img class="img-fluid"
-                    [src]="commonAssets?.instruction_bg
-                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url"
-                    (load)="checkImgLoaded();" />
-                <span class="instructionText">{{instructiontext}}</span>
-            </div>
-        </div>
-        <app-question-block>
 
+        <app-instruction-bar id="instructionBar" [data]="commonAssets?.instruction_bg"
+            [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
+            (load)="checkImgLoaded();"></app-instruction-bar>
+
+        <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath" [data]="this.ques"
+            containerType="main_screen">
         </app-question-block>
-        <div id="questionBlock">
-            <!--div id="refQuesBlock"></div-->
-            <div class="questionBase">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBase?.url" />
-            </div>
-            <div class="questionStatement">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionStatement?.url" />
-            </div>
-            <div class="questionBlinkingPink">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingPink?.url" />
-            </div>
-            <div class="questionBlinkingBlue blink-image">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingBlue?.url" />
-            </div>
-            <div id="correctQuestionStatement" #correctQuestionStatement class="questionAnswer hide">
-                <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionAnswer?.url" />
-            </div>
-        </div>
+
         <div id="optionsBlock" #ansBlock class="quesOptions">
-            <div class="options">
-                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts)">
+            <div class="options" #optionRef>
+                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"
+                    (click)="checkAnswer($event, opts)">
                     <img class="img-fluid" id="{{'optblank'+idx}}"
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
                         (load)="checkImgLoaded();">
                     <img class="img-fluid subOpt" id="{{'optimage'+idx}}"
                         [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url"
                         on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
-                        (load)="checkImgLoaded();">
+                        on-mouseenter='playOptionHover(opts,idx)' (load)="checkImgLoaded();">
                 </div>
             </div>
         </div>
@@ -68,7 +48,7 @@
                 <img #speakerNormal id="speaker" class="img-fluid"
                     [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
                     (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
-                    (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="चलाऍं">
+                    (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
                 <div class="waveAnimation" #sprite>
                     <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
                          + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
@@ -91,23 +71,10 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="questionBlock">
-                        <!--div id="refQuesBlock"></div-->
-                        <div class="questionBase">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBase?.url" />
-                        </div>
-                        <div class="questionStatement">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionStatement?.url" />
-                        </div>
-                        <div class="questionBlinkingPink">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingPink?.url" />
-                        </div>
-                        <div class="questionBlinkingBlue blink-image">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionBlinkingBlue?.url" />
-                        </div>
-                        <div id="correctQuestionStatement" #correctQuestionStatement class="questionAnswer hide">
-                            <img class="img-fluid" [src]="containgFolderPath + '/' + ques?.questionAnswer?.url" />
-                        </div>
+                    <div id="refQuesBlock">
+                        <app-question-block #feedbackQuestionBlock class="questionBlockPopup"
+                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="right_wrong_popup">
+                        </app-question-block>
                     </div>
                     <div class="rightWrongAns">
                         <img class="img-fluid"
@@ -129,15 +96,10 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="optionsBlock" class="onShowAns ">
-                        <div class="options">
-                            <div>
-                                <img class="img-fluid"
-                                    [src]="showAnswerPopup?.image?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.image?.url :  assetsPath +'/'+ showAnswerPopup?.image?.url">
-                                <img class="img-fluid subOpt"
-                                    [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
-                            </div>
-                        </div>
+                    <div id="refQuesBlockShowAnswer">
+                        <app-question-block #showAnswerQuestionBlock class="questionBlockPopup"
+                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="show_answer_popup">
+                        </app-question-block>
                     </div>
                     <img class="popupCloseBtn"
                         [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"

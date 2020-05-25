@@ -199,7 +199,7 @@ export class Ntemplate2 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
 		});
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 	postWrongAttempt(){
@@ -933,6 +933,7 @@ removeAssetsFromPopup(id:string){
 			this.confirmModalRef.nativeElement.classList="modal";
 			if(flag=="yes"){
 				setTimeout(() =>{
+					this.appModel.resetBlinkingTimer();
 					this.appModel.invokeTempSubject('showModal','manual');
 				},100)
 			}

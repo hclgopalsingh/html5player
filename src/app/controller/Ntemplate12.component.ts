@@ -64,6 +64,7 @@ export class Ntemplate12 implements OnInit {
 	@ViewChild('optionBlock') optionBlock: any;
 	@ViewChild('answerBlock') answerBlock: any;
 	@ViewChild('narrator') narrator: any;
+	@ViewChild('feedbackVoRef') feedbackVoRef: any;
 
 	disableHelpBtn: boolean = false;
 	optimage: any;
@@ -112,7 +113,9 @@ export class Ntemplate12 implements OnInit {
 	loadFlag: boolean = false;
 	quesObj: any;
 	containgFolderPath: string = "";
-
+	controlHandler = {
+		isTab:true
+	 };
 	get basePath(): any {
 		// console.log('temponeComponent: path=', this.appModel.content.id + '/' + this.appModel.content.contentData.data['path']);
 		if (this.appModel && this.appModel.content) {
@@ -259,6 +262,9 @@ export class Ntemplate12 implements OnInit {
 	movetop: any;
 
 	checkAnswer(option, event) {
+		$( "#navBlock" ).addClass("disableNavBtn")
+		this.controlHandler.isTab = false;
+    	this.appModel.handleController(this.controlHandler);
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.pause();
@@ -289,14 +295,25 @@ export class Ntemplate12 implements OnInit {
 					console.log("animation completed")
 					this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
 					this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
+					
+					setTimeout(() => {
+						this.feedbackVoRef.nativeElement.src = this.commonassets.right_sound.location == "content" ? this.containgFolderPath + "/" + this.commonassets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36) : this.containgFolderPath + "/" + this.commonassets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+						this.feedbackVoRef.nativeElement.play();
+					}, 750)
+					
+					this.feedbackVoRef.nativeElement.onended=()=>{	
 					setTimeout(() => {
 						// this.checkNextActivities();
+						this.controlHandler.isTab = true;
+    					this.appModel.handleController(this.controlHandler);
 						this.removeEvents();
 						this.blinkOnLastQues()
+						$( "#navBlock" ).removeClass("disableNavBtn")
 					}, 200)
 					setTimeout(() => {
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 					}, 5000)
+				}
 				});
 			}
 			else {
@@ -310,9 +327,14 @@ export class Ntemplate12 implements OnInit {
 				$(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
 						this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
 						this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
-					setTimeout(() => {
+					
+						setTimeout(() => {
+							this.feedbackVoRef.nativeElement.src = this.commonassets.wrong_sound.location == "content" ? this.containgFolderPath + "/" + this.commonassets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36) : this.containgFolderPath + "/" + this.commonassets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+							this.feedbackVoRef.nativeElement.play();
+						}, 750)
+						this.feedbackVoRef.nativeElement.onended=()=>{							
 						this.appModel.wrongAttemptAnimation();
-					}, 300)
+					}
 
 				});
 
@@ -671,6 +693,9 @@ export class Ntemplate12 implements OnInit {
 		this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'hidden';
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
 			console.log("stuffs to do after wornog answer pop-up")
+			$( "#navBlock" ).removeClass("disableNavBtn")
+			this.controlHandler.isTab = true;
+			this.appModel.handleController(this.controlHandler);
 			this.ansBlock.nativeElement.children[this.itemid].children[1].style.height = 'auto'
 			this.ansBlock.nativeElement.children[this.itemid].children[1].style.width = 'auto'
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
@@ -815,10 +840,17 @@ export class Ntemplate12 implements OnInit {
 		this.myoption[id].imgsrc.url = "";
 		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
-			// this.checkNextActivities();
-			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-			this.removeEvents();
-			this.blinkOnLastQues()
-		}, 5000)
+			this.feedbackVoRef.nativeElement.src = this.commonassets.show_sound.location == "content" ? this.containgFolderPath + "/" + this.commonassets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36) : this.containgFolderPath + "/" + this.commonassets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+			this.feedbackVoRef.nativeElement.play();
+		}, 750)
+		this.feedbackVoRef.nativeElement.onended=()=>{	
+			setTimeout(() => {
+				// this.checkNextActivities();
+				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+				this.removeEvents();
+				this.blinkOnLastQues()
+			}, 3000)
+		}
+		
 	}
 }

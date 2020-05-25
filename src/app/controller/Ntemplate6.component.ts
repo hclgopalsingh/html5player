@@ -180,7 +180,9 @@ export class Ntemplate6 implements OnInit {
 
   MatraLeft:number = 0;
   matraCounter:number = 0;
-
+  controlHandler = {
+		isTab:true
+	 };
   categoryA: any = {
         "correct": [],
         "incorrect": []
@@ -1972,6 +1974,10 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
  
   checkAnswer(opt, id) {
     this.appModel.enableReplayBtn(false);
+    this.appModel.enableNavBtn(true);
+    this.controlHandler.isTab = false;
+    this.appModel.handleController(this.controlHandler);
+    //$( "#navBlock" ).addClass("disableNavBtn")
     this.appModel.handlePostVOActivity(true);
     this.count = 0;
     $(".instructionBase").addClass('disable_div');
@@ -2277,10 +2283,19 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    //$( "#navBlock" ).removeClass("disableNavBtn")
+    this.appModel.enableNavBtn(false);
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
     //this.resetAttempt();
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.enableNavBtn(false);
+    $( "#navBlock" ).removeClass("disableNavBtn")
   }
 
   ngOnDestory() {
@@ -2688,6 +2703,10 @@ document.getElementById("coverBtm").style.display = "block";
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
+      //$( "#navBlock" ).removeClass("disableNavBtn")
+      this.appModel.enableNavBtn(false);
+      this.controlHandler.isTab = true;
+      this.appModel.handleController(this.controlHandler);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
@@ -2719,13 +2738,20 @@ document.getElementById("coverBtm").style.display = "block";
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
+        $( "#navBlock" ).removeClass("disableNavBtn")
+        this.appModel.enableNavBtn(false);
+        this.controlHandler.isTab = true;
+        this.appModel.handleController(this.controlHandler);
+        this.appModel.handlePostVOActivity(false);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
-          this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          if(this.duplicateOption.nativeElement && this.duplicateOption.nativeElement.children[id]){
+            this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          }
           //console.log(this.attempt);
           //this.answerModalRef.nativeElement.classList = "modal";
           $(".bodyContent").css("opacity", "0.3");
@@ -2739,6 +2765,7 @@ document.getElementById("coverBtm").style.display = "block";
       this.styleHeaderPopup = this.confirmAssets.style_header;
       this.styleBodyPopup = this.confirmAssets.style_body;
       this.flag = true;
+      this.appModel.resetBlinkingTimer();
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
@@ -2847,6 +2874,10 @@ document.getElementById("coverBtm").style.display = "block";
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
+    this.appModel.enableNavBtn(false);
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
     $('.speaker').removeClass('disable_div');
     this.optionsClickable.nativeElement.classList = "row mx-0"

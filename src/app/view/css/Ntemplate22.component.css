@@ -559,6 +559,12 @@ button:focus {
 .modal-body img {
   max-width: 77%;
 }
+
+.adjustment{
+  max-width: 100% !important;
+  padding-top:8%
+}
+
 #modalTemp22 .modal-body {
   flex: none !important;
 	padding: 3% !important;

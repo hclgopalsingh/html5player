@@ -530,7 +530,8 @@ export class Ntemplate19 implements OnInit {
     })
     this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
-		});
+    });
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttempt(){
@@ -1213,7 +1214,7 @@ houtSkip(){
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
       }, 100);
-
+      this.appModel.resetBlinkingTimer();
       $("#instructionBar").addClass("disable_div");
       //$(".modal-body .options .img-fluid").css("pointer-events", "none");
       $("#instructionBar").css("opacity", "0.3");

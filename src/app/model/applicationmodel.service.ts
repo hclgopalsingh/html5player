@@ -45,6 +45,7 @@ export class ApplicationmodelService {
   _postVOSubject = new Subject<any>();
   _lastQues = new Subject<any>();
   _submitBtnSub = new Subject<any>();
+  _navBtnSub = new Subject<any>();
   _replayBtnSub = new Subject<any>();
   _videoStraming = new Subject<any>();
   _controllerHandle = new Subject<any>();
@@ -197,7 +198,47 @@ export class ApplicationmodelService {
   //    }
   //  }
   //}
-
+  templatevolume(vol, obj) {
+    if (obj.narrator && obj.narrator.nativeElement) {
+      obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.optionAudio && obj.optionAudio.nativeElement) {
+      obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.rightFeedbackVO && obj.rightFeedbackVO.nativeElement) {
+      obj.rightFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
+      obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackshowPopupAudio && obj.feedbackshowPopupAudio.nativeElement) {
+      obj.feedbackshowPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackpartialPopupAudio && obj.feedbackpartialPopupAudio.nativeElement) {
+      obj.feedbackpartialPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.instruction && obj.instruction.nativeElement) {
+      obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.mainVideo && obj.mainVideo.nativeElement) {
+      obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.quesVORef && obj.quesVORef.nativeElement) {
+      obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.QuestionVideo && obj.QuestionVideo.nativeElement) {
+      obj.QuestionVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.QuestionAudio && obj.QuestionAudio.nativeElement) {
+      obj.QuestionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+  }
   private init(): void {
     console.info('ApplicationmodelService: init');
 
@@ -940,6 +981,15 @@ export class ApplicationmodelService {
   resetBlinkingTimer() {
     this._blinkingSubject.next(true);
   }
+
+  enableNavBtn(flag) {
+    this._navBtnSub.next(flag);
+  }
+
+  get enableFlagNav() {
+    return this._navBtnSub.asObservable();
+  }
+
 }
 
 
