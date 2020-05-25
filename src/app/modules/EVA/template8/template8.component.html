@@ -30,7 +30,7 @@
                 <!-- <div #sprite class="speaker"></div> -->
                 <div id="spkrBtn" class="speakerBtn">
                     <img #speakerNormal id="speaker" class="img-fluid"
-                        [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
+                        [src]="speaker?.img_src?.location=='content' ?containgFolderPath + '/' +speaker?.img_src.url: assetsPath + '/'+ speaker?.img_src.url"
                         (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
                         (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
                     <div class="waveAnimation" #sprite>
@@ -54,7 +54,7 @@
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
                         (load)="checkImgLoaded();">
                     <img class="img-fluid subOpt" id="{{'optimage'+idx}}"
-                        [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url"
+                        [src]="opts?.img_src?.location=='content' ?containgFolderPath + '/' +opts?.img_src?.url: assetsPath + '/'+ opts?.img_src?.url"
                         on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
                         on-mouseenter='playOptionHover(opts,idx)' (load)="checkImgLoaded();">
                 </div>

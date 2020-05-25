@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./template8.component.css']
 })
 export class Template8Component implements OnInit {
+    VARIATION_EVA8V0 = "EVA8V0";
+    VARIATION_EVA8V2 = "EVA8V2";
+
     blink: boolean = false;
     commonAssets: any = "";
     ques: any = "";
@@ -79,6 +82,7 @@ export class Template8Component implements OnInit {
     LastquestimeStart: boolean = false;
     audio = new Audio();
     clapTimer: any;
+    variation: any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -167,7 +171,7 @@ export class Template8Component implements OnInit {
                 speakerEle.currentTime = 0;
                 this.sprite.nativeElement.style = "display:none";
                 (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-                this.speaker.imgsrc = this.speaker.imgorigional;
+                this.speaker.img_src = this.speaker.img_origional;
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                 this.stopAllSounds();
@@ -276,6 +280,7 @@ export class Template8Component implements OnInit {
         this.feedback = fetchedData.feedback;
         this.questionObj = fetchedData.quesObj;
         this.noOfImgs = fetchedData.imgCount;
+        this.variation = fetchedData.variation;
         this.popupAssets = fetchedData.feedback.popupassets;
         this.correct_ans_index = this.feedback.correct_ans_index;
         this.rightPopup = this.feedback.right_ans_sound;
@@ -308,8 +313,11 @@ export class Template8Component implements OnInit {
         this.stopOptionsSound();
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
-        target.children[1].classList.add("hide");
-        target.children[1].classList.remove("show");
+
+        if (this.variation == this.VARIATION_EVA8V0) {
+            target.children[1].classList.add("hide");
+            target.children[1].classList.remove("show");
+        }
 
         this.popupclosedinRightWrongAns = false;
         this.questionBlock.selectedOption(option);
@@ -326,7 +334,7 @@ export class Template8Component implements OnInit {
             this.attemptType = "manual";
             this.appModel.stopAllTimer();
             this.answerImageBase = option.img_original.url;
-            this.answerImage = option.imgsrc.url;
+            this.answerImage = option.img_src.url;
             this.answerImagelocation = option.img_original.location;
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -374,7 +382,7 @@ export class Template8Component implements OnInit {
                     ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                     option.image = option.img_original;
                     this.answerImageBase = option.image.url;
-                    this.answerImage = option.imgsrc.url;
+                    this.answerImage = option.img_src.url;
                     this.answerImagelocation = option.image.location;
                     this.popupIcon = this.popupAssets.wrong_icon.url;
                     this.popupIconLocation = this.popupAssets.wrong_icon.location;
@@ -510,7 +518,7 @@ export class Template8Component implements OnInit {
     checkSpeakerVoice(speaker) {
         if (!this.audioEl.nativeElement.paused) {
         } else {
-            speaker.imgsrc = speaker.imgorigional;
+            speaker.img_src = speaker.img_origional;
             this.sprite.nativeElement.style = "display:none";
             clearInterval(this.speakerTimer);
         }
@@ -534,7 +542,7 @@ export class Template8Component implements OnInit {
                     el.play();
                 }
                 this.speakerTimer = setInterval(() => {
-                    speaker.imgsrc = speaker.imgactive;
+                    speaker.img_src = speaker.img_active;
                     this.sprite.nativeElement.style = "display:flex";
                     this.checkSpeakerVoice(speaker);
                 }, 10)
@@ -663,7 +671,7 @@ export class Template8Component implements OnInit {
 
     /*********SPEAKER HOVER *********/
     onHoverSpeaker(speaker) {
-        speaker.imgsrc = speaker.imghover;
+        speaker.img_src = speaker.img_hover;
         if (!this.instruction.nativeElement.paused) {
             this.disableSpeaker.nativeElement.className = "speakerBlock";
         }
@@ -674,7 +682,7 @@ export class Template8Component implements OnInit {
 
     /******Hover out speaker ********/
     onHoverOutSpeaker(speaker) {
-        speaker.imgsrc = speaker.imgorigional;
+        speaker.img_src = speaker.img_origional;
     }
 
     /******On Hover option ********/
@@ -683,7 +691,7 @@ export class Template8Component implements OnInit {
         if (!this.myAudiospeaker.nativeElement.paused) {
             this.myAudiospeaker.nativeElement.pause();
             this.myAudiospeaker.nativeElement.currentTime = 0;
-            this.speaker.imgsrc = this.speaker.imgorigional;
+            this.speaker.img_src = this.speaker.img_origional;
         }
         option.image = option.img_hover;
     }
