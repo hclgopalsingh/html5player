@@ -61,10 +61,9 @@
     <div id="optionsBlock" #ansBlock>
       <div class="options">
         <div #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index"
-          (click)="checkAnswer(opt, leftOptRef, idx)">
+          (click)="checkAnswer(opt, leftOptRef, idx)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
           <img class="img-fluid"
-            [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
-            (load)="checkImgLoaded();">
+            [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" (load)="checkImgLoaded();">
           <span *ngIf="!opt.selected">
             <div class="subOpt">
               <img class="img-fluid"
@@ -76,7 +75,7 @@
       </div>
       <div class="options">
         <div #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
-          (click)="checkAnswer(opt, rightOptRef, idx+3)">
+          (click)="checkAnswer(opt, rightOptRef, idx+3)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+3)'>
           <img class="img-fluid"
             [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
             (load)="checkImgLoaded();">

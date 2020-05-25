@@ -1,9 +1,3 @@
-
-
-
-
-
-
 #refQuesBlock{
     position: absolute;
     top: 13%;
@@ -138,7 +132,7 @@
 div.subOpt img{
 	max-width: 58%;
 }
-.options {
+.options > div{
 	cursor:pointer;
 }
 .rightWrongAns{

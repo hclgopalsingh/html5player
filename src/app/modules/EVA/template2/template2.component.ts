@@ -81,9 +81,13 @@ export class Template2Component implements OnInit {
   @ViewChild('overlay') overlay: any;
   @ViewChild('celebrationPopup') celebrationsPopup: any;
   @ViewChild('multiCorrectFeedback') multiCorrectFeedback: any;
+  @ViewChild('leftOptRef') leftOptRef: any;
+  @ViewChild('rightOptRef') rightOptRef: any;
+
   clappingTimer: any;
   multiCorrectPopup: any;
   rightTimer: any;
+  audio = new Audio();
 
   constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -176,6 +180,7 @@ export class Template2Component implements OnInit {
     this.showAnswerSubscription.unsubscribe();
     clearTimeout(this.clappingTimer);
     clearTimeout(this.rightTimer);
+    this.audio.pause();
   }
 
   ngAfterViewChecked() {
@@ -214,8 +219,8 @@ export class Template2Component implements OnInit {
 
   }
 
+  /******Set template type for EVA******/
   setTemplateType(): void {
-    // send message to subscribers via observable subject
     this.ActivatedRoute.data.subscribe(data => {
       this.Sharedservice.sendData(data);
     })
@@ -241,8 +246,12 @@ export class Template2Component implements OnInit {
     if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
       obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.audio) {
+      obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
+  /****Get base path****/
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
@@ -291,10 +300,9 @@ export class Template2Component implements OnInit {
     }
   }
 
+  /*****Check speaker voice*****/
   checkSpeakerVoice(speaker) {
     if (!this.audioEl.nativeElement.paused) {
-      // this.speakerNormal.nativeElement.style.display ="none";
-      // this.sprite.nativeElement.style.display ="block";
     } else {
       speaker.imgsrc = speaker.imgorigional;
       this.sprite.nativeElement.style = "display:none";
@@ -302,7 +310,7 @@ export class Template2Component implements OnInit {
     }
   }
 
-  /**SPEAKER HOVER */
+  /*********SPEAKER HOVER *********/
   onHoverSpeaker(speaker) {
     speaker.imgsrc = speaker.imghover;
     if (!this.instruction.nativeElement.paused) {
@@ -313,10 +321,12 @@ export class Template2Component implements OnInit {
     }
   }
 
+  /******Hover out speaker ********/
   onHoverOutSpeaker(speaker) {
     speaker.imgsrc = speaker.imgorigional;
   }
 
+  /****** sets clapping timer ********/
   setClappingTimer(feedback) {
     this.clapSound.nativeElement.play();
     this.clappingTimer = setTimeout(() => {
@@ -326,6 +336,27 @@ export class Template2Component implements OnInit {
     }, 2000);
   }
 
+  showCelebrations() {
+    let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement;
+    setTimeout(() => {
+      if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
+        //document.getElementById("refQuesBlock").style.visibility="hidden";
+        celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+        this.setClappingTimer(this.multiCorrectFeedback);
+      }
+    }, 4000);
+    this.multiCorrectFeedback.nativeElement.onended = () => {
+      this.ansBlock.nativeElement.className = "optionsBlock";
+      this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+      this.maincontent.nativeElement.className = "disableDiv";
+      this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
+      this.rightTimer = setTimeout(() => {
+        this.closePopup('answerPopup');
+      }, 10000);
+    }
+  }
+
+  /****Check answer on option click*****/
   checkAnswer(option, optRef, index) {
     this.popupclosedinRightWrongAns = false;
     let optRefEl;
@@ -340,12 +371,11 @@ export class Template2Component implements OnInit {
       this.correctAnswerCounter++;
       let ansRef = document.getElementById("answer" + this.correctAnswerCounter) as HTMLElement;
       ansRef.insertAdjacentElement("beforeend", optRefEl);
-      //this.answerPopupType = 'right';
-      //clearTimeout(this.wrongTimer);
       this.attemptType = "manual";
       this.appModel.stopAllTimer();
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
+      option.optBg = option.optBg_original;
       this.ifRightAns = true;
       if (index <= 2) {
         this.myoption.leftoption[index].selected = true;
@@ -353,38 +383,23 @@ export class Template2Component implements OnInit {
       else {
         this.myoption.rightoption[index - 3].selected = true;
       }
-      let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement
 
       setTimeout(() => {
-        if (this.correctAnswerCounter === 4) {
-          setTimeout(() => {
-            if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
-              //document.getElementById("refQuesBlock").style.visibility="hidden";
-              celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-              this.setClappingTimer(this.multiCorrectFeedback);
-            }
-          }, 4000);
-          this.multiCorrectFeedback.nativeElement.onended = () => {
-            this.ansBlock.nativeElement.className = "optionsBlock";
-            this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-            this.maincontent.nativeElement.className = "disableDiv";
-            this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
-            this.rightTimer = setTimeout(() => {
-              this.closePopup('answerPopup');
-            }, 10000)
-          }
-        }
-        else if (this.rightFeedback && this.rightFeedback.nativeElement) {
+        if (this.rightFeedback && this.rightFeedback.nativeElement) {
           this.setClappingTimer(this.rightFeedback);
           this.rightFeedback.nativeElement.onended = () => {
-            this.ansBlock.nativeElement.className = "optionsBlock";
-            this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+            if (this.correctAnswerCounter === 4) {
+              this.showCelebrations();
+            }
+            else {
+              this.ansBlock.nativeElement.className = "optionsBlock";
+              this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+            }
           }
         }
       })
 
     } else {
-      //this.answerPopupType = 'wrong';
       this.ifWrongAns = true;
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
@@ -413,6 +428,7 @@ export class Template2Component implements OnInit {
     }
   }
 
+  /****Randomize option on wrong selection*****/
   doRandomize(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
     // While there remain elements to shuffle...
@@ -421,13 +437,25 @@ export class Template2Component implements OnInit {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
       var optionBg1 = array[currentIndex].optBg;
+      var img_hover1 = array[currentIndex].optBg_hover;
+      var text1copy = array[currentIndex].optBg_original;
+
       var optionBg2 = array[randomIndex].optBg;
+      var img_hover2 = array[randomIndex].optBg_hover;
+      var text2copy = array[randomIndex].optBg_original;
+
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
+
       array[currentIndex].optBg = optionBg1;
+      array[currentIndex].optBg_hover = img_hover1;
+      array[currentIndex].optBg_original = text1copy;
+
       array[randomIndex].optBg = optionBg2;
+      array[randomIndex].optBg_hover = img_hover2;
+      array[randomIndex].optBg_original = text2copy;
 
     }
     var flag = this.arraysIdentical(array, this.idArray);
@@ -440,6 +468,7 @@ export class Template2Component implements OnInit {
     }
   }
 
+  /*****Check if array is identical******/
   arraysIdentical(a, b) {
     var i = a.length;
     while (i--) {
@@ -454,6 +483,7 @@ export class Template2Component implements OnInit {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
+  /*****Close popup on click*****/
   closePopup(Type) {
     //this.showAnswerRef.nativeElement.classList = "modal";
     this.celebrationsPopup.nativeElement.classList = "modal";
@@ -552,4 +582,72 @@ export class Template2Component implements OnInit {
       this.appModel.handlePostVOActivity(false);
     }
   }
+
+  /******On Hover option ********/
+  onHoverOptions(option) {
+    if (!this.myAudiospeaker.nativeElement.paused) {
+      this.myAudiospeaker.nativeElement.pause();
+      this.myAudiospeaker.nativeElement.currentTime = 0;
+      this.speaker.imgsrc = this.speaker.imgorigional;
+    }
+    option.optBg = option.optBg_hover;
+  }
+
+  /******Hover out option ********/
+  onHoveroutOptions(option) {
+    option.optBg = option.optBg_original;
+  }
+
+  /****** Option Hover VO  *******/
+  playOptionHover(option, index) {
+    if (option && option.audio && option.audio.url && !option.selected) {
+      this.playSound(option.audio, index);
+    }
+  }
+  /***** Play sound on option roll over *******/
+  playSound(soundAssets, idx) {
+    let selectedOptionBlock, otherOptionBlock;
+    if (this.audio && this.audio.paused) {
+      if (soundAssets.location == 'content') {
+        this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+      } else {
+        this.audio.src = soundAssets.url;
+      }
+      this.audio.load();
+      this.audio.play();
+      if (idx <= 2) {
+        selectedOptionBlock = this.leftOptRef;
+        otherOptionBlock = this.rightOptRef;
+      }
+      else {
+        idx = idx - 3;
+        selectedOptionBlock = this.rightOptRef;
+        otherOptionBlock = this.leftOptRef;
+      }
+      this.disableOtherOptions(idx, selectedOptionBlock, otherOptionBlock);
+    }
+  }
+
+  /***** Disable Options other than hovered until audio end *******/
+  disableOtherOptions(idx, selectedBlock, otherBlock) {
+    for (let i = 0; i < selectedBlock.nativeElement.parentElement.children.length; i++) {
+      if (i != idx) {
+        selectedBlock.nativeElement.parentElement.children[i].classList.add("disableDiv");
+      }
+    }
+    for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
+      otherBlock.nativeElement.parentElement.children[j].classList.add("disableDiv");
+    }
+    this.audio.onended = () => {
+      for (let i = 0; i < selectedBlock.nativeElement.parentElement.children.length; i++) {
+        if (i != idx) {
+          selectedBlock.nativeElement.parentElement.children[i].classList.remove("disableDiv");
+        }
+      }
+      for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
+        otherBlock.nativeElement.parentElement.children[j].classList.remove("disableDiv");
+      }
+    }
+  }
+
 }
