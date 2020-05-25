@@ -231,7 +231,6 @@ export class Template15Component implements OnInit {
         this.instructiontext = fetchedData.instructiontext;
         this.myoption = fetchedData.options;
         this.commonAssets = fetchedData.commonassets;
-        this.speaker = fetchedData.speaker;
         this.feedback = fetchedData.feedback;
         this.questionObj = fetchedData.quesObj;
         this.noOfImgs = fetchedData.imgCount;
