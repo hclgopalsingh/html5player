@@ -9,15 +9,15 @@
 	justify-content: center;
 	z-index: 1;
 }
-/* .modal #refQuesBlock{
-    top: 18.5%;
-} */
 .refQues{
 	width: 38.8%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
+}
+.modal .refQues{
+    width: 44%;
 }
 .refQues .boxTop,
 .refQues .boxRight,
@@ -77,9 +77,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.modal #optionsBlock{
-	/* top: 7.5%; */
 }
 .options{
 	width: 22%;
@@ -152,5 +149,5 @@ div.subOpt img{
 	}
 } 
 .eva .modal{
-	display: none; /*assign 'none' to turn the popup off */
+	display: flex; /*assign 'none' to turn the popup off */
 }

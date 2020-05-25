@@ -300,6 +300,20 @@ button:focus{
 		border: solid .5vmax #0029d0;
 	}
 }
+@keyframes borderBlink2{
+	0%{
+		border: solid .35vmax #0029d0;
+	}
+	25%{
+		border: solid .35vmax #f0e;
+	}
+	50%{
+		border: solid .35vmax #f0e;
+	}
+	100%{
+		border: solid .35vmax #0029d0;
+	}
+}
 .refQues div.quesBox::before {
 	content: '';
 	width: 100%;

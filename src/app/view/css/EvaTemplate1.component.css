@@ -25,9 +25,9 @@
 } 
 /*** Media Query for 1366*768 ***/
 @media screen and (min-width: 1366px) and (max-width: 1366px){
-	/* #container{
+	#container{
 		width: 1162px;
-	} */
+	}
 	.refQues{
 		padding: 0 4%;
 	}
@@ -92,7 +92,7 @@
     /* align-items: flex-end; */
 }
 .quesImage .optItem {
-    position: relative !important;
+    position: absolute !important;
     width: auto;
     height: 90%;
 }
