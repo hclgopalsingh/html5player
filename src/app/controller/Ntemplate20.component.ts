@@ -657,7 +657,7 @@ export class Ntemplate20 implements OnInit {
         else if (action == "fadeEverything") {
             this.attemptTypeClose = "fadeEverything";
             this.fadeEverything();
-            this.blinkOnLastQues();
+            //this.blinkOnLastQues();
 
         }
         else if (action == "feedbackDone") {
@@ -725,6 +725,7 @@ export class Ntemplate20 implements OnInit {
             else if (this.attemptType == "showAnswer") {
                 this.feedbackPopupAudio.nativeElement.pause();
                 this.feedbackPopupAudio.nativeElement.currentTime = 0;
+                this.blinkOnLastQues();
             }
             else if (this.attemptType == "uttarDikhayein") {
             }
