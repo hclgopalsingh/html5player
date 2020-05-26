@@ -92,36 +92,6 @@
   </div>
   <!--END OF MAIN CONTENT-->
 
-  <!-- Right/Wrong Popup  -->
-  <div class="modal" id="modalTemp17" #ansPopup>
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body d-flex align-items-center">
-          <img class="img-fluid"
-            [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-          <div id="optionsBlock">
-            <div class="options">
-              <div>
-                <img class="img-fluid"
-                  [src]="answerImagelocation=='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase">
-                <img class="img-fluid subOpt"
-                  [src]="answerImagelocation=='content' ? containgFolderPath +'/'+ answerImage :  assetsPath +'/'+ answerImage">
-              </div>
-            </div>
-          </div>
-          <div class="rightWrongAns">
-            <img class="img-fluid"
-              [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
-          </div>
-          <img class="popupCloseBtn"
-            [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-            (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()"
-            title="बन्द करें">
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- celebration popup -->
   <div class="modal" id="celebrations" #celebrationPopup>
     <div class="modal-dialog modal-dialog-centered">
@@ -162,8 +132,36 @@
     </div>
   </div> -->
 
-</div>
+<!-- </div> -->
 
+<div class="modal" id="showAnswer" #showAnswerRef>
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-body d-flex align-items-center">
+              <img class="img-fluid" [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+              <div id="refQuesBlock" class="onShowAns">
+                  <div class="refQues">
+                      <img class="img-fluid" [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url">
+                      <div class="boxTop">
+                          <img class="img-fluid" [src]="correctAnswersArray[0]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[0]?.image?.url : assetsPath + '/' +correctAnswersArray[0]?.image?.url">
+                      </div>
+                      <div class="boxRight">
+                          <img class="img-fluid" [src]="correctAnswersArray[1]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[1]?.image?.url : assetsPath + '/' +correctAnswersArray[1]?.image?.url">
+                      </div>
+                      <div class="boxBottom">
+                          <img class="img-fluid" [src]="correctAnswersArray[2]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[2]?.image?.url : assetsPath + '/' +correctAnswersArray[2]?.image?.url">
+                      </div>
+                      <div class="boxLeft">
+                          <img class="img-fluid" [src]="correctAnswersArray[3]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[3]?.image?.url : assetsPath + '/' +correctAnswersArray[3]?.image?.url">
+                      </div>
+                  </div>
+              </div>
+              <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+          </div>
+      </div>
+  </div>
+</div>
 
 
 <!-- Popup Modal Audios -->

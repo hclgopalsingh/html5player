@@ -62,6 +62,8 @@ export class Template2Component implements OnInit {
   popupTime: any;
   LastquestimeStart: boolean = false;
   correctAnswerCounter: number = 0;
+  correctAnswersArray: any = [];
+  selectedAnswersArray: any = [];
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
@@ -140,8 +142,25 @@ export class Template2Component implements OnInit {
 
 
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
-      if (val == "uttarDikhayein") {
-        clearTimeout(this.popupTime);
+      this.appModel.stopAllTimer();
+      let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+      if (!speakerEle.paused) {
+        speakerEle.pause();
+        speakerEle.currentTime = 0;
+        this.sprite.nativeElement.style = "display:none";
+        (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+        this.speaker.imgsrc = this.speaker.imgorigional;
+      }
+      if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+        this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+        if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
+          this.showAnswerfeedback.nativeElement.play();
+          this.showAnswerfeedback.nativeElement.onended = () => {
+            setTimeout(() => {
+              this.closePopup('showAnswer');
+            }, 10000);
+          }
+        }
       }
 
     })
@@ -211,6 +230,9 @@ export class Template2Component implements OnInit {
     this.isLastQues = this.appModel.isLastSection;
     this.isLastQuesAct = this.appModel.isLastSectionInCollection;
     this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+    this.correctAnswersArray = [...this.myoption.leftoption, ...this.myoption.rightoption].filter(option => {
+      return (this.correct_ans_index.indexOf(option.id) > -1);
+    });
     setTimeout(() => {
       if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
         this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
@@ -380,6 +402,7 @@ export class Template2Component implements OnInit {
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
       option.optBg = option.optBg_original;
+      this.selectedAnswersArray.push(option); // saving correct answers to be shown in show answer popup
       this.ifRightAns = true;
       if (index <= 2) {
         this.myoption.leftoption[index].selected = true;
@@ -393,6 +416,7 @@ export class Template2Component implements OnInit {
           this.setClappingTimer(this.rightFeedback);
           this.rightFeedback.nativeElement.onended = () => {
             if (this.correctAnswerCounter === 4) {
+              this.correctAnswersArray = this.selectedAnswersArray;
               this.showCelebrations();
             }
             else {
@@ -517,26 +541,16 @@ export class Template2Component implements OnInit {
         }
       }
     }
-    if (Type === 'showAnswer') {
-
-      this.popupTime = setTimeout(() => {
-        this.showAnswerfeedback.nativeElement.pause();
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
-        if (!this.showAnswerfeedback.nativeElement.pause()) {
-          this.appModel.nextSection();
-        } else {
-
-        }
-
-      }, 10000);
-    } else {
-
+    else if (Type === 'showAnswer') {
+      if (this.correctAnswerCounter === 4) {
+        this.blinkOnLastQues();
+      }
     }
   }
 
   /***** Blink on last question ******/
   blinkOnLastQues() {
-    //this.Sharedservice.setLastQuesAageyBadheStatus(false);
+    this.Sharedservice.setLastQuesAageyBadheStatus(false);
     if (this.lastQuestionCheck) {
       this.LastquestimeStart = true;
     }
@@ -652,6 +666,16 @@ export class Template2Component implements OnInit {
         otherBlock.nativeElement.parentElement.children[j].classList.remove("disableDiv");
       }
     }
+  }
+
+  /******On Hover close popup******/
+  hoverClosePopup() {
+    this.popupAssets.close_button = this.popupAssets.close_button_hover;
+  }
+
+  /******Hover out close popup******/
+  houtClosePopup() {
+    this.popupAssets.close_button = this.popupAssets.close_button_origional;
   }
 
 }
