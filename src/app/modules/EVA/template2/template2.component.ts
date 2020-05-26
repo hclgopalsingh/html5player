@@ -283,6 +283,9 @@ export class Template2Component implements OnInit {
     if (obj.audio) {
       obj.audio.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.multiCorrectFeedback && obj.multiCorrectFeedback.nativeElement) {
+      obj.multiCorrectFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   /****Get base path****/
