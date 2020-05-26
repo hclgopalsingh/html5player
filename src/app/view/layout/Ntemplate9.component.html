@@ -1,6 +1,7 @@
 <div class="container-fluid temp14" id="container">
   <audio #narrator [src]="commonAssets?.narrator?.location=='content' ? containgFolderPath + '/' + commonAssets?.narrator?.url: assetsPath + '/' + commonAssets?.narrator?.url"></audio>
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div #maincontent>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="top:9% !important;">
     <div class="instructionBase">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
@@ -25,7 +26,7 @@
       <audio #optionAudio></audio>
     </div>
   </div>
-  
+  </div>
     <!-- The Confirmation Modal -->
   <div class="modal" id="confirmModal" #confirmModalRef>
     <div class="modal-dialog">

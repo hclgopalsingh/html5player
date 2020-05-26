@@ -248,6 +248,8 @@ ngAfterViewChecked() {
   }
 
   onClickoption(opt, j) {
+    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+    this.appModel.handlePostVOActivity(true);
     // if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -326,6 +328,8 @@ ngAfterViewChecked() {
           this.feedbackVO.nativeElement.play();
           this.feedbackVO.nativeElement.onended = () => {
             console.log("audio end");
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.appModel.handlePostVOActivity(false)
             this.checked = false;
             if (this.noOfBlocks == 4) {
               $("#puzzleBlock4").removeClass("disable_div");
@@ -521,6 +525,8 @@ ngAfterViewChecked() {
             } else if (this.noOfBlocks == 12) {
               $("#puzzleBlock12").removeClass("disable_div");
             }
+            this.appModel.handlePostVOActivity(false)
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
           });
 
     
