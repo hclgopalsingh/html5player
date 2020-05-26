@@ -84,6 +84,7 @@ export class Template1Component implements OnInit {
     saveOpt : any;
     rightSelectTimer:any;
     wrongSelectTimer:any;
+	refreshQueTime:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -135,7 +136,7 @@ export class Template1Component implements OnInit {
 
 
     ngOnInit() {        
-
+		this.Sharedservice.setLastQuesAageyBadheStatus(true);
         this.sprite.nativeElement.style="display:none";
         this.ifRightAns = false;
         this.attemptType = "";
@@ -215,6 +216,7 @@ export class Template1Component implements OnInit {
         clearTimeout(this.clapTimer);
         clearTimeout(this.rightSelectTimer);
         clearTimeout(this.wrongSelectTimer);
+		clearTimeout(this.refreshQueTime);
     }
 
     ngAfterViewChecked() {
@@ -271,7 +273,15 @@ export class Template1Component implements OnInit {
                 this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
             }
         }, 200)
+		
+		this.refreshQue();
     
+    }
+	refreshQue(){
+        this.refQues.nativeElement.style="display:-webkit-inline-box";
+        this.refreshQueTime =setTimeout(()=>{
+            this.refQues.nativeElement.style="display:flex"; 
+        },10)  
     }
     /** TO SHUFFLE OPTIONS ON WRONG ATTEMPT**/
         doRandomize(array) {        
@@ -468,6 +478,7 @@ export class Template1Component implements OnInit {
 
 /**BLINK ON LAST QUESTION FUNCTIONALITY **/
     blinkOnLastQues() {
+		this.Sharedservice.setLastQuesAageyBadheStatus(false);
         if(this.lastQuestionCheck){
             this.LastquestimeStart = true;
         }

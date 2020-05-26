@@ -102,7 +102,7 @@ export class QuesController implements OnInit {
         this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
          this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
          this.isLastQuesAageyBadhe = data.data;
-        if(!this.isLastQuesAageyBadhe){
+        if(this.isLastQuesAageyBadhe){
           this.nextBtn.nativeElement.className = "img-fluid nextBtn";
         }
       });
