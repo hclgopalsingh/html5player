@@ -350,6 +350,7 @@ export class Template2Component implements OnInit {
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       this.maincontent.nativeElement.className = "disableDiv";
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
+      this.Sharedservice.setShowAnsEnabled(true);
       this.rightTimer = setTimeout(() => {
         this.closePopup('answerPopup');
       }, 10000);
@@ -369,6 +370,9 @@ export class Template2Component implements OnInit {
     // logic to check what user has done is correct
     if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
       this.correctAnswerCounter++;
+      if (this.correctAnswerCounter === 4) {
+        this.Sharedservice.setShowAnsEnabled(false);
+      }
       let ansRef = document.getElementById("answer" + this.correctAnswerCounter) as HTMLElement;
       ansRef.insertAdjacentElement("beforeend", optRefEl);
       this.attemptType = "manual";
