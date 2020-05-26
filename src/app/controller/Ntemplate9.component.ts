@@ -248,9 +248,11 @@ ngAfterViewChecked() {
   }
 
   onClickoption(opt, j) {
-    if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
+    // if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();}
+     //} else {
       this.appModel.notifyUserAction();
       let i = this.index1;
       this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1].id;
@@ -300,7 +302,7 @@ ngAfterViewChecked() {
         }
         this.onPlacePuzzle(opt, i, j);
       }
-    }
+    //}
   }
 
   
@@ -454,6 +456,9 @@ ngAfterViewChecked() {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
+        if (!this.instruction.nativeElement.paused) {
+          this.instruction.nativeElement.currentTime = 0;
+          this.instruction.nativeElement.pause();}
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
