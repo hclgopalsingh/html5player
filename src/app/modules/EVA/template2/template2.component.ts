@@ -513,7 +513,7 @@ export class Template2Component implements OnInit {
 
   /*****Close popup on click*****/
   closePopup(Type) {
-    //this.showAnswerRef.nativeElement.classList = "modal";
+    this.showAnswerRef.nativeElement.classList = "modal";
     this.celebrationsPopup.nativeElement.classList = "modal";
     this.wrongFeedback.nativeElement.pause();
     this.wrongFeedback.nativeElement.currentTime = 0;
