@@ -5,6 +5,10 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
+import { DataService } from '../../../model/eva/template8/data.service';
+import { Constants } from '../../../model/eva/template8/constants';
+import { QuestionBlockVO } from '../../../model/eva/template8/questionblockVO';
+import { AssetVO } from '../../../model/eva/template8/assetVO';
 
 
 @Component({
@@ -13,8 +17,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./template8.component.css']
 })
 export class Template8Component implements OnInit {
-    VARIATION_EVA8V0 = "EVA8V0";
-    VARIATION_EVA8V2 = "EVA8V2";
+
 
     blink: boolean = false;
     commonAssets: any = "";
@@ -83,6 +86,8 @@ export class Template8Component implements OnInit {
     audio = new Audio();
     clapTimer: any;
     variation: any;
+    popupSelectedOptionBaseURL: string;
+    popupSelectedOptionURL: string;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -105,9 +110,13 @@ export class Template8Component implements OnInit {
     @ViewChild('feedbackQuestionBlock') feedbackQuestionBlock: any;
     @ViewChild('showAnswerQuestionBlock') showAnswerQuestionBlock: any;
     @ViewChild('optionRef') optionRef: any;
+    @ViewChild('feedbackPopupSelectedOption') feedbackPopupSelectedOption: any;
+    @ViewChild('showAnswerPopupSelectedOption') showAnswerPopupSelectedOption: any;
 
-    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, private dataService: DataService) {
         this.appModel = appModel;
+        this.dataService = dataService;
+
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
             //debugger;
@@ -141,11 +150,8 @@ export class Template8Component implements OnInit {
         this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
-        this.setData();
         this.containgFolderPath = this.getBasePath();
-
-        this.getCorrectOptionData();
-
+        this.setData();
 
         console.log("this.attemptType = " + this.attemptType);
         if (this.appModel.isNewCollection) {
@@ -175,7 +181,22 @@ export class Template8Component implements OnInit {
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                 this.stopAllSounds();
-                this.showAnswerQuestionBlock.selectedOption(this.getCorrectOptionData());
+
+                let option = this.getCorrectOptionData()
+                //updating data for question block  
+                let questionBlockVO: QuestionBlockVO = this.dataService.data.showAnswerPopupQuestionData;
+                this.showAnswerQuestionBlock.data = questionBlockVO;
+                this.showAnswerQuestionBlock.selectedOption(option);
+
+                if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
+                    this.showAnswerPopupSelectedOption.nativeElement.classList.add('hide');
+                }
+
+                //Gopal::TBD::need to check if condition
+                if (this.variation == Constants.VARIATION_EVA8V2) {
+                    this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
+                    this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
+                }
 
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
@@ -271,17 +292,23 @@ export class Template8Component implements OnInit {
     /****Set data for the Template****/
     setData() {
         this.appModel.notifyUserAction();
-        let fetchedData: any = this.appModel.content.contentData.data;
-        this.instructiontext = fetchedData.instructiontext;
-        this.myoption = fetchedData.options;
-        this.commonAssets = fetchedData.commonassets;
-        this.ques = fetchedData.ques;
-        this.speaker = fetchedData.speaker;
-        this.feedback = fetchedData.feedback;
-        this.questionObj = fetchedData.quesObj;
-        this.noOfImgs = fetchedData.imgCount;
-        this.variation = fetchedData.variation;
-        this.popupAssets = fetchedData.feedback.popupassets;
+
+        //setting asset and content folder path in data service
+        this.dataService.assetsPath = this.assetsPath;
+        this.dataService.contentPath = this.containgFolderPath;
+        this.dataService.rawData = this.appModel.content.contentData.data;
+
+
+        this.instructiontext = this.dataService.instructionText;
+        this.myoption = this.dataService.optionsData;
+        this.commonAssets = this.dataService.commonAssets;
+        this.ques = this.dataService.ques;
+        this.speaker = this.dataService.speaker;
+        this.feedback = this.dataService.feedback;
+        this.questionObj = this.dataService.quesObj;
+        this.noOfImgs = this.dataService.imgCount;
+        this.variation = this.dataService.variation;
+        this.popupAssets = this.dataService.feedback.popupassets;
         this.correct_ans_index = this.feedback.correct_ans_index;
         this.rightPopup = this.feedback.right_ans_sound;
         this.wrongPopup = this.feedback.wrong_ans_sound;
@@ -291,7 +318,7 @@ export class Template8Component implements OnInit {
         this.commonAssets.ques_control.blinkingStatus = false;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+        this.appModel.setQuesControlAssets(this.dataService.quesControl);
         setTimeout(() => {
             if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
                 this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
@@ -314,17 +341,28 @@ export class Template8Component implements OnInit {
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
 
-        if (this.variation == this.VARIATION_EVA8V0) {
+        if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
             target.children[1].classList.add("hide");
-            target.children[1].classList.remove("show");
         }
 
         this.popupclosedinRightWrongAns = false;
         this.questionBlock.selectedOption(option);
-        this.questionBlock.blinking(false);
+        this.questionBlock.blinkingBox(false);
 
+        //updating data for question block  
+        let questionBlockVO: QuestionBlockVO = this.dataService.data.feedbackPopupQuestionData;
+        this.feedbackQuestionBlock.data = questionBlockVO;
         this.feedbackQuestionBlock.selectedOption(option);
 
+        //Gopal::TBD::need to check if condition
+        if (this.variation == Constants.VARIATION_EVA8V2) {
+            this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
+            this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
+        }
+
+        if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
+            this.feedbackPopupSelectedOption.nativeElement.classList.add('hide');
+        }
 
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
@@ -462,10 +500,12 @@ export class Template8Component implements OnInit {
     resetOptionsState() {
         debugger;
         for (let i = 0; i < this.myoption.length; i++) {
-            this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
+            //this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
             this.ansBlock.nativeElement.children[0].children[i].children[1].classList.remove("hide");
+            this.ansBlock.nativeElement.children[0].children[i].classList.remove("disableDiv");
         }
     }
+
     closePopup(Type) {
         debugger;
         this.showAnswerRef.nativeElement.classList = "modal";

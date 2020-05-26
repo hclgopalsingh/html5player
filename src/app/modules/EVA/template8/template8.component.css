@@ -65,11 +65,11 @@
 }
 
 .questionBlockPopup {
-	position: absolute;
-    left: 0; 
+    position: relative;
+    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 73%; /* add/remove class w-100 for 100%*/
+    min-height: 64%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,20 +88,24 @@
 }
 
 .modal #refQuesBlock {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
     height: 70%;
     top: 5%;
 }
 
 .modal #refQuesBlockShowAnswer {
-	width:97.4%;
 	position: absolute;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
+	align-content: center;
 	justify-content: center;
+	width:97.4%;	
     height: 90%;
     top: 5%;
 }
@@ -112,8 +116,18 @@
 }
 
 .rightWrongSelectedAns {
-	width: 100%;
-    position: absolute;
-    left: auto;
+    width: 100%;
+    margin-top: 1.7%;
+    position: relative;
+    display: flex;
+    justify-content: center;
     top: auto;
+}
+ 
+.rightWrongSelectedAns img:nth-child(2){
+    position: absolute;
+}
+ 
+.rightWrongSelectedAns img {
+    max-width: 14%;
 }

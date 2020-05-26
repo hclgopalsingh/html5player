@@ -24,7 +24,7 @@
             (load)="checkImgLoaded();"></app-instruction-bar>
         <div id="refQuesBlock">
             <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath"
-                [data]="this.ques" containerType="main_screen">
+                [data]="this.dataService.data.mainScreenQuestionData">
             </app-question-block>
             <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
                 <!-- <div #sprite class="speaker"></div> -->
@@ -64,22 +64,22 @@
     </div>
     <!--END OF MAIN CONTENT-->
 
-    <!-- Right/Wrong Popup  -->
+    <!-- Feedback Popup  -->
     <div class="modal" id="modalTemp17" #ansPopup>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    
+
                     <div id="refQuesBlock">
-                        <!-- <div class="rightWrongSelectedAns">
-                            <img class="img-fluid"
-                                [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
-                        </div> -->
                         <app-question-block #feedbackQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="right_wrong_popup">
+                            [contentPath]="containgFolderPath" [data]="this.ques">
                         </app-question-block>
+                        <div #feedbackPopupSelectedOption class="rightWrongSelectedAns">
+                            <img class="img-fluid" [src]="popupSelectedOptionBaseURL">
+                            <img class="img-fluid" [src]="popupSelectedOptionURL">
+                        </div>
                     </div>
                     <div class="rightWrongAns">
                         <img class="img-fluid"
@@ -103,8 +103,12 @@
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                     <div id="refQuesBlockShowAnswer">
                         <app-question-block #showAnswerQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="show_answer_popup">
+                            [contentPath]="containgFolderPath" [data]="this.ques">
                         </app-question-block>
+                        <div #showAnswerPopupSelectedOption class="rightWrongSelectedAns">
+                            <img class="img-fluid" [src]="popupSelectedOptionBaseURL">
+                            <img class="img-fluid" [src]="popupSelectedOptionURL">
+                        </div>
                     </div>
                     <img class="popupCloseBtn"
                         [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
