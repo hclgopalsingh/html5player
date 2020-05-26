@@ -87,6 +87,7 @@ export class Template2Component implements OnInit {
   @ViewChild('rightOptRef') rightOptRef: any;
 
   clappingTimer: any;
+  celebrationTimer: any;
   multiCorrectPopup: any;
   rightTimer: any;
   audio = new Audio();
@@ -121,6 +122,7 @@ export class Template2Component implements OnInit {
   ngOnInit() {
     this.sprite.nativeElement.style = "display:none";
     this.Sharedservice.setShowAnsEnabled(false);
+    this.Sharedservice.setLastQuesAageyBadheStatus(false);
     this.attemptType = "";
     this.setTemplateType();
     console.log("this.attemptType = " + this.attemptType);
@@ -143,6 +145,15 @@ export class Template2Component implements OnInit {
 
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       this.appModel.stopAllTimer();
+      this.clapSound.nativeElement.pause();
+      this.clapSound.nativeElement.currentTime = 0;
+      this.rightFeedback.nativeElement.pause();
+      this.rightFeedback.nativeElement.currentTime = 0;
+      this.wrongFeedback.nativeElement.pause();
+      this.wrongFeedback.nativeElement.currentTime = 0;
+      clearTimeout(this.clappingTimer);
+      this.ansBlock.nativeElement.className = "optionsBlock";
+      this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
       if (!speakerEle.paused) {
         speakerEle.pause();
@@ -199,6 +210,7 @@ export class Template2Component implements OnInit {
     this.showAnswerSubscription.unsubscribe();
     clearTimeout(this.clappingTimer);
     clearTimeout(this.rightTimer);
+    clearTimeout(this.celebrationTimer);
     this.audio.pause();
   }
 
@@ -360,7 +372,7 @@ export class Template2Component implements OnInit {
 
   showCelebrations() {
     let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement;
-    setTimeout(() => {
+    this.celebrationTimer = setTimeout(() => {
       if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
         //document.getElementById("refQuesBlock").style.visibility="hidden";
         celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
