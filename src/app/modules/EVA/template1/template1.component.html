@@ -98,10 +98,10 @@
                     <div class="refQues" #refQues>
                         <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
                             <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'']">
-                                <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
+                                <img [ngClass]="{'dark':!quesTxt?.isBlank}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
                                 (load)="checkImgLoaded();">
                                 <ng-template [ngIf]="quesTxt?.hasmatra">
-                                <img [ngClass]="{'dark':true, 'matraImg':true, 'globalOptionBlink':quesTxt?.addMatra}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
+                                <img [ngClass]="{'dark':true, 'matraImg':true}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
                                 (load)="checkImgLoaded();">
                                 </ng-template>                    
                             </div>            
@@ -122,7 +122,7 @@
   <!-- Popup Modal Audios -->
 <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
 <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
-<audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
+<audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : feedback?.right_ans_clap_sound?.location=='assets' ? assetsPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
 <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
 
 
