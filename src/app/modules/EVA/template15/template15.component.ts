@@ -255,24 +255,9 @@ export class Template15Component implements OnInit {
         }, 200)
     
     }
-// @ViewChild('optionBg') optionBg:any;
-// @ViewChild('optionImg') optionImg:any;
 
-// @ViewChildren('optionRef') optionRefChidren:any;
-attribute:any;
     /****Check answer on option click*****/
     checkAnswer(option) {     
-         
-        let OptChild = this.optionRef.nativeElement.children;
-        console.log(OptChild);
-        let i;
-        for (i = 0; i < OptChild.length; i++) {
-            this.attribute= OptChild[i].attribute + "<br>";
-          }
-
-console.log(this.attribute);
-        // console.log(this.optionImg.nativeElement);
-
         this.popupclosedinRightWrongAns=false;       
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
