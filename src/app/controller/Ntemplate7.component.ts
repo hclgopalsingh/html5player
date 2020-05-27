@@ -420,6 +420,8 @@ export class Ntemplate7 implements OnInit {
             this.isShowans  = true;
             this.appModel.resetBlinkingTimer();
             this.getAnswer();
+            this.instructionVO.nativeElement.pause();
+            this.instructionVO.nativeElement.currentTime = 0;
             this.appModel.stopAllTimer();
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
                     $(this.optionRef.nativeElement.children[i]).addClass("disableDiv");                
