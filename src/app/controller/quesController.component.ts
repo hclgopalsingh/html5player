@@ -99,11 +99,11 @@ export class QuesController implements OnInit {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if(this.isLastQues){
-        this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
+         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
          this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
          this.isLastQuesAageyBadhe = data.data;
         if(this.isLastQuesAageyBadhe){
-          this.nextBtn.nativeElement.className = "img-fluid nextBtn";
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
         }
       });
 
