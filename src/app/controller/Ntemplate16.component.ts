@@ -399,13 +399,14 @@ export class Ntemplate16 implements OnInit {
 						this.clapSound.nativeElement.play();
 					}
 					//disable option and question on right attempt
-					this.maincontent.nativeElement.className = "disable_div";
+					
+					this.clapSound.nativeElement.onended = () => {
+						//new code
+						this.maincontent.nativeElement.className = "disable_div";
 					this.optionBlock.nativeElement.className = "optionsBlock disable_div disable-click";
 					
 							$("#optionsBlock ").addClass("disable-click disable-click");
 							$("#instructionBar").addClass("disable_div disable-click");
-					this.clapSound.nativeElement.onended = () => {
-						//new code
 						setTimeout(() => {
 							this.attemptType = "manual";
 							//disable option and question on right attempt
@@ -958,6 +959,7 @@ export class Ntemplate16 implements OnInit {
 	}
 
 	blinkOnLastQues() {
+		this.appModel.enableReplayBtn(false);
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
