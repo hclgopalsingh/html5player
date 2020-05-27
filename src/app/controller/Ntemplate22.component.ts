@@ -364,7 +364,7 @@ export class Ntemplate22 implements OnInit {
       }
           $("#optionsBlock").css("opacity", "0.3");
           $("#instructionBar").css("opacity", "0.3");
-          this.appModel.handlePostVOActivity(true);
+          //this.appModel.handlePostVOActivity(true);
           this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
           $("#instructionBar").addClass("disable_div");
         }
@@ -407,6 +407,7 @@ export class Ntemplate22 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -647,6 +648,28 @@ export class Ntemplate22 implements OnInit {
       this.previousItemevent = item.target;
       item.target.style.pointerEvents = "none";
       itemDate.selected = true;
+      if(this.weekDaySelected) {
+        this.date.setDate(this.clickedID);
+        if(this.date.getDay() != 0) {
+          var getDay= this.date.getDay()-1;
+        } else {
+          var getDay=this.ArrweekDays.length-1;
+        }
+        if(this.ArrweekDays[getDay].id == this.ArrweekDays.filter((item) => item.selected == true)[0].id && this.monthsArr[this.date.getMonth()].id==this.feedback.correct_month) {
+          this.isCorrectweekDay = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].checkRightorWrong = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item) => item.selected == true)[0].rightweekDayImg;
+         } else if(this.ArrweekDays[getDay].id == this.ArrweekDays.filter((item) => item.selected == true)[0].id && this.feedback.correct_month =="") {
+          this.isCorrectweekDay = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].checkRightorWrong = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item) => item.selected == true)[0].rightweekDayImg;
+         }
+         else {
+          this.isCorrectweekDay = false;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].checkRightorWrong = true;
+          this.ArrweekDays.filter((item) => item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item) => item.selected == true)[0].wrongweekDayImg;
+         }
+      }
        if(this.feedbackObj.correct_date!= "" && this.clickedID == this.feedbackObj.correct_date) {
          this.isCorrectDate = true;
          //this.monthDatesinPopup.nativeElement.children[0].children[item.target.getAttribute("id")].src = itemDate.rightdateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.rightdateImg.url : this.assetsPath +"/"+ itemDate.rightdateImg.url;
@@ -665,14 +688,50 @@ export class Ntemplate22 implements OnInit {
         this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       }
       item.selected = true;
-      if(this.feedbackObj.correct_weekDay!= "" && item.id == this.feedbackObj.correct_weekDay) {
-        this.isCorrectweekDay = true;
-        item.checkRightorWrong = true;
-        item.weekDayImginpopUp = item.rightweekDayImg;
+      if(this.feedbackObj.correct_weekDay!= "") {
+        if(item.id == this.feedbackObj.correct_weekDay) {
+          this.isCorrectweekDay = true;
+          item.checkRightorWrong = true;
+          item.weekDayImginpopUp = item.rightweekDayImg;
+        } else {
+          this.isCorrectweekDay = false;
+          item.checkRightorWrong = true;
+          item.weekDayImginpopUp = item.wrongweekDayImg;
+        }
       } else {
-        this.isCorrectweekDay = false;
-        item.checkRightorWrong = true;
-        item.weekDayImginpopUp = item.wrongweekDayImg;
+         if(this.clickedID!=undefined) {
+           this.date.setDate(this.clickedID);
+           if(this.date.getDay() != 0) {
+            var getDay= this.date.getDay()-1;
+          } else {
+            var getDay=this.ArrweekDays.length-1;
+          }
+          var copiedDate = new Date(this.date.getTime());
+          if(this.feedbackObj.correct_month!="") {
+            copiedDate.setMonth(this.monthsArr.findIndex((item)=> item.id == this.feedbackObj.correct_month));
+          }
+          if(this.feedbackObj.correct_date!="") {
+            copiedDate.setDate(this.feedbackObj.correct_date);
+          } 
+          if(copiedDate.getDay() != 0) {
+            var copiedgetDay= copiedDate.getDay()-1;
+          } else {
+            var copiedgetDay=this.ArrweekDays.length-1;
+          }         
+           if((this.ArrweekDays[getDay].id == item.id || this.ArrweekDays[copiedgetDay].id==item.id) && this.monthsArr[this.date.getMonth()].id==this.feedback.correct_month) {
+            this.isCorrectweekDay = true;
+            item.checkRightorWrong = true;
+            item.weekDayImginpopUp = item.rightweekDayImg;
+           } else if((this.ArrweekDays[getDay].id == item.id || this.ArrweekDays[copiedgetDay].id==item.id) && this.feedback.correct_month=="") {
+            this.isCorrectweekDay = true;
+            item.checkRightorWrong = true;
+            item.weekDayImginpopUp = item.rightweekDayImg;
+           } else {
+            this.isCorrectweekDay = false;
+            item.checkRightorWrong = true;
+            item.weekDayImginpopUp = item.wrongweekDayImg;
+           }
+         }
       }
     }
     if(this.monthSelected && this.yearSelected && this.dateSelected && this.weekDaySelected) {
@@ -735,12 +794,12 @@ export class Ntemplate22 implements OnInit {
         }
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         if(i+1 == this.clickedID && this.clickedID == this.feedbackObj.correct_date) {
-          // if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
+           if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
             this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
-          // }
-          // else {
-          //   this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
-          // }
+           }
+           else {
+             this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
+           }
           this.startIndex++;
           continue;
         } else {
@@ -833,6 +892,7 @@ export class Ntemplate22 implements OnInit {
       this.monthSelected = this.quesObj.monthSelected;
       this.dateSelected = this.quesObj.dateSelected;
       this.weekDaySelected=this.quesObj.weekdaySelected;
+      //var date = new Date();
       this.setDatefromJSON();
       this.confirmSubmitAssets = fetchedData.submit_confirm;
       this.quesAudio = this.commonAssets.QuestionAudio;
@@ -932,6 +992,7 @@ export class Ntemplate22 implements OnInit {
 
 
   showAnswerFeedback() {
+    this.appModel.resetBlinkingTimer();
     if(this.feedbackObj.correct_month!="") {
       this.date.setDate(this.feedbackObj.correct_date);
       //let indexofRightdate = this.datesArr.findIndex((item)=> item.id == this.feedbackObj.correct_date);
@@ -980,18 +1041,42 @@ export class Ntemplate22 implements OnInit {
       //   this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       // }
     }
-    if(this.feedbackObj.correct_weekDay!="") {
+    if(this.feedbackObj.correct_weekDay == "") {
       if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
         this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
         this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       }
-      let indexofRightweekday=this.ArrweekDays.findIndex((item)=> item.id == this.feedbackObj.correct_weekDay);
-      this.ArrweekDays[indexofRightweekday].checkRightorWrong=true;
-        this.ArrweekDays[indexofRightweekday].weekDayImginpopUp = this.ArrweekDays[indexofRightweekday].rightweekDayImg;
+      if(this.feedbackObj.correct_date!="") {
+        this.date.setDate(this.feedbackObj.correct_date);
+        if(this.date.getDay() != 0) {
+          this.ArrweekDays[this.date.getDay()-1].checkRightorWrong=true;
+          this.ArrweekDays[this.date.getDay()-1].weekDayImginpopUp = this.ArrweekDays[this.date.getDay()-1].rightweekDayImg;
+        } else {
+          this.ArrweekDays[this.ArrweekDays.length-1].checkRightorWrong=true;
+          this.ArrweekDays[this.ArrweekDays.length-1].weekDayImginpopUp = this.ArrweekDays[this.ArrweekDays.length-1].rightweekDayImg;
+        }
+       
+      }
+      else {
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
+      }
     } else {
-      if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
-        this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
-        this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+      if(this.feedbackObj.correct_weekDay!="") {
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
+        let indexofRightweekday=this.ArrweekDays.findIndex((item)=> item.id == this.feedbackObj.correct_weekDay);
+        this.ArrweekDays[indexofRightweekday].checkRightorWrong=true;
+          this.ArrweekDays[indexofRightweekday].weekDayImginpopUp = this.ArrweekDays[indexofRightweekday].rightweekDayImg;
+      } else {
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
       }
     }
     this.setCalender("showAnspopup");
@@ -1047,10 +1132,30 @@ export class Ntemplate22 implements OnInit {
             if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
               this.styleHeaderPopup = this.feedbackObj.style_header;
               this.styleBodyPopup = this.feedbackObj.style_body;
+              if(!this.quesObj.disableweekDay) {
+                if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
+                  this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].rightweekDayImg;
+                }
+              }
+              if(!this.quesObj.disablemonth) {
+                if(this.monthsArr.filter((item)=>item.selected == true)[0]!=undefined) {
+                  this.monthsArr.filter((item)=>item.selected == true)[0].ImginpopUp = this.monthsArr.filter((item)=>item.selected == true)[0].rightmonthImg;
+                } 
+              }
+              if(!this.quesObj.disableyear) {
+                if(this.Arryears.filter((item)=>item.selected == true)[0]!=undefined) {
+                  this.Arryears.filter((item)=>item.selected == true)[0].ImginpopUp = this.Arryears.filter((item)=>item.selected == true)[0].rightyearImg;
+                } 
+              }
             } else {
               this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
               this.styleBodyPopup = this.feedbackObj.wrong_style_body;
-              /*if(!this.quesObj.disableweekDay) {
+              // if(!this.quesObj.disableDate) {
+              //   if(this.datesArr.filter((item)=>item.selected == true)[0]!=undefined) {
+              //     this.datesArr.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
+              //   }
+              // }
+              if(!this.quesObj.disableweekDay) {
                 if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
                   this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
                 }
@@ -1064,7 +1169,7 @@ export class Ntemplate22 implements OnInit {
                 if(this.Arryears.filter((item)=>item.selected == true)[0]!=undefined) {
                   this.Arryears.filter((item)=>item.selected == true)[0].ImginpopUp = this.Arryears.filter((item)=>item.selected == true)[0].wrongyearImg;
                 } 
-              }*/              
+              }              
             }
             this.popupRef.nativeElement.classList = "displayPopup modal";
             this.playFeedback();

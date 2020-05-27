@@ -1,10 +1,11 @@
 
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewChildren } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
+import { l } from '@angular/core/src/render3';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class Template15Component implements OnInit {
 	rightPopup: any;
 	wrongPopup: any;
     wrongTimer:any;
-    rightTimer:any;
+    rightTimer:any;   
+    clapTimer:any;
     i = 0;
     j: number = 0;
     myoption: any = [];   
@@ -76,7 +78,6 @@ export class Template15Component implements OnInit {
     popupTime:any
     LastquestimeStart:boolean = false;
     audio = new Audio();
-    clapTimer:any;
     
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -124,9 +125,8 @@ export class Template15Component implements OnInit {
         // this.appModel.navShow = 2;
     }
 
-
-
     ngOnInit() {       
+        this.Sharedservice.setLastQuesAageyBadheStatus(false);
         this.sprite.nativeElement.style="display:none";
         this.ifRightAns = false;
         this.attemptType = "";
@@ -255,9 +255,24 @@ export class Template15Component implements OnInit {
         }, 200)
     
     }
+// @ViewChild('optionBg') optionBg:any;
+// @ViewChild('optionImg') optionImg:any;
 
+// @ViewChildren('optionRef') optionRefChidren:any;
+attribute:any;
     /****Check answer on option click*****/
-    checkAnswer(option) {      
+    checkAnswer(option) {     
+         
+        let OptChild = this.optionRef.nativeElement.children;
+        console.log(OptChild);
+        let i;
+        for (i = 0; i < OptChild.length; i++) {
+            this.attribute= OptChild[i].attribute + "<br>";
+          }
+
+console.log(this.attribute);
+        // console.log(this.optionImg.nativeElement);
+
         this.popupclosedinRightWrongAns=false;       
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
@@ -274,6 +289,9 @@ export class Template15Component implements OnInit {
 			this.ifRightAns = true;
 			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
              
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
+            }
             setTimeout(() => {      
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     option.image = option.image_hover;
@@ -402,6 +420,9 @@ export class Template15Component implements OnInit {
         this.showAnswerfeedback.nativeElement.currentTime = 0;
         if(Type === "answerPopup") {
             this.popupclosedinRightWrongAns=true;
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
+            } 
             if(this.ifRightAns) {
                 this.Sharedservice.setShowAnsEnabled(true);
                 this.overlay.nativeElement.classList.value="fadeContainer";
@@ -524,6 +545,7 @@ export class Template15Component implements OnInit {
 
     /***** Blink on last question ******/
     blinkOnLastQues() {
+        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
         if(this.lastQuestionCheck){
             this.LastquestimeStart = true;
         }

@@ -48,6 +48,7 @@ export class Ntemplate10 implements OnInit {
 	@ViewChild('onlyOneAttemptModalRef') onlyOneAttemptModalRef: any;
 	@ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
 	@ViewChild('confirmModalRef') confirmModalRef: any;
+	@ViewChild('maincontent') maincontent: any;
 
 	hideButtons:boolean = false;
 	audio = new Audio();
@@ -330,6 +331,7 @@ export class Ntemplate10 implements OnInit {
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.pause();
+			$(".instructionBase img").css("cursor", "pointer");
 		}
 		if (this.titleHelpAudio && this.titleHelpAudio.nativeElement) {
 			this.titleHelpAudio.nativeElement.pause();
@@ -392,7 +394,6 @@ export class Ntemplate10 implements OnInit {
 		}
 		console.log("myoption",this.myoption,this.optBackup)
 		this.attemptType = "hideAnimation"
-		this.blinkOnLastQues();	
 		$(".speakerBtn ").addClass("disable_div");
 
 		$("#instructionBar").addClass("disable_div");	  
@@ -400,7 +401,9 @@ export class Ntemplate10 implements OnInit {
 		$("#optionsBlock").css("cursor", "inherit");
 		$("#optionsBlock").css("opacity", "1");
 		$("#instructionBar").css("opacity", "1");
+		this.appModel.resetBlinkingTimer();
 		setTimeout(()=>{
+			this.blinkOnLastQues();	
 			$("#optionsBlock").css("opacity", "0.3");
 			$("#instructionBar").css("opacity", "0.3");	
 		},5000)
@@ -543,7 +546,11 @@ export class Ntemplate10 implements OnInit {
 			this.appModel.notifyUserAction();
 			if (action == "uttarDikhayein") {
 				console.log("clicked on show show answer")
-				this.hideButtons = true;
+				if (!this.instruction.nativeElement.paused) {
+					this.instruction.nativeElement.currentTime = 0;
+					this.instruction.nativeElement.pause();
+					$(".instructionBase img").css("cursor", "pointer");
+				}
 				if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
 					$("#instructionBar").addClass("disable_div");
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -589,7 +596,7 @@ export class Ntemplate10 implements OnInit {
 				},750 )
 		});
 		this.appModel.handleController(this.controlHandler);
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 
@@ -605,6 +612,7 @@ export class Ntemplate10 implements OnInit {
 		this.doRandomizeQues(this.question);
 		setTimeout(() => {
 			//this.optionBlock.nativeElement.className = "optionsBlock";
+			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			this.setBubbleEmpty();
 		}, 200)
 		this.appModel.notifyUserAction();
@@ -767,7 +775,8 @@ export class Ntemplate10 implements OnInit {
 			this.speakerBtn.nativeElement.children[1].className = "speaker dispFlex";
 			this.questionSound.nativeElement.onended = () => {
 				this.appModel.handlePostVOActivity(false);
-
+				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+				$(".instructionBase img").css("cursor", "pointer");
 				this.speakerBtn.nativeElement.children[1].className = "speaker";
 				if (this.optionBlock) {
 					this.optionBlock.nativeElement.className = "optionsBlock";
@@ -798,12 +807,11 @@ export class Ntemplate10 implements OnInit {
 			this.appModel.handlePostVOActivity(true);
 			this.appModel.enableReplayBtn(true);
 			$(".instructionBase img").css("cursor", "default");
-
+			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			//   this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.narrator.nativeElement.play();
 			this.narrator.nativeElement.onended = () => {
 				//this.startAnsShowTimer()
-				$(".instructionBase img").css("cursor", "pointer");
 
 				this.setBubbleEmpty();
 				this.appModel.enableReplayBtn(true);
@@ -855,6 +863,7 @@ export class Ntemplate10 implements OnInit {
 		this.confirmModalRef.nativeElement.classList = "modal";
 
 		if (flag == "yes") {
+			this.hideButtons = true;
 			this.showAnswer();
 		} else {
 			this.appModel.notifyUserAction();

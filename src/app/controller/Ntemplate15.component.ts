@@ -265,7 +265,7 @@ export class Ntemplate15 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttemptTask();
 		});
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 
@@ -1258,7 +1258,7 @@ export class Ntemplate15 implements OnInit {
 		// this.myoption.forEach(element => {
 		// 	element.show = false;
 		// });
-
+		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
 				if (this.feedbackVoRef && this.feedbackVoRef.nativeElement) {
 					this.feedbackVoRef.nativeElement.play();

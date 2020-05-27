@@ -212,6 +212,7 @@ export class Ntemplate4 implements OnInit {
             this.appModel.startPreviousTimer();
             this.appModel.notifyUserAction();
         })
+        this.appModel.resetBlinkingTimer();
     }
 
     ngOnDestroy(){
@@ -689,6 +690,7 @@ export class Ntemplate4 implements OnInit {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.showAnswerClicked = true;
+            this.appModel.resetBlinkingTimer();
             this.getAnswer();
         } else if (action == "submitAnswer") {
             this.checkResponseType();

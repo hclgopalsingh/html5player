@@ -248,9 +248,13 @@ ngAfterViewChecked() {
   }
 
   onClickoption(opt, j) {
-    if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
+    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+    this.appModel.handlePostVOActivity(true);
+    // if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();}
+     //} else {
       this.appModel.notifyUserAction();
       let i = this.index1;
       this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1].id;
@@ -300,7 +304,7 @@ ngAfterViewChecked() {
         }
         this.onPlacePuzzle(opt, i, j);
       }
-    }
+    //}
   }
 
   
@@ -324,6 +328,8 @@ ngAfterViewChecked() {
           this.feedbackVO.nativeElement.play();
           this.feedbackVO.nativeElement.onended = () => {
             console.log("audio end");
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.appModel.handlePostVOActivity(false)
             this.checked = false;
             if (this.noOfBlocks == 4) {
               $("#puzzleBlock4").removeClass("disable_div");
@@ -454,6 +460,9 @@ ngAfterViewChecked() {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
+        if (!this.instruction.nativeElement.paused) {
+          this.instruction.nativeElement.currentTime = 0;
+          this.instruction.nativeElement.pause();}
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -496,8 +505,7 @@ ngAfterViewChecked() {
 				this.postWrongAttemplt()
 				},750 )
 		});
-
-
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt(){
@@ -517,6 +525,8 @@ ngAfterViewChecked() {
             } else if (this.noOfBlocks == 12) {
               $("#puzzleBlock12").removeClass("disable_div");
             }
+            this.appModel.handlePostVOActivity(false)
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
           });
 
     
@@ -731,6 +741,7 @@ ngAfterViewChecked() {
         this.rightanspopUpheader_img = false;
         this.showanspopUpheader_img = true;
         this.appModel.invokeTempSubject('showModal', 'manual');
+        this.appModel.resetBlinkingTimer();
       }, 100);
 
       $("#instructionBar").addClass("disable_div");
