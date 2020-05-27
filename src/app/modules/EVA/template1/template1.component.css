@@ -171,6 +171,7 @@
 #refQuesBlock div.quesBox.fillBlank{
 	position: relative;
 	width: 10vmax;
+	min-width:10vmax;
 }
 /*** Border Blink Animation  ***/
 @keyframes borderBlink{
