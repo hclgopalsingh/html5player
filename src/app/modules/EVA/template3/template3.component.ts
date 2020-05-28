@@ -240,6 +240,11 @@ export class Template3Component extends Base implements OnInit {
 			this.popupIconLocation = this.popupAssets.right_icon.location;
 			this.ifRightAns = true;
 			option.image = option.image_original;
+
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
+			}
+			
 			setTimeout(() => {
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
@@ -571,6 +576,9 @@ export class Template3Component extends Base implements OnInit {
 
 		if (Type === "answerPopup") {
 			this.popupclosedinRightWrongAns = true;
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
+            } 
 			if (this.ifRightAns) {
 				this.Sharedservice.setShowAnsEnabled(true);
 				this.overlay.nativeElement.classList.value = "fadeContainer";
