@@ -482,6 +482,9 @@ export class Ntemplate1 implements OnInit {
     if (obj.optionAudio && obj.optionAudio.nativeElement) {
       obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
     // if(obj.optionsBlock && obj.optionsBlock.nativeElement)
     // {
     //   obj.optionsBlock.nativeElement.volume = obj.appModel.isMute ? 0 : vol;

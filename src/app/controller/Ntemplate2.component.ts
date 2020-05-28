@@ -620,7 +620,7 @@ removeAssetsFromPopup(id:string){
 
 	blinkOnLastQues(){
 		if((this.appModel.isLastSectionInCollection && this.noOfRightAns== this.feedbackObj.noOfSubQues) || (this.appModel.isLastSectionInCollection && this.isShowAnswerDisplayed)){
-			this.appModel.blinkForLastQues();
+			this.appModel.blinkForLastQues("manual");
 			this.appModel.stopAllTimer();
 			this.disableScreen();
 			if(!this. appModel.eventDone){
