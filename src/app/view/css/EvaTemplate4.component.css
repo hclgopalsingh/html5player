@@ -1,4 +1,4 @@
-#refQuesBlock{
+#parentBlock{
     position: absolute;
     top: 13%;
     width: 100%;
@@ -131,7 +131,7 @@
 .speakerBlock .speakerBtn{
     width: 100% !important;
 }
-#refQues{
+#refQuesBlock{
     position: absolute;
     top: 62.7%;
     width: 99.5%;
@@ -175,7 +175,7 @@
 	animation: borderBlink2 normal 1s infinite linear;
 }
 .options img:nth-child(2),
-#refQues .blocks img:nth-child(2){
+#refQuesBlock .blocks img:nth-child(2){
 	position: absolute;
 	width: 92%;
 	top: -1%;
@@ -190,5 +190,5 @@
 	}
 } 
 .eva .modal{
-	display: none; 
+	display: flex; 
 }
