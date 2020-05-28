@@ -78,6 +78,8 @@ export class Template15Component implements OnInit {
     popupTime:any
     LastquestimeStart:boolean = false;
     audio = new Audio();
+    showAnswerOptionBg:any;
+    // SpeakerTitle:any;
     
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -127,6 +129,7 @@ export class Template15Component implements OnInit {
 
     ngOnInit() {       
         
+        this.Sharedservice.setLastQuesAageyBadheStatus(true); 
         this.sprite.nativeElement.style="display:none";
         this.ifRightAns = false;
         this.attemptType = "";
@@ -269,6 +272,7 @@ export class Template15Component implements OnInit {
             this.answerImageBase = option.image_original.url;
             this.answerImage = option.imgsrc.url;
             this.answerImagelocation = option.image_original.location;
+            this.showAnswerOptionBg = option.image_original.url;
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
 			this.ifRightAns = true;
@@ -316,6 +320,7 @@ export class Template15Component implements OnInit {
             this.answerImageBase = option.image.url;
             this.answerImage = option.imgsrc.url;
             this.answerImagelocation = option.image.location;
+            this.showAnswerOptionBg = option.image_original.url;
             this.popupIcon = this.popupAssets.wrong_icon.url;
             this.popupIconLocation = this.popupAssets.wrong_icon.location;
 			//this.appModel.stopAllTimer();
@@ -375,7 +380,10 @@ export class Template15Component implements OnInit {
             this.doRandomize(array);
         }
         else{
-            
+           
+                var Answerindex = array.find(x => x.id === this.correct_ans_index);
+                this.showAnswerOptionBg =  Answerindex.image.url;
+             
         }
 
     }
@@ -450,6 +458,11 @@ export class Template15Component implements OnInit {
 
     /*****Play speaker audio*****/
     playSpeaker(el: HTMLAudioElement, speaker) {
+        // this.SpeakerTitle ="";
+      setTimeout(() => {
+        
+      }, 100);
+       
         if (!this.instruction.nativeElement.paused) {
             console.log("instruction voice still playing");
         } else {
@@ -590,8 +603,10 @@ export class Template15Component implements OnInit {
 		this.popupAssets.close_button = this.popupAssets.close_button_origional;
     }
     
+    
     /*********SPEAKER HOVER *********/
     onHoverSpeaker(speaker) {
+        // this.SpeakerTitle = "स्पीकर";
         speaker.imgsrc = speaker.imghover;
         if (!this.instruction.nativeElement.paused) {
             this.disableSpeaker.nativeElement.className = "speakerBlock";
