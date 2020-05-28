@@ -74,6 +74,18 @@
     padding: .7% 0 0 .7%; /*.3vmax 0 0 .32vmax;*/
 	z-index: 1;
 }
+.speakerBtn:before {
+    content: '';
+    position: absolute;
+    top: -8.5%;
+    right: -5.5%;
+    z-index: -1;
+    background: #fff;
+    border: solid .2vmax #a1672b;
+    border-radius: 50%;
+    width: 114%;
+    height: 114%;
+}
 .speakerBlock .speakerBtn {
     width: 23% !important;
 }
