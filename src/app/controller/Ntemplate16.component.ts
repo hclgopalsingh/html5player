@@ -386,7 +386,7 @@ export class Ntemplate16 implements OnInit {
 			if (this.noOfRightAns == this.feedback.correct_ans_index.length) {
 
 				//highlight options
-
+				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 				{
 					this.ansList.forEach(element => {
 						element.filled_img = element.filled_img_green
