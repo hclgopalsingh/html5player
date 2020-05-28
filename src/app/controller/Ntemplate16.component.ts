@@ -244,6 +244,7 @@ export class Ntemplate16 implements OnInit {
 	
 	runCounter(){
 		console.log(document.getElementById("circle1"))
+		this.appModel.enableReplayBtn(false)
 		console.log("this.quesInfo.formatTimeout",this.quesInfo.formatTimeout)
 		this.countdown = (this.quesInfo.formatTimeout)/1000;
 		if(document.getElementById("circle1")){
@@ -586,12 +587,18 @@ export class Ntemplate16 implements OnInit {
 
 	endedHandleronSkip() {
 		  this.isPlayVideo = false;
+		  this.appModel.enableReplayBtn(true);
+		  this.appModel.videoStraming(false);
+		  this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
 		  this.appModel.navShow = 2;
 		  //this.appModel.setLoader(true);
 		  //this.appModel.startPreviousTimer();
-			setTimeout(()=>{
-				this.runCounter();
+		  console.log("this.activityStarted",this.activityStarted)
+		 	if(!this.activityStarted){
 
+			 
+			setTimeout(()=>{
+					this.runCounter()
 			},200)
 		  setTimeout(() => {
 			this.showFormat = false;
@@ -613,8 +620,7 @@ export class Ntemplate16 implements OnInit {
 			}, 5000)
 
 		}, this.quesInfo.formatTimeout)
-
-
+	}
 		
 	  }
 
@@ -691,6 +697,7 @@ export class Ntemplate16 implements OnInit {
 			}
 			if (val == "replayVideo") {
 				this.appModel.videoStraming(true);
+				this.activityStarted = true;
 				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 				  $("#optionsBlock .options").addClass("disable_div");
 				  this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
@@ -833,7 +840,7 @@ export class Ntemplate16 implements OnInit {
 						this.appModel.setLoader(false);
 					}, 5000)
 					this.controlHandler.isShowAns = true;
-					this.appModel.enableReplayBtn(true);
+					//this.appModel.enableReplayBtn(true);
 					this.appModel.handleController(this.controlHandler);
 
 				}, this.quesInfo.formatTimeout)
@@ -904,15 +911,18 @@ export class Ntemplate16 implements OnInit {
 		}
 	  }
 
+	activityStarted: boolean = false
+
 	checkforQVO() {
 		if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
 			this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
-			this.appModel.enableReplayBtn(true);
+			this.appModel.enableReplayBtn(false);
 			this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 			$("#instructionBar").addClass("disable_div");
 			// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			this.narrator.nativeElement.play();
+			this.activityStarted = true;
 			this.narrator.nativeElement.onended = () => {
 				//this.startAnsShowTimer()
 				//this.setBubbleEmpty();
@@ -1033,9 +1043,8 @@ export class Ntemplate16 implements OnInit {
 		  this.appModel.navShow = 2;
 		  this.appModel.setLoader(true);
 		  //this.appModel.startPreviousTimer();
-		  setTimeout(()=>{
-			this.runCounter();
-
+		  setTimeout(()=>{			
+				this.runCounter()
 		  },200)
 		  setTimeout(() => {
 			this.showFormat = false;
@@ -1066,6 +1075,7 @@ export class Ntemplate16 implements OnInit {
 
 	  replayVideo() {
 		this.videoReplayd = true;
+		this.activityStarted =true;
 		this.isPlayVideo = true;
 		this.appModel.enableSubmitBtn(false);
 		$("#optionsBlock .options").addClass("disable_div");
