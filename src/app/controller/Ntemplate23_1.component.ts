@@ -1601,7 +1601,10 @@ this.edited = false;
       for(let i=0;i<this.myStates.length;i++) {
         arr.push(this.myStates[i].capital);
       }
-      this.copiedstates = arr.filter((item,index) => arr.indexOf(item) === index);
+      let filteredarray = arr.filter((item,index) => arr.indexOf(item) === index);
+      this.copiedstates = filteredarray.filter(function (el) {
+        return el != "";
+      });
       this.copiedstates.sort();
 	  this.myDropDownStates = fetchedData.DropDownArr;
 	  this.myRightAnswer = fetchedData.rigthAnswer;
@@ -1795,6 +1798,7 @@ this.edited = false;
   }
 
   showAnswerFeedback() {
+    this.appModel.resetBlinkingTimer();
     this.showAnswerarray=[];
     for(let i=0;i<this.feedbackObj.correct_state.length;i++) {
       let findState = this.myStates.find(element => element.textField == this.feedbackObj.correct_state[i]);

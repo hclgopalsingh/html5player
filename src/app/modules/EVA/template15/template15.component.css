@@ -1,4 +1,4 @@
-#container #optionsBlock {
+#optionsBlock{
     position: absolute;
     top: 16.5%;
     width: 100%;
@@ -7,44 +7,40 @@
 	align-items: center;
 	justify-content: center;
 }
-.options {
+.modal #optionsBlock{
+	top: 7.5%;
+}
+.options{
 	width: 86%;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
 }
-.options div {
+.options div{
 	width: 25.5%;
 	position: relative;
 	transition: transform .2s;
+}
+.modal .options div{
+	width: 44%;
 }
 .options div:hover{
 	transform: scale(1.1);
 	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
 }
-/* @keyframes scaleit {
-	0% {
+/* @keyframes scaleit{
+	0%{
 		transform: scale(1.1);
 	}
-	100% {
+	100%{
 		transform: scale(1.1);
 	}
 } */
-.options div .subOpt {
+.options div .subOpt{
     position: absolute;
     top: 0;
     left: 0;
 }
-#container .speakerBtn{
-	width:100%;
-	position:absolute;
-	top:61%;
-	text-align: center;
-}
-.speakerBtn img{
-	width:9%;
-}
-.options img,
-.speakerBtn img {
+.options img{
 	cursor:pointer;
 }

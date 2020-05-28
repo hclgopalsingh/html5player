@@ -378,6 +378,7 @@ export class Ntemplate1 implements OnInit {
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.popupRef.nativeElement.classList = "displayPopup modal";
+          this.appModel.resetBlinkingTimer();
           this.setFeedbackAudio();
         }
       } else if (mode == "auto") {
@@ -463,6 +464,7 @@ export class Ntemplate1 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     })
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -479,6 +481,9 @@ export class Ntemplate1 implements OnInit {
     }
     if (obj.optionAudio && obj.optionAudio.nativeElement) {
       obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     // if(obj.optionsBlock && obj.optionsBlock.nativeElement)
     // {
@@ -502,7 +507,7 @@ export class Ntemplate1 implements OnInit {
   }
 
   checkImgLoaded() {
-    if (!this.loadFlag) {
+       if (!this.loadFlag) {
       this.noOfImgsLoaded++;
       if (this.noOfImgsLoaded >= this.noOfImgs) {
         this.appModel.setLoader(false);
@@ -517,15 +522,19 @@ export class Ntemplate1 implements OnInit {
             this.mainVideo.nativeElement.play();
             this.mainVideo.nativeElement.onended = () => {
               //this.appModel.enableSubmitBtn(true);
+              this.isPlayVideo = false;
               $(".videoExpand")[0].classList.value="bodyContent";
-              this.appModel.videoStraming(false);
-              this.appModel.enableReplayBtn(true);
-              this.appModel.handlePostVOActivity(false);
-              $("#optionsBlock .options").removeClass("disable_div");
-              $(".instructionBase").removeClass("disable_div");
-              this.isQuesTypeVideo = false;
-              //setTimeout(() => {
-                this.isPlayVideo = false;
+              this.instruction.nativeElement.play();
+              this.instruction.nativeElement.onended = () => {
+                this.appModel.videoStraming(false);
+                this.appModel.enableReplayBtn(true);
+                this.appModel.handlePostVOActivity(false);
+                $("#optionsBlock .options").removeClass("disable_div");
+                $(".instructionBase").removeClass("disable_div");
+                this.isQuesTypeVideo = false;
+                //setTimeout(() => {
+                //this.isPlayVideo = false;
+              }
                 //this.startActivity();
               //}, 200)
             }
@@ -682,6 +691,7 @@ export class Ntemplate1 implements OnInit {
         this.styleBodyPopup = this.feedbackObj.style_body;
         setTimeout(() => {
           this.appModel.invokeTempSubject('showModal', 'manual');
+          this.appModel.resetBlinkingTimer();
         }, 100);
       }
       if ((this.noOfRightAnsClicked < this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
@@ -732,14 +742,29 @@ export class Ntemplate1 implements OnInit {
   endedHandleronSkip() {    
     this.isPlayVideo = false;
     $(".bodyContent")[0].classList.value="bodyContent";
-    $("#optionsBlock .options").css("pointer-events", "unset");
-    $("#optionsBlock .options").removeClass("disable_div");
-    $(".instructionBase").removeClass("disable_div");   
-    this.appModel.navShow = 2;
-    this.appModel.enableReplayBtn(true);  
-    this.appModel.videoStraming(false);
-    this.appModel.notifyUserAction();
-    this.appModel.handlePostVOActivity(false);
+    if(this.videoReplayd) {
+          $("#optionsBlock .options").css("pointer-events", "unset");
+          $("#optionsBlock .options").removeClass("disable_div");
+          $(".instructionBase").removeClass("disable_div");   
+          this.appModel.navShow = 2;
+          this.appModel.enableReplayBtn(true);  
+          this.appModel.videoStraming(false);
+          this.appModel.notifyUserAction();
+          this.appModel.handlePostVOActivity(false);
+    } else{
+              this.instruction.nativeElement.play();
+    this.instruction.nativeElement.onended=() => {
+          
+          $("#optionsBlock .options").css("pointer-events", "unset");
+          $("#optionsBlock .options").removeClass("disable_div");
+          $(".instructionBase").removeClass("disable_div");   
+          this.appModel.navShow = 2;
+          this.appModel.enableReplayBtn(true);  
+          this.appModel.videoStraming(false);
+          this.appModel.notifyUserAction();
+          this.appModel.handlePostVOActivity(false);
+    }
+    }
     //document.getElementById("playPauseBtn").children[0].src = this.containgFolderPath + "/" + this.quesObj.quesPlay.url; 
 }
 
@@ -905,9 +930,10 @@ houtSkip(){
       } else {
         setTimeout(() => {
           this.closeModal();
+          this.blinkOnLastQues();
+          this.appModel.moveNextQues();
         }, 2000);
-        this.blinkOnLastQues();
-        this.appModel.moveNextQues();
+        
       }
     }
 
@@ -931,9 +957,10 @@ houtSkip(){
     } else {
       setTimeout(() => {
         this.closeModal();
+        this.blinkOnLastQues();
+        this.appModel.moveNextQues();
       }, 2000);
-      this.blinkOnLastQues();
-      this.appModel.moveNextQues();
+      
     }
   }
   playrightFeedbackAudioforPartialPopup(i) {
@@ -1179,6 +1206,12 @@ houtSkip(){
   }
 
   closeModal() {
+     for(let i=0;i<this.popupBodyRef.nativeElement.children[0].children.length;i++) {
+      if(!this.popupBodyRef.nativeElement.children[0].children[i].children[1].paused) {
+        this.popupBodyRef.nativeElement.children[0].children[i].children[1].pause();
+        this.popupBodyRef.nativeElement.children[0].children[i].children[1].currentTime=0;
+      }
+    }
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;

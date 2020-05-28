@@ -1,0 +1,20 @@
+<div #questionBase class="questionBase">
+  <img class="img-fluid" [src]="contentPath + '/' + data?.questionBase?.url" />
+</div>
+<div #questionStatement class="questionStatement">
+  <img class="img-fluid" [src]="contentPath + '/' + data?.questionStatement?.url" />
+</div>
+<div #blinkingBlock>
+  <div class="questionBlinkingPink">
+    <img class="img-fluid" [src]="contentPath + '/' + data?.questionBlinkingPink?.url" />
+  </div>
+  <div class="questionBlinkingBlue blink-image">
+    <img class="img-fluid" [src]="contentPath + '/' + data?.questionBlinkingBlue?.url" />
+  </div>
+</div>
+<div #selectedOptionBlock class="questionAnswer">
+  <img class="img-fluid" [src]="selectedOptionURL" />
+</div>
+<div #selectedOptionBlockBlink class="questionAnswer blink-image">
+  <img class="img-fluid" [src]="selectedOptionBlinkURL" />
+</div>

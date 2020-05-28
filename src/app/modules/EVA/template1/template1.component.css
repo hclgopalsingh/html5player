@@ -1,32 +1,3 @@
-#container #optionsBlock {
-    position: absolute;
-    top: 54%;
-    width: 100%;
-    left: 0%; 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.options {
-	width: 86%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.options div {
-	width: 25.5%;
-}
-.options div img:hover{
-	animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);
-}
-@keyframes scaleit {
-	0% {
-		transform: scale(1);
-	}
-	100% {
-		transform: scale(1.1);
-	}
-}
 #container .speakerBtn{
 	width:auto;
 	position:absolute;
@@ -35,7 +6,7 @@
 	text-align: center;
 }
 .speakerBtn img{
-	width:47%;
+	width:61%;
 }
 .options img,
 .speakerBtn img {
@@ -43,66 +14,315 @@
 }
 
 /*Template specific styles */
-.refQues{
-	position: absolute;
-	top:13%;
-	width: 62%;
-	height: 40%;
-	/* text-align: center; */
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background: #fff;
-  }
-  .refQues img{
-	height: 78%;
-	display: flex;
-	align-items: center;
-	border:solid 0px transparent;
-  }
-  #optionsBlock img,
-.optionsBlock img{
-	position:relative;
-  max-width: 100%;
-}
-  #optionsBlock .options,
-.optionsBlock .options{
-	position: relative;
-  	margin: 0% 4.5%;
-	vertical-align:middle;
-  	width: 19%;
-	display: flex;
-  	justify-content: center;
-  	align-items: center;
-	animation: scaleit 0.4s ease-in;
-}
-.optionsBlock .quesImage.autoWidth .options{
-	width: auto;
-	/* height: 100%; */
-}
-.quesImage{
+ #container #optionsBlock {
+    position: absolute;
+    top: 54%;
 	width: 100%;
-  position: relative;
-	text-align: center;
-	display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
+	height: 27%;
+    left: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-  .quesImage .optItem{
-	position: absolute !important;
-	width: auto;
-	height: 90%;
-  }
-  .options:hover{
-	animation: scaleIn 0.5s ease-in-out;
-	transform: scale(1.2);
-  }
-  
+
+/* .options {
+	width: 86%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+} */
+.quesImage {
+	width: 100%;
+	height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.quesImage .optItem {
+    position: absolute !important;
+    width: auto;
+    height: 90%;
+}
+#optionsBlock .options {
+    position: relative;
+    max-width: 100%;
+    margin: 0% 5%;
+    vertical-align: middle;
+    width: 19%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	background: #ff9797;
+    border-radius: 2vmin;
+	border: solid .45vmax transparent;
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.55);
+	transition: transform .2s;
+    cursor: pointer;
+}
+#optionsBlock .options:nth-child(2) {
+	background: #9EFBFF;
+}
+#optionsBlock .options:nth-child(3) {
+	background: #B6FDA4;
+}
+#optionsBlock .options:hover{
+	transform: scale(1.1);
+	border-color: #f00;
+}
+.options img {
+    filter: grayscale(100%) brightness(0) saturate(0);
+}
 @keyframes scaleIn{
 	0%{
 		transform: scale(1.0)
 	}
 	100%{
-   transform: scale(1.2)
+   transform: scale(1.1)
 	}
+}
+.optionBlink{
+	animation:blinkLetter normal 0.5s infinite ease-in-out;
+}
+@keyframes blinkLetter{
+	0%{
+		opacity: 1;
+	}
+	100%{
+		opacity: 0.5;
+	}
+} 
+#refQuesBlock{
+    position: absolute;
+    top: 14%;/*13.5%*/
+	width: 100%;
+	padding: 0 13%;
+    height: 35%;/*33%*/
+    left: 0%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal #refQuesBlock{
+    top: 18.5% !important;
+	height: 39%;
+	padding: 0;
+}
+.refQues{
+	width: auto;
+	max-width: 100%;
+    height: 94%;/*100%*/
+    padding: 0 5%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+	position: relative;
+} 
+/*** Media Query for 1366*768 ***/
+@media screen and (min-width: 1366px) and (max-width: 1366px){
+	.refQues{
+		padding: 0 4%;
+	}
+} 
+.refQues:before{
+	content: '';
+    position: absolute;
+    top: -4.5%;
+    width: 100%;
+    height: 109%;
+	background: linear-gradient(180deg, rgba(255,241,198,1) 0%, rgba(255,232,156,1) 100%);	
+	border-radius: 2vmin;
+	box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.55);
+    z-index: -1;
+}
+.refQues div {
+	height: 89%;/*83%*/;
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    position: relative;
+} 
+.modal .refQues div {
+	height: 100%;
+}
+.refQues div img{
+	height: 100%;
+}
+.refQues div img.matraImg{
+	position: absolute;
+	filter: grayscale(100%) brightness(0) saturate(0);
+	height: 100%;
+}
+#refQuesBlock div.quesBox{
+	position: relative;
+	/* width: auto;
+	padding: 0 2.5vmax; */
+	width: fit-content;
+    padding: 0 5vmin;
+}
+.modal #refQuesBlock div.quesBox{
+	padding: 0;
+}
+.modal#showAnswer #refQuesBlock{
+	top: auto !important;
+    width: 97.4% !important;
+}
+#refQuesBlock div.quesBox.fillBlank{
+	position: relative;
+	width: 10vmax;
+	min-width:10vmax;
+}
+/*** Border Blink Animation  ***/
+@keyframes borderBlink{
+	25%{
+		border: solid .5vmax #f0e;
+	}
+	50%{
+		border: solid .5vmax #f0e;
+	}
+	100%{
+		border: solid .5vmax #0029d0;
+	}
+}
+.refQues div.quesBox::before {
+	content: '';
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: solid .5vmax #0029d0;
+	border-radius: 1vmax;
+	animation: none;
+}
+.refQues div.quesBox.blinkOn::before {
+	animation: borderBlink normal 1s infinite linear;
+}
+.modal .refQues div.quesBox::before {
+	border: none;
+	border-radius: none;
+	animation: none;
+}
+
+.dark{
+	-webkit-filter: grayscale(100%) brightness(0) saturate(0); filter: grayscale(100%) brightness(0) saturate(0);
+}
+
+#container .speakerBlock{
+	top: 23% !important;
+    right: 2% !important;
+}
+/*** Matra Positioning Classes ***/
+div.matra_i{
+	margin-left: 3vmax;
+}
+/* div.matra_aa, */
+div.matra_ee,
+/* div.matra_o, */
+div.matra_au{
+	margin-right: 3vmax;
+}
+div.matra_aa{
+	margin-right: 2.5vmax;
+}
+div.matra_o{
+	margin-right: 2.9vmax;
+}
+div.matra_i img[src*='i.png']{
+	left: -3vmax;
+}
+div.matra_aa img[src*='aa.png'],
+div.matra_ee img[src*='ee.png'],
+div.matra_o img[src*='o.png'],
+div.matra_au img[src*='au.png']{
+	right: -3vmax;
+}
+/* div.matra_o img[src*='o.png']{
+	right: -2.9vmax;
+} */
+div.matra_u img[src*='u.png']{
+	right: .1vmax;
+}
+div.matra_oo img[src*='oo.png']{
+	right: -1.7vmax;
+}
+div.matra_an img[src*='an.png']{
+	right: 1.1vmax;
+}
+div.matra_rTopRight img[src*='rTopRight.png']{
+	right: .5vmax;
+}
+div.matra_rBtmRight img[src*='rBtmRight.png']{
+	right: .5vmax;
+}
+div.matra_rBtmLeft img[src*='ka.png'] + img[src*='rBtmLeft.png'],
+div.matra_rBtmLeft img[src*='fa.png'] + img[src*='rBtmLeft.png']{
+	left: 1vmax;
+}
+div.matra_rBtmLeft img[src*='kha.png'] + img[src*='rBtmLeft.png']{
+	right: 2vmax;
+}
+div.matra_rBtmLeft img[src*='cha.png'] + img[src*='rBtmLeft.png'],
+div.matra_rBtmLeft img[src*='ja.png'] + img[src*='rBtmLeft.png'],
+div.matra_rBtmLeft img[src*='la.png'] + img[src*='rBtmLeft.png'],
+div.matra_rBtmLeft img[src*='sa.png'] + img[src*='rBtmLeft.png']{
+	right: 1.7vmax;
+}
+div.matra_rBtmRight img[src*='ka.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='fa.png'] + img[src*='rBtmRight.png']{
+	left: 2.5vmax;
+}
+div.matra_rBtmRight img[src*='cha.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='ja.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='ma.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='ya.png'] + img[src*='rBtmRight.png']{
+	right: .1vmax;
+}
+div.matra_rBtmRight img[src*='tta.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='na.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='pa.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='la.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='sa.png'] + img[src*='rBtmRight.png']{
+	right: .3vmax;
+}
+div.matra_rBtmRight img[src*='da.png'] + img[src*='rBtmRight.png'],
+div.matra_rBtmRight img[src*='ba.png'] + img[src*='rBtmRight.png']{
+	right: 0vmax;
+}
+div.matra_rBtmRight img[src*='ha.png'] + img[src*='rBtmRight.png']{
+	top: -.8vmax;
+}
+div.matra_rBtmCenter img[src*='rBtmCenter.png']{
+	right: .3vmax;
+}
+/*** Akshar Positioning Classes ***/
+img[src*='ad.png'],
+img[src*='b.png'],
+img[src*='bh.png'],
+img[src*='ch.png'],
+img[src*='dh.png'],
+img[src*='f.png'],
+img[src*='g.png'],
+img[src*='gh.png'],
+img[src*='j.png'],
+img[src*='k.png'],
+img[src*='kh.png'],
+img[src*='ksh.png'],
+img[src*='l.png'],
+img[src*='m.png'],
+img[src*='n.png'],
+img[src*='p.png'],
+img[src*='s.png'],
+img[src*='sh.png'],
+img[src*='shh.png'],
+img[src*='thh.png'],
+img[src*='tr.png'],
+img[src*='tt.png'],
+img[src*='v.png'],
+img[src*='y.png']{
+	margin-right: -1.2vmax;
+}
+.rightWrongAns{
+    bottom: 18%;
 }

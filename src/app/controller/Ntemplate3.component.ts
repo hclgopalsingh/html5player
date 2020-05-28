@@ -466,6 +466,7 @@ export class Ntemplate3 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     })
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
@@ -476,6 +477,9 @@ export class Ntemplate3 implements OnInit {
   templatevolume(vol, obj) {
     if (obj.narrator && obj.narrator.nativeElement) {
       obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.optionAudio && obj.optionAudio.nativeElement) {
       obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -494,6 +498,9 @@ export class Ntemplate3 implements OnInit {
     }
     if (obj.titleAudio && obj.titleAudio.nativeElement) {
       obj.titleAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackoneAttemptAudio && obj.feedbackoneAttemptAudio.nativeElement) {
+      obj.feedbackoneAttemptAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
   }
 
@@ -945,6 +952,7 @@ export class Ntemplate3 implements OnInit {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
+      this.appModel.resetBlinkingTimer();
       this.rightAnspopupAssets.sort((a, b) => { return a.id - b.id; });
       if (this.rightAnspopupAssets.length > 4) {
         this.rightansArray1 = this.rightAnspopupAssets.slice(0, 4);

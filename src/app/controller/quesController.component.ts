@@ -68,6 +68,7 @@ export class QuesController implements OnInit {
   blinkFlag: boolean = false;
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
+  enableNavBtns: boolean = false;
   isVideoPlaying:boolean = false;
   isLastQuesAageyBadhe:boolean = false;
   isLastQues:boolean = false;
@@ -98,13 +99,13 @@ export class QuesController implements OnInit {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if(this.isLastQues){
-        // this.nextBtn.nativeElement.className = "img-fluid nextBtn disableDiv"; 
-        //  this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
-        //  this.isLastQuesAageyBadhe = data.data;
-        // if(!this.isLastQuesAageyBadhe){
-        //   this.nextBtn.nativeElement.className = "img-fluid nextBtn";
-        // }
-      // });
+         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
+         this.isLastQuesAageyBadhe = data.data;
+        if(this.isLastQuesAageyBadhe){
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        }
+      });
 
        //*********  Move to next segment after 5 min of last question attempt */
        this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
@@ -171,7 +172,14 @@ export class QuesController implements OnInit {
     this.appModel.enableFlagSubmit.subscribe((flag) => {
       this.enableSubmitBtn = flag
 
-	})
+  })
+  
+  this.appModel.enableFlagNav.subscribe((flag) => {
+    console.log("nav wala flaggg")
+    this.enableNavBtns = flag
+  })
+
+
 	this.appModel.enableFlagReplay.subscribe((flag) => {
 		this.enableReplayBtn = flag
     })
@@ -275,13 +283,14 @@ export class QuesController implements OnInit {
     clearInterval(this.timeInterval);
     this.timeInterval = undefined;
     this.blinkFlag = false;
-    this.appModel.previousSection();
+    
     this.EnableShowAnswer=false;
     if(this.EVA) {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     } else {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
     }
+    this.appModel.previousSection();
 
     this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
@@ -353,9 +362,9 @@ export class QuesController implements OnInit {
 
   setBlinkOnLastQuestion() {
     if(this.EVA) {
-      if(this.EnableShowAnswer === true){
-        this.quesCtrl.blinkingStatus=true;
-        }
+      // if(this.EnableShowAnswer === true){
+         this.quesCtrl.blinkingStatus=true;
+        // }
     } else {
       this.blinkFlag = true;
       let flag = true;

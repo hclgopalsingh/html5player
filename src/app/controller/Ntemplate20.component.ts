@@ -284,6 +284,7 @@ export class Ntemplate20 implements OnInit {
             //this.blinkOnLastQues();
 
         })
+        this.appModel.resetBlinkingTimer();
     }
 
     ngOnDestroy() {
@@ -610,12 +611,13 @@ export class Ntemplate20 implements OnInit {
     }
 
     sendFeedback(ref, flag: string, action?: string) {
-
+        console.log("action",action)
         this.appModel.notifyUserAction();
         //this.blinkOnLastQues();
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.popupType = "showanswer"
+            this.appModel.resetBlinkingTimer();
             this.getAnswer();
             this.feedbackAudio = this.feedbackObj.show_Answer_sound;
             this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -655,7 +657,7 @@ export class Ntemplate20 implements OnInit {
         else if (action == "fadeEverything") {
             this.attemptTypeClose = "fadeEverything";
             this.fadeEverything();
-
+            //this.blinkOnLastQues();
 
         }
         else if (action == "feedbackDone") {
@@ -675,7 +677,6 @@ export class Ntemplate20 implements OnInit {
                 this.partialFeedbackRef.nativeElement.currentTime = 0;
             }
         }
-
         if (flag == "no") {
             if (this.attemptType != "") {
                 this.disableOnInstruction();
@@ -724,6 +725,7 @@ export class Ntemplate20 implements OnInit {
             else if (this.attemptType == "showAnswer") {
                 this.feedbackPopupAudio.nativeElement.pause();
                 this.feedbackPopupAudio.nativeElement.currentTime = 0;
+                this.blinkOnLastQues();
             }
             else if (this.attemptType == "uttarDikhayein") {
             }
