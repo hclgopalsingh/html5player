@@ -126,7 +126,7 @@ export class Template15Component implements OnInit {
     }
 
     ngOnInit() {       
-        this.Sharedservice.setLastQuesAageyBadheStatus(false);
+        this.Sharedservice.setLastQuesAageyBadheStatus(true);
         this.sprite.nativeElement.style="display:none";
         this.ifRightAns = false;
         this.attemptType = "";
