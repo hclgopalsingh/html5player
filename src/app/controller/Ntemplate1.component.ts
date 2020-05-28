@@ -507,7 +507,7 @@ export class Ntemplate1 implements OnInit {
   }
 
   checkImgLoaded() {
-    if (!this.loadFlag) {
+       if (!this.loadFlag) {
       this.noOfImgsLoaded++;
       if (this.noOfImgsLoaded >= this.noOfImgs) {
         this.appModel.setLoader(false);
