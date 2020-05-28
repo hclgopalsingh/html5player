@@ -628,7 +628,14 @@ export class Ntemplate16 implements OnInit {
 	  }
 
 	ngOnInit() {
-
+		let that = this;
+        $( "#navBlock" ).click(function() {
+            if (!that.instruction.nativeElement.paused)
+            {
+              that.instruction.nativeElement.pause();
+              that.instruction.nativeElement.currentTime = 0;
+            }
+          });
 		//this.appModel.handleController(this.controlHandler);
 		this.appModel.handlePostVOActivity(true);
 		this.appModel.enableReplayBtn(false);
