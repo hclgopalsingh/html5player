@@ -133,7 +133,7 @@ export class Template3Component extends Base implements OnInit {
 	popupclosedinRightWrongAns: boolean = false;
 	rightTimer:any;   
     clapTimer:any;
-
+	LastquestimeStart:boolean = false;
 
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
@@ -208,24 +208,47 @@ export class Template3Component extends Base implements OnInit {
 	}
 
 	blinkOnLastQues() {
-		if (this.appModel.isLastSectionInCollection) {
-			this.appModel.blinkForLastQues("");
-			this.Sharedservice.moveNext();
-			//this.appModel.stopAllTimer();
-			if (!this.appModel.eventDone) {
-				if (this.isLastQuesAct) {
-					this.appModel.eventFired();
-					this.appModel.event = { 'action': 'segmentEnds' };
-				}
-				if (this.isLastQues) {
-					this.appModel.event = { 'action': 'exit' };
-				}
-			}
-		}
-		else {
-			this.appModel.moveNextQues("");
-		}
-	}
+        this.Sharedservice.setLastQuesAageyBadheStatus(false); 
+        if(this.lastQuestionCheck){
+            this.LastquestimeStart = true;
+        }
+        if (this.appModel.isLastSectionInCollection) {
+          this.appModel.blinkForLastQues();
+          this.appModel.stopAllTimer();
+          if (!this.appModel.eventDone) {
+            if (this.isLastQuesAct) {
+              this.appModel.eventFired();
+              this.appModel.event = { 'action': 'segmentEnds' };
+            }
+            if (this.isLastQues) {
+              this.appModel.event = { 'action': 'exit' };
+             
+            }
+          }
+        } else {
+            this.appModel.moveNextQues("");
+             }
+      }
+
+	// blinkOnLastQues() {
+	// 	if (this.appModel.isLastSectionInCollection) {
+	// 		this.appModel.blinkForLastQues("");
+	// 		this.Sharedservice.moveNext();
+	// 		//this.appModel.stopAllTimer();
+	// 		if (!this.appModel.eventDone) {
+	// 			if (this.isLastQuesAct) {
+	// 				this.appModel.eventFired();
+	// 				this.appModel.event = { 'action': 'segmentEnds' };
+	// 			}
+	// 			if (this.isLastQues) {
+	// 				this.appModel.event = { 'action': 'exit' };
+	// 			}
+	// 		}
+	// 	}
+	// 	else {
+	// 		this.appModel.moveNextQues("");
+	// 	}
+	// }
 
 	checkAnswer(option) {
 		this.popupclosedinRightWrongAns = false;

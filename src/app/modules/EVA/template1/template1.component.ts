@@ -555,6 +555,22 @@ export class Template1Component implements OnInit {
         speaker.imgsrc = speaker.imgorigional;
     }
 
+        /******On Hover option ********/
+        onHoverOptions(option, index) {   
+            let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
+            if(!this.myAudiospeaker.nativeElement.paused) {
+                this.myAudiospeaker.nativeElement.pause();
+                this.myAudiospeaker.nativeElement.currentTime=0;
+                this.speaker.imgsrc=this.speaker.imgorigional;
+            }
+               
+        }
+    
+        /******Hover out option ********/
+        // onHoveroutOptions(option, index) {     
+        //     option.image = option.image_original;
+        // }
+
     /**OPTION HOVER */
     // onHoverOptions(option, index) {
     //     option.optBg = option.optBgHover;        

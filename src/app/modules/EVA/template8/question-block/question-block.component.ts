@@ -1,4 +1,7 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { QuestionBlockVO } from '../../../../model/eva/template8/questionblockVO';
+import { Constants } from '../../../../model/eva/template8/constants';
+
 
 @Component({
   selector: 'app-question-block',
@@ -6,19 +9,34 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
   styleUrls: ['./question-block.component.css']
 })
 export class QuestionBlockComponent implements OnInit {
-  @Input() contentPath: string;
-  @Input() containerType: string;
-  @Input() data: any;
-  @Input() dataCorrectOption: any;
-  @ViewChild('blinkingBlock') blinkingBlock: any;
-  @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
-  @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;  
-  @ViewChild('questionBase') questionBase: any;
-  @ViewChild('questionStatement') questionStatement: any;  
-
   selectedOptionURL: String = "";
   selectedOptionBlinkURL: String = "";
   option: any;
+  _data: QuestionBlockVO;
+
+  @Input() contentPath: string;
+  //@Input() data: QuestionBlockVO;
+
+  get data(): QuestionBlockVO {
+    return this._data;
+  }
+
+  @Input('data')
+  set data(value: QuestionBlockVO) {
+    this._data = value;
+
+    this.updateView();
+  }
+
+
+  @Input() dataCorrectOption: any;
+
+  @ViewChild('blinkingBlock') blinkingBlock: any;
+  @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
+  @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;
+  @ViewChild('questionBase') questionBase: any;
+  @ViewChild('questionStatement') questionStatement: any;
+  @Output() load = new EventEmitter();
 
   constructor() {
 
@@ -28,33 +46,66 @@ export class QuestionBlockComponent implements OnInit {
     this.reset();
   }
 
-  blinking(bool: boolean) {
-    if (bool) {
-      this.blinkingBlock.nativeElement.classList.add('show');
-      this.blinkingBlock.nativeElement.classList.remove('hide');
-    } else {
+  updateView(): void {
+    if (this.data.bQuestionBlinking == false) {
+      this.selectedOptionBlock.nativeElement.classList.add('hide');
+      this.selectedOptionBlockBlink.nativeElement.classList.add('hide');
+    }
+
+    if (this.data.bSelectedOptionBlinking == false) {
       this.blinkingBlock.nativeElement.classList.add('hide');
-      this.blinkingBlock.nativeElement.classList.remove('show');
     }
   }
 
+  blinkingBox(value: boolean) {
+    if (value) {
+      //this.blinkingBlock.nativeElement.classList.add('show');
+      this.blinkingBlock.nativeElement.classList.remove('hide');
+      this.selectedOptionBlock.nativeElement.classList.add("hide");
+      this.selectedOptionBlockBlink.nativeElement.classList.add("hide");
+    } else {
+      this.blinkingBlock.nativeElement.classList.add('hide');
+      this.selectedOptionBlock.nativeElement.classList.remove("hide");
+      this.selectedOptionBlockBlink.nativeElement.classList.remove("hide");
+    }
+  }
+
+  optionBlinking(value: boolean) {
+    this.selectedOptionBlock.nativeElement.classList.remove('hide');
+    this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+  }
+
   selectedOption(option) {
+
     if (option) {
-      this.selectedOptionBlock.nativeElement.classList.remove('hide');
-      this.selectedOptionBlock.nativeElement.classList.add('show');   
-      
-      switch (this.containerType) {
-        case "main_screen":
-          this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
-          //this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
+
+      switch (this.data.containerType) {
+        case Constants.CONTAINER_MAIN_SCREEN:
+
+          if (this.data.bSelectedOptionBlinking == true) {
+            debugger;
+            this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
+            this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
+
+            this.selectedOptionBlock.nativeElement.classList.remove('hide');
+            this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+          }
           break;
-  
-        case "right_wrong_popup":
-          this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
-          this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
+
+        case Constants.CONTAINER_FEEDBACK_POPUP:
+
+          if (this.data.bSelectedOptionBlinking == true) {
+            debugger;
+            this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
+            this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
+
+            this.selectedOptionBlock.nativeElement.classList.remove('hide');
+            this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+          }
           break;
-  
-        case "show_answer_popup":
+
+        case Constants.CONTAINER_SHOW_ANSWER_POPUP:
+          debugger;
           this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
           this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
           break;
@@ -66,15 +117,26 @@ export class QuestionBlockComponent implements OnInit {
     }
   }
 
+  checkImgLoaded() {
+    this.load.emit();
+  }
+
   reset() {
-    switch (this.containerType) {
-      case "main_screen":
-        this.blinking(true);
+    switch (this.data.containerType) {
+      case Constants.CONTAINER_MAIN_SCREEN:
+        if (this.data.bQuestionBlinking == false) {
+          this.blinkingBox(false);
+          this.blinkingBlock.nativeElement.classList.add('hide');
+        } else {
+          this.blinkingBox(true);
+          this.blinkingBlock.nativeElement.classList.remove('hide');
+        }
+
         this.selectedOption(null);
         break;
 
-      case "right_wrong_popup":
-        this.blinking(false);
+      case Constants.CONTAINER_FEEDBACK_POPUP:
+        this.blinkingBox(false);
         this.selectedOptionBlockBlink.nativeElement.classList.add('right_wrong_popup');
         this.selectedOptionBlock.nativeElement.classList.add('right_wrong_popup');
         this.blinkingBlock.nativeElement.classList.add('right_wrong_popup');
@@ -82,15 +144,23 @@ export class QuestionBlockComponent implements OnInit {
         this.questionStatement.nativeElement.classList.add('right_wrong_popup');
         break;
 
-      case "show_answer_popup":
+      case Constants.CONTAINER_SHOW_ANSWER_POPUP:
         this.selectedOptionBlockBlink.nativeElement.classList.add('right_wrong_popup');
         this.selectedOptionBlock.nativeElement.classList.add('right_wrong_popup');
         this.blinkingBlock.nativeElement.classList.add('right_wrong_popup');
         this.questionBase.nativeElement.classList.add('right_wrong_popup');
         this.questionStatement.nativeElement.classList.add('right_wrong_popup');
-        this.blinking(false);
-        this.selectedOption(this.dataCorrectOption);
+        this.blinkingBox(false);
         break;
     }
+
+
+
+    if (this.data.bSelectedOptionBlinking == false) {
+      debugger;
+      this.selectedOptionBlock.nativeElement.classList.add('hide');
+      this.selectedOptionBlockBlink.nativeElement.classList.add('hide');
+    }
+
   }
 }
