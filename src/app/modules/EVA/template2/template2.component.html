@@ -29,7 +29,7 @@
     <div id="refQuesBlock">
       <div class="refQues">
         <img class="img-fluid"
-          [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url">
+          [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url" (load)="checkImgLoaded();">
         <div class="boxTop" id="answer1">
         </div>
         <div class="boxRight" id="answer2">
