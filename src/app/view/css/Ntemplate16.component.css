@@ -838,3 +838,8 @@ button:focus {
   .disableDiv{
 cursor: default;
   }
+
+  .disableNavBtn{
+	opacity: 0.5;
+	pointer-events: none;
+}

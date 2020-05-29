@@ -641,7 +641,7 @@ removeAssetsFromPopup(id:string){
 
 	blinkOnLastQues(){
 		if((this.appModel.isLastSectionInCollection && this.noOfRightAns== this.feedbackObj.noOfSubQues) || (this.appModel.isLastSectionInCollection && this.isShowAnswerDisplayed)){
-			this.appModel.blinkForLastQues("manual");
+			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
 			this.disableScreen();
 			if(!this. appModel.eventDone){
@@ -981,6 +981,7 @@ removeAssetsFromPopup(id:string){
 			}
 			setTimeout(()=>{
 				this.popupRef.nativeElement.classList = "modal";
+				this.attemptType = "nblink"
 				this.blinkOnLastQues();
 			},100)
 			this.disableScreen();
