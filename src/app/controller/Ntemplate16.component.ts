@@ -386,6 +386,7 @@ export class Ntemplate16 implements OnInit {
 			if (this.noOfRightAns == this.feedback.correct_ans_index.length) {
 				this.appModel.enableReplayBtn(false)
 				//highlight options
+				this.appModel.handlePostVOActivity(true)
 				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 				{
 					this.ansList.forEach(element => {
@@ -412,7 +413,7 @@ export class Ntemplate16 implements OnInit {
 							this.attemptType = "manual";
 							//disable option and question on right attempt
 							console.log("disable option and question on right attempt");
-							
+							this.appModel.handlePostVOActivity(false)
 							this.blinkOnLastQues()
 						}, 200)
 					}
@@ -637,13 +638,13 @@ export class Ntemplate16 implements OnInit {
 
 	ngOnInit() {
 		let that = this;
-        $( "#navBlock" ).click(function() {
-            if (!that.instruction.nativeElement.paused)
-            {
-              that.instruction.nativeElement.pause();
-              that.instruction.nativeElement.currentTime = 0;
-            }
-          });
+        // $( "#navBlock" ).click(function() {
+        //     if (!that.instruction.nativeElement.paused)
+        //     {
+        //       that.instruction.nativeElement.pause();
+        //       that.instruction.nativeElement.currentTime = 0;
+        //     }
+        //   });
 		//this.appModel.handleController(this.controlHandler);
 		this.appModel.handlePostVOActivity(true);
 		this.appModel.enableReplayBtn(false);
@@ -699,6 +700,10 @@ export class Ntemplate16 implements OnInit {
 			}
 			if (val == "replayVideo") {
 				this.appModel.videoStraming(true);
+				if ( this.instruction && !this.instruction.nativeElement.paused) {
+					this.instruction.nativeElement.currentTime = 0;
+					this.instruction.nativeElement.pause();
+				}
 				this.activityStarted = true;
 				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 				  $("#optionsBlock .options").addClass("disable_div");
