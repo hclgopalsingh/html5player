@@ -74,9 +74,8 @@ import { Template3Component } from './modules/EVA/template3/template3.component'
 import { Template1Component } from './modules/EVA/template1/template1.component';
 import { Template8Component } from './modules/EVA/template8/template8.component';
 import { QuestionBlockComponent } from './modules/EVA/template8/question-block/question-block.component';
-import { OptionComponent } from './modules/EVA/template8/option/option.component';
 import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
-import { OptionBlockComponent } from './modules/EVA/template8/option-block/option-block.component';
+import { DataService } from './model/eva/template8/data.service';
 
 
 @NgModule({
@@ -143,9 +142,7 @@ import { OptionBlockComponent } from './modules/EVA/template8/option-block/optio
 		Template1Component,
 		Template8Component,
 		QuestionBlockComponent,
-		OptionComponent,
-		InstructionBarComponent,
-		OptionBlockComponent
+		InstructionBarComponent
 	],
 	imports: [
 		BrowserModule,
@@ -157,7 +154,7 @@ import { OptionBlockComponent } from './modules/EVA/template8/option-block/optio
 		NouisliderModule,
 		NgxPaginationModule
 	],
-	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
+	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, DataService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
