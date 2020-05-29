@@ -12,10 +12,9 @@ export class QuestionBlockComponent implements OnInit {
   selectedOptionURL: String = "";
   selectedOptionBlinkURL: String = "";
   option: any;
-  _data: QuestionBlockVO;
+  _data: QuestionBlockVO = new QuestionBlockVO();
 
   @Input() contentPath: string;
-  //@Input() data: QuestionBlockVO;
 
   get data(): QuestionBlockVO {
     return this._data;
@@ -27,7 +26,6 @@ export class QuestionBlockComponent implements OnInit {
 
     this.updateView();
   }
-
 
   @Input() dataCorrectOption: any;
 
@@ -59,7 +57,6 @@ export class QuestionBlockComponent implements OnInit {
 
   blinkingBox(value: boolean) {
     if (value) {
-      //this.blinkingBlock.nativeElement.classList.add('show');
       this.blinkingBlock.nativeElement.classList.remove('hide');
       this.selectedOptionBlock.nativeElement.classList.add("hide");
       this.selectedOptionBlockBlink.nativeElement.classList.add("hide");
@@ -78,12 +75,10 @@ export class QuestionBlockComponent implements OnInit {
   selectedOption(option) {
 
     if (option) {
-
       switch (this.data.containerType) {
         case Constants.CONTAINER_MAIN_SCREEN:
 
           if (this.data.bSelectedOptionBlinking == true) {
-            debugger;
             this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
             this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
 
@@ -95,7 +90,6 @@ export class QuestionBlockComponent implements OnInit {
         case Constants.CONTAINER_FEEDBACK_POPUP:
 
           if (this.data.bSelectedOptionBlinking == true) {
-            debugger;
             this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
             this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
 
@@ -105,7 +99,6 @@ export class QuestionBlockComponent implements OnInit {
           break;
 
         case Constants.CONTAINER_SHOW_ANSWER_POPUP:
-          debugger;
           this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
           this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
           break;
@@ -153,8 +146,6 @@ export class QuestionBlockComponent implements OnInit {
         this.blinkingBox(false);
         break;
     }
-
-
 
     if (this.data.bSelectedOptionBlinking == false) {
       debugger;
