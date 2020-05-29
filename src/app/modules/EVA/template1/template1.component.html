@@ -33,7 +33,7 @@
         </div>
         <div class="row mx-0" id="optionsBlock" #ansBlock>
             <div class="my-auto quesImage" #optionRef id="optionTestId">
-                <div id="{{'opt'+idx}}" class="options" *ngFor="let opt of myoption;let idx = index" on-mouseenter='playOptionHover(opt,idx)' (click)="opt?.isMatra? selectOptMatra(opt,idx) : selectOpt(opt,idx)">
+                <div id="{{'opt'+idx}}" class="options" *ngFor="let opt of myoption;let idx = index" on-mouseenter='playOptionHover(opt,idx)' on-mousemove="onHoverOptions(opts,idx)"  (click)="opt?.isMatra? selectOptMatra(opt,idx) : selectOpt(opt,idx)">
                     <!-- <img class="img-fluid" id="{{'optblank'+idx}}" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
                     (load)="checkImgLoaded();"> -->
                     <img class="img-fluid optItem" id="{{'optimage'+idx}}" [src]="opt?.location=='content' ? containgFolderPath + '/' + opt?.url : assetsPath + '/' +opt?.url"
