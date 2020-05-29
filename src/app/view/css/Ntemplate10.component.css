@@ -82,8 +82,8 @@
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
-	top: -16%;
-	left: -3%;
+	top: 220%;
+	left: -17%;
 	display:none;
 	pointer-events: none;
 }

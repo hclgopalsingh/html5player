@@ -1,6 +1,3 @@
-div#contentHolder {	
-	/* width: 100% !important;	 */
-}
 #container .speakerBtn{
 	width:auto;
 	position:absolute;
@@ -42,7 +39,7 @@ div#contentHolder {
     justify-content: center;
 }
 .quesImage .optItem {
-    position: relative !important;
+    position: absolute !important;
     width: auto;
     height: 90%;
 }
@@ -97,7 +94,8 @@ div#contentHolder {
 #refQuesBlock{
     position: absolute;
     top: 14%;/*13.5%*/
-    width: 100%;
+	width: 100%;
+	padding: 0 13%;
     height: 35%;/*33%*/
     left: 0%; 
 	display: flex;
@@ -107,9 +105,11 @@ div#contentHolder {
 .modal #refQuesBlock{
     top: 18.5% !important;
 	height: 39%;
+	padding: 0;
 }
 .refQues{
-	width: fit-content;
+	width: auto;
+	max-width: 100%;
     height: 94%;/*100%*/
     padding: 0 5%;
 	display: flex;
@@ -136,7 +136,8 @@ div#contentHolder {
     z-index: -1;
 }
 .refQues div {
-	height: 91%;/*83%*/;
+	height: 89%;/*83%*/;
+	width: fit-content;
 	display: flex;
 	justify-content: center;
     align-items: center;
@@ -155,8 +156,10 @@ div#contentHolder {
 }
 #refQuesBlock div.quesBox{
 	position: relative;
-	width: auto;/*13.7vmax;*/
-	padding: 0 2.5vmax;
+	/* width: auto;
+	padding: 0 2.5vmax; */
+	width: fit-content;
+    padding: 0 5vmin;
 }
 .modal #refQuesBlock div.quesBox{
 	padding: 0;
@@ -168,6 +171,7 @@ div#contentHolder {
 #refQuesBlock div.quesBox.fillBlank{
 	position: relative;
 	width: 10vmax;
+	min-width:10vmax;
 }
 /*** Border Blink Animation  ***/
 @keyframes borderBlink{
