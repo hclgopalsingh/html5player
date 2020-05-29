@@ -384,7 +384,7 @@ export class Ntemplate16 implements OnInit {
 			this.ansList.push(opt);
 			//Analytics
 			if (this.noOfRightAns == this.feedback.correct_ans_index.length) {
-
+				this.appModel.enableReplayBtn(false)
 				//highlight options
 				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 				{
@@ -471,13 +471,15 @@ export class Ntemplate16 implements OnInit {
 
 			
 			this.wrongFeedback.nativeElement.onended = () => {
-				if(!this.closed){
+				
 					this.wrongTimer = setTimeout(() => {
 						this.correctAns.nativeElement.classList = "modal";
 						this.appModel.notifyUserAction();
+						if(!this.closed){
 						this.appModel.wrongAttemptAnimation();	
+						}
 					}, 2000);
-				}
+				
 			}
 		}
 	}
@@ -716,7 +718,9 @@ export class Ntemplate16 implements OnInit {
 	postWrongAttempt() {
 		this.optionBlock.nativeElement.className = "optionsBlock";
 		this.appModel.enableReplayBtn(true);
+		setTimeout(() => {
 		this.closed = false;
+		},2000)
 		
 	}
 
