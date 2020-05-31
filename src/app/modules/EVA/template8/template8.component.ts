@@ -17,8 +17,6 @@ import { AssetVO } from '../../../model/eva/template8/assetVO';
     styleUrls: ['./template8.component.css']
 })
 export class Template8Component implements OnInit {
-
-
     blink: boolean = false;
     commonAssets: any = "";
     ques: any = "";
@@ -26,6 +24,7 @@ export class Template8Component implements OnInit {
     wrongPopup: any;
     wrongTimer: any;
     wrongTimerAudio: any;
+    mainWrongAnswerTimer: any;
     rightTimer: any;
     i = 0;
     j: number = 0;
@@ -119,12 +118,10 @@ export class Template8Component implements OnInit {
 
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
-            //debugger;
         } else {
             this.appModel.setLoader(true);
             // if error occured during image loading loader wil stop after 5 seconds 
             this.loaderTimer = setTimeout(() => {
-                debugger;
                 this.appModel.setLoader(false);
             }, 5000);
         }
@@ -171,6 +168,10 @@ export class Template8Component implements OnInit {
 
         this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
             this.appModel.stopAllTimer();
+            this.resetTimer();
+            this.stopAllSounds();
+
+            //this.stop
             let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
             if (!speakerEle.paused) {
                 speakerEle.pause();
@@ -179,10 +180,11 @@ export class Template8Component implements OnInit {
                 (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
                 this.speaker.img_src = this.speaker.img_origional;
             }
+
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                 this.stopAllSounds();
-
                 let option = this.getCorrectOptionData()
+
                 //updating data for question block  
                 let questionBlockVO: QuestionBlockVO = this.dataService.data.showAnswerPopupQuestionData;
                 this.showAnswerQuestionBlock.data = questionBlockVO;
@@ -238,14 +240,17 @@ export class Template8Component implements OnInit {
         })
     }
 
-
-    ngOnDestroy() {
-        debugger;
-        this.showAnswerSubscription.unsubscribe();
+    resetTimer() {
         clearTimeout(this.rightTimer);
         clearTimeout(this.wrongTimer);
         clearTimeout(this.wrongTimerAudio);
         clearTimeout(this.clapTimer);
+        clearTimeout(this.mainWrongAnswerTimer);
+    }
+
+    ngOnDestroy() {
+        this.showAnswerSubscription.unsubscribe();
+        this.resetTimer();
         this.stopAllSounds();
     }
 
@@ -337,10 +342,11 @@ export class Template8Component implements OnInit {
 
     /****Check answer on option click*****/
     checkAnswer(event, option) {
+        //(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
         this.stopOptionsSound();
+
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
-
         if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
             target.children[1].classList.add("hide");
         }
@@ -377,21 +383,22 @@ export class Template8Component implements OnInit {
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
             this.ifRightAns = true;
-            let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 
+            let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
             setTimeout(() => {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
+
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();
                         this.clapSound.nativeElement.currentTime = 0;
+
                         ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                         if (!this.popupclosedinRightWrongAns) {
                             this.rightFeedback.nativeElement.play();
                         } else {
                             this.Sharedservice.setShowAnsEnabled(true);
-
                         }
                     }, 2000);
                     this.rightFeedback.nativeElement.onended = () => {
@@ -400,10 +407,12 @@ export class Template8Component implements OnInit {
                         }, 10000)
                     }
                 }
+
                 //disable option and question on right attempt
                 this.maincontent.nativeElement.className = "disableDiv";
                 this.ansBlock.nativeElement.className = "optionsBlock disableDiv disable-click";
             })
+
         } else if (option.id != this.feedback.correct_ans_index) {
             clearTimeout(this.wrongTimer);
             this.answerPopupType = 'wrong';
@@ -412,9 +421,17 @@ export class Template8Component implements OnInit {
             for (let i of this.myoption) {
                 this.idArray.push(i.id);
             }
-            let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 
-            setTimeout(() => {
+            this.maincontent.nativeElement.className = "disableDiv";
+
+            let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
+            this.mainWrongAnswerTimer = setTimeout(() => {
+                let timerDuration:number = 0;
+                if(this.dataService.variation == Constants.VARIATION_EVA8V0) {
+                    timerDuration = 2000;
+                } else if(this.dataService.variation == Constants.VARIATION_EVA8V2) {
+                    timerDuration = 0;
+                }
 
                 this.wrongTimerAudio = setTimeout(() => {
                     ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
@@ -432,7 +449,7 @@ export class Template8Component implements OnInit {
                         this.wrongFeedback.nativeElement.play();
                     }
 
-                }, 2000);
+                }, timerDuration);
 
                 this.wrongFeedback.nativeElement.onended = () => {
                     this.wrongTimer = setTimeout(() => {
@@ -498,7 +515,6 @@ export class Template8Component implements OnInit {
 
     /*****Close popup on click*****/
     resetOptionsState() {
-        debugger;
         for (let i = 0; i < this.myoption.length; i++) {
             //this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
             this.ansBlock.nativeElement.children[0].children[i].children[1].classList.remove("hide");
@@ -507,9 +523,9 @@ export class Template8Component implements OnInit {
     }
 
     closePopup(Type) {
-        debugger;
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
+
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;
 
@@ -518,6 +534,7 @@ export class Template8Component implements OnInit {
 
         this.showAnswerfeedback.nativeElement.pause();
         this.showAnswerfeedback.nativeElement.currentTime = 0;
+
         if (Type === "answerPopup") {
             this.popupclosedinRightWrongAns = true;
             if (this.ifRightAns) {
@@ -534,10 +551,12 @@ export class Template8Component implements OnInit {
                     this.Sharedservice.setTimeOnLastQues(true);
                 }
             } else if (this.ifWrongAns) {
+                this.maincontent.nativeElement.classList.remove("disableDiv");
                 clearTimeout(this.wrongTimer);
                 this.doRandomize(this.myoption);
                 this.resetOptionsState();
                 this.questionBlock.reset();
+
                 if (this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
                 } else {
@@ -548,10 +567,151 @@ export class Template8Component implements OnInit {
         else if (Type === 'showAnswer') {
             if (this.ifRightAns) {
                 this.blinkOnLastQues();
+            } else {
+                this.resetOptionsState();
+                this.questionBlock.reset();
+                this.maincontent.nativeElement.classList.remove("disableDiv");
             }
         }
+    }
 
+    /****function to check loaded image*****/
+    checkImgLoaded() {
+        if (!this.loadFlag) {
+            this.noOfImgsLoaded++;
+            if (this.noOfImgsLoaded >= this.noOfImgs) {
+                (this.maincontent.nativeElement as HTMLElement).classList.remove("hide");
+                this.appModel.setLoader(false);
+                this.Sharedservice.setShowAnsEnabled(false);
+                this.loadFlag = true;
+                clearTimeout(this.loaderTimer);
+                this.checkforQVO();
+            }
+        }
+    }
 
+    close() {
+        this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
+    }
+
+    /******Check for Question VO  *****/
+    checkforQVO() {
+        if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
+            this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content"
+                ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url : this.assetsPath + "/" + this.questionObj.quesInstruction.url
+            this.appModel.handlePostVOActivity(true);
+            this.maincontent.nativeElement.className = "disableDiv";
+            clearTimeout(this.rightTimer);
+            this.instruction.nativeElement.play();
+            this.appModel.setLoader(false);
+            this.instruction.nativeElement.onended = () => {
+                this.appModel.handlePostVOActivity(false);
+                this.maincontent.nativeElement.className = "";
+            }
+        } else {
+            this.appModel.handlePostVOActivity(false);
+        }
+    }
+
+    /******* Volume control for all VO  *******/
+    templatevolume(vol, obj) {
+        if (obj.instruction && obj.instruction.nativeElement) {
+            obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.myAudiospeaker && obj.myAudiospeaker.nativeElement) {
+            obj.myAudiospeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+            obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
+            obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.clapSound && obj.clapSound.nativeElement) {
+            obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
+            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.audio) {
+            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
+    }
+
+    /* HOVER CODE */
+
+    /******On Hover close popup******/
+    hoverClosePopup() {
+        this.popupAssets.close_button = this.popupAssets.close_button_hover;
+    }
+
+    /******Hover out close popup******/
+    houtClosePopup() {
+        this.popupAssets.close_button = this.popupAssets.close_button_origional;
+    }
+
+    /******On Hover option ********/
+    onHoverOptions(option, index) {
+        let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement;
+        if (!this.myAudiospeaker.nativeElement.paused) {
+            this.myAudiospeaker.nativeElement.pause();
+            this.myAudiospeaker.nativeElement.currentTime = 0;
+            this.speaker.img_src = this.speaker.img_origional;
+        }
+        option.image = option.img_hover;
+    }
+
+    /******Hover out option ********/
+    onHoveroutOptions(option, index) {
+        option.image = option.img_original;
+    }
+
+    /****** Option Hover VO  *******/
+    playOptionHover(option, index) {
+        if (option && option.audio && option.audio.url) {
+            this.playSound(option.audio, index);
+        }
+    }
+
+    /***** Play sound on option roll over *******/
+    playSound(soundAssets, idx) {
+        if (this.audio && this.audio.paused) {
+            if (soundAssets.location == 'content') {
+                this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+            } else {
+                this.audio.src = soundAssets.url;
+            }
+            this.audio.load();
+            this.audio.play();
+            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                if (i != idx) {
+                    this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+                }
+            }
+            this.audio.onended = () => {
+                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                    if (i != idx) {
+                        this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+                    }
+                }
+            }
+        }
+    }
+
+    /*********SPEAKER HOVER *********/
+    onHoverSpeaker(speaker) {
+        speaker.img_src = speaker.img_hover;
+        if (!this.instruction.nativeElement.paused) {
+            this.disableSpeaker.nativeElement.className = "speakerBlock";
+        }
+        else {
+            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
+        }
+    }
+
+    /******Hover out speaker ********/
+    onHoverOutSpeaker(speaker) {
+        speaker.img_src = speaker.img_origional;
     }
 
     /*****Check speaker voice*****/
@@ -608,48 +768,8 @@ export class Template8Component implements OnInit {
         }
     }
 
-    /****function to check loaded image*****/
-    checkImgLoaded() {
-        if (!this.loadFlag) {
-            this.noOfImgsLoaded++;
-            if (this.noOfImgsLoaded >= this.noOfImgs) {
-                (this.maincontent.nativeElement as HTMLElement).classList.remove("hide");
-                this.appModel.setLoader(false);
-                this.Sharedservice.setShowAnsEnabled(false);
-                this.loadFlag = true;
-                clearTimeout(this.loaderTimer);
-                this.checkforQVO();
-            }
-        }
-    }
-
-    close() {
-        this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
-    }
-
-    /******Check for Question VO  *****/
-    checkforQVO() {
-        if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-            this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content"
-                ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url : this.assetsPath + "/" + this.questionObj.quesInstruction.url
-            this.appModel.handlePostVOActivity(true);
-            this.maincontent.nativeElement.className = "disableDiv";
-            clearTimeout(this.rightTimer);
-            this.instruction.nativeElement.play();
-            this.appModel.setLoader(false);
-            this.instruction.nativeElement.onended = () => {
-                this.appModel.handlePostVOActivity(false);
-                this.maincontent.nativeElement.className = "";
-            }
-        } else {
-            this.appModel.handlePostVOActivity(false);
-        }
-    }
-
-
     /***** Blink on last question ******/
     blinkOnLastQues() {
-        debugger;
         if (this.lastQuestionCheck) {
             this.LastquestimeStart = true;
         }
@@ -668,108 +788,6 @@ export class Template8Component implements OnInit {
             }
         } else {
             this.appModel.moveNextQues("");
-        }
-    }
-
-
-    /******* Volume control for all VO  *******/
-    templatevolume(vol, obj) {
-        if (obj.instruction && obj.instruction.nativeElement) {
-            obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.myAudiospeaker && obj.myAudiospeaker.nativeElement) {
-            obj.myAudiospeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
-            obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
-            obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.clapSound && obj.clapSound.nativeElement) {
-            obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.audio) {
-            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-        }
-    }
-
-    /* HOVER CODE */
-
-    /******On Hover close popup******/
-    hoverClosePopup() {
-        this.popupAssets.close_button = this.popupAssets.close_button_hover;
-    }
-
-    /******Hover out close popup******/
-    houtClosePopup() {
-        this.popupAssets.close_button = this.popupAssets.close_button_origional;
-    }
-
-    /*********SPEAKER HOVER *********/
-    onHoverSpeaker(speaker) {
-        speaker.img_src = speaker.img_hover;
-        if (!this.instruction.nativeElement.paused) {
-            this.disableSpeaker.nativeElement.className = "speakerBlock";
-        }
-        else {
-            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-        }
-    }
-
-    /******Hover out speaker ********/
-    onHoverOutSpeaker(speaker) {
-        speaker.img_src = speaker.img_origional;
-    }
-
-    /******On Hover option ********/
-    onHoverOptions(option, index) {
-        let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement;
-        if (!this.myAudiospeaker.nativeElement.paused) {
-            this.myAudiospeaker.nativeElement.pause();
-            this.myAudiospeaker.nativeElement.currentTime = 0;
-            this.speaker.img_src = this.speaker.img_origional;
-        }
-        option.image = option.img_hover;
-    }
-
-    /******Hover out option ********/
-    onHoveroutOptions(option, index) {
-        option.image = option.img_original;
-    }
-
-    /****** Option Hover VO  *******/
-    playOptionHover(option, index) {
-        if (option && option.audio && option.audio.url) {
-            this.playSound(option.audio, index);
-        }
-    }
-
-    /***** Play sound on option roll over *******/
-    playSound(soundAssets, idx) {
-        if (this.audio && this.audio.paused) {
-            if (soundAssets.location == 'content') {
-                this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-            } else {
-                this.audio.src = soundAssets.url;
-            }
-            this.audio.load();
-            this.audio.play();
-            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                if (i != idx) {
-                    this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-                }
-            }
-            this.audio.onended = () => {
-                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                    if (i != idx) {
-                        this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-                    }
-                }
-            }
         }
     }
 }

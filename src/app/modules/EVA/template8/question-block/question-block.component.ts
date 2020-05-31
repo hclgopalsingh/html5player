@@ -148,7 +148,6 @@ export class QuestionBlockComponent implements OnInit {
     }
 
     if (this.data.bSelectedOptionBlinking == false) {
-      debugger;
       this.selectedOptionBlock.nativeElement.classList.add('hide');
       this.selectedOptionBlockBlink.nativeElement.classList.add('hide');
     }
