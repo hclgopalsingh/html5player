@@ -77,6 +77,7 @@ import { QuestionBlockComponent } from './modules/EVA/template8/question-block/q
 import { OptionComponent } from './modules/EVA/template8/option/option.component';
 import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
 import { OptionBlockComponent } from './modules/EVA/template8/option-block/option-block.component';
+import { Template6Component } from './modules/EVA/template6/template6.component';
 
 
 @NgModule({
@@ -145,7 +146,8 @@ import { OptionBlockComponent } from './modules/EVA/template8/option-block/optio
 		QuestionBlockComponent,
 		OptionComponent,
 		InstructionBarComponent,
-		OptionBlockComponent
+		OptionBlockComponent,
+		Template6Component
 	],
 	imports: [
 		BrowserModule,
