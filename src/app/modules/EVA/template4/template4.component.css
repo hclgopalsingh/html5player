@@ -1,4 +1,4 @@
-#refQuesBlock{
+#parentBlock{
     position: absolute;
     top: 13%;
     width: 100%;
@@ -21,6 +21,7 @@
 }
 .queryBlock .refImage{
 	position: absolute;
+	top:0;
 	left: 0;
 }
 .queryBlock .positions{
@@ -131,7 +132,7 @@
 .speakerBlock .speakerBtn{
     width: 100% !important;
 }
-#refQues{
+#refQuesBlock{
     position: absolute;
     top: 62.7%;
     width: 99.5%;
@@ -189,7 +190,7 @@
 	}
 }
 .options img:nth-child(2),
-#refQues .blocks img:nth-child(2){
+#refQuesBlock .blocks img:nth-child(2){
 	position: absolute;
 	width: 92%;
 	top: -1%;
@@ -205,4 +206,22 @@
 } 
 .eva .modal{
 	display: none; 
+}
+.modal .queryBlock{
+	top: 8% !important;
+	left: 33% !important;
+	width:30% !important;
+}
+
+.modal .correct_order{
+	position: absolute;
+    top: 50%;
+    left: 11%;
+    width: 75.5%;
+}
+.modal#showAnswer .queryBlock{
+	top: 17% !important;
+}
+.modal#showAnswer .correct_order{
+	top: 61% !important;
 }

@@ -16,8 +16,10 @@ export class Template4Component implements OnInit {
    
     blink: boolean = false;
     commonAssets: any = "";
-	rightPopup: any;
-	wrongPopup: any;
+	rightFeedbackVO: any;
+    wrongFeedbackVO: any;
+    rightPopupVO: any;
+    showAnswerVO:any;
     wrongTimer:any;
     rightTimer:any;
     i = 0;
@@ -47,9 +49,7 @@ export class Template4Component implements OnInit {
     closed:boolean = false;
     correct_ans_index: any;
     speakerTimer: any;
-    clapTimer:any;
-    showAnswerPopup:any;
-    showAnswerVO:any;
+    clapTimer:any;    
     ifRightAns: boolean = false;
     popupAssets:any;
     showAnswerSubscription:any;
@@ -83,11 +83,16 @@ export class Template4Component implements OnInit {
     wrongSelectTimer:any;
     option_order:any;
     place_order:any;
+    quesBoxId: any;
+    lastBlock: any;
+    travellerid: any;
+    hoverOptionTimer: any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('sprite') sprite: any;
     @ViewChild('speakerNormal') speakerNormal: any;
     @ViewChild('ansPopup') ansPopup: any;
+    @ViewChild('rightPopupfeedback') rightPopupfeedback: any;
     @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
 	@ViewChild('showAnswerRef') showAnswerRef: any;
     @ViewChild('wrongFeedback') wrongFeedback: any;
@@ -99,8 +104,8 @@ export class Template4Component implements OnInit {
     @ViewChild('clapSound') clapSound: any;
     @ViewChild('optionRef') optionRef: any;
     @ViewChild('overlay') overlay:any;
-    quesBoxId: any;
-    lastBlock: any;
+    
+    
 
 
 
@@ -153,16 +158,7 @@ export class Template4Component implements OnInit {
         })
      this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {  
         this.appModel.stopAllTimer();
-        if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-            //Saving correct option for showing in Popup 
-            // if(this.aksharQuestion){
-            //     this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index; 
-            // }else{
-            //     this.quesObj.questionText[this.quesMatraTxtIndx].hasmatra=true;
-            //     this.quesObj.questionText[this.quesMatraTxtIndx].matravalue=this.correct_opt_index.url.split('.')[0].split('/').pop();
-            //     this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
-            //     this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
-            // }
+        if (this.showAnswerRef && this.showAnswerRef.nativeElement) {           
             this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
                 this.showAnswerfeedback.nativeElement.play();
@@ -230,17 +226,16 @@ export class Template4Component implements OnInit {
         this.noOfImgs = fetchedData.imgCount;
         this.popupAssets = fetchedData.feedback.popupassets;
 		this.correct_ans_index = this.feedback.correct_ans_index;
-		this.rightPopup = this.feedback.right_ans_sound;
-        this.wrongPopup = this.feedback.wrong_ans_sound;
+        this.rightFeedbackVO = this.feedback.right_ans_sound;
+        this.rightPopupVO = this.feedback.right_ansPop_sound;
+        this.wrongFeedbackVO = this.feedback.wrong_ans_sound;
         this.showAnswerVO = this.feedback.show_ans_sound;
-        this.showAnswerPopup = this.feedback.show_ans_popup;
         this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
         this.commonAssets.ques_control.blinkingStatus=false;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
         this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.quesObj = JSON.parse(JSON.stringify(this.questionObj));
-        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.myoption = fetchedData.options.opts;
         
         setTimeout(() => {
@@ -252,31 +247,26 @@ export class Template4Component implements OnInit {
     }
     /** TO SHUFFLE OPTIONS ON WRONG ATTEMPT**/
         doRandomize(array) {        
-        var currentIndex = array.length, temporaryValue, randomIndex;
+        var currentIndex = array.length-1, temporaryValue, randomIndex;
        // While there remain elements to shuffle...
         while (0 !== currentIndex) {
            
             // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            var img_hover1 = array[currentIndex].optBgHover;
-            var text1copy = array[currentIndex].optBgOriginal;
-            var optionBg1 = array[currentIndex].optBg;
-            
-            var img_hover2 = array[randomIndex].optBgHover;
-            var text2copy = array[randomIndex].optBgOriginal;
-            var optionBg2 = array[randomIndex].optBg;
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-            
-            array[currentIndex].optBgHover = img_hover1;
-            array[currentIndex].optBgOriginal = text1copy;
-            array[currentIndex].optBg = optionBg1;
-            
-            array[randomIndex].optBgHover = img_hover2;
-            array[randomIndex].optBgOriginal = text2copy;
-            array[randomIndex].optBg = optionBg2;
+            if(array[currentIndex] && array[currentIndex].isShow==false){
+                currentIndex -= 1;
+            }else{
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                if(array[randomIndex] && array[randomIndex].isShow==true){                    
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                    currentIndex -= 1;
+                }
+                else{
+                    continue;
+                }
+            }
+          
         }
         var flag=this.arraysIdentical(array,this.idArray);
         if(flag){
@@ -290,7 +280,7 @@ export class Template4Component implements OnInit {
     arraysIdentical(a, b) {
         var i = a.length;
         while (i--) {           
-            if (a[i].id == b[i]) {
+            if (a[i].isShow==true && a[i].id == b[i]) {
                 return true;
             }
         }
@@ -301,20 +291,18 @@ export class Template4Component implements OnInit {
     closePopup(Type){
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
-        this.wrongFeedback.nativeElement.pause();    
-        this.wrongFeedback.nativeElement.currentTime = 0;
 
-        this.rightFeedback.nativeElement.pause();     
-        this.rightFeedback.nativeElement.currentTime = 0;
+        this.rightPopupfeedback.nativeElement.pause();     
+        this.rightPopupfeedback.nativeElement.currentTime = 0;
 
         this.showAnswerfeedback.nativeElement.pause();      
         this.showAnswerfeedback.nativeElement.currentTime = 0;
        
         if(Type=== "answerPopup") {
-            this.popupclosedinRightWrongAns=true;
+            this.popupclosedinRightWrongAns=true;   
             for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
                 document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
-            } 
+            }           
             if(this.ifRightAns) {
                 this.Sharedservice.setShowAnsEnabled(true);
                 this.overlay.nativeElement.classList.value="fadeContainer";
@@ -359,6 +347,22 @@ export class Template4Component implements OnInit {
         if (this.appModel && this.appModel.content) {
             return this.appModel.content.id + '';
         }
+    }
+
+    /**SPEAKER HOVER */
+    onHoverSpeaker(speaker) {
+        speaker.imgsrc = speaker.imghover;
+        if (!this.instruction.nativeElement.paused) {
+            this.disableSpeaker.nativeElement.className = "speakerBlock";
+        }
+        else {
+            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
+        }
+    }
+
+
+    onHoverOutSpeaker(speaker) {
+        speaker.imgsrc = speaker.imgorigional;        
     }
 
     /** SPEAKER SPRITE ON PLAY**/
@@ -492,6 +496,9 @@ export class Template4Component implements OnInit {
         if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
             obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if (obj.rightPopupfeedback && obj.rightPopupfeedback.nativeElement) {
+            obj.rightPopupfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
         }        
@@ -506,54 +513,47 @@ export class Template4Component implements OnInit {
 		this.popupAssets.close_button = this.popupAssets.close_button_origional;
     }
     
-    /**SPEAKER HOVER */
-    onHoverSpeaker(speaker) {
-        speaker.imgsrc = speaker.imghover;
-        if (!this.instruction.nativeElement.paused) {
-            this.disableSpeaker.nativeElement.className = "speakerBlock";
-        }
-        else {
-            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-        }
-    }
-
-
-    onHoverOutSpeaker(speaker) {
-        speaker.imgsrc = speaker.imgorigional;
-    }
+    
 
     /**OPTION HOVER */
     // onHoverOptions(option, index) {
     //     option.optBg = option.optBgHover;        
     // }
     playOptionHover(option, index){
+        if(!this.myAudiospeaker.nativeElement.paused) {
+            this.myAudiospeaker.nativeElement.pause();
+            this.myAudiospeaker.nativeElement.currentTime=0;
+            this.speaker.imgsrc=this.speaker.imgorigional;
+        }
         if (option && option.audio && option.audio.url) {
             this.playSound(option.audio, index);
         }
     }
     /**OPTION VO ON HOVER**/
     playSound(soundAssets, idx) {
+        
         if(this.audio && this.audio.paused){
-         if (soundAssets.location == 'content') {
-             this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-         } else {
-             this.audio.src = soundAssets.url;
-         }
-         this.audio.load();
-         this.audio.play();
-         for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-             if (i != idx) {
-                 this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-             }
-         }
-         this.audio.onended = () => {
-             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                 if (i != idx) {
-                     this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-                 }
-             }
-         }
-        }
+            if (soundAssets.location == 'content') {
+                this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+            } else {
+                this.audio.src = soundAssets.url;
+            }
+            this.audio.load();
+            this.audio.play();
+            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                if (i != idx) {
+                    this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+                }
+            }
+            this.audio.onended = () => {
+                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                    if (i != idx) {
+                        this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+                    }
+                }
+            }
+            }
+        
      }
     
     // onHoveroutOptions(option, index) {
@@ -562,7 +562,7 @@ export class Template4Component implements OnInit {
     
     /** On selecting an akshar **/
     selectOpt(opt, idx) {        
-    //    this.popupclosedinRightWrongAns=false; 
+       this.popupclosedinRightWrongAns=false; 
        this.optionSelected = idx;
        this.quesBoxId=document.getElementsByClassName("blinkOn")[0];
        if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[1]) {           
@@ -570,165 +570,131 @@ export class Template4Component implements OnInit {
            this.option_order=this.myoption[this.optionSelected].correct_order;
            this.place_order=this.quesBoxId.id.split('_')[1];
            
-           this.maincontent.nativeElement.className = "disableDiv";//Disable the mainContent when option is selected           
+           this.maincontent.nativeElement.className = "disableDiv";//Disable the mainContent when option is selected            
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {   //Disable ShowansBtn
+                document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
+            }           
            this.quesBoxId.classList.remove("blinkOn");
-
-           if(this.option_order==this.place_order){// handle for correct attempt
-                this.ifRightAns = true;
-                this.ifWrongAns = false;
-                this.wrongCounter = 0;
-                // if (this.clapSound && this.clapSound.nativeElement) {
-                //     this.clapSound.nativeElement.play();
-                // }
-                // this.clapSound.nativeElement.onended = () =>{
+            
+               setTimeout(()=>{
+                this.audio.pause();
+                if(this.option_order==this.place_order){// handle for correct attempt
+                    this.isRightSelected=true;
+                    this.isWrongSelected=false;
+                    this.answerPopupType = 'right';
+                    this.attemptType = "manual";
+                    this.appModel.stopAllTimer();
+                    this.popupIcon = this.popupAssets.right_icon.url;
+                    this.popupIconLocation = this.popupAssets.right_icon.location;
+                    this.ifRightAns = true;
+                    this.ifWrongAns = false;
+    
+                    /**Reset Wrong answer counter and show answer button */
+                    this.wrongCounter = 0;
+                    this.Sharedservice.setShowAnsEnabled(false);
                     if(this.quesObj.questype=="milestone"){
-                        this.quesObj.quesImage.stepImage[this.place_order-1].url="markCrossed.png";
-                        this.quesObj.quesImage.stepImage[this.place_order].url="traveller.png";
+                        this.travellerid=document.getElementsByClassName("traveller")[0].id.split("_")[1];
+                        this.quesObj.quesImage.stepImage[this.travellerid].url="markCrossed.png";
+                        this.quesObj.quesImage.stepImage[this.travellerid].currentStep=false;
+                        let i=this.quesObj.quesImage.stepImage[this.travellerid].step;
+                        let stepLength=this.quesObj.quesImage.stepImage.length;
+                        for(i;i<=this.quesObj.quesImage.stepImage[stepLength-1].step;i++){
+                            if(this.quesObj.quesImage.stepImage[i].stepOn==true){
+                                this.quesObj.quesImage.stepImage[i].url="traveller.png";
+                                this.quesObj.quesImage.stepImage[i].currentStep=true;
+                                break;
+                            }                          
+                        }                        
                     }
-                    console.log(this.quesBoxId.id);
-                    console.log(this.lastBlock);
-                    if(this.quesBoxId.id==this.lastBlock){
-                        let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
-                        ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                    }else{
-                        // if (this.rightFeedback && this.rightFeedback.nativeElement) {
-                        //     this.rightFeedback.nativeElement.play();
-                        // }
-                        console.log("Else");
+                    if (this.clapSound && this.clapSound.nativeElement) {
+                        this.clapSound.nativeElement.play();
                     }
-                    
-                // }              
-                this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.add('invisible');
-                //this.emptyOpt = this.quesObj.questionText[this.quesEmptyTxtIndx];
-                this.saveOpt= this.optionRef.nativeElement.children[this.optionSelected].children[1];
-                this.quesBoxId.insertAdjacentHTML("beforeend", '<img src='+this.saveOpt.src+'>');
-                
-                // this.quesBoxId.classList.remove("blinkOn");
-                
-                // this.rightFeedback.nativeElement.onended = () =>{
-                    this.maincontent.nativeElement.className = "";
-                    if(this.quesBoxId.nextSibling){
-                        this.quesBoxId.nextSibling.classList.add("blinkOn");
-                    }
-                // }                
-                // this.isOptionSelected = true;               
-           }else{
-                this.ifRightAns = false;
-                this.ifWrongAns=true;
-                this.wrongCounter += 1;
-                
-                if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-                    this.wrongFeedback.nativeElement.play();
-                }
-                this.idArray = [];
-               for (let i of this.myoption) {
-                   this.idArray.push(i.id);
-               }
-               
-               this.wrongFeedback.nativeElement.onended = () =>{
-                    this.doRandomize(this.myoption);
-                    this.maincontent.nativeElement.className = "";
-                    this.quesBoxId.classList.add("blinkOn"); 
-                    if(this.wrongCounter >= 3 && this.ifWrongAns) {
-                        this.Sharedservice.setShowAnsEnabled(true);
-                    }               
-                }   
-           }
-           
-        this.resetQuestion();
-        //    this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup 
-           
-           /*Disable Other options,speaker and ShowansBtn*/
-        // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-		// 	this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-        // }
-        // this.speakerNormal.nativeElement.classList.add("disableDiv");
-        // for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-		// 	document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
-        // }     
-           if (opt && opt.isCorrect) {
-               // handle for correct attempt
-            //    this.isRightSelected=true;
-            //    this.isWrongSelected=false;
-            //    this.answerPopupType = 'right';
-            //     this.correctOpt = opt;
-            //     this.attemptType = "manual";
-            //     this.appModel.stopAllTimer(); 
-            //     this.popupIcon = this.popupAssets.right_icon.url;
-            //     this.popupIconLocation = this.popupAssets.right_icon.location;
-
-            //     this.ifRightAns = true;
-            //     this.rightSelectTimer=setTimeout(()=>{                    
-            //         if (this.rightFeedback && this.rightFeedback.nativeElement) {
-            //             this.clapSound.nativeElement.play();
-            //             this.clapTimer=setTimeout(() => {
-            //                this.clapSound.nativeElement.pause();     
-            //                this.clapSound.nativeElement.currentTime = 0;
-            //                let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
-            //             ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                    
-            //                if(!this.popupclosedinRightWrongAns) {
-            //                 this.rightFeedback.nativeElement.play();
-                            
-            //                } else {
-            //                 this.Sharedservice.setShowAnsEnabled(true);
-            //                } 
-            //             }, 2000);
+                    this.clapSound.nativeElement.onended = () =>{                    
                         
-            //         }
-            //         this.rightFeedback.nativeElement.onended = () => {
-            //             this.rightTimer=setTimeout(() => {
-            //                 this.closePopup('answerPopup');
-            //             }, 10000)
-            //                 setTimeout(() => {
-            //                     this.attemptType = "manual";                              
-            //                 }, 200)
-            //             }
-            //     },1000)                
-           
-            } else {          
-               //handle for wrong attempt
-        //        this.isRightSelected=false;
-        //        this.isWrongSelected=true;
-        //        this.answerPopupType = 'wrong';
-        //        this.ifWrongAns=true;
-        //        this.wrongCounter += 1;               
-        //        this.idArray = [];
-        //        for (let i of this.myoption) {
-        //            this.idArray.push(i.id);
-        //        } 
-        //        this.wrongSelectTimer=setTimeout(()=>{
-        //         let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-        //         ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-        //         this.popupIcon = this.popupAssets.wrong_icon.url;
-        //         this.popupIconLocation = this.popupAssets.wrong_icon.location;
-        //         this.appModel.stopAllTimer();
-                
-        //         if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-        //             this.wrongFeedback.nativeElement.play();
-        //         }		
-        //         this.wrongFeedback.nativeElement.onended = () => {
-        //             setTimeout(() => {
-        //                 this.closePopup('answerPopup');
-        //             }, 10000)                    
-        //         }
-        //         this.resetQuestion();//To reset question on wrong attempt               
-                
-        //        },1000)
-           }
+                        if(this.quesBoxId.id==this.lastBlock){
+                            let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
+                            ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+                            if(!this.popupclosedinRightWrongAns) {
+                                if (this.rightPopupfeedback && this.rightPopupfeedback.nativeElement) {
+                                    this.rightPopupfeedback.nativeElement.play();
+                                }                                                 
+                            } else {
+                                this.Sharedservice.setShowAnsEnabled(true);
+                            } 
+                            this.rightFeedback.nativeElement.onended = () => {
+                                this.rightTimer=setTimeout(() => {
+                                    this.closePopup('answerPopup');
+                                }, 10000)
+                                setTimeout(() => {
+                                    this.attemptType = "manual";                              
+                                }, 200)
+                            } 
+                        }else{
+                            if (this.rightFeedback && this.rightFeedback.nativeElement) {
+                                this.rightFeedback.nativeElement.play();
+                            }
+                        }
+                        
+                    }              
+                    this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.add('invisible');
+                    this.saveOpt= this.optionRef.nativeElement.children[this.optionSelected].children[1];
+                    this.quesBoxId.insertAdjacentHTML("beforeend", '<img src='+this.saveOpt.src+'>');
+                    
+                    // this.quesBoxId.classList.remove("blinkOn");
+                    
+                    this.rightFeedback.nativeElement.onended = () =>{
+                        this.maincontent.nativeElement.className = "";
+                        if(this.quesBoxId.nextSibling){
+                            this.quesBoxId.nextSibling.classList.add("blinkOn");
+                        }
+                        this.resetQuestion();
+                    }                
+                    // this.isOptionSelected = true;               
+               }else{
+                    this.ifRightAns = false;
+                    this.ifWrongAns=true;
+                    this.wrongCounter += 1;
+                    
+                    if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+                        this.wrongFeedback.nativeElement.play();
+                    }
+                    this.idArray = [];
+                   for (let i of this.myoption) {
+                       this.idArray.push(i.id);
+                   }
+                   
+                   this.wrongFeedback.nativeElement.onended = () =>{
+                        this.doRandomize(this.myoption);
+                        this.maincontent.nativeElement.className = "";
+                        this.quesBoxId.classList.add("blinkOn"); 
+                        if(this.wrongCounter >= 3 && this.ifWrongAns) {
+                            this.Sharedservice.setShowAnsEnabled(true);
+                        }else{
+                            this.Sharedservice.setShowAnsEnabled(false);
+                        }
+                        this.resetQuestion();               
+                    }   
+               } 
+               },500)
+            
+             
        }
    }
    
    /*Reset Question and Option*/ 
-   resetQuestion(){               
-    
-    /** Disable Empty Questions**/
-    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-        if(this.optionRef.nativeElement.children[i].children[1].classList.contains("invisible")){
-            this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+   resetQuestion(){             
+
+        /** Enable ShowAns Button**/
+        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
         }
-        
-    }
+        /** Disable Empty Questions**/        
+        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+            this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+            if(this.optionRef.nativeElement.children[i].children[1] && this.optionRef.nativeElement.children[i].children[1].classList.contains("invisible")){
+                this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            }
+        }
     
    }
     

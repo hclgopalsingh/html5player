@@ -17,14 +17,14 @@
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>        
-        <div id="refQuesBlock">
+        <div id="parentBlock">
             <div class="queryBlock">
                 <img class="img-fluid" [src]="quesObj?.quesImage?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImage?.background?.url : quesObj?.quesImage?.background?.location=='assets' ? assetsPath + '/' +quesObj?.quesImage?.background?.url:''" alt=""
                 (load)="checkImgLoaded();">
                 <img class="img-fluid refImage" [src]="quesObj?.quesImage?.image?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImage?.image?.url : quesObj?.quesImage?.image?.location=='assets' ? assetsPath + '/' +quesObj?.quesImage?.image?.url:''" alt=""
                 (load)="checkImgLoaded();">
                 <div class="positions">
-                    <div class="steps" *ngFor="let step of quesObj?.quesImage?.stepImage;let idx = index">
+                    <div id="{{'step_'+(idx)}}" [ngClass]="{'steps':true,'traveller': step?.currentStep}" *ngFor="let step of quesObj?.quesImage?.stepImage;let idx = index">
                         <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
                         (load)="checkImgLoaded();">                            
                     </div>                    
@@ -35,7 +35,7 @@
                     <img class="img-fluid" [src]="opt?.background?.location=='content' ? containgFolderPath + '/' + opt?.background?.url : opt?.background?.location=='assets' ? assetsPath + '/' +opt?.background?.url:''"
                     (load)="checkImgLoaded();">
                     <img class="img-fluid" [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : opt?.image?.location=='assets' ? assetsPath + '/' +opt?.image?.url:''"
-                    (load)="checkImgLoaded();" (click)="selectOpt(opt,idx)">
+                    (load)="checkImgLoaded();" on-mouseenter='playOptionHover(opt,idx)' (click)="selectOpt(opt,idx)">
                 </div>
                 <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
                     <div id="spkrBtn" class="speakerBtn">
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div id="refQues">            
+        <div id="refQuesBlock">            
             <img class="img-fluid" [src]="quesObj?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.background?.url : quesObj?.background?.location=='assets' ? assetsPath + '/' +quesObj?.background?.url:''" alt=""
             (load)="checkImgLoaded();">
             <div class="blocks">
@@ -70,20 +70,23 @@
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                   
-                  <div id="refQuesBlock">
-                    <div class="refQues">
-                        <!-- <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
-                            <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'']">
-                                <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
-                                (load)="checkImgLoaded();">
-                                <ng-template [ngIf]="quesTxt?.hasmatra">
-                                <img [ngClass]="{'dark':true, 'matraImg':true, 'globalOptionBlink':quesTxt?.addMatra}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
-                                (load)="checkImgLoaded();">
-                                </ng-template>                    
-                            </div>            
-                        </ng-container> -->
+                  <div class="queryBlock">
+                    <img class="img-fluid" [src]="feedback?.show_ans_popup?.rightImage?.background?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.rightImage?.background?.url : feedback?.show_ans_popup?.rightImage?.background?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.rightImage?.background?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                    <img class="img-fluid refImage" [src]="feedback?.show_ans_popup?.rightImage?.image?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.rightImage?.image?.url : feedback?.show_ans_popup?.rightImage?.image?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.rightImage?.image?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                    <div class="positions">
+                        <div class="steps" *ngFor="let step of feedback?.show_ans_popup?.rightImage?.stepImage;let idx = index">
+                            <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
+                            (load)="checkImgLoaded();">                            
+                        </div>                    
                     </div>
-                </div>
+                  </div>
+
+                  <div class="correct_order">
+                    <img class="img-fluid " [src]="feedback?.show_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.correct_order?.url : feedback?.show_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.correct_order?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                  </div>
                   
                   <div class="rightWrongAns">
                       <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
@@ -103,20 +106,22 @@
               <div class="modal-body d-flex align-items-center">
                   <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                  
-                  <div id="refQuesBlock">
-                    <div class="refQues">
-                        <!-- <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
-                            <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'']">
-                                <img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObj?.isEnglish, 'globalOptionBlink':(idx==quesEmptyTxtIndx && (isRightSelected || isWrongSelected))}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
-                                (load)="checkImgLoaded();">
-                                <ng-template [ngIf]="quesTxt?.hasmatra">
-                                <img [ngClass]="{'dark':true, 'matraImg':true, 'globalOptionBlink':quesTxt?.addMatra}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
-                                (load)="checkImgLoaded();">
-                                </ng-template>                    
-                            </div>            
-                        </ng-container> -->
+                  <div class="queryBlock">
+                    <img class="img-fluid" [src]="feedback?.show_ans_popup?.rightImage?.background?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.rightImage?.background?.url : feedback?.show_ans_popup?.rightImage?.background?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.rightImage?.background?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                    <img class="img-fluid refImage" [src]="feedback?.show_ans_popup?.rightImage?.image?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.rightImage?.image?.url : feedback?.show_ans_popup?.rightImage?.image?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.rightImage?.image?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                    <div class="positions">
+                        <div class="steps" *ngFor="let step of feedback?.show_ans_popup?.rightImage?.stepImage;let idx = index">
+                            <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
+                            (load)="checkImgLoaded();">                            
+                        </div>                    
                     </div>
-                </div>
+                  </div>
+                  <div class="correct_order">
+                    <img class="img-fluid " [src]="feedback?.show_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.correct_order?.url : feedback?.show_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.correct_order?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                  </div>
                   <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
                   (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
                </div>
@@ -129,10 +134,11 @@
 
 
   <!-- Popup Modal Audios -->
-<audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
-<audio #rightFeedback [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
-<audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
-<audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
+<audio #wrongFeedback [src]="wrongFeedbackVO?.path?.location=='content'? containgFolderPath + '/' +  wrongFeedbackVO?.path?.url : assetsPath +'/'+ wrongFeedbackVO?.path?.url"></audio>
+<audio #rightFeedback [src]="rightFeedbackVO?.path?.location=='content'? containgFolderPath + '/' +  rightFeedbackVO?.path?.url : assetsPath +'/'+ rightFeedbackVO?.path?.url"></audio>
+<audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : feedback?.right_ans_clap_sound?.location=='assets' ? assetsPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
+<audio #rightPopupfeedback [src]="rightPopupVO?.path?.location=='content' ? containgFolderPath + '/' + rightPopupVO?.path?.url : rightPopupVO?.path?.location=='assets' ? assetsPath + '/' + rightPopupVO?.path?.url:rightPopupVO?.path?.url"></audio>	
+<audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content' ? containgFolderPath + '/' + showAnswerVO?.path?.url : showAnswerVO?.path?.location=='assets' ? assetsPath + '/' + showAnswerVO?.path?.url:showAnswerVO?.path?.url"></audio>
 
 
 
