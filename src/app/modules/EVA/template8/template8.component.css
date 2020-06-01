@@ -8,13 +8,14 @@
 	justify-content: center;
 }
 .options {
-	width: 86%;
+	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: center;
 }
 .options div {
-	width: 20%;
+	width: 17.5%;
+	margin: 0 2.2%;
 	position: relative;
 	transition: transform .2s;
 }
@@ -38,9 +39,12 @@
 #container .speakerBtn{
 	width:100%;
 	position:absolute;
-	top:61%;
 	text-align: center;
+	top:auto;
+	right: 2%;
 }
+
+
 .speakerBtn img{
 	width:9%;
 }
@@ -51,8 +55,9 @@
 
 .questionBlock {
 	position: absolute;
-    top: 17%;
-    width: 74%;
+    top: auto;
+	width: 74%;
+	height: 100%;
     left: 13%; 
 	display: flex;
 	align-items: center;
@@ -60,11 +65,11 @@
 }
 
 .questionBlockPopup {
-	position: absolute;
-    left: 0; 
+    position: relative;
+    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 73%; /* add/remove class w-100 for 100%*/
+    min-height: 64%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,21 +80,54 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+    height: 50%;
+	top: 11%;
+	width: 100%;
+	flex-wrap: wrap;
+	align-content: center;
+}
+
+.modal #refQuesBlock {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
     height: 70%;
     top: 5%;
 }
 
-#refQuesBlockShowAnswer {
-	width:97.4%;
+.modal #refQuesBlockShowAnswer {
 	position: absolute;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
+	align-content: center;
 	justify-content: center;
+	width:97.4%;	
     height: 90%;
     top: 5%;
 }
 
 #container .speakerBlock{
-	top: 25%;
-	left: 43%;
+	top: 0;
+	height: 100%;
+}
+
+.rightWrongSelectedAns {
+    width: 100%;
+    margin-top: 1.7%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: auto;
+}
+ 
+.rightWrongSelectedAns img:nth-child(2){
+    position: absolute;
+}
+ 
+.rightWrongSelectedAns img {
+    max-width: 14%;
 }

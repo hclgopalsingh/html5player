@@ -5,6 +5,10 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
+import { DataService } from '../../../model/eva/template8/data.service';
+import { Constants } from '../../../model/eva/template8/constants';
+import { QuestionBlockVO } from '../../../model/eva/template8/questionblockVO';
+import { AssetVO } from '../../../model/eva/template8/assetVO';
 
 
 @Component({
@@ -13,12 +17,15 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./template8.component.css']
 })
 export class Template8Component implements OnInit {
+
+
     blink: boolean = false;
     commonAssets: any = "";
     ques: any = "";
     rightPopup: any;
     wrongPopup: any;
     wrongTimer: any;
+    wrongTimerAudio: any;
     rightTimer: any;
     i = 0;
     j: number = 0;
@@ -78,6 +85,9 @@ export class Template8Component implements OnInit {
     LastquestimeStart: boolean = false;
     audio = new Audio();
     clapTimer: any;
+    variation: any;
+    popupSelectedOptionBaseURL: string;
+    popupSelectedOptionURL: string;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -93,7 +103,6 @@ export class Template8Component implements OnInit {
     @ViewChild('maincontent') maincontent: any;
     @ViewChild('footerNavBlock') footerNavBlock: any;
     @ViewChild('ansBlock') ansBlock: any;
-    @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionBar') instructionBar: any;
     @ViewChild('clapSound') clapSound: any;
     @ViewChild('overlay') overlay: any;
@@ -101,15 +110,21 @@ export class Template8Component implements OnInit {
     @ViewChild('feedbackQuestionBlock') feedbackQuestionBlock: any;
     @ViewChild('showAnswerQuestionBlock') showAnswerQuestionBlock: any;
     @ViewChild('optionRef') optionRef: any;
+    @ViewChild('feedbackPopupSelectedOption') feedbackPopupSelectedOption: any;
+    @ViewChild('showAnswerPopupSelectedOption') showAnswerPopupSelectedOption: any;
 
-    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, private dataService: DataService) {
         this.appModel = appModel;
+        this.dataService = dataService;
+
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
+            //debugger;
         } else {
             this.appModel.setLoader(true);
             // if error occured during image loading loader wil stop after 5 seconds 
             this.loaderTimer = setTimeout(() => {
+                debugger;
                 this.appModel.setLoader(false);
             }, 5000);
         }
@@ -135,10 +150,9 @@ export class Template8Component implements OnInit {
         this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
-        this.setData();
         this.containgFolderPath = this.getBasePath();
+        this.setData();
 
-        this.getCorrectOptionData();
         console.log("this.attemptType = " + this.attemptType);
         if (this.appModel.isNewCollection) {
             this.appModel.event = { 'action': 'segmentBegins' };
@@ -163,11 +177,26 @@ export class Template8Component implements OnInit {
                 speakerEle.currentTime = 0;
                 this.sprite.nativeElement.style = "display:none";
                 (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-                this.speaker.imgsrc = this.speaker.imgorigional;
+                this.speaker.img_src = this.speaker.img_origional;
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                 this.stopAllSounds();
-                this.showAnswerQuestionBlock.selectedOption(this.getCorrectOptionData());
+
+                let option = this.getCorrectOptionData()
+                //updating data for question block  
+                let questionBlockVO: QuestionBlockVO = this.dataService.data.showAnswerPopupQuestionData;
+                this.showAnswerQuestionBlock.data = questionBlockVO;
+                this.showAnswerQuestionBlock.selectedOption(option);
+
+                if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
+                    this.showAnswerPopupSelectedOption.nativeElement.classList.add('hide');
+                }
+
+                //Gopal::TBD::need to check if condition
+                if (this.variation == Constants.VARIATION_EVA8V2) {
+                    this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
+                    this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
+                }
 
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
@@ -211,15 +240,23 @@ export class Template8Component implements OnInit {
 
 
     ngOnDestroy() {
+        debugger;
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
+        clearTimeout(this.wrongTimer);
+        clearTimeout(this.wrongTimerAudio);
         clearTimeout(this.clapTimer);
         this.stopAllSounds();
     }
 
-    stopAllSounds() {
+    stopOptionsSound() {
         this.audio.pause();
         this.audio.currentTime = 0;
+    }
+
+    stopAllSounds() {
+
+        this.stopOptionsSound();
 
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;
@@ -255,16 +292,23 @@ export class Template8Component implements OnInit {
     /****Set data for the Template****/
     setData() {
         this.appModel.notifyUserAction();
-        let fetchedData: any = this.appModel.content.contentData.data;
-        this.instructiontext = fetchedData.instructiontext;
-        this.myoption = fetchedData.options;
-        this.commonAssets = fetchedData.commonassets;
-        this.ques = fetchedData.ques;
-        this.speaker = fetchedData.speaker;
-        this.feedback = fetchedData.feedback;
-        this.questionObj = fetchedData.quesObj;
-        this.noOfImgs = fetchedData.imgCount;
-        this.popupAssets = fetchedData.feedback.popupassets;
+
+        //setting asset and content folder path in data service
+        this.dataService.assetsPath = this.assetsPath;
+        this.dataService.contentPath = this.containgFolderPath;
+        this.dataService.rawData = this.appModel.content.contentData.data;
+
+
+        this.instructiontext = this.dataService.instructionText;
+        this.myoption = this.dataService.optionsData;
+        this.commonAssets = this.dataService.commonAssets;
+        this.ques = this.dataService.ques;
+        this.speaker = this.dataService.speaker;
+        this.feedback = this.dataService.feedback;
+        this.questionObj = this.dataService.quesObj;
+        this.noOfImgs = this.dataService.imgCount;
+        this.variation = this.dataService.variation;
+        this.popupAssets = this.dataService.feedback.popupassets;
         this.correct_ans_index = this.feedback.correct_ans_index;
         this.rightPopup = this.feedback.right_ans_sound;
         this.wrongPopup = this.feedback.wrong_ans_sound;
@@ -274,7 +318,7 @@ export class Template8Component implements OnInit {
         this.commonAssets.ques_control.blinkingStatus = false;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+        this.appModel.setQuesControlAssets(this.dataService.quesControl);
         setTimeout(() => {
             if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
                 this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
@@ -293,19 +337,32 @@ export class Template8Component implements OnInit {
 
     /****Check answer on option click*****/
     checkAnswer(event, option) {
-        debugger;
-
+        this.stopOptionsSound();
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
-        target.children[1].classList.add("hide");
-        target.children[1].classList.remove("show");
+
+        if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
+            target.children[1].classList.add("hide");
+        }
 
         this.popupclosedinRightWrongAns = false;
         this.questionBlock.selectedOption(option);
-        this.questionBlock.blinking(false);
+        this.questionBlock.blinkingBox(false);
 
+        //updating data for question block  
+        let questionBlockVO: QuestionBlockVO = this.dataService.data.feedbackPopupQuestionData;
+        this.feedbackQuestionBlock.data = questionBlockVO;
         this.feedbackQuestionBlock.selectedOption(option);
 
+        //Gopal::TBD::need to check if condition
+        if (this.variation == Constants.VARIATION_EVA8V2) {
+            this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
+            this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
+        }
+
+        if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
+            this.feedbackPopupSelectedOption.nativeElement.classList.add('hide');
+        }
 
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
@@ -315,7 +372,7 @@ export class Template8Component implements OnInit {
             this.attemptType = "manual";
             this.appModel.stopAllTimer();
             this.answerImageBase = option.img_original.url;
-            this.answerImage = option.imgsrc.url;
+            this.answerImage = option.img_src.url;
             this.answerImagelocation = option.img_original.location;
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -359,11 +416,11 @@ export class Template8Component implements OnInit {
 
             setTimeout(() => {
 
-                setTimeout(() => {
+                this.wrongTimerAudio = setTimeout(() => {
                     ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                     option.image = option.img_original;
                     this.answerImageBase = option.image.url;
-                    this.answerImage = option.imgsrc.url;
+                    this.answerImage = option.img_src.url;
                     this.answerImagelocation = option.image.location;
                     this.popupIcon = this.popupAssets.wrong_icon.url;
                     this.popupIconLocation = this.popupAssets.wrong_icon.location;
@@ -443,13 +500,14 @@ export class Template8Component implements OnInit {
     resetOptionsState() {
         debugger;
         for (let i = 0; i < this.myoption.length; i++) {
-            this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
+            //this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
             this.ansBlock.nativeElement.children[0].children[i].children[1].classList.remove("hide");
+            this.ansBlock.nativeElement.children[0].children[i].classList.remove("disableDiv");
         }
     }
+
     closePopup(Type) {
-        this.doRandomize(this.myoption);
-        this.resetOptionsState();
+        debugger;
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();
@@ -463,6 +521,7 @@ export class Template8Component implements OnInit {
         if (Type === "answerPopup") {
             this.popupclosedinRightWrongAns = true;
             if (this.ifRightAns) {
+                clearTimeout(this.rightTimer);
                 this.Sharedservice.setShowAnsEnabled(true);
                 this.overlay.nativeElement.classList.value = "fadeContainer";
                 this.blinkOnLastQues();
@@ -475,6 +534,9 @@ export class Template8Component implements OnInit {
                     this.Sharedservice.setTimeOnLastQues(true);
                 }
             } else if (this.ifWrongAns) {
+                clearTimeout(this.wrongTimer);
+                this.doRandomize(this.myoption);
+                this.resetOptionsState();
                 this.questionBlock.reset();
                 if (this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
@@ -496,7 +558,7 @@ export class Template8Component implements OnInit {
     checkSpeakerVoice(speaker) {
         if (!this.audioEl.nativeElement.paused) {
         } else {
-            speaker.imgsrc = speaker.imgorigional;
+            speaker.img_src = speaker.img_origional;
             this.sprite.nativeElement.style = "display:none";
             clearInterval(this.speakerTimer);
         }
@@ -505,6 +567,7 @@ export class Template8Component implements OnInit {
 
     /*****Play speaker audio*****/
     playSpeaker(el: HTMLAudioElement, speaker) {
+        this.stopAllSounds();
         if (!this.instruction.nativeElement.paused) {
             console.log("instruction voice still playing");
         } else {
@@ -519,7 +582,7 @@ export class Template8Component implements OnInit {
                     el.play();
                 }
                 this.speakerTimer = setInterval(() => {
-                    speaker.imgsrc = speaker.imgactive;
+                    speaker.img_src = speaker.img_active;
                     this.sprite.nativeElement.style = "display:flex";
                     this.checkSpeakerVoice(speaker);
                 }, 10)
@@ -550,6 +613,7 @@ export class Template8Component implements OnInit {
         if (!this.loadFlag) {
             this.noOfImgsLoaded++;
             if (this.noOfImgsLoaded >= this.noOfImgs) {
+                (this.maincontent.nativeElement as HTMLElement).classList.remove("hide");
                 this.appModel.setLoader(false);
                 this.Sharedservice.setShowAnsEnabled(false);
                 this.loadFlag = true;
@@ -585,6 +649,7 @@ export class Template8Component implements OnInit {
 
     /***** Blink on last question ******/
     blinkOnLastQues() {
+        debugger;
         if (this.lastQuestionCheck) {
             this.LastquestimeStart = true;
         }
@@ -646,7 +711,7 @@ export class Template8Component implements OnInit {
 
     /*********SPEAKER HOVER *********/
     onHoverSpeaker(speaker) {
-        speaker.imgsrc = speaker.imghover;
+        speaker.img_src = speaker.img_hover;
         if (!this.instruction.nativeElement.paused) {
             this.disableSpeaker.nativeElement.className = "speakerBlock";
         }
@@ -657,7 +722,7 @@ export class Template8Component implements OnInit {
 
     /******Hover out speaker ********/
     onHoverOutSpeaker(speaker) {
-        speaker.imgsrc = speaker.imgorigional;
+        speaker.img_src = speaker.img_origional;
     }
 
     /******On Hover option ********/
@@ -666,7 +731,7 @@ export class Template8Component implements OnInit {
         if (!this.myAudiospeaker.nativeElement.paused) {
             this.myAudiospeaker.nativeElement.pause();
             this.myAudiospeaker.nativeElement.currentTime = 0;
-            this.speaker.imgsrc = this.speaker.imgorigional;
+            this.speaker.img_src = this.speaker.img_origional;
         }
         option.image = option.img_hover;
     }

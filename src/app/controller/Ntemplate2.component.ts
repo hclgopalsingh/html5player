@@ -130,7 +130,7 @@ export class Ntemplate2 implements OnInit {
 	leftCss2:any;
 	topCss2:any;
 	checkForRandom:any;
-
+	type:any
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
 	}
@@ -203,6 +203,7 @@ export class Ntemplate2 implements OnInit {
 	}
 
 	postWrongAttempt(){
+		if(this.type == "left"){
 			this.appModel.notifyUserAction();
 			for (var i = 0; i < this.leftOptions.length; i++) {
 				/*if (i != this.rightSelectedIdx && this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
@@ -212,6 +213,16 @@ export class Ntemplate2 implements OnInit {
 					this.optionsBlock.nativeElement.children[0].children[i].classList.add("disableDivWrong");
 				}
 			}
+		}
+		if(this.type == "right"){
+			for (var i = 0; i < this.rightOptions.length; i++) {
+				/*if (i != this.rightSelectedIdx && this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
+				}*/
+				if(i != this.rightSelectedIdx ){
+					this.optionsBlock.nativeElement.children[2].children[i].classList.add("disableDivWrong");
+				}
+			}
+		}
 	//	}, 500)
 		this.optionsBlock.nativeElement.classList = "row mx-0"
 		this.instructionBar.nativeElement.classList ="instructionBase";
@@ -414,6 +425,7 @@ export class Ntemplate2 implements OnInit {
 									this.rightSelectedIdx = -1;
 									this.rightMatchingIdx = -1;
 									this.leftMatchingIdx = -1;
+									this.attemptType = "manual";
 									this.blinkOnLastQues();
 									this.timerSubscription.unsubscribe();
 								}, 500)
@@ -424,6 +436,7 @@ export class Ntemplate2 implements OnInit {
 					//this.timerSubscription.unsubscribe();
 					setTimeout(() => {
 						this.checkForOtherVO();
+						this.type = "right"
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
@@ -431,16 +444,23 @@ export class Ntemplate2 implements OnInit {
 						//	setTimeout(() => {
 								//setTimeout(() => {
 									this.appModel.notifyUserAction();
-									for (var i = 0; i < this.rightOptions.length; i++) {
-										/*if (i != this.rightSelectedIdx && this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
-										}*/
-										if(i != this.rightSelectedIdx ){
-											this.optionsBlock.nativeElement.children[2].children[i].classList.add("disableDivWrong");
-										}
-									}
+									//this.wrongFeedbackVO.nativeElement.onended = () => {
+										this.appModel.wrongAttemptAnimation();	
+										//setTimeout(() => {
+										//	setTimeout(() => {
+			
+									//	}, 500)
+									//}
+									// for (var i = 0; i < this.rightOptions.length; i++) {
+									// 	/*if (i != this.rightSelectedIdx && this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
+									// 	}*/
+									// 	if(i != this.rightSelectedIdx ){
+									// 		this.optionsBlock.nativeElement.children[2].children[i].classList.add("disableDivWrong");
+									// 	}
+									// }
 								//}, 500)
-								this.optionsBlock.nativeElement.classList = "row mx-0";
-								this.instructionBar.nativeElement.classList ="instructionBase";
+								// this.optionsBlock.nativeElement.classList = "row mx-0";
+								// this.instructionBar.nativeElement.classList ="instructionBase";
 							//}, 500)
 						}
 					}, 500)
@@ -567,6 +587,7 @@ export class Ntemplate2 implements OnInit {
 				} else {
 					//this.timerSubscription.unsubscribe();
 					setTimeout(() => {
+						this.type = "left"
 						this.checkForOtherVO();
 						console.log("i am in the wrong option selected block--------->")
 						this.wrongFeedbackVO.nativeElement.play();
@@ -620,7 +641,7 @@ removeAssetsFromPopup(id:string){
 
 	blinkOnLastQues(){
 		if((this.appModel.isLastSectionInCollection && this.noOfRightAns== this.feedbackObj.noOfSubQues) || (this.appModel.isLastSectionInCollection && this.isShowAnswerDisplayed)){
-			this.appModel.blinkForLastQues();
+			this.appModel.blinkForLastQues("manual");
 			this.appModel.stopAllTimer();
 			this.disableScreen();
 			if(!this. appModel.eventDone){

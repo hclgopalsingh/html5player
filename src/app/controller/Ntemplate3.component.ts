@@ -478,6 +478,9 @@ export class Ntemplate3 implements OnInit {
     if (obj.narrator && obj.narrator.nativeElement) {
       obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+      obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
     if (obj.optionAudio && obj.optionAudio.nativeElement) {
       obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
@@ -495,6 +498,9 @@ export class Ntemplate3 implements OnInit {
     }
     if (obj.titleAudio && obj.titleAudio.nativeElement) {
       obj.titleAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.feedbackoneAttemptAudio && obj.feedbackoneAttemptAudio.nativeElement) {
+      obj.feedbackoneAttemptAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
   }
 

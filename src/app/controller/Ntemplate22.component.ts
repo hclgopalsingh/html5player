@@ -373,11 +373,15 @@ export class Ntemplate22 implements OnInit {
 
     this.appModel.getConfirmationPopup().subscribe((val) => {
             if (val == "uttarDikhayein") {
+              this.instruction.nativeElement.currentTime = 0;
+              this.instruction.nativeElement.pause();
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.confirmModalRef.nativeElement.classList = "displayPopup modal";
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "submitAnswer") {
+              this.instruction.nativeElement.currentTime = 0;
+              this.instruction.nativeElement.pause();
                 if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
                     this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
                     this.appModel.notifyUserAction();

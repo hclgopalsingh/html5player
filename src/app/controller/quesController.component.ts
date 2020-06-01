@@ -99,14 +99,6 @@ export class QuesController implements OnInit {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if(this.isLastQues){
-         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
-         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
-         this.isLastQuesAageyBadhe = data.data;
-        if(this.isLastQuesAageyBadhe){
-          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
-        }
-      });
-
        //*********  Move to next segment after 5 min of last question attempt */
        this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
         if(data.data){
@@ -363,6 +355,7 @@ export class QuesController implements OnInit {
   setBlinkOnLastQuestion() {
     if(this.EVA) {
       // if(this.EnableShowAnswer === true){
+         this.nextBtn.nativeElement.classList.remove("disableBtn");
          this.quesCtrl.blinkingStatus=true;
         // }
     } else {

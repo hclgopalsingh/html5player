@@ -123,7 +123,7 @@ export class Ntemplate15 implements OnInit {
 	ifWrongAns:boolean = false;
 	ifAnimationShown: boolean = false;
 	showAnsTempArray :any = [];
-
+	ifDisable: boolean = false;
 	/*Instruction = this._sharedService.navigatetoroute.Instruction;
 	optionslist = this._sharedService.navigatetoroute.main;
 	optionslist_main = this._sharedService.navigatetoroute.main[this.currentIdx];
@@ -1214,13 +1214,13 @@ export class Ntemplate15 implements OnInit {
 			if (flag == "yes") {
 				console.log("do this")
 				
-				if(this.tempAnswers && this.tempAnswers.length > 0)
-				{
-					this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
-				}
-				else{
-					this.tempAnswers = this.answers;
-				}
+				// if(this.tempAnswers && this.tempAnswers.length > 0)
+				// {
+				// 	this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
+				// }
+				// else{
+				// 	this.tempAnswers = this.answers;
+				// }
 				this.showAnswers();
 			}
 
@@ -1236,6 +1236,7 @@ export class Ntemplate15 implements OnInit {
 
 	showAnswers(){
 		this.attemptType = "no animation"
+		this.appModel.enableSubmitBtn(false)
 		//show right answer pop up
 		this.feedbackPopup = this.rightPopup;
 		let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement;
@@ -1247,13 +1248,13 @@ export class Ntemplate15 implements OnInit {
 		$("#instructionBar").css("pointer-events", 'none');
 		
 		this.feedbackVoRef.nativeElement.src = this.assetspath + "/" + this.question.narrator_voice.url 
-		if(this.tempAnswers && this.tempAnswers.length > 0)
-		{
+		// if(this.tempAnswers && this.tempAnswers.length > 0)
+		// {
 			this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
-		}
-		else{
-			this.tempAnswers = this.answers ;
-		}
+		// }
+		// else{
+		// 	this.tempAnswers = this.answers ;
+		// }
 
 		// this.myoption.forEach(element => {
 		// 	element.show = false;
@@ -1292,11 +1293,11 @@ export class Ntemplate15 implements OnInit {
 			this.narrator.nativeElement.play();
 			this.appModel.setLoader(false);
 			this.narrator.nativeElement.onended = () => {
-				this.appModel.handlePostVOActivity(false);
 				if (this.narrator_voice && this.narrator_voice.nativeElement) {
 					this.narrator_voice.nativeElement.play();
 					this.narrator_voice.nativeElement.onended = () =>{
 						this.appModel.enableReplayBtn(true);
+						this.appModel.handlePostVOActivity(false);
 						document.getElementById('instructionBar').style.cursor = "pointer"; 
 
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
@@ -1314,6 +1315,7 @@ export class Ntemplate15 implements OnInit {
 	}
 
 	blinkOnLastQues() {
+		this.appModel.enableReplayBtn(false);
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
