@@ -84,8 +84,10 @@
                   </div>
 
                   <div class="correct_order">
-                    <img class="img-fluid " [src]="feedback?.show_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.correct_order?.url : feedback?.show_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.correct_order?.url:''" alt=""
-                    (load)="checkImgLoaded();">
+                      <div>
+                        <img class="img-fluid " [src]="feedback?.show_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.correct_order?.url : feedback?.show_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.correct_order?.url:''" alt=""
+                        (load)="checkImgLoaded();">
+                      </div>                    
                   </div>
                   
                   <div class="rightWrongAns">
@@ -119,8 +121,10 @@
                     </div>
                   </div>
                   <div class="correct_order">
-                    <img class="img-fluid " [src]="feedback?.show_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.correct_order?.url : feedback?.show_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.correct_order?.url:''" alt=""
-                    (load)="checkImgLoaded();">
+                      <div>
+                        <img class="img-fluid " [src]="feedback?.show_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.show_ans_popup?.correct_order?.url : feedback?.show_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.show_ans_popup?.correct_order?.url:''" alt=""
+                        (load)="checkImgLoaded();">
+                      </div>                    
                   </div>
                   <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
                   (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">

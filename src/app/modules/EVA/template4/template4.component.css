@@ -207,17 +207,26 @@
 .eva .modal{
 	display: none; 
 }
-.modal .queryBlock{
+.modal .queryBlock{	
 	top: 8% !important;
-	left: 33% !important;
-	width:30% !important;
+	left: 33.5% !important;
+	width:30%;
+	display: flex;
+	width:97.4% !important;
 }
-
+/* .modal .queryBlock div{
+	width:30%;
+	margin:auto;
+} */
 .modal .correct_order{
 	position: absolute;
+	display: flex;
     top: 50%;
-    left: 11%;
-    width: 75.5%;
+    left: 0;
+    width: 97.4%;
+}
+.modal .correct_order div{
+	margin:auto;
 }
 .modal#showAnswer .queryBlock{
 	top: 17% !important;
