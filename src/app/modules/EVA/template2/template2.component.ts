@@ -149,10 +149,16 @@ export class Template2Component implements OnInit {
       this.clapSound.nativeElement.currentTime = 0;
       this.rightFeedback.nativeElement.pause();
       this.rightFeedback.nativeElement.currentTime = 0;
-      this.wrongFeedback.nativeElement.pause();
-      this.wrongFeedback.nativeElement.currentTime = 0;
-      this.audio.pause();
-      this.enableAllOptions();
+      if (!this.wrongFeedback.nativeElement.paused) {
+        this.wrongFeedback.nativeElement.pause();
+        this.wrongFeedback.nativeElement.currentTime = 0;
+        this.shuffleOptions();
+      }
+      if (!this.audio.paused) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.enableAllOptions();
+      }
       clearTimeout(this.clappingTimer);
       this.ansBlock.nativeElement.className = "optionsBlock";
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
@@ -457,19 +463,23 @@ export class Template2Component implements OnInit {
         }
 
         this.wrongFeedback.nativeElement.onended = () => {
-          this.ansBlock.nativeElement.className = "optionsBlock";
-          let mainArray = [...this.myoption.leftoption, ...this.myoption.rightoption];
-          this.idArray = [];
-          for (let i of mainArray) {
-            this.idArray.push(i.id);
-          }
-          this.doRandomize(mainArray);
-          this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-          if (this.wrongCounter >= 3 && this.ifWrongAns) {
-            this.Sharedservice.setShowAnsEnabled(true);
-          }
+          this.shuffleOptions();
         }
       });
+    }
+  }
+
+  shuffleOptions() {
+    this.ansBlock.nativeElement.className = "optionsBlock";
+    let mainArray = [...this.myoption.leftoption, ...this.myoption.rightoption];
+    this.idArray = [];
+    for (let i of mainArray) {
+      this.idArray.push(i.id);
+    }
+    this.doRandomize(mainArray);
+    this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+    if (this.wrongCounter >= 3 && this.ifWrongAns) {
+      this.Sharedservice.setShowAnsEnabled(true);
     }
   }
 
