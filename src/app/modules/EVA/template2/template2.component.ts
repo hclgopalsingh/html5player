@@ -151,6 +151,8 @@ export class Template2Component implements OnInit {
       this.rightFeedback.nativeElement.currentTime = 0;
       this.wrongFeedback.nativeElement.pause();
       this.wrongFeedback.nativeElement.currentTime = 0;
+      this.audio.pause();
+      this.enableAllOptions();
       clearTimeout(this.clappingTimer);
       this.ansBlock.nativeElement.className = "optionsBlock";
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
@@ -661,7 +663,7 @@ export class Template2Component implements OnInit {
     }
   }
 
-  /***** Disable Options other than hovered until audio end *******/
+  /***** Disable speaker and options other than hovered until audio end *******/
   disableOtherOptions(idx, selectedBlock, otherBlock) {
     for (let i = 0; i < selectedBlock.nativeElement.parentElement.children.length; i++) {
       if (i != idx) {
@@ -671,15 +673,9 @@ export class Template2Component implements OnInit {
     for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
       otherBlock.nativeElement.parentElement.children[j].classList.add("disableDiv");
     }
+    this.disableSpeaker.nativeElement.classList.add("disableDiv");
     this.audio.onended = () => {
-      for (let i = 0; i < selectedBlock.nativeElement.parentElement.children.length; i++) {
-        if (i != idx) {
-          selectedBlock.nativeElement.parentElement.children[i].classList.remove("disableDiv");
-        }
-      }
-      for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
-        otherBlock.nativeElement.parentElement.children[j].classList.remove("disableDiv");
-      }
+      this.enableAllOptions();
     }
   }
 
@@ -691,6 +687,21 @@ export class Template2Component implements OnInit {
   /******Hover out close popup******/
   houtClosePopup() {
     this.popupAssets.close_button = this.popupAssets.close_button_origional;
+  }
+
+  /***** Enable all options and speaker on audio end *******/
+  enableAllOptions() {
+    for (let i = 0; i < this.leftOptRef.nativeElement.parentElement.children.length; i++) {
+      if (this.leftOptRef.nativeElement.parentElement.children[i].classList.contains("disableDiv")) {
+        this.leftOptRef.nativeElement.parentElement.children[i].classList.remove("disableDiv");
+      }
+    }
+    for (let j = 0; j < this.rightOptRef.nativeElement.parentElement.children.length; j++) {
+      if (this.rightOptRef.nativeElement.parentElement.children[j].classList.contains("disableDiv")) {
+        this.rightOptRef.nativeElement.parentElement.children[j].classList.remove("disableDiv");
+      }
+    }
+    this.disableSpeaker.nativeElement.classList.remove("disableDiv");
   }
 
 }

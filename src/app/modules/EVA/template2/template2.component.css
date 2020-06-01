@@ -11,7 +11,6 @@
 }
 .modal #refQuesBlock{
     top: 18.5%;
-    /* height: 39%; */
 }
 .refQues{
 	width: 38.8%;
@@ -99,9 +98,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.modal #optionsBlock{
-	/* top: 7.5%; */
 }
 .options{
 	width: 22%;
