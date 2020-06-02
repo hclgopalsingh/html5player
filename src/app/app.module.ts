@@ -76,6 +76,7 @@ import { Template8Component } from './modules/EVA/template8/template8.component'
 import { QuestionBlockComponent } from './modules/EVA/template8/question-block/question-block.component';
 import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
 import { DataService } from './model/eva/template8/data.service';
+import { Template2Component } from './modules/EVA/template2/template2.component';
 
 
 @NgModule({
@@ -142,7 +143,8 @@ import { DataService } from './model/eva/template8/data.service';
 		Template1Component,
 		Template8Component,
 		QuestionBlockComponent,
-		InstructionBarComponent
+		InstructionBarComponent,
+		Template2Component
 	],
 	imports: [
 		BrowserModule,
