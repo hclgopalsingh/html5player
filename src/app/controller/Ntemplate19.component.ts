@@ -314,16 +314,17 @@ export class Ntemplate19 implements OnInit {
     } else {
       if (opt.id != null && this.countofAnimation != this.optionObj.length) {
         this.startCount = 0;
+        this.appModel.enableReplayBtn(false);
         this.moveFrom = this.optionsBlock.nativeElement.children[1].children[this.index1].getBoundingClientRect();
         this.moveTo = this.tabularBlock.nativeElement.children[0].children[idx].children[idxx].children[0].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
         this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "none";
         this.tabularBlock.nativeElement.style.pointerEvents = "none";
-        this.appModel.enableReplayBtn(false);
+        //this.appModel.enableReplayBtn(false);
         $(this.optionsBlock.nativeElement.children[1].children[this.index1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
-          this.appModel.enableReplayBtn(true);
+          //this.appModel.enableReplayBtn(true);
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "";
           this.tabularBlock.nativeElement.style.pointerEvents = "";
           this.tabularBlock.nativeElement.children[0].children[idx].children[idxx].children[0].classList.value = "fluid";
@@ -536,7 +537,7 @@ export class Ntemplate19 implements OnInit {
   }
 
   postWrongAttempt(){
-    this.resetAttempt();
+    //this.resetAttempt();
     this.appModel.notifyUserAction();
   }
 
@@ -1299,6 +1300,7 @@ houtSkip(){
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
       if (!this.matched) {
         this.resetAttempt();
+        this.appModel.wrongAttemptAnimation();
       }
     }
     this.popupRef.nativeElement.classList = "modal";
@@ -1310,7 +1312,7 @@ houtSkip(){
 
     if (!this.matched) {
       setTimeout(() => {
-        this.appModel.wrongAttemptAnimation();
+        
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
       }, 1000);
