@@ -1456,10 +1456,7 @@ export class Ntemplate20 implements OnInit {
             this.appModel.enableReplayBtn(false);
         }
         this.blinkCounter++;
-        setTimeout(() => {
-            this.upPlaceHolder.nativeElement.children[index].style.opacity = 1;
-        }, 500)
-       
+      //  this.upPlaceHolder.nativeElement.children[index].style.opacity = 0;       
         //console.log("this.blinkCounter = "+this.blinkCounter+" = this.optionArr.length = "+this.optionArr.length);
     }
 
