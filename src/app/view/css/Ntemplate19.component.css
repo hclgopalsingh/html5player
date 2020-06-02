@@ -955,3 +955,9 @@ html [type=button] {
     transform: scale(1.0)
   }
 }
+
+.videoMainContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
