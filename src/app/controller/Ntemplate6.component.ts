@@ -2781,6 +2781,7 @@ document.getElementById("coverBtm").style.display = "block";
         this.attemptType = "";
         this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 20 + "%";
         this.duplicateOption.nativeElement.children[id].style.zIndex = 1000;
+        this.duplicateOption.nativeElement.children[id].style.filter="";
         this.duplicateOption.nativeElement.children[id].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
       } else {
         this.attemptType = "manual";
@@ -2899,6 +2900,7 @@ document.getElementById("coverBtm").style.display = "block";
     if (this.flag) {
       this.count=1;
       this.blinkOnLastQues();
+      this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
       //this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
       $(".bodyContent").css("opacity", "0.3");
       $(".instructionBar").css("opacity", "0.3");
