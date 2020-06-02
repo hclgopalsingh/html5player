@@ -166,6 +166,7 @@ export class Template1Component implements OnInit {
                 this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
                 this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
             }
+			this.stopAllSounds();
             this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
                 this.showAnswerfeedback.nativeElement.play();
@@ -212,13 +213,34 @@ export class Template1Component implements OnInit {
     }
     ngOnDestroy() {
         this.showAnswerSubscription.unsubscribe();
+		this.stopAllSounds();
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
         clearTimeout(this.rightSelectTimer);
         clearTimeout(this.wrongSelectTimer);
 		clearTimeout(this.refreshQueTime);
     }
+	
+	stopAllSounds() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+		
+		this.myAudiospeaker.nativeElement.pause();
+        this.myAudiospeaker.nativeElement.currentTime=0;
 
+        this.wrongFeedback.nativeElement.pause();
+        this.wrongFeedback.nativeElement.currentTime = 0;
+
+        this.rightFeedback.nativeElement.pause();
+        this.rightFeedback.nativeElement.currentTime = 0;
+
+        this.clapSound.nativeElement.pause();
+        this.clapSound.nativeElement.currentTime = 0;
+
+        this.showAnswerfeedback.nativeElement.pause();
+        this.showAnswerfeedback.nativeElement.currentTime = 0;
+    }
+	
     ngAfterViewChecked() {
         this.templatevolume(this.appModel.volumeValue, this);
     }
@@ -557,7 +579,7 @@ export class Template1Component implements OnInit {
 
         /******On Hover option ********/
         onHoverOptions(option, index) {   
-            let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
+             let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
             if(!this.myAudiospeaker.nativeElement.paused) {
                 this.myAudiospeaker.nativeElement.pause();
                 this.myAudiospeaker.nativeElement.currentTime=0;
@@ -582,6 +604,7 @@ export class Template1Component implements OnInit {
     }
     /**OPTION VO ON HOVER**/
     playSound(soundAssets, idx) {
+		
         if(this.audio && this.audio.paused){
          if (soundAssets.location == 'content') {
              this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
