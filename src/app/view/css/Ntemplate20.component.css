@@ -81,6 +81,11 @@
   opacity: 1;
   cursor: pointer;
 }
+.placeholder {
+  opacity: 0;
+  cursor: pointer;
+}
+
 .modal .placeholder:hover {
   opacity: 0;
   cursor: default;

@@ -1442,8 +1442,8 @@ export class Ntemplate20 implements OnInit {
     pushToUpPlaceHolder(index, from) {
         this.submitButtonCounter += 1;
         // $(this.optionRef.nativeElement.children[this.randomOptIndx]).css('top', 'auto').css('left', 'auto');
-        this.blinkingOpt.place = 'up';
-        this.placeHolderArrUp.splice(index, 1, this.blinkingOpt)
+        this.blinkingOpt.place = 'up';       
+        this.placeHolderArrUp.splice(index, 1, this.blinkingOpt);       
         this.optionRef.nativeElement.children[this.randomOptIndx].style.visibility = "hidden";
         this.appModel.enableSubmitBtn(true);
         this.appModel.enableReplayBtn(false);
@@ -1456,6 +1456,7 @@ export class Ntemplate20 implements OnInit {
             this.appModel.enableReplayBtn(false);
         }
         this.blinkCounter++;
+      //  this.upPlaceHolder.nativeElement.children[index].style.opacity = 0;       
         //console.log("this.blinkCounter = "+this.blinkCounter+" = this.optionArr.length = "+this.optionArr.length);
     }
 

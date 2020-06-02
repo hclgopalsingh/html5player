@@ -6,7 +6,7 @@
 			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/contentNT-16/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/contentNT-23/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/content16/\"}]}"
 =======
 			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/contentNT-17/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/contentNT-23/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/content16/\"}]}"
->>>>>>> e0e5a816d1f6fe270a68e20c15a27b7a1c9b4de3
+>>>>>>> 540c861eb7fd09ef348665af70683d1a191606ee
 		},
 		
 		"lms": {
