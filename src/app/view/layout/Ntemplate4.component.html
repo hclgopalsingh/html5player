@@ -94,13 +94,13 @@
       <div class="modal-content">
 
         <!-- Modal Header -->
-        <div class="modal-header">
+        <div class="modal-header" [ngStyle]="feedbackAssets?.style_header" >
                   <img class="modal-title" [src]="feedbackAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.headerTxt_img?.url : assetsPath + '/' + feedbackAssets?.headerTxt_img?.url">
                   <img class="close" [src]="feedbackAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.close_btn?.url : assetsPath + '/' + feedbackAssets?.close_btn?.url" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackClose()" (mouseleave)="houtFeedbackClose()">
         </div>
 
         <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center flex-wrap">
+        <div class="modal-body d-flex justify-content-center flex-wrap" [ngStyle]="feedbackAssets?.style_body">
             <div class="d-flex justify-content-center">
               <div class="matchHolder" *ngIf="category && category.correct && category.correct.length>0">
                 <img class="img-fluid" [src]="feedbackAssets?.rightAttempt_placeholder?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.rightAttempt_placeholder?.url : assetsPath + '/' + feedbackAssets?.rightAttempt_placeholder?.url">
