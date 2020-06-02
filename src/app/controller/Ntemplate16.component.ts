@@ -1036,6 +1036,7 @@ export class Ntemplate16 implements OnInit {
 		this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 		this.controlHandler.isTab = false;
 		this.appModel.handleController(this.controlHandler);
+		this.appModel.handlePostVOActivity(true)
 		$("#optionsBlock ").removeClass("disable-click");
 		this.feedback.correct_ans_index.forEach(element1 => {
 			this.myoption.forEach(element2 => {
@@ -1060,7 +1061,9 @@ export class Ntemplate16 implements OnInit {
 			// this.checkNextActivities();
 			this.blinkOnLastQues()
 			this.controlHandler.isTab = true;
-		this.appModel.handleController(this.controlHandler);
+			this.appModel.handleController(this.controlHandler);
+			this.appModel.handlePostVOActivity(false)
+
 		}, 5000)
 	}
 
