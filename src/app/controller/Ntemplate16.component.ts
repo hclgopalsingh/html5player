@@ -1035,8 +1035,11 @@ export class Ntemplate16 implements OnInit {
 		this.blinkState2 = "";
 		this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 		this.controlHandler.isTab = false;
+		this.controlHandler.isShowAns = true;
 		this.appModel.handleController(this.controlHandler);
 		this.appModel.handlePostVOActivity(true)
+		this.appModel.enableReplayBtn(false);
+		this.maincontent.nativeElement.className = "disable_div";
 		$("#optionsBlock ").removeClass("disable-click");
 		this.feedback.correct_ans_index.forEach(element1 => {
 			this.myoption.forEach(element2 => {
