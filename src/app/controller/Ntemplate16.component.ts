@@ -1034,6 +1034,8 @@ export class Ntemplate16 implements OnInit {
 		this.blinkState1 = "";
 		this.blinkState2 = "";
 		this.optionBlock.nativeElement.className = "optionsBlock disable_div";
+		this.controlHandler.isTab = false;
+		this.appModel.handleController(this.controlHandler);
 		$("#optionsBlock ").removeClass("disable-click");
 		this.feedback.correct_ans_index.forEach(element1 => {
 			this.myoption.forEach(element2 => {
@@ -1057,6 +1059,8 @@ export class Ntemplate16 implements OnInit {
 			$("#instructionBar").addClass("disable_div disable-click");
 			// this.checkNextActivities();
 			this.blinkOnLastQues()
+			this.controlHandler.isTab = true;
+		this.appModel.handleController(this.controlHandler);
 		}, 5000)
 	}
 
