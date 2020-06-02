@@ -477,7 +477,8 @@
 
   #instructionBar .instructionBase {
     width: 58%;
-    position: relative;
+	position: relative;
+	cursor: pointer
   }
 
   .instructionBase .instructionText {
@@ -729,9 +730,9 @@
 	margin-top: 1.1%
 }
 
-.instructionBar{
+/* .instructionBar{
   cursor: pointer;
-}
+} */
 
 
 body {
