@@ -117,7 +117,7 @@ export class Ntemplate16 implements OnInit {
 	closed:boolean = false;
 	PlayPauseFlag:boolean = true;
 	controlHandler = {
-		isShowAns:false,
+		//isShowAns:false,
 		isTab:true
 	 };
 	playHoverInstruction() {
@@ -872,9 +872,9 @@ export class Ntemplate16 implements OnInit {
 					this.loaderTimer = setTimeout(() => {
 						this.appModel.setLoader(false);
 					}, 5000)
-					this.controlHandler.isShowAns = true;
+					//this.controlHandler.isShowAns = true;
 					//this.appModel.enableReplayBtn(true);
-					this.appModel.handleController(this.controlHandler);
+					//this.appModel.handleController(this.controlHandler);
 
 				}, this.quesInfo.formatTimeout)
 
@@ -1035,7 +1035,7 @@ export class Ntemplate16 implements OnInit {
 		this.blinkState2 = "";
 		this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 		this.controlHandler.isTab = false;
-		this.controlHandler.isShowAns = true;
+		//this.controlHandler.isShowAns = true;
 		this.appModel.handleController(this.controlHandler);
 		this.appModel.handlePostVOActivity(true)
 		this.appModel.enableReplayBtn(false);
@@ -1107,9 +1107,9 @@ export class Ntemplate16 implements OnInit {
 			this.loaderTimer = setTimeout(() => {
 				this.appModel.setLoader(false);
 			}, 5000)
-			this.controlHandler.isShowAns = true;
+			//this.controlHandler.isShowAns = true;
 			this.appModel.enableReplayBtn(true);
-			this.appModel.handleController(this.controlHandler);
+			//this.appModel.handleController(this.controlHandler);
 		}, this.quesInfo.formatTimeout)
 
 
