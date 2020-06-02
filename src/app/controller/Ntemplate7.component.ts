@@ -138,6 +138,8 @@ export class Ntemplate7 implements OnInit {
         this.appModel.getConfirmationPopup().subscribe((val) => {
             if (val == "uttarDikhayein") {
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
+                    this.instructionVO.nativeElement.pause();
+                    this.instructionVO.nativeElement.currentTime = 0;
                     this.confirmModalRef.nativeElement.classList = "displayPopup modal";
                     this.appModel.notifyUserAction();
                 }
@@ -160,6 +162,8 @@ export class Ntemplate7 implements OnInit {
          this.appModel.postWrongAttempt.subscribe(() =>{
              this.postWrongAttemplt();
         })
+
+        this.appModel.resetBlinkingTimer();
     }
 
     ngOnDestroy() {
@@ -414,7 +418,10 @@ export class Ntemplate7 implements OnInit {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.isShowans  = true;
+            this.appModel.resetBlinkingTimer();
             this.getAnswer();
+            this.instructionVO.nativeElement.pause();
+            this.instructionVO.nativeElement.currentTime = 0;
             this.appModel.stopAllTimer();
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {                
                     $(this.optionRef.nativeElement.children[i]).addClass("disableDiv");                

@@ -118,6 +118,7 @@ export class Ntemplate16 implements OnInit {
 	PlayPauseFlag:boolean = true;
 	controlHandler = {
 		isShowAns:false,
+		isTab:true
 	 };
 	playHoverInstruction() {
 		this.appModel.notifyUserAction();
@@ -244,6 +245,7 @@ export class Ntemplate16 implements OnInit {
 	
 	runCounter(){
 		console.log(document.getElementById("circle1"))
+		this.appModel.enableReplayBtn(false)
 		console.log("this.quesInfo.formatTimeout",this.quesInfo.formatTimeout)
 		this.countdown = (this.quesInfo.formatTimeout)/1000;
 		if(document.getElementById("circle1")){
@@ -368,6 +370,9 @@ export class Ntemplate16 implements OnInit {
 	}
 
 	checkAnswer(opt, index) {
+		this.controlHandler.isTab = false;
+		this.appModel.handleController(this.controlHandler);
+		this.maincontent.nativeElement.className = "disable_div";
 		this.onHoverOptionOut(opt,index);
 		this.appModel.notifyUserAction();
 		this.disableHelpBtn = true;
@@ -375,6 +380,8 @@ export class Ntemplate16 implements OnInit {
 		this.titleHelpAudio.nativeElement.currentTime = 0;
 		this.instruction.nativeElement.pause();
 		this.instruction.nativeElement.currentTime = 0;
+		this.appModel.handlePostVOActivity(true);
+		this.appModel.enableReplayBtn(false);
 		// logic to check what user has done is correct or wrong
 		if (this.checkRightAnswer(opt)) {
 			this.blinkState1 = "";
@@ -383,9 +390,12 @@ export class Ntemplate16 implements OnInit {
 			this.ansList.push(opt);
 			//Analytics
 			if (this.noOfRightAns == this.feedback.correct_ans_index.length) {
-
+				this.appModel.enableReplayBtn(false)
+				this.controlHandler.isTab = false;
+				this.appModel.handleController(this.controlHandler);
 				//highlight options
-
+				this.appModel.handlePostVOActivity(true)
+				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 				{
 					this.ansList.forEach(element => {
 						element.filled_img = element.filled_img_green
@@ -399,18 +409,22 @@ export class Ntemplate16 implements OnInit {
 						this.clapSound.nativeElement.play();
 					}
 					//disable option and question on right attempt
-					this.maincontent.nativeElement.className = "disable_div";
-					this.optionBlock.nativeElement.className = "optionsBlock disable_div disable-click";
 					
-							$("#optionsBlock ").addClass("disable-click disable-click");
-							$("#instructionBar").addClass("disable_div disable-click");
 					this.clapSound.nativeElement.onended = () => {
 						//new code
+					this.maincontent.nativeElement.className = "disable_div";
+					this.optionBlock.nativeElement.className = "optionsBlock disable_div disable-click";
+					this.controlHandler.isTab = true;
+					this.appModel.handleController(this.controlHandler);
+							$("#optionsBlock ").addClass("disable-click disable-click");
+							$("#instructionBar").addClass("disable_div disable-click");
 						setTimeout(() => {
+							this.controlHandler.isTab = true;
+							this.appModel.handleController(this.controlHandler);
 							this.attemptType = "manual";
 							//disable option and question on right attempt
 							console.log("disable option and question on right attempt");
-							
+							this.appModel.handlePostVOActivity(false)
 							this.blinkOnLastQues()
 						}, 200)
 					}
@@ -426,6 +440,11 @@ export class Ntemplate16 implements OnInit {
 					this.clapSound.nativeElement.play();
 				}
 				this.clapSound.nativeElement.onended = () => {
+					this.appModel.handlePostVOActivity(false);
+					this.appModel.enableReplayBtn(true);
+					this.controlHandler.isTab = true;
+					this.appModel.handleController(this.controlHandler);
+					this.maincontent.nativeElement.className = "";
 					this.optionBlock.nativeElement.className = "optionsBlock";
 					if (this.blinkIndex < this.feedback.correct_ans_index.length) {
 						let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
@@ -469,13 +488,20 @@ export class Ntemplate16 implements OnInit {
 
 			
 			this.wrongFeedback.nativeElement.onended = () => {
-				if(!this.closed){
+				
 					this.wrongTimer = setTimeout(() => {
 						this.correctAns.nativeElement.classList = "modal";
 						this.appModel.notifyUserAction();
-						this.appModel.wrongAttemptAnimation();	
+						if(!this.closed){
+						this.appModel.wrongAttemptAnimation();
+						this.maincontent.nativeElement.className = "";
+						this.appModel.handlePostVOActivity(false);
+						this.appModel.enableReplayBtn(true);
+						this.controlHandler.isTab = true;
+						this.appModel.handleController(this.controlHandler);	
+						}
 					}, 2000);
-				}
+				
 			}
 		}
 	}
@@ -585,12 +611,18 @@ export class Ntemplate16 implements OnInit {
 
 	endedHandleronSkip() {
 		  this.isPlayVideo = false;
+		  this.appModel.enableReplayBtn(true);
+		  this.appModel.videoStraming(false);
+		  this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
 		  this.appModel.navShow = 2;
 		  //this.appModel.setLoader(true);
 		  //this.appModel.startPreviousTimer();
-			setTimeout(()=>{
-				this.runCounter();
+		  console.log("this.activityStarted",this.activityStarted)
+		 	if(!this.activityStarted){
 
+			 
+			setTimeout(()=>{
+					this.runCounter()
 			},200)
 		  setTimeout(() => {
 			this.showFormat = false;
@@ -612,8 +644,7 @@ export class Ntemplate16 implements OnInit {
 			}, 5000)
 
 		}, this.quesInfo.formatTimeout)
-
-
+	}
 		
 	  }
 
@@ -627,7 +658,14 @@ export class Ntemplate16 implements OnInit {
 	  }
 
 	ngOnInit() {
-
+		let that = this;
+        // $( "#navBlock" ).click(function() {
+        //     if (!that.instruction.nativeElement.paused)
+        //     {
+        //       that.instruction.nativeElement.pause();
+        //       that.instruction.nativeElement.currentTime = 0;
+        //     }
+        //   });
 		//this.appModel.handleController(this.controlHandler);
 		this.appModel.handlePostVOActivity(true);
 		this.appModel.enableReplayBtn(false);
@@ -683,6 +721,11 @@ export class Ntemplate16 implements OnInit {
 			}
 			if (val == "replayVideo") {
 				this.appModel.videoStraming(true);
+				if ( this.instruction && !this.instruction.nativeElement.paused) {
+					this.instruction.nativeElement.currentTime = 0;
+					this.instruction.nativeElement.pause();
+				}
+				this.activityStarted = true;
 				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 				  $("#optionsBlock .options").addClass("disable_div");
 				  this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
@@ -695,12 +738,18 @@ export class Ntemplate16 implements OnInit {
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
 		});
+		this.appModel.resetBlinkingTimer();
 	}
 
 	postWrongAttempt() {
 		this.optionBlock.nativeElement.className = "optionsBlock";
+		this.maincontent.nativeElement.className = "";
+		this.appModel.handlePostVOActivity(false);
 		this.appModel.enableReplayBtn(true);
+		this.controlHandler.isTab = true;
+		setTimeout(() => {
 		this.closed = false;
+		},2000)
 		
 	}
 
@@ -824,7 +873,7 @@ export class Ntemplate16 implements OnInit {
 						this.appModel.setLoader(false);
 					}, 5000)
 					this.controlHandler.isShowAns = true;
-					this.appModel.enableReplayBtn(true);
+					//this.appModel.enableReplayBtn(true);
 					this.appModel.handleController(this.controlHandler);
 
 				}, this.quesInfo.formatTimeout)
@@ -895,15 +944,18 @@ export class Ntemplate16 implements OnInit {
 		}
 	  }
 
+	activityStarted: boolean = false
+
 	checkforQVO() {
 		if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
 			this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
-			this.appModel.enableReplayBtn(true);
+			this.appModel.enableReplayBtn(false);
 			this.optionBlock.nativeElement.className = "optionsBlock disable_div";
 			$("#instructionBar").addClass("disable_div");
 			// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			this.narrator.nativeElement.play();
+			this.activityStarted = true;
 			this.narrator.nativeElement.onended = () => {
 				//this.startAnsShowTimer()
 				//this.setBubbleEmpty();
@@ -957,6 +1009,7 @@ export class Ntemplate16 implements OnInit {
 	}
 
 	blinkOnLastQues() {
+		this.appModel.enableReplayBtn(false);
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
@@ -996,6 +1049,7 @@ export class Ntemplate16 implements OnInit {
 		this.attemptType = "no animation";
 		this.confirmModalRef.nativeElement.classList="modal";
 		this.confirmReplayRef.nativeElement.classList="modal";
+		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
 			$("#instructionBar").addClass("disable_div");
 			$("#optionsBlock ").addClass("disable-click");
@@ -1022,9 +1076,8 @@ export class Ntemplate16 implements OnInit {
 		  this.appModel.navShow = 2;
 		  this.appModel.setLoader(true);
 		  //this.appModel.startPreviousTimer();
-		  setTimeout(()=>{
-			this.runCounter();
-
+		  setTimeout(()=>{			
+				this.runCounter()
 		  },200)
 		  setTimeout(() => {
 			this.showFormat = false;
@@ -1055,6 +1108,7 @@ export class Ntemplate16 implements OnInit {
 
 	  replayVideo() {
 		this.videoReplayd = true;
+		this.activityStarted =true;
 		this.isPlayVideo = true;
 		this.appModel.enableSubmitBtn(false);
 		$("#optionsBlock .options").addClass("disable_div");

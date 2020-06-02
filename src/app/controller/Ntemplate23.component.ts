@@ -1536,7 +1536,10 @@ export class Ntemplate23 implements OnInit {
       for (let i = 0; i < this.myStates.length; i++) {
         arr.push(this.myStates[i].capital);
       }
-      this.copiedstates = arr.filter((item, index) => arr.indexOf(item) === index);
+      let filteredarray = arr.filter((item,index) => arr.indexOf(item) === index);
+      this.copiedstates = filteredarray.filter(function (el) {
+        return el != "";
+      });
       this.copiedstates.sort();
       this.myDropDownStates = fetchedData.DropDownArr;
       this.myRightAnswer = fetchedData.rigthAnswer;
@@ -1718,6 +1721,8 @@ export class Ntemplate23 implements OnInit {
       }
     }
     this.singleClicknotAllowed=false;
+    this.countofClick=0;
+    this.p=1;
     document.getElementById("line0").setAttribute("x1", "0");
     document.getElementById("line0").setAttribute("x2", "0");
     document.getElementById("line0").setAttribute("y1", "0");
@@ -1731,6 +1736,7 @@ export class Ntemplate23 implements OnInit {
 
   showAnswerFeedback() {
     this.showAnswerarray = [];
+    this.appModel.resetBlinkingTimer();
     for (let i = 0; i < this.feedbackObj.correct_state.length; i++) {
       let findState = this.myStates.find(element => element.textField == this.feedbackObj.correct_state[i]);
       this.showAnswerarray.push(findState);

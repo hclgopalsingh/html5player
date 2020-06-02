@@ -137,16 +137,20 @@
   }
 }
 
+#modalTemp17{
+  background: rgba(0,0,0,.85) !important;
+}
+
 .correctAns{
 	position:absolute;
 	left:0;
 	top:0;
 	width:100%;
 	height:100%;
-	background:rgba(0, 0, 0, 0.9215686274509803) ;
+  background: rgba(0,0,0,.85) !important;
 	z-index:100;
 	display:flex !important;
-    align-items:center !important;
+  align-items:center !important;
 }
 .rightAnsBg{
 	animation: scaleit 0.2s ease-in;

@@ -56,7 +56,8 @@ button:focus{
 	color: #fff;
 	font-family: Kruti Dev!important;
 	font-weight: normal;
-	font-size: 1.5vmax;
+	font-size: 1.4vmax;
+	line-height: 2;
     width: 98%;
     position: absolute;
     overflow: hidden;
@@ -164,19 +165,16 @@ button:focus{
     max-width: 4.5%;
     z-index: 1;
 }
-.eva .modal #optionsBlock{
-	top: 7.5% !important;
+.eva .modal #optionsBlock,
+.eva .modal #refQuesBlock{
     width: 97.4% !important;
 }
-.eva .modal #optionsBlock.onShowAns{
-	top: 18.5% !important;
+.eva .modal .onShowAns{
+	top: auto !important;
     width: 97.4% !important;
 }
 .eva .modal .options{
 	width: 100% !important;
-}
-.eva .modal .options div{
-    width: 44% !important;
 }
 .eva .modal .options div:hover{
 	animation: none !important;
@@ -311,6 +309,9 @@ button:focus{
 	left: 0;
 	border: solid .5vmax #0029d0;
 	border-radius: 1vmax;
+	animation: none;
+}
+.refQues div.quesBox.blinkOn::before {
 	animation: borderBlink normal 1s infinite linear;
 }
 .modal .refQues div.quesBox::before {

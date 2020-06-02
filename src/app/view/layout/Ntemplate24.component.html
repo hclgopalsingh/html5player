@@ -57,7 +57,7 @@
             <div class="msgImage"><img class="img-fluid h-100" [src]="confirmAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmAssets?.confirm_text?.url : assetsPath + '/' + confirmAssets?.confirm_text?.url"></div>
             <div class="actionButtons">
               <button type="button" (click)="sendFeedback(confirmModalRef,'yes','showAnswer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmAssets?.confirm_btn?.url : assetsPath + '/' + confirmAssets?.confirm_btn?.url"></button>
-              <button type="button" (click)="sendFeedback(confirmModalRef,'no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmAssets?.decline_btn?.url : assetsPath + '/' + confirmAssets?.decline_btn?.url"></button>
+              <button type="button" (click)="sendFeedback(confirmModalRef,'no','noShowAnswer');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmAssets?.decline_btn?.url : assetsPath + '/' + confirmAssets?.decline_btn?.url"></button>
             </div>
           </div>
         </div>

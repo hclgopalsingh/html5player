@@ -704,6 +704,7 @@ export class Ntemplate18_1 implements OnInit {
           this.showanspopUpheader_img = true;
           this.partialCorrectheaderTxt_img = false;
           this.attemptType = "showAnswer";
+          this.appModel.enableSubmitBtn(false)
           this.styleHeaderPopup = this.feedbackObj.style_header;
           this.styleBodyPopup = this.feedbackObj.style_body;
           this.startCount=0;
@@ -803,6 +804,7 @@ export class Ntemplate18_1 implements OnInit {
   postWrongAttempt(){
     this.resetAttempt();
     this.appModel.notifyUserAction();
+    this.appModel.enableSubmitBtn(false)
   }
 
   checkImgLoaded() {
@@ -1148,9 +1150,9 @@ houtSkip(){
         this.appModel.notifyUserAction();
       } else {
         //$("#optionsBlock .options").css("pointer-events", "none");
-        setTimeout(() => {
+        //setTimeout(() => {
           this.appModel.invokeTempSubject('showModal', 'submit');
-        }, 100);
+        //}, 10);
       }
     } else {
       this.appModel.notifyUserAction();
@@ -1183,6 +1185,7 @@ houtSkip(){
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = "img-fluid optItempopUp";
       } else {
         console.log("WRONG ANSWER");
+        this.appModel.enableSubmitBtn(false)
         this.noOfWrongAnsClicked++;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.incorrectImg.location == "content" ? this.containgFolderPath + "/" + this.incorrectImg.url : this.assetsPath + "/" + this.incorrectImg.url;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.fetchAnswer[x].imgsrc.url : this.assetsPath + "/" + this.fetchAnswer[x].imgsrc.url;
@@ -1533,6 +1536,7 @@ houtSkip(){
     } else {
       setTimeout(() => {
         if (!(this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0)) {
+          this.appModel.enableSubmitBtn(false)
           this.blinkOnLastQues();
         }
         this.closeModal();
@@ -1549,6 +1553,7 @@ houtSkip(){
       $(".bodyContent").addClass("disable_div");
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
+        this.appModel.resetBlinkingTimer();
       }, 100);
 
       $("#instructionBar").addClass("disable_div");

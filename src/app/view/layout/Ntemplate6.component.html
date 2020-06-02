@@ -27,7 +27,7 @@
 					<img class="img-fluid" [src]="commonAssets?.speaker?.location=='content' ? containgFolderPath + '/' + commonAssets?.speaker?.url : commonAssets?.speaker?.url" (click)="playSpeaker($event)">
           <div class="speakerWave"></div> 
         </div>        
-        <audio #Speaker [src]="commonAssets?.speaker_vo?.location=='content' ? containgFolderPath + '/' + commonAssets?.speaker_vo?.url: assetsPath + '/' + commonAssets?.speaker_vo?.url" (ended)="endedSpeakerAudio()" ></audio>
+        <audio #Speaker [src]="commonAssets?.speaker_vo?.location=='content' ? containgFolderPath + '/' + commonAssets?.speaker_vo?.url: assetsPath + '/' + commonAssets?.speaker_vo?.url" ></audio>
           
 
         <div class="refQues"  #matra >

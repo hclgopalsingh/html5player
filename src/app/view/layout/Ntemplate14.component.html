@@ -29,13 +29,14 @@
 					<img style="margin-left: 5%" *ngIf="removeBtn" [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
 						[src]="question?.record?.location=='content' ?assetspath + '/' +question?.record.url: assetsfolderlocation + '/'+ question?.record.url"
 						#recordButton (click)="startRecording()" />
-					<img *ngIf="removeBtn" [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
+					<img *ngIf="removeBtn && showstop" [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
 						[src]="question?.stop?.location=='content' ?assetspath + '/' +question?.stop.url: assetsfolderlocation + '/'+ question?.stop.url"
 						#stopButton (click)="stopRecording()" >
-					<img *ngIf="showPlay && removeBtn" [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid"
+					<img *ngIf="showPlay" [ngClass]="{'disable-ctrl': isPlay}" #playpause (click)="listen()" class="img-fluid"
 						[src]="question?.playpause?.location=='content' ?assetspath + '/' +question?.playpause.url: assetsfolderlocation + '/'+ question?.playpause.url">
-					<audio #audioT class="audioT" id="audioplay" controls controlsList="nodownload"></audio>
+					<audio #audioT class="audioT" id="audioplay" controls controlsList="nodownload" (timeupdate)="isCalled()"></audio>
 					<!--<input type="range" step="1" id="$seekbar" value="0">-->
+					<span *ngIf="!showPlay && !removeBtn" id="tracktime">{{curTime}} / {{endTime}}</span>
 				</div>
 			</div>
 

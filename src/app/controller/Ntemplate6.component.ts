@@ -180,7 +180,9 @@ export class Ntemplate6 implements OnInit {
 
   MatraLeft:number = 0;
   matraCounter:number = 0;
-
+  controlHandler = {
+		isTab:true
+	 };
   categoryA: any = {
         "correct": [],
         "incorrect": []
@@ -1972,6 +1974,10 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
  
   checkAnswer(opt, id) {
     this.appModel.enableReplayBtn(false);
+    this.appModel.enableNavBtn(true);
+    this.controlHandler.isTab = false;
+    this.appModel.handleController(this.controlHandler);
+    //$( "#navBlock" ).addClass("disableNavBtn")
     this.appModel.handlePostVOActivity(true);
     this.count = 0;
     $(".instructionBase").addClass('disable_div');
@@ -2074,7 +2080,9 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   onClickAnimationManually(option, id,letterNumber) {
     console.log("start Animation");
     if (option.position == "right") {
-      this.Matra.nativeElement.children[letterNumber-1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if(!this.flag) {
+        this.Matra.nativeElement.children[letterNumber-1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      }
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesArr[letterNumber-1].id)) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
@@ -2082,7 +2090,9 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         }
       }
     } else if (option.position == "left") {
-      this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
+      if(!this.flag) {
+        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
+      }
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
@@ -2277,10 +2287,19 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    //$( "#navBlock" ).removeClass("disableNavBtn")
+    this.appModel.enableNavBtn(false);
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.resetBlinkingTimer();
   }
 
   postWrongAttemplt() {
     //this.resetAttempt();
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.enableNavBtn(false);
+    $( "#navBlock" ).removeClass("disableNavBtn")
   }
 
   ngOnDestory() {
@@ -2420,6 +2439,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;       
       this.Myspeaker.nativeElement.play();
+      $('.speakerWave').addClass("dispFlex");
       document.getElementById("coverTop").style.display = "block";
       document.getElementById("coverBtm").style.display = "block";
       $('.instructionBase').addClass('disable_div');
@@ -2431,14 +2451,15 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
           document.getElementById("coverBtm").style.display = "none";
         }
         $('.instructionBase').removeClass('disable_div');
+        $('.speakerWave').removeClass("dispFlex");
       }
-      $('.speakerWave').addClass("dispFlex");    
+          
     }
 
-    endedSpeakerAudio()
-    {
-      $('.speakerWave').removeClass("dispFlex"); 
-    }
+    // endedSpeakerAudio()
+    // {
+    //   $('.speakerWave').removeClass("dispFlex"); 
+    // }
 
   setData() {
   
@@ -2634,6 +2655,7 @@ document.getElementById("coverBtm").style.display = "block";
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
       this.confirmReplayRef.nativeElement.classList="modal";
+      this.count=0;
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
       if(this.index!=undefined) {
         this.Matra.nativeElement.children[this.index].classList.value="";
@@ -2688,6 +2710,10 @@ document.getElementById("coverBtm").style.display = "block";
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
+      //$( "#navBlock" ).removeClass("disableNavBtn")
+      this.appModel.enableNavBtn(false);
+      this.controlHandler.isTab = true;
+      this.appModel.handleController(this.controlHandler);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
@@ -2719,13 +2745,20 @@ document.getElementById("coverBtm").style.display = "block";
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
+        $( "#navBlock" ).removeClass("disableNavBtn")
+        this.appModel.enableNavBtn(false);
+        this.controlHandler.isTab = true;
+        this.appModel.handleController(this.controlHandler);
+        this.appModel.handlePostVOActivity(false);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
-          this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          if(this.duplicateOption.nativeElement && this.duplicateOption.nativeElement.children[id]){
+            this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          }
           //console.log(this.attempt);
           //this.answerModalRef.nativeElement.classList = "modal";
           $(".bodyContent").css("opacity", "0.3");
@@ -2739,6 +2772,7 @@ document.getElementById("coverBtm").style.display = "block";
       this.styleHeaderPopup = this.confirmAssets.style_header;
       this.styleBodyPopup = this.confirmAssets.style_body;
       this.flag = true;
+      this.appModel.resetBlinkingTimer();
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
@@ -2766,7 +2800,9 @@ document.getElementById("coverBtm").style.display = "block";
             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
-          this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          if(!this.flag) {
+            this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          }
           //console.log(this.attempt);
           //this.answerModalRef.nativeElement.classList = "modal";
           $(".bodyContent").css("opacity", "0.3");
@@ -2847,6 +2883,10 @@ document.getElementById("coverBtm").style.display = "block";
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
+    this.appModel.enableNavBtn(false);
+    this.controlHandler.isTab = true;
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
     $('.speaker').removeClass('disable_div');
     this.optionsClickable.nativeElement.classList = "row mx-0"
@@ -2857,8 +2897,9 @@ document.getElementById("coverBtm").style.display = "block";
     //if (!this.flag) {
     //}
     if (this.flag) {
+      this.count=1;
       this.blinkOnLastQues();
-      this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
+      //this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
       $(".bodyContent").css("opacity", "0.3");
       $(".instructionBar").css("opacity", "0.3");
       $(".bodyContent").addClass("disable_div");
