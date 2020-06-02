@@ -220,7 +220,8 @@ export class Template1Component implements OnInit {
         clearTimeout(this.wrongSelectTimer);
 		clearTimeout(this.refreshQueTime);
     }
-	
+    
+    //**Function to stop all sounds */
 	stopAllSounds() {
         this.audio.pause();
         this.audio.currentTime = 0;

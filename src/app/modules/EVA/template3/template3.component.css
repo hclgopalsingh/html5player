@@ -46,8 +46,8 @@
 
 .options .playBtn {
  position: absolute;
- right: 6%;
- bottom: 8%;
+ right: 7%;
+ bottom: 7%;
  max-width: 16%;
 }
 .stageVideo {
@@ -71,7 +71,7 @@
     position: absolute;
     left: .9%;
 	top: 1.1%;
-	clip-path: inset(1.7% 1% 1% 1% round 4vmax);
+	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
 }
 #container .speakerBtn{
 	width:7%;
