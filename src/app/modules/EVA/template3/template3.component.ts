@@ -263,6 +263,9 @@ export class Template3Component extends Base implements OnInit {
 			this.popupIconLocation = this.popupAssets.right_icon.location;
 			this.ifRightAns = true;
 			option.image = option.image_original;
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
+            }
 			setTimeout(() => {
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
@@ -451,6 +454,7 @@ export class Template3Component extends Base implements OnInit {
 
 
 	ngOnInit() {
+		this.Sharedservice.setLastQuesAageyBadheStatus(true); 
 		this.attemptType = "";
 		this.setTemplateType();
 		this.sprite.nativeElement.style = "display:none";
@@ -513,9 +517,11 @@ export class Template3Component extends Base implements OnInit {
 	ngOnDestroy() {
 		this.showAnswerSubscription.unsubscribe();
 		clearTimeout(this.rightTimer);
-        clearTimeout(this.clapTimer);
+		clearTimeout(this.clapTimer);
+		this.stopAllSounds();
 	}
 
+	
 	ngAfterViewChecked() {
 		if (this.titleAudio && this.titleAudio.nativeElement) {
 			this.titleAudio.nativeElement.onended = () => {
@@ -525,6 +531,27 @@ export class Template3Component extends Base implements OnInit {
 		this.templatevolume(this.appModel.volumeValue, this);
 	}
 
+	  //**Function to stop all sounds */
+	  stopAllSounds() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+		
+		this.myAudiospeaker.nativeElement.pause();
+        this.myAudiospeaker.nativeElement.currentTime=0;
+
+        this.wrongFeedback.nativeElement.pause();
+        this.wrongFeedback.nativeElement.currentTime = 0;
+
+        this.rightFeedback.nativeElement.pause();
+        this.rightFeedback.nativeElement.currentTime = 0;
+
+        this.clapSound.nativeElement.pause();
+        this.clapSound.nativeElement.currentTime = 0;
+
+        this.showAnswerfeedback.nativeElement.pause();
+        this.showAnswerfeedback.nativeElement.currentTime = 0;
+    }
+	
 	checkImgLoaded() {
 		if (!this.LoadFlag) {
 			this.noOfImgsLoaded++;
@@ -594,6 +621,9 @@ export class Template3Component extends Base implements OnInit {
 
 		if (Type === "answerPopup") {
 			this.popupclosedinRightWrongAns = true;
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
+            }
 			if (this.ifRightAns) {
 				this.Sharedservice.setShowAnsEnabled(true);
 				this.overlay.nativeElement.classList.value = "fadeContainer";

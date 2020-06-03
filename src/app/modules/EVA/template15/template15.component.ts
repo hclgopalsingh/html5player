@@ -206,10 +206,32 @@ export class Template15Component implements OnInit {
         this.showAnswerSubscription.unsubscribe();
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
+        this.stopAllSounds();
     }
 
     ngAfterViewChecked() {
         this.templatevolume(this.appModel.volumeValue, this);        
+    }
+
+    	  //**Function to stop all sounds */
+	  stopAllSounds() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+		
+		this.myAudiospeaker.nativeElement.pause();
+        this.myAudiospeaker.nativeElement.currentTime=0;
+
+        this.wrongFeedback.nativeElement.pause();
+        this.wrongFeedback.nativeElement.currentTime = 0;
+
+        this.rightFeedback.nativeElement.pause();
+        this.rightFeedback.nativeElement.currentTime = 0;
+
+        this.clapSound.nativeElement.pause();
+        this.clapSound.nativeElement.currentTime = 0;
+
+        this.showAnswerfeedback.nativeElement.pause();
+        this.showAnswerfeedback.nativeElement.currentTime = 0;
     }
 
     /******Set template type for EVA******/
@@ -255,24 +277,9 @@ export class Template15Component implements OnInit {
         }, 200)
     
     }
-// @ViewChild('optionBg') optionBg:any;
-// @ViewChild('optionImg') optionImg:any;
 
-// @ViewChildren('optionRef') optionRefChidren:any;
-attribute:any;
     /****Check answer on option click*****/
     checkAnswer(option) {     
-         
-        let OptChild = this.optionRef.nativeElement.children;
-        console.log(OptChild);
-        let i;
-        for (i = 0; i < OptChild.length; i++) {
-            this.attribute= OptChild[i].attribute + "<br>";
-          }
-
-console.log(this.attribute);
-        // console.log(this.optionImg.nativeElement);
-
         this.popupclosedinRightWrongAns=false;       
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
@@ -536,8 +543,10 @@ console.log(this.attribute);
 			this.instruction.nativeElement.onended = () => {
                 this.appModel.handlePostVOActivity(false);              
                 this.maincontent.nativeElement.className = "";
-			}
+            }
+            // alert('if');
 		} else {
+            // alert('else');
 			this.appModel.handlePostVOActivity(false);
 		}
 	}
