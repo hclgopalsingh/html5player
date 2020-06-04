@@ -482,7 +482,7 @@ export class Ntemplate19 implements OnInit {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
         }
-        this.isShow = true;
+        //this.isShow = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -1220,9 +1220,10 @@ houtSkip(){
   }
   sendFeedback(id: string, flag: string) {
     this.confirmModalRef.nativeElement.classList = "modal";
-    this.noOfRightAnsClicked = 0;
-    this.noOfWrongAnsClicked = 0;
     if (flag == "yes") {
+      this.isShow=true;
+      this.noOfRightAnsClicked = 0;
+      this.noOfWrongAnsClicked = 0;
       $(".bodyContent").css("opacity", "0.3");
       $(".bodyContent").addClass("disable_div");
       setTimeout(() => {
