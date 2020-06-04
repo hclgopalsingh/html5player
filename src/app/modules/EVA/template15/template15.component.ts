@@ -77,7 +77,8 @@ export class Template15Component implements OnInit {
     ifWrongAns:boolean= false;
     popupTime:any
     LastquestimeStart:boolean = false;
-    audio = new Audio();
+    audio = new Audio();  
+    showAnswerOptionBg:any;
     
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -207,13 +208,15 @@ export class Template15Component implements OnInit {
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
         this.stopAllSounds();
+        // this.checkAnswer(this.myoption);
+      
     }
 
     ngAfterViewChecked() {
         this.templatevolume(this.appModel.volumeValue, this);        
     }
 
-    	  //**Function to stop all sounds */
+      //**Function to stop all sounds */
 	  stopAllSounds() {
         this.audio.pause();
         this.audio.currentTime = 0;
@@ -291,6 +294,7 @@ export class Template15Component implements OnInit {
             this.answerImageBase = option.image_original.url;
             this.answerImage = option.imgsrc.url;
             this.answerImagelocation = option.image_original.location;
+            this.showAnswerOptionBg = option.image_original.url;
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
 			this.ifRightAns = true;
@@ -337,7 +341,8 @@ export class Template15Component implements OnInit {
              option.image = option.image_original;
             this.answerImageBase = option.image.url;
             this.answerImage = option.imgsrc.url;
-            this.answerImagelocation = option.image.location;
+            this.answerImagelocation = option.image.location;   
+            this.showAnswerOptionBg = option.image_original.url;
             this.popupIcon = this.popupAssets.wrong_icon.url;
             this.popupIconLocation = this.popupAssets.wrong_icon.location;
 			//this.appModel.stopAllTimer();
@@ -398,6 +403,8 @@ export class Template15Component implements OnInit {
         }
         else{
             
+            var Answerindex = array.find(x => x.id === this.correct_ans_index);
+            this.showAnswerOptionBg =  Answerindex.image.url;
         }
 
     }
