@@ -7,18 +7,7 @@
 				[src]="blinkState2.location=='content' ? containgFolderPath + '/' + blinkState2.url : assetsPath + '/' + blinkState2.url">
 		</div>
 	</div>
-	<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-		<div class="instructionBase">
-			<img class="img-fluid"
-				[src]="commonAssets?.instruction_bg?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : commonAssets?.instruction_bg?.url"
-				(click)="playHoverInstruction()" (load)="checkImgLoaded();" />
-			<audio #instruction
-				[src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction?.url:quesInfo?.instruction?.url"></audio>
-			<!--
-		   <img class="img-fluid instructionText" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
-		  -->
-		</div>
-	</div>
+	
 	<audio #narrator
 		[src]="commonAssets?.narrator?.location=='content' ? containgFolderPath + '/' + commonAssets?.narrator?.url:quesInfo?.narrator?.url"></audio>
 	<!-- <div class="d-flex align-items-center justify-content-center hideit" #correctAns>
@@ -32,7 +21,22 @@
 		[src]="quesInfo?.right_sound?.location=='content' ? containgFolderPath + '/' + quesInfo?.right_sound?.url:  assetsPath + '/' + quesInfo?.right_sound?.url"></audio>
 	<audio #buzzerSound
 		[src]="quesInfo?.wrong_sound?.location=='content'? containgFolderPath + '/' +  quesInfo?.wrong_sound?.url :  assetsPath + '/' +  quesInfo?.wrong_sound?.url"></audio>
-	<div #maincontent id="optionsBlock">
+	
+	
+		<div #maincontent>
+		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+			<div class="instructionBase">
+				<img class="img-fluid"
+					[src]="commonAssets?.instruction_bg?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : commonAssets?.instruction_bg?.url"
+					(click)="playHoverInstruction()" (load)="checkImgLoaded();" />
+				<audio #instruction
+					[src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction?.url:quesInfo?.instruction?.url"></audio>
+				<!--
+			   <img class="img-fluid instructionText" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
+			  -->
+			</div>
+		</div>
+		<div id="optionsBlock">
 		<div class="d-flex align-items-center justify-content-center" id="quesImage">
 			<div class="maincontent_inner">
 				<img class="img-fluid"
@@ -67,7 +71,7 @@
 			</div>
 		</div>
 	</div>
-
+		</div>
 	<audio #titleHelpAudio
 		[src]="quesInfo?.narrator?.location=='content' ? containgFolderPath + '/' + quesInfo?.narrator?.url : assetsPath + '/' +  quesInfo?.narrator?.url"></audio>
 </div>

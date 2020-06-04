@@ -117,7 +117,8 @@ export class Ntemplate16 implements OnInit {
 	closed:boolean = false;
 	PlayPauseFlag:boolean = true;
 	controlHandler = {
-		isShowAns:false,
+		//isShowAns:false,
+		isTab:true
 	 };
 	playHoverInstruction() {
 		this.appModel.notifyUserAction();
@@ -369,6 +370,9 @@ export class Ntemplate16 implements OnInit {
 	}
 
 	checkAnswer(opt, index) {
+		this.controlHandler.isTab = false;
+		this.appModel.handleController(this.controlHandler);
+		this.maincontent.nativeElement.className = "disable_div";
 		this.onHoverOptionOut(opt,index);
 		this.appModel.notifyUserAction();
 		this.disableHelpBtn = true;
@@ -376,6 +380,8 @@ export class Ntemplate16 implements OnInit {
 		this.titleHelpAudio.nativeElement.currentTime = 0;
 		this.instruction.nativeElement.pause();
 		this.instruction.nativeElement.currentTime = 0;
+		this.appModel.handlePostVOActivity(true);
+		this.appModel.enableReplayBtn(false);
 		// logic to check what user has done is correct or wrong
 		if (this.checkRightAnswer(opt)) {
 			this.blinkState1 = "";
@@ -385,6 +391,8 @@ export class Ntemplate16 implements OnInit {
 			//Analytics
 			if (this.noOfRightAns == this.feedback.correct_ans_index.length) {
 				this.appModel.enableReplayBtn(false)
+				this.controlHandler.isTab = false;
+				this.appModel.handleController(this.controlHandler);
 				//highlight options
 				this.appModel.handlePostVOActivity(true)
 				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
@@ -404,12 +412,15 @@ export class Ntemplate16 implements OnInit {
 					
 					this.clapSound.nativeElement.onended = () => {
 						//new code
-						this.maincontent.nativeElement.className = "disable_div";
+					this.maincontent.nativeElement.className = "disable_div";
 					this.optionBlock.nativeElement.className = "optionsBlock disable_div disable-click";
-					
+					this.controlHandler.isTab = true;
+					this.appModel.handleController(this.controlHandler);
 							$("#optionsBlock ").addClass("disable-click disable-click");
 							$("#instructionBar").addClass("disable_div disable-click");
 						setTimeout(() => {
+							this.controlHandler.isTab = true;
+							this.appModel.handleController(this.controlHandler);
 							this.attemptType = "manual";
 							//disable option and question on right attempt
 							console.log("disable option and question on right attempt");
@@ -429,6 +440,11 @@ export class Ntemplate16 implements OnInit {
 					this.clapSound.nativeElement.play();
 				}
 				this.clapSound.nativeElement.onended = () => {
+					this.appModel.handlePostVOActivity(false);
+					this.appModel.enableReplayBtn(true);
+					this.controlHandler.isTab = true;
+					this.appModel.handleController(this.controlHandler);
+					this.maincontent.nativeElement.className = "";
 					this.optionBlock.nativeElement.className = "optionsBlock";
 					if (this.blinkIndex < this.feedback.correct_ans_index.length) {
 						let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
@@ -477,7 +493,12 @@ export class Ntemplate16 implements OnInit {
 						this.correctAns.nativeElement.classList = "modal";
 						this.appModel.notifyUserAction();
 						if(!this.closed){
-						this.appModel.wrongAttemptAnimation();	
+						this.appModel.wrongAttemptAnimation();
+						this.maincontent.nativeElement.className = "";
+						this.appModel.handlePostVOActivity(false);
+						this.appModel.enableReplayBtn(true);
+						this.controlHandler.isTab = true;
+						this.appModel.handleController(this.controlHandler);	
 						}
 					}, 2000);
 				
@@ -722,7 +743,10 @@ export class Ntemplate16 implements OnInit {
 
 	postWrongAttempt() {
 		this.optionBlock.nativeElement.className = "optionsBlock";
+		this.maincontent.nativeElement.className = "";
+		this.appModel.handlePostVOActivity(false);
 		this.appModel.enableReplayBtn(true);
+		this.controlHandler.isTab = true;
 		setTimeout(() => {
 		this.closed = false;
 		},2000)
@@ -848,9 +872,9 @@ export class Ntemplate16 implements OnInit {
 					this.loaderTimer = setTimeout(() => {
 						this.appModel.setLoader(false);
 					}, 5000)
-					this.controlHandler.isShowAns = true;
+					//this.controlHandler.isShowAns = true;
 					//this.appModel.enableReplayBtn(true);
-					this.appModel.handleController(this.controlHandler);
+					//this.appModel.handleController(this.controlHandler);
 
 				}, this.quesInfo.formatTimeout)
 
@@ -1010,6 +1034,12 @@ export class Ntemplate16 implements OnInit {
 		this.blinkState1 = "";
 		this.blinkState2 = "";
 		this.optionBlock.nativeElement.className = "optionsBlock disable_div";
+		this.controlHandler.isTab = false;
+		//this.controlHandler.isShowAns = true;
+		this.appModel.handleController(this.controlHandler);
+		this.appModel.handlePostVOActivity(true)
+		this.appModel.enableReplayBtn(false);
+		this.maincontent.nativeElement.className = "disable_div";
 		$("#optionsBlock ").removeClass("disable-click");
 		this.feedback.correct_ans_index.forEach(element1 => {
 			this.myoption.forEach(element2 => {
@@ -1033,6 +1063,10 @@ export class Ntemplate16 implements OnInit {
 			$("#instructionBar").addClass("disable_div disable-click");
 			// this.checkNextActivities();
 			this.blinkOnLastQues()
+			this.controlHandler.isTab = true;
+			this.appModel.handleController(this.controlHandler);
+			this.appModel.handlePostVOActivity(false)
+
 		}, 5000)
 	}
 
@@ -1073,9 +1107,9 @@ export class Ntemplate16 implements OnInit {
 			this.loaderTimer = setTimeout(() => {
 				this.appModel.setLoader(false);
 			}, 5000)
-			this.controlHandler.isShowAns = true;
+			//this.controlHandler.isShowAns = true;
 			this.appModel.enableReplayBtn(true);
-			this.appModel.handleController(this.controlHandler);
+			//this.appModel.handleController(this.controlHandler);
 		}, this.quesInfo.formatTimeout)
 
 

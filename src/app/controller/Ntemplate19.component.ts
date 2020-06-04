@@ -192,9 +192,9 @@ export class Ntemplate19 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        this.tabularBlock.nativeElement.style.pointerEvents = "none";
+        //this.tabularBlock.nativeElement.style.pointerEvents = "none";
         this.instruction.nativeElement.onended = () => {
-          this.tabularBlock.nativeElement.style.pointerEvents = "";
+          //this.tabularBlock.nativeElement.style.pointerEvents = "";
         }
         $(".instructionBase img").css("cursor", "pointer");
       }
@@ -321,10 +321,14 @@ export class Ntemplate19 implements OnInit {
         this.movetop = this.moveTo.top - this.moveFrom.top;
         this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "none";
         this.tabularBlock.nativeElement.style.pointerEvents = "none";
+        //this.appModel.enableReplayBtn(false);
         $(this.optionsBlock.nativeElement.children[1].children[this.index1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
+          //this.appModel.enableReplayBtn(true);
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "";
-          this.tabularBlock.nativeElement.style.pointerEvents = "";
+          setTimeout(() => {
+            this.tabularBlock.nativeElement.style.pointerEvents = "";
+        }, 50);
           this.tabularBlock.nativeElement.children[0].children[idx].children[idxx].children[0].classList.value = "fluid";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.display = "none";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "none";
@@ -535,7 +539,7 @@ export class Ntemplate19 implements OnInit {
   }
 
   postWrongAttempt(){
-    this.resetAttempt();
+    //this.resetAttempt();
     this.appModel.notifyUserAction();
   }
 
@@ -637,9 +641,11 @@ houtSkip(){
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
+      (document.getElementById("instructionBar") as HTMLElement).style.pointerEvents="none";
       $(".bodyContent").addClass("disable_div");
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
+        (document.getElementById("instructionBar") as HTMLElement).style.pointerEvents="";
         $(".bodyContent").removeClass("disable_div");
         this.isQuesTypeImage = true;
         this.startActivity();
@@ -843,6 +849,14 @@ houtSkip(){
 
   houtOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+  }
+
+  hoveronTable() {
+        if (!this.instruction.nativeElement.paused) {
+          this.instruction.nativeElement.pause();
+          this.instruction.nativeElement.currentTime=0;
+          this.tabularBlock.nativeElement.style.pointerEvents = "";
+        }
   }
 
   showFeedback(id: string, flag: string) {
@@ -1288,6 +1302,12 @@ houtSkip(){
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
       if (!this.matched) {
         this.resetAttempt();
+        this.appModel.wrongAttemptAnimation();
+      }
+    } else {
+            if (!this.matched) {
+        this.resetAttempt();
+        this.appModel.wrongAttemptAnimation();
       }
     }
     this.popupRef.nativeElement.classList = "modal";
@@ -1299,7 +1319,7 @@ houtSkip(){
 
     if (!this.matched) {
       setTimeout(() => {
-        this.appModel.wrongAttemptAnimation();
+        
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
       }, 1000);

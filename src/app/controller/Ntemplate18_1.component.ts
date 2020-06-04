@@ -704,6 +704,7 @@ export class Ntemplate18_1 implements OnInit {
           this.showanspopUpheader_img = true;
           this.partialCorrectheaderTxt_img = false;
           this.attemptType = "showAnswer";
+          this.appModel.enableSubmitBtn(false)
           this.styleHeaderPopup = this.feedbackObj.style_header;
           this.styleBodyPopup = this.feedbackObj.style_body;
           this.startCount=0;
@@ -803,6 +804,7 @@ export class Ntemplate18_1 implements OnInit {
   postWrongAttempt(){
     this.resetAttempt();
     this.appModel.notifyUserAction();
+    this.appModel.enableSubmitBtn(false)
   }
 
   checkImgLoaded() {
@@ -1148,9 +1150,9 @@ houtSkip(){
         this.appModel.notifyUserAction();
       } else {
         //$("#optionsBlock .options").css("pointer-events", "none");
-        setTimeout(() => {
+        //setTimeout(() => {
           this.appModel.invokeTempSubject('showModal', 'submit');
-        }, 100);
+        //}, 10);
       }
     } else {
       this.appModel.notifyUserAction();
@@ -1174,6 +1176,8 @@ houtSkip(){
   }
 
   setFeedback() {
+    this.noOfRightAnsClicked = 0
+    this.noOfWrongAnsClicked = 0
     for (let x = 0; x < this.fetchAnswer.length; x++) {
       if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id) {
         console.log("RIGHT ANSWER");
@@ -1183,6 +1187,7 @@ houtSkip(){
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = "img-fluid optItempopUp";
       } else {
         console.log("WRONG ANSWER");
+        this.appModel.enableSubmitBtn(false)
         this.noOfWrongAnsClicked++;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.incorrectImg.location == "content" ? this.containgFolderPath + "/" + this.incorrectImg.url : this.assetsPath + "/" + this.incorrectImg.url;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.fetchAnswer[x].imgsrc.url : this.assetsPath + "/" + this.fetchAnswer[x].imgsrc.url;
@@ -1197,6 +1202,7 @@ houtSkip(){
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = false;
       this.attemptType = "manual";
+      console.log("manual")
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     } else if (this.fetchAnswer.length == this.noOfWrongAnsClicked) {
@@ -1204,6 +1210,7 @@ houtSkip(){
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
       this.attemptType = "wrong";
+      console.log("wrong")
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
       this.styleBodyPopup = this.feedbackObj.wrong_style_body;
@@ -1213,6 +1220,7 @@ houtSkip(){
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = true;
       this.attemptType = "partial"
+      console.log("partial")
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     }
@@ -1271,9 +1279,7 @@ houtSkip(){
           this.appModel.enableSubmitBtn(false);
         } else {
           //this.resetAttempt();
-          this.closeModal();
-          this.resetAttempt();
-        }
+          this.closeModal();        }
       }, 200)
     }
   }
@@ -1533,6 +1539,7 @@ houtSkip(){
     } else {
       setTimeout(() => {
         if (!(this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0)) {
+          this.appModel.enableSubmitBtn(false)
           this.blinkOnLastQues();
         }
         this.closeModal();
@@ -1619,9 +1626,9 @@ houtSkip(){
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
-      if (!this.matched) {
-        this.resetAttempt();
-      }
+      // if (!this.matched) {
+      //   this.resetAttempt();
+      // }
     }
     //this.startCount = 0;
     this.popupRef.nativeElement.classList = "modal";
@@ -1642,7 +1649,7 @@ houtSkip(){
         this.appModel.wrongAttemptAnimation();
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
-      }, 1000);
+      }, 10);
     }
 
   }
