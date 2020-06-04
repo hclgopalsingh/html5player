@@ -48,7 +48,7 @@
         </div>
         <div id="optionsBlock" #ansBlock class="quesOptions">
             <div class="options" #optionRef>
-                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"
+                <div id="{{opts.id}}" *ngFor="let opts of myoption;let idx = index"
                     (click)="checkAnswer($event, opts)">
                     <img class="img-fluid" id="{{'optblank'+idx}}"
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"

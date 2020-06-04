@@ -301,8 +301,10 @@ export class Template8Component implements OnInit {
         //setting asset and content folder path in data service
         this.dataService.assetsPath = this.assetsPath;
         this.dataService.contentPath = this.containgFolderPath;
-        this.dataService.rawData = this.appModel.content.contentData.data;
 
+        let jsonString = JSON.stringify(this.appModel.content.contentData.data);
+
+        this.dataService.rawData = JSON.parse(jsonString);
 
         this.instructiontext = this.dataService.instructionText;
         this.myoption = this.dataService.optionsData;
@@ -519,6 +521,35 @@ export class Template8Component implements OnInit {
             //this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
             this.ansBlock.nativeElement.children[0].children[i].children[1].classList.remove("hide");
             this.ansBlock.nativeElement.children[0].children[i].classList.remove("disableDiv");
+
+            debugger;
+            //reset option default image
+            //this.myoption[i].image.url = this.myoption[i].img_original.url;
+            //this.myoption[i].image.location = this.myoption[i].img_original.location;
+            
+/*
+            let optionID = this.ansBlock.nativeElement.children[0].children[i].id
+            let option = this.dataService.getOptionById(optionID);
+            let assetVO = new AssetVO(option.img_original.url, option.img_original.location);
+            this.ansBlock.nativeElement.children[0].children[i].children[0].src = this.dataService.getCompletePath(assetVO);
+  */          
+        }
+    }
+
+    resetSelectedState() {
+        let optionsData = this.dataService.optionsData;
+        for (let i = 0; i < optionsData.length; i++) {
+            
+            //reset option background to original image
+            this.myoption[i].image.url = optionsData[i].img_original.url;
+            this.myoption[i].image.location = optionsData[i].img_original.location;
+
+            /*
+            let optionID = this.ansBlock.nativeElement.children[0].children[i].id
+            let option = this.dataService.getOptionById(optionID);
+            let assetVO = new AssetVO(option.img_original.url, option.img_original.location);
+            this.ansBlock.nativeElement.children[0].children[i].children[0].src = this.dataService.getCompletePath(assetVO);
+            */
         }
     }
 
@@ -538,6 +569,7 @@ export class Template8Component implements OnInit {
         if (Type === "answerPopup") {
             this.popupclosedinRightWrongAns = true;
             if (this.ifRightAns) {
+                this.questionBlock.questionStatementBlinking(false);
                 clearTimeout(this.rightTimer);
                 this.Sharedservice.setShowAnsEnabled(true);
                 this.overlay.nativeElement.classList.value = "fadeContainer";
@@ -602,11 +634,14 @@ export class Template8Component implements OnInit {
             this.appModel.handlePostVOActivity(true);
             this.maincontent.nativeElement.className = "disableDiv";
             clearTimeout(this.rightTimer);
+            this.questionBlock.pauseBoxBlinking(true);
             this.instruction.nativeElement.play();
             this.appModel.setLoader(false);
+
             this.instruction.nativeElement.onended = () => {
                 this.appModel.handlePostVOActivity(false);
                 this.maincontent.nativeElement.className = "";
+                this.questionBlock.pauseBoxBlinking(false);
             }
         } else {
             this.appModel.handlePostVOActivity(false);

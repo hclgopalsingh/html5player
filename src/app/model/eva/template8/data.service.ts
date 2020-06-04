@@ -35,7 +35,7 @@ export class DataService {
 
 		/********* main screen question data *********/
 		let mainScreenQBVO: QuestionBlockVO = new QuestionBlockVO();
-		let mainScreenData:any = this.rawData.ques.mainscreen;
+		let mainScreenData: any = this.rawData.ques.mainscreen;
 		mainScreenQBVO.urlQuestionBase = this.getCompletePath(new AssetVO(mainScreenData.questionBase.url, mainScreenData.questionBase.location));
 		mainScreenQBVO.urlQuestionStatement = this.getCompletePath(new AssetVO(mainScreenData.questionStatement.url, mainScreenData.questionStatement.location));
 		mainScreenQBVO.containerType = Constants.CONTAINER_MAIN_SCREEN;
@@ -58,7 +58,7 @@ export class DataService {
 
 		/********* feedback popup question data *********/
 		let feedbackQBVO: QuestionBlockVO = new QuestionBlockVO();
-		let feedbackPopupData:any = this.rawData.ques.feedbackpopup;
+		let feedbackPopupData: any = this.rawData.ques.feedbackpopup;
 		feedbackQBVO.urlQuestionBase = this.getCompletePath(new AssetVO(feedbackPopupData.questionBase.url, feedbackPopupData.questionBase.location));
 		feedbackQBVO.urlQuestionStatement = this.getCompletePath(new AssetVO(feedbackPopupData.questionStatement.url, feedbackPopupData.questionStatement.location));
 		feedbackQBVO.bQuestionBlinking = false;
@@ -78,15 +78,15 @@ export class DataService {
 
 		/********* show answer popup question data *********/
 		let showAnsPopupQBVO: QuestionBlockVO = new QuestionBlockVO();
-		let showAnsPopupData:any = this.rawData.ques.showanswerpopup;
-		
+		let showAnsPopupData: any = this.rawData.ques.showanswerpopup;
+
 		showAnsPopupQBVO.urlQuestionBase = this.getCompletePath(new AssetVO(showAnsPopupData.questionBase.url, showAnsPopupData.questionBase.location));
 		showAnsPopupQBVO.urlQuestionStatement = this.getCompletePath(new AssetVO(showAnsPopupData.questionStatement.url, showAnsPopupData.questionStatement.location));
-		
+
 		showAnsPopupQBVO.containerType = Constants.CONTAINER_SHOW_ANSWER_POPUP;
 		showAnsPopupQBVO.bQuestionBlinking = false;
 		showAnsPopupQBVO.bSelectedOptionBlinking = false;
-		
+
 		this._dataVO.showAnswerPopupQuestionData = showAnsPopupQBVO;
 
 		/********* end feedback popup question data *********/
@@ -130,8 +130,18 @@ export class DataService {
 	}
 
 	get optionsData(): any {
+		let jsonString = JSON.stringify(this.rawData.options);
+		return JSON.parse(jsonString);
+	}
 
-		return this.rawData.options;
+	getOptionById(value: string): any {
+		for (let element of this.optionsData) {
+			if (value == element.id) {
+				return element;
+			}
+		}
+
+		return null;
 	}
 
 	get instructionText(): string {

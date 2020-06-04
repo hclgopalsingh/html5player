@@ -30,6 +30,7 @@ export class QuestionBlockComponent implements OnInit {
   @Input() dataCorrectOption: any;
 
   @ViewChild('blinkingBlock') blinkingBlock: any;
+  @ViewChild('pauseBlockBlink') pauseBlockBlink: any;  
   @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
   @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;
   @ViewChild('questionBase') questionBase: any;
@@ -67,9 +68,22 @@ export class QuestionBlockComponent implements OnInit {
     }
   }
 
-  optionBlinking(value: boolean) {
-    this.selectedOptionBlock.nativeElement.classList.remove('hide');
-    this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+  pauseBoxBlinking(value:boolean) {
+    if(value) {
+      this.pauseBlockBlink.nativeElement.classList.add('hide');
+    } else {
+      this.pauseBlockBlink.nativeElement.classList.remove('hide');
+    }
+  }
+
+  questionStatementBlinking(value: boolean) {
+    if(value === true) {
+      //this.selectedOptionBlock.nativeElement.classList.remove('hide');
+      this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+    } else {
+      //this.selectedOptionBlock.nativeElement.classList.add('hide');
+      this.selectedOptionBlockBlink.nativeElement.classList.add('hide');
+    }
   }
 
   selectedOption(option) {
