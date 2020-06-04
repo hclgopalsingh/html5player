@@ -326,3 +326,8 @@ img[src*='y.png']{
 .rightWrongAns{
     bottom: 18%;
 }
+
+/*** Matra Positioning Classes ***/
+.modal .refQues div img:nth-child(2){
+    z-index: 1;
+}

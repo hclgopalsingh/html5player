@@ -1,4 +1,4 @@
-<div class="container-fluid temp14" id="container" *ngIf="!showIntroScreen">
+<div class="container-fluid temp14" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
   <audio #narrator [src]="commonAssets?.narrator?.location=='content' ? containgFolderPath + '/' + commonAssets?.narrator?.url:quesInfo?.narrator?.url"></audio>
   <!--
       <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
@@ -177,6 +177,7 @@
     </div>
     <audio #feedbackPopupAudio></audio>
   </div>
+</div>
   <div class="videoMainContainer" *ngIf="isPlayVideo">
   <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
     <source [src]="quesObj?.quesVideo?.location=='content' ? containgFolderPath + '/' + quesObj?.quesVideo?.urlOgv : assetsPath + '/' + quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
@@ -184,6 +185,5 @@
   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.location=='content' ? containgFolderPath + '/' + quesObj?.quesPlayPause?.url : assetsPath + '/' + quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()"/></div>
   <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.location=='content' ? containgFolderPath + '/' + quesObj?.quesSkip?.urlOgv : assetsPath + '/' + quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 
-</div>
 </div>
 
