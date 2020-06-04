@@ -2,11 +2,7 @@
 	"environment": {
 		"standalone": {
 			"enabled": true,
-<<<<<<< HEAD
-			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/contentNT-6/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/contentNT-22/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/content16/\"}]}"
-=======
 			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/contentNT-18.1/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/contentNT-23/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8080/content16/\"}]}"
->>>>>>> b04ba6a93f348c14b71ef0105cc54a4ac4478998
 		},
 		
 		"lms": {
