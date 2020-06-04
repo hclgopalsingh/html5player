@@ -326,7 +326,9 @@ export class Ntemplate19 implements OnInit {
           clearInterval(this.blinkTimeInterval);
           //this.appModel.enableReplayBtn(true);
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "";
-          this.tabularBlock.nativeElement.style.pointerEvents = "";
+          setTimeout(() => {
+            this.tabularBlock.nativeElement.style.pointerEvents = "";
+        }, 50);
           this.tabularBlock.nativeElement.children[0].children[idx].children[idxx].children[0].classList.value = "fluid";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.display = "none";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "none";
@@ -1299,6 +1301,11 @@ houtSkip(){
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
       if (!this.matched) {
+        this.resetAttempt();
+        this.appModel.wrongAttemptAnimation();
+      }
+    } else {
+            if (!this.matched) {
         this.resetAttempt();
         this.appModel.wrongAttemptAnimation();
       }

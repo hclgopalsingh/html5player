@@ -175,6 +175,7 @@ export class Ntemplate4 implements OnInit {
                 console.log("auto mode", mode);
                 this.showAnswerClicked = true;
                 this.getAnswer();
+                //showAnswerclicked
             }
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
@@ -1042,7 +1043,12 @@ export class Ntemplate4 implements OnInit {
         this.currentFeedbackPlaying = "categoryB";
         this.category = JSON.parse(JSON.stringify(this.categoryB));
         let fetchedData: any = this.appModel.content.contentData.data;
-        this.feedbackAssets = fetchedData.category_2;
+        if(this.showAnswerClicked){
+            this.feedbackAssets = fetchedData.showans_2
+        }
+        else{
+            this.feedbackAssets = fetchedData.category_2;
+        }
         clearInterval(this.nextBtnInterval);
         setTimeout(() => {
             this.setFeedbackAndPlayCorrect(0);
@@ -1063,7 +1069,13 @@ export class Ntemplate4 implements OnInit {
         this.currentFeedbackPlaying = "categoryA";
         this.category = JSON.parse(JSON.stringify(this.categoryA));
         let fetchedData: any = this.appModel.content.contentData.data;
-        this.feedbackAssets = fetchedData.category_1;
+
+        if(this.showAnswerClicked){
+            this.feedbackAssets = fetchedData.showans_1
+        }
+        else{
+            this.feedbackAssets = fetchedData.category_1;
+        }
         setTimeout(() => {
             this.setFeedbackAndPlayCorrect(0);
         }, 500)
@@ -1097,7 +1109,12 @@ export class Ntemplate4 implements OnInit {
 
         this.appModel.stopAllTimer();
         let fetchedData: any = this.appModel.content.contentData.data;
-        this.feedbackAssets = fetchedData.category_1;
+        if(this.showAnswerClicked){
+            this.feedbackAssets = fetchedData.showans_1
+        }
+        else{
+            this.feedbackAssets = fetchedData.category_1;
+        }
         this.currentFeedbackPlaying = "categoryA";
         this.category = JSON.parse(JSON.stringify(this.categoryA));
         this.isAllRight = true;
