@@ -1005,7 +1005,7 @@ houtSkip(){
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         this.closeModal();
-        this.resetAttempt();
+        //this.resetAttempt();
         this.appModel.notifyUserAction();
 
       }

@@ -665,7 +665,7 @@ getAnswer(flag){
         ref.classList="modal";
         setTimeout(
         () => {
-        if(action=="noShowAnswer" || action=="resetActivity") {
+        if(action=="noShowAnswer" || action=="resetActivity" || action == undefined) {
         document.getElementById("optionsBlock").style.pointerEvents="";
         }
         }, 1000) ;
