@@ -1359,6 +1359,9 @@ export class Ntemplate20 implements OnInit {
         if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
             obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+            obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
         }
