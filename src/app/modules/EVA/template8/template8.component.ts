@@ -171,7 +171,6 @@ export class Template8Component implements OnInit {
             this.resetTimer();
             this.stopAllSounds();
 
-            //this.stop
             let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
             if (!speakerEle.paused) {
                 speakerEle.pause();
@@ -194,7 +193,6 @@ export class Template8Component implements OnInit {
                     this.showAnswerPopupSelectedOption.nativeElement.classList.add('hide');
                 }
 
-                //Gopal::TBD::need to check if condition
                 if (this.variation == Constants.VARIATION_EVA8V2) {
                     this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
                     this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
@@ -362,7 +360,6 @@ export class Template8Component implements OnInit {
         this.feedbackQuestionBlock.data = questionBlockVO;
         this.feedbackQuestionBlock.selectedOption(option);
 
-        //Gopal::TBD::need to check if condition
         if (this.variation == Constants.VARIATION_EVA8V2) {
             this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
             this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
@@ -370,6 +367,10 @@ export class Template8Component implements OnInit {
 
         if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
             this.feedbackPopupSelectedOption.nativeElement.classList.add('hide');
+        }
+
+        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+            document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }
 
         // logic to check what user has done is correct
@@ -389,7 +390,7 @@ export class Template8Component implements OnInit {
             let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
             setTimeout(() => {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
-                    option.image = option.img_hover;
+                    //option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
 
                     this.clapTimer = setTimeout(() => {
@@ -518,38 +519,8 @@ export class Template8Component implements OnInit {
     /*****Close popup on click*****/
     resetOptionsState() {
         for (let i = 0; i < this.myoption.length; i++) {
-            //this.ansBlock.nativeElement.children[0].children[i].children[1].classList.add("show");
             this.ansBlock.nativeElement.children[0].children[i].children[1].classList.remove("hide");
-            this.ansBlock.nativeElement.children[0].children[i].classList.remove("disableDiv");
-
-            debugger;
-            //reset option default image
-            //this.myoption[i].image.url = this.myoption[i].img_original.url;
-            //this.myoption[i].image.location = this.myoption[i].img_original.location;
-            
-/*
-            let optionID = this.ansBlock.nativeElement.children[0].children[i].id
-            let option = this.dataService.getOptionById(optionID);
-            let assetVO = new AssetVO(option.img_original.url, option.img_original.location);
-            this.ansBlock.nativeElement.children[0].children[i].children[0].src = this.dataService.getCompletePath(assetVO);
-  */          
-        }
-    }
-
-    resetSelectedState() {
-        let optionsData = this.dataService.optionsData;
-        for (let i = 0; i < optionsData.length; i++) {
-            
-            //reset option background to original image
-            this.myoption[i].image.url = optionsData[i].img_original.url;
-            this.myoption[i].image.location = optionsData[i].img_original.location;
-
-            /*
-            let optionID = this.ansBlock.nativeElement.children[0].children[i].id
-            let option = this.dataService.getOptionById(optionID);
-            let assetVO = new AssetVO(option.img_original.url, option.img_original.location);
-            this.ansBlock.nativeElement.children[0].children[i].children[0].src = this.dataService.getCompletePath(assetVO);
-            */
+            this.ansBlock.nativeElement.children[0].children[i].classList.remove("disableDiv");          
         }
     }
 
@@ -567,6 +538,11 @@ export class Template8Component implements OnInit {
         this.showAnswerfeedback.nativeElement.currentTime = 0;
 
         if (Type === "answerPopup") {
+
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
+            }
+
             this.popupclosedinRightWrongAns = true;
             if (this.ifRightAns) {
                 this.questionBlock.questionStatementBlinking(false);
