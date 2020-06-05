@@ -327,7 +327,9 @@ export class Ntemplate19 implements OnInit {
           //this.appModel.enableReplayBtn(true);
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "";
           setTimeout(() => {
-            this.tabularBlock.nativeElement.style.pointerEvents = "";
+            if (this.countofAnimation != this.optionObj.length) {
+                this.tabularBlock.nativeElement.style.pointerEvents = "";
+            }
         }, 50);
           this.tabularBlock.nativeElement.children[0].children[idx].children[idxx].children[0].classList.value = "fluid";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.display = "none";
