@@ -75,7 +75,8 @@
                     <div id="optionsBlock" class="onShowAns">
                         <div class="options">
                             <div>
-                                <img class="img-fluid" [src]="answerImagelocation =='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase">
+                                <!-- <img class="img-fluid" [src]="answerImagelocation =='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase"> -->
+                                <img class="img-fluid" [src]="answerImagelocation =='content' ? containgFolderPath +'/'+ showAnswerOptionBg :  assetsPath +'/'+ showAnswerOptionBg">
                                 <img class="img-fluid subOpt" [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
                             </div>
                         </div>
