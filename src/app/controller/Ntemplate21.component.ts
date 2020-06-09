@@ -597,11 +597,11 @@ export class Ntemplate21 implements OnInit {
         this.feedbackVO = src;
         this.feedbackAudio.nativeElement.src = src.location == "content" ? this.containgFolderPath + "/" + src.url : this.assetsPath + "/" + src.url;
         this.feedbackAudio.nativeElement.play();
-        this.feedbackAudio.nativeElement.onended = () => {
-            setTimeout(() => {
-                this.postFeedbackAction();
-            }, 2000)
-        }
+        // this.feedbackAudio.nativeElement.onended = () => {
+        //     setTimeout(() => {
+        //         this.postFeedbackAction();
+        //     }, 2000)
+        // }
     }
     
     postFeedbackAction(){
@@ -609,6 +609,7 @@ export class Ntemplate21 implements OnInit {
         this.feedbackPopupRef.nativeElement.classList = "modal";
         this.emptySelectedBox();
         this.noOfAttempt+=1;
+        console.log("noOfAttempt------------>>>>",this.noOfAttempt)
         if(this.isExcess || this.isLess){
             this.getPreviousStage()
         }else if(this.isCorrect){
@@ -663,7 +664,7 @@ export class Ntemplate21 implements OnInit {
             }
         }
     }
-
+    attemptNo : any = 1;
     sendFeedback(ref, flag: string, action?: string) {
         if(this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused){
             this.instructionVO.nativeElement.pause();
@@ -695,6 +696,10 @@ export class Ntemplate21 implements OnInit {
             this.isOn =true
 
         } else if(action=="submitAnswer"){
+            if(this.attemptNo < 5){
+                this.attemptNo +=1
+            }
+            console.log("attemptNo",this.attemptNo)
             this.getAnswer();
         }else if(action=="showAnswerFeedback"){
             this.postShowAnswer();

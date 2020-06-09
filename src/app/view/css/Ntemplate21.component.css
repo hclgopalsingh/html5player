@@ -37,8 +37,11 @@ button:focus {
 }
 #outputBlock{
   left: 39%;
-  width: 31.8%;
+  width: 26.8%;/*31.8%;*/
   height: 100%;
+}
+.modal #outputBlock{
+  width: 31.8%;
 }
 #quesBlock{
   width: 26.8%;
@@ -93,12 +96,24 @@ button:focus {
 #outputBlock .filler img.level,
 #quesBlock .filler,
 #quesBlock .filler img.level{
-  left: 3%;
-  bottom: 0.2%;
-  width: 94%;
+  left: 6.1%;/*3%;*/
+  bottom: 0.6%;
+  width: 87.8%;/*94%;*/
   height: 53%;
   position: absolute;
   z-index: 1;
+  overflow: hidden;
+  border-bottom-left-radius: 3.5%;
+  border-bottom-right-radius: 3.5%;
+}
+.modal #outputBlock .filler,
+.modal #outputBlock .filler img.level,
+.modal #quesBlock .filler,
+.modal #quesBlock .filler img.level{
+  left: 3%;
+  width: 94%;
+  height: 52%;
+  overflow: visible;
 }
 #quesBlock .filler{
   height: 98%;
@@ -106,9 +121,17 @@ button:focus {
 #outputBlock .filler img.level,
 #quesBlock .filler img.level{
  /* height: 100%;*/
-
+  width: 99%;
+  left: 0.5%;
+  border-bottom-left-radius: unset;
+  border-bottom-right-radius: unset;
 }
 #quesBlock .filler img.level{
+  /* width: 91.5%;
+  bottom: .9%;
+  left: 4.2%; */
+}
+.modal #quesBlock .filler img.level{
   width: 91.5%;
   bottom: .9%;
   left: 4.2%;
@@ -141,7 +164,7 @@ button:focus {
 .inputPlaceholder{
   width: 45%;
   height: 12%;
-  top: 20.2%;
+  top: 23.5%;/*20.2%;*/
   left: 29%;
   position: absolute;
   z-index: 3;
@@ -151,7 +174,7 @@ button:focus {
 }
 .modal .inputPlaceholder{
   width: 45%;
-  top: 19%;
+  top: 20%;
 }
 #outputBlock .inputPlaceholder img{
   position: relative;
@@ -423,7 +446,18 @@ button:focus {
 }
 .modal-dialog{/*#modalTemp21 */
   width: 84% !important;
-  height: 70%;
+  height: 72%;/*70%;*/
+}
+@media (min-width: 576px){
+  .modal-dialog {
+      max-width: none !important;
+      margin: auto;
+  }
+}
+@media (min-width: 1920px){
+  .modal-dialog {
+    height: 76%;/*70%;*/
+  }
 }
 .modal-content{/*#modalTemp21 */
 	background: transparent !important;
@@ -510,12 +544,6 @@ button:focus {
 	z-index:101;
 	width:100%;
 	height:100%;
-}
-@media (min-width: 576px){
-  .modal-dialog {
-      max-width: none !important;
-      margin: auto;
-  }
 }
 .disablePointer{
   pointer-events: none;
@@ -709,4 +737,44 @@ button:focus {
 .blinkBlock{
   border-radius: 1vmax;
   padding: 1.3%;
+}
+
+.attemptsBlock {
+  width: 13%;
+  height: 16.2%;
+  position: absolute;
+  top: 15%;
+  right: 8%;
+  font-size: 1.5vmax;
+  color: #000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  border: solid .25vmax #000;
+  border-radius: .7vmax;
+  background: #FCFD9C;
+ }
+.attemptsBlock div:first-child {
+  border-bottom: solid .15vmax #000;
+}
+.attemptsBlock div {
+  width: 100%;
+}
+.attemptsBlock div span {
+  margin: 0 2%;
+}
+.attemptsBlock div span:last-child {
+  color: #00f;
+}
+.attemptsBlock div+div {
+  font-size: 2.3vmax;
+  /* border: solid .25vmax #000;
+  border-radius: .7vmax;
+  background: #FCFD9C; */
+  color: #000;
+  /* height: 62%;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
 }

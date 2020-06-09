@@ -10,8 +10,16 @@
 	</div>
 	<!-- class="options animation-shake" -->
 	<div class="bodyContent" #mainContainer>
+		<div class="attemptsBlock">
+			<div>Attempts</div>
+			<div>
+				<span>{{attemptNo}}</span>
+				<span>&#47;</span>
+				<span>5</span>
+			</div>
+		</div>
 		<div id="inputBlock">
-			<div class="operations " [ngClass]="{'blink blinkBlock': isOn && !operatorSelected && !digitsSelected}">
+			<div class="operations " [ngClass]="{'blink blinkBlock': isOn && !operatorSelected && !digitsSelected, 'disablePointer':operatorSelected}">
 				<ng-container *ngFor="let operator of operators; let idx = index">
 					<img class="img-fluid" [src]="operator?.imgsrc?.location=='content' ? containgFolderPath + '/' + operator?.imgsrc?.url : assetsPath + '/' +operator?.imgsrc?.url"
 						(load)="checkImgLoaded();" (mousemove)="operatorMousemove(idx)" (mouseleave)="operatorMouseLeave(idx)" (click)="operatorSelect(idx)"
@@ -46,7 +54,7 @@
 					</ng-container>
 				</div>
 			</div>
-			<img class="img-fluid liquidContainer" [src]="otherAssets?.container?.location=='content' ? containgFolderPath + '/' + otherAssets?.container?.url : assetsPath + '/' +otherAssets?.container?.url"
+			<img class="img-fluid liquidContainer" [src]="otherAssets?.givenValue?.location=='content' ? containgFolderPath + '/' + otherAssets?.givenValue?.url : assetsPath + '/' +otherAssets?.givenValue?.url"
 				(load)="checkImgLoaded();" />
 			<div class="inputPlaceholder">
 				<ng-container *ngFor="let no of selectedNos; let idx = index">

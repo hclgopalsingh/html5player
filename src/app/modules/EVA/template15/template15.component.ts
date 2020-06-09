@@ -5,7 +5,7 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
-import { l } from '@angular/core/src/render3';
+
 
 
 @Component({
@@ -84,7 +84,7 @@ export class Template15Component implements OnInit {
     @ViewChild('audioEl') audioEl: any;
     @ViewChild('sprite') sprite: any;
     @ViewChild('speakerNormal') speakerNormal: any;
-    @ViewChild('ansPopup') ansPopup: any;
+    @ViewChild('feedbackPopup') feedbackPopup: any;
     @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
 	@ViewChild('showAnswerRef') showAnswerRef: any;
     @ViewChild('wrongFeedback') wrongFeedback: any;
@@ -100,15 +100,23 @@ export class Template15Component implements OnInit {
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) { 
         this.appModel = appModel;
-        if (!this.appModel.isVideoPlayed) {
-            this.isVideoLoaded = false;
-        }else{
-            this.appModel.setLoader(true);
-            // if error occured during image loading loader wil stop after 5 seconds 
-            this.loaderTimer = setTimeout(() => {
-                this.appModel.setLoader(false);
-            }, 5000);
-        }
+
+        this.appModel.setLoader(true);
+        // if error occured during image loading loader wil stop after 5 seconds 
+        this.loaderTimer = setTimeout(() => {
+          this.appModel.setLoader(false);
+        //   this.checkforQVO();
+        }, 5000);
+
+        // if (!this.appModel.isVideoPlayed) {
+        //     this.isVideoLoaded = false;
+        // }else{
+        //     this.appModel.setLoader(true);
+        //     // if error occured during image loading loader wil stop after 5 seconds 
+        //     this.loaderTimer = setTimeout(() => {
+        //         this.appModel.setLoader(false);
+        //     }, 5000);
+        // }
         this.appModel.notification.subscribe(
             (data) => {
                 console.log('Component: constructor - data=', data);
@@ -189,17 +197,17 @@ export class Template15Component implements OnInit {
 			if(mode == "manual") {
 				//show modal for manual
 				this.appModel.notifyUserAction();
-				if (this.ansPopup && this.ansPopup.nativeElement) {
-					this.ansPopup.nativeElement.classList = "displayPopup modal";
-				}
+				// if (this.ansPopup && this.ansPopup.nativeElement) {
+				// 	this.ansPopup.nativeElement.classList = "displayPopup modal";
+				// }
 			}else if (mode == "auto") {
 				// this.showAnswers();
 			}
 		})
 
-        this.appModel.postWrongAttempt.subscribe(() => { 
-            this.appModel.notifyUserAction();
-        })
+        // this.appModel.postWrongAttempt.subscribe(() => { 
+        //     this.appModel.notifyUserAction();
+        // })
     }
 
     
@@ -298,7 +306,7 @@ export class Template15Component implements OnInit {
             this.popupIcon = this.popupAssets.right_icon.url;
             this.popupIconLocation = this.popupAssets.right_icon.location;
 			this.ifRightAns = true;
-			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
+			let feedbackPopup: HTMLElement = this.feedbackPopup.nativeElement as HTMLElement           
              
             for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
                 document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
@@ -310,7 +318,7 @@ export class Template15Component implements OnInit {
                     this.clapTimer=  setTimeout(() => {
                     this.clapSound.nativeElement.pause();
                     this.clapSound.nativeElement.currentTime = 0;
-                        ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";  
+                    feedbackPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";  
 					   if(!this.popupclosedinRightWrongAns) {
 						this.rightFeedback.nativeElement.play();				
 					   } else {
@@ -336,8 +344,8 @@ export class Template15Component implements OnInit {
             for (let i of this.myoption) {
                 this.idArray.push(i.id);
             }                  
-			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-			ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+			let feedbackPopup: HTMLElement = this.feedbackPopup.nativeElement as HTMLElement
+			feedbackPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
              option.image = option.image_original;
             this.answerImageBase = option.image.url;
             this.answerImage = option.imgsrc.url;
@@ -423,7 +431,7 @@ export class Template15Component implements OnInit {
     /*****Close popup on click*****/
     closePopup(Type){
         this.showAnswerRef.nativeElement.classList = "modal";
-        this.ansPopup.nativeElement.classList = "modal";
+        this.feedbackPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();    
         this.wrongFeedback.nativeElement.currentTime = 0;
 
@@ -442,10 +450,10 @@ export class Template15Component implements OnInit {
                 this.overlay.nativeElement.classList.value="fadeContainer";
                 this.blinkOnLastQues();
                 if(!this.lastQuestionCheck){
-                 this.popupTime = setTimeout(()=>{
+                //  this.popupTime = setTimeout(()=>{
                 //   this.appModel.nextSection();
                 //  this.Sharedservice.setShowAnsEnabled(false); 
-                    }, 10000)
+                    // }, 10000)
                }else if(this.lastQuestionCheck){              
                 this.Sharedservice.setTimeOnLastQues(true);
                 }
@@ -523,7 +531,10 @@ export class Template15Component implements OnInit {
     checkImgLoaded() {
         if (!this.loadFlag) {          
             this.noOfImgsLoaded++;
+
+            console.log(this.noOfImgsLoaded);
             if (this.noOfImgsLoaded >= this.noOfImgs) {
+                console.log('test');
                 this.appModel.setLoader(false);   
                 this.Sharedservice.setShowAnsEnabled(false); 
                 this.loadFlag = true;
@@ -646,8 +657,9 @@ export class Template15Component implements OnInit {
             this.speaker.imgsrc=this.speaker.imgorigional;
         }
             option.image = option.image_hover;
+            //  this.playOptionHover(option,index);
     }
-
+    // on-mouseenter='playOptionHover(opts,idx)'
     /******Hover out option ********/
     onHoveroutOptions(option, index) {     
         option.image = option.image_original;
@@ -656,6 +668,7 @@ export class Template15Component implements OnInit {
     /****** Option Hover VO  *******/
     playOptionHover(option, index){
          if (option && option.audio && option.audio.url) {
+            option.image = option.image_hover;
             this.playSound(option.audio, index);
          }
     }
