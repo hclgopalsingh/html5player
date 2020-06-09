@@ -683,3 +683,9 @@ audio::-webkit-media-controls-time-remaining-display{
     font-size: 1.2em;
     padding-left: 2%;
   }
+
+  .setImage{
+    margin-left: 16%;
+    width: 86% !important;
+    margin-bottom: 2%;
+  }
