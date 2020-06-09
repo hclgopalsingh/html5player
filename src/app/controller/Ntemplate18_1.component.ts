@@ -1173,7 +1173,7 @@ houtSkip(){
       }
       //this.resetAttempt();
     }
-  }
+  }g
 
   setFeedback() {
     this.noOfRightAnsClicked = 0
