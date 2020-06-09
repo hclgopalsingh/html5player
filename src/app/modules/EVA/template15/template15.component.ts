@@ -5,7 +5,7 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
-import { l } from '@angular/core/src/render3';
+
 
 
 @Component({
@@ -105,7 +105,7 @@ export class Template15Component implements OnInit {
         // if error occured during image loading loader wil stop after 5 seconds 
         this.loaderTimer = setTimeout(() => {
           this.appModel.setLoader(false);
-          this.checkforQVO();
+        //   this.checkforQVO();
         }, 5000);
 
         // if (!this.appModel.isVideoPlayed) {
@@ -193,21 +193,21 @@ export class Template15Component implements OnInit {
             }
         })
 
-        // this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
-		// 	if(mode == "manual") {
-		// 		//show modal for manual
-		// 		this.appModel.notifyUserAction();
-		// 		// if (this.ansPopup && this.ansPopup.nativeElement) {
-		// 		// 	this.ansPopup.nativeElement.classList = "displayPopup modal";
-		// 		// }
-		// 	}else if (mode == "auto") {
-		// 		// this.showAnswers();
-		// 	}
-		// })
+        this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
+			if(mode == "manual") {
+				//show modal for manual
+				this.appModel.notifyUserAction();
+				// if (this.ansPopup && this.ansPopup.nativeElement) {
+				// 	this.ansPopup.nativeElement.classList = "displayPopup modal";
+				// }
+			}else if (mode == "auto") {
+				// this.showAnswers();
+			}
+		})
 
-        this.appModel.postWrongAttempt.subscribe(() => { 
-            this.appModel.notifyUserAction();
-        })
+        // this.appModel.postWrongAttempt.subscribe(() => { 
+        //     this.appModel.notifyUserAction();
+        // })
     }
 
     
@@ -450,10 +450,10 @@ export class Template15Component implements OnInit {
                 this.overlay.nativeElement.classList.value="fadeContainer";
                 this.blinkOnLastQues();
                 if(!this.lastQuestionCheck){
-                 this.popupTime = setTimeout(()=>{
+                //  this.popupTime = setTimeout(()=>{
                 //   this.appModel.nextSection();
                 //  this.Sharedservice.setShowAnsEnabled(false); 
-                    }, 10000)
+                    // }, 10000)
                }else if(this.lastQuestionCheck){              
                 this.Sharedservice.setTimeOnLastQues(true);
                 }
@@ -657,7 +657,7 @@ export class Template15Component implements OnInit {
             this.speaker.imgsrc=this.speaker.imgorigional;
         }
             option.image = option.image_hover;
-             this.playOptionHover(option,index);
+            //  this.playOptionHover(option,index);
     }
     // on-mouseenter='playOptionHover(opts,idx)'
     /******Hover out option ********/
