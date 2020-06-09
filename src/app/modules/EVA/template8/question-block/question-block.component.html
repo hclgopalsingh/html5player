@@ -5,10 +5,10 @@
   <img class="img-fluid" [src]="data.urlQuestionStatement" (load)="checkImgLoaded();" />
 </div>
 <div #blinkingBlock>
-  <div class="questionBlinkingPink">
+  <div class="questionBlinkingBlue">
     <img class="img-fluid" [src]="data.urlQuestionBlinkingImg1" (load)="checkImgLoaded();" />
   </div>
-  <div class="questionBlinkingBlue blink-image">
+  <div #pauseBlockBlink class="questionBlinkingPink blink-image">
     <img class="img-fluid" [src]="data.urlQuestionBlinkingImg2" (load)="checkImgLoaded();" />
   </div>
 </div>

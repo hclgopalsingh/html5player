@@ -1176,6 +1176,8 @@ houtSkip(){
   }
 
   setFeedback() {
+    this.noOfRightAnsClicked = 0
+    this.noOfWrongAnsClicked = 0
     for (let x = 0; x < this.fetchAnswer.length; x++) {
       if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id) {
         console.log("RIGHT ANSWER");
@@ -1200,6 +1202,7 @@ houtSkip(){
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = false;
       this.attemptType = "manual";
+      console.log("manual")
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     } else if (this.fetchAnswer.length == this.noOfWrongAnsClicked) {
@@ -1207,6 +1210,7 @@ houtSkip(){
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
       this.attemptType = "wrong";
+      console.log("wrong")
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
       this.styleBodyPopup = this.feedbackObj.wrong_style_body;
@@ -1216,6 +1220,7 @@ houtSkip(){
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = true;
       this.attemptType = "partial"
+      console.log("partial")
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     }
@@ -1274,9 +1279,7 @@ houtSkip(){
           this.appModel.enableSubmitBtn(false);
         } else {
           //this.resetAttempt();
-          this.closeModal();
-          this.resetAttempt();
-        }
+          this.closeModal();        }
       }, 200)
     }
   }
@@ -1623,9 +1626,9 @@ houtSkip(){
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
-      if (!this.matched) {
-        this.resetAttempt();
-      }
+      // if (!this.matched) {
+      //   this.resetAttempt();
+      // }
     }
     //this.startCount = 0;
     this.popupRef.nativeElement.classList = "modal";
@@ -1646,7 +1649,7 @@ houtSkip(){
         this.appModel.wrongAttemptAnimation();
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
-      }, 1000);
+      }, 10);
     }
 
   }

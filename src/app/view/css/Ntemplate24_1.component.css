@@ -214,9 +214,11 @@ button:focus {
 
 .upArrow {
   left: 1%;
+  cursor: pointer;
 }
 .downArrow {
   right: 1%;
+  cursor: pointer;
 }
 
 #optionsBlock .refTxt,
@@ -256,7 +258,7 @@ button:focus {
 .quesTab img{
 	vertical-align: text-bottom;
 }
-#container #navBlock .prevBtn,
+/*#container #navBlock .prevBtn,
 #container #navBlock .nextBtn,
 #container #navBlock .ansBtn,
 #container .quesBlock img,
@@ -268,7 +270,7 @@ button:focus {
 #navBlock .submitBtn,
 .close {
 	cursor:pointer;
-}
+}*/
 #container #navBlock .ansBtn{
   margin-left: .7%;
 	width: 3.5%;

@@ -665,7 +665,7 @@ getAnswer(flag){
         ref.classList="modal";
         setTimeout(
         () => {
-        if(action=="noShowAnswer" || action=="resetActivity") {
+        if(action=="noShowAnswer" || action=="resetActivity" || action == undefined) {
         document.getElementById("optionsBlock").style.pointerEvents="";
         }
         }, 1000) ;
@@ -830,7 +830,7 @@ getAnswer(flag){
 
     disableScreen(){
         this.mainContainer.nativeElement.classList="bodyContent greyOut";
-        this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+        this.instructionBar.nativeElement.classList = "instructionBase disableDiv disable-click";
         this.appModel.enableSubmitBtn(false);
          this.appModel.enableReplayBtn(false);
     }

@@ -536,8 +536,8 @@ export class Template3Component extends Base implements OnInit {
         this.audio.pause();
         this.audio.currentTime = 0;
 		
-		this.myAudiospeaker.nativeElement.pause();
-        this.myAudiospeaker.nativeElement.currentTime=0;
+		this.speakerVolume.nativeElement.pause();
+        this.speakerVolume.nativeElement.currentTime=0;
 
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;

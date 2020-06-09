@@ -48,7 +48,7 @@
         </div>
         <div id="optionsBlock" #ansBlock class="quesOptions">
             <div class="options" #optionRef>
-                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"
+                <div id="{{opts.id}}" *ngFor="let opts of myoption;let idx = index"
                     (click)="checkAnswer($event, opts)">
                     <img class="img-fluid" id="{{'optblank'+idx}}"
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
@@ -74,7 +74,7 @@
 
                     <div id="refQuesBlock">
                         <app-question-block #feedbackQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath" [data]="this.ques">
+                            [contentPath]="containgFolderPath">
                         </app-question-block>
                         <div #feedbackPopupSelectedOption class="rightWrongSelectedAns">
                             <img class="img-fluid" [src]="popupSelectedOptionBaseURL">
@@ -103,7 +103,7 @@
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
                     <div id="refQuesBlockShowAnswer">
                         <app-question-block #showAnswerQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath" [data]="this.ques">
+                            [contentPath]="containgFolderPath">
                         </app-question-block>
                         <div #showAnswerPopupSelectedOption class="rightWrongSelectedAns">
                             <img class="img-fluid" [src]="popupSelectedOptionBaseURL">

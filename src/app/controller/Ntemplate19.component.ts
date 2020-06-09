@@ -326,7 +326,11 @@ export class Ntemplate19 implements OnInit {
           clearInterval(this.blinkTimeInterval);
           //this.appModel.enableReplayBtn(true);
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "";
-          this.tabularBlock.nativeElement.style.pointerEvents = "";
+          setTimeout(() => {
+            if (this.countofAnimation != this.optionObj.length) {
+                this.tabularBlock.nativeElement.style.pointerEvents = "";
+            }
+        }, 50);
           this.tabularBlock.nativeElement.children[0].children[idx].children[idxx].children[0].classList.value = "fluid";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.display = "none";
           this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "none";
@@ -480,7 +484,7 @@ export class Ntemplate19 implements OnInit {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
         }
-        this.isShow = true;
+        //this.isShow = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -1003,7 +1007,7 @@ houtSkip(){
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         this.closeModal();
-        this.resetAttempt();
+        //this.resetAttempt();
         this.appModel.notifyUserAction();
 
       }
@@ -1218,9 +1222,10 @@ houtSkip(){
   }
   sendFeedback(id: string, flag: string) {
     this.confirmModalRef.nativeElement.classList = "modal";
-    this.noOfRightAnsClicked = 0;
-    this.noOfWrongAnsClicked = 0;
     if (flag == "yes") {
+      this.isShow=true;
+      this.noOfRightAnsClicked = 0;
+      this.noOfWrongAnsClicked = 0;
       $(".bodyContent").css("opacity", "0.3");
       $(".bodyContent").addClass("disable_div");
       setTimeout(() => {
@@ -1299,6 +1304,11 @@ houtSkip(){
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
       if (!this.matched) {
+        this.resetAttempt();
+        this.appModel.wrongAttemptAnimation();
+      }
+    } else {
+            if (!this.matched) {
         this.resetAttempt();
         this.appModel.wrongAttemptAnimation();
       }

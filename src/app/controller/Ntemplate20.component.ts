@@ -535,7 +535,7 @@ export class Ntemplate20 implements OnInit {
     playInstruction() {
         if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
             this.instructionVO.nativeElement.play();
-            this.appModel.enableSubmitBtn(false);
+           // this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(false);
             //$(".placeholder").addClass("disable_div");
             //$(".instructionBar .instructionBase").addClass("disable_div");
@@ -687,11 +687,11 @@ export class Ntemplate20 implements OnInit {
 
     disableOnInstruction() {
         if (this.submitButtonCounter > 0) {
-            this.appModel.enableSubmitBtn(true);
+            //this.appModel.enableSubmitBtn(true);
             this.appModel.enableReplayBtn(false);
         }
         else {
-            this.appModel.enableSubmitBtn(false);
+            //this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(true);
         }
 
@@ -1359,6 +1359,9 @@ export class Ntemplate20 implements OnInit {
         if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
             obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+            obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
         }
@@ -1442,8 +1445,12 @@ export class Ntemplate20 implements OnInit {
     pushToUpPlaceHolder(index, from) {
         this.submitButtonCounter += 1;
         // $(this.optionRef.nativeElement.children[this.randomOptIndx]).css('top', 'auto').css('left', 'auto');
-        this.blinkingOpt.place = 'up';       
-        this.placeHolderArrUp.splice(index, 1, this.blinkingOpt);       
+        this.blinkingOpt.place = 'up';  
+        let tempArr = JSON.parse(JSON.stringify(this.placeHolderArrUp))
+        tempArr.splice(index, 1, this.blinkingOpt);
+        setTimeout(() => {
+        this.placeHolderArrUp = JSON.parse(JSON.stringify(tempArr))
+        }, 10)
         this.optionRef.nativeElement.children[this.randomOptIndx].style.visibility = "hidden";
         this.appModel.enableSubmitBtn(true);
         this.appModel.enableReplayBtn(false);
@@ -1465,6 +1472,11 @@ export class Ntemplate20 implements OnInit {
         //$(this.optionRef.nativeElement.children[this.randomOptIndx]).css('top', 'auto').css('left', 'auto');
         this.blinkingOpt.place = 'down';
         this.placeHolderArrDown.splice(index, 1, this.blinkingOpt)
+        let tempArr = JSON.parse(JSON.stringify(this.placeHolderArrDown))
+        tempArr.splice(index, 1, this.blinkingOpt);
+        setTimeout(() => {
+        this.placeHolderArrDown = JSON.parse(JSON.stringify(tempArr))
+        }, 10)
         this.optionRef.nativeElement.children[this.randomOptIndx].style.visibility = "hidden";
         //this.RandomIndexValue.push(this.randomOptIndx);
         this.appModel.enableSubmitBtn(true);

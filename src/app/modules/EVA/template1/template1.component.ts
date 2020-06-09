@@ -484,7 +484,7 @@ export class Template1Component implements OnInit {
             this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content" 
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
-            this.maincontent.nativeElement.className = "disableDiv";  
+            // this.maincontent.nativeElement.className = "disableDiv";  
             clearTimeout(this.rightTimer); 
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
@@ -578,16 +578,16 @@ export class Template1Component implements OnInit {
         speaker.imgsrc = speaker.imgorigional;
     }
 
-        /******On Hover option ********/
-        onHoverOptions(option, index) {   
-             let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
-            if(!this.myAudiospeaker.nativeElement.paused) {
-                this.myAudiospeaker.nativeElement.pause();
-                this.myAudiospeaker.nativeElement.currentTime=0;
-                this.speaker.imgsrc=this.speaker.imgorigional;
-            }
-               
+    /******On Hover option ********/
+    onHoverOptions(option, index) {   
+        let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
+        if(!this.myAudiospeaker.nativeElement.paused) {
+            this.myAudiospeaker.nativeElement.pause();
+            this.myAudiospeaker.nativeElement.currentTime=0;
+            this.speaker.imgsrc=this.speaker.imgorigional;
         }
+            
+    }
     
         /******Hover out option ********/
         // onHoveroutOptions(option, index) {     
@@ -648,10 +648,11 @@ export class Template1Component implements OnInit {
         }
         this.saveOpt.classList.remove('quesBox');
         /*Disable Other options,speaker and ShowansBtn*/
-        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-			this.optionRef.nativeElement.children[i].classList.add("disableDiv");            
-        }
-        this.speakerNormal.nativeElement.classList.add("disableDiv");
+        // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+		// 	this.optionRef.nativeElement.children[i].classList.add("disableDiv");            
+        // }
+        // this.speakerNormal.nativeElement.classList.add("disableDiv");      
+        this.maincontent.nativeElement.className = "disableDiv";
         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }        
@@ -759,10 +760,11 @@ export class Template1Component implements OnInit {
            this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup 
            
            /*Disable Other options,speaker and ShowansBtn*/
-        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-			this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-        }
-        this.speakerNormal.nativeElement.classList.add("disableDiv");
+        // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+		// 	this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+        // }
+        // this.speakerNormal.nativeElement.classList.add("disableDiv");
+        this.maincontent.nativeElement.className = "disableDiv";
         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }     
@@ -853,11 +855,12 @@ export class Template1Component implements OnInit {
     this.isOptionSelected = false;
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
     document.getElementById('refQuesId').style.width='auto';
-    /*Enable Other options*/
-    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-		this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-    }
-    this.speakerNormal.nativeElement.classList.remove("disableDiv");
+    /*Enable Other options*/   
+    this.maincontent.nativeElement.className = "";
+    // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+	// 	this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+    // }
+    // this.speakerNormal.nativeElement.classList.remove("disableDiv");
     
    }
     

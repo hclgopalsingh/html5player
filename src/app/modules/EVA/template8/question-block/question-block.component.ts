@@ -12,10 +12,9 @@ export class QuestionBlockComponent implements OnInit {
   selectedOptionURL: String = "";
   selectedOptionBlinkURL: String = "";
   option: any;
-  _data: QuestionBlockVO;
+  _data: QuestionBlockVO = new QuestionBlockVO();
 
   @Input() contentPath: string;
-  //@Input() data: QuestionBlockVO;
 
   get data(): QuestionBlockVO {
     return this._data;
@@ -28,10 +27,10 @@ export class QuestionBlockComponent implements OnInit {
     this.updateView();
   }
 
-
   @Input() dataCorrectOption: any;
 
   @ViewChild('blinkingBlock') blinkingBlock: any;
+  @ViewChild('pauseBlockBlink') pauseBlockBlink: any;  
   @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
   @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;
   @ViewChild('questionBase') questionBase: any;
@@ -59,7 +58,6 @@ export class QuestionBlockComponent implements OnInit {
 
   blinkingBox(value: boolean) {
     if (value) {
-      //this.blinkingBlock.nativeElement.classList.add('show');
       this.blinkingBlock.nativeElement.classList.remove('hide');
       this.selectedOptionBlock.nativeElement.classList.add("hide");
       this.selectedOptionBlockBlink.nativeElement.classList.add("hide");
@@ -70,20 +68,31 @@ export class QuestionBlockComponent implements OnInit {
     }
   }
 
-  optionBlinking(value: boolean) {
-    this.selectedOptionBlock.nativeElement.classList.remove('hide');
-    this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+  pauseBoxBlinking(value:boolean) {
+    if(value) {
+      this.pauseBlockBlink.nativeElement.classList.add('hide');
+    } else {
+      this.pauseBlockBlink.nativeElement.classList.remove('hide');
+    }
+  }
+
+  questionStatementBlinking(value: boolean) {
+    if(value === true) {
+      //this.selectedOptionBlock.nativeElement.classList.remove('hide');
+      this.selectedOptionBlockBlink.nativeElement.classList.remove('hide');
+    } else {
+      //this.selectedOptionBlock.nativeElement.classList.add('hide');
+      this.selectedOptionBlockBlink.nativeElement.classList.add('hide');
+    }
   }
 
   selectedOption(option) {
 
     if (option) {
-
       switch (this.data.containerType) {
         case Constants.CONTAINER_MAIN_SCREEN:
 
           if (this.data.bSelectedOptionBlinking == true) {
-            debugger;
             this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
             this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
 
@@ -95,7 +104,6 @@ export class QuestionBlockComponent implements OnInit {
         case Constants.CONTAINER_FEEDBACK_POPUP:
 
           if (this.data.bSelectedOptionBlinking == true) {
-            debugger;
             this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
             this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
 
@@ -105,7 +113,6 @@ export class QuestionBlockComponent implements OnInit {
           break;
 
         case Constants.CONTAINER_SHOW_ANSWER_POPUP:
-          debugger;
           this.selectedOptionURL = this.contentPath + "/" + option.img_ques_block.url;
           this.selectedOptionBlinkURL = this.contentPath + "/" + option.img_ques_block_blink.url;
           break;
@@ -154,10 +161,7 @@ export class QuestionBlockComponent implements OnInit {
         break;
     }
 
-
-
     if (this.data.bSelectedOptionBlinking == false) {
-      debugger;
       this.selectedOptionBlock.nativeElement.classList.add('hide');
       this.selectedOptionBlockBlink.nativeElement.classList.add('hide');
     }
