@@ -9,7 +9,7 @@
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
 			(load)="checkImgLoaded();" />  
         </div>    
-        <div #maincontent>
+        <div #maincontent class="disableDiv">
         <div id="instructionBar">
             <div class="instructionBase">
             <img class="img-fluid" [src]="commonAssets?.instruction_bg
@@ -25,17 +25,21 @@
                 (load)="checkImgLoaded();">
                 <div class="positions">
                     <div id="{{'step_'+(idx)}}" [ngClass]="{'steps':true,'traveller': step?.currentStep}" *ngFor="let step of quesObj?.quesImage?.stepImage;let idx = index">
-                        <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
-                        (load)="checkImgLoaded();">                            
+                        <ng-template [ngIf]="step?.stepOn">
+                            <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
+                            (load)="checkImgLoaded();"> 
+                        </ng-template>                                                   
                     </div>                    
                 </div>
             </div>
             <div id="optionsBlock" #optionRef>
                 <div id="{{'opt'+(idx+1)}}" class="options" *ngFor="let opt of myoption;let idx = index">
-                    <img class="img-fluid" [src]="opt?.background?.location=='content' ? containgFolderPath + '/' + opt?.background?.url : opt?.background?.location=='assets' ? assetsPath + '/' +opt?.background?.url:''"
-                    (load)="checkImgLoaded();">
-                    <img class="img-fluid" [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : opt?.image?.location=='assets' ? assetsPath + '/' +opt?.image?.url:''"
-                    (load)="checkImgLoaded();" on-mouseenter='playOptionHover(opt,idx)' (click)="selectOpt(opt,idx)">
+                    <ng-template [ngIf]="opt?.isShow">
+                        <img class="img-fluid" [src]="opt?.background?.location=='content' ? containgFolderPath + '/' + opt?.background?.url : opt?.background?.location=='assets' ? assetsPath + '/' +opt?.background?.url:''"
+                        (load)="checkImgLoaded();">
+                        <img class="img-fluid" [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : opt?.image?.location=='assets' ? assetsPath + '/' +opt?.image?.url:''"
+                        (load)="checkImgLoaded();" on-mouseenter='playOptionHover(opt,idx)' (click)="selectOpt(opt,idx)">
+                    </ng-template>                    
                 </div>
                 <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
                     <div id="spkrBtn" class="speakerBtn">
