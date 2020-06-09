@@ -535,7 +535,7 @@ export class Ntemplate20 implements OnInit {
     playInstruction() {
         if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
             this.instructionVO.nativeElement.play();
-            this.appModel.enableSubmitBtn(false);
+           // this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(false);
             //$(".placeholder").addClass("disable_div");
             //$(".instructionBar .instructionBase").addClass("disable_div");
@@ -687,11 +687,11 @@ export class Ntemplate20 implements OnInit {
 
     disableOnInstruction() {
         if (this.submitButtonCounter > 0) {
-            this.appModel.enableSubmitBtn(true);
+            //this.appModel.enableSubmitBtn(true);
             this.appModel.enableReplayBtn(false);
         }
         else {
-            this.appModel.enableSubmitBtn(false);
+            //this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(true);
         }
 
@@ -1358,6 +1358,9 @@ export class Ntemplate20 implements OnInit {
         // }
         if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
             obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+            obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
