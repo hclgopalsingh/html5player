@@ -2,6 +2,12 @@
   <div id="bgImage"><img
       [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
       (load)="checkImgLoaded();" /></div>
+  <div class="videoClose" (click)= "endedHandleronSkip()">
+    <div>
+      <img [src]= "otherAssets?.video_stop?.location=='content' ? containgFolderPath + '/' + otherAssets?.video_stop?.url : assetsPath + '/' + otherAssets?.video_stop?.url"
+      (mousemove)="hoverstopVideo()" (mouseleave)="houtstopVideo()"/>
+    </div>
+  </div>
   <div class="d-flex justify-content-center align-items-center" id="consoleBlock">
     <div class="consoleBase disableDiv" #mainContainer>
       <img class="img-fluid"
