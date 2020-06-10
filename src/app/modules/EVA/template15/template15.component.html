@@ -21,7 +21,7 @@
             <div class="options" #optionRef>
                 <div  id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"  (click)="checkAnswer(opts)"  >    
                   <img #optionBg class="img-fluid" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"  (load)="checkImgLoaded();">
-                  <img #optionImg class="img-fluid subOpt" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"  (load)="checkImgLoaded();">
+                  <img #optionImg class="img-fluid subOpt" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" on-mouseenter='playOptionHover(opts,idx)' (load)="checkImgLoaded();">
                  </div>
             </div>
         </div> 
