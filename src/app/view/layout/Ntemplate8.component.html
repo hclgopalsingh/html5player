@@ -2,7 +2,7 @@
   <div id="bgImage"><img
       [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
       (load)="checkImgLoaded();" /></div>
-  <div class="videoClose" (click)= "endedHandleronSkip()">
+  <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)= "endedHandleronSkip()">
     <div>
       <img [src]= "otherAssets?.video_stop?.location=='content' ? containgFolderPath + '/' + otherAssets?.video_stop?.url : assetsPath + '/' + otherAssets?.video_stop?.url"
       (mousemove)="hoverstopVideo()" (mouseleave)="houtstopVideo()"/>
