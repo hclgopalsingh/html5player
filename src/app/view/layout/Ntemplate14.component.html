@@ -88,7 +88,7 @@
 
 				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
 					<div class="msgImage">
-						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url" style="margin-left: 16%;">
+						<img class="img-fluid h-100 setImage" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url">
 					</div>
 					<div class="actionButtons">
 						<button type="button" (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverOK()" (mouseleave)="houtOK()">
