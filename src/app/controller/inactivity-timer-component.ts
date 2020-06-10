@@ -17,9 +17,9 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
   mt = 0;
   st = 0;
   
-  lastQuesTimer:number = 5;
-  moveNextQuesTimer:number = 5;
-  uttarDikhayeinTimer:any = 5;
+  lastQuesTimer:number = .5;
+  moveNextQuesTimer:number = .5;
+  uttarDikhayeinTimer:any = .5;
 
   unsubscribe$: Subject<void> = new Subject();
   subscribeOnQChange: Subject<void> = new Subject();

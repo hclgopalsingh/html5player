@@ -698,7 +698,7 @@ button:focus {
 .videoClose{
   width: 3.5%;
   height: 6%;
-  border: solid .1vmax #000;
+  /* border: solid .1vmax #000; */
   border-radius: 50%;
   background: #ccc;
   display: flex;
@@ -713,8 +713,8 @@ button:focus {
 .videoClose:hover{
   background: #fff;
 }
-.videoClose div{
+/* .videoClose div{
   width: 35%;
   height: 35%;
   background: #f00;
-}
+} */

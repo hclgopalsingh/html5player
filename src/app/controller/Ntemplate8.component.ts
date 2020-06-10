@@ -671,6 +671,14 @@ export class Ntemplate8 implements OnInit {
 			this.confirmAssets.close_btn = this.confirmAssets.close_btn_original;
 		}
 
+		hoverstopVideo(){
+			this.otherAssets.video_stop  = this.otherAssets.video_stop_hover;
+		}
+		
+		houtstopVideo(){
+			this.otherAssets.video_stop  = this.otherAssets.video_stop_original;
+		}
+
 	/*	resetActivity(){
 			const action= {
 				"isWrongAttempt":false,

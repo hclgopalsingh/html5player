@@ -332,7 +332,7 @@ export class Ntemplate14 implements OnInit {
 		}
 		this.showPlay= false;
 		this.isPlay = true;
-		//this.audioT.nativeElement.currentTime=0;
+		this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
 		this.audioT.nativeElement.className = "";
 		this.removeBtn = false;
@@ -342,7 +342,6 @@ export class Ntemplate14 implements OnInit {
 		// this.recordButton.nativeElement.className = "displayNone";
 		this.audioT.nativeElement.load();
 		this.audioT.nativeElement.play();
-
 	}
 
 	stopRecording() {
@@ -361,6 +360,9 @@ export class Ntemplate14 implements OnInit {
 		// this.playpause.nativeElement.className = "img-fluid";
 		this.mediaRecorder.stop();
 		this.appModel.moveNextQues("noBlink")
+		setTimeout(() => {
+			this.audioT.nativeElement.currentTime=0;
+		}, 500)
 	}
 
 	checkNextActivities() {
