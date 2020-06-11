@@ -205,6 +205,7 @@ export class Ntemplate17 implements OnInit {
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
   _playInstructionFlag: boolean = false;
+  disablebtnarrEng=['{tab}','{enter}','[',']','/','\\','{space}',"{shift}"]; 
 
 
 
@@ -233,7 +234,7 @@ export class Ntemplate17 implements OnInit {
     console.log("Button pressed", button);
     this.stopInstructionVO();
 
-    if (button === "{tab}" || button === "{space}" || button === "{enter}" || button === ".com") {
+    if (button === "{tab}" || button === "{enter}" || button === ".com") {
       return;
     }
     /**
@@ -241,6 +242,28 @@ export class Ntemplate17 implements OnInit {
      */
     if (button === "{shift}" || button === "{lock}") {
       this.handleShift();
+	  if(button === "{lock}") {
+		for(let i =0;i<this.disablebtnarrEng.length;i++) {
+			if(this.disablebtnarrEng[i] == "{space}") {
+				(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).children[0].innerHTML="Space bar";
+			} else if(this.disablebtnarrEng[i] == "{shift}"){
+			  if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
+				for(var j =0;j<2;j++){
+					(this.keyboard.getButtonElement(this.disablebtnarrEng[i])[j]  as HTMLElement).classList.add("disableDiv");
+				  }
+				}				
+			} else {
+				if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
+					(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).classList.add("disableDiv");
+				}
+			}
+		}
+		  // if(this.keyboard.options.layoutName=="shift") {
+			  // (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-shift ")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
+		  // } else {
+			  // (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
+		  // }
+	  }
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
       if (this.quesObj.lang == 'eng') {
@@ -255,7 +278,11 @@ export class Ntemplate17 implements OnInit {
 
 
     } else if (this.btnCounting < this.maxCharacter) {
-      this.inputVal += button;
+	  if(button == "{space}") {
+		this.inputVal  += " ";
+	  } else {
+		this.inputVal += button;
+	  }		  
       this.btnCounting += 1;
       this.addBtnRef.nativeElement.style.opacity = "1";
     }
@@ -608,7 +635,8 @@ export class Ntemplate17 implements OnInit {
         this.inputDivRef.nativeElement.children[0].classList.add("inputHindiDiv");
         this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
-        this.layout = englishLayout;
+		const newenglishLayout={default:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} q w e r t y u i o p [ ] \\","{lock} a s d f g h j k l ; ' {enter}","{shift} z x c v b n m , . / {shift}","@ {space}"],shift:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} Q W E R T Y U I O P { } |",'{lock} A S D F G H J K L : " {enter}',"{shift} Z X C V B N M < > ? {shift}","@ {space}"]};
+        this.layout = newenglishLayout;
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
       } else if (this.quesObj.lang == "math") {
@@ -817,6 +845,23 @@ export class Ntemplate17 implements OnInit {
 
         this.keyboard = new Keyboard({ onKeyPress: button => this.onKeyPress(button), layout: this.layout });
       }
+	  if(this.quesObj.lang == "eng") {
+		for(let i =0;i<this.disablebtnarrEng.length;i++) {
+			if(this.disablebtnarrEng[i] == "{space}") {
+				(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).children[0].innerHTML="Space bar";
+			} else if(this.disablebtnarrEng[i] == "{shift}"){
+			  if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
+				for(var j =0;j<2;j++){
+					(this.keyboard.getButtonElement(this.disablebtnarrEng[i])[j]  as HTMLElement).classList.add("disableDiv");
+				  }
+				}				
+			} else {
+				if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
+					(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).classList.add("disableDiv");
+				}
+			}
+		}
+	  }
 
     }
     //this.appModel.enableReplayBtn(this.playMyVideo);
@@ -826,6 +871,10 @@ export class Ntemplate17 implements OnInit {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
     }
+	// if(this.quesObj.lang == "eng") {
+		// (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
+		// //spacebarText.innerHTML="Space bar";
+	// }
   }
 
   addWord() {
@@ -900,7 +949,8 @@ export class Ntemplate17 implements OnInit {
     /*$(this.wordBlockRef.nativeElement.children[idx]).addClass('absolutePosition');
     this.wordBlockRef.nativeElement.children[idx].style.left = f_left;
     this.wordBlockRef.nativeElement.children[idx].style.top = f_top;*/
-    $(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-125%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
+    $(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-123%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
+	$(this.wordBlockRef.nativeElement.children[idx].children[1]).animate({"font-size": "3vmax" }, 500);
     this.wordBlockRef.nativeElement.classList = "wordBlock disableIt";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
@@ -910,8 +960,9 @@ export class Ntemplate17 implements OnInit {
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedWrongListRef.nativeElement.children[this.currentWrongListIdx].getBoundingClientRect();
     this.optionPlaceRef.nativeElement.style.zIndex = "100";
-    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)), width: '25%' }, 500, () => this.pushToWrongList());
-    this.wordBlockRef.nativeElement.classList = "wordBlock";
+    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToWrongList());
+    $(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
+	this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
@@ -919,8 +970,9 @@ export class Ntemplate17 implements OnInit {
   addToRightList() {
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedRightListRef.nativeElement.children[this.currentRightListIdx].getBoundingClientRect();
-    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)), width: '25%' }, 500, () => this.pushToRightList());
-    this.wordBlockRef.nativeElement.classList = "wordBlock";
+    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToRightList());
+    $(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
+	this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
@@ -1156,8 +1208,8 @@ export class Ntemplate17 implements OnInit {
     }
     else if (id == "Spacebar") {
       if (this.CharacterCounter >= this.maxCharacter) {
-        return;
-      }
+         return;
+       }
       this.inputDivRef.nativeElement.children[0].value += " ";
       this.hindiKeyboardArray.push(" ");
       this.CharacterCounter += 1;
@@ -1329,7 +1381,9 @@ export class Ntemplate17 implements OnInit {
   QuestionLoaded() {
     if (this.inputVal == "" && !this.videoReplayd) {
       this.instruction.nativeElement.play();
+	  this.quesContainer.nativeElement.style.pointerEvents="none";
       this.instruction.nativeElement.onended = () => {
+		this.quesContainer.nativeElement.style.pointerEvents="";
         this.checkinputnull();
       }
     }
@@ -1398,6 +1452,7 @@ export class Ntemplate17 implements OnInit {
 
   questionAudioPlay() {
     if (this.QuestionAudio != undefined) {
+	  this.stopInstructionVO();
       this._setQuestionAudio = this._questionAreaAudio;
       this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       this.QuestionAudio.nativeElement.play();

@@ -72,7 +72,8 @@
 					</ng-template>
 
 					<ng-template [ngIf]="_questionAreaAudioFlag">
-							<img class="img-fluid fadeOut" id="questionAudioID" [src]="_questionAreaAudio?.location=='content' ? containgFolderPath + '/' + _questionAreaAudio?.imageUrl : _questionAreaAudio?.imageUrl" (click)="questionAudioPlay()"><span>Play Audio</span>
+							<img class="img-fluid fadeOut" id="questionAudioID" [src]="_questionAreaAudio?.location=='content' ? containgFolderPath + '/' + _questionAreaAudio?.imageUrl : _questionAreaAudio?.imageUrl" (click)="questionAudioPlay()">
+							<span (click)="questionAudioPlay()">Play Audio</span>
 							<audio #questionAudio></audio>
 						</ng-template>
 
