@@ -217,6 +217,7 @@ button:focus {
 .bodyContent .refQues span {
   position: absolute;
   font-size: 2.5vmax;
+  cursor:pointer;
 }
 .bodyContent .refQues img {
 	/* max-width: 93%; */
