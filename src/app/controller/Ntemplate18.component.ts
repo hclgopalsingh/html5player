@@ -754,6 +754,7 @@ houtSkip(){
         {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
+          this.startActivity();
         }
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");

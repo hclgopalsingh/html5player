@@ -33,7 +33,7 @@
 						[ngClass]="{'disablePointer': digit.selected}" />
 				</ng-container>
 			</div>
-			<div class="numbers " [ngClass]="{'disablePointer': !digitsSelected, 'blink blinkBlock': isOn && operatorSelected && digitsSelected && selectedNos.length != noOfDidgit }">
+			<div class="numbers " [ngClass]="{'disablePointer': !digitsSelected || selectedNos.length == noOfDidgit, 'blink blinkBlock': isOn && operatorSelected && digitsSelected && selectedNos.length != noOfDidgit }">
 				<ng-container *ngFor="let number of number_options; let idx = index">
 					<img class="img-fluid" [src]="number?.imgsrc?.location=='content' ? containgFolderPath + '/' + number?.imgsrc?.url : assetsPath + '/' +number?.imgsrc?.url"
 						(load)="checkImgLoaded();" (mousemove)="numberMousemove(idx)" (mouseleave)="numberMouseLeave(idx)" (click)="numberSelect(idx)"
