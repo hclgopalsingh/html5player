@@ -205,7 +205,7 @@ export class Ntemplate17 implements OnInit {
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
   _playInstructionFlag: boolean = false;
-  disablebtnarrEng=['{tab}','{enter}','[',']','/','\\','{space}',"{shift}"]; 
+  disablebtnarrEng=['{tab}','{enter}','[',']','{','}','|','>','<','?','/','\\','{space}',"{shift}"]; 
 
 
 
@@ -219,6 +219,7 @@ export class Ntemplate17 implements OnInit {
     if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
+	  this.QuestionVideo.nativeElement.load();
     }
 
   };
@@ -293,6 +294,7 @@ export class Ntemplate17 implements OnInit {
     if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
+	  this.QuestionVideo.nativeElement.load();
     }
   };
 
@@ -354,6 +356,7 @@ export class Ntemplate17 implements OnInit {
             this.appModel.handlePostVOActivity(false);
             this.QuestionVideo.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
+			  this.QuestionVideo.nativeElement.load();
             }
           }
         }       
@@ -470,8 +473,9 @@ export class Ntemplate17 implements OnInit {
         this.stopInstructionVO();
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
         if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-          this.QuestionVideo.nativeElement.pause();
-          this.QuestionVideo.nativeElement.currentTime = 0;
+          // this.QuestionVideo.nativeElement.pause();
+          // this.QuestionVideo.nativeElement.currentTime = 0;
+		  this.QuestionVideo.nativeElement.load();
         }
       }
       if (action == "replayVideo") {
@@ -484,8 +488,9 @@ export class Ntemplate17 implements OnInit {
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
           this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
           if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-            this.QuestionVideo.nativeElement.pause();
-            this.QuestionVideo.nativeElement.currentTime = 0;
+            //this.QuestionVideo.nativeElement.pause();
+            //this.QuestionVideo.nativeElement.currentTime = 0;
+			this.QuestionVideo.nativeElement.load();
           }
         }
       }
@@ -868,8 +873,9 @@ export class Ntemplate17 implements OnInit {
     console.log(this.inputDivRef.nativeElement.children[0]);
     this.stopInstructionVO();
     if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-      this.QuestionVideo.nativeElement.pause();
-      this.QuestionVideo.nativeElement.currentTime = 0;
+      //this.QuestionVideo.nativeElement.pause();
+      //this.QuestionVideo.nativeElement.currentTime = 0;
+	  this.QuestionVideo.nativeElement.load();
     }
 	// if(this.quesObj.lang == "eng") {
 		// (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
@@ -926,8 +932,9 @@ export class Ntemplate17 implements OnInit {
     this.stopInstructionVO();
     //this.wordBlockRef.nativeElement.children[0].classList.add("inputDiv");
     if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-      this.QuestionVideo.nativeElement.pause();
-      this.QuestionVideo.nativeElement.currentTime = 0;
+      //this.QuestionVideo.nativeElement.pause();
+      //this.QuestionVideo.nativeElement.currentTime = 0;
+	  this.QuestionVideo.nativeElement.load();
     }
   }
 
@@ -1410,6 +1417,7 @@ export class Ntemplate17 implements OnInit {
         this.appModel.handlePostVOActivity(false);
         this.inputDivRef.nativeElement.classList = "inputDiv";
         this.allEnabledwhilequestionVideoPlay();
+		this.QuestionVideo.nativeElement.load();
       }
     }
     if (this.QuestionAudio != undefined) {
