@@ -68,6 +68,7 @@ export class Ntemplate14 implements OnInit {
 	tempSubscription: Subscription;
 	isFirstTrial: boolean = true;
 	showstop = false;
+	playClicked = false;
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -331,16 +332,16 @@ export class Ntemplate14 implements OnInit {
 		}
 		this.showPlay= false;
 		this.isPlay = true;
-		//this.audioT.nativeElement.currentTime=0;
+		this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
 		this.audioT.nativeElement.className = "";
 		this.removeBtn = false;
+		this.playClicked = true;
 		//this.playpause.nativeElement.className = "img-fluid playbtn";
 		// this.stopButton.nativeElement.className = "displayNone";
 		// this.recordButton.nativeElement.className = "displayNone";
 		this.audioT.nativeElement.load();
 		this.audioT.nativeElement.play();
-
 	}
 
 	stopRecording() {
@@ -359,6 +360,9 @@ export class Ntemplate14 implements OnInit {
 		// this.playpause.nativeElement.className = "img-fluid";
 		this.mediaRecorder.stop();
 		this.appModel.moveNextQues("noBlink")
+		setTimeout(() => {
+			this.audioT.nativeElement.currentTime=0;
+		}, 500)
 	}
 
 	checkNextActivities() {
@@ -545,7 +549,7 @@ export class Ntemplate14 implements OnInit {
 
 			}
 		})
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 	ngAfterViewInit(){
@@ -568,7 +572,7 @@ export class Ntemplate14 implements OnInit {
 		});
 
 		document.getElementById("audioplay").addEventListener("ended",function(){
-			if(that.isFirstTrial){
+			if(that.isFirstTrial && that.playClicked){
 				that.appModel.moveNextQues();
 				that.isFirstTrial  = false;
 			}
