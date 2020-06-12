@@ -91,6 +91,7 @@ export class Ntemplate14 implements OnInit {
 	@ViewChild('narrator') narrator: any;
 	@ViewChild('feedbackModal') feedbackModal: any;
 	@ViewChild('infoModalRef') InfoModalRef: any;
+	@ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
 
 
 
@@ -534,6 +535,10 @@ export class Ntemplate14 implements OnInit {
 					$("#instructionBar").addClass("disable_div");
 					this.InfoModalRef.nativeElement.classList = "displayPopup modal";					//this.appModel.enableReplayBtn(true);
 					//this.setFeedbackAudio();
+					this.feedbackInfoAudio.nativeElement.play();
+					this.feedbackInfoAudio.nativeElement.onended = () => {
+						console.log("working")
+					}
 					if(this.appModel.isLastSectionInCollection)
 					{
 						//close after 5 mins disable and thn blink
@@ -572,6 +577,7 @@ export class Ntemplate14 implements OnInit {
 		});
 
 		document.getElementById("audioplay").addEventListener("ended",function(){
+			console.log("enddedd");
 			if(that.isFirstTrial && that.playClicked){
 				that.appModel.moveNextQues();
 				that.isFirstTrial  = false;
@@ -663,6 +669,8 @@ export class Ntemplate14 implements OnInit {
 
 	sendFeedback(ref, flag: string, action?: string) {
 		ref.classList = "modal";
+		this.feedbackInfoAudio.nativeElement.pause();
+		this.feedbackInfoAudio.nativeElement.currentTime = 0
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.notifyUserAction();
 	}
