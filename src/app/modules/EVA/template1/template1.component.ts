@@ -220,8 +220,7 @@ export class Template1Component implements OnInit {
         clearTimeout(this.wrongSelectTimer);
 		clearTimeout(this.refreshQueTime);
     }
-    
-    //**Function to stop all sounds */
+	
 	stopAllSounds() {
         this.audio.pause();
         this.audio.currentTime = 0;
@@ -297,15 +296,15 @@ export class Template1Component implements OnInit {
             }
         }, 200)
 		
-		this.refreshQue();
+		// this.refreshQue();
     
     }
-	refreshQue(){
-        this.refQues.nativeElement.style="display:-webkit-inline-box";
-        this.refreshQueTime =setTimeout(()=>{
-            this.refQues.nativeElement.style="display:flex"; 
-        },10)  
-    }
+	// refreshQue(){
+        // this.refQues.nativeElement.style="display:-webkit-inline-box";
+        // this.refreshQueTime =setTimeout(()=>{
+            // this.refQues.nativeElement.style="display:flex"; 
+        // },10)  
+    // }
     /** TO SHUFFLE OPTIONS ON WRONG ATTEMPT**/
         doRandomize(array) {        
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -405,6 +404,8 @@ export class Template1Component implements OnInit {
         }else{
             speaker.imgsrc = speaker.imgorigional;          
              this.sprite.nativeElement.style="display:none";
+			 (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+			 this.disableSpeaker.nativeElement.children[0].style.cursor = "auto";
             clearInterval(this.speakerTimer);   
         }
 
@@ -431,10 +432,13 @@ export class Template1Component implements OnInit {
                     el.currentTime = 0;
                     el.play();
                 }
+				
                 this.speakerTimer = setInterval(() => {
                     speaker.imgsrc = speaker.imgactive;
                     this.sprite.nativeElement.style="display:flex";
-                    this.checkSpeakerVoice(speaker);
+					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
+					// this.disableSpeaker.nativeElement.children[0].style.cursor = "none";
+                    this.checkSpeakerVoice(speaker);					
                 }, 10)
             }
             else {
@@ -450,7 +454,9 @@ export class Template1Component implements OnInit {
                 el.onended = () => {
                     if (this.maincontent) {
                         this.maincontent.nativeElement.className = "";
+						(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
                          this.sprite.nativeElement.style="display:none";
+						 // this.disableSpeaker.nativeElement.children[0].style.cursor = "auto";
                     }
                 }
 
@@ -484,7 +490,7 @@ export class Template1Component implements OnInit {
             this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content" 
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
-            // this.maincontent.nativeElement.className = "disableDiv";  
+            this.maincontent.nativeElement.className = "disableDiv";  
             clearTimeout(this.rightTimer); 
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
@@ -565,12 +571,13 @@ export class Template1Component implements OnInit {
     /**SPEAKER HOVER */
     onHoverSpeaker(speaker) {
         speaker.imgsrc = speaker.imghover;
-        if (!this.instruction.nativeElement.paused) {
-            this.disableSpeaker.nativeElement.className = "speakerBlock";
-        }
-        else {
-            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-        }
+		// this.disableSpeaker.nativeElement.children[0].style.cursor = "pointer";
+        // if (!this.instruction.nativeElement.paused) {
+            // this.disableSpeaker.nativeElement.children[0].style.cursor = "none";
+        // }
+        // else {
+            // this.disableSpeaker.nativeElement.children[0].style.cursor = "pointer";
+        // }
     }
 
 
@@ -578,16 +585,16 @@ export class Template1Component implements OnInit {
         speaker.imgsrc = speaker.imgorigional;
     }
 
-    /******On Hover option ********/
-    onHoverOptions(option, index) {   
-        let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
-        if(!this.myAudiospeaker.nativeElement.paused) {
-            this.myAudiospeaker.nativeElement.pause();
-            this.myAudiospeaker.nativeElement.currentTime=0;
-            this.speaker.imgsrc=this.speaker.imgorigional;
+        /******On Hover option ********/
+        onHoverOptions(option, index) {   
+             let speakerEle= document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement ;
+            if(!this.myAudiospeaker.nativeElement.paused) {
+                this.myAudiospeaker.nativeElement.pause();
+                this.myAudiospeaker.nativeElement.currentTime=0;
+                this.speaker.imgsrc=this.speaker.imgorigional;
+            }
+               
         }
-            
-    }
     
         /******Hover out option ********/
         // onHoveroutOptions(option, index) {     
@@ -635,7 +642,7 @@ export class Template1Component implements OnInit {
     
     /** On selecting a Matra option **/    
     selectOptMatra(opt,idx){
-        document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
+        // document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
         this.aksharQuestion=false;
         this.popupclosedinRightWrongAns=false; 
         this.optionSelected = idx;
@@ -648,11 +655,10 @@ export class Template1Component implements OnInit {
         }
         this.saveOpt.classList.remove('quesBox');
         /*Disable Other options,speaker and ShowansBtn*/
-        // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-		// 	this.optionRef.nativeElement.children[i].classList.add("disableDiv");            
-        // }
-        // this.speakerNormal.nativeElement.classList.add("disableDiv");      
-        this.maincontent.nativeElement.className = "disableDiv";
+        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+			this.optionRef.nativeElement.children[i].classList.add("disableDiv");            
+        }
+        this.speakerNormal.nativeElement.classList.add("disableDiv");
         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }        
@@ -745,7 +751,7 @@ export class Template1Component implements OnInit {
     }
     /** On selecting an akshar **/
     selectOpt(opt, idx) {        
-       document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
+       // document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
        this.aksharQuestion=true;
        this.popupclosedinRightWrongAns=false; 
        this.optionSelected = idx;
@@ -760,11 +766,10 @@ export class Template1Component implements OnInit {
            this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup 
            
            /*Disable Other options,speaker and ShowansBtn*/
-        // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-		// 	this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-        // }
-        // this.speakerNormal.nativeElement.classList.add("disableDiv");
-        this.maincontent.nativeElement.className = "disableDiv";
+        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+			this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+        }
+        this.speakerNormal.nativeElement.classList.add("disableDiv");
         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }     
@@ -855,12 +860,11 @@ export class Template1Component implements OnInit {
     this.isOptionSelected = false;
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
     document.getElementById('refQuesId').style.width='auto';
-    /*Enable Other options*/   
-    this.maincontent.nativeElement.className = "";
-    // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-	// 	this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-    // }
-    // this.speakerNormal.nativeElement.classList.remove("disableDiv");
+    /*Enable Other options*/
+    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+		this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+    }
+    this.speakerNormal.nativeElement.classList.remove("disableDiv");
     
    }
     
