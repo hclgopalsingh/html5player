@@ -84,7 +84,6 @@ export class Template1Component implements OnInit {
     saveOpt : any;
     rightSelectTimer:any;
     wrongSelectTimer:any;
-	refreshQueTime:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -218,7 +217,6 @@ export class Template1Component implements OnInit {
         clearTimeout(this.clapTimer);
         clearTimeout(this.rightSelectTimer);
         clearTimeout(this.wrongSelectTimer);
-		clearTimeout(this.refreshQueTime);
     }
 	
 	stopAllSounds() {
@@ -296,15 +294,9 @@ export class Template1Component implements OnInit {
             }
         }, 200)
 		
-		// this.refreshQue();
     
     }
-	// refreshQue(){
-        // this.refQues.nativeElement.style="display:-webkit-inline-box";
-        // this.refreshQueTime =setTimeout(()=>{
-            // this.refQues.nativeElement.style="display:flex"; 
-        // },10)  
-    // }
+	
     /** TO SHUFFLE OPTIONS ON WRONG ATTEMPT**/
         doRandomize(array) {        
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -490,7 +482,7 @@ export class Template1Component implements OnInit {
             this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content" 
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
-            this.maincontent.nativeElement.className = "disableDiv";  
+            //this.maincontent.nativeElement.className = "disableDiv";  
             clearTimeout(this.rightTimer); 
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
@@ -570,14 +562,7 @@ export class Template1Component implements OnInit {
     
     /**SPEAKER HOVER */
     onHoverSpeaker(speaker) {
-        speaker.imgsrc = speaker.imghover;
-		// this.disableSpeaker.nativeElement.children[0].style.cursor = "pointer";
-        // if (!this.instruction.nativeElement.paused) {
-            // this.disableSpeaker.nativeElement.children[0].style.cursor = "none";
-        // }
-        // else {
-            // this.disableSpeaker.nativeElement.children[0].style.cursor = "pointer";
-        // }
+        speaker.imgsrc = speaker.imghover;		
     }
 
 
@@ -602,9 +587,7 @@ export class Template1Component implements OnInit {
         // }
 
     /**OPTION HOVER */
-    // onHoverOptions(option, index) {
-    //     option.optBg = option.optBgHover;        
-    // }
+ 
     playOptionHover(option, index){
         if (option && option.audio && option.audio.url) {
             this.playSound(option.audio, index);
@@ -654,11 +637,8 @@ export class Template1Component implements OnInit {
             }
         }
         this.saveOpt.classList.remove('quesBox');
-        /*Disable Other options,speaker and ShowansBtn*/
-        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-			this.optionRef.nativeElement.children[i].classList.add("disableDiv");            
-        }
-        this.speakerNormal.nativeElement.classList.add("disableDiv");
+        /*Disable Other options,speaker and ShowansBtn*/        
+		this.maincontent.nativeElement.className = "disableDiv";
         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }        
@@ -765,11 +745,8 @@ export class Template1Component implements OnInit {
            }, 50)
            this.quesObj.questionText[this.quesEmptyTxtIndx] = opt;//Saving selected option for showing in Popup 
            
-           /*Disable Other options,speaker and ShowansBtn*/
-        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-			this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-        }
-        this.speakerNormal.nativeElement.classList.add("disableDiv");
+           /*Disable Other options,speaker and ShowansBtn*/        
+		this.maincontent.nativeElement.className = "disableDiv";
         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }     
@@ -861,10 +838,7 @@ export class Template1Component implements OnInit {
     this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = this.emptyOpt;
     document.getElementById('refQuesId').style.width='auto';
     /*Enable Other options*/
-    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-		this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-    }
-    this.speakerNormal.nativeElement.classList.remove("disableDiv");
+	this.maincontent.nativeElement.className = "";    
     
    }
     
