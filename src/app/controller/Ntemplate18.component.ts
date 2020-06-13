@@ -764,6 +764,7 @@ houtSkip(){
       if (action == "submitAnswer") {
         if (!this.instruction.nativeElement.paused)
             {
+              this.startActivity();
               this.instruction.nativeElement.pause();
               this.instruction.nativeElement.currentTime = 0;
             }
@@ -772,6 +773,7 @@ houtSkip(){
       if (action == "replayVideo") {
         if (!this.instruction.nativeElement.paused)
             {
+              this.startActivity();
               this.instruction.nativeElement.pause();
               this.instruction.nativeElement.currentTime = 0;
             }
