@@ -354,9 +354,11 @@ export class Ntemplate17 implements OnInit {
           if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
             this.QuestionVideo.nativeElement.play();
             this.appModel.handlePostVOActivity(false);
+            this.instructionBar.nativeElement.style.pointerEvents="none";
             this.QuestionVideo.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
-			  this.QuestionVideo.nativeElement.load();
+			        this.QuestionVideo.nativeElement.load();
+              this.instructionBar.nativeElement.style.pointerEvents="";
             }
           }
         }       
@@ -476,6 +478,7 @@ export class Ntemplate17 implements OnInit {
           // this.QuestionVideo.nativeElement.pause();
           // this.QuestionVideo.nativeElement.currentTime = 0;
 		  this.QuestionVideo.nativeElement.load();
+      this.instructionBar.nativeElement.style.pointerEvents="";
         }
       }
       if (action == "replayVideo") {
@@ -491,6 +494,7 @@ export class Ntemplate17 implements OnInit {
             //this.QuestionVideo.nativeElement.pause();
             //this.QuestionVideo.nativeElement.currentTime = 0;
 			this.QuestionVideo.nativeElement.load();
+      this.instructionBar.nativeElement.style.pointerEvents="";
           }
         }
       }
@@ -793,6 +797,7 @@ export class Ntemplate17 implements OnInit {
         if (this.QuestionVideo != undefined) {
           this.QuestionVideo.nativeElement.pause();
           this.QuestionVideo.nativeElement.currentTime = 0;
+          this.QuestionVideo.nativeElement.load();
         }
         // this.QuestionVideo.nativeElement.pause();
         //this.QuestionVideo.nativeElement.currentTime = 0;      
@@ -828,6 +833,7 @@ export class Ntemplate17 implements OnInit {
 
   openKeyBoard() {
     clearInterval(this.blinkTimer);
+    this.instructionBar.nativeElement.style.pointerEvents="";
     this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
@@ -884,6 +890,7 @@ export class Ntemplate17 implements OnInit {
   }
 
   addWord() {
+    this.instructionBar.nativeElement.style.pointerEvents="";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
@@ -1355,7 +1362,7 @@ export class Ntemplate17 implements OnInit {
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
     this.QuestionLoaded();
-
+    this.QuestionVideo.nativeElement.load();
   }
 
 
