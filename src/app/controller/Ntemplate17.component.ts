@@ -294,7 +294,7 @@ export class Ntemplate17 implements OnInit {
     if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
-	  this.QuestionVideo.nativeElement.load();
+	  //this.QuestionVideo.nativeElement.load();
     }
   };
 
@@ -358,6 +358,8 @@ export class Ntemplate17 implements OnInit {
             this.QuestionVideo.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
 			        //this.QuestionVideo.nativeElement.load();
+              this.QuestionVideo.nativeElement.pause();
+              this.QuestionVideo.nativeElement.currentTime=0;
               this.instructionBar.nativeElement.style.pointerEvents="";
             }
           }
@@ -823,12 +825,15 @@ export class Ntemplate17 implements OnInit {
           if (this._questionAreaVideoFlag != true) {
             //this.blinkTextBox();
           }
+      if(this.videoReplayd){
+         this.QuestionVideo.nativeElement.pause();
+         this.QuestionVideo.nativeElement.currentTime=0;
+      }
         }
       }
     }, 100)
     this.instruction.nativeElement.pause();
     this.instruction.nativeElement.currentTime = 0;
-
   }
 
   openKeyBoard() {
@@ -1363,7 +1368,10 @@ export class Ntemplate17 implements OnInit {
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
     this.QuestionLoaded();
-    this.QuestionVideo.nativeElement.load();
+    if(this.videoReplayd){
+       this.QuestionVideo.nativeElement.pause();
+       this.QuestionVideo.nativeElement.currentTime=0;
+    }
   }
 
 
@@ -1425,8 +1433,8 @@ export class Ntemplate17 implements OnInit {
         this.appModel.handlePostVOActivity(false);
         this.inputDivRef.nativeElement.classList = "inputDiv";
         this.allEnabledwhilequestionVideoPlay();
-        this.QuestionVideo.nativeElement.pause();
-        this.QuestionVideo.nativeElement.currentTime=0;
+        //this.QuestionVideo.nativeElement.pause();
+        //this.QuestionVideo.nativeElement.currentTime=0;
 		//this.QuestionVideo.nativeElement.load();
       }
     }
