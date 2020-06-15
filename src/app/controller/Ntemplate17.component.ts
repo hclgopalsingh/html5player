@@ -1433,8 +1433,8 @@ export class Ntemplate17 implements OnInit {
         this.appModel.handlePostVOActivity(false);
         this.inputDivRef.nativeElement.classList = "inputDiv";
         this.allEnabledwhilequestionVideoPlay();
-        //this.QuestionVideo.nativeElement.pause();
-        //this.QuestionVideo.nativeElement.currentTime=0;
+        this.QuestionVideo.nativeElement.pause();
+        this.QuestionVideo.nativeElement.currentTime=0;
 		//this.QuestionVideo.nativeElement.load();
       }
     }
