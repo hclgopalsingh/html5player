@@ -230,6 +230,11 @@ export class TemplateTenComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
+    if (this.getChromeVersion() < 58) {
+      for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
+        this.refQuesWord.nativeElement.children[i].style.width = "fit-content";
+      }
+    }
 
   }
 
@@ -328,6 +333,7 @@ export class TemplateTenComponent implements OnInit {
         this.speakerTimer = setInterval(() => {
           speaker.imgsrc = speaker.imgactive;
           this.sprite.nativeElement.style = "display:flex";
+          (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
           this.checkSpeakerVoice(speaker);
         }, 10)
       }
@@ -344,6 +350,7 @@ export class TemplateTenComponent implements OnInit {
         el.onended = () => {
           if (this.maincontent) {
             this.maincontent.nativeElement.className = "";
+            (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
             this.sprite.nativeElement.style = "display:none";
           }
         }
@@ -358,6 +365,7 @@ export class TemplateTenComponent implements OnInit {
     } else {
       speaker.imgsrc = speaker.imgorigional;
       this.sprite.nativeElement.style = "display:none";
+      (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
       clearInterval(this.speakerTimer);
     }
   }
@@ -457,7 +465,7 @@ export class TemplateTenComponent implements OnInit {
       this.appModel.stopAllTimer();
       selectedAkshar.matraadded.push(option.matravalue);
       option.optBg = option.optBg_original;
-      this.optionsContainer.nativeElement.classList.add("disableDiv");
+      //this.optionsContainer.nativeElement.classList.add("disableDiv");
       this.ifRightAns = true;
       selectedAkshar.url = selectedAkshar.correct_ans.url;
       if (option.matravalue === "oo") {
@@ -581,8 +589,13 @@ export class TemplateTenComponent implements OnInit {
   closePopup(Type) {
     this.showAnswerRef.nativeElement.classList = "modal";
     this.ansPopup.nativeElement.classList = "modal";
+
     this.wrongFeedback.nativeElement.pause();
     this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+    clearTimeout(this.clappingTimer);
 
     this.rightFeedback.nativeElement.pause();
     this.rightFeedback.nativeElement.currentTime = 0;
@@ -746,6 +759,11 @@ export class TemplateTenComponent implements OnInit {
 
     this.wrongFeedbackOnAkshar.nativeElement.pause();
     this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
+  }
+
+  getChromeVersion(): any {
+    let appVersion = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+    return appVersion && appVersion.split('.')[0];
   }
 
 }
