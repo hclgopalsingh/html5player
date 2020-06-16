@@ -146,7 +146,6 @@ export class TemplateTenComponent implements OnInit {
       } else if (mode == "auto") {
         console.log("auto mode", mode);
         this.attemptType = "uttarDikhayein";
-        //this.popupType = "showanswer"
       }
     })
 
@@ -208,10 +207,6 @@ export class TemplateTenComponent implements OnInit {
         if (this.ansPopup && this.ansPopup.nativeElement) {
           this.ansPopup.nativeElement.classList = "displayPopup modal";
         }
-
-      } else if (mode == "auto") {
-        // console.log("mode manual2 show answer working", mode)
-        // this.showAnswers();
       }
     })
 
@@ -373,12 +368,6 @@ export class TemplateTenComponent implements OnInit {
   /*********SPEAKER HOVER *********/
   onHoverSpeaker(speaker) {
     speaker.imgsrc = speaker.imghover;
-    if (!this.instruction.nativeElement.paused) {
-      this.disableSpeaker.nativeElement.className = "speakerBlock";
-    }
-    else {
-      this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-    }
   }
 
   /******Hover out speaker ********/
@@ -465,7 +454,6 @@ export class TemplateTenComponent implements OnInit {
       this.appModel.stopAllTimer();
       selectedAkshar.matraadded.push(option.matravalue);
       option.optBg = option.optBg_original;
-      //this.optionsContainer.nativeElement.classList.add("disableDiv");
       this.ifRightAns = true;
       selectedAkshar.url = selectedAkshar.correct_ans.url;
       if (option.matravalue === "oo") {

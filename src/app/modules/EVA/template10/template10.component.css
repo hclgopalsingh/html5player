@@ -61,23 +61,10 @@
     width: 100%;
     height: 23%;
     left: 0%;
-    /* display: -webkit-box;
-    display: -ms-flexbox; */
     display: flex;
-    /* -webkit-box-align: center;
-    -ms-flex-align: center; */
     align-items: center;
-    /* -webkit-box-pack: center;
-    -ms-flex-pack: center; */
     justify-content: center;
 }
-
-/* .options {
-	width: 86%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-} */
 .quesImage {
     margin: 0 10% 0 29%;
     width: 100%;
@@ -102,14 +89,8 @@
     max-width: 100%;
     vertical-align: middle;
     width: 21.6%;
-    /* display: -webkit-box;
-    display: -ms-flexbox; */
     display: flex;
-    /* -webkit-box-pack: center;
-    -ms-flex-pack: center; */
     justify-content: center;
-    /* -webkit-box-align: center;
-    -ms-flex-align: center; */
     align-items: center;
     -webkit-transition: -webkit-transform .2s;
     transition: -webkit-transform .2s;
@@ -296,33 +277,6 @@ div.matra_rBtmRight img[src*='ha.png'] + img[src*='rBtmRight.png']{
 div.matra_rBtmCenter img[src*='rBtmCenter.png']{
 	right: .3vmax;
 }
-/*** Akshar Positioning Classes ***/
-/* img[src*='ad.png'],
-img[src*='b.png'],
-img[src*='bh.png'],
-img[src*='ch.png'],
-img[src*='dh.png'],
-img[src*='f.png'],
-img[src*='g.png'],
-img[src*='gh.png'],
-img[src*='j.png'],
-img[src*='k.png'],
-img[src*='kh.png'],
-img[src*='ksh.png'],
-img[src*='l.png'],
-img[src*='m.png'],
-img[src*='n.png'],
-img[src*='p.png'],
-img[src*='s.png'],
-img[src*='sh.png'],
-img[src*='shh.png'],
-img[src*='thh.png'],
-img[src*='tr.png'],
-img[src*='tt.png'],
-img[src*='v.png'],
-img[src*='y.png']{
-	margin-right: -1.2vmax;
-} */
 .rightWrongAns{
     bottom: 14%;
 } 
