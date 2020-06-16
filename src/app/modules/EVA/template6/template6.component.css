@@ -3,18 +3,17 @@
     top: 12%;
 	width: 100%;
 	height: 71.3%;
-    left: 0%; 
-	display: flex;
+    left: 0%; 	 
 	align-items: center;
-	justify-content: center;
+ 
 }
 .options {
-	width: 15%;
-    position: absolute;
+	width: 100%;
+    
     z-index: 1;
 	left: 10.5%;
 	top: 0.1%;
-	display: flex;
+	 text-align: center;
 	flex-direction: column;
 	/* flex-wrap: wrap; */
 	align-items: left;
@@ -28,8 +27,8 @@
 }
 .options div {
  position: relative;
- width: 100%;
- transition: transform .6s;
+ width: 12%; display: inline-block;
+ transition: transform .6s; margin: 0 1%;
 }
 
 .options div .subOpt {
@@ -51,11 +50,11 @@
  max-width: 16%;
 }
 .stageVideo {
-	position: absolute;
-    width: 51%;
-	right: 9.6%;
+	 
+    width: 100%;
+	padding:0 5%;
 	top: 1.7%;
-	display: flex;
+	 
 	justify-content: center;
 	align-items: center;
 }
@@ -74,11 +73,13 @@
 	clip-path: inset(1.7% 1% 1% 1% round 4vmax);
 }
 #container .speakerBtn{
-	width:7%;
-	height: 12%;
-	position:absolute;
-	top:69.2%;
-	right: 1.8%;
+    width: 12%;
+    margin: 0 2%;
+    display: inline-block;
+    position: relative;
+    margin-top: 8%;
+    padding: 1%;
+	
 }
 
 .options img,
@@ -140,3 +141,115 @@
     justify-content: center;
     align-items: center;
 }
+
+.matchBlock{
+    display: flex;
+    justify-content: center;
+    align-items: initial;
+    margin: .5% 0;}
+.matchHolder{
+    width: 39%;
+    position: relative;
+}
+.optSelectedHidden{
+    position: absolute;
+    text-align: center;
+    top: 15%;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+}
+.optSelectedHidden .rightIcon{ 
+    position: absolute;
+    left: 43%;
+    width: 14%;
+    bottom: -35%;
+}
+.optSelectedHidden .img-fluid{
+    width: 32%; position: absolute;
+}
+.optSelectedHidden .img-fluid:nth-child(1){
+    left:0
+}
+.optSelectedHidden .img-fluid:nth-child(2){
+    right:0
+}
+.optSelectedHidden .img-fluid:nth-child(3){
+    bottom:0; left: 33%;
+}
+
+
+.optSelectedHidden .subOpt:nth-child(1){
+    left:0; position: absolute;
+}
+.optSelectedHidden .subOpt:nth-child(2){
+    right:0%; position: absolute;
+}
+.optSelectedHidden .subOpt:nth-child(3){
+    bottom:0; left: 33%; position: absolute;
+}
+
+
+
+.controlCursor{
+    cursor: default
+  }
+  .shrink_it{
+    animation: shrinkIt 0.5s linear;
+     
+    pointer-events: none
+  }
+  
+  @keyframes shrinkIt{
+      0%{
+          transform: scale(1.0)
+      }
+      100%{
+     transform: scale(0.7)
+      }
+  }
+  .section_title{position: absolute; left: 0; top: 0;}
+  .controlCursor{visibility: hidden;}
+  .disableDiv1 {
+    pointer-events: none;
+}
+.showAnsMatchBlock{position: absolute; left:0}
+.showanswerSpacer{width:3%; position: relative;}
+.showanswerSpacer .rightIcon{    width: 150%;
+    bottom: -30%;
+    position: absolute;
+    left: -25%;}
+ 
+
+
+
+    /* in-flight clone */
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    pointer-events: none;
+    cursor: move;
+  }
+  /* high-performance display:none; helper */
+  .gu-hide {
+    left: -9999px !important;
+  }
+  /* added to mirrorContainer (default = body) while dragging */
+  .gu-unselectable {
+    cursor: move;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  /* added to the source element while its mirror is dragged */
+  .gu-transit {
+    cursor: move!important;
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+  }

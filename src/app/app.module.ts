@@ -7,7 +7,7 @@ import { AppRoutingModule } from './modules/routing';
 import { NouisliderModule } from 'ng2-nouislider';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { ContainerComponent } from './controller/container.component';
@@ -157,7 +157,8 @@ import { Template6Component } from './modules/EVA/template6/template6.component'
 		FormsModule,
 		SignalrCustomModule.forRoot(),
 		NouisliderModule,
-		NgxPaginationModule
+		NgxPaginationModule,
+		DragulaModule.forRoot()
 	],
 	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
 	bootstrap: [AppComponent]
