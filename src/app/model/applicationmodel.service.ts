@@ -69,10 +69,6 @@ export class ApplicationmodelService {
   private nextCollectionCounterEVA: number = 0;
 
 
-
-
-
-
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
     this.httpHandler = httpHandler;
@@ -993,44 +989,45 @@ export class ApplicationmodelService {
     return this._navBtnSub.asObservable();
   }
 
-  public nextSectionEVA(CurrentQues): void {
+
+  //////******EVA - Automatic move to next segment after last question attempt*******/////
+
+  public nextSectionEVA(): void {
     this.nextCollectionCounterEVA++;
     this.refernceStore.setTitleFlag(false);
     this.segmentBeginvariable = false;
     if (this.nextCollectionCounterEVA === 1) {
       this.currentSection = this.contentCollection.collection.length;
     }
-    // this.blinkForLastQues();
     console.log('ApplicationmodelService: nextSection - currentSection=',
       this.currentSection, 'contentCollection.collection.length', this.contentCollection.collection.length);
     if (this.currentSection > this.contentCollection.collection.length - 1) {
       if (this.nextCollectionCounterEVA === 1) {
-        this.nextCollectionEva(CurrentQues);
+        this.nextCollectionEva();
         this.resetEVACollectionCounter();
       }
-
       this.isVideoPlayed = false;
     } else {
       // this.subjectQuestionIdx.next(this.contentCollection.collection.length - 2);
       // this.runContent()
     }
   }
+
+  //****RESET COUNTER AFTER 1st MOVEMENT****** */
   private resetEVACollectionCounter() {
     setTimeout(() => {
       this.nextCollectionCounterEVA = 0;
     }, 5000);
   }
 
-  nextCollectionEva(CurrentQues): void {
+  
+  //****GO TO NEXT COLLECTION****** */
+  private nextCollectionEva(): void {
     this.segmentBeginvariable = true;
     this.currentActive++;
-    //this._resetTimerOnNewSeg.next();
     console.log('ApplicationmodelService: nextCollection - currentActive=',
       this.currentActive, 'initValues.files.length', this.initValues.files.length);
     if (this.currentActive > this.initValues.files.length - 1) {
-      // finished
-      //   this.currentSection = this.contentCollection.collection.length - 1;
-      // this.runContent();
       this.selectQues(this.contentCollection.collection.length - 1);
       console.info('ApplicationmodelService: nextCollection - currentActive, currentSection reset');
     } else {
@@ -1040,13 +1037,8 @@ export class ApplicationmodelService {
         this.currentActive, 'this.initValues.files[this.currentActive]', this.initValues.files[this.currentActive]);
       this.eventDone = false;
     }
-    /* 
-   // ****check later**** //
-    this.setQuestionNo();
-     let data = this.content.contentData.data;
-     let firsQflag = data['commonassets'].isFirstQues;
-     this._firstQues.next(firsQflag);*/
   }
+
 
 }
 
