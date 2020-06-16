@@ -100,7 +100,7 @@ export class Template15Component implements OnInit {
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) { 
         this.appModel = appModel;
-
+        this.appModel.setLoader(true);
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
         } else {
@@ -555,7 +555,7 @@ export class Template15Component implements OnInit {
             this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content" 
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
-            this.maincontent.nativeElement.className = "disableDiv";   
+            // this.maincontent.nativeElement.className = "disableDiv";   
             clearTimeout(this.rightTimer);  
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
@@ -696,5 +696,10 @@ export class Template15Component implements OnInit {
          }
         }
      }
+
+     clearData(): void {
+		// clear message
+		this.Sharedservice.clearData();
+	}
 
 }
