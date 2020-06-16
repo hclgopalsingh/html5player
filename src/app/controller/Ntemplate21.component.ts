@@ -664,7 +664,7 @@ export class Ntemplate21 implements OnInit {
             }
         }
     }
-    attemptNo : any = 1;
+    attemptNo : any = 5;
     sendFeedback(ref, flag: string, action?: string) {
         if(this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused){
             this.instructionVO.nativeElement.pause();
@@ -696,9 +696,9 @@ export class Ntemplate21 implements OnInit {
             this.isOn =true
 
         } else if(action=="submitAnswer"){
-            if(this.attemptNo < 5){
-                this.attemptNo +=1
-            }
+            //if(this.attemptNo < 5){
+                this.attemptNo -=1
+            //}
             console.log("attemptNo",this.attemptNo)
             this.getAnswer();
         }else if(action=="showAnswerFeedback"){
