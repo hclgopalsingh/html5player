@@ -741,7 +741,7 @@ button:focus {
 
 .attemptsBlock {
   width: 13%;
-  height: 16.2%;
+  height: 17%;
   position: absolute;
   top: 15%;
   right: 8%;
@@ -768,7 +768,7 @@ button:focus {
   color: #00f;
 }
 .attemptsBlock div+div {
-  font-size: 2.3vmax;
+  font-size: 2.1vmax;
   /* border: solid .25vmax #000;
   border-radius: .7vmax;
   background: #FCFD9C; */
@@ -777,4 +777,18 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center; */
+}
+
+.attemptsBlock .div:last-child{
+  height: 56% !important;
+	display: flex;
+	justify-content: center;
+  align-items: center;
+}
+
+.attemptsBlock .div:first-child{
+  height: 48% !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
