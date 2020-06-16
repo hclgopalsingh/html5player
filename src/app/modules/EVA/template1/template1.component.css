@@ -100,12 +100,12 @@
 	padding: 0;
 }
 .refQues{
-	/* width: auto; */
+	width: auto;
 	max-width: 100%;
     height: 94%;
     /* padding: 0 5%; */
 	display: flex;
-	/* justify-content: center; */
+	justify-content: center;
 	/* align-items: center; */
 	z-index: 1;
 	position: absolute;
@@ -124,7 +124,7 @@
 
 .refQues div {
 	height: 89%;/*83%*/;
-	/* width: fit-content; */
+	width: fit-content;
 	display: flex;
 	justify-content: center;
     align-items: center;

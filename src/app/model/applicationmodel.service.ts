@@ -66,10 +66,7 @@ export class ApplicationmodelService {
   EVA: boolean = false;
   subscription: Subscription;
   Template: any;
-
-
-
-
+  private nextCollectionCounterEVA: number = 0;
 
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
@@ -990,6 +987,57 @@ export class ApplicationmodelService {
   get enableFlagNav() {
     return this._navBtnSub.asObservable();
   }
+
+
+  //////******EVA - Automatic move to next segment after last question attempt*******/////
+
+  public nextSectionEVA(): void {
+    this.nextCollectionCounterEVA++;
+    this.refernceStore.setTitleFlag(false);
+    this.segmentBeginvariable = false;
+    if (this.nextCollectionCounterEVA === 1) {
+      this.currentSection = this.contentCollection.collection.length;
+    }
+    console.log('ApplicationmodelService: nextSection - currentSection=',
+      this.currentSection, 'contentCollection.collection.length', this.contentCollection.collection.length);
+    if (this.currentSection > this.contentCollection.collection.length - 1) {
+      if (this.nextCollectionCounterEVA === 1) {
+        this.nextCollectionEva();
+        this.resetEVACollectionCounter();
+      }
+      this.isVideoPlayed = false;
+    } else {
+      // this.subjectQuestionIdx.next(this.contentCollection.collection.length - 2);
+      // this.runContent()
+    }
+  }
+
+  //****RESET COUNTER AFTER 1st MOVEMENT****** */
+  private resetEVACollectionCounter() {
+    setTimeout(() => {
+      this.nextCollectionCounterEVA = 0;
+    }, 5000);
+  }
+
+  
+  //****GO TO NEXT COLLECTION****** */
+  private nextCollectionEva(): void {
+    this.segmentBeginvariable = true;
+    this.currentActive++;
+    console.log('ApplicationmodelService: nextCollection - currentActive=',
+      this.currentActive, 'initValues.files.length', this.initValues.files.length);
+    if (this.currentActive > this.initValues.files.length - 1) {
+      this.selectQues(this.contentCollection.collection.length - 1);
+      console.info('ApplicationmodelService: nextCollection - currentActive, currentSection reset');
+    } else {
+      this.load(this.initValues.files[this.currentActive]);
+      // this.nextCollectionCounterEVA = 0;
+      console.log('ApplicationmodelService: nextCollection - currentActive=',
+        this.currentActive, 'this.initValues.files[this.currentActive]', this.initValues.files[this.currentActive]);
+      this.eventDone = false;
+    }
+  }
+
 
 }
 
