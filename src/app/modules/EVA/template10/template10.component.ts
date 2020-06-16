@@ -152,6 +152,8 @@ export class TemplateTenComponent implements OnInit {
 
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       this.appModel.stopAllTimer();
+      this.audio.pause();
+      this.audio.currentTime = 0;
       this.clapSound.nativeElement.pause();
       this.clapSound.nativeElement.currentTime = 0;
       this.rightFeedback.nativeElement.pause();
@@ -164,7 +166,7 @@ export class TemplateTenComponent implements OnInit {
         this.shuffleOptions();
       }
       clearTimeout(this.clappingTimer);
-      this.refQuesWord.nativeElement.classList.remove("disableDiv");
+      this.optionsContainer.nativeElement.classList.add("disableDiv");
       this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
@@ -377,6 +379,7 @@ export class TemplateTenComponent implements OnInit {
 
   /****** sets clapping timer ********/
   setClappingTimer(feedback) {
+    this.stopAllSounds();
     this.clapSound.nativeElement.play();
     this.clappingTimer = setTimeout(() => {
       this.clapSound.nativeElement.pause();
@@ -497,6 +500,7 @@ export class TemplateTenComponent implements OnInit {
       this.wrongCounter += 1;
       setTimeout(() => {
         if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+          this.stopAllSounds();
           this.wrongFeedback.nativeElement.play();
         }
 
@@ -596,6 +600,8 @@ export class TemplateTenComponent implements OnInit {
 
     this.wrongFeedbackOnAkshar.nativeElement.pause();
     this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
+
+    this.refQuesWord.nativeElement.classList.remove("disableDiv");
 
     if (Type === "answerPopup") {
       this.popupclosedinRightWrongAns = true;
