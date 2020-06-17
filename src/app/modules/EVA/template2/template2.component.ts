@@ -138,7 +138,6 @@ export class Template2Component implements OnInit {
       } else if (mode == "auto") {
         console.log("auto mode", mode);
         this.attemptType = "uttarDikhayein";
-        //this.popupType = "showanswer"
       }
     })
 
@@ -181,7 +180,6 @@ export class Template2Component implements OnInit {
           }
         }
       }
-
     })
 
 
@@ -202,10 +200,6 @@ export class Template2Component implements OnInit {
         if (this.ansPopup && this.ansPopup.nativeElement) {
           this.ansPopup.nativeElement.classList = "displayPopup modal";
         }
-
-      } else if (mode == "auto") {
-        // console.log("mode manual2 show answer working", mode)
-        // this.showAnswers();
       }
     })
 
@@ -321,6 +315,7 @@ export class Template2Component implements OnInit {
         this.speakerTimer = setInterval(() => {
           speaker.imgsrc = speaker.imgactive;
           this.sprite.nativeElement.style = "display:flex";
+          (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
           this.checkSpeakerVoice(speaker);
         }, 10)
       }
@@ -338,6 +333,7 @@ export class Template2Component implements OnInit {
           if (this.maincontent) {
             this.maincontent.nativeElement.className = "";
             this.sprite.nativeElement.style = "display:none";
+            (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
           }
         }
 
@@ -351,6 +347,7 @@ export class Template2Component implements OnInit {
     } else {
       speaker.imgsrc = speaker.imgorigional;
       this.sprite.nativeElement.style = "display:none";
+      (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
       clearInterval(this.speakerTimer);
     }
   }
@@ -358,12 +355,6 @@ export class Template2Component implements OnInit {
   /*********SPEAKER HOVER *********/
   onHoverSpeaker(speaker) {
     speaker.imgsrc = speaker.imghover;
-    if (!this.instruction.nativeElement.paused) {
-      this.disableSpeaker.nativeElement.className = "speakerBlock";
-    }
-    else {
-      this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-    }
   }
 
   /******Hover out speaker ********/
@@ -385,7 +376,6 @@ export class Template2Component implements OnInit {
     let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement;
     this.celebrationTimer = setTimeout(() => {
       if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
-        //document.getElementById("refQuesBlock").style.visibility="hidden";
         celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
         this.setClappingTimer(this.multiCorrectFeedback);
       }
