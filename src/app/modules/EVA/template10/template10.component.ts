@@ -73,6 +73,7 @@ export class TemplateTenComponent implements OnInit {
   audio = new Audio();
   selectedIndex: any;
   rightAnswerPopup: any;
+  showAnswerTimer: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
@@ -135,8 +136,8 @@ export class TemplateTenComponent implements OnInit {
     this.containgFolderPath = this.getBasePath();
     this.setData();
     this.questionObj.letters.forEach(question => {
-      if (question.correct_index) {
-        this.correctAnswerCount++;
+      if (question.correct_ans && question.correct_ans.correct_ans_obj) {
+        this.correctAnswerCount = this.correctAnswerCount + Object.keys(question.correct_ans.correct_ans_obj).length;
       }
     });
     this.appModel.getNotification().subscribe(mode => {
@@ -182,7 +183,7 @@ export class TemplateTenComponent implements OnInit {
         if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
           this.showAnswerfeedback.nativeElement.play();
           this.showAnswerfeedback.nativeElement.onended = () => {
-            setTimeout(() => {
+            this.showAnswerTimer = setTimeout(() => {
               this.closePopup('showAnswer');
             }, 10000);
           }
@@ -378,24 +379,24 @@ export class TemplateTenComponent implements OnInit {
   }
 
   /****** sets clapping timer ********/
-  setClappingTimer(feedback) {
+  setClappingTimer(feedback, popupRef?) {
     this.stopAllSounds();
     this.clapSound.nativeElement.play();
     this.clappingTimer = setTimeout(() => {
       this.clapSound.nativeElement.pause();
       this.clapSound.nativeElement.currentTime = 0;
+      if (popupRef) {
+        popupRef.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+      }
       feedback.nativeElement.play();
     }, 2000);
   }
 
   showRightAnswerPopup() {
-    let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
-    this.multiCorrectTimer = setTimeout(() => {
-      if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
-        rightAnswerPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-        this.setClappingTimer(this.multiCorrectFeedback);
-      }
-    }, 4000);
+    if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
+      let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
+      this.setClappingTimer(this.multiCorrectFeedback, rightAnswerPopup);
+    }
     this.multiCorrectFeedback.nativeElement.onended = () => {
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       this.maincontent.nativeElement.className = "disableDiv";
@@ -458,7 +459,17 @@ export class TemplateTenComponent implements OnInit {
       selectedAkshar.matraadded.push(option.matravalue);
       option.optBg = option.optBg_original;
       this.ifRightAns = true;
-      selectedAkshar.url = selectedAkshar.correct_ans.url;
+      if (selectedAkshar.matra_selected === 0) {
+        selectedAkshar.url = selectedAkshar.correct_ans.correct_ans_obj[option.matravalue] && selectedAkshar.correct_ans.correct_ans_obj[option.matravalue].url;
+        selectedAkshar.matra_selected++;
+        if (option.matravalue === "ang") {
+          this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "-3%";
+        }
+      }
+      else {
+        this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "0%";
+        selectedAkshar.url = selectedAkshar.correct_ans.url;
+      }
       if (option.matravalue === "oo") {
         this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "-2%";
       }
@@ -477,12 +488,12 @@ export class TemplateTenComponent implements OnInit {
 
       setTimeout(() => {
         if (this.rightFeedback && this.rightFeedback.nativeElement) {
-          this.setClappingTimer(this.rightFeedback);
-          this.rightFeedback.nativeElement.onended = () => {
-            if (this.correctAnswerCounter === this.correctAnswerCount) {
-              this.showRightAnswerPopup();
-            }
-            else {
+          if (this.correctAnswerCounter === this.correctAnswerCount) {
+            this.showRightAnswerPopup();
+          }
+          else {
+            this.setClappingTimer(this.rightFeedback);
+            this.rightFeedback.nativeElement.onended = () => {
               this.refQuesWord.nativeElement.classList.remove("disableDiv");
               this.disableSpeaker.nativeElement.classList.remove("disableDiv");
             }
@@ -579,6 +590,10 @@ export class TemplateTenComponent implements OnInit {
 
   /*****Close popup on click*****/
   closePopup(Type) {
+    clearTimeout(this.rightTimer);
+    clearTimeout(this.clappingTimer);
+    clearTimeout(this.showAnswerTimer);
+
     this.showAnswerRef.nativeElement.classList = "modal";
     this.ansPopup.nativeElement.classList = "modal";
 
@@ -587,7 +602,6 @@ export class TemplateTenComponent implements OnInit {
 
     this.clapSound.nativeElement.pause();
     this.clapSound.nativeElement.currentTime = 0;
-    clearTimeout(this.clappingTimer);
 
     this.rightFeedback.nativeElement.pause();
     this.rightFeedback.nativeElement.currentTime = 0;
