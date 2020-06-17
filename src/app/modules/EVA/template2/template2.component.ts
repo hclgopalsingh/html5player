@@ -64,6 +64,7 @@ export class Template2Component implements OnInit {
   correctAnswerCounter: number = 0;
   correctAnswersArray: any = [];
   selectedAnswersArray: any = [];
+  showAnswerTimer: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
@@ -174,7 +175,7 @@ export class Template2Component implements OnInit {
         if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
           this.showAnswerfeedback.nativeElement.play();
           this.showAnswerfeedback.nativeElement.onended = () => {
-            setTimeout(() => {
+            this.showAnswerTimer = setTimeout(() => {
               this.closePopup('showAnswer');
             }, 10000);
           }
@@ -530,6 +531,10 @@ export class Template2Component implements OnInit {
 
   /*****Close popup on click*****/
   closePopup(Type) {
+    clearTimeout(this.rightTimer);
+    clearTimeout(this.clappingTimer);
+    clearTimeout(this.showAnswerTimer);
+
     this.showAnswerRef.nativeElement.classList = "modal";
     this.celebrationsPopup.nativeElement.classList = "modal";
     this.wrongFeedback.nativeElement.pause();
