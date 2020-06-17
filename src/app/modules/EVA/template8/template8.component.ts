@@ -731,6 +731,7 @@ export class Template8Component implements OnInit {
         } else {
             speaker.img_src = speaker.img_origional;
             this.sprite.nativeElement.style = "display:none";
+            (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
             clearInterval(this.speakerTimer);
         }
 
@@ -755,6 +756,7 @@ export class Template8Component implements OnInit {
                 this.speakerTimer = setInterval(() => {
                     speaker.img_src = speaker.img_active;
                     this.sprite.nativeElement.style = "display:flex";
+                    (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
                     this.checkSpeakerVoice(speaker);
                 }, 10)
             }
@@ -772,6 +774,7 @@ export class Template8Component implements OnInit {
                     if (this.maincontent) {
                         this.maincontent.nativeElement.className = "";
                         this.sprite.nativeElement.style = "display:none";
+                        (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
                     }
                 }
 

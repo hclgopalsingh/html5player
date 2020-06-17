@@ -192,7 +192,7 @@ button:focus{
     width: 8%;
 }
 .modal .options img{
-	cursor: default;
+	cursor: default !important;
 }
 /*** Speaker classes ***/
 #container .speakerBlock{
