@@ -19,16 +19,16 @@ export class Template6Component extends Base implements OnInit {
 	constructor(private dragulaService: DragulaService, private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 		super();
 		this.dragSubscription = dragulaService.drop().subscribe((value: any) => {
-			if(value.source == value.target || value.source.parentElement.className == value.target.parentElement.className){
+			if (value.source == value.target || value.source.parentElement.className == value.target.parentElement.className) {
 				console.log('Drag cancelled due to same position')
 				dragulaService.find('second-bag2').drake.cancel(true);
-			} else{
+			} else {
 				this.imageChange = setTimeout(() => {
-					 this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-				    this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
-		        }, 500);
-					
-			 	 
+					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+				}, 500);
+
+
 				console.log('=========>Dropped<=========');
 				var abc = value.el.getAttribute("id");
 				var xyz = this.myoption[abc];
@@ -39,7 +39,7 @@ export class Template6Component extends Base implements OnInit {
 					this.submitAttempt(abc, xyz);
 				}
 			}
-			
+
 		});
 
 		this.appModel = appModel;
@@ -86,7 +86,7 @@ export class Template6Component extends Base implements OnInit {
 	@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
 	@ViewChild('overlay') overlay: any;
 	@ViewChild('optionRef') optionRef: any;
-    @ViewChild('celebrationPopup') celebrationsPopup: any;
+	@ViewChild('celebrationPopup') celebrationsPopup: any;
 
 
 	assetsfolderlocation: string = "";
@@ -169,8 +169,8 @@ export class Template6Component extends Base implements OnInit {
 	dragSubscription: any;
 	blinkCategory: any;
 	isdrop = false;
-	optionHolderValue:any;
-	imageChange:any
+	optionHolderValue: any;
+	imageChange: any
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
 			return this.appModel.content.id + '';
@@ -195,7 +195,6 @@ export class Template6Component extends Base implements OnInit {
 			this.leftRandomArray = JSON.parse(JSON.stringify(this.optionHolder.left_random_index));
 			this.rightRandomArray = JSON.parse(JSON.stringify(this.optionHolder.right_random_index));
 			this.completeRandomArr = this.leftRandomArray.concat(this.rightRandomArray);
-
 			this.feedback = fetchedData.feedback;
 			this.popupAssets = fetchedData.feedback.popupassets;
 			this.rightPopup = this.feedback.right_ans_sound;
@@ -397,11 +396,14 @@ export class Template6Component extends Base implements OnInit {
 					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.videoAnimation.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.videoAnimation.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					this.wrongFeedback.nativeElement.pause();
-  					this.rightFeedback.nativeElement.pause();
+					this.rightFeedback.nativeElement.pause();
 					if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
 						this.showAnswerfeedback.nativeElement.play();
 						this.showAnswerfeedback.nativeElement.onended = () => {
-							this.closePopup("showanswer");
+							setTimeout(() => {
+								this.closePopup("showanswer");
+							  }, 10000);
+							
 						}
 						this.videoonshowAnspopUp.nativeElement.play();
 					}
@@ -410,8 +412,8 @@ export class Template6Component extends Base implements OnInit {
 		})
 		this.imageChange = setTimeout(() => {
 			this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-		   this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
-	   }, 500);
+			this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+		}, 500);
 	}
 
 	ngOnDestroy() {
@@ -465,6 +467,7 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	getRandomIndxBlink(no) {
+		clearInterval(this.blinkTimeInterval);
 		$(this.optionsBlock.nativeElement.children[0].children[2]).removeClass("disableDiv1");
 		$(this.optionsBlock.nativeElement.children[0].children[0]).removeClass("disableDiv1");
 		this.randomIdx = Math.floor((Math.random() * no));
@@ -507,26 +510,20 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	blinkCategoryA(randomIdx) {
+		console.log(this.selectableOpts);
 		this.blinkCategory = "A";
-		this.splishedValue = this.completeRandomArr[randomIdx];
-		this.completeRandomArr.splice(randomIdx, 1);
 		this.blinkSide = "left";
 		this.startCount = 1;
 		this.blinkHolder();
-		this.selectableOpts--;
-		this.blinkCategory1++;
 		this.blinkCategory2 = 0;
 	}
 
 	blinkCategoryB(randomIdx) {
+		console.log(this.selectableOpts);
 		this.blinkCategory = "B";
-		this.splishedValue = this.completeRandomArr[randomIdx];
-		this.completeRandomArr.splice(randomIdx, 1);
 		this.blinkSide = "right";
 		this.startCount = 1;
 		this.blinkHolder();
-		this.selectableOpts--;
-		this.blinkCategory2++;
 		this.blinkCategory1 = 0;
 	}
 
@@ -559,7 +556,6 @@ export class Template6Component extends Base implements OnInit {
 				this.optionHolder.rightHolder = this.optionHolder.rightHolder_blink1;
 				setTimeout(() => {
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_blink2;
-
 				}, 150)
 				this.blinkFlag = false;
 			} else {
@@ -570,19 +566,21 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	submitAttempt(idx, opt) {
-		
 		this.appModel.enableReplayBtn(false);
 		this.startCount = 0;
 		clearInterval(this.blinkTimeInterval);
 		this.blinkTimeInterval = 0;
 		this.moveFrom = this.optionsBlock.nativeElement.children[1].children[idx].children[0].src;
 
-
 		if (this.blinkSide == "left") {
 			console.log(this.optionsBlock.nativeElement.children[0].children[0].children[2].children[this.leftSelectedIdx + 1])
 
 			if ((this.optionHolder.left_random_index).includes(opt.id)) {
 				this.LRightAttempt++;
+				this.selectableOpts--;
+				this.blinkCategory1++;
+				this.splishedValue = this.completeRandomArr[this.randomIdx];
+				this.completeRandomArr.splice(this.randomIdx, 1);
 				$(this.optionsBlock.nativeElement.children[1].children[idx]).addClass("disableDiv1");
 				this.setClappingTimer(this.rightFeedback);
 				this.ifRightAns = true;
@@ -592,7 +590,7 @@ export class Template6Component extends Base implements OnInit {
 					this.blinkCategory1--;
 				}
 				this.completeRandomArr.push(this.splishedValue);
-				this.selectableOpts++;
+				//this.selectableOpts++;
 				this.categoryA.incorrect.push(opt);
 				this.ifWrongAns = true;
 				this.optionsBlock.nativeElement.className = "optionsBlock disableDiv";
@@ -618,6 +616,10 @@ export class Template6Component extends Base implements OnInit {
 
 			if ((this.optionHolder.right_random_index).includes(opt.id)) {
 				this.RRightAttempt++;
+				this.selectableOpts--;
+				this.blinkCategory2++;
+				this.splishedValue = this.completeRandomArr[this.randomIdx];
+				this.completeRandomArr.splice(this.randomIdx, 1);
 				$(this.optionsBlock.nativeElement.children[1].children[idx]).addClass("disableDiv1");
 				this.setClappingTimer(this.rightFeedback);
 				this.categoryB.correct.push(opt);
@@ -627,7 +629,7 @@ export class Template6Component extends Base implements OnInit {
 					this.blinkCategory2--;
 				}
 				this.completeRandomArr.push(this.splishedValue);
-				this.selectableOpts++;
+				//this.selectableOpts++;
 				this.categoryB.incorrect.push(opt);
 
 				this.ifWrongAns = true;
@@ -664,22 +666,22 @@ export class Template6Component extends Base implements OnInit {
 		this.clapTimer = setTimeout(() => {
 			this.clapSound.nativeElement.pause();
 			this.clapSound.nativeElement.currentTime = 0;
-
-
 			this.rightFeedback.nativeElement.play();
 
 		}, 2000);
 		this.rightFeedback.nativeElement.onended = () => {
 			$(this.optionsBlock.nativeElement).removeClass("disableDiv1");
 			if (this.selectableOpts > 0) {
+				//if (this.categoryA.correct.length != 3 && this.categoryB.correct.length != 3) {
 				this.getRandomIndxBlink(this.selectableOpts);
 			} else {
 				if (this.blinkTimeInterval) {
 					clearInterval(this.blinkTimeInterval);
 				}
-				this.optionsBlock.nativeElement.classList = "bodyContent disableDiv";
-
-				this.showCelebrations();
+				if (this.categoryA.correct.length == 3 && this.categoryB.correct.length == 3) {
+					this.optionsBlock.nativeElement.classList = "bodyContent disableDiv";
+					this.showCelebrations();
+				}
 			}
 		}
 
@@ -718,13 +720,14 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	closePopup(Type) {
+		clearTimeout(this.imageChange);
 		this.showAnswerRef.nativeElement.classList = "modal";
 		this.celebrationsPopup.nativeElement.classList = "modal";
 		this.wrongFeedback.nativeElement.pause();
 		this.wrongFeedback.nativeElement.currentTime = 0;
-        this.rightFeedback.nativeElement.pause();
+		this.rightFeedback.nativeElement.pause();
 		this.rightFeedback.nativeElement.currentTime = 0;
-        this.showAnswerfeedback.nativeElement.pause();
+		this.showAnswerfeedback.nativeElement.pause();
 		this.showAnswerfeedback.nativeElement.currentTime = 0;
 
 		if (Type === "answerPopup") {
@@ -750,12 +753,13 @@ export class Template6Component extends Base implements OnInit {
 		else if (Type === 'showanswer') {
 			if (this.categoryA.correct.length == 3 && this.categoryB.correct.length == 3) {
 				this.blinkOnLastQues();
-			}else{
-				this.getRandomIndxBlink(this.selectableOpts);
+			} else {
 				$(this.optionsBlock.nativeElement).removeClass("disableDiv");
+				$(this.optionsBlock.nativeElement).removeClass("disableDiv1");
+				this.getRandomIndxBlink(this.selectableOpts);
 			}
 		} else {
-			
+
 		}
 	}
 
@@ -784,7 +788,6 @@ export class Template6Component extends Base implements OnInit {
 			this.audio.onended = () => {
 				for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
 					if (i != idx) {
-
 						this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
 					}
 				}
