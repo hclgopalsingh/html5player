@@ -190,6 +190,10 @@
 	width: 92%;
 	top: -1%;
 }
+#optionsBlock .options img[src*='optionBase.png']{
+    box-shadow: 0.1vmin 0.1vmin 0.1vmin 0.1vmin rgba(0,0,0,0.30);
+    border-radius: 1.17vmax;
+}
 
 /*** Media Query for 1366*768 ***/
 @media screen and (min-width: 1366px) and (max-width: 1366px){
