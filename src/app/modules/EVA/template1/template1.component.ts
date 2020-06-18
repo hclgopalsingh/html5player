@@ -347,7 +347,11 @@ export class Template1Component implements OnInit {
 
    /** CLOSE POPUP FUNCTIONALITY**/
     closePopup(Type){
+		clearTimeout(this.rightTimer);
+		clearTimeout(this.wrongTimer);
+        clearTimeout(this.clapTimer);
 		clearTimeout(this.showAnswerTimer);
+		
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();    
@@ -721,7 +725,7 @@ export class Template1Component implements OnInit {
                  this.wrongFeedback.nativeElement.play();
              }		
              this.wrongFeedback.nativeElement.onended = () => {
-                 setTimeout(() => {
+                 this.wrongTimer=setTimeout(() => {
                      this.closePopup('answerPopup');
                  }, 10000)                    
              }
@@ -816,7 +820,7 @@ export class Template1Component implements OnInit {
                     this.wrongFeedback.nativeElement.play();
                 }		
                 this.wrongFeedback.nativeElement.onended = () => {
-                    setTimeout(() => {
+                    this.wrongTimer=setTimeout(() => {
                         this.closePopup('answerPopup');
                     }, 10000)                    
                 }
