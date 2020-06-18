@@ -732,6 +732,11 @@ export class VideoComponent implements OnInit {
 				}
 			}
 		}
+
+		replayVideo() {
+			this.mainVideo.nativeElement.currentTime=this.assetsOnVideo.replaytime;
+			this.mainVideo.nativeElement.play();
+		}
 		/*
 		showValueOnTooltip(event){
 			this.mouseovervalue = ((this.videoDuration)*(event.offsetX / event.target.clientWidth));
