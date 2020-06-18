@@ -21,6 +21,7 @@ export class Template4Component implements OnInit {
     rightPopupVO: any;
     showAnswerVO:any;
     rightTimer:any;
+	showAnswerTimer:any;
     i = 0;
     j: number = 0;
     feedback: any = "";
@@ -155,7 +156,7 @@ export class Template4Component implements OnInit {
             if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
                 this.showAnswerfeedback.nativeElement.play();
                 this.showAnswerfeedback.nativeElement.onended=() => {
-                    setTimeout(() => {
+                    this.showAnswerTimer=setTimeout(() => {
                             this.closePopup('showAnswer');
                     }, 10000);
                 }                   
@@ -302,6 +303,9 @@ export class Template4Component implements OnInit {
 
    /** CLOSE POPUP FUNCTIONALITY**/
     closePopup(Type){
+		clearTimeout(this.rightTimer);
+        clearTimeout(this.clapTimer);
+        clearTimeout(this.showAnswerTimer);
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
 
@@ -350,6 +354,8 @@ export class Template4Component implements OnInit {
         }else{
             speaker.imgsrc = speaker.imgorigional;          
              this.sprite.nativeElement.style="display:none";
+			 (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+			 this.disableSpeaker.nativeElement.children[0].style.cursor = "auto";
             clearInterval(this.speakerTimer);   
         }
 
@@ -364,13 +370,7 @@ export class Template4Component implements OnInit {
 
     /**SPEAKER HOVER */
     onHoverSpeaker(speaker) {
-        speaker.imgsrc = speaker.imghover;
-        if (!this.instruction.nativeElement.paused) {
-            this.disableSpeaker.nativeElement.className = "speakerBlock";
-        }
-        else {
-            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-        }
+        speaker.imgsrc = speaker.imghover;        
     }
 
 
@@ -395,6 +395,7 @@ export class Template4Component implements OnInit {
                 this.speakerTimer = setInterval(() => {
                     speaker.imgsrc = speaker.imgactive;
                     this.sprite.nativeElement.style="display:flex";
+					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
                     this.checkSpeakerVoice(speaker);
                 }, 10)
             }
@@ -411,6 +412,7 @@ export class Template4Component implements OnInit {
                 el.onended = () => {
                     if (this.maincontent) {
                         this.maincontent.nativeElement.className = "";
+						(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
                          this.sprite.nativeElement.style="display:none";
                     }
                 }
