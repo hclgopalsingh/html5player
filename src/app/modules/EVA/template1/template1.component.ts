@@ -84,6 +84,7 @@ export class Template1Component implements OnInit {
     saveOpt : any;
     rightSelectTimer:any;
     wrongSelectTimer:any;
+	showAnswerTimer:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -170,7 +171,7 @@ export class Template1Component implements OnInit {
             if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
                 this.showAnswerfeedback.nativeElement.play();
                 this.showAnswerfeedback.nativeElement.onended=() => {
-                    setTimeout(() => {
+                    this.showAnswerTimer=setTimeout(() => {
                             this.closePopup('showAnswer');
                     }, 10000);
                 }                   
@@ -346,6 +347,7 @@ export class Template1Component implements OnInit {
 
    /** CLOSE POPUP FUNCTIONALITY**/
     closePopup(Type){
+		clearTimeout(this.showAnswerTimer);
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();    
