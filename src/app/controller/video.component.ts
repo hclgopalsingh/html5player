@@ -297,12 +297,17 @@ export class VideoComponent implements OnInit {
 
   updatePlay(event) {
 	//console.log("this.mainVideo.nativeElement.currentTime:",this.mainVideo.nativeElement.currentTime);  
-    this.isPlaying ? this.playVideo() : this.pauseVideo();
+	this.isPlaying ? this.playVideo() : this.pauseVideo();
+	console.log("this.isPlaying",this.isPlaying)
+	if(!this.isPlaying){
 	this.fadeOutFlag = true;
 	setTimeout(()=>{
 		this.fadeOutFlag = false;
 	    this.displaySpecial = false;
 	},200)
+	}
+	
+	
 	//this.previousElapsed = -1;
   }
 
@@ -434,6 +439,9 @@ export class VideoComponent implements OnInit {
 			//this.previousElapsed = elapsed;
 			this.previousStopPoint = this.timeArr[this.timeArr.indexOf('00:' + dsDiff[i])];
 			this.isPlaying = false;
+			setTimeout(()=>{
+				document.getElementById("playPauseContainer").click();
+			},500)
 			this.mainVideo.nativeElement.pause();
 			console.log("pause at ",dsDiff[i]);
 			console.log("pause at... new ",this.timeArr[this.timeArr.indexOf('00:' + dsDiff[i])]);
@@ -510,13 +518,14 @@ export class VideoComponent implements OnInit {
 
   resumeSpecial(event) {
     console.log('VideoComponent: resumeSpecial - event=', event);
-    this.isPlaying = true;
-    this.mainVideo.nativeElement.play();
-	this.fadeOutFlag = true;
-	setTimeout(()=>{
-	  	this.fadeOutFlag = false;
-	    this.displaySpecial = false;
-	},200)
+    // this.isPlaying = true;
+    // this.mainVideo.nativeElement.play();
+	// this.fadeOutFlag = true;
+	// setTimeout(()=>{
+	//   	this.fadeOutFlag = false;
+	//     this.displaySpecial = false;
+	// },200)
+	this.updatePlay("t");
 	//this.previousElapsed = -1;
 	//this.displaySpecial = false;
 	//this.assetsOnVideo = "";
