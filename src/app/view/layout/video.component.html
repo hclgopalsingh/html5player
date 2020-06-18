@@ -26,6 +26,13 @@
 				<div class="speaker"></div>
 				<audio #quesRepeat [src]="assets[assetsOnVideo?.sound]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.sound]?.url : assetsPath + '/' + assets[assetsOnVideo?.sound]?.url"></audio>
 			</div>
+			<div style.display="{'display': !displaySpecial ? 'none' : 'block'}" [ngStyle]="displaySpecial ? assetsOnVideo?.style_replay : {'display': !displaySpecial  ? 'none' : 'block'}"
+			 [ngClass]="{'fadeInAnimation' : displaySpecial==true,'fadeOutAnimation disableSpeaker': fadeOutFlag==true}" class="{{assetsOnVideo?.style_Replayclass}}"
+			 #speakerBtn (click)="replayVideo()">
+				<img [ngStyle]="{'display': assetsOnVideo?.replay_btn ? 'block' : 'none'}" class="img-fluid" id="speaker" [src]="assets?.replay?.location=='content' ? containgFolderPath + '/' + assets?.replay?.url : assetsPath + '/' + assets?.replay?.url " />
+				<div class="speaker"></div>
+				<audio #quesRepeat [src]="assets[assetsOnVideo?.sound]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.sound]?.url : assetsPath + '/' + assets[assetsOnVideo?.sound]?.url"></audio>
+			</div>
 			<div [ngStyle]="{'display': !displaySpecial  ? 'none' : 'block'}" style="position:absolute; bottom:10%; right:5%; width:16%;"
 			 [ngClass]="{'fadeInAnimation' : displaySpecial==true, 'fadeOutAnimation disableSpeaker': fadeOutFlag==true}">
 				<!--<button (click)="resumeSpecial($event)">Zaari Rakhein</button>-->

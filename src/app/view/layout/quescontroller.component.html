@@ -25,7 +25,7 @@
   <div id="footerNavBlock" #footerNavBlock>
     <div class="navBase">
         <img class="img-fluid" [src]="quesCtrl?.footer?.location=='content' ? containgFolderPath + '/' + quesCtrl?.footer?.url : assetsPath + '/' + quesCtrl?.footer?.url">    
-        <img class="img-fluid prevBtn" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()"  [ngClass]="{'disableBtn': isFirstQuestion || disablePrev==false}"  (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()" title="पीछे जाएं">
+        <img class="img-fluid prevBtn" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()"  [ngClass]="{'disableBtn': isFirstQuestion || disablePrev==false}"  (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()" title="पीछे जाएँ">
         <img class="img-fluid ansBtn" [src]="quesCtrl?.uttar_dikhayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.uttar_dikhayein?.url : assetsPath + '/' + quesCtrl?.uttar_dikhayein?.url"   title="{{UttarDikhayeinTooltip}}" 
         [ngStyle]="!EnableShowAnswer && {'cursor': 'default'}"  (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayeinEVA()" (mouseleave)="houtUttarDikhayeinEVA()">
         <div class="navQuesBlock" #quesBlockChild>
