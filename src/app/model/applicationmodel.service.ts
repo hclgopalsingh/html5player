@@ -66,10 +66,7 @@ export class ApplicationmodelService {
   EVA: boolean = false;
   subscription: Subscription;
   Template: any;
-
-
-
-
+  private nextCollectionCounterEVA: number = 0;
 
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
@@ -137,7 +134,9 @@ export class ApplicationmodelService {
       ['/evatemp1', '/evatemp1ext', 0],
       ['/ntemp14', '/ntemp14ext', 0],
       ['/evatemp8', '/evatemp8ext', 0],
-      ['/evatemp6', '/evatemp6ext', 0]
+      ['/evatemp6', '/evatemp6ext', 0],
+      ['/evatemp2', '/evatemp2ext', 0],
+	  ['/evatemp4', '/evatemp4ext', 0]
     ];
     this.externalCommunication = externalCommunication;
     this.dataLoader = dataLoader;
@@ -461,7 +460,8 @@ export class ApplicationmodelService {
     this.navigateToRoute(this.config[functionalityType][this.config[functionalityType][2]]);
     this.updateConfig(functionalityType);
 
-    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49) {
+    
+    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51) {
       this.setQuestionNo();
       let data = this.content.contentData.data;
       let firsQflag = data['commonassets'].isFirstQues;
@@ -990,6 +990,57 @@ export class ApplicationmodelService {
   get enableFlagNav() {
     return this._navBtnSub.asObservable();
   }
+
+
+  //////******EVA - Automatic move to next segment after last question attempt*******/////
+
+  public nextSectionEVA(): void {
+    this.nextCollectionCounterEVA++;
+    this.refernceStore.setTitleFlag(false);
+    this.segmentBeginvariable = false;
+    if (this.nextCollectionCounterEVA === 1) {
+      this.currentSection = this.contentCollection.collection.length;
+    }
+    console.log('ApplicationmodelService: nextSection - currentSection=',
+      this.currentSection, 'contentCollection.collection.length', this.contentCollection.collection.length);
+    if (this.currentSection > this.contentCollection.collection.length - 1) {
+      if (this.nextCollectionCounterEVA === 1) {
+        this.nextCollectionEva();
+        this.resetEVACollectionCounter();
+      }
+      this.isVideoPlayed = false;
+    } else {
+      // this.subjectQuestionIdx.next(this.contentCollection.collection.length - 2);
+      // this.runContent()
+    }
+  }
+
+  //****RESET COUNTER AFTER 1st MOVEMENT****** */
+  private resetEVACollectionCounter() {
+    setTimeout(() => {
+      this.nextCollectionCounterEVA = 0;
+    }, 5000);
+  }
+
+  
+  //****GO TO NEXT COLLECTION****** */
+  private nextCollectionEva(): void {
+    this.segmentBeginvariable = true;
+    this.currentActive++;
+    console.log('ApplicationmodelService: nextCollection - currentActive=',
+      this.currentActive, 'initValues.files.length', this.initValues.files.length);
+    if (this.currentActive > this.initValues.files.length - 1) {
+      this.selectQues(this.contentCollection.collection.length - 1);
+      console.info('ApplicationmodelService: nextCollection - currentActive, currentSection reset');
+    } else {
+      this.load(this.initValues.files[this.currentActive]);
+      // this.nextCollectionCounterEVA = 0;
+      console.log('ApplicationmodelService: nextCollection - currentActive=',
+        this.currentActive, 'this.initValues.files[this.currentActive]', this.initValues.files[this.currentActive]);
+      this.eventDone = false;
+    }
+  }
+
 
 }
 

@@ -1,0 +1,149 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #instruction
+  [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url"
+  autoplay="autoplay"></audio>
+<div class="" #overlay></div>
+<div class="container-fluid eva" id="container">
+  <div class="headerBar">
+    <img class="img-fluid"
+      [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url"
+      (load)="checkImgLoaded();" />
+  </div>
+  <div id="bgImage">
+    <img class="img-fluid"
+      [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
+      (load)="checkImgLoaded();" />
+  </div>
+  <div #maincontent>
+    <div id="instructionBar">
+      <div class="instructionBase">
+        <img class="img-fluid"
+          [src]="commonAssets?.instruction_bg
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url"
+          (load)="checkImgLoaded();" />
+        <span class="instructionText">{{instructiontext}}</span>
+      </div>
+    </div>
+
+    <div id="refQuesBlock">
+      <div class="refQues">
+        <img class="img-fluid"
+          [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url" (load)="checkImgLoaded();">
+        <div class="boxTop" id="answer1">
+        </div>
+        <div class="boxRight" id="answer2">
+        </div>
+        <div class="boxBottom" id="answer3">
+        </div>
+        <div class="boxLeft" id="answer4">
+        </div>
+        <div class="speakerBlock" #disableSpeaker id="disableSpeaker">
+          <div id="spkrBtn" class="speakerBtn">
+            <img #speakerNormal id="speaker" class="img-fluid"
+              [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
+              (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
+              (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
+            <div class="waveAnimation" #sprite>
+              <img class="img-fluid"
+                [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
+              <img class="img-fluid"
+                [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
+              <img class="img-fluid"
+                [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
+            </div>
+            <audio id="S" #myAudiospeaker #audioEl
+              [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="optionsBlock" #ansBlock>
+      <div class="options">
+        <div #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index"
+          (click)="checkAnswer(opt, leftOptRef, idx)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
+          <img class="img-fluid"
+            [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" (load)="checkImgLoaded();">
+          <span *ngIf="!opt.selected">
+            <div class="subOpt">
+              <img class="img-fluid"
+                [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url"
+                (load)="checkImgLoaded();">
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="options">
+        <div #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
+          (click)="checkAnswer(opt, rightOptRef, idx+3)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+3)'>
+          <img class="img-fluid"
+            [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
+            (load)="checkImgLoaded();">
+          <span *ngIf="!opt.selected">
+            <div class="subOpt">
+              <img class="img-fluid"
+                [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url"
+                (load)="checkImgLoaded();">
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--END OF MAIN CONTENT-->
+
+  <!-- celebration popup -->
+  <div class="modal" id="celebrations" #celebrationPopup>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+          <div class="celebrate">
+            <img class="img-fluid"
+              [src]="popupAssets?.celebrations?.location=='content' ? containgFolderPath +'/'+ popupAssets?.celebrations?.url :  assetsPath +'/'+ popupAssets?.celebrations?.url">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal" id="showAnswer" #showAnswerRef>
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-body d-flex align-items-center">
+              <img class="img-fluid" [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+              <div id="refQuesBlock" class="onShowAns">
+                  <div class="refQues">
+                      <img class="img-fluid" [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url">
+                      <div class="boxTop">
+                          <img class="img-fluid" [src]="correctAnswersArray[0]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[0]?.image?.url : assetsPath + '/' +correctAnswersArray[0]?.image?.url">
+                      </div>
+                      <div class="boxRight">
+                          <img class="img-fluid" [src]="correctAnswersArray[1]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[1]?.image?.url : assetsPath + '/' +correctAnswersArray[1]?.image?.url">
+                      </div>
+                      <div class="boxBottom">
+                          <img class="img-fluid" [src]="correctAnswersArray[2]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[2]?.image?.url : assetsPath + '/' +correctAnswersArray[2]?.image?.url">
+                      </div>
+                      <div class="boxLeft">
+                          <img class="img-fluid" [src]="correctAnswersArray[3]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[3]?.image?.url : assetsPath + '/' +correctAnswersArray[3]?.image?.url">
+                      </div>
+                  </div>
+              </div>
+              <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- Popup Modal Audios -->
+<audio #wrongFeedback
+  [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
+<audio #rightFeedback
+  [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+<audio #clapSound
+  [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
+<audio #showAnswerfeedback
+  [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
+<audio #multiCorrectFeedback
+  [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>

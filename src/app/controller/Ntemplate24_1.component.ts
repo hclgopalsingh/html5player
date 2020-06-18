@@ -214,7 +214,8 @@ movePrevious(idx,opt){
     }
    this.appModel.notifyUserAction();
   if(idx-1!=-1){
-    this.appModel.enableSubmitBtn(true)
+    this.appModel.enableSubmitBtn(true);
+    this.appModel.enableReplayBtn(false);
      let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx-1].getBoundingClientRect();
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
@@ -229,7 +230,8 @@ moveNext(idx,opt){
     }
     this.appModel.notifyUserAction();
    if(idx+1 <= this.optionObj.optionArray.length-1){
-    this.appModel.enableSubmitBtn(true)
+    this.appModel.enableSubmitBtn(true);
+    this.appModel.enableReplayBtn(false);
      let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx+1].getBoundingClientRect();
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
@@ -844,7 +846,7 @@ getAnswer(flag){
         for(let i in this.mainContainer.nativeElement.children[0].children[0].children){
             $(this.mainContainer.nativeElement.children[0].children[0].children[i]).addClass("greyOut");
         }
-        this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+        this.instructionBar.nativeElement.classList = "instructionBase disableDiv greyOut";
         this.appModel.enableSubmitBtn(false);
          this.appModel.enableReplayBtn(false);
     }

@@ -60,7 +60,7 @@ export class Ntemplate8 implements OnInit {
 	isLastActivity: any = "";
 	bool: boolean = false;
 	showIntroScreen: boolean;
-
+	allowSkip:boolean = false;
 	helpAudio: any = "";
 	correctOpt: any;
 	idArray: any = [];
@@ -671,6 +671,14 @@ export class Ntemplate8 implements OnInit {
 			this.confirmAssets.close_btn = this.confirmAssets.close_btn_original;
 		}
 
+		hoverstopVideo(){
+			this.otherAssets.video_stop  = this.otherAssets.video_stop_hover;
+		}
+		
+		houtstopVideo(){
+			this.otherAssets.video_stop  = this.otherAssets.video_stop_original;
+		}
+
 	/*	resetActivity(){
 			const action= {
 				"isWrongAttempt":false,
@@ -738,6 +746,7 @@ export class Ntemplate8 implements OnInit {
 			this.isPlayVideo = true;
 			this.appModel.enableSubmitBtn(false);
 			this.mainContainer.nativeElement.classList = "consoleBase disableDiv";
+			this.allowSkip = true;
 			setTimeout(() =>{
 			this.mainVideo.nativeElement.play();
 			this.mainVideo.nativeElement.onended = () =>{
@@ -1026,6 +1035,16 @@ export class Ntemplate8 implements OnInit {
 			setTimeout(() =>{
 				this.feedbackModal.nativeElement.classList="modal displayPopup";
 			},500)
+		}
+
+		endedHandleronSkip() {
+			this.isPlayVideo = false;
+			this.appModel.enableReplayBtn(true);
+			this.appModel.videoStraming(false);
+			this.appModel.enableSubmitBtn(true);
+			this.appModel.navShow = 2;
+			this.mainContainer.nativeElement.classList="consoleBase";
+			this.isPlayVideo = false;
 		}
 
 	/*	openFeedbackPopup(){
