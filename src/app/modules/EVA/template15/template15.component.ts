@@ -100,23 +100,17 @@ export class Template15Component implements OnInit {
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) { 
         this.appModel = appModel;
-
         this.appModel.setLoader(true);
-        // if error occured during image loading loader wil stop after 5 seconds 
-        this.loaderTimer = setTimeout(() => {
-          this.appModel.setLoader(false);
-        //   this.checkforQVO();
-        }, 5000);
+        if (!this.appModel.isVideoPlayed) {
+            this.isVideoLoaded = false;
+        } else {
+            this.appModel.setLoader(true);
+            // if error occured during image loading loader wil stop after 5 seconds 
+            this.loaderTimer = setTimeout(() => {
+                this.appModel.setLoader(false);
+            }, 5000);
+        }
 
-        // if (!this.appModel.isVideoPlayed) {
-        //     this.isVideoLoaded = false;
-        // }else{
-        //     this.appModel.setLoader(true);
-        //     // if error occured during image loading loader wil stop after 5 seconds 
-        //     this.loaderTimer = setTimeout(() => {
-        //         this.appModel.setLoader(false);
-        //     }, 5000);
-        // }
         this.appModel.notification.subscribe(
             (data) => {
                 console.log('Component: constructor - data=', data);
@@ -409,8 +403,7 @@ export class Template15Component implements OnInit {
         if(flag){
             this.doRandomize(array);
         }
-        else{
-            
+        else{           
             var Answerindex = array.find(x => x.id === this.correct_ans_index);
             this.showAnswerOptionBg =  Answerindex.image.url;
         }
@@ -430,6 +423,10 @@ export class Template15Component implements OnInit {
 
     /*****Close popup on click*****/
     closePopup(Type){
+        clearTimeout(this.wrongTimer);
+        clearTimeout(this.rightTimer);
+        clearTimeout(this.clapTimer);
+
         this.showAnswerRef.nativeElement.classList = "modal";
         this.feedbackPopup.nativeElement.classList = "modal";
         this.wrongFeedback.nativeElement.pause();    
@@ -479,7 +476,8 @@ export class Template15Component implements OnInit {
         if(!this.audioEl.nativeElement.paused){
         }else{
             speaker.imgsrc = speaker.imgorigional;          
-             this.sprite.nativeElement.style="display:none";
+             this.sprite.nativeElement.style="display:none";             
+             (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
             clearInterval(this.speakerTimer);   
         }
 
@@ -503,6 +501,7 @@ export class Template15Component implements OnInit {
                 this.speakerTimer = setInterval(() => {
                     speaker.imgsrc = speaker.imgactive;
                     this.sprite.nativeElement.style="display:flex";
+                    (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
                     this.checkSpeakerVoice(speaker);
                 }, 10)
             }
@@ -517,24 +516,26 @@ export class Template15Component implements OnInit {
                     this.maincontent.nativeElement.className = "disableDiv";
                 }
                 el.onended = () => {
+                    
                     if (this.maincontent) {
                         this.maincontent.nativeElement.className = "";
                          this.sprite.nativeElement.style="display:none";
+                         (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
                     }
                 }
 
             }
         }
+
+
     }
 
     /****function to check loaded image*****/
     checkImgLoaded() {
         if (!this.loadFlag) {          
             this.noOfImgsLoaded++;
-
             console.log(this.noOfImgsLoaded);
             if (this.noOfImgsLoaded >= this.noOfImgs) {
-                console.log('test');
                 this.appModel.setLoader(false);   
                 this.Sharedservice.setShowAnsEnabled(false); 
                 this.loadFlag = true;
@@ -554,7 +555,7 @@ export class Template15Component implements OnInit {
             this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content" 
             ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url: this.assetsPath + "/" + this.questionObj.quesInstruction.url    
             this.appModel.handlePostVOActivity(true);
-            this.maincontent.nativeElement.className = "disableDiv";   
+            // this.maincontent.nativeElement.className = "disableDiv";   
             clearTimeout(this.rightTimer);  
             this.instruction.nativeElement.play();
 			this.appModel.setLoader(false);
@@ -562,9 +563,7 @@ export class Template15Component implements OnInit {
                 this.appModel.handlePostVOActivity(false);              
                 this.maincontent.nativeElement.className = "";
             }
-            // alert('if');
 		} else {
-            // alert('else');
 			this.appModel.handlePostVOActivity(false);
 		}
 	}
@@ -635,12 +634,12 @@ export class Template15Component implements OnInit {
     /*********SPEAKER HOVER *********/
     onHoverSpeaker(speaker) {
         speaker.imgsrc = speaker.imghover;
-        if (!this.instruction.nativeElement.paused) {
-            this.disableSpeaker.nativeElement.className = "speakerBlock";
-        }
-        else {
-            this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
-        }
+        // if (!this.instruction.nativeElement.paused) {
+        //     this.disableSpeaker.nativeElement.className = "speakerBlock";
+        // }
+        // else {
+        //     this.disableSpeaker.nativeElement.className = "speakerBlock pointer";
+        // }
     }
 
     /******Hover out speaker ********/
@@ -697,5 +696,10 @@ export class Template15Component implements OnInit {
          }
         }
      }
+
+     clearData(): void {
+		// clear message
+		this.Sharedservice.clearData();
+	}
 
 }

@@ -9,7 +9,7 @@
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
 			(load)="checkImgLoaded();" />  
         </div>
-          <div #maincontent>
+          <div #maincontent class="disableDiv">
         <div id="instructionBar">
             <div class="instructionBase">
             <img class="img-fluid" [src]="commonAssets?.instruction_bg
@@ -26,7 +26,7 @@
             </div>
         </div> 
        
-        <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
+        <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
             <!-- <div #sprite class="speaker"></div> -->
             <div id="spkrBtn" class="speakerBtn">
             <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
