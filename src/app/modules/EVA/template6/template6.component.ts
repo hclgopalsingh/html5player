@@ -20,16 +20,13 @@ export class Template6Component extends Base implements OnInit {
 		super();
 		this.dragSubscription = dragulaService.drop().subscribe((value: any) => {
 			if (value.source == value.target || value.source.parentElement.className == value.target.parentElement.className) {
-				console.log('Drag cancelled due to same position')
-				dragulaService.find('second-bag2').drake.cancel(true);
+			  dragulaService.find('second-bag2').drake.cancel(true);
 			} else {
 				this.imageChange = setTimeout(() => {
 					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
 				}, 500);
-
-
-				console.log('=========>Dropped<=========');
+ 
 				var abc = value.el.getAttribute("id");
 				var xyz = this.myoption[abc];
 				if (this.blinkCategory == xyz.category) {
@@ -83,7 +80,7 @@ export class Template6Component extends Base implements OnInit {
 	@ViewChild('wrongFeedback') wrongFeedback: any;
 	@ViewChild('speakerVolume') speakerVolume: any;
 	@ViewChild('showAnswerVO') showAnswerVO: any;
-	@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
+	//@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
 	@ViewChild('overlay') overlay: any;
 	@ViewChild('optionRef') optionRef: any;
 	@ViewChild('celebrationPopup') celebrationsPopup: any;
@@ -393,7 +390,6 @@ export class Template6Component extends Base implements OnInit {
 					this.speaker.imgsrc = this.speaker.imgorigional;
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.videoAnimation.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.videoAnimation.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					this.wrongFeedback.nativeElement.pause();
 					this.rightFeedback.nativeElement.pause();
@@ -405,7 +401,7 @@ export class Template6Component extends Base implements OnInit {
 							  }, 10000);
 							
 						}
-						this.videoonshowAnspopUp.nativeElement.play();
+					 
 					}
 				}
 			}
@@ -471,7 +467,7 @@ export class Template6Component extends Base implements OnInit {
 		$(this.optionsBlock.nativeElement.children[0].children[2]).removeClass("disableDiv1");
 		$(this.optionsBlock.nativeElement.children[0].children[0]).removeClass("disableDiv1");
 		this.randomIdx = Math.floor((Math.random() * no));
-		console.log("random index ", this.randomIdx);
+		 
 		if (this.optionHolder.left_random_index.includes(this.completeRandomArr[this.randomIdx]) && this.blinkCategory1 < 3 && this.LRightAttempt < 3) {
 			this.blinkCategoryA(this.randomIdx);
 			$(this.optionsBlock.nativeElement.children[0].children[2]).addClass("disableDiv1");
@@ -510,7 +506,7 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	blinkCategoryA(randomIdx) {
-		console.log(this.selectableOpts);
+	 
 		this.blinkCategory = "A";
 		this.blinkSide = "left";
 		this.startCount = 1;
@@ -519,7 +515,7 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	blinkCategoryB(randomIdx) {
-		console.log(this.selectableOpts);
+	 
 		this.blinkCategory = "B";
 		this.blinkSide = "right";
 		this.startCount = 1;
@@ -573,8 +569,6 @@ export class Template6Component extends Base implements OnInit {
 		this.moveFrom = this.optionsBlock.nativeElement.children[1].children[idx].children[0].src;
 
 		if (this.blinkSide == "left") {
-			console.log(this.optionsBlock.nativeElement.children[0].children[0].children[2].children[this.leftSelectedIdx + 1])
-
 			if ((this.optionHolder.left_random_index).includes(opt.id)) {
 				this.LRightAttempt++;
 				this.selectableOpts--;
@@ -729,6 +723,8 @@ export class Template6Component extends Base implements OnInit {
 		this.rightFeedback.nativeElement.currentTime = 0;
 		this.showAnswerfeedback.nativeElement.pause();
 		this.showAnswerfeedback.nativeElement.currentTime = 0;
+		this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+		this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
 
 		if (Type === "answerPopup") {
 			this.popupclosedinRightWrongAns = true;
