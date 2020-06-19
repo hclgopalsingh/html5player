@@ -77,6 +77,7 @@ import { QuestionBlockComponent } from './modules/EVA/template8/question-block/q
 import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
 import { DataService } from './model/eva/template8/data.service';
 import { Template2Component } from './modules/EVA/template2/template2.component';
+import { Template4Component } from './modules/EVA/template4/template4.component';
 import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
 
 
@@ -146,6 +147,7 @@ import { TemplateTenComponent } from './modules/EVA/template10/template10.compon
 		QuestionBlockComponent,
 		InstructionBarComponent,
 		Template2Component,
+		Template4Component,
 		TemplateTenComponent
 	],
 	imports: [
