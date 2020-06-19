@@ -745,6 +745,7 @@ export class VideoComponent implements OnInit {
 		replayVideo() {
 			this.mainVideo.nativeElement.currentTime=this.assetsOnVideo.replaytime;
 			this.mainVideo.nativeElement.play();
+			this.isPlaying ? this.playVideo() : this.pauseVideo();
 		}
 		/*
 		showValueOnTooltip(event){
