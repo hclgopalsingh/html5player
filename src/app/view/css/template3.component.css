@@ -98,13 +98,19 @@
 	top:58%;
 }
 .speaker {
-  width: 71%;
-  padding-bottom:69%;
-  margin: 0% auto;
-  background: url('../../../assets/images/speakerSpritetemp3.png') 0 0;
-  background-size: 400%;
-  animation: play 1.2s steps(4) infinite;
-  display:none;
+	width: 95%;
+    padding-bottom: 88%;
+    margin: 0% auto;
+   	background: url(../../../assets/images/content02/speakerSprite02.png) 0 0;
+    background-size: 400%;
+    -webkit-animation: play 1.2s steps(4) infinite;
+    animation: play 1.2s steps(4) infinite;
+    position: absolute;
+    top: -14%;
+    left: -8%;
+    display: none;
+    pointer-events: none;
+    z-index: 10;
 }
 @-webkit-keyframes play {
    from { background-position:    400%; }

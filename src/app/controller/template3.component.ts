@@ -299,10 +299,10 @@ export class TemplatethreeComponent implements OnInit{
 		}
 		checkSpeakerVoice(){
 			if(!this.audioEl.nativeElement.paused){
-				this.speakerNormal.nativeElement.style.display ="none";
+				//this.speakerNormal.nativeElement.style.display ="none";
 				this.sprite.nativeElement.style.display ="block";
 			}else{
-				this.speakerNormal.nativeElement.style.display ="block";
+				//this.speakerNormal.nativeElement.style.display ="block";
 				this.sprite.nativeElement.style.display ="none";
 				clearInterval(this.speakerTimer);
 			}
