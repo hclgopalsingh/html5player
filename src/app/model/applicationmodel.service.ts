@@ -68,7 +68,7 @@ export class ApplicationmodelService {
   Template: any;
   private nextCollectionCounterEVA: number = 0;
   tPath: any="" ;
-
+  theme_name: any = '';
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
     this.httpHandler = httpHandler;
@@ -464,6 +464,12 @@ export class ApplicationmodelService {
       this.setQuestionNo();
       let data = this.content.contentData.data;
       let firsQflag = data['commonassets'].isFirstQues;
+      console.log("data['theme_name']",data);
+      if(data['theme_name'] && data['theme_name'].length > 0 ){
+      this.theme_name = data['theme_name']
+      //get tabs.json file
+      this.getJson();
+      }
       this._firstQues.next(firsQflag);
       //this.notifyUserAction();
     }
@@ -1047,6 +1053,25 @@ export class ApplicationmodelService {
     }
   }
 
+  public getPath(type){
+    if(type === "tabs"){
+    //set path
+    }
+  }
+
+  getJson(){
+    this.httpHandler.get('./assets/themes/elementary/'+ this.theme_name+'/global/tabs/tabs.json', this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
+  }
+
+  globalLoaded(data){
+
+    console.log("datajson", data)
+  }
+
+  globalnotLoaded(data){
+  console.log(data)
+
+  }
 
 }
 
