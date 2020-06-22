@@ -1,7 +1,7 @@
 <div  *ngIf='!EVA'>
 <div class="quesBlock" #quesBlockChild [ngClass]="{'disanleTabs': disableTabs==false}">
   <div class="quesTab" *ngFor="let quesTab of quesTabs; let idx = index" (click)="selectQuestion(idx)" [ngClass]="{'disablePointer': idx==questionNo}">
-    <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabL?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabL?.url : assetsPath + '/' + quesTab?.ques_tab?.tabL?.url" [style.display]="idx==questionNo ? 'none':'block'">
+    <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabL?.location=='content' && themePath.length == 0 ? containgFolderPath + '/' + quesTab?.ques_tab?.tabL?.url : themePath + '/' + quesTab?.ques_tab?.tabL?.url" [style.display]="idx==questionNo ? 'none':'block'">
     <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabLAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabLAct?.url : assetsPath + '/' + quesTab?.ques_tab?.tabLAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
     <img class="img-fluid tabBody" [src]="quesTab?.ques_tab?.tabbody?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabbody?.url : assetsPath + '/' + quesTab?.ques_tab?.tabbody?.url" [style.display]="idx==questionNo ? 'none':'block'">
     <img class="img-fluid tabBody" [src]="quesTab?.ques_tab?.tabbodyAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabbodyAct?.url : assetsPath + '/' + quesTab?.ques_tab?.tabbodyAct?.url" [style.display]="idx==questionNo ? 'block':'none'">

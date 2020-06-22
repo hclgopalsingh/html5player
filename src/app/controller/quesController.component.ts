@@ -5,6 +5,7 @@ import { SharedserviceService } from '../services/sharedservice.service';
 
 
 import 'jquery';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 declare var $: any;
@@ -44,7 +45,8 @@ export class QuesController implements OnInit {
   subscription: Subscription;
   UttarDikhayeinTooltip:any;
   blink:any;
-  
+  themePath:any;
+  themeType:any;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
@@ -133,6 +135,15 @@ export class QuesController implements OnInit {
 
       this.assetsPath = this.appModel.assetsfolderpath;
       this.containgFolderPath = this.appModel.content.id;
+      this.themeType = controlAssets.theme_type
+      console.log("this.themeType",this.themeType,controlAssets)
+      if(this.themeType){
+        //getTheme Path
+        this.themePath = this.getThemePath()
+      }
+      else{
+
+      }
     })
 
     this.blinkerSubscription = this.appModel.getblinkingNextBtn().subscribe(resetBlink=> {
@@ -381,4 +392,13 @@ export class QuesController implements OnInit {
   ngOnDestroy() {
     this.blinkerSubscription.unsubscribe();
   }
+
+  getThemePath(){
+    console.log(this.containgFolderPath, this.assetsPath)
+    let path = "./assets/themes/"+ this.themeType;
+    this.appModel.tPath = path;
+    this.appModel.setThemePath(path)
+    return path 
+  }
+
 }

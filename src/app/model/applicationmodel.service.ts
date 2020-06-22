@@ -67,7 +67,7 @@ export class ApplicationmodelService {
   subscription: Subscription;
   Template: any;
   private nextCollectionCounterEVA: number = 0;
-
+  tPath: any="" ;
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
@@ -147,6 +147,7 @@ export class ApplicationmodelService {
   private subjectQuestionNos = new Subject<any>();
   private subjectQuestionIdx = new Subject<any>();
   subjectQuesControl = new Subject<any>();
+  subjectThemePath = new Subject<any>();
   popupSubject = new Subject<any>();
   moveNextSubject = new Subject<any>();
   moveNextQuesSubject = new Subject<any>();
@@ -662,6 +663,13 @@ export class ApplicationmodelService {
     return this.subjectQuesControl.asObservable();
   }
 
+  setThemePath(theme) {
+    this.subjectThemePath.next(theme);
+  }
+
+  getThemepath() {
+    return this.subjectThemePath.asObservable();
+  }
 
   public invokeTempSubject(msg, mode) {
     if (msg == "showModal") {

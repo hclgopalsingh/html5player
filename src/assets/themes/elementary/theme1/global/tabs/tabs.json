@@ -1,0 +1,164 @@
+{
+	"quesTabs": [
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab1Body.png",
+					"location": "content"
+				},
+				"tabL": {
+					"url": "tab1L.png",
+					"location": "content"
+				},
+				"tabR": {
+					"url": "tab1R.png",
+					"location": "content"
+				},
+				"tabbodyAct": {
+					"url": "tab1BodyAct.png",
+					"location": "content"
+				},
+				"tabLAct": {
+					"url": "tab1LAct.png",
+					"location": "content"
+				},
+				"tabRAct": {
+					"url": "tab1RAct.png",
+					"location": "content"
+				},
+				"tabIdx": {
+					"url": "tab1Idx.svg",
+					"location": "content"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab2Body.png",
+					"location": "content"
+				},
+				"tabL": {
+					"url": "tab2L.png",
+					"location": "content"
+				},
+				"tabR": {
+					"url": "tab2R.png",
+					"location": "content"
+				},
+				"tabbodyAct": {
+					"url": "tab2BodyAct.png",
+					"location": "content"
+				},
+				"tabLAct": {
+					"url": "tab2LAct.png",
+					"location": "content"
+				},
+				"tabRAct": {
+					"url": "tab2RAct.png",
+					"location": "content"
+				},
+				"tabIdx": {
+					"url": "tab2Idx.svg",
+					"location": "content"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab3Body.png",
+					"location": "content"
+				},
+				"tabL": {
+					"url": "tab3L.png",
+					"location": "content"
+				},
+				"tabR": {
+					"url": "tab3R.png",
+					"location": "content"
+				},
+				"tabbodyAct": {
+					"url": "tab3BodyAct.png",
+					"location": "content"
+				},
+				"tabLAct": {
+					"url": "tab3LAct.png",
+					"location": "content"
+				},
+				"tabRAct": {
+					"url": "tab3RAct.png",
+					"location": "content"
+				},
+				"tabIdx": {
+					"url": "tab3Idx.svg",
+					"location": "content"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab4Body.png",
+					"location": "content"
+				},
+				"tabL": {
+					"url": "tab4L.png",
+					"location": "content"
+				},
+				"tabR": {
+					"url": "tab4R.png",
+					"location": "content"
+				},
+				"tabbodyAct": {
+					"url": "tab4BodyAct.png",
+					"location": "content"
+				},
+				"tabLAct": {
+					"url": "tab4LAct.png",
+					"location": "content"
+				},
+				"tabRAct": {
+					"url": "tab4RAct.png",
+					"location": "content"
+				},
+				"tabIdx": {
+					"url": "tab4Idx.svg",
+					"location": "content"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab5Body.png",
+					"location": "content"
+				},
+				"tabL": {
+					"url": "tab5L.png",
+					"location": "content"
+				},
+				"tabR": {
+					"url": "tab5R.png",
+					"location": "content"
+				},
+				"tabbodyAct": {
+					"url": "tab5BodyAct.png",
+					"location": "content"
+				},
+				"tabLAct": {
+					"url": "tab5LAct.png",
+					"location": "content"
+				},
+				"tabRAct": {
+					"url": "tab5RAct.png",
+					"location": "content"
+				},
+				"tabIdx": {
+					"url": "tab5Idx.svg",
+					"location": "content"
+				}
+			}
+		}
+	]
+}

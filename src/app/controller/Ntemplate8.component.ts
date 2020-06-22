@@ -215,9 +215,11 @@ export class Ntemplate8 implements OnInit {
 				}
 			}
 		})
-
+		this.appModel.getThemepath().subscribe(path =>{
+			console.log("path--------------->",path)
+		})
 		this.appModel.handleController(this.controlHandler);
-
+		console.log(this.appModel.tPath,"this.appModel.tPath")
 		this.appModel.nextBtnEvent().subscribe(() =>{
 			if(this.appModel.isLastSectionInCollection){
 				this.appModel.event = {'action': 'segmentEnds'};	
