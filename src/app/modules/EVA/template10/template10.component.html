@@ -51,7 +51,7 @@
     </div>
     <div class="row mx-0" id="optionsBlock">
       <div class="my-auto quesImage" #optionsContainer>
-        <div class="options" *ngFor="let option of myoption;let idx = index" (click)="checkAnswer(option, idx)"
+        <div class="options" *ngFor="let option of myoption;let idx = index" [ngClass]="[option?.selected ? 'disableDiv':'']" (click)="checkAnswer(option, idx)"
           on-mouseenter='playOptionHover(option,idx)' on-mouseout="onHoveroutOptions(option)"
           on-mousemove="onHoverOptions(option)">
           <img class="img-fluid optItem"

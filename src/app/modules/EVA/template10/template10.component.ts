@@ -400,7 +400,9 @@ export class TemplateTenComponent implements OnInit {
     this.multiCorrectFeedback.nativeElement.onended = () => {
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       this.maincontent.nativeElement.className = "disableDiv";
-      this.Sharedservice.setShowAnsEnabled(true);
+      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+      }
       this.rightTimer = setTimeout(() => {
         this.closePopup('answerPopup');
       }, 10000);
@@ -419,6 +421,9 @@ export class TemplateTenComponent implements OnInit {
     this.refQuesWord.nativeElement.children[id].classList.add("blinkOn");
     //check if user clicked wrong akshar
     if (!letter.iscorrect_ans) {
+      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+      }
       this.optionsContainer.nativeElement.classList.add("disableDiv");
       this.refQuesWord.nativeElement.classList.add("disableDiv");
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
@@ -432,6 +437,9 @@ export class TemplateTenComponent implements OnInit {
           this.refQuesWord.nativeElement.children[id].classList.remove("blinkOn");
           this.disableSpeaker.nativeElement.classList.remove("disableDiv");
           this.refQuesWord.nativeElement.classList.remove("disableDiv");
+          for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+          }
         }
       });
     }
@@ -449,14 +457,15 @@ export class TemplateTenComponent implements OnInit {
     if (selectedOption && !selectedOption.children[1]) {
       return;
     }
+    for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+      document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+    }
     let matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
     if (this.correctAnswerObj.correct_index.indexOf(option.id) > -1 && matraIndex < 0) {
       this.correctAnswerCounter++;
-      if (this.correctAnswerCounter === this.correctAnswerCount) {
-        this.Sharedservice.setShowAnsEnabled(false);
-      }
       this.appModel.stopAllTimer();
       selectedAkshar.matraadded.push(option.matravalue);
+      this.myoption[index].selected = true;
       option.optBg = option.optBg_original;
       this.ifRightAns = true;
       if (selectedAkshar.matra_selected === 0) {
@@ -496,6 +505,9 @@ export class TemplateTenComponent implements OnInit {
             this.rightFeedback.nativeElement.onended = () => {
               this.refQuesWord.nativeElement.classList.remove("disableDiv");
               this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+              for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+              }
             }
           }
         }
@@ -519,6 +531,9 @@ export class TemplateTenComponent implements OnInit {
           this.refQuesWord.nativeElement.classList.remove("disableDiv");
           this.disableSpeaker.nativeElement.classList.remove("disableDiv");
           this.shuffleOptions();
+          for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+          }
           this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
         }
       });
@@ -619,6 +634,9 @@ export class TemplateTenComponent implements OnInit {
 
     if (Type === "answerPopup") {
       this.popupclosedinRightWrongAns = true;
+      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+      }
       if (this.ifRightAns) {
         this.Sharedservice.setShowAnsEnabled(true);
         this.overlay.nativeElement.classList.value = "fadeContainer";
