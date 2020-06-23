@@ -29,7 +29,7 @@ export class ApplicationmodelService {
   private subject: Subject<string>;
   public notification: Observable<string>;
   private config: any;
-  public currentSection: number; // question
+  private currentSection: number; // question
   public volumeValue = 1;
   private showLoader = false;
   public isMute: boolean = false;
