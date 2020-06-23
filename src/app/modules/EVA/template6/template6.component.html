@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #narrator_voice [src]="common_assets?.instruction?.location=='content' ? contentgFolderPath + '/' +common_assets?.instruction.url: assetsfolderlocation + '/'+ common_assets?.instruction.url"></audio>
+    <div class="" #overlay></div>	
+    <div class="container-fluid eva" id="container"  style="opacity: 0;;"><!--style="width: 1168px;" -->
+        <div class="headerBar">
+            <img class="img-fluid" [src]="common_assets?.header_bar?.location =='content' ? contentgFolderPath + '/' + common_assets?.header_bar?.url : assetsfolderlocation + '/' + common_assets?.header_bar?.url" (load)="checkImgLoaded();" />
+        </div>
+        <div id="bgImage">
+            <img class="img-fluid" [src]="common_assets?.background?.location =='content' ? contentgFolderPath + '/' + common_assets?.background?.url : assetsfolderlocation + '/' + common_assets?.background?.url"
+			(load)="checkImgLoaded();" />  
+        </div>
+        <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? contentgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
+        <div #maincontent>
+        <div id="instructionBar">
+            <div class="instructionBase">
+            <img class="img-fluid" [src]="common_assets?.instruction_bg
+                ?.location =='content' ? contentgFolderPath + '/' + common_assets?.instruction_bg?.url : assetsfolderlocation + '/' + common_assets?.instruction_bg?.url" (load)="checkImgLoaded();" />
+                 <span class="instructionText">{{instructiontext}}</span>
+            </div>
+        </div>
+        <div id="optionsBlock" #optionsBlock >
+            <div class="matchBlock">
+                <div class="matchHolder" >
+                    <img class="img-fluid" [src]="optionHolder?.leftHolder?.location=='content' ? contentgFolderPath + '/' + optionHolder?.leftHolder?.url : assetsPath + '/' +optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">
+                    <img class="img-fluid section_title" [src]="optionHolder?.leftHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.leftHolderTitle?.url : assetsPath + '/' +optionHolder?.leftHolderTitle?.url" >
+                    <div class="optSelectedHidden" [dragula]="'second-bag2'">
+                         <!--<img *ngFor="let option of dummyImgs;let idx = index"  class="img-fluid" id="{{'left'+idx}}" [src]="">-->
+                    </div>
+                </div>
+                <div id="spkrBtn" class="speakerBtn">
+                    <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" (load)="checkImgLoaded();" title="स्पीकर"/>
+                    <div class="waveAnimation" #sprite>
+                        <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
+                        <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?contentgFolderPath + '/' +speaker?.wave2.url: assetsfolderlocation + '/'+ speaker?.wave2.url">
+                        <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?contentgFolderPath + '/' +speaker?.wave3.url: assetsfolderlocation + '/'+ speaker?.wave3.url">
+                    </div> 
+                    <audio #speakerVolume [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
+                </div>
+                <div class="matchHolder" >
+                    <img class="img-fluid" [src]="optionHolder?.rightHolder?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolder?.url : assetsPath + '/' +optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
+                    <img class="img-fluid section_title" [src]="optionHolder?.rightHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolderTitle?.url : assetsPath + '/' +optionHolder?.rightHolderTitle?.url" >
+                    <div class="optSelectedHidden" [dragula]="'second-bag2'">
+                        <!-- <img *ngFor="let option of dummyImgs;let idx = index"  class="img-fluid" id="{{'right'+idx}}" [src]="">-->
+                    </div>
+                </div>
+            </div> 
+            <div class="options" #optionRef >
+                <div *ngFor= "let item of myoption;let idx = index" [dragula]="'second-bag2'" optionContainer id={{idx}} (mouseenter)="playOptionHover(item,idx)">
+                    <img id={{idx}} class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"    (load)="checkImgLoaded();">
+                    <img id={{idx}} class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)"  (mouseleave)="onHoveroutOptions(item,idx)" (load)="checkImgLoaded();">                
+                </div>
+            </div>             
+        </div>        
+    </div>
+
+  
+  
+   <!-- show answer Popup  -->
+      <div class="modal" id="showAnswer" #showAnswerRef>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex align-items-center">
+                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
+                    <div class="matchBlock showAnsMatchBlock">
+                        <div class="matchHolder">
+                            <img class="img-fluid" [src]="showAnswerPopup?.leftHolder?.location=='content' ? contentgFolderPath + '/' + showAnswerPopup?.leftHolder?.url : assetsPath + '/' +showAnswerPopup?.leftHolder?.url"  >
+                            <img class="img-fluid section_title" [src]="optionHolder?.leftHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.leftHolderTitle?.url : assetsPath + '/' +optionHolder?.leftHolderTitle?.url" >
+                            <div class="optSelectedHidden">
+                               <img *ngFor="let option of leftAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
+                            </div>
+                        </div>
+                         <div class="showanswerSpacer">&nbsp;</div>
+                        <div class="matchHolder">
+                            <img class="img-fluid" [src]="showAnswerPopup?.rightHolder?.location=='content' ? contentgFolderPath + '/' + showAnswerPopup?.rightHolder?.url : assetsPath + '/' +showAnswerPopup?.rightHolder?.url" (load)="checkImgLoaded();">
+                            <img class="img-fluid section_title" [src]="optionHolder?.rightHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolderTitle?.url : assetsPath + '/' +optionHolder?.rightHolderTitle?.url" >
+                            <div class="optSelectedHidden">
+                                <img *ngFor="let option of rightAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="stageVideo" style="display: none;">
+                        <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
+                       
+                    </div> 
+                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
+                    (click)="closePopup('showanswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+                 </div>
+            </div>
+        </div>
+    </div>
+         <!-- celebration popup -->
+  <div class="modal" id="celebrations" #celebrationPopup>
+     
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body d-flex align-items-center">
+                <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
+                <div class="matchBlock showAnsMatchBlock">
+                    <div class="matchHolder">
+                        <img class="img-fluid" [src]="showAnswerPopup?.leftHolder?.location=='content' ? contentgFolderPath + '/' + showAnswerPopup?.leftHolder?.url : assetsPath + '/' +showAnswerPopup?.leftHolder?.url"  >
+                        <img class="img-fluid section_title" [src]="optionHolder?.leftHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.leftHolderTitle?.url : assetsPath + '/' +optionHolder?.leftHolderTitle?.url" >
+                        <div class="optSelectedHidden">
+                           <img *ngFor="let option of leftAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
+                           <img class="rightIcon" [src]="popupassets?.right_icon?.location=='content' ? contentgFolderPath + '/' + popupassets?.right_icon?.url : assetsfolderlocation + '/' + popupAssets?.right_icon?.url"  >
+                         </div>
+                    </div>
+                     <div class="showanswerSpacer">&nbsp;</div>
+                    <div class="matchHolder">
+                        <img class="img-fluid" [src]="showAnswerPopup?.rightHolder?.location=='content' ? contentgFolderPath + '/' + showAnswerPopup?.rightHolder?.url : assetsPath + '/' +showAnswerPopup?.rightHolder?.url" (load)="checkImgLoaded();">
+                        <img class="img-fluid section_title" [src]="optionHolder?.rightHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolderTitle?.url : assetsPath + '/' +optionHolder?.rightHolderTitle?.url" >
+                        <div class="optSelectedHidden">
+                            <img *ngFor="let option of rightAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
+                            <img class="rightIcon" [src]="popupassets?.right_icon?.location=='content' ? contentgFolderPath + '/' + popupassets?.right_icon?.url : assetsfolderlocation + '/' + popupAssets?.right_icon?.url"  >
+                         </div>
+                    </div>
+                </div>
+                
+                 
+                <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
+                (click)="closePopup('answerPopup');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+             </div>
+        </div>
+</div>
+</div>
+
+    </div>
+
+ 
+
+     <!-- Popup Modal Audios -->
+  <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio>
+  <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio>
+  <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? contentgFolderPath + '/' + feedback?.right_ans_clap_sound?.url: assetsfolderlocation +'/'+feedback?.right_ans_clap_sound?.url"></audio>	
+  <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? contentgFolderPath + '/' +  showAnswerVO?.path?.url : assetsfolderlocation +'/'+ showAnswerVO?.path?.url"></audio>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html> -->
