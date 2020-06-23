@@ -343,6 +343,9 @@ export class Template6Component extends Base implements OnInit {
 		if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
 			obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.audio) {
+            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
 	}
 	//end
 
