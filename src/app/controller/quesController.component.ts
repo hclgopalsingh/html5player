@@ -26,6 +26,8 @@ export class QuesController implements OnInit {
   subscriptionControlAssets: Subscription;
   firstQusubscription: Subscription;
   blinkerSubscription: Subscription;
+  CommonSubscription: Subscription;
+  ThemeSubscription: Subscription;
   controlAssets: any;
   isFirstQuestion: any = false;
   subcriptionUttarDikhayein: Subscription;
@@ -107,6 +109,7 @@ export class QuesController implements OnInit {
        
       // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
+      console.log("controlAssets",controlAssets);
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       // **** Enable show answer button
@@ -137,13 +140,6 @@ export class QuesController implements OnInit {
       this.containgFolderPath = this.appModel.content.id;
       this.themeType = controlAssets.theme_type
       console.log("this.themeType",this.themeType,controlAssets)
-      if(this.themeType){
-        //getTheme Path
-        this.themePath = this.getThemePath()
-      }
-      else{
-
-      }
     })
 
     this.blinkerSubscription = this.appModel.getblinkingNextBtn().subscribe(resetBlink=> {
@@ -157,6 +153,15 @@ export class QuesController implements OnInit {
 
     this.firstQusubscription = this.appModel.getIsFirstQuestion().subscribe(flag => {
       this.isFirstQuestion = flag;
+    })
+
+    this.CommonSubscription = this.appModel.getCommonControlAssets().subscribe(commonData =>{
+      console.log("commonData",commonData)
+      if(commonData){
+        this.quesTabs = commonData.quesTabs;
+        this.themePath  = this.appModel.getPath("tabs")
+      }
+      console.log("this.themePath",this.themePath)
     })
 
     this.subcriptionUttarDikhayein = this.appModel.getPostVOActs().subscribe(flag => {
@@ -393,12 +398,6 @@ export class QuesController implements OnInit {
     this.blinkerSubscription.unsubscribe();
   }
 
-  getThemePath(){
-    console.log(this.containgFolderPath, this.assetsPath)
-    let path = "./assets/themes/"+ this.themeType;
-    this.appModel.tPath = path;
-    this.appModel.setThemePath(path)
-    return path 
-  }
+  
 
 }

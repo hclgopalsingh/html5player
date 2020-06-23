@@ -1,13 +1,13 @@
 <div  *ngIf='!EVA'>
 <div class="quesBlock" #quesBlockChild [ngClass]="{'disanleTabs': disableTabs==false}">
   <div class="quesTab" *ngFor="let quesTab of quesTabs; let idx = index" (click)="selectQuestion(idx)" [ngClass]="{'disablePointer': idx==questionNo}">
-    <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabL?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabL?.url : assetsPath + '/' + quesTab?.ques_tab?.tabL?.url" [style.display]="idx==questionNo ? 'none':'block'">
-    <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabLAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabLAct?.url : assetsPath + '/' + quesTab?.ques_tab?.tabLAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
-    <img class="img-fluid tabBody" [src]="quesTab?.ques_tab?.tabbody?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabbody?.url : assetsPath + '/' + quesTab?.ques_tab?.tabbody?.url" [style.display]="idx==questionNo ? 'none':'block'">
-    <img class="img-fluid tabBody" [src]="quesTab?.ques_tab?.tabbodyAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabbodyAct?.url : assetsPath + '/' + quesTab?.ques_tab?.tabbodyAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
-    <img class="img-fluid tabRight" [src]="quesTab?.ques_tab?.tabR?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabR?.url : assetsPath + '/' + quesTab?.ques_tab?.tabR?.url" [style.display]="idx==questionNo ? 'none':'block'">
-    <img class="img-fluid tabRight" [src]="quesTab?.ques_tab?.tabRAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabRAct?.url : assetsPath + '/' + quesTab?.ques_tab?.tabRAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
-    <img class="img-fluid quesnum" [src]="quesTab?.ques_tab?.tabIdx?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabIdx?.url : assetsPath + '/' + quesTab?.ques_tab?.tabIdx?.url" >
+    <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabL?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabL?.url : themePath + '/' + quesTab?.ques_tab?.tabL?.url" [style.display]="idx==questionNo ? 'none':'block'">
+    <img class="img-fluid tabLeft" [src]="quesTab?.ques_tab?.tabLAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabLAct?.url : themePath + '/' + quesTab?.ques_tab?.tabLAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
+    <img class="img-fluid tabBody" [src]="quesTab?.ques_tab?.tabbody?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabbody?.url : themePath + '/' + quesTab?.ques_tab?.tabbody?.url" [style.display]="idx==questionNo ? 'none':'block'">
+    <img class="img-fluid tabBody" [src]="quesTab?.ques_tab?.tabbodyAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabbodyAct?.url : themePath + '/' + quesTab?.ques_tab?.tabbodyAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
+    <img class="img-fluid tabRight" [src]="quesTab?.ques_tab?.tabR?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabR?.url : themePath + '/' + quesTab?.ques_tab?.tabR?.url" [style.display]="idx==questionNo ? 'none':'block'">
+    <img class="img-fluid tabRight" [src]="quesTab?.ques_tab?.tabRAct?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabRAct?.url : themePath + '/' + quesTab?.ques_tab?.tabRAct?.url" [style.display]="idx==questionNo ? 'block':'none'">
+    <img class="img-fluid quesnum" [src]="quesTab?.ques_tab?.tabIdx?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabIdx?.url : themePath + '/' + quesTab?.ques_tab?.tabIdx?.url" >
   </div>
 </div>
 <div class="d-flex align-items-center justify-content-between" id="navBlock" [ngClass]="{'disableBtn':enableNavBtns}">

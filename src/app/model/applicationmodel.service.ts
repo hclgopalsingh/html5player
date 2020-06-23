@@ -159,6 +159,7 @@ export class ApplicationmodelService {
   _submitAns = new Subject<any>();
   _restartAct = new Subject<any>();
   _postWrongVO = new Subject<any>();
+  subjectCommonControl = new Subject<any>();
   eventDone: boolean = false;
   lastQuesNT: boolean = false;
   autoPlayFlag: boolean = false;
@@ -467,6 +468,7 @@ export class ApplicationmodelService {
       console.log("data['theme_name']",data);
       if(data['theme_name'] && data['theme_name'].length > 0 ){
       this.theme_name = data['theme_name']
+      this.setThemeName = data['theme_name']
       //get tabs.json file
       this.getJson();
       }
@@ -669,11 +671,21 @@ export class ApplicationmodelService {
     return this.subjectQuesControl.asObservable();
   }
 
-  setThemePath(theme) {
+  setCommonControlAssets(controlAssets) {
+    this.subjectCommonControl.next(controlAssets);
+  }
+
+  getCommonControlAssets() {
+    return this.subjectCommonControl.asObservable();
+  }
+
+
+
+  setThemeName(theme) {
     this.subjectThemePath.next(theme);
   }
 
-  getThemepath() {
+  getThemeName() {
     return this.subjectThemePath.asObservable();
   }
 
@@ -1055,6 +1067,7 @@ export class ApplicationmodelService {
 
   public getPath(type){
     if(type === "tabs"){
+      return "./assets/themes/elementary/"+ this.theme_name+'/global/tabs'
     //set path
     }
   }
@@ -1064,7 +1077,7 @@ export class ApplicationmodelService {
   }
 
   globalLoaded(data){
-
+    this.setCommonControlAssets(data)
     console.log("datajson", data)
   }
 
