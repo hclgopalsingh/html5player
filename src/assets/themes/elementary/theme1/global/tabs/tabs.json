@@ -160,5 +160,69 @@
 				}
 			}
 		}
-	]
+	],
+	"aagey_badhein": {
+		"url": "aagey.svg",
+		"location": "theme"
+	},
+	"aagey_badhein_original": {
+		"url": "aagey.svg",
+		"location": "theme"
+	},
+	"aagey_badhein_hover": {
+		"url": "aageyHover.svg",
+		"location": "theme"
+	},
+	"blink_btn1": {
+		"url": "blink_btn1.svg",
+		"location": "theme"
+	},
+	"blink_btn2": {
+		"url": "blink_btn2.svg",
+		"location": "theme"
+	},
+	"peechey_jayein": {
+		"url": "peechey.svg",
+		"location": "theme"
+	},
+	"peechey_jayein_original": {
+		"url": "peechey.svg",
+		"location": "theme"
+	},
+	"peechey_jayein_hover": {
+		"url": "peecheyHover.svg",
+		"location": "theme"
+	},
+	"uttar_dikhayein": {
+		"url": "uttarBtn.svg",
+		"location": "theme"
+	},
+	"uttar_dikhayein_original": {
+		"url": "uttarBtn.svg",
+		"location": "theme"
+	},
+	"uttar_dikhayein_hover": {
+		"url": "uttarBtnHover.svg",
+		"location": "theme"
+	},
+	"submit_btn": {
+		"url": "submitBtn.png",
+		"location": "content"
+	},
+	"submit_btn_hover": {
+		"url": "submitBtnHover.png",
+		"location": "content"
+	},
+	"submit_btn_original": {
+		"url": "submitBtn.png",
+		"location": "content"
+	},
+	"blink_btn3": {
+		"url": "blink_btn3.svg",
+		"location": "theme"
+	},
+	"blink_btn4": {
+		"url": "blink_btn4.svg",
+		"location": "theme"
+	}
 }

@@ -49,6 +49,8 @@ export class QuesController implements OnInit {
   blink:any;
   themePath:any;
   themeType:any;
+  buttonPath:any;
+  disableSubmit: boolean = true;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
@@ -160,8 +162,10 @@ export class QuesController implements OnInit {
       if(commonData){
         this.quesTabs = commonData.quesTabs;
         this.themePath  = this.appModel.getPath("tabs")
+        this.quesCtrl = commonData;
+        this.buttonPath = this.appModel.getPath("buttons")
       }
-      console.log("this.themePath",this.themePath)
+      console.log("this.themePath",this.themePath, "buttonPath",this.buttonPath)
     })
 
     this.subcriptionUttarDikhayein = this.appModel.getPostVOActs().subscribe(flag => {
@@ -376,10 +380,10 @@ export class QuesController implements OnInit {
       let flag = true;
       this.timeInterval = setInterval(() => {
         if (flag) {
-          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
+          this.quesCtrl.aagey_badhein = this.appModel.isLastSectionInCollection ? this.quesCtrl.blink_btn3 : this.quesCtrl.blink_btn1;
           flag = false;
         } else {
-          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+          this.quesCtrl.aagey_badhein =this.appModel.isLastSectionInCollection? this.quesCtrl.blink_btn4 : this.quesCtrl.blink_btn2;
           flag = true;
         }
       }, 300)
@@ -393,6 +397,7 @@ export class QuesController implements OnInit {
     this.disablePrev = controlObj.isPrev;
     this.hideShowAnswer = controlObj.isShowAns;
     this.disableTabs = controlObj.isTab;
+    this.disableSubmit = controlObj.isSubmit
   }
   ngOnDestroy() {
     this.blinkerSubscription.unsubscribe();

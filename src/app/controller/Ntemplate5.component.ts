@@ -114,7 +114,9 @@ export class Ntemplate5 implements OnInit {
   showanspopUpheader_img: boolean = false;
   styleHeaderPopup:any;
   styleBodyPopup:any;
-
+  controlHandler = {
+		isSubmit:false
+	 };
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused!) {
       console.log("narrator/instruction voice still playing");
@@ -455,6 +457,7 @@ export class Ntemplate5 implements OnInit {
       this.postWrongAttemplt();
     });
     this.appModel.resetBlinkingTimer();
+    this.appModel.handleController(this.controlHandler);
   }
 
   postWrongAttemplt() {

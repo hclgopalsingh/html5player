@@ -1070,6 +1070,9 @@ export class ApplicationmodelService {
       return "./assets/themes/elementary/"+ this.theme_name+'/global/tabs'
     //set path
     }
+    if(type=== "buttons"){
+      return "./assets/themes/elementary/"+ this.theme_name+'/global'
+    }
   }
 
   getJson(){
