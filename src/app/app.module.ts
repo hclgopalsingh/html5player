@@ -7,7 +7,7 @@ import { AppRoutingModule } from './modules/routing';
 import { NouisliderModule } from 'ng2-nouislider';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { ContainerComponent } from './controller/container.component';
@@ -75,9 +75,11 @@ import { Template1Component } from './modules/EVA/template1/template1.component'
 import { Template8Component } from './modules/EVA/template8/template8.component';
 import { QuestionBlockComponent } from './modules/EVA/template8/question-block/question-block.component';
 import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
+import { Template6Component } from './modules/EVA/template6/template6.component';
 import { DataService } from './model/eva/template8/data.service';
 import { Template2Component } from './modules/EVA/template2/template2.component';
 import { Template4Component } from './modules/EVA/template4/template4.component';
+import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
 
 
 @NgModule({
@@ -145,8 +147,10 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 		Template8Component,
 		QuestionBlockComponent,
 		InstructionBarComponent,
+		Template6Component,
 		Template2Component,
-		Template4Component
+		Template4Component,
+		TemplateTenComponent
 	],
 	imports: [
 		BrowserModule,
@@ -156,7 +160,8 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 		FormsModule,
 		SignalrCustomModule.forRoot(),
 		NouisliderModule,
-		NgxPaginationModule
+		NgxPaginationModule,
+		DragulaModule.forRoot()
 	],
 	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, DataService],
 	bootstrap: [AppComponent]
