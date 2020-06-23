@@ -386,7 +386,9 @@ export class Template2Component implements OnInit {
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       this.maincontent.nativeElement.className = "disableDiv";
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
-      this.Sharedservice.setShowAnsEnabled(true);
+      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+      }
       this.rightTimer = setTimeout(() => {
         this.closePopup('answerPopup');
       }, 10000);
@@ -403,12 +405,12 @@ export class Template2Component implements OnInit {
     else {
       return;
     }
+    for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+      document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+    }
     // logic to check what user has done is correct
     if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
       this.correctAnswerCounter++;
-      if (this.correctAnswerCounter === 4) {
-        this.Sharedservice.setShowAnsEnabled(false);
-      }
       let ansRef = document.getElementById("answer" + this.correctAnswerCounter) as HTMLElement;
       ansRef.insertAdjacentElement("beforeend", optRefEl);
       this.attemptType = "manual";
@@ -436,6 +438,9 @@ export class Template2Component implements OnInit {
             else {
               this.ansBlock.nativeElement.className = "optionsBlock";
               this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+              for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+              }
             }
           }
         }
@@ -454,7 +459,11 @@ export class Template2Component implements OnInit {
         }
 
         this.wrongFeedback.nativeElement.onended = () => {
+          option.optBg = option.optBg_original;
           this.shuffleOptions();
+          for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+          }
         }
       });
     }
@@ -551,6 +560,9 @@ export class Template2Component implements OnInit {
 
     if (Type === "answerPopup") {
       this.popupclosedinRightWrongAns = true;
+      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+      }
       if (this.ifRightAns) {
         this.Sharedservice.setShowAnsEnabled(true);
         this.overlay.nativeElement.classList.value = "fadeContainer";
@@ -697,12 +709,12 @@ export class Template2Component implements OnInit {
   /***** Enable all options and speaker on audio end *******/
   enableAllOptions() {
     for (let i = 0; i < this.leftOptRef.nativeElement.parentElement.children.length; i++) {
-      if (this.leftOptRef.nativeElement.parentElement.children[i].classList.contains("disableDiv")) {
+      if (this.leftOptRef.nativeElement.parentElement.children[i].classList.contains("disableDiv") && !this.myoption.leftoption[i].selected) {
         this.leftOptRef.nativeElement.parentElement.children[i].classList.remove("disableDiv");
       }
     }
     for (let j = 0; j < this.rightOptRef.nativeElement.parentElement.children.length; j++) {
-      if (this.rightOptRef.nativeElement.parentElement.children[j].classList.contains("disableDiv")) {
+      if (this.rightOptRef.nativeElement.parentElement.children[j].classList.contains("disableDiv") && !this.myoption.rightoption[j].selected) {
         this.rightOptRef.nativeElement.parentElement.children[j].classList.remove("disableDiv");
       }
     }
