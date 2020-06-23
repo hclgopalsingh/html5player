@@ -72,7 +72,7 @@
 	top: 1.1%;
 	clip-path: inset(1.7% 1% 1% 1% round 4vmax);
 }
-#container .speakerBtn{
+#container .speakerBtnOuter{
     width: 10%;
     margin: 0 3%;
     display: inline-block;
@@ -82,11 +82,7 @@
 	
 }
 
-.options img,
-.speakerBtn img {
-	cursor:pointer;
-}
-
+ 
 .disable_div {
 	pointer-events: none;
 }

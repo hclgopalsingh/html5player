@@ -79,6 +79,7 @@ import { Template6Component } from './modules/EVA/template6/template6.component'
 import { DataService } from './model/eva/template8/data.service';
 import { Template2Component } from './modules/EVA/template2/template2.component';
 import { Template4Component } from './modules/EVA/template4/template4.component';
+import { GlobalspeakerComponent } from './modules/commonmodules/globalspeaker/globalspeaker.component';
 
 
 @NgModule({
@@ -148,7 +149,8 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 		InstructionBarComponent,
 		Template6Component,
 		Template2Component,
-		Template4Component
+		Template4Component,
+		GlobalspeakerComponent
 	],
 	imports: [
 		BrowserModule,

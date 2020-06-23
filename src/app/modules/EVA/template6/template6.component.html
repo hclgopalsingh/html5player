@@ -27,7 +27,12 @@
                          <!--<img *ngFor="let option of dummyImgs;let idx = index"  class="img-fluid" id="{{'left'+idx}}" [src]="">-->
                     </div>
                 </div>
-                <div id="spkrBtn" class="speakerBtn">
+                 
+                <div class="speakerBtnOuter">
+                    <app-globalspeaker></app-globalspeaker>
+                </div>
+                
+                <!--<div id="spkrBtn" class="speakerBtn">
                     <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" (load)="checkImgLoaded();" title="स्पीकर"/>
                     <div class="waveAnimation" #sprite>
                         <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
@@ -35,7 +40,7 @@
                         <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?contentgFolderPath + '/' +speaker?.wave3.url: assetsfolderlocation + '/'+ speaker?.wave3.url">
                     </div> 
                     <audio #speakerVolume [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
-                </div>
+                </div>-->
                 <div class="matchHolder" >
                     <img class="img-fluid" [src]="optionHolder?.rightHolder?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolder?.url : assetsPath + '/' +optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
                     <img class="img-fluid section_title" [src]="optionHolder?.rightHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolderTitle?.url : assetsPath + '/' +optionHolder?.rightHolderTitle?.url" >

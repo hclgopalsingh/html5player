@@ -5,6 +5,7 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { DragulaService } from "ng2-dragula";
+import { GlobalspeakerComponent } from '../../commonmodules/globalspeaker/globalspeaker.component';
 
 import 'jquery';
 declare var $: any;
@@ -110,7 +111,7 @@ export class Template6Component extends Base implements OnInit {
 	common_assets: any = "";
 	LoadFlag: boolean = false;
 	contentgFolderPath: string = "";
-	videoPlayed = false;
+	//videoPlayed = false;
 	speakerPlayed = false;
 	instructiontext: string;
 	wrongCount: number = 0;
@@ -218,7 +219,7 @@ export class Template6Component extends Base implements OnInit {
 		if (!speakerEle.paused) {
 			speakerEle.pause();
 			speakerEle.currentTime = 0;
-			this.sprite.nativeElement.style = "display:none";
+			//this.sprite.nativeElement.style = "display:none";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			this.speakerPlayed = false;
 			this.speaker.imgsrc = this.speaker.imgorigional;
@@ -230,16 +231,16 @@ export class Template6Component extends Base implements OnInit {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
 	}
 
-	onHoverSpeaker() {
-		if (!this.videoPlayed) {
-			this.speaker.imgsrc = this.speaker.imghover;
-		}
-	}
-	onHoveroutSpeaker() {
-		if (!this.videoPlayed && !this.speakerPlayed) {
-			this.speaker.imgsrc = this.speaker.imgorigional;
-		}
-	}
+	////onHoverSpeaker() {
+	////	if (!this.videoPlayed) {
+	////		this.speaker.imgsrc = this.speaker.imghover;
+	////	}
+	////}
+	////onHoveroutSpeaker() {
+	////	if (!this.videoPlayed && !this.speakerPlayed) {
+	////		this.speaker.imgsrc = this.speaker.imgorigional;
+	////	}
+	////}
 
 	blinkOnLastQues() {
 		this.Sharedservice.setLastQuesAageyBadheStatus(false);
@@ -264,19 +265,19 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 
-	playSpeaker() {
-		this.speakerPlayed = true;
-		this.speaker.imgsrc = this.speaker.imgactive;
-		this.speakerVolume.nativeElement.play();
-		this.sprite.nativeElement.style = "display:flex";
-		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
-		this.speakerVolume.nativeElement.onended = () => {
-			this.speaker.imgsrc = this.speaker.imgorigional;
-			this.sprite.nativeElement.style = "display:none";
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			this.speakerPlayed = false;
-		}
-	}
+	////playSpeaker() {
+	////	this.speakerPlayed = true;
+	////	this.speaker.imgsrc = this.speaker.imgactive;
+	////	this.speakerVolume.nativeElement.play();
+	////	this.sprite.nativeElement.style = "display:flex";
+	////	(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
+	////	this.speakerVolume.nativeElement.onended = () => {
+	////		this.speaker.imgsrc = this.speaker.imgorigional;
+	////		this.sprite.nativeElement.style = "display:none";
+	////		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+	////		this.speakerPlayed = false;
+	////	}
+	////}
 
 	doRandomize(array) {
 		var currentIndex = array.length, temporaryValue, randomIndex;
@@ -352,7 +353,7 @@ export class Template6Component extends Base implements OnInit {
 		clearInterval(this.blinkTimeInterval);
 		this.attemptType = "";
 		this.setTemplateType();
-		this.sprite.nativeElement.style = "display:none";
+	////	this.sprite.nativeElement.style = "display:none";
 		this.contentgFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 
