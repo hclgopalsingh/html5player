@@ -203,7 +203,7 @@ export class Template4Component implements OnInit {
         clearTimeout(this.clapTimer);
     }
 
-    stopAllSounds() {
+    stopAllSounds(clickStatus?) {
         this.audio.pause();
         this.audio.currentTime = 0;
 		
@@ -224,6 +224,9 @@ export class Template4Component implements OnInit {
 
         this.showAnswerfeedback.nativeElement.pause();
         this.showAnswerfeedback.nativeElement.currentTime = 0;
+        if(clickStatus) {
+            this.enableAllOptions();
+          }
     }
 
     ngAfterViewChecked() {
@@ -380,6 +383,8 @@ export class Template4Component implements OnInit {
 
     /** SPEAKER SPRITE ON PLAY**/
     playSpeaker(el: HTMLAudioElement, speaker) {
+        this.stopAllSounds();
+        this.enableAllOptions();
         if (!this.instruction.nativeElement.paused) {
         } else {
             this.myAudiospeaker.nativeElement.currentTime = 0.0;
@@ -532,6 +537,12 @@ export class Template4Component implements OnInit {
 
     /**OPTION HOVER */   
     playOptionHover(option, index){
+        if (!this.myAudiospeaker.nativeElement.paused) {
+            this.myAudiospeaker.nativeElement.pause();
+            this.myAudiospeaker.nativeElement.currentTime = 0;
+            this.speaker.imgsrc = this.speaker.imgorigional;
+          }
+
         if (option && option.audio && option.audio.url) {
             this.playSound(option.audio, index);
         }
@@ -548,18 +559,24 @@ export class Template4Component implements OnInit {
             }
             this.audio.load();
             this.audio.play();
-            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                if (i != idx) {
-                    this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-                }
-            }
-            this.audio.onended = () => {
-                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                    if (i != idx) {
-                        this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-                    }
-                }
-            }
+
+            this.disableOtherOptions(idx, this.optionRef);
+
+
+            // let i = 0; i < selectedBlock.nativeElement.parentElement.children.length
+            // for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+            //     if (i != idx) {
+            //         this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            //     }
+            // }
+            // this.audio.onended = () => {
+            //     for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+            //     if (i != idx && !this.optionRef.nativeElement.children[i].children[1].classList.contains("invisible")
+            //         ) {
+            //             this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+            //         }
+            //     }
+            // }
             }
         
      }
@@ -580,6 +597,9 @@ export class Template4Component implements OnInit {
             for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {   //Disable ShowansBtn
                 document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
             }           
+
+            this.stopAllSounds("clicked");
+
            this.quesBoxId.classList.remove("blinkOn");
             
                setTimeout(()=>{
@@ -701,6 +721,26 @@ export class Template4Component implements OnInit {
     
    }
     
-	
+    
+     /***** Disable speaker and options other than hovered until audio end *******/
+  disableOtherOptions(idx, selectedBlock) {
+    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+        if (i != idx) {
+            this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+        }
+    }
+    this.audio.onended = () => {
+      this.enableAllOptions();
+    }
+  }
+
+  /***** Enable all options and speaker on audio end *******/
+  enableAllOptions() {
+    for (let j = 0; j < this.optionRef.nativeElement.children.length; j++) {
+      if (this.optionRef.nativeElement.children[j].classList.contains("disableDiv")  && !this.optionRef.nativeElement.children[j].children[1].classList.contains("invisible")) {
+        this.optionRef.nativeElement.children[j].classList.remove("disableDiv");
+      }
+    }
+  }
 
 }
