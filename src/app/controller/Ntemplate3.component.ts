@@ -694,7 +694,7 @@ export class Ntemplate3 implements OnInit {
         this.showIntroScreen = false;
         this.feedback = fetchedData.feedback;
         if(fetchedData.theme_name!=undefined) {
-          this.assetsPath=this.appModel.getThemePath();
+          //this.assetsPath=this.appModel.getThemePath();
         }
         this.commonAssets = fetchedData.commonassets;
         this.narratorAudio = fetchedData.commonassets.narrator;
