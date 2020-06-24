@@ -1066,12 +1066,13 @@ export class ApplicationmodelService {
   }
 
   public getPath(type){
-    if(type === "tabs"){
-      return "./assets/themes/elementary/"+ this.theme_name+'/global/tabs'
+    let basePath = "./assets/themes/elementary/"
+    if(type == "tabs"){
+      return basePath + this.theme_name +'/global/tabs'
     //set path
     }
-    if(type=== "buttons"){
-      return "./assets/themes/elementary/"+ this.theme_name+'/global'
+    if(type == "buttons"){
+      return basePath + this.theme_name +'/global/buttons'
     }
   }
 
