@@ -300,6 +300,8 @@ export class Template2Component implements OnInit {
 
   /*****Play speaker audio*****/
   playSpeaker(el: HTMLAudioElement, speaker) {
+    this.stopAllSounds();
+    this.enableAllOptions();
     if (!this.instruction.nativeElement.paused) {
       console.log("instruction voice still playing");
     } else {
@@ -408,6 +410,7 @@ export class Template2Component implements OnInit {
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
+    this.stopAllSounds("clicked");
     // logic to check what user has done is correct
     if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
       this.correctAnswerCounter++;
@@ -448,6 +451,7 @@ export class Template2Component implements OnInit {
 
     } else {
       this.ifWrongAns = true;
+      this.maincontent.nativeElement.className = "disableDiv";
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
       this.appModel.stopAllTimer();
@@ -464,6 +468,7 @@ export class Template2Component implements OnInit {
           for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
             document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
           }
+          this.maincontent.nativeElement.className = "";
         }
       });
     }
@@ -690,7 +695,6 @@ export class Template2Component implements OnInit {
     for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
       otherBlock.nativeElement.parentElement.children[j].classList.add("disableDiv");
     }
-    this.disableSpeaker.nativeElement.classList.add("disableDiv");
     this.audio.onended = () => {
       this.enableAllOptions();
     }
@@ -718,7 +722,31 @@ export class Template2Component implements OnInit {
         this.rightOptRef.nativeElement.parentElement.children[j].classList.remove("disableDiv");
       }
     }
-    this.disableSpeaker.nativeElement.classList.remove("disableDiv");
   }
 
+  /** Function to stop all sounds **/
+  stopAllSounds(clickStatus?) {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+
+    this.myAudiospeaker.nativeElement.pause();
+    this.myAudiospeaker.nativeElement.currentTime = 0;
+
+    this.wrongFeedback.nativeElement.pause();
+    this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.rightFeedback.nativeElement.pause();
+    this.rightFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+
+    this.showAnswerfeedback.nativeElement.pause();
+    this.showAnswerfeedback.nativeElement.currentTime = 0;
+
+    if(clickStatus) {
+      this.enableAllOptions();
+    }
+
+  }
 }
