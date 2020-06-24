@@ -716,7 +716,6 @@ export class Template6Component extends Base implements OnInit {
 			this.optionsBlock.nativeElement.className = "optionsBlock";
 			this.maincontent.nativeElement.className = "disableDiv";
 			this.optionsBlock.nativeElement.className = "optionsBlock disableDiv";
-			this.Sharedservice.setShowAnsEnabled(true);
 			this.rightTimer = setTimeout(() => {
 				this.closePopup('answerPopup');
 			}, 10000);
