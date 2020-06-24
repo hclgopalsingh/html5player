@@ -689,6 +689,10 @@ export class ApplicationmodelService {
     return this.subjectThemePath.asObservable();
   }
 
+  getThemePath() {
+    return "./assets/themes/elementary/"+ this.theme_name+'/type_'+this.content.contentLogic.functionalityType;
+  }
+
   public invokeTempSubject(msg, mode) {
     if (msg == "showModal") {
       let observ = this.popupSubject.observers[this.popupSubject.observers.length - 1];
