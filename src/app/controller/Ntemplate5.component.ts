@@ -3,6 +3,7 @@ import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { PlayerConstants } from '../common/playerconstants';
+import { subscriptionLogsToBeFn } from 'rxjs/testing/TestScheduler';
 
 
 declare var $: any;
@@ -104,6 +105,7 @@ export class Ntemplate5 implements OnInit {
   noOfRightAns: any;
   rightAnspopupAssets: any;
   tempSubscription: Subscription;
+  bgSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
   quesObj: any;
@@ -116,7 +118,8 @@ export class Ntemplate5 implements OnInit {
   styleBodyPopup:any;
   controlHandler = {
 		isSubmit:false
-	 };
+   };
+  themePath:any = "";
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused!) {
       console.log("narrator/instruction voice still playing");
@@ -360,7 +363,17 @@ export class Ntemplate5 implements OnInit {
       this.wrongFeedbackVO.nativeElement.pause();
       this.wrongFeedbackVO.nativeElement.currentTime = 0;
     }
-    
+    if(this.appModel.theme_name){
+      this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
+        console.log("this.themePath",this.themePath)
+        console.log("data",data)
+        this.themePath = this.appModel.getPath("tabs");
+        if(data && data.url && this.themePath){
+          this.commonAssets.background = data
+        }
+      })
+    }
+
     this.setData();
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -628,6 +641,10 @@ export class Ntemplate5 implements OnInit {
       this.appModel.notifyUserAction();
       $("#instructionBar").removeClass("disable_div");
     }
+  }
+
+  ngOnDestroy() {
+    this.bgSubscription.unsubscribe();
   }
 
   closeModal() {

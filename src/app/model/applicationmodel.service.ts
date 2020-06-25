@@ -163,7 +163,8 @@ export class ApplicationmodelService {
   eventDone: boolean = false;
   lastQuesNT: boolean = false;
   autoPlayFlag: boolean = false;
-
+  _avtiveBG = new Subject<any>();
+  activeBg:any = "";
   get initVal() {
     return this.initValues.files[this.currentActive].startAt;
   }
@@ -1070,6 +1071,7 @@ export class ApplicationmodelService {
   }
 
   public getPath(type){
+    if (this.theme_name){
     let basePath = "./assets/themes/elementary/"
     if(type == "tabs"){
       return basePath + this.theme_name +'/global/tabs'
@@ -1079,6 +1081,8 @@ export class ApplicationmodelService {
       return basePath + this.theme_name +'/global/buttons'
     }
   }
+    else return false
+  }
 
   getJson(){
     this.httpHandler.get('./assets/themes/elementary/'+ this.theme_name+'/global/tabs/tabs.json', this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
@@ -1087,6 +1091,12 @@ export class ApplicationmodelService {
   globalLoaded(data){
     this.setCommonControlAssets(data)
     console.log("datajson", data)
+    console.log("currentBackground", data.quesTabs[this.currentSection-1].background)
+    if(data.quesTabs && data.quesTabs[this.currentSection-1] && data.quesTabs[this.currentSection-1].background)
+    {
+      this.setActiveBG(data.quesTabs[this.currentSection-1].background) ;
+    }
+    console.log("this.currentSection",this.currentSection)
   }
 
   globalnotLoaded(data){
@@ -1094,6 +1104,13 @@ export class ApplicationmodelService {
 
   }
 
+  getActiveBG() {
+    return this._avtiveBG.asObservable();
+  }
+  
+  setActiveBG(val) {
+    this._avtiveBG.next(val);
+  }
 }
 
 
