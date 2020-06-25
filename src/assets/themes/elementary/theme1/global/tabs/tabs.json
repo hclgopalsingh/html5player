@@ -226,16 +226,16 @@
 		"location": "theme"
 	},
 	"submit_btn": {
-		"url": "submitBtn.png",
-		"location": "content"
+		"url": "submit_btn.png",
+		"location": "theme"
 	},
 	"submit_btn_hover": {
-		"url": "submitBtnHover.png",
-		"location": "content"
+		"url": "submit_btn_hover.png",
+		"location": "theme"
 	},
 	"submit_btn_original": {
-		"url": "submitBtn.png",
-		"location": "content"
+		"url": "submit_btn.png",
+		"location": "theme"
 	},
 	"blink_btn3": {
 		"url": "blink_btn3.svg",
