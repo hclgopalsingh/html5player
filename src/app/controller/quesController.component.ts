@@ -93,20 +93,25 @@ export class QuesController implements OnInit {
       console.log("selected question index", this.questionNo); 
     })
 
-      //*********  Move to next segment after 5 min of last question attempt */
-      this.Sharedservice.getTimerOnLastQues().subscribe(data => {
-        if (data.data && this.EVA) {
-          setTimeout(() => {
-            this.appModel.nextSectionEVA();
-          }, 5 * 60 * 1000);
-        }
-      });
+    
 
        
       // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
+
+
+        //*********  Move to next segment after 5 min of last question attempt */
+        this.Sharedservice.getTimerOnLastQues().subscribe(data => {
+          if (data.data && this.EVA) {
+            setTimeout(() => {
+              this.appModel.nextSectionEVA(this.isLastQues);
+            }, 5 * 60 * 1000);
+          }
+        });
+
+
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
