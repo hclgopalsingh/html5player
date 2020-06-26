@@ -107,14 +107,14 @@
 	<div class="modal-dialog">
 	  <div class="modal-content" #modalRef>
 		<div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
-		  <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.location=='content' ? assetspath + '/' + replayconfirmAssets?.headerTxt_img?.url : assetsPath + '/' + replayconfirmAssets?.headerTxt_img?.url">
-		  <img class="close" [src]="replayconfirmAssets?.close_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.close_btn?.url : assetsPath + '/' + replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+		  <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.location=='content' ? assetspath + '/' + replayconfirmAssets?.headerTxt_img?.url : assetspath + '/' + replayconfirmAssets?.headerTxt_img?.url">
+		  <img class="close" [src]="replayconfirmAssets?.close_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.close_btn?.url : assetspath + '/' + replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
 		</div>
 		<div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
-		  <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_text?.url : assetsPath + '/' + replayconfirmAssets?.confirm_text?.url"></div>
+		  <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_text?.url : assetspath + '/' + replayconfirmAssets?.confirm_text?.url"></div>
 		  <div class="actionButtons">
-			<button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');" (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_btn?.url : assetsPath + '/' + replayconfirmAssets?.confirm_btn?.url"></button>
-			<button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()" (mouseleave)="houtonReplayDecline()"><img class="img-fluid" [src]="replayconfirmAssets?.decline_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.decline_btn?.url : assetsPath + '/' + replayconfirmAssets?.decline_btn?.url"></button>
+			<button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');" (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_btn?.url : assetspath + '/' + replayconfirmAssets?.confirm_btn?.url"></button>
+			<button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()" (mouseleave)="houtonReplayDecline()"><img class="img-fluid" [src]="replayconfirmAssets?.decline_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.decline_btn?.url : assetspath + '/' + replayconfirmAssets?.decline_btn?.url"></button>
 		  </div>
 		</div>
 	  </div>

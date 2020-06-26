@@ -1,7 +1,6 @@
  
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Base } from '../../../controller/base';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
 @Component({
@@ -13,7 +12,7 @@ export class GlobalspeakerComponent implements OnInit {
 
   constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
-		this.assetsfolderlocation = this.appModel.assetsfolderpath;
+	this.assetsfolderlocation = this.appModel.assetsfolderpath;
   }
 
 
@@ -31,34 +30,31 @@ export class GlobalspeakerComponent implements OnInit {
 	}
 
   setData() {
-    debugger;
-		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-			let fetchedData: any = this.appModel.content.contentData.data;
-		 
+    	if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
+			let fetchedData: any = this.appModel.content.contentData.data;	 
 			this.speaker = JSON.parse(JSON.stringify(fetchedData.speaker));
- 
-		} else {
-
-		}
+		} 
 	}
   ngOnInit() {
-    this.contentgFolderPath = this.basePath;
+	this.contentgFolderPath = this.basePath;
     this.setData();
     this.sprite.nativeElement.style = "display:none";
   }
   onHoverSpeaker() {
-		if (!this.videoPlayed) {
+		 
 			this.speaker.imgsrc = this.speaker.imghover;
-		}
+		 
 	}
 	onHoveroutSpeaker() {
-		if (!this.videoPlayed && !this.speakerPlayed) {
+		if (!this.speakerPlayed) {
 			this.speaker.imgsrc = this.speaker.imgorigional;
 		}
 	}
 	playSpeaker() {
 		this.speakerPlayed = true;
 		this.speaker.imgsrc = this.speaker.imgactive;
+		this.Sharedservice.spriteElement.next(this.speaker);
+		this.Sharedservice.speakerVol.next(this.speakerVolume);
 		this.speakerVolume.nativeElement.play();
 		this.sprite.nativeElement.style = "display:flex";
 		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";

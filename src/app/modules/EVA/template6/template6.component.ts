@@ -5,8 +5,6 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { DragulaService } from "ng2-dragula";
-import { GlobalspeakerComponent } from '../../commonmodules/globalspeaker/globalspeaker.component';
-
 import 'jquery';
 declare var $: any;
 
@@ -39,6 +37,27 @@ export class Template6Component extends Base implements OnInit {
 			}
 
 		});
+
+		//subscribing speaker from shared service to get the updated object of speaker
+		this.Sharedservice.spriteElement.subscribe(imagesrc => {
+			this.speaker = imagesrc;
+		})
+		this.Sharedservice.speakerVol.subscribe(speakerVol =>{
+			this.speakerVolume = speakerVol
+		})
+
+	    //subscribing common popup from shared service to get the updated event and values of speaker
+		this.Sharedservice.showAnsRef.subscribe(showansref=>{
+			this.showAnswerRef = showansref
+		})
+
+		this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback=>{
+			this.showAnswerfeedback = showanswerfeedback
+		})
+		this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp=>{
+			this.videoonshowAnspopUp = videoonsAnspopUp
+		})
+
 
 		this.appModel = appModel;
 		this.assetsfolderlocation = this.appModel.assetsfolderpath;
@@ -74,14 +93,10 @@ export class Template6Component extends Base implements OnInit {
 	@ViewChild('maincontent') maincontent: any;
 	@ViewChild('clapSound') clapSound: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
-	@ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-	@ViewChild('showAnswerRef') showAnswerRef: any;
 	@ViewChild('ansPopup') ansPopup: any;
 	@ViewChild('rightFeedback') rightFeedback: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
-	@ViewChild('speakerVolume') speakerVolume: any;
 	@ViewChild('showAnswerVO') showAnswerVO: any;
-	//@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
 	@ViewChild('overlay') overlay: any;
 	@ViewChild('optionRef') optionRef: any;
 	@ViewChild('celebrationPopup') celebrationsPopup: any;
@@ -162,13 +177,17 @@ export class Template6Component extends Base implements OnInit {
 	LRightAttempt: number = 0;
 	RRightAttempt: number = 0;
 	splishedValue: any;
-	leftAnswerImage: any;
-	rightAnswerImage: any;
 	dragSubscription: any;
 	blinkCategory: any;
 	isdrop = false;
 	optionHolderValue: any;
-	imageChange: any
+	imageChange: any;
+	speakerImage:any;
+	speakerVolume:any;
+	videoonshowAnspopUp:any;
+
+	showAnswerRef:any;
+	showAnswerfeedback:any;
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
 			return this.appModel.content.id + '';
@@ -199,8 +218,6 @@ export class Template6Component extends Base implements OnInit {
 			this.wrongPopup = this.feedback.wrong_ans_sound;
 			this.showAnswerVO = this.feedback.show_ans_sound;
 			this.showAnswerPopup = this.feedback.show_ans_popup;
-			this.leftAnswerImage = JSON.parse(JSON.stringify(this.feedback.show_ans_popup.leftHolder.answer));
-			this.rightAnswerImage = JSON.parse(JSON.stringify(this.feedback.show_ans_popup.rightHolder.answer));
 			this.noOfImgs = fetchedData.imgCount;
 			this.isLastQues = this.appModel.isLastSection;
 			this.lastQuestionCheck = this.common_assets.ques_control.isLastQues;
@@ -219,10 +236,14 @@ export class Template6Component extends Base implements OnInit {
 		if (!speakerEle.paused) {
 			speakerEle.pause();
 			speakerEle.currentTime = 0;
+			
 			//this.sprite.nativeElement.style = "display:none";
+			 
+			document.getElementById('waveAnimation').style.display = 'none';
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			this.speakerPlayed = false;
 			this.speaker.imgsrc = this.speaker.imgorigional;
+			//document.getElementsByClassName("speakerBtn")[0].children[0].src = this.speaker.imgorigional.url
 		}
 		this.myoption[index].imgsrc = this.myoption[index].imgsrc_hover;
 	}
@@ -230,17 +251,6 @@ export class Template6Component extends Base implements OnInit {
 	onHoveroutOptions(option, index) {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
 	}
-
-	////onHoverSpeaker() {
-	////	if (!this.videoPlayed) {
-	////		this.speaker.imgsrc = this.speaker.imghover;
-	////	}
-	////}
-	////onHoveroutSpeaker() {
-	////	if (!this.videoPlayed && !this.speakerPlayed) {
-	////		this.speaker.imgsrc = this.speaker.imgorigional;
-	////	}
-	////}
 
 	blinkOnLastQues() {
 		this.Sharedservice.setLastQuesAageyBadheStatus(false);
@@ -263,21 +273,6 @@ export class Template6Component extends Base implements OnInit {
 			this.appModel.moveNextQues("");
 		}
 	}
-
-
-	////playSpeaker() {
-	////	this.speakerPlayed = true;
-	////	this.speaker.imgsrc = this.speaker.imgactive;
-	////	this.speakerVolume.nativeElement.play();
-	////	this.sprite.nativeElement.style = "display:flex";
-	////	(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
-	////	this.speakerVolume.nativeElement.onended = () => {
-	////		this.speaker.imgsrc = this.speaker.imgorigional;
-	////		this.sprite.nativeElement.style = "display:none";
-	////		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-	////		this.speakerPlayed = false;
-	////	}
-	////}
 
 	doRandomize(array) {
 		var currentIndex = array.length, temporaryValue, randomIndex;
@@ -344,6 +339,9 @@ export class Template6Component extends Base implements OnInit {
 		if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
 			obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.audio) {
+            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
 	}
 	//end
 
@@ -391,19 +389,21 @@ export class Template6Component extends Base implements OnInit {
 					this.speaker.imgsrc = this.speaker.imgorigional;
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video : this.assetsfolderlocation + "/" + this.showAnswerPopup.video;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-					this.wrongFeedback.nativeElement.pause();
-					this.rightFeedback.nativeElement.pause();
-					if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-						this.showAnswerfeedback.nativeElement.play();
-						this.showAnswerfeedback.nativeElement.onended = () => {
+					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+						this.videoonshowAnspopUp.nativeElement.play();
+						this.videoonshowAnspopUp.nativeElement.onended = () => {
 							setTimeout(() => {
 								this.closePopup("showanswer");
 							  }, 10000);
-							
 						}
-					 
+						//this.videoonshowAnspopUp.nativeElement.play();
 					}
+					//this.popupType = "showanswer";
+					// if(this.ifRightAns) {
+					// 	this.blinkOnLastQues();
+					// }
 				}
 			}
 		})
@@ -722,8 +722,7 @@ export class Template6Component extends Base implements OnInit {
 		this.wrongFeedback.nativeElement.currentTime = 0;
 		this.rightFeedback.nativeElement.pause();
 		this.rightFeedback.nativeElement.currentTime = 0;
-		this.showAnswerfeedback.nativeElement.pause();
-		this.showAnswerfeedback.nativeElement.currentTime = 0;
+		
 		this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 		this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
 

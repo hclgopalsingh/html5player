@@ -67,7 +67,7 @@ import { Ntemplate23 } from './controller/Ntemplate23.component';
 import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
-
+import { NtemplateMap } from './controller/NtemplateMap.component';
 import { Template15Component } from './modules/EVA/template15/template15.component';
 import { SharedserviceService } from '../app/services/sharedservice.service';
 import { Template3Component } from './modules/EVA/template3/template3.component';
@@ -80,6 +80,7 @@ import { DataService } from './model/eva/template8/data.service';
 import { Template2Component } from './modules/EVA/template2/template2.component';
 import { Template4Component } from './modules/EVA/template4/template4.component';
 import { GlobalspeakerComponent } from './modules/commonmodules/globalspeaker/globalspeaker.component';
+import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
 
 
 @NgModule({
@@ -150,7 +151,9 @@ import { GlobalspeakerComponent } from './modules/commonmodules/globalspeaker/gl
 		Template6Component,
 		Template2Component,
 		Template4Component,
-		GlobalspeakerComponent
+		GlobalspeakerComponent,
+		NtemplateMap,
+		ShowanswerComponent
 	],
 	imports: [
 		BrowserModule,
