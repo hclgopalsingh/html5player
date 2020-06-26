@@ -365,8 +365,6 @@ export class Ntemplate5 implements OnInit {
     }
     if(this.appModel.theme_name){
       this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
-        console.log("this.themePath",this.themePath)
-        console.log("data",data)
         this.themePath = this.appModel.getPath("tabs");
         if(data && data.url && this.themePath){
           this.commonAssets.background = data
