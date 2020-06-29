@@ -117,7 +117,8 @@ export class Ntemplate5 implements OnInit {
   styleHeaderPopup:any;
   styleBodyPopup:any;
   controlHandler = {
-		isSubmit:false
+		isSubmitRequired:false,
+    isReplayRequired:false
    };
   themePath:any = "";
   playHoverInstruction() {
@@ -556,6 +557,10 @@ export class Ntemplate5 implements OnInit {
       this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
       this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
       this.quesObj = fetchedData.quesObj[0];
+      this.controlHandler={
+         isSubmitRequired:this.quesObj.submitRequired,
+         isReplayRequired:this.quesObj.replayRequired
+      }
     }
 
   }

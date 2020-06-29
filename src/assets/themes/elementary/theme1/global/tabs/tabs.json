@@ -237,6 +237,18 @@
 		"url": "submit_btn.png",
 		"location": "theme"
 	},
+	"replay_btn": {
+		"url": "video_btn.png",
+		"location": "theme"
+	},
+	"replay_btn_hover": {
+		"url": "video_stream_btn.png",
+		"location": "theme"
+	},
+	"replay_btn_original": {
+		"url": "video_btn.png",
+		"location": "theme"
+	},
 	"blink_btn3": {
 		"url": "blink_btn3.svg",
 		"location": "theme"

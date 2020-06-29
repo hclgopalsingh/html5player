@@ -51,6 +51,7 @@ export class QuesController implements OnInit {
   themeType:any;
   buttonPath:any;
   disableSubmit: boolean = true;
+  disableReplay: boolean;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
@@ -201,7 +202,7 @@ export class QuesController implements OnInit {
     })
     this.appModel.controllerHandler.subscribe((controllerObj) =>{
       this.controlHandle(controllerObj);
-    })
+    });
   }
 
 
@@ -397,7 +398,9 @@ export class QuesController implements OnInit {
     this.disablePrev = controlObj.isPrev;
     this.hideShowAnswer = controlObj.isShowAns;
     this.disableTabs = controlObj.isTab;
-    this.disableSubmit = controlObj.isSubmit
+    this.disableSubmit = controlObj.isSubmitRequired;
+    this.disableReplay= controlObj.isReplayRequired;
+
   }
   ngOnDestroy() {
     this.blinkerSubscription.unsubscribe();
