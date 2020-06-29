@@ -120,6 +120,7 @@ export class TemplateTenComponent implements OnInit {
       }
     );
     this.assetsPath = this.appModel.assetsfolderpath;
+    this.appModel.navShow = 2;
   }
 
   ngOnInit() {
