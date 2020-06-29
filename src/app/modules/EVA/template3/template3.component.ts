@@ -15,6 +15,17 @@ export class Template3Component extends Base implements OnInit {
 
 	constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 		super();
+		//subscribing common popup from shared service to get the updated event and values of speaker
+        this.Sharedservice.showAnsRef.subscribe(showansref => {
+            this.showAnswerRef = showansref;
+        })
+
+        this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+            this.showAnswerfeedback = showanswerfeedback;
+        });
+        this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+            this.videoonshowAnspopUp = videoonsAnspopUp;
+        });
 		this.appModel = appModel;
 		this.assetsfolderlocation = this.appModel.assetsfolderpath;
 		this.appModel.navShow = 1;
@@ -495,14 +506,14 @@ export class Template3Component extends Base implements OnInit {
 					this.speaker.imgsrc = this.speaker.imgorigional;
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.videoAnimation.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.videoAnimation.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.videoAnimation.url;
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video : this.assetsfolderlocation + "/" + this.showAnswerPopup.video;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-					if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-						this.showAnswerfeedback.nativeElement.play();
-						this.showAnswerfeedback.nativeElement.onended = () => {
+					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+						this.videoonshowAnspopUp.nativeElement.play();
+						this.videoonshowAnspopUp.nativeElement.onended = () => {
 							this.closePopup("showanswer");
 						}
-						this.videoonshowAnspopUp.nativeElement.play();
+						// this.videoonshowAnspopUp.nativeElement.play();
 					}
 					//this.popupType = "showanswer";
 					// if(this.ifRightAns) {
@@ -548,8 +559,8 @@ export class Template3Component extends Base implements OnInit {
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
 
-        this.showAnswerfeedback.nativeElement.pause();
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
+        // this.showAnswerfeedback.nativeElement.pause();
+        // this.showAnswerfeedback.nativeElement.currentTime = 0;
     }
 	
 	checkImgLoaded() {
@@ -616,8 +627,8 @@ export class Template3Component extends Base implements OnInit {
 		this.rightFeedback.nativeElement.pause();
 		this.rightFeedback.nativeElement.currentTime = 0;
 
-		this.showAnswerfeedback.nativeElement.pause();
-		this.showAnswerfeedback.nativeElement.currentTime = 0;
+		this.videoonshowAnspopUp.nativeElement.pause();
+		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
 
 		if (Type === "answerPopup") {
 			this.popupclosedinRightWrongAns = true;

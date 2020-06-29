@@ -12,6 +12,10 @@ export class SharedserviceService {
     private isAageyBadhe = new Subject<any>();
     private isTimerActive = new Subject<any>();
 
+    public showAnsRef = new Subject<any>();
+    public showAnswerfeedback = new Subject<any>();
+    public videoonshowAnspopUp = new Subject<any>();
+
 
     sendData(data: any) {
         this.subject.next({ data: data });
