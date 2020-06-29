@@ -65,14 +65,17 @@ export class Template2Component implements OnInit {
   correctAnswersArray: any = [];
   selectedAnswersArray: any = [];
   showAnswerTimer: any;
+  videoonshowAnspopUp: any;
+  showAnswerRef: any;
+  showAnswerfeedback: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
   @ViewChild('sprite') sprite: any;
   @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('ansPopup') ansPopup: any;
-  @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-  @ViewChild('showAnswerRef') showAnswerRef: any;
+  // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
+  // @ViewChild('showAnswerRef') showAnswerRef: any;
   @ViewChild('wrongFeedback') wrongFeedback: any;
   @ViewChild('rightFeedback') rightFeedback: any;
   @ViewChild('disableSpeaker') disableSpeaker: any;
@@ -94,6 +97,18 @@ export class Template2Component implements OnInit {
   audio = new Audio();
 
   constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+
+    //subscribing common popup from shared service to get the updated event and values of speaker
+    this.Sharedservice.showAnsRef.subscribe(showansref => {
+      this.showAnswerRef = showansref;
+    })
+
+    this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+      this.showAnswerfeedback = showanswerfeedback;
+    });
+    this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+      this.videoonshowAnspopUp = videoonsAnspopUp;
+    });
     this.appModel = appModel;
     if (!this.appModel.isVideoPlayed) {
       this.isVideoLoaded = false;
@@ -171,10 +186,11 @@ export class Template2Component implements OnInit {
         this.speaker.imgsrc = this.speaker.imgorigional;
       }
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+        this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-        if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-          this.showAnswerfeedback.nativeElement.play();
-          this.showAnswerfeedback.nativeElement.onended = () => {
+        if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+          this.videoonshowAnspopUp.nativeElement.play();
+          this.videoonshowAnspopUp.nativeElement.onended = () => {
             this.showAnswerTimer = setTimeout(() => {
               this.closePopup('showAnswer');
             }, 10000);
@@ -557,8 +573,8 @@ export class Template2Component implements OnInit {
     this.rightFeedback.nativeElement.pause();
     this.rightFeedback.nativeElement.currentTime = 0;
 
-    this.showAnswerfeedback.nativeElement.pause();
-    this.showAnswerfeedback.nativeElement.currentTime = 0;
+    this.videoonshowAnspopUp.nativeElement.pause();
+    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
 
     this.multiCorrectFeedback.nativeElement.pause();
     this.multiCorrectFeedback.nativeElement.currentTime = 0;
@@ -740,9 +756,6 @@ export class Template2Component implements OnInit {
 
     this.clapSound.nativeElement.pause();
     this.clapSound.nativeElement.currentTime = 0;
-
-    this.showAnswerfeedback.nativeElement.pause();
-    this.showAnswerfeedback.nativeElement.currentTime = 0;
 
     if(clickStatus) {
       this.enableAllOptions();
