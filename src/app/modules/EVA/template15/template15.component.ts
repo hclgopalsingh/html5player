@@ -83,6 +83,7 @@ export class Template15Component implements OnInit {
     videoonshowAnspopUp: any;
     showAnswerRef: any;
     showAnswerfeedback: any;
+    showAnswerTimer:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -180,12 +181,12 @@ export class Template15Component implements OnInit {
                 this.speaker.imgsrc = this.speaker.imgorigional;
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
+                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
                     this.videoonshowAnspopUp.nativeElement.play();
                     this.videoonshowAnspopUp.nativeElement.onended = () => {
-                        setTimeout(() => {
+                        this.showAnswerTimer=  setTimeout(() => {
                             this.closePopup('showAnswer');
                         }, 10000);
                     }
@@ -251,9 +252,6 @@ export class Template15Component implements OnInit {
 
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
-
-        this.showAnswerfeedback.nativeElement.pause();
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
 
         if(clickStatus) {
             this.enableAllOptions();
@@ -448,6 +446,7 @@ export class Template15Component implements OnInit {
         clearTimeout(this.wrongTimer);
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
+        clearTimeout(this.showAnswerTimer);
 
         this.showAnswerRef.nativeElement.classList = "modal";
         this.feedbackPopup.nativeElement.classList = "modal";
@@ -635,11 +634,12 @@ export class Template15Component implements OnInit {
         if (obj.clapSound && obj.clapSound.nativeElement) {
             obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
+
+        if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+            obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
     }
 
