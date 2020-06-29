@@ -83,6 +83,7 @@ export class Template15Component implements OnInit {
     videoonshowAnspopUp: any;
     showAnswerRef: any;
     showAnswerfeedback: any;
+    showAnswerTimer:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -185,7 +186,7 @@ export class Template15Component implements OnInit {
                 if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
                     this.videoonshowAnspopUp.nativeElement.play();
                     this.videoonshowAnspopUp.nativeElement.onended = () => {
-                        setTimeout(() => {
+                        this.showAnswerTimer=  setTimeout(() => {
                             this.closePopup('showAnswer');
                         }, 10000);
                     }
@@ -251,9 +252,6 @@ export class Template15Component implements OnInit {
 
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
-
-        this.showAnswerfeedback.nativeElement.pause();
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
 
         if(clickStatus) {
             this.enableAllOptions();
@@ -448,6 +446,7 @@ export class Template15Component implements OnInit {
         clearTimeout(this.wrongTimer);
         clearTimeout(this.rightTimer);
         clearTimeout(this.clapTimer);
+        clearTimeout(this.showAnswerTimer);
 
         this.showAnswerRef.nativeElement.classList = "modal";
         this.feedbackPopup.nativeElement.classList = "modal";
