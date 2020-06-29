@@ -129,7 +129,7 @@ export class QuesController implements OnInit {
       if(this.EVA) {
         this.quesTabs = this.quesCtrl.quesTabs;
       } else {
-        this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+        //this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
       }
 
 
@@ -161,7 +161,8 @@ export class QuesController implements OnInit {
     this.CommonSubscription = this.appModel.getCommonControlAssets().subscribe(commonData =>{
       console.log("commonData",commonData)
       if(commonData){
-        this.quesTabs = commonData.quesTabs;
+        //this.quesTabs = commonData.quesTabs;
+        this.quesTabs = commonData.quesTabs.slice(0, this.noOfQues);
         this.themePath  = this.appModel.getPath("tabs")
         this.quesCtrl = commonData;
         this.buttonPath = this.appModel.getPath("buttons")

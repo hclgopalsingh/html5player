@@ -148,6 +148,10 @@ export class Ntemplate3 implements OnInit {
   skipFlag:boolean = true;
   styleHeaderPopup:any;
   styleBodyPopup:any;
+  controlHandler = {
+		isSubmitRequired:false,
+    isReplayRequired:false
+   };
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused!) {
@@ -467,6 +471,7 @@ export class Ntemplate3 implements OnInit {
       this.postWrongAttemplt();
     })
     this.appModel.resetBlinkingTimer();
+    this.appModel.handleController(this.controlHandler);
   }
 
   postWrongAttemplt() {
@@ -720,6 +725,10 @@ export class Ntemplate3 implements OnInit {
         this.replayconfirmAssets = fetchedData.feedback.replay_confirm;
         this.submitPopupAssets = fetchedData.feedback.submit_popup;
         this.quesObj = fetchedData.quesObj;
+        this.controlHandler={
+              isSubmitRequired:this.quesObj.submitRequired,
+              isReplayRequired:this.quesObj.replayRequired
+        }
         if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
           this.isPlayVideo = true;
           //sessionStorage.setItem("isPlayVideo", "true");
