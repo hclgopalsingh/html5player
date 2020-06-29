@@ -153,8 +153,6 @@ export class TemplateTenComponent implements OnInit {
 
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       this.appModel.stopAllTimer();
-      this.audio.pause();
-      this.audio.currentTime = 0;
       this.clapSound.nativeElement.pause();
       this.clapSound.nativeElement.currentTime = 0;
       this.rightFeedback.nativeElement.pause();
@@ -165,6 +163,11 @@ export class TemplateTenComponent implements OnInit {
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;
         this.shuffleOptions();
+      }
+      if (!this.audio.paused) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.enableAllOptions();
       }
       clearTimeout(this.clappingTimer);
       this.optionsContainer.nativeElement.classList.add("disableDiv");
@@ -315,6 +318,8 @@ export class TemplateTenComponent implements OnInit {
 
   /*****Play speaker audio*****/
   playSpeaker(el: HTMLAudioElement, speaker) {
+    this.stopAllSounds();
+    this.enableAllOptions();
     if (!this.instruction.nativeElement.paused) {
       console.log("instruction voice still playing");
     } else {
@@ -430,6 +435,7 @@ export class TemplateTenComponent implements OnInit {
       setTimeout(() => {
         if (this.wrongFeedbackOnAkshar && this.wrongFeedbackOnAkshar.nativeElement) {
           this.stopAllSounds();
+          this.enableAllOptions();
           this.wrongFeedbackOnAkshar.nativeElement.play();
         }
 
@@ -460,6 +466,7 @@ export class TemplateTenComponent implements OnInit {
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
+    this.stopAllSounds("clicked");
     let matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
     if (this.correctAnswerObj.correct_index.indexOf(option.id) > -1 && matraIndex < 0) {
       this.correctAnswerCounter++;
@@ -740,6 +747,14 @@ export class TemplateTenComponent implements OnInit {
       }
       this.audio.load();
       this.audio.play();
+      for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
+        if (i != idx) {
+            this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+        }
+    }
+    this.audio.onended = () => {
+        this.enableAllOptions();
+    }
     }
   }
 
@@ -756,15 +771,14 @@ export class TemplateTenComponent implements OnInit {
   /***** Enable all options and speaker on audio end *******/
   enableAllOptions() {
     for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")) {
-        this.optionsContainer.nativeElement.parentElement.children[i].classList.remove("disableDiv");
+      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")  && !this.myoption[i].selected) {
+        this.optionsContainer.nativeElement.children[i].classList.remove("disableDiv");
       }
     }
-    this.disableSpeaker.nativeElement.classList.remove("disableDiv");
   }
 
   /** Function to stop all sounds **/
-  stopAllSounds() {
+  stopAllSounds(clicked?) {
     this.audio.pause();
     this.audio.currentTime = 0;
 
@@ -785,6 +799,10 @@ export class TemplateTenComponent implements OnInit {
 
     this.wrongFeedbackOnAkshar.nativeElement.pause();
     this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
+
+    if(clicked) {
+      this.enableAllOptions();
+    }
   }
 
   getChromeVersion(): any {

@@ -65,14 +65,17 @@ export class Template2Component implements OnInit {
   correctAnswersArray: any = [];
   selectedAnswersArray: any = [];
   showAnswerTimer: any;
+  videoonshowAnspopUp: any;
+  showAnswerRef: any;
+  showAnswerfeedback: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
   @ViewChild('sprite') sprite: any;
   @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('ansPopup') ansPopup: any;
-  @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-  @ViewChild('showAnswerRef') showAnswerRef: any;
+  // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
+  // @ViewChild('showAnswerRef') showAnswerRef: any;
   @ViewChild('wrongFeedback') wrongFeedback: any;
   @ViewChild('rightFeedback') rightFeedback: any;
   @ViewChild('disableSpeaker') disableSpeaker: any;
@@ -94,6 +97,18 @@ export class Template2Component implements OnInit {
   audio = new Audio();
 
   constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+
+    //subscribing common popup from shared service to get the updated event and values of speaker
+    this.Sharedservice.showAnsRef.subscribe(showansref => {
+      this.showAnswerRef = showansref;
+    })
+
+    this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+      this.showAnswerfeedback = showanswerfeedback;
+    });
+    this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+      this.videoonshowAnspopUp = videoonsAnspopUp;
+    });
     this.appModel = appModel;
     if (!this.appModel.isVideoPlayed) {
       this.isVideoLoaded = false;
@@ -171,10 +186,11 @@ export class Template2Component implements OnInit {
         this.speaker.imgsrc = this.speaker.imgorigional;
       }
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+        this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-        if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-          this.showAnswerfeedback.nativeElement.play();
-          this.showAnswerfeedback.nativeElement.onended = () => {
+        if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+          this.videoonshowAnspopUp.nativeElement.play();
+          this.videoonshowAnspopUp.nativeElement.onended = () => {
             this.showAnswerTimer = setTimeout(() => {
               this.closePopup('showAnswer');
             }, 10000);
@@ -300,6 +316,8 @@ export class Template2Component implements OnInit {
 
   /*****Play speaker audio*****/
   playSpeaker(el: HTMLAudioElement, speaker) {
+    this.stopAllSounds();
+    this.enableAllOptions();
     if (!this.instruction.nativeElement.paused) {
       console.log("instruction voice still playing");
     } else {
@@ -408,6 +426,7 @@ export class Template2Component implements OnInit {
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
+    this.stopAllSounds("clicked");
     // logic to check what user has done is correct
     if (this.feedback.correct_ans_index.indexOf(option.id) > -1) {
       this.correctAnswerCounter++;
@@ -448,6 +467,7 @@ export class Template2Component implements OnInit {
 
     } else {
       this.ifWrongAns = true;
+      this.maincontent.nativeElement.className = "disableDiv";
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
       this.appModel.stopAllTimer();
@@ -464,6 +484,7 @@ export class Template2Component implements OnInit {
           for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
             document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
           }
+          this.maincontent.nativeElement.className = "";
         }
       });
     }
@@ -552,8 +573,8 @@ export class Template2Component implements OnInit {
     this.rightFeedback.nativeElement.pause();
     this.rightFeedback.nativeElement.currentTime = 0;
 
-    this.showAnswerfeedback.nativeElement.pause();
-    this.showAnswerfeedback.nativeElement.currentTime = 0;
+    this.videoonshowAnspopUp.nativeElement.pause();
+    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
 
     this.multiCorrectFeedback.nativeElement.pause();
     this.multiCorrectFeedback.nativeElement.currentTime = 0;
@@ -690,7 +711,6 @@ export class Template2Component implements OnInit {
     for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
       otherBlock.nativeElement.parentElement.children[j].classList.add("disableDiv");
     }
-    this.disableSpeaker.nativeElement.classList.add("disableDiv");
     this.audio.onended = () => {
       this.enableAllOptions();
     }
@@ -718,7 +738,28 @@ export class Template2Component implements OnInit {
         this.rightOptRef.nativeElement.parentElement.children[j].classList.remove("disableDiv");
       }
     }
-    this.disableSpeaker.nativeElement.classList.remove("disableDiv");
   }
 
+  /** Function to stop all sounds **/
+  stopAllSounds(clickStatus?) {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+
+    this.myAudiospeaker.nativeElement.pause();
+    this.myAudiospeaker.nativeElement.currentTime = 0;
+
+    this.wrongFeedback.nativeElement.pause();
+    this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.rightFeedback.nativeElement.pause();
+    this.rightFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+
+    if(clickStatus) {
+      this.enableAllOptions();
+    }
+
+  }
 }

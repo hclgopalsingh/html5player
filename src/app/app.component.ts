@@ -174,21 +174,21 @@ export class AppComponent {
 	}
 
 	resizeContainer() {
-		if (this.contentHolder && this.contentHolder.nativeElement) {
-			let contentHolder: HTMLElement = this.contentHolder.nativeElement as HTMLElement
-			contentHolder.style.width = "initial";
-			let targetHeight = window.innerHeight;
-			let containerHeight = contentHolder.clientHeight;
-			let containerWidth = contentHolder.clientWidth;
-			if (containerHeight > targetHeight) {
-				while (containerHeight > targetHeight) {
-					containerHeight = containerHeight - (containerHeight * .01);
-					containerWidth = containerWidth - (containerWidth * .01);
-				}
-				contentHolder.style.width = containerWidth + "px";
-			} else {
-			}
-		}
+		// if (this.contentHolder && this.contentHolder.nativeElement) {
+		// 	let contentHolder: HTMLElement = this.contentHolder.nativeElement as HTMLElement
+		// 	contentHolder.style.width = "initial";
+		// 	let targetHeight = window.innerHeight;
+		// 	let containerHeight = contentHolder.clientHeight;
+		// 	let containerWidth = contentHolder.clientWidth;
+		// 	if (containerHeight > targetHeight) {
+		// 		while (containerHeight > targetHeight) {
+		// 			containerHeight = containerHeight - (containerHeight * .01);
+		// 			containerWidth = containerWidth - (containerWidth * .01);
+		// 		}
+		// 		contentHolder.style.width = containerWidth + "px";
+		// 	} else {
+		// 	}
+		// }
 
 	}
 

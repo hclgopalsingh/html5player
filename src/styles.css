@@ -23,6 +23,27 @@ body{
 button:focus{
     outline: none !important;
 }
+::selection {
+	background: none;
+	}
+
+@media only screen and (min-width: 1025px) and (max-height: 767px){
+    .outerMostParent {
+        width: 90.3% !important;
+    }
+} 
+@media only screen and (min-width: 1326px) and (max-height: 767px){
+    .outerMostParent {
+        width: 81.5% !important;
+    }
+} 
+
+@media only screen and (min-width: 1920px) and (max-height: 1079px){
+    .outerMostParent {
+        width: 87% !important;
+    }
+}
+
 #container{
 	position: relative;
 	padding:0;

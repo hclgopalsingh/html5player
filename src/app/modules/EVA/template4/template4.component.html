@@ -41,17 +41,18 @@
                         (load)="checkImgLoaded();" on-mouseenter='playOptionHover(opt,idx)' (click)="selectOpt(opt,idx)">
                     </ng-template>                    
                 </div>
-                <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
-                    <div id="spkrBtn" class="speakerBtn">
-                    <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(myAudiospeaker,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
-                    <div class="waveAnimation" #sprite>
-                        <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
-                        <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
-                        <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
-                    </div> 
-                    <audio id="S" #myAudiospeaker [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
-                  </div>
-                </div>
+                
+            </div>
+            <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
+                <div id="spkrBtn" class="speakerBtn">
+                <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(myAudiospeaker,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
+                <div class="waveAnimation" #sprite>
+                    <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
+                    <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
+                    <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
+                </div> 
+                <audio id="S" #myAudiospeaker [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
+              </div>
             </div>
         </div>
         <div id="refQuesBlock">            

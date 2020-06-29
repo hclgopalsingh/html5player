@@ -84,15 +84,18 @@ export class Template1Component implements OnInit {
     saveOpt : any;
     rightSelectTimer:any;
     wrongSelectTimer:any;
-	showAnswerTimer:any;
+    showAnswerTimer:any;
+    videoonshowAnspopUp: any;
+    showAnswerRef: any;
+    showAnswerfeedback: any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
     @ViewChild('sprite') sprite: any;
     @ViewChild('speakerNormal') speakerNormal: any;
     @ViewChild('ansPopup') ansPopup: any;
-    @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-	@ViewChild('showAnswerRef') showAnswerRef: any;
+    // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
+	// @ViewChild('showAnswerRef') showAnswerRef: any;
     @ViewChild('wrongFeedback') wrongFeedback: any;
     @ViewChild('rightFeedback') rightFeedback: any;
     @ViewChild('disableSpeaker') disableSpeaker: any;  
@@ -108,7 +111,19 @@ export class Template1Component implements OnInit {
 
 
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-   
+        
+        //subscribing common popup from shared service to get the updated event and values of speaker
+        this.Sharedservice.showAnsRef.subscribe(showansref => {
+            this.showAnswerRef = showansref;
+        })
+
+        this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+            this.showAnswerfeedback = showanswerfeedback;
+        });
+        this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+            this.videoonshowAnspopUp = videoonsAnspopUp;
+        });
+
         this.appModel = appModel;
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
@@ -166,11 +181,12 @@ export class Template1Component implements OnInit {
                 this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
                 this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
             }
-			this.stopAllSounds();
+            this.stopAllSounds();
+            this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
             this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-            if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-                this.showAnswerfeedback.nativeElement.play();
-                this.showAnswerfeedback.nativeElement.onended=() => {
+            if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+                this.videoonshowAnspopUp.nativeElement.play();
+                this.videoonshowAnspopUp.nativeElement.onended = () => {
                     this.showAnswerTimer=setTimeout(() => {
                             this.closePopup('showAnswer');
                     }, 10000);
@@ -236,8 +252,8 @@ export class Template1Component implements OnInit {
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
 
-        this.showAnswerfeedback.nativeElement.pause();
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
+        // this.showAnswerfeedback.nativeElement.pause();
+        // this.showAnswerfeedback.nativeElement.currentTime = 0;
     }
 	
     ngAfterViewChecked() {
@@ -360,8 +376,8 @@ export class Template1Component implements OnInit {
         this.rightFeedback.nativeElement.pause();     
         this.rightFeedback.nativeElement.currentTime = 0;
 
-        this.showAnswerfeedback.nativeElement.pause();      
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
+        this.videoonshowAnspopUp.nativeElement.pause();
+		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
        
         if(Type=== "answerPopup") {
             this.popupclosedinRightWrongAns=true;

@@ -95,29 +95,7 @@
     </div>
 
     <!-- show answer Popup  -->
-    <div class="modal" id="showAnswer" #showAnswerRef>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body d-flex align-items-center">
-                    <img class="img-fluid"
-                        [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="refQuesBlockShowAnswer">
-                        <app-question-block #showAnswerQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath">
-                        </app-question-block>
-                        <div #showAnswerPopupSelectedOption class="selectedAns">
-                            <img class="img-fluid" [src]="popupSelectedOptionBaseURL">
-                            <img class="img-fluid" [src]="popupSelectedOptionURL">
-                        </div>
-                    </div>
-                    <img class="popupCloseBtn"
-                        [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                        (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()"
-                        (mouseleave)="houtClosePopup()" title="बन्द करें">
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 </div>
 
 <!-- Popup Modal Audios -->

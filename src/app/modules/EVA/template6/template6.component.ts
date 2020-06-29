@@ -18,26 +18,39 @@ export class Template6Component extends Base implements OnInit {
 
 	constructor(private dragulaService: DragulaService, private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 		super();
-		this.dragSubscription = dragulaService.drop().subscribe((value: any) => {
+		this.dragSubscription = dragulaService.drag().subscribe((dragValue: any) => {
+			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+				if (dragValue.el && (dragValue.el.getAttribute("id") != i)) {
+					this.optionRef.nativeElement.children[i].classList.add("disable_div");
+				}
+			}
+		});
+		this.dragEndSubscription = dragulaService.dragend().subscribe((dragEndValue: any) => {
+			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+				this.optionRef.nativeElement.children[i].classList.remove("disable_div");
+			}
+		});
+		this.dropSubscription = dragulaService.drop().subscribe((value: any) => {
 			if (value.source == value.target || value.source.parentElement.className == value.target.parentElement.className) {
-			  dragulaService.find('second-bag2').drake.cancel(true);
+				dragulaService.find('second-bag2').drake.cancel(true);
 			} else {
 				this.imageChange = setTimeout(() => {
 					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
 				}, 500);
- 
+
 				var abc = value.el.getAttribute("id");
 				var xyz = this.myoption[abc];
 				if (this.blinkCategory == xyz.category) {
-					this.submitAttempt(abc, xyz);
+					this.submitAttempt(abc, xyz, value.el);
 				} else {
 					dragulaService.find('second-bag2').drake.cancel(true);
-					this.submitAttempt(abc, xyz);
+					this.submitAttempt(abc, xyz, value.el);
 				}
 			}
 
 		});
+
 
 		this.appModel = appModel;
 		this.assetsfolderlocation = this.appModel.assetsfolderpath;
@@ -164,9 +177,14 @@ export class Template6Component extends Base implements OnInit {
 	leftAnswerImage: any;
 	rightAnswerImage: any;
 	dragSubscription: any;
+	dragEndSubscription: any;
+	dropSubscription: any;
 	blinkCategory: any;
 	isdrop = false;
 	optionHolderValue: any;
+	leftBlinkTimer: any;
+	rightBlinkTimer: any;
+	showAnswerTimer: any;
 	imageChange: any
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
@@ -265,6 +283,8 @@ export class Template6Component extends Base implements OnInit {
 
 
 	playSpeaker() {
+		this.stopAllSounds();
+		this.enableAllOptions();
 		this.speakerPlayed = true;
 		this.speaker.imgsrc = this.speaker.imgactive;
 		this.speakerVolume.nativeElement.play();
@@ -343,6 +363,9 @@ export class Template6Component extends Base implements OnInit {
 		if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
 			obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.audio) {
+			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+		}
 	}
 	//end
 
@@ -380,6 +403,11 @@ export class Template6Component extends Base implements OnInit {
 		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
 			if (val == "uttarDikhayein") {
 				this.appModel.stopAllTimer();
+				if (!this.audio.paused) {
+					this.audio.pause();
+					this.audio.currentTime = 0;
+					this.enableAllOptions();
+				}
 				let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 				if (!speakerEle.paused) {
 					speakerEle.pause();
@@ -391,25 +419,28 @@ export class Template6Component extends Base implements OnInit {
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+					clearInterval(this.leftBlinkTimer);
+					clearInterval(this.rightBlinkTimer);
+					if (this.blinkTimeInterval) {
+						clearInterval(this.blinkTimeInterval);
+					}
 					this.wrongFeedback.nativeElement.pause();
 					this.rightFeedback.nativeElement.pause();
 					if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
 						this.showAnswerfeedback.nativeElement.play();
 						this.showAnswerfeedback.nativeElement.onended = () => {
-							setTimeout(() => {
+							this.showAnswerTimer = setTimeout(() => {
 								this.closePopup("showanswer");
-							  }, 10000);
-							
+							}, 10000);
+
 						}
-					 
+
 					}
 				}
 			}
 		})
-		this.imageChange = setTimeout(() => {
-			this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-			this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
-		}, 500);
 	}
 
 	ngOnDestroy() {
@@ -420,6 +451,8 @@ export class Template6Component extends Base implements OnInit {
 		clearInterval(this.blinkTimeInterval);
 		clearTimeout(this.celebrationTimer);
 		this.dragSubscription.unsubscribe();
+		this.dragEndSubscription.unsubscribe();
+		this.dropSubscription.unsubscribe();
 	}
 
 	ngAfterViewChecked() {
@@ -451,23 +484,41 @@ export class Template6Component extends Base implements OnInit {
 			this.optionsBlock.nativeElement.classList = "disable_div";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
 			this.narrator_voice.nativeElement.play();
+			this.showInitialBorderOnHolder();
 			this.narrator_voice.nativeElement.onended = () => {
 				this.optionsBlock.nativeElement.classList = "";
 				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+				this.startActivity();
 			}
-			this.startActivity();
 		}
 	}
 	startActivity() {
-		this.getRandomIndxBlink(this.selectableOpts);
+		this.imageChange = setTimeout(() => {
+			this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+			this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+		}, 500);
+		this.getRandomIndxBlink(this.selectableOpts, this.randomIdx);
 	}
 
-	getRandomIndxBlink(no) {
+	showInitialBorderOnHolder() {
+		this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+		this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+		this.randomIdx = Math.floor((Math.random() * this.selectableOpts));
+		if (this.optionHolder.left_random_index.includes(this.completeRandomArr[this.randomIdx])) {
+			this.optionHolder.leftHolder = this.optionHolder.leftHolder_blink1;
+		}
+		else if (this.optionHolder.right_random_index.includes(this.completeRandomArr[this.randomIdx])) {
+			this.optionHolder.rightHolder = this.optionHolder.rightHolder_blink1;
+		}
+	}
+	getRandomIndxBlink(no, prevRandomId?) {
+
+		this.randomIdx = prevRandomId !== undefined ? prevRandomId : Math.floor((Math.random() * no));
 		clearInterval(this.blinkTimeInterval);
 		$(this.optionsBlock.nativeElement.children[0].children[2]).removeClass("disableDiv1");
 		$(this.optionsBlock.nativeElement.children[0].children[0]).removeClass("disableDiv1");
-		this.randomIdx = Math.floor((Math.random() * no));
-		 
+
+
 		if (this.optionHolder.left_random_index.includes(this.completeRandomArr[this.randomIdx]) && this.blinkCategory1 < 3 && this.LRightAttempt < 3) {
 			this.blinkCategoryA(this.randomIdx);
 			$(this.optionsBlock.nativeElement.children[0].children[2]).addClass("disableDiv1");
@@ -506,7 +557,7 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	blinkCategoryA(randomIdx) {
-	 
+
 		this.blinkCategory = "A";
 		this.blinkSide = "left";
 		this.startCount = 1;
@@ -515,7 +566,7 @@ export class Template6Component extends Base implements OnInit {
 	}
 
 	blinkCategoryB(randomIdx) {
-	 
+
 		this.blinkCategory = "B";
 		this.blinkSide = "right";
 		this.startCount = 1;
@@ -539,9 +590,9 @@ export class Template6Component extends Base implements OnInit {
 		if (this.blinkSide == 'left') {
 			if (this.blinkFlag) {
 				this.optionHolder.leftHolder = this.optionHolder.leftHolder_blink1;
-				setTimeout(() => {
+				this.leftBlinkTimer = setTimeout(() => {
 					this.optionHolder.leftHolder = this.optionHolder.leftHolder_blink2;
-				}, 150)
+				}, 300)
 				this.blinkFlag = false;
 			} else {
 				this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
@@ -550,9 +601,9 @@ export class Template6Component extends Base implements OnInit {
 		} else if (this.blinkSide == 'right') {
 			if (this.blinkFlag) {
 				this.optionHolder.rightHolder = this.optionHolder.rightHolder_blink1;
-				setTimeout(() => {
+				this.rightBlinkTimer = setTimeout(() => {
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_blink2;
-				}, 150)
+				}, 300)
 				this.blinkFlag = false;
 			} else {
 				this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
@@ -561,13 +612,16 @@ export class Template6Component extends Base implements OnInit {
 		}
 	}
 
-	submitAttempt(idx, opt) {
+	submitAttempt(idx, opt, element?) {
 		this.appModel.enableReplayBtn(false);
 		this.startCount = 0;
 		clearInterval(this.blinkTimeInterval);
 		this.blinkTimeInterval = 0;
 		this.moveFrom = this.optionsBlock.nativeElement.children[1].children[idx].children[0].src;
-
+		for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+		}
+		this.stopAllSounds("dragged");
 		if (this.blinkSide == "left") {
 			if ((this.optionHolder.left_random_index).includes(opt.id)) {
 				this.LRightAttempt++;
@@ -575,6 +629,7 @@ export class Template6Component extends Base implements OnInit {
 				this.blinkCategory1++;
 				this.splishedValue = this.completeRandomArr[this.randomIdx];
 				this.completeRandomArr.splice(this.randomIdx, 1);
+				element.classList.add("disable_div");
 				$(this.optionsBlock.nativeElement.children[1].children[idx]).addClass("disableDiv1");
 				this.setClappingTimer(this.rightFeedback);
 				this.ifRightAns = true;
@@ -597,12 +652,15 @@ export class Template6Component extends Base implements OnInit {
 					this.wrongFeedback.nativeElement.onended = () => {
 						this.getRandomIndxBlink(this.selectableOpts);
 						this.optionsBlock.nativeElement.classList.remove("disableDiv");
+						if (this.wrongCount >= 3 && this.ifWrongAns) {
+							this.Sharedservice.setShowAnsEnabled(true);
+						}
 						this.doRandomize(this.myoption);
+						for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+							document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+						}
 					}
 				});
-				if (this.wrongCount >= 3 && this.ifWrongAns) {
-					this.Sharedservice.setShowAnsEnabled(true);
-				}
 
 			}
 		}
@@ -614,6 +672,7 @@ export class Template6Component extends Base implements OnInit {
 				this.blinkCategory2++;
 				this.splishedValue = this.completeRandomArr[this.randomIdx];
 				this.completeRandomArr.splice(this.randomIdx, 1);
+				element.classList.add("disable_div");
 				$(this.optionsBlock.nativeElement.children[1].children[idx]).addClass("disableDiv1");
 				this.setClappingTimer(this.rightFeedback);
 				this.categoryB.correct.push(opt);
@@ -637,12 +696,15 @@ export class Template6Component extends Base implements OnInit {
 					this.wrongFeedback.nativeElement.onended = () => {
 						this.getRandomIndxBlink(this.selectableOpts);
 						this.optionsBlock.nativeElement.classList.remove("disableDiv");
+						if (this.wrongCount >= 3 && this.ifWrongAns) {
+							this.Sharedservice.setShowAnsEnabled(true);
+						}
 						this.doRandomize(this.myoption);
+						for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+							document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+						}
 					}
 				});
-				if (this.wrongCount >= 3 && this.ifWrongAns) {
-					this.Sharedservice.setShowAnsEnabled(true);
-				}
 			}
 		}
 		if (this.categoryA.incorrect.length > 0 || this.categoryB.incorrect.length > 0) {
@@ -665,6 +727,11 @@ export class Template6Component extends Base implements OnInit {
 		}, 2000);
 		this.rightFeedback.nativeElement.onended = () => {
 			$(this.optionsBlock.nativeElement).removeClass("disableDiv1");
+			if (this.categoryA.correct.length < 3 || this.categoryB.correct.length < 3) {
+				for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+					document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+				}
+			}
 			if (this.selectableOpts > 0) {
 				//if (this.categoryA.correct.length != 3 && this.categoryB.correct.length != 3) {
 				this.getRandomIndxBlink(this.selectableOpts);
@@ -694,7 +761,9 @@ export class Template6Component extends Base implements OnInit {
 			this.optionsBlock.nativeElement.className = "optionsBlock";
 			this.maincontent.nativeElement.className = "disableDiv";
 			this.optionsBlock.nativeElement.className = "optionsBlock disableDiv";
-			this.Sharedservice.setShowAnsEnabled(true);
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+				document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+			}
 			this.rightTimer = setTimeout(() => {
 				this.closePopup('answerPopup');
 			}, 10000);
@@ -715,6 +784,10 @@ export class Template6Component extends Base implements OnInit {
 
 	closePopup(Type) {
 		clearTimeout(this.imageChange);
+		clearTimeout(this.rightTimer);
+		clearTimeout(this.clappingTimer);
+		clearTimeout(this.showAnswerTimer);
+		clearTimeout(this.celebrationTimer);
 		this.showAnswerRef.nativeElement.classList = "modal";
 		this.celebrationsPopup.nativeElement.classList = "modal";
 		this.wrongFeedback.nativeElement.pause();
@@ -789,6 +862,41 @@ export class Template6Component extends Base implements OnInit {
 				}
 			}
 		}
+	}
+
+	/***** Enable all options and speaker on audio end *******/
+	enableAllOptions() {
+		for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+			if (this.optionRef.nativeElement.children[i].classList.contains("disableDiv")) {
+				this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
+			}
+		}
+	}
+
+	/** Function to stop all sounds **/
+	stopAllSounds(dragged?) {
+		this.audio.pause();
+		this.audio.currentTime = 0;
+
+		this.speakerVolume.nativeElement.pause();
+		this.speakerVolume.nativeElement.currentTime = 0;
+
+		this.wrongFeedback.nativeElement.pause();
+		this.wrongFeedback.nativeElement.currentTime = 0;
+
+		this.rightFeedback.nativeElement.pause();
+		this.rightFeedback.nativeElement.currentTime = 0;
+
+		this.clapSound.nativeElement.pause();
+		this.clapSound.nativeElement.currentTime = 0;
+
+		this.showAnswerfeedback.nativeElement.pause();
+		this.showAnswerfeedback.nativeElement.currentTime = 0;
+
+		if (dragged) {
+			this.enableAllOptions();
+		}
+
 	}
 
 }
