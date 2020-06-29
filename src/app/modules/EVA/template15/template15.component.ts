@@ -181,7 +181,7 @@ export class Template15Component implements OnInit {
                 this.speaker.imgsrc = this.speaker.imgorigional;
             }
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
+                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
                     this.videoonshowAnspopUp.nativeElement.play();
@@ -634,11 +634,12 @@ export class Template15Component implements OnInit {
         if (obj.clapSound && obj.clapSound.nativeElement) {
             obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
+
+        if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+            obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
     }
 

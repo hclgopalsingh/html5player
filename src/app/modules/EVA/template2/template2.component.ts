@@ -295,16 +295,13 @@ export class Template2Component implements OnInit {
     if (obj.clapSound && obj.clapSound.nativeElement) {
       obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-    // if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-      // obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    // }
     if (obj.audio) {
       obj.audio.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.multiCorrectFeedback && obj.multiCorrectFeedback.nativeElement) {
       obj.multiCorrectFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-	if (obj.videoonshowAnspopUp && obj	.videoonshowAnspopUp.nativeElement) {
+	if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
 		obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 	}
   }
