@@ -163,7 +163,7 @@
 
 
  <!-- show answer Popup  -->
-    <div class="modal" id="showAnswer" #showAnswerRef>
+    <!-- <div class="modal" id="showAnswer" #showAnswerRef>
       <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
               <div class="modal-body d-flex align-items-center">
@@ -174,7 +174,8 @@
                </div>
           </div>
       </div>
-  </div>
+  </div> -->
+  <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
 
   </div>
   

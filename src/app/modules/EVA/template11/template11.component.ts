@@ -39,7 +39,6 @@ export class Template11Componenteva implements OnInit {
     attemptType: string = "";
     correctOpt: any = '';  
     isVideoLoaded: boolean = false;
-    currentIdx: number = 0;  
     wrongCounter: number = 0; 
     instructiontext: string;
     timernextseg: any = "";
@@ -47,15 +46,11 @@ export class Template11Componenteva implements OnInit {
     hasEventFired: boolean = false;
     speaker: any;
     tempSubscription: Subscription;
-    closed:boolean = false;
     speakerTimer: any;
     clapTimer:any;
     ifRightAns: boolean = false;
     popupAssets:any;
-    showAnswerSubscription:any;
-    answerImageBase:any;
-    answerImage:any;
-    answerImagelocation:any;
+    showAnswerSubscription:any;    
     popupIcon :any;
     popupIconLocation :any;
     isPopupClosed:boolean = false;
@@ -75,11 +70,14 @@ export class Template11Componenteva implements OnInit {
     quesBoxId: any;
     option_order: any;
     rowsfilled: number = 0;
+    videoonshowAnspopUp: any;
+    showAnswerRef: any;
+    showAnswerfeedback: any;
+	showAnswerTimer:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
     @ViewChild('sprite') sprite: any;
-    @ViewChild('speakerNormal') speakerNormal: any;
     @ViewChild('ansPopup') ansPopup: any;
     @ViewChild('wrongFeedback') wrongFeedback: any;
     @ViewChild('rightFeedback') rightFeedback: any;
@@ -99,7 +97,17 @@ export class Template11Componenteva implements OnInit {
     
     
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-   
+        //subscribing common popup from shared service to get the updated event and values of speaker
+        this.Sharedservice.showAnsRef.subscribe(showansref => {
+            this.showAnswerRef = showansref;
+        })
+
+        this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+            this.showAnswerfeedback = showanswerfeedback;
+        });
+        this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+            this.videoonshowAnspopUp = videoonsAnspopUp;
+        });
         this.appModel = appModel;
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
@@ -479,12 +487,12 @@ export class Template11Componenteva implements OnInit {
 
     /* HOVER CODE */
 
-    hoverClosePopup() {
-		this.popupAssets.close_button = this.popupAssets.close_button_hover;
-	}
-	houtClosePopup() {
-		this.popupAssets.close_button = this.popupAssets.close_button_origional;
-    }
+    // hoverClosePopup() {
+	// 	this.popupAssets.close_button = this.popupAssets.close_button_hover;
+	// }
+	// houtClosePopup() {
+	// 	this.popupAssets.close_button = this.popupAssets.close_button_origional;
+    // }
     
     /**SPEAKER HOVER */
     onHoverSpeaker(speaker) {
