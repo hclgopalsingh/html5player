@@ -236,12 +236,12 @@ export class Template15Component implements OnInit {
     }
 
     //**Function to stop all sounds */
-    stopAllSounds() {
+    stopAllSounds(clickStatus?) {
         this.audio.pause();
         this.audio.currentTime = 0;
-
-        this.myAudiospeaker.nativeElement.pause();
-        this.myAudiospeaker.nativeElement.currentTime = 0;
+		
+		this.myAudiospeaker.nativeElement.pause();
+        this.myAudiospeaker.nativeElement.currentTime=0;
 
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;
@@ -252,8 +252,12 @@ export class Template15Component implements OnInit {
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
 
-        // this.showAnswerfeedback.nativeElement.pause();
-        // this.showAnswerfeedback.nativeElement.currentTime = 0;
+        this.showAnswerfeedback.nativeElement.pause();
+        this.showAnswerfeedback.nativeElement.currentTime = 0;
+
+        if(clickStatus) {
+            this.enableAllOptions();
+          }
     }
 
     /******Set template type for EVA******/
@@ -303,6 +307,7 @@ export class Template15Component implements OnInit {
     /****Check answer on option click*****/
     checkAnswer(option) {
         this.popupclosedinRightWrongAns = false;
+        this.stopAllSounds("clicked"); 
         // logic to check what user has done is correct
         if (option.id == this.feedback.correct_ans_index) {
             this.answerPopupType = 'right';
@@ -502,6 +507,8 @@ export class Template15Component implements OnInit {
 
     /*****Play speaker audio*****/
     playSpeaker(el: HTMLAudioElement, speaker) {
+        this.stopAllSounds();
+        this.enableAllOptions();
         if (!this.instruction.nativeElement.paused) {
             console.log("instruction voice still playing");
         } else {
@@ -699,18 +706,7 @@ export class Template15Component implements OnInit {
             }
             this.audio.load();
             this.audio.play();
-            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                if (i != idx) {
-                    this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-                }
-            }
-            this.audio.onended = () => {
-                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                    if (i != idx) {
-                        this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-                    }
-                }
-            }
+            this.disableOtherOptions(idx, this.optionRef);
         }
     }
 
@@ -718,5 +714,26 @@ export class Template15Component implements OnInit {
         // clear message
         this.Sharedservice.clearData();
     }
+
+              /***** Disable speaker and options other than hovered until audio end *******/
+  disableOtherOptions(idx, selectedBlock) {
+    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+        if (i != idx) {
+            this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+        }
+    }
+    this.audio.onended = () => {
+      this.enableAllOptions();
+    }
+  }
+
+  /***** Enable all options and speaker on audio end *******/
+  enableAllOptions() {
+    for (let j = 0; j < this.optionRef.nativeElement.children.length; j++) {
+      if (this.optionRef.nativeElement.children[j].classList.contains("disableDiv")) {
+        this.optionRef.nativeElement.children[j].classList.remove("disableDiv");
+      }
+    }
+  }
 
 }
