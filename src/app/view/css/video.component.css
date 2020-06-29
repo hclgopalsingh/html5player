@@ -267,3 +267,11 @@
     visibility: hidden !important;
     pointer-events: none;
 }
+
+#exVideoContainer .speakerBtn img{
+	width:100% !important;
+	/*height: 12%;
+	position:absolute;
+	top:69.2%;
+	right: 1.8%;*/
+}
