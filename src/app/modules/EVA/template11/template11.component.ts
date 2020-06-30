@@ -19,7 +19,6 @@ export class Template11Componenteva implements OnInit {
     rightFeedbackVO: any;
     wrongFeedbackVO: any;
     rightPopupVO: any;
-    showAnswerVO:any;
     wrongTimer:any;
     rightTimer:any;
     i = 0;
@@ -64,6 +63,7 @@ export class Template11Componenteva implements OnInit {
     index: any;
     LastquestimeStart:boolean = false;
     audio = new Audio();
+    speech=new Audio();
     rightSelectTimer:any;
     wrongSelectTimer:any;
     showAnswerTimer:any;
@@ -73,7 +73,7 @@ export class Template11Componenteva implements OnInit {
     videoonshowAnspopUp: any;
     showAnswerRef: any;
     showAnswerfeedback: any;
-	showAnswerTimer:any;
+    showAnswerPopup:any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -81,8 +81,6 @@ export class Template11Componenteva implements OnInit {
     @ViewChild('ansPopup') ansPopup: any;
     @ViewChild('wrongFeedback') wrongFeedback: any;
     @ViewChild('rightFeedback') rightFeedback: any;
-    @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-	@ViewChild('showAnswerRef') showAnswerRef: any;
     @ViewChild('rightPopupfeedback') rightPopupfeedback: any;
     @ViewChild('disableSpeaker') disableSpeaker: any;  
     @ViewChild('myAudiospeaker') myAudiospeaker: any;
@@ -153,22 +151,24 @@ export class Template11Componenteva implements OnInit {
                 this.popupType = "showanswer"
             }
         })
-     this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {  
-        this.appModel.stopAllTimer();
-        if (this.showAnswerRef && this.showAnswerRef.nativeElement) {            
-			this.stopAllSounds();
-            this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-            if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-                this.showAnswerfeedback.nativeElement.play();
-                this.showAnswerfeedback.nativeElement.onended=() => {
-                    this.showAnswerTimer=setTimeout(() => {
-                            this.closePopup('showAnswer');
-                    }, 10000);
-                }                   
-            }						
-        }          
-                        
-        })
+        this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {  
+            this.appModel.stopAllTimer();
+            if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+               
+                this.stopAllSounds();
+                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
+                this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+                if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+                    this.videoonshowAnspopUp.nativeElement.play();
+                    this.videoonshowAnspopUp.nativeElement.onended = () => {
+                        this.showAnswerTimer=setTimeout(() => {
+                                this.closePopup('showAnswer');
+                        }, 10000);
+                    }                   
+                }						
+            }          
+                            
+            })
 
         
         this.appModel.nextBtnEvent().subscribe(() => {
@@ -213,6 +213,9 @@ export class Template11Componenteva implements OnInit {
 	stopAllSounds() {
         this.audio.pause();
         this.audio.currentTime = 0;
+
+        this.speech.pause();
+        this.speech.currentTime = 0;
 		
 		this.myAudiospeaker.nativeElement.pause();
         this.myAudiospeaker.nativeElement.currentTime=0;
@@ -229,8 +232,8 @@ export class Template11Componenteva implements OnInit {
         this.rightPopupfeedback.nativeElement.pause();
         this.rightPopupfeedback.nativeElement.currentTime = 0;
 
-        this.showAnswerfeedback.nativeElement.pause();
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
+        this.videoonshowAnspopUp.nativeElement.pause();
+		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
     }
 	
     ngAfterViewChecked() {
@@ -249,7 +252,7 @@ export class Template11Componenteva implements OnInit {
 		this.rightFeedbackVO = this.feedback.right_ans_sound;
         this.rightPopupVO = this.feedback.right_ansPop_sound;
         this.wrongFeedbackVO = this.feedback.wrong_ans_sound;
-        this.showAnswerVO = this.feedback.show_ans_sound;
+        this.showAnswerPopup = this.feedback.show_ans_popup;
         this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
         this.commonAssets.ques_control.blinkingStatus=false;
         this.isLastQues = this.appModel.isLastSection;
@@ -286,8 +289,8 @@ export class Template11Componenteva implements OnInit {
         this.rightPopupfeedback.nativeElement.pause();     
         this.rightPopupfeedback.nativeElement.currentTime = 0;
 
-        this.showAnswerfeedback.nativeElement.pause();      
-        this.showAnswerfeedback.nativeElement.currentTime = 0;
+        this.videoonshowAnspopUp.nativeElement.pause();
+		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
        
         if(Type=== "answerPopup") {
             this.popupclosedinRightWrongAns=true;
@@ -474,25 +477,28 @@ export class Template11Componenteva implements OnInit {
         if (obj.clapSound && obj.clapSound.nativeElement) {
             obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        if (obj.videoonshowAnspopUp && obj	.videoonshowAnspopUp.nativeElement) {
+            obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.rightPopupfeedback && obj.rightPopupfeedback.nativeElement) {
             obj.rightPopupfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
+        }  
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-        }        
+        }
+        if (obj.speech) {
+            obj.speech.volume = obj.appModel.isMute ? 0 : vol;
+        }         
     }
 
     /* HOVER CODE */
 
-    // hoverClosePopup() {
-	// 	this.popupAssets.close_button = this.popupAssets.close_button_hover;
-	// }
-	// houtClosePopup() {
-	// 	this.popupAssets.close_button = this.popupAssets.close_button_origional;
-    // }
+    hoverClosePopup() {
+		this.popupAssets.close_button = this.popupAssets.close_button_hover;
+	}
+	houtClosePopup() {
+		this.popupAssets.close_button = this.popupAssets.close_button_origional;
+    }
     
     /**SPEAKER HOVER */
     onHoverSpeaker(speaker) {
@@ -589,13 +595,9 @@ export class Template11Componenteva implements OnInit {
      /** On selecting an option **/
      selectOpt(opt, optRef, idx) {   
        
-       let optRefEl;
-        if (optRef && optRef.children[1] && optRef.children[1].children[0]) {
-            optRefEl = optRef.children[1].children[0] as HTMLElement;
-        }
-        else {
+        if (!optRef || !optRef.children[1] || !optRef.children[1].children[0]) {
             return;
-        }
+        }      
         
         this.maincontent.nativeElement.className = "disableDiv";//Disable the mainContent when option is selected  
         /** Disable ShowAns Button**/
@@ -753,38 +755,42 @@ arraysIdentical(a, b) {
 }
    /*Reset Question and Option*/ 
    resetQuestion(highlightOn){           
-        /** Enable ShowAns Button**/
-        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
-        }       
+             
         this.quesObj.questionText[highlightOn].highlight=false;
         this.quesObj.questionText[highlightOn].blinkBox=false;        
         this.playRandomQues();
     
    }
    playRandomQues(){
-    while(1)
-    {   
-        if(this.rowsfilled==10){
-            break;
-        }
-        let nextHighlight=Math.floor(Math.random() * this.quesObj.questionText.length)
-        if(this.quesObj.questionText[nextHighlight] && !this.quesObj.questionText[nextHighlight].isfilled){
-            this.quesObj.questionText[nextHighlight].highlight=true;
-            this.quesObj.questionText[nextHighlight].blinkBox=true;
-            if(this.refQues.nativeElement && this.refQues.nativeElement.children[nextHighlight].getElementsByTagName('audio')[0]){
-                this.refQues.nativeElement.children[nextHighlight].getElementsByTagName('audio')[0].play();
-                this.myAudiospeaker.nativeElement.src= this.quesObj.questionText[nextHighlight].audio.location == "content" 
-                    ? this.containgFolderPath + "/" + this.quesObj.questionText[nextHighlight].audio.url: this.assetsPath + "/" + this.quesObj.questionText[nextHighlight].audio.url
-                this.refQues.nativeElement.children[nextHighlight].getElementsByTagName('audio')[0].onended= () =>{
-                    this.maincontent.nativeElement.className = ""; 
+     
+        while(this.rowsfilled!=10){
+            let nextHighlight=Math.floor(Math.random() * this.quesObj.questionText.length)
+            if(this.quesObj.questionText[nextHighlight] && !this.quesObj.questionText[nextHighlight].isfilled){
+                this.quesObj.questionText[nextHighlight].highlight=true;
+                this.quesObj.questionText[nextHighlight].blinkBox=true;           
+                if (this.quesObj.questionText[nextHighlight].audio.location == 'content') {
+                    this.speech.src = this.containgFolderPath + '/' + this.quesObj.questionText[nextHighlight].audio.url;
+                } else {
+                    this.speech.src = this.quesObj.questionText[nextHighlight].audio.url;
                 }
+                this.speech.load();
+                this.speech.play();
+                this.myAudiospeaker.nativeElement.src= this.quesObj.questionText[nextHighlight].audio.location == "content" 
+                        ? this.containgFolderPath + "/" + this.quesObj.questionText[nextHighlight].audio.url: this.assetsPath + "/" + this.quesObj.questionText[nextHighlight].audio.url
+                this.speech.onended= () =>{
+                    this.maincontent.nativeElement.className = "";
+                    /** Enable ShowAns Button**/
+                    for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                        if(document.getElementsByClassName("ansBtn")[i].classList.contains("disableDiv")){
+                            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+                        }                                       
+                    }                     
+                }
+                break;
             }
-            break;
-        }else{
-            continue;
         }
-    }
+        
+                       
    }
   
 	

@@ -3,7 +3,8 @@
     <div class="" #overlay></div>	
      <div class="container-fluid eva" id="container">
         <div class="headerBar">
-            <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
+            <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" 
+            (load)="checkImgLoaded();"/>
            </div>
         <div id="bgImage">
             <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
@@ -53,7 +54,6 @@
                                 (load)="checkImgLoaded();">
                             </div>
                         </div>
-                        <audio [src]="quesTxt?.audio?.location=='content' ? containgFolderPath + '/' + quesTxt?.audio?.url : quesTxt?.audio?.location=='assets' ? assetsPath + '/' + quesTxt?.audio?.url:quesTxt?.audio?.url"></audio>	
                     </div>                           
                 </ng-container>
             </div>
@@ -111,38 +111,30 @@
                   
                   <div id="refQuesBlock">
                     <div class="quesBg">
-                        <img class="img-fluid" [src]="quesObj?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.background?.url : quesObj?.background?.location=='assets' ? assetsPath + '/' +quesObj?.background?.url:''" alt=""
-                        (load)="checkImgLoaded();">
+                        <img class="img-fluid" [src]="quesObj?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.background?.url : quesObj?.background?.location=='assets' ? assetsPath + '/' +quesObj?.background?.url:''" alt="">
                     </div>            
                     <div id="refQuesId" class="refQues" #refQues>			
                         <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
                             <div id="{{'row_'+idx}}" class="table_row">
                                 <span *ngIf="quesTxt.highlight">
-                                    <img class="img-fluid" [src]="quesObj?.highlight?.location=='content' ? containgFolderPath + '/' + quesObj?.highlight?.url : quesObj?.highlight?.location=='assets' ? assetsPath + '/' +quesObj?.highlight?.url:''" alt=""
-                                    (load)="checkImgLoaded();">
+                                    <img class="img-fluid" [src]="quesObj?.highlight?.location=='content' ? containgFolderPath + '/' + quesObj?.highlight?.url : quesObj?.highlight?.location=='assets' ? assetsPath + '/' +quesObj?.highlight?.url:''" alt="">
                                 </span>
                                 <div class="number">
-                                    <img class="img-fluid" [src]="quesTxt?.number?.location=='content' ? containgFolderPath + '/' + quesTxt?.number?.url : quesTxt?.number?.location=='assets' ? assetsPath + '/' +quesTxt?.number?.url:''" alt=""
-                                    (load)="checkImgLoaded();">                 
+                                    <img class="img-fluid" [src]="quesTxt?.number?.location=='content' ? containgFolderPath + '/' + quesTxt?.number?.url : quesTxt?.number?.location=='assets' ? assetsPath + '/' +quesTxt?.number?.url:''" alt="">                 
                                 </div> 
                                 <div class="multiply">
-                                    <img class="img-fluid" [src]="quesTxt?.multiply?.location=='content' ? containgFolderPath + '/' + quesTxt?.multiply?.url : quesTxt?.multiply?.location=='assets' ? assetsPath + '/' +quesTxt?.multiply?.url:''" alt=""
-                                    (load)="checkImgLoaded();">                 
+                                    <img class="img-fluid" [src]="quesTxt?.multiply?.location=='content' ? containgFolderPath + '/' + quesTxt?.multiply?.url : quesTxt?.multiply?.location=='assets' ? assetsPath + '/' +quesTxt?.multiply?.url:''" alt="">
                                 </div>
                                 <div class="order">
-                                    <img class="img-fluid" [src]="quesTxt?.order?.location=='content' ? containgFolderPath + '/' + quesTxt?.order?.url : quesTxt?.order?.location=='assets' ? assetsPath + '/' +quesTxt?.order?.url:''" alt=""
-                                    (load)="checkImgLoaded();">                
+                                    <img class="img-fluid" [src]="quesTxt?.order?.location=='content' ? containgFolderPath + '/' + quesTxt?.order?.url : quesTxt?.order?.location=='assets' ? assetsPath + '/' +quesTxt?.order?.url:''" alt="">
                                 </div>
                                 <div class="equal">
-                                    <img class="img-fluid" [src]="quesTxt?.equal?.location=='content' ? containgFolderPath + '/' + quesTxt?.equal?.url : quesTxt?.equal?.location=='assets' ? assetsPath + '/' +quesTxt?.equal?.url:''" alt=""
-                                    (load)="checkImgLoaded();">                 
+                                    <img class="img-fluid" [src]="quesTxt?.equal?.location=='content' ? containgFolderPath + '/' + quesTxt?.equal?.url : quesTxt?.equal?.location=='assets' ? assetsPath + '/' +quesTxt?.equal?.url:''" alt="">
                                 </div>
                                 <div [ngClass]="{'answer':true, 'blinkBox':quesTxt?.blinkBox}">
-                                    <img class="img-fluid" [src]="quesTxt?.answer?.background?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.background?.url : quesTxt?.answer?.background?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.background?.url:''" alt=""
-                                        (load)="checkImgLoaded();">                            
+                                    <img class="img-fluid" [src]="quesTxt?.answer?.background?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.background?.url : quesTxt?.answer?.background?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.background?.url:''" alt="">
                                     <div class="answer_img" *ngIf="quesTxt.isfilled">
-                                        <img class="img-fluid" [src]="quesTxt?.answer?.image?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.image?.url : quesTxt?.answer?.image?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.image?.url:''" alt=""
-                                        (load)="checkImgLoaded();">
+                                        <img class="img-fluid" [src]="quesTxt?.answer?.image?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.image?.url : quesTxt?.answer?.image?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.image?.url:''" alt="">
                                     </div>
                                 </div>
                                 <audio [src]="quesTxt?.audio?.location=='content' ? containgFolderPath + '/' + quesTxt?.audio?.url : quesTxt?.audio?.location=='assets' ? assetsPath + '/' + quesTxt?.audio?.url:quesTxt?.audio?.url"></audio>	
@@ -162,19 +154,7 @@
   </div>
 
 
- <!-- show answer Popup  -->
-    <!-- <div class="modal" id="showAnswer" #showAnswerRef>
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-body d-flex align-items-center">
-                  <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                 
-                  <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                  (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
-               </div>
-          </div>
-      </div>
-  </div> -->
+ <!-- show answer Popup  -->    
   <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
 
   </div>
