@@ -14,11 +14,9 @@
 #mainVideo {
 	width: 97%;
 	height: auto;
-	border: solid 1px red;
     position: absolute;
     left: .9%;
 	top: 1.1%;
-	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
 }
 #modalTemp17 .stageVideo {
     position: absolute;

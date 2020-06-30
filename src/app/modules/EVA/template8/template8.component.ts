@@ -156,7 +156,7 @@ export class Template8Component implements OnInit {
             }
         );
         this.assetsPath = this.appModel.assetsfolderpath;
-        // this.appModel.navShow = 2;
+        this.appModel.navShow = 2;
     }
 
     ngOnInit() {

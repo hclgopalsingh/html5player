@@ -134,6 +134,7 @@ export class Template4Component implements OnInit {
             }
         );
         this.assetsPath = this.appModel.assetsfolderpath;
+        this.appModel.navShow = 2;
     }
 
 
@@ -214,7 +215,7 @@ export class Template4Component implements OnInit {
         clearTimeout(this.clapTimer);
     }
 
-    stopAllSounds() {
+    stopAllSounds(clickStatus?) {
         this.audio.pause();
         this.audio.currentTime = 0;
 		
@@ -232,7 +233,9 @@ export class Template4Component implements OnInit {
 
         this.rightPopupfeedback.nativeElement.pause();
         this.rightPopupfeedback.nativeElement.currentTime = 0;
-
+        if(clickStatus) {
+            this.enableAllOptions();
+          }
        
         
     }

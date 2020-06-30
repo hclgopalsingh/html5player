@@ -46,6 +46,7 @@ export class AppComponent {
 	EVA:boolean = false;
 	subscription: Subscription;
 	Template: any;
+	isVideo: boolean = false;
 
 
 	/*@HostListener('document:keyup', ['$event'])
@@ -71,12 +72,14 @@ export class AppComponent {
 		this.appModel.getPreviewMode(this);
 		console.log("appModel.navShow",this.appModel.navShow)
 		this.router.events.subscribe((event: Event) => {
+			this.isVideo = false;
 			if (event instanceof NavigationStart) {
 
 			}
 			if (event instanceof NavigationEnd) {
 				this.resizeFlag = false;
 				if (event && event.url == "/video" || event && event.url == "/videoext") {
+					this.isVideo = true;
 					/* this.navUrl= event.url;
 					 let resizeTimer = setInterval(()=>{
 							if (this.appModel && this.appModel.getVideoLoaded) {

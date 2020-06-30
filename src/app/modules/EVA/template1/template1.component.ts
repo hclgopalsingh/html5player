@@ -146,6 +146,7 @@ export class Template1Component implements OnInit {
             }
         );
         this.assetsPath = this.appModel.assetsfolderpath;
+        this.appModel.navShow = 2;
     }
 
 
