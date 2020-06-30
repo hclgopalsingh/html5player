@@ -173,17 +173,9 @@ export class Template1Component implements OnInit {
      this.showAnswerSubscription =   this.appModel.getConfirmationPopup().subscribe((val) => {  
         this.appModel.stopAllTimer();
         if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-            //Saving correct option for showing in Popup 
-            if(this.aksharQuestion){
-                this.quesObj.questionText[this.quesEmptyTxtIndx] = this.correct_opt_index; 
-            }else{
-                this.quesObj.questionText[this.quesMatraTxtIndx].hasmatra=true;
-                this.quesObj.questionText[this.quesMatraTxtIndx].matravalue=this.correct_opt_index.url.split('.')[0].split('/').pop();
-                this.quesObj.questionText[this.quesMatraTxtIndx].matra.url=this.correct_opt_index.url;
-                this.quesObj.questionText[this.quesMatraTxtIndx].matra.location=this.correct_opt_index.location;
-            }
+           
             this.stopAllSounds();
-            this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
+            this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
             this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
             if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
                 this.videoonshowAnspopUp.nativeElement.play();
@@ -252,9 +244,6 @@ export class Template1Component implements OnInit {
 
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
-
-        // this.showAnswerfeedback.nativeElement.pause();
-        // this.showAnswerfeedback.nativeElement.currentTime = 0;
     }
 	
     ngAfterViewChecked() {
@@ -274,7 +263,6 @@ export class Template1Component implements OnInit {
 		this.correct_ans_index = this.feedback.correct_ans_index;
 		this.rightPopup = this.feedback.right_ans_sound;
         this.wrongPopup = this.feedback.wrong_ans_sound;
-        this.showAnswerVO = this.feedback.show_ans_sound;
         this.showAnswerPopup = this.feedback.show_ans_popup;
         this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
         this.commonAssets.ques_control.blinkingStatus=false;
@@ -566,8 +554,8 @@ export class Template1Component implements OnInit {
         if (obj.clapSound && obj.clapSound.nativeElement) {
             obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        if (obj.videoonshowAnspopUp && obj	.videoonshowAnspopUp.nativeElement) {
+            obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;

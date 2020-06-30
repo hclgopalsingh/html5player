@@ -97,6 +97,9 @@ export class NTitleComponent implements OnInit{
 				this.quesInfo = fetchedData;
 				this.noOfImgs = this.quesInfo.imgCount;
 			}
+			if (fetchedData.templateType === 'EVA') {
+				this.appModel.navShow = 2;
+			}
 		}
 		  
 		  
