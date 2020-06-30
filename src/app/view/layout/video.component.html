@@ -19,16 +19,28 @@
 				<source [src]="assets?.video?.location=='content' ? videoType=='video/ogg' ? containgFolderPath + '/' + assets?.video?.urlOgv: containgFolderPath + '/' + assets?.video?.urlMP4: videoType=='video/ogg' ? assetsPath + '/' + assets?.video?.urlOgv : assetsPath + '/' + assets?.video?.urlMP4"
 				 type="{{videoType}}">
 			</video>
-			<div style.display="{'display': !displaySpecial ? 'none' : 'block'}" [ngStyle]="displaySpecial ? assetsOnVideo?.style : {'display': !displaySpecial  ? 'none' : 'block'}"
+			<div *ngIf="!templateTypeEVA" style.display="{'display': !displaySpecial ? 'none' : 'block'}" [ngStyle]="displaySpecial ? assetsOnVideo?.style : {'display': !displaySpecial  ? 'none' : 'block'}"
 			 [ngClass]="{'fadeInAnimation' : displaySpecial==true,'fadeOutAnimation disableSpeaker': fadeOutFlag==true}" class="{{assetsOnVideo?.style_class}}"
 			 #speakerBtn (click)="repeatQues()">
 				<img [ngStyle]="{'display': assetsOnVideo?.speaker_btn ? 'block' : 'none'}" class="img-fluid" id="speaker" [src]="assets?.speaker?.location=='content' ? containgFolderPath + '/' + assets?.speaker?.url : assetsPath + '/' + assets?.speaker?.url " />
 				<div class="speaker"></div>
 				<audio #quesRepeat [src]="assets[assetsOnVideo?.sound]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.sound]?.url : assetsPath + '/' + assets[assetsOnVideo?.sound]?.url"></audio>
 			</div>
+			<div *ngIf="templateTypeEVA" class="speakerBtn" style.display="{'display': !displaySpecial ? 'none' : 'block'}" [ngStyle]="displaySpecial ? assetsOnVideo?.style : {'display': !displaySpecial  ? 'none' : 'block'}"
+			 [ngClass]="{'fadeInAnimation' : displaySpecial==true,'fadeOutAnimation disableSpeaker': fadeOutFlag==true}" class="{{assetsOnVideo?.style_class}}"
+			 #speakerBtn (mouseover)="onHoverSpeakerBtn()" (mouseleave)="onLeaveSpeakerBtn()" (click)="repeatQues()">
+				<img [ngStyle]="{'display': assetsOnVideo?.speaker_btn ? 'block' : 'none'}" class="img-fluid" id="speaker" [src]="assets?.speaker?.location=='content' ? containgFolderPath + '/' + assets?.speaker?.url : assetsPath + '/' + assets?.speaker?.url " />
+				<!--<div class="speaker"></div>-->
+			<div class="waveAnimation" style="display:none;">
+                <img class="img-fluid" [src]="assets?.wave1?.location=='content' ?containgFolderPath + '/' +assets?.wave1.url: assetsPath + '/'+ assets?.wave1.url">
+                <img class="img-fluid" [src]="assets?.wave2?.location=='content' ?containgFolderPath + '/' +assets?.wave2.url: assetsPath + '/'+ assets?.wave2.url">
+                <img class="img-fluid" [src]="assets?.wave3?.location=='content' ?containgFolderPath + '/' +assets?.wave3.url: assetsPath + '/'+ assets?.wave3.url">
+            </div> 
+				<audio #quesRepeat [src]="assets[assetsOnVideo?.sound]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.sound]?.url : assetsPath + '/' + assets[assetsOnVideo?.sound]?.url"></audio>
+			</div>
 			<div style.display="{'display': !displaySpecial ? 'none' : 'block'}" [ngStyle]="displaySpecial ? assetsOnVideo?.style_replay : {'display': !displaySpecial  ? 'none' : 'block'}"
 			 [ngClass]="{'fadeInAnimation' : displaySpecial==true,'fadeOutAnimation disableSpeaker': fadeOutFlag==true}" class="{{assetsOnVideo?.style_Replayclass}}"
-			 #speakerBtn (click)="replayVideo()">
+			 #speakerBtn (mouseover)="onHoverReplayBtn()" (mouseleave)="onLeaveReplayBtn()" (click)="replayVideo()">
 				<img [ngStyle]="{'display': assetsOnVideo?.replay_btn ? 'block' : 'none'}" class="img-fluid" id="speaker" [src]="assets?.replay?.location=='content' ? containgFolderPath + '/' + assets?.replay?.url : assetsPath + '/' + assets?.replay?.url " />
 				<div class="speaker"></div>
 				<audio #quesRepeat [src]="assets[assetsOnVideo?.sound]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.sound]?.url : assetsPath + '/' + assets[assetsOnVideo?.sound]?.url"></audio>
@@ -47,7 +59,7 @@
 			</div>
 
 			<!--<img width="100%" src="images/img.jpg">-->
-			<div id="controlsContainer" #controlsContainer style="display: block; flex-wrap: wrap; margin: 0; clear: both; position: absolute; height: auto; width:100%; z-index:999; opacity:.9; bottom:50; background:#000; padding:1% 0;">
+			<div id="controlsContainer" #controlsContainer style="display: block; flex-wrap: wrap; margin: 0; clear: both; position: absolute; height: 5.8%; width:100%; z-index:999; opacity:.9; bottom:50; background:#000; padding:0;">
 				<div id="playPauseContainer" class="col-sm-1" (click)="updatePlay($event)" style="margin: 0; position: relative; display: grid; align-items: center; justify-items: center; text-align: center; width:5.33%; padding:0 3px;">
 					<div [ngStyle]="{'display': isPlaying ? 'block' : 'none'}" style="cursor: pointer;"><img  style="max-width: 100%"
 						 [src]="assets?.play_graphic?.location=='content' ? containgFolderPath + '/' + assets?.play_graphic?.url : assetsPath + '/' + assets?.play_graphic?.url "></div>

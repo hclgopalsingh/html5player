@@ -278,5 +278,11 @@ div#MuteVar::after {
     left: 1%;
     bottom: -128%;
     z-index: -1;
-
+}
+#exVideoContainer .speakerBtn img{
+	width:100% !important;
+	/*height: 12%;
+	position:absolute;
+	top:69.2%;
+	right: 1.8%;*/
 }

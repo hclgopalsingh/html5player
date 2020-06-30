@@ -215,7 +215,7 @@ export class Template4Component implements OnInit {
         clearTimeout(this.clapTimer);
     }
 
-    stopAllSounds() {
+    stopAllSounds(clickStatus?) {
         this.audio.pause();
         this.audio.currentTime = 0;
 		
@@ -233,7 +233,9 @@ export class Template4Component implements OnInit {
 
         this.rightPopupfeedback.nativeElement.pause();
         this.rightPopupfeedback.nativeElement.currentTime = 0;
-
+        if(clickStatus) {
+            this.enableAllOptions();
+          }
        
         
     }
@@ -523,7 +525,7 @@ export class Template4Component implements OnInit {
         if (obj.clapSound && obj.clapSound.nativeElement) {
             obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }        
-        if (obj.videoonshowAnspopUp && obj	.videoonshowAnspopUp.nativeElement) {
+        if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
             obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.audio) {

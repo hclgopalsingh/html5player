@@ -145,6 +145,7 @@ export class Template3Component extends Base implements OnInit {
 	rightTimer:any;   
     clapTimer:any;
 	LastquestimeStart:boolean = false;
+	showAnswerTimer :any;
 
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
@@ -263,6 +264,7 @@ export class Template3Component extends Base implements OnInit {
 
 	checkAnswer(option) {
 		this.popupclosedinRightWrongAns = false;
+		this.stopAllSounds("clicked"); 
 		if (option.id == this.feedback.correct_answer) {
 			clearTimeout(this.wrongTimer);
 			this.correctOpt = option;
@@ -341,6 +343,9 @@ export class Template3Component extends Base implements OnInit {
 		}
 	}
 	playSpeaker() {
+		this.stopAllSounds();
+		this.enableAllOptions();
+		
 		this.speakerPlayed = true;
 		this.speaker.imgsrc = this.speaker.imgactive;
 		this.speakerVolume.nativeElement.play();
@@ -456,9 +461,9 @@ export class Template3Component extends Base implements OnInit {
 		if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
 			obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-			obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
+		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+            obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
 	}
 	//end
 
@@ -506,13 +511,14 @@ export class Template3Component extends Base implements OnInit {
 					this.speaker.imgsrc = this.speaker.imgorigional;
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video : this.assetsfolderlocation + "/" + this.showAnswerPopup.video;
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetspath + "/" + this.showAnswerPopup.video.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
 						this.videoonshowAnspopUp.nativeElement.play();
 						this.videoonshowAnspopUp.nativeElement.onended = () => {
-							this.closePopup("showanswer");
-						}
+							this.showAnswerTimer =  setTimeout(() => {
+								this.closePopup('showAnswer');
+							}, 10000);
 						// this.videoonshowAnspopUp.nativeElement.play();
 					}
 					//this.popupType = "showanswer";
@@ -521,7 +527,7 @@ export class Template3Component extends Base implements OnInit {
 					// }
 				}
 			}
-
+		}
 		})
 	}
 
@@ -543,7 +549,7 @@ export class Template3Component extends Base implements OnInit {
 	}
 
 	  //**Function to stop all sounds */
-	  stopAllSounds() {
+	  stopAllSounds(clickStatus?) {
         this.audio.pause();
         this.audio.currentTime = 0;
 		
@@ -557,10 +563,12 @@ export class Template3Component extends Base implements OnInit {
         this.rightFeedback.nativeElement.currentTime = 0;
 
         this.clapSound.nativeElement.pause();
-        this.clapSound.nativeElement.currentTime = 0;
+		this.clapSound.nativeElement.currentTime = 0;
+		
+		if(clickStatus) {
+            this.enableAllOptions();
+          }
 
-        // this.showAnswerfeedback.nativeElement.pause();
-        // this.showAnswerfeedback.nativeElement.currentTime = 0;
     }
 	
 	checkImgLoaded() {
@@ -619,6 +627,13 @@ export class Template3Component extends Base implements OnInit {
 	}
 
 	closePopup(Type) {
+
+		clearTimeout(this.wrongTimer);
+        clearTimeout(this.rightTimer);
+        clearTimeout(this.clapTimer);
+		clearTimeout(this.showAnswerTimer);
+		
+
 		this.showAnswerRef.nativeElement.classList = "modal";
 		this.ansPopup.nativeElement.classList = "modal";
 		this.wrongFeedback.nativeElement.pause();
@@ -679,18 +694,29 @@ export class Template3Component extends Base implements OnInit {
 			}
 			this.audio.load();
 			this.audio.play();
-			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-				if (i != idx) {
-					this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-				}
-			}
-			this.audio.onended = () => {
-				for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-					if (i != idx) {
-						this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-					}
-				}
-			}
+			this.disableOtherOptions(idx, this.optionRef);
 		}
+	}
+
+
+	/***** Disable speaker and options other than hovered until audio end *******/
+	disableOtherOptions(idx, selectedBlock) {
+	for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+		if (i != idx) {
+			this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+		}
+	}
+	this.audio.onended = () => {
+		this.enableAllOptions();
+	}
+	}
+
+	/***** Enable all options and speaker on audio end *******/
+	enableAllOptions() {
+	for (let j = 0; j < this.optionRef.nativeElement.children.length; j++) {
+		if (this.optionRef.nativeElement.children[j].classList.contains("disableDiv")) {
+		this.optionRef.nativeElement.children[j].classList.remove("disableDiv");
+		}
+	}
 	}
 }

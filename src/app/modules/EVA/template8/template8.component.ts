@@ -90,6 +90,7 @@ export class Template8Component implements OnInit {
     videoonshowAnspopUp: any;
     showAnswerRef: any;
     showAnswerfeedback: any;
+    showAnswerTimer: any;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
@@ -199,27 +200,12 @@ export class Template8Component implements OnInit {
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                 this.stopAllSounds();
                 let option = this.getCorrectOptionData()
-
-                //updating data for question block  
-                // let questionBlockVO: QuestionBlockVO = this.dataService.data.showAnswerPopupQuestionData;
-                // this.showAnswerQuestionBlock.data = questionBlockVO;
-                // this.showAnswerQuestionBlock.selectedOption(option);
-
-                // if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
-                //     this.showAnswerPopupSelectedOption.nativeElement.classList.add('hide');
-                // }
-
-                // if (this.variation == Constants.VARIATION_EVA8V2) {
-                //     this.popupSelectedOptionURL = this.dataService.getCompletePath(new AssetVO(option.img_src.url, option.img_src.location));
-                //     this.popupSelectedOptionBaseURL = this.dataService.getCompletePath(new AssetVO(option.img_original.url, option.img_original.location));
-                // }
-
-                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video : this.assetsPath + "/" + this.showAnswerPopup.video;
+                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
                     this.videoonshowAnspopUp.nativeElement.play();
                     this.videoonshowAnspopUp.nativeElement.onended = () => {
-                        setTimeout(() => {
+                      this.showAnswerTimer =  setTimeout(() => {
                             this.closePopup('showAnswer');
                         }, 10000);
                     }
@@ -274,7 +260,7 @@ export class Template8Component implements OnInit {
         this.audio.currentTime = 0;
     }
 
-    stopAllSounds() {
+    stopAllSounds(clickStatus?) {
 
         this.stopOptionsSound();
 
@@ -286,9 +272,10 @@ export class Template8Component implements OnInit {
 
         this.clapSound.nativeElement.pause();
         this.clapSound.nativeElement.currentTime = 0;
-
-        // this.showAnswerfeedback.nativeElement.pause();
-        // this.showAnswerfeedback.nativeElement.currentTime = 0;
+        
+        if(clickStatus) {
+            this.enableAllOptions();
+          }
     }
 
     ngAfterViewChecked() {
@@ -361,7 +348,7 @@ export class Template8Component implements OnInit {
     checkAnswer(event, option) {
         //(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
         this.stopOptionsSound();
-
+        this.stopAllSounds("clicked"); 
         //hiding selected option image
         let target = event.currentTarget as HTMLElement;
         if (this.dataService.variation == Constants.VARIATION_EVA8V0) {
@@ -542,6 +529,11 @@ export class Template8Component implements OnInit {
     }
 
     closePopup(Type) {
+        clearTimeout(this.wrongTimer);
+        clearTimeout(this.rightTimer);
+        clearTimeout(this.clapTimer);
+        clearTimeout(this.showAnswerTimer);
+
         this.showAnswerRef.nativeElement.classList = "modal";
         this.ansPopup.nativeElement.classList = "modal";
 
@@ -658,11 +650,12 @@ export class Template8Component implements OnInit {
         if (obj.clapSound && obj.clapSound.nativeElement) {
             obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-            obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
+
         if (obj.audio) {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+            obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
     }
 
@@ -710,19 +703,8 @@ export class Template8Component implements OnInit {
                 this.audio.src = soundAssets.url;
             }
             this.audio.load();
-            this.audio.play();
-            for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                if (i != idx) {
-                    this.optionRef.nativeElement.children[i].classList.add("disableDiv");
-                }
-            }
-            this.audio.onended = () => {
-                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                    if (i != idx) {
-                        this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
-                    }
-                }
-            }
+            this.audio.play();        
+            this.disableOtherOptions(idx, this.optionRef);
         }
     }
 
@@ -757,6 +739,7 @@ export class Template8Component implements OnInit {
     /*****Play speaker audio*****/
     playSpeaker(el: HTMLAudioElement, speaker) {
         this.stopAllSounds();
+        this.enableAllOptions();
         if (!this.instruction.nativeElement.paused) {
             console.log("instruction voice still playing");
         } else {
@@ -819,6 +802,28 @@ export class Template8Component implements OnInit {
             }
         } else {
             this.appModel.moveNextQues("");
+        }
+    }
+
+
+    /***** Disable speaker and options other than hovered until audio end *******/
+    disableOtherOptions(idx, selectedBlock) {
+        for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+            if (i != idx) {
+                this.optionRef.nativeElement.children[i].classList.add("disableDiv");
+            }
+        }
+        this.audio.onended = () => {
+        this.enableAllOptions();
+        }
+    }
+
+    /***** Enable all options and speaker on audio end *******/
+    enableAllOptions() {
+        for (let j = 0; j < this.optionRef.nativeElement.children.length; j++) {
+        if (this.optionRef.nativeElement.children[j].classList.contains("disableDiv")) {
+            this.optionRef.nativeElement.children[j].classList.remove("disableDiv");
+        }
         }
     }
 }

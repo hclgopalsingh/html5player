@@ -66,8 +66,10 @@ export class VideoComponent implements OnInit {
   videoPlayedTime:any = 0;
   videoProgress:any;
   isVideoPlaying:boolean = true;
+	templateTypeEVA:boolean;
   root:any = document.documentElement;
   private previousStopPoint;
+	speakerPlayed:boolean;
   
   @ViewChild('mainVideo') mainVideo;
   @ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer:any;
@@ -80,6 +82,7 @@ export class VideoComponent implements OnInit {
   @ViewChild('controlsContainer') controlsContainer:any;
   @ViewChild('sliderContainerRef') sliderContainerRef:any;
   @ViewChild('disableRange') disableRange:any;
+	//@ViewChild('spriteEVA') spriteEVA:any;
   
   @HostListener('document:click', ['$event'])
   clickout(event) {
@@ -159,12 +162,19 @@ export class VideoComponent implements OnInit {
 	  this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 	  this.getTimeArr();
 	  this.isForwardEnabled = this.appModel.getforwardEnableFlag();
+		let template = this.appModel.content.contentData.data['templateType'];
+		if(template == "EVA") {
+			this.templateTypeEVA=true;
+		} else {
+			this.templateTypeEVA=false;
+		}
 	  this.assets = this.appModel.content.contentData.data['assets'];
 	  this.cuePoints = this.appModel.content.contentData.data['cuePoints'];
 	  if(this.appModel.getVideoType()){
 		this.videoType = this.appModel.getVideoType();
 	  }
 	  console.log("video type from backend" +this.videoType);
+		//this.spriteEVA.nativeElement.style = "display:none";
 	  if(this.videoOuterMost.nativeElement && this.videoOuterMost.nativeElement.parentElement 
 	     && this.videoOuterMost.nativeElement.parentElement.parentElement && this.videoOuterMost.nativeElement.parentElement.parentElement.parentElement
 		  && this.videoOuterMost.nativeElement.parentElement.parentElement.parentElement.parentElement && 
@@ -606,6 +616,24 @@ export class VideoComponent implements OnInit {
   onLeaveContinuousBtn(){
 	this.zarriRakheinBtn = this.assets.nextbtn_graphic_original;  
   }
+
+	onHoverSpeakerBtn() {
+    this.assets.speaker=this.assets.speaker_hover;
+	}
+
+	onLeaveSpeakerBtn() {
+		if(!this.speakerPlayed) {
+      this.assets.speaker=this.assets.speaker_original;
+		}
+	}
+
+	onHoverReplayBtn() {
+   this.assets.replay=this.assets.replay_hover;
+	}
+
+	onLeaveReplayBtn() {
+   this.assets.replay=this.assets.replay_original;
+	}
   
   next(){
 	  if(!this.isLastQues){
@@ -733,12 +761,26 @@ export class VideoComponent implements OnInit {
 		}
 		
 		repeatQues(){
-			this.speakerBtn.nativeElement.children[1].className = "speaker dispFlex";
+			if(this.templateTypeEVA) {
+				this.speakerPlayed=true;
+				this.assets.speaker = this.assets.speaker_hover;
+      this.speakerBtn.nativeElement.children[1].style.display="flex";
+			if(this.assetsOnVideo){
+				this.quesRepeat.nativeElement.play();
+				this.quesRepeat.nativeElement.onended = ()=>{
+					this.speakerPlayed=false;
+					this.assets.speaker = this.assets.speaker_original;
+					this.speakerBtn.nativeElement.children[1].style.display="none";
+				}
+			}
+			} else {
+      this.speakerBtn.nativeElement.children[1].className = "speaker dispFlex";
 			if(this.assetsOnVideo){
 				this.quesRepeat.nativeElement.play();
 				this.quesRepeat.nativeElement.onended = ()=>{
 					this.speakerBtn.nativeElement.children[1].className = "speaker";
 				}
+			}
 			}
 		}
 
