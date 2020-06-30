@@ -741,11 +741,11 @@ html [type=button] {
   position: relative;
   top: 0;
   width: 100%;
-  border: solid 1px #444;
+  /*border: solid 1px #444;*/
   border-bottom-color: #777;
-  border-top-left-radius: 20px;
+  /*border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background: #9a9a9a;
+  background: #9a9a9a;*/
 }
 
   #modalPartialOptions .subHead img {
@@ -759,11 +759,11 @@ html [type=button] {
   justify-content: center;/*space-evenly;*/
   align-items: center;
   padding: 3% 0;
-  background: #c4c4c4;
-  border: solid 1px #444;
-  border-top: none;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  /*background: #c4c4c4;
+  border: solid 1px #444;*/
+  border-top: none !important;
+  /*border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;*/
 }
 #modalPartialOptions .optionsBlock {
   padding: 0 1%;

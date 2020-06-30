@@ -207,10 +207,10 @@
           <ng-container *ngIf="this.partialpopupRequired">
             <div class="row mx-0 optionsBlock" #partialpopupBodyRef>
               <div class="my-auto quesImage">
-                <div class="subHead">
+                <div class="subHead" [ngStyle]="feedbackObj?.partial_right_style_header">
                   <img class="img-fluid" [src]="correctImg?.location=='content' ? containgFolderPath + '/' + correctImg?.url : assetsPath + '/' + correctImg?.url">
                 </div>
-                <div class="subContent">
+                <div class="subContent" [ngStyle]="feedbackObj?.partial_right_style_body">
                   <div class="options" *ngFor="let opt of rightansArray;let idx = index">
                     <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" #popupImage>
                     <!--
@@ -223,10 +223,10 @@
                 </div>
               </div>
               <div class="my-auto quesImage">
-                <div class="subHead">
+                <div class="subHead" [ngStyle]="feedbackObj?.partial_wrong_style_header">
                   <img class="img-fluid" [src]="incorrectImg?.location=='content' ? containgFolderPath + '/' + incorrectImg?.url : assetsPath + '/' + incorrectImg?.url">
                 </div>
-                <div class="subContent">
+                <div class="subContent" [ngStyle]="feedbackObj?.partial_wrong_style_body">
                   <div class="options" *ngFor="let opt of wrongansArray;let idx = index">
                     <img class="img-fluid" [src]="opt?.imgsrc?.location=='content' ? containgFolderPath + '/' + opt?.imgsrc?.url : assetsPath + '/' + opt?.imgsrc?.url" #popupImage>
                     <!--
