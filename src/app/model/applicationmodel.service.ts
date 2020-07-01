@@ -472,6 +472,8 @@ export class ApplicationmodelService {
       this.setThemeName = data['theme_name']
       //get tabs.json file
       this.getJson();
+      } else {
+        this.theme_name=undefined;
       }
       this._firstQues.next(firsQflag);
       //this.notifyUserAction();
@@ -1085,7 +1087,7 @@ export class ApplicationmodelService {
   }
 
   getJson(){
-    this.httpHandler.get('./assets/themes/elementary/'+ this.theme_name+'/global/tabs/tabs.json', this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
+    this.httpHandler.get('./assets/themes/elementary/'+ this.theme_name+'/global/tabs.json', this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
   }
 
   globalLoaded(data){

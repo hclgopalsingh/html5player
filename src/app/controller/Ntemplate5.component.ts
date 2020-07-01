@@ -647,7 +647,9 @@ export class Ntemplate5 implements OnInit {
   }
 
   ngOnDestroy() {
-    this.bgSubscription.unsubscribe();
+    if(this.bgSubscription!=undefined){
+      this.bgSubscription.unsubscribe();
+    }
   }
 
   closeModal() {

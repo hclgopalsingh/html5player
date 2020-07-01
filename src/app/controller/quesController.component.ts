@@ -129,7 +129,9 @@ export class QuesController implements OnInit {
       if(this.EVA) {
         this.quesTabs = this.quesCtrl.quesTabs;
       } else {
-        //this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+        if(this.appModel.theme_name == undefined){
+           this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+        }       
       }
 
 
@@ -382,10 +384,18 @@ export class QuesController implements OnInit {
       let flag = true;
       this.timeInterval = setInterval(() => {
         if (flag) {
-          this.quesCtrl.aagey_badhein = this.appModel.isLastSectionInCollection ? this.quesCtrl.blink_btn3 : this.quesCtrl.blink_btn1;
+          if(this.appModel.theme_name){
+            this.quesCtrl.aagey_badhein = this.appModel.isLastSectionInCollection ? this.quesCtrl.blink_btn3 : this.quesCtrl.blink_btn1;
+          }else{
+            this.quesCtrl.aagey_badhein =  this.quesCtrl.blink_btn1;
+          }
           flag = false;
         } else {
-          this.quesCtrl.aagey_badhein =this.appModel.isLastSectionInCollection? this.quesCtrl.blink_btn4 : this.quesCtrl.blink_btn2;
+         if(this.appModel.theme_name){
+           this.quesCtrl.aagey_badhein =this.appModel.isLastSectionInCollection? this.quesCtrl.blink_btn4 : this.quesCtrl.blink_btn2;
+         } else {
+            this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+         }
           flag = true;
         }
       }, 300)
