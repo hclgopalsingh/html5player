@@ -104,8 +104,8 @@ export class QuesController implements OnInit {
 
         //*********  Move to next segment after 5 min of last question attempt */
         this.Sharedservice.getTimerOnLastQues().subscribe(data => {
-          if (data.data && this.EVA) {
-            setTimeout(() => {
+          if (data.data && this.EVA && !this.appModel.nextSectionTimer) {
+            this.appModel.nextSectionTimer = setTimeout(() => {
               this.appModel.nextSectionEVA(this.isLastQues);
             }, 5 * 60 * 1000);
           }
