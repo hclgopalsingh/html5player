@@ -511,7 +511,7 @@ export class Template3Component extends Base implements OnInit {
 					this.speaker.imgsrc = this.speaker.imgorigional;
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetspath + "/" + this.showAnswerPopup.video.url;
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
 						this.videoonshowAnspopUp.nativeElement.play();
