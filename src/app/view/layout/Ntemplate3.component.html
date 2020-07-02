@@ -39,7 +39,7 @@
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
       <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
