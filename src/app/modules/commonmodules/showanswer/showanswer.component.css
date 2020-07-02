@@ -14,10 +14,9 @@
 	width: 100%;
 }
 #mainVideo {
-	width: 97%;
+	width: 98.6%;
 	height: auto;
-    position: relative;
-    left: .9%;
+    position: relative;;
 }
 #showAnswer .stageVideo {
     position: absolute;
