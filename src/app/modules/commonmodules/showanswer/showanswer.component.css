@@ -1,10 +1,13 @@
 .stageVideo {
 	position: absolute;
-    width: 51%;
-	right: 9.6%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    right: 5.6%;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 .stageVideo img {
 	max-width: 100%;
@@ -16,33 +19,15 @@
     position: relative;
     left: .9%;
 }
-#modalTemp17 .stageVideo {
-    position: absolute;
-    width: 48%;
-    right: 27%;
-    top: 8.7%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-	align-items: center;
-}
-
 #showAnswer .stageVideo {
     position: absolute;
-    width: 48%;
-    right: 27%;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    height: 100%;
+    width: 92%;
     display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
     -webkit-box-align: center;
     -ms-flex-align: center;
-	align-items: center;
+    align-items: center;
 }
