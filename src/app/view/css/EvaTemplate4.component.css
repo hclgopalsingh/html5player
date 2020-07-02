@@ -118,6 +118,10 @@
 	transition: transform .2s;
 	cursor:pointer;
 }
+#optionsBlock .options img[src*='optionBase.png']{
+	box-shadow: 0.1vmin 0.1vmin 0.1vmin 0.1vmin rgba(0,0,0,0.30);
+    border-radius: 1.17vmax;
+}
 #optionsBlock .options:hover{
 	transform: scale(1.1);
 	border: solid .5vmin #f00;
@@ -232,5 +236,5 @@
 	}
 } 
 .eva .modal{
-	display: flex; 
+	display: none; 
 }
