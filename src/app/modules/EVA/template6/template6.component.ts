@@ -18,6 +18,17 @@ export class Template6Component extends Base implements OnInit {
 
 	constructor(private dragulaService: DragulaService, private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 		super();
+		//subscribing common popup from shared service to get the updated event and values of speaker
+		this.Sharedservice.showAnsRef.subscribe(showansref => {
+			this.showAnswerRef = showansref;
+		})
+
+		this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+			this.showAnswerfeedback = showanswerfeedback;
+		});
+		this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+			this.videoonshowAnspopUp = videoonsAnspopUp;
+		});
 		this.dragSubscription = dragulaService.drag().subscribe((dragValue: any) => {
 			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
 				if (dragValue.el && (dragValue.el.getAttribute("id") != i)) {
@@ -86,7 +97,6 @@ export class Template6Component extends Base implements OnInit {
 	@ViewChild('maincontent') maincontent: any;
 	@ViewChild('clapSound') clapSound: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
-	@ViewChild('showAnswerfeedback') showAnswerfeedback: any;
 	@ViewChild('showAnswerRef') showAnswerRef: any;
 	@ViewChild('ansPopup') ansPopup: any;
 	@ViewChild('rightFeedback') rightFeedback: any;
@@ -185,6 +195,8 @@ export class Template6Component extends Base implements OnInit {
 	leftBlinkTimer: any;
 	rightBlinkTimer: any;
 	showAnswerTimer: any;
+	videoonshowAnspopUp: any;
+  showAnswerfeedback: any;
 	imageChange: any
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
@@ -418,6 +430,7 @@ export class Template6Component extends Base implements OnInit {
 					this.speaker.imgsrc = this.speaker.imgorigional;
 				}
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
@@ -428,9 +441,9 @@ export class Template6Component extends Base implements OnInit {
 					}
 					this.wrongFeedback.nativeElement.pause();
 					this.rightFeedback.nativeElement.pause();
-					if (this.showAnswerfeedback && this.showAnswerfeedback.nativeElement) {
-						this.showAnswerfeedback.nativeElement.play();
-						this.showAnswerfeedback.nativeElement.onended = () => {
+					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+						this.videoonshowAnspopUp.nativeElement.play();
+						this.videoonshowAnspopUp.nativeElement.onended = () => {
 							this.showAnswerTimer = setTimeout(() => {
 								this.closePopup("showanswer");
 							}, 10000);
@@ -794,13 +807,16 @@ export class Template6Component extends Base implements OnInit {
 		this.wrongFeedback.nativeElement.currentTime = 0;
 		this.rightFeedback.nativeElement.pause();
 		this.rightFeedback.nativeElement.currentTime = 0;
-		this.showAnswerfeedback.nativeElement.pause();
-		this.showAnswerfeedback.nativeElement.currentTime = 0;
+		this.videoonshowAnspopUp.nativeElement.pause();
+		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
 		this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 		this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
 
 		if (Type === "answerPopup") {
 			this.popupclosedinRightWrongAns = true;
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+				document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+			  }
 			if (this.ifRightAns) {
 				this.Sharedservice.setShowAnsEnabled(true);
 				this.overlay.nativeElement.classList.value = "fadeContainer";
@@ -808,7 +824,6 @@ export class Template6Component extends Base implements OnInit {
 				if (!this.lastQuestionCheck) {
 
 				} else if (this.lastQuestionCheck) {
-					debugger;
 					this.Sharedservice.setTimeOnLastQues(true);
 				}
 			} else {
@@ -889,9 +904,6 @@ export class Template6Component extends Base implements OnInit {
 
 		this.clapSound.nativeElement.pause();
 		this.clapSound.nativeElement.currentTime = 0;
-
-		this.showAnswerfeedback.nativeElement.pause();
-		this.showAnswerfeedback.nativeElement.currentTime = 0;
 
 		if (dragged) {
 			this.enableAllOptions();

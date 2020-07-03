@@ -67,6 +67,7 @@ export class ApplicationmodelService {
   subscription: Subscription;
   Template: any;
   private nextCollectionCounterEVA: number = 0;
+  nextSectionTimer: any;
 
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
@@ -436,6 +437,10 @@ export class ApplicationmodelService {
       console.log('ApplicationmodelService: nextCollection - currentActive=',
         this.currentActive, 'this.initValues.files[this.currentActive]', this.initValues.files[this.currentActive]);
       this.eventDone = false;
+    }
+    if (this.EVA && this.nextSectionTimer) {
+      clearTimeout(this.nextSectionTimer);
+      this.nextSectionTimer = undefined;
     }
     /* 
    // ****check later**** //
@@ -1026,6 +1031,7 @@ export class ApplicationmodelService {
   
   //****GO TO NEXT COLLECTION****** */
   private nextCollectionEva(isLastQuestion): void {
+    this.nextSectionTimer = undefined;
     this.segmentBeginvariable = true;
     this.currentActive++;
     console.log('ApplicationmodelService: nextCollection - currentActive=',

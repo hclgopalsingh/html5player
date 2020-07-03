@@ -56,38 +56,8 @@
   
   
    <!-- show answer Popup  -->
-      <div class="modal" id="showAnswer" #showAnswerRef>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body d-flex align-items-center">
-                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
-                    <div class="matchBlock showAnsMatchBlock">
-                        <div class="matchHolder">
-                            <img class="img-fluid" [src]="showAnswerPopup?.leftHolder?.location=='content' ? contentgFolderPath + '/' + showAnswerPopup?.leftHolder?.url : assetsPath + '/' +showAnswerPopup?.leftHolder?.url"  >
-                            <img class="img-fluid section_title" [src]="optionHolder?.leftHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.leftHolderTitle?.url : assetsPath + '/' +optionHolder?.leftHolderTitle?.url" >
-                            <div class="optSelectedHidden">
-                               <img *ngFor="let option of leftAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
-                            </div>
-                        </div>
-                         <div class="showanswerSpacer">&nbsp;</div>
-                        <div class="matchHolder">
-                            <img class="img-fluid" [src]="showAnswerPopup?.rightHolder?.location=='content' ? contentgFolderPath + '/' + showAnswerPopup?.rightHolder?.url : assetsPath + '/' +showAnswerPopup?.rightHolder?.url" (load)="checkImgLoaded();">
-                            <img class="img-fluid section_title" [src]="optionHolder?.rightHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolderTitle?.url : assetsPath + '/' +optionHolder?.rightHolderTitle?.url" >
-                            <div class="optSelectedHidden">
-                                <img *ngFor="let option of rightAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="stageVideo" style="display: none;">
-                        <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
-                       
-                    </div> 
-                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showanswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
-                 </div>
-            </div>
-        </div>
-    </div>
+<app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
+
          <!-- celebration popup -->
   <div class="modal" id="celebrations" #celebrationPopup>
      
