@@ -132,27 +132,7 @@
   </div>
 
   <!-- The infoPopup Modal -->
-  <div class="modal" id="confirmModal" #infoModalRef>
-    <div class="modal-dialog">
-      <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
-      <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.headerTxt_img?.url : assetsPath + '/' + infoPopupAssets?.headerTxt_img?.url">
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-        </div>
-
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url"></div>
-          <div class="actionButtons">
-            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url"></button>
-          </div>
-        </div>
-        <audio #feedbackInfoAudio></audio>
-      </div>
-    </div>
-  </div>
+  
 
   <div class="modal" id="confirmModal" #confirmSubmitRef>
     <div class="modal-dialog">

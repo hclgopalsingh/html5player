@@ -16,7 +16,7 @@
       <audio #instruction [src]="
           commonAssets?.instruction_vo?.location == 'content'
             ? containgFolderPath + '/' + commonAssets?.instruction_vo?.url
-            : quesInfo?.instruction_vo?.url
+            : containgFolderPath + '/' + commonAssets?.instruction_vo?.url
         "></audio>
     </div>
   </div>
