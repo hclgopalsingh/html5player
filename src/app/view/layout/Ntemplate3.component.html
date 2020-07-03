@@ -112,13 +112,13 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.oneAttempt_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.oneAttempt_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.oneAttempt_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="oneAttemptPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.close_btn?.url : assetsPath + '/' + oneAttemptPopupAssets?.close_btn?.url" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="oneAttemptPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.close_btn?.url : assetsPath + '/' + oneAttemptPopupAssets?.close_btn?.url" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.oneAttempt_popup?.style_body">
           <div class="msgImage"><img class="img-fluid" [src]="oneAttemptPopupAssets?.oneAttempt_text?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.oneAttempt_text?.url : assetsPath + '/' + oneAttemptPopupAssets?.oneAttempt_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="oneAttemptPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.ok_btn?.url : assetsPath + '/' + oneAttemptPopupAssets?.ok_btn?.url"></button>
+            <button type="button" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoveroneAttemptOK()" (mouseleave)="houtoneAttemptOK()"><img class="img-fluid" [src]="oneAttemptPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.ok_btn?.url : assetsPath + '/' + oneAttemptPopupAssets?.ok_btn?.url"></button>
           </div>
         </div>
         <audio #feedbackoneAttemptAudio></audio>
@@ -193,7 +193,7 @@
       <div class="modal-content">
 
         <!-- Modal Header -->
-        <div class="modal-header" [ngStyle]="feedbackObj?.style_header">
+        <div class="modal-header" [ngStyle]="feedbackObj?.partial_style_header">
           <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
@@ -202,7 +202,7 @@
         </div>
 
         <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
+        <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.partial_style_body">
 
           <ng-container *ngIf="this.partialpopupRequired">
             <div class="row mx-0 optionsBlock" #partialpopupBodyRef>

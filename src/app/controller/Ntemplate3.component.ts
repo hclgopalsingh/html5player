@@ -821,6 +821,14 @@ export class Ntemplate3 implements OnInit {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
   }
 
+  hoveroneAttemptOK() {
+   this.oneAttemptPopupAssets.ok_btn=this.oneAttemptPopupAssets.ok_btn_hover;
+  }
+
+  houtoneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn=this.oneAttemptPopupAssets.ok_btn_original;
+  }
+
   houtOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
   }
