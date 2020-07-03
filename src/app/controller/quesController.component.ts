@@ -93,37 +93,31 @@ export class QuesController implements OnInit {
       console.log("selected question index", this.questionNo); 
     })
 
+    
+
        
       // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
-      if(this.isLastQues){
-         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
-         this.subscription = this.Sharedservice.getLastQuesAageyBadheStatus().subscribe(data => { 
-         this.isLastQuesAageyBadhe = data.data;
-        if(this.isLastQuesAageyBadhe){
-          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
-        }
-      });
 
-       //*********  Move to next segment after 5 min of last question attempt */
-       this.Sharedservice.getTimerOnLastQues().subscribe(data =>{
-        if(data.data){
-          setTimeout(()=>{             
-            this.appModel.nextSection();
-              },5 * 60 * 1000);
-        }
-      })
-      }
-   
+
+        //*********  Move to next segment after 5 min of last question attempt */
+        this.Sharedservice.getTimerOnLastQues().subscribe(data => {
+          if (data.data && this.EVA) {
+            setTimeout(() => {
+              this.appModel.nextSectionEVA(this.isLastQues);
+            }, 5 * 60 * 1000);
+          }
+        });
+
+
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
         if(this.EnableShowAnswer === true){
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
-
         }else{
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
           this.UttarDikhayeinTooltip="";
@@ -363,6 +357,7 @@ export class QuesController implements OnInit {
   setBlinkOnLastQuestion() {
     if(this.EVA) {
       // if(this.EnableShowAnswer === true){
+         this.nextBtn.nativeElement.classList.remove("disableBtn");
          this.quesCtrl.blinkingStatus=true;
         // }
     } else {

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./template11.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class Template11Componenteva implements OnInit {
+export class Template11Componenteva implements OnInit, AfterViewInit {
    
     blink: boolean = false;
     commonAssets: any = "";
@@ -24,16 +24,15 @@ export class Template11Componenteva implements OnInit {
     i = 0;
     j: number = 0;
     feedback: any = "";
-    bool: boolean = false;
     popupType: string = "";
     isLastQues: boolean = false;
     isLastQuesAct: boolean;
-    noOfImgs: number;
-    noOfImgsLoaded: number = 0;
-    loaderTimer: any;
+    // noOfImgs: number;
+    // noOfImgsLoaded: number = 0;
+    // loaderTimer: any;
     containgFolderPath: string = "";
     assetsPath: string = "";
-    loadFlag: boolean = false;  
+    // loadFlag: boolean = false;  
     blinkTimeInterval: any;    
     attemptType: string = "";
     correctOpt: any = '';  
@@ -44,7 +43,6 @@ export class Template11Componenteva implements OnInit {
     idArray: any = [];
     hasEventFired: boolean = false;
     speaker: any;
-    tempSubscription: Subscription;
     speakerTimer: any;
     clapTimer:any;
     ifRightAns: boolean = false;
@@ -74,25 +72,21 @@ export class Template11Componenteva implements OnInit {
     showAnswerRef: any;
     showAnswerfeedback: any;
     showAnswerPopup:any;
+    disableMainContent:boolean=true;
+    isOverlay:boolean=false;
+    isSpriteHide:boolean=true;
+    isPointerNone:boolean=false;
 
     @ViewChild('instruction') instruction: any;
-    @ViewChild('audioEl') audioEl: any;
-    @ViewChild('sprite') sprite: any;
-    @ViewChild('ansPopup') ansPopup: any;
+    @ViewChild('audioEl') audioEl: any;    
     @ViewChild('wrongFeedback') wrongFeedback: any;
     @ViewChild('rightFeedback') rightFeedback: any;
     @ViewChild('rightPopupfeedback') rightPopupfeedback: any;
-    @ViewChild('disableSpeaker') disableSpeaker: any;  
     @ViewChild('myAudiospeaker') myAudiospeaker: any;
-    @ViewChild('maincontent') maincontent: any;
-	@ViewChild('footerNavBlock') footerNavBlock: any;
     @ViewChild('clapSound') clapSound: any;
-    @ViewChild('refQues') refQues: any;
-    @ViewChild('overlay') overlay:any;
+    @ViewChild('ansPopup') ansPopup: any;
     @ViewChild('leftOptRef') leftOptRef: any;
     @ViewChild('rightOptRef') rightOptRef: any;
-    
-    
     
     constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
         //subscribing common popup from shared service to get the updated event and values of speaker
@@ -112,9 +106,9 @@ export class Template11Componenteva implements OnInit {
         } else {
             this.appModel.setLoader(true);
             // if error occured during image loading loader wil stop after 5 seconds 
-            this.loaderTimer = setTimeout(() => {
-                this.appModel.setLoader(false);
-            }, 5000);
+            // this.loaderTimer = setTimeout(() => {
+            //     this.appModel.setLoader(false);
+            // }, 5000);
         }
         this.appModel.notification.subscribe(
             (data) => {
@@ -134,7 +128,7 @@ export class Template11Componenteva implements OnInit {
 
     ngOnInit() {        
 		this.Sharedservice.setLastQuesAageyBadheStatus(true);
-        this.sprite.nativeElement.style="display:none";
+        this.isSpriteHide=true;
         this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
@@ -156,6 +150,7 @@ export class Template11Componenteva implements OnInit {
             if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
                
                 this.stopAllSounds();
+                this.enableAllOptions();
                 this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
                 this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                 if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
@@ -180,20 +175,9 @@ export class Template11Componenteva implements OnInit {
             }
         })
 
-        this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
-			if(mode == "manual") {
-				//show modal for manual
-				this.appModel.notifyUserAction();
-				if (this.ansPopup && this.ansPopup.nativeElement) {
-					this.ansPopup.nativeElement.classList = "displayPopup modal";
-				}
-			}else if (mode == "auto") {
-				// this.showAnswers();
-			}
-		})
-
-        
+               
     }
+    
 
     /******Set template type for EVA******/
     setTemplateType(): void {
@@ -201,6 +185,7 @@ export class Template11Componenteva implements OnInit {
             this.Sharedservice.sendData(data);
         })
     }
+    
     ngOnDestroy() {
         this.showAnswerSubscription.unsubscribe();
 		this.stopAllSounds();
@@ -239,6 +224,7 @@ export class Template11Componenteva implements OnInit {
     ngAfterViewChecked() {
         this.templatevolume(this.appModel.volumeValue, this);
     }
+    
 
     setData() {
         let fetchedData: any = this.appModel.content.contentData.data;
@@ -247,7 +233,7 @@ export class Template11Componenteva implements OnInit {
         this.speaker = fetchedData.speaker;
         this.feedback = fetchedData.feedback;
         this.questionObj = fetchedData.quesObj;
-        this.noOfImgs = fetchedData.imgCount;
+        // this.noOfImgs = fetchedData.imgCount;
         this.popupAssets = fetchedData.feedback.popupassets;
 		this.rightFeedbackVO = this.feedback.right_ans_sound;
         this.rightPopupVO = this.feedback.right_ansPop_sound;
@@ -268,11 +254,12 @@ export class Template11Componenteva implements OnInit {
             }
         }
         
-        setTimeout(() => {
-            if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
-                this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
-            }
-        }, 200)
+        // setTimeout(() => {
+        //     if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
+        //         debugger;
+        //         this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
+        //     }
+        // }, 200)
 		
     
     }
@@ -299,7 +286,7 @@ export class Template11Componenteva implements OnInit {
             } 
             if(this.ifRightAns) {
                 this.Sharedservice.setShowAnsEnabled(true);
-                this.overlay.nativeElement.classList.value="fadeContainer";
+                this.isOverlay=true;
                 this.blinkOnLastQues();
                 if(!this.lastQuestionCheck){  
                                  
@@ -329,10 +316,9 @@ export class Template11Componenteva implements OnInit {
     checkSpeakerVoice(speaker) {
         if(!this.audioEl.nativeElement.paused){
         }else{
-            speaker.imgsrc = speaker.imgorigional;          
-             this.sprite.nativeElement.style="display:none";
-			 (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			 this.disableSpeaker.nativeElement.children[0].style.cursor = "auto";
+             speaker.imgsrc = speaker.imgorigional;          
+             this.isSpriteHide=true;
+             this.isPointerNone=false;
             clearInterval(this.speakerTimer);   
         }
 
@@ -349,7 +335,6 @@ export class Template11Componenteva implements OnInit {
     playSpeaker(el: HTMLAudioElement, speaker) {
         this.stopAllSounds();
         this.enableAllOptions(); 
-        this.enableAllOptions();
         if (!this.instruction.nativeElement.paused) {
         } else {
             this.myAudiospeaker.nativeElement.currentTime = 0.0;
@@ -365,8 +350,8 @@ export class Template11Componenteva implements OnInit {
 				
                 this.speakerTimer = setInterval(() => {
                     speaker.imgsrc = speaker.imgactive;
-                    this.sprite.nativeElement.style="display:flex";
-					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
+                    this.isSpriteHide=false;
+                    this.isPointerNone=true;
                     this.checkSpeakerVoice(speaker);					
                 }, 10)
             }
@@ -376,16 +361,12 @@ export class Template11Componenteva implements OnInit {
                 }
                 el.pause();
                 el.currentTime = 0;
-                el.play();
-                if(this.maincontent){
-                    this.maincontent.nativeElement.className = "disableDiv";
-                }
+                el.play();                
+                this.disableMainContent=true;
                 el.onended = () => {
-                    if (this.maincontent) {
-                        this.maincontent.nativeElement.className = "";
-						(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-                         this.sprite.nativeElement.style="display:none";
-                    }
+                    this.disableMainContent=false;
+                    this.isPointerNone=false;
+                    this.isSpriteHide=true;
                 }
 
             }
@@ -395,18 +376,21 @@ export class Template11Componenteva implements OnInit {
 
     /****function to check loaded image*****/
     checkImgLoaded() {
-        if (!this.loadFlag) {          
-            this.noOfImgsLoaded++;
-            if (this.noOfImgsLoaded >= this.noOfImgs) {
-                this.appModel.setLoader(false);   
-                this.Sharedservice.setShowAnsEnabled(false); 
-                this.loadFlag = true;
-                clearTimeout(this.loaderTimer);
-                this.checkforQVO();
-            }
-        }
+        // if (!this.loadFlag) {          
+        //     this.noOfImgsLoaded++;
+        //     if (this.noOfImgsLoaded >= this.noOfImgs) {
+        //         this.appModel.setLoader(false);   
+        //         this.Sharedservice.setShowAnsEnabled(false); 
+        //         this.loadFlag = true;
+        //         clearTimeout(this.loaderTimer);
+        //         this.checkforQVO();
+        //     }
+        // }
     }
-
+    ngAfterViewInit(){
+        this.appModel.setLoader(false);
+        this.checkforQVO();
+    }
     close() {
         this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
     }
@@ -420,7 +404,7 @@ export class Template11Componenteva implements OnInit {
             this.appModel.handlePostVOActivity(true);
             clearTimeout(this.rightTimer); 
             this.instruction.nativeElement.play();
-			this.appModel.setLoader(false);
+			// this.appModel.setLoader(false);
 			this.instruction.nativeElement.onended = () => {
                 this.appModel.handlePostVOActivity(false);              
                 this.playRandomQues();
@@ -566,7 +550,6 @@ export class Template11Componenteva implements OnInit {
     for (let j = 0; j < otherBlock.nativeElement.parentElement.children.length; j++) {
       otherBlock.nativeElement.parentElement.children[j].classList.add("disableDiv");
     }
-    //this.disableSpeaker.nativeElement.classList.add("disableDiv");
     this.audio.onended = () => {
       this.enableAllOptions();
     }
@@ -599,9 +582,9 @@ export class Template11Componenteva implements OnInit {
             return;
         }      
         
-        this.maincontent.nativeElement.className = "disableDiv";//Disable the mainContent when option is selected  
-        /** Disable ShowAns Button**/
-        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        this.disableMainContent=true;//Disable the mainContent when option is selected  
+        
+        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {// Disable ShowAns Button
             document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
         }
         this.stopAllSounds();
@@ -696,9 +679,10 @@ export class Template11Componenteva implements OnInit {
                 }else{
                     this.Sharedservice.setShowAnsEnabled(false);
                 }
-                this.maincontent.nativeElement.className = ""; 
-                /** Enable ShowAns Button**/
-                for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                // this.maincontent.nativeElement.className = ""; 
+                this.disableMainContent=false; //Enable main content
+                
+                for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {    //Enable ShowAns Button
                     document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");           
                 }                              
             }   
@@ -778,7 +762,7 @@ arraysIdentical(a, b) {
                 this.myAudiospeaker.nativeElement.src= this.quesObj.questionText[nextHighlight].audio.location == "content" 
                         ? this.containgFolderPath + "/" + this.quesObj.questionText[nextHighlight].audio.url: this.assetsPath + "/" + this.quesObj.questionText[nextHighlight].audio.url
                 this.speech.onended= () =>{
-                    this.maincontent.nativeElement.className = "";
+                    this.disableMainContent=false;
                     /** Enable ShowAns Button**/
                     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
                         if(document.getElementsByClassName("ansBtn")[i].classList.contains("disableDiv")){

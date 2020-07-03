@@ -1,53 +1,32 @@
 .stageVideo {
 	position: absolute;
-    width: 51%;
-	right: 9.6%;
-	top: 1.7%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    right: 5.6%;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 .stageVideo img {
 	max-width: 100%;
 	width: 100%;
 }
 #mainVideo {
-	width: 97%;
+	width: 98.6%;
 	height: auto;
-	border: solid 1px red;
-    position: absolute;
-    left: .9%;
-	top: 1.1%;
-	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
+    position: relative;;
 }
-#modalTemp17 .stageVideo {
-    position: absolute;
-    width: 48%;
-    right: 27%;
-    top: 8.7%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-	align-items: center;
-}
-
 #showAnswer .stageVideo {
     position: absolute;
-    width: 48%;
-    right: 27%;
-    top: 17%;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    height: 100%;
+    width: 92%;
     display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
     -webkit-box-align: center;
     -ms-flex-align: center;
-	align-items: center;
+    align-items: center;
 }
