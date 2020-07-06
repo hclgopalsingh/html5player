@@ -66,7 +66,7 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.submit_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.submit_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.submit_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="submitPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + submitPopupAssets?.close_btn?.url : assetsPath + '/' + submitPopupAssets?.close_btn?.url" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="submitPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + submitPopupAssets?.close_btn?.url : assetsPath + '/' + submitPopupAssets?.close_btn?.url" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoversubmitCloseConfirm()" (mouseleave)="houtsubmitCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.submit_popup?.style_body">
@@ -89,7 +89,7 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.info_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.info_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverinfopopupCloseConfirm()" (mouseleave)="houtinfopopupCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
@@ -112,7 +112,7 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.oneAttempt_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.oneAttempt_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.oneAttempt_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="oneAttemptPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.close_btn?.url : assetsPath + '/' + oneAttemptPopupAssets?.close_btn?.url" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+          <img class="close" [src]="oneAttemptPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + oneAttemptPopupAssets?.close_btn?.url : assetsPath + '/' + oneAttemptPopupAssets?.close_btn?.url" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoveroneAttemptClosePopup()" (mouseleave)="houtoneAttemptClosePopup()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.oneAttempt_popup?.style_body">

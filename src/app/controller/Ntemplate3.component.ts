@@ -777,6 +777,14 @@ export class Ntemplate3 implements OnInit {
     this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
   }
 
+  hoverinfopopupCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+  }
+
+  houtinfopopupCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+  }
+
 
   hoverDecline() {
     this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
@@ -811,6 +819,22 @@ export class Ntemplate3 implements OnInit {
 
   hoverClosePopup() {
     this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
+  }
+
+  hoveroneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
+  }
+
+  houtoneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
+  }
+
+  hoversubmitCloseConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_hover;
+  }
+
+  houtsubmitCloseConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_original;
   }
 
   houtClosePopup() {
