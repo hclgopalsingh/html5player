@@ -314,7 +314,12 @@ export class QuesController implements OnInit {
 
 
   hleavePreBtn() {
-    this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
+    if(this.EVA && this.isFirstQuestion) {
+      this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_disabled;
+    }
+    else {
+      this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
+    }
   }
 
 
@@ -329,8 +334,13 @@ export class QuesController implements OnInit {
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
-      if(!this.blink) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      if (!this.blink) {
+        if (this.EVA && this.isLastQues && !this.quesCtrl.blinkingStatus) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+        }
+        else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        }
       }
     }
   }
@@ -357,6 +367,7 @@ export class QuesController implements OnInit {
   setBlinkOnLastQuestion() {
     if(this.EVA) {
       // if(this.EnableShowAnswer === true){
+         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
          this.nextBtn.nativeElement.classList.remove("disableBtn");
          this.quesCtrl.blinkingStatus=true;
         // }
