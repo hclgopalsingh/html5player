@@ -70,6 +70,7 @@
 	display: inline-flex;
 	flex-grow: 1;
 	position: relative;
+	justify-content: center;
 }
 .quesTab img{
 	vertical-align: text-bottom;
@@ -123,10 +124,10 @@
 }
 .quesnum{
 	position: absolute;
-	width: 1vmin;/*4%;*/
+	width: 1.2vmin;/*1vmin*/
 	height: 43%;
-  left: 48%;
-  top: 30%;
+	/* left: 48%; */
+	top: 34%;/*30%*/
 }
 .animation-shake {
 	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;

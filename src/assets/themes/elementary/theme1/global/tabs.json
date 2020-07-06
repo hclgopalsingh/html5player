@@ -27,7 +27,7 @@
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab1/tabIdx.svg",
+					"url": "tab1/tabIdx.png",
 					"location": "theme"
 				}
 			},
@@ -63,7 +63,7 @@
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab2/tabIdx.svg",
+					"url": "tab2/tabIdx.png",
 					"location": "theme"
 				}
 			},
@@ -99,7 +99,7 @@
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab3/tabIdx.svg",
+					"url": "tab3/tabIdx.png",
 					"location": "theme"
 				}
 			},
@@ -135,7 +135,7 @@
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab4/tabIdx.svg",
+					"url": "tab4/tabIdx.png",
 					"location": "theme"
 				}
 			},
@@ -171,7 +171,7 @@
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab5/tabIdx.svg",
+					"url": "tab5/tabIdx.png",
 					"location": "theme"
 				}
 			},
