@@ -30,13 +30,17 @@ export class Template6Component extends Base implements OnInit {
 			this.videoonshowAnspopUp = videoonsAnspopUp;
 		});
 		this.dragSubscription = dragulaService.drag().subscribe((dragValue: any) => {
+			this.drag = true;
+			this.myoption[dragValue.el.id].imgsrc = this.myoption[dragValue.el.id].image_original;
 			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
 				if (dragValue.el && (dragValue.el.getAttribute("id") != i)) {
 					this.optionRef.nativeElement.children[i].classList.add("disable_div");
 				}
 			}
+			
 		});
 		this.dragEndSubscription = dragulaService.dragend().subscribe((dragEndValue: any) => {
+		
 			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
 				this.optionRef.nativeElement.children[i].classList.remove("disable_div");
 			}
@@ -44,7 +48,9 @@ export class Template6Component extends Base implements OnInit {
 		this.dropSubscription = dragulaService.drop().subscribe((value: any) => {
 			if (value.source == value.target || value.source.parentElement.className == value.target.parentElement.className) {
 				dragulaService.find('second-bag2').drake.cancel(true);
+			
 			} else {
+				
 				this.imageChange = setTimeout(() => {
 					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
@@ -59,7 +65,7 @@ export class Template6Component extends Base implements OnInit {
 					this.submitAttempt(abc, xyz, value.el);
 				}
 			}
-
+			this.drag = false;
 		});
 
 
@@ -189,6 +195,7 @@ export class Template6Component extends Base implements OnInit {
 	dragSubscription: any;
 	dragEndSubscription: any;
 	dropSubscription: any;
+	drag:boolean= false;
 	blinkCategory: any;
 	isdrop = false;
 	optionHolderValue: any;
@@ -243,7 +250,27 @@ export class Template6Component extends Base implements OnInit {
 		}
 	}
 
+	// onHoverOptions(option, index) {
+	// 	let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+	// 	if (!speakerEle.paused) {
+	// 		speakerEle.pause();
+	// 		speakerEle.currentTime = 0;
+	// 		this.sprite.nativeElement.style = "display:none";
+	// 		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+	// 		this.speakerPlayed = false;
+	// 		this.speaker.imgsrc = this.speaker.imgorigional;
+	// 	}
+	// 	this.myoption[index].imgsrc = this.myoption[index].imgsrc_hover;
+	// }
+
+	// onHoveroutOptions(option, index) {
+	
+	// 	this.myoption[index].imgsrc = this.myoption[index].image_original;
+	// }
+
+	
 	onHoverOptions(option, index) {
+		if(!this.drag){
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
 			speakerEle.pause();
@@ -255,11 +282,14 @@ export class Template6Component extends Base implements OnInit {
 		}
 		this.myoption[index].imgsrc = this.myoption[index].imgsrc_hover;
 	}
-
-	onHoveroutOptions(option, index) {
-		this.myoption[index].imgsrc = this.myoption[index].image_original;
 	}
 
+	onHoveroutOptions(option, index) {
+		if(!this.drag){
+			this.myoption[index].imgsrc = this.myoption[index].image_original;
+		}
+		
+	}
 	onHoverSpeaker() {
 		if (!this.videoPlayed) {
 			this.speaker.imgsrc = this.speaker.imghover;
@@ -377,6 +407,9 @@ export class Template6Component extends Base implements OnInit {
 		}
 		if (obj.audio) {
 			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 	}
 	//end
@@ -525,6 +558,7 @@ export class Template6Component extends Base implements OnInit {
 		}
 	}
 	getRandomIndxBlink(no, prevRandomId?) {
+	console.log('numner:', no, 'prevrandom:', prevRandomId);
 
 		this.randomIdx = prevRandomId !== undefined ? prevRandomId : Math.floor((Math.random() * no));
 		clearInterval(this.blinkTimeInterval);

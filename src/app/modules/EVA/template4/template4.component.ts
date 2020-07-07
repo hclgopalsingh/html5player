@@ -78,6 +78,7 @@ export class Template4Component implements OnInit {
 	videoonshowAnspopUp: any;
     showAnswerRef: any;
     showAnswerfeedback: any;
+    correctAnswerCounter:number=0;
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('sprite') sprite: any;
@@ -353,7 +354,7 @@ export class Template4Component implements OnInit {
             }
         }
         if(Type === 'showAnswer'){
-            if(this.ifRightAns) {
+            if(this.correctAnswerCounter==this.quesObj.questionText.length) {
               this.blinkOnLastQues();
             }
         }else{
@@ -622,6 +623,7 @@ export class Template4Component implements OnInit {
                     this.popupIconLocation = this.popupAssets.right_icon.location;
                     this.ifRightAns = true;
                     this.ifWrongAns = false;
+                    this.correctAnswerCounter++;
     
                     /**Reset Wrong answer counter and show answer button */
                     // this.wrongCounter = 0;
