@@ -569,6 +569,25 @@ export class Ntemplate3 implements OnInit {
     
   }
 
+  hoverPlayPause(){
+    if(this.PlayPauseFlag)
+    {    
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+    }
+  }
+
+  leavePlayPause(){
+    if(this.PlayPauseFlag)
+    {   
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    }
+  }
   hoverSkip(){
    // this.skipFlag = false;
    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
