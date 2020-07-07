@@ -3,258 +3,258 @@
 		{
 			"ques_tab": {
 				"tabbody": {
-					"url": "tab1/tabBody.png",
+					"urlglobal": "global/tabs/tab1/tabBody.png",
 					"location": "theme"
 				},
 				"tabL": {
-					"url": "tab1/tabL.png",
+					"urlglobal": "global/tabs/tab1/tabL.png",
 					"location": "theme"
 				},
 				"tabR": {
-					"url": "tab1/tabR.png",
+					"urlglobal": "global/tabs/tab1/tabR.png",
 					"location": "theme"
 				},
 				"tabbodyAct": {
-					"url": "tab1/tabBodyAct.png",
+					"urlglobal": "global/tabs/tab1/tabBodyAct.png",
 					"location": "theme"
 				},
 				"tabLAct": {
-					"url": "tab1/tabLAct.png",
+					"urlglobal": "global/tabs/tab1/tabLAct.png",
 					"location": "theme"
 				},
 				"tabRAct": {
-					"url": "tab1/tabRAct.png",
+					"urlglobal": "global/tabs/tab1/tabRAct.png",
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab1/tabIdx.png",
+					"urlglobal": "global/tabs/tab1/tabIdx.png",
 					"location": "theme"
 				}
 			},
 			"background": {
-				"url": "bg/bg_1.svg",
+				"urlglobal": "global/tabs/bg/bg_1.svg",
 				"location": "theme"
 			}
 		},
 		{
 			"ques_tab": {
 				"tabbody": {
-					"url": "tab2/tabBody.png",
+					"urlglobal": "global/tabs/tab2/tabBody.png",
 					"location": "theme"
 				},
 				"tabL": {
-					"url": "tab2/tabL.png",
+					"urlglobal": "global/tabs/tab2/tabL.png",
 					"location": "theme"
 				},
 				"tabR": {
-					"url": "tab2/tabR.png",
+					"urlglobal": "global/tabs/tab2/tabR.png",
 					"location": "theme"
 				},
 				"tabbodyAct": {
-					"url": "tab2/tabBodyAct.png",
+					"urlglobal": "global/tabs/tab2/tabBodyAct.png",
 					"location": "theme"
 				},
 				"tabLAct": {
-					"url": "tab2/tabLAct.png",
+					"urlglobal": "global/tabs/tab2/tabLAct.png",
 					"location": "theme"
 				},
 				"tabRAct": {
-					"url": "tab2/tabRAct.png",
+					"urlglobal": "global/tabs/tab2/tabRAct.png",
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab2/tabIdx.png",
+					"urlglobal": "global/tabs/tab2/tabIdx.png",
 					"location": "theme"
 				}
 			},
 			"background": {
-				"url": "bg/bg_2.svg",
+				"urlglobal": "global/tabs/bg/bg_2.svg",
 				"location": "theme"
 			}
 		},
 		{
 			"ques_tab": {
 				"tabbody": {
-					"url": "tab3/tabBody.png",
+					"urlglobal": "global/tabs/tab3/tabBody.png",
 					"location": "theme"
 				},
 				"tabL": {
-					"url": "tab3/tabL.png",
+					"urlglobal": "global/tabs/tab3/tabL.png",
 					"location": "theme"
 				},
 				"tabR": {
-					"url": "tab3/tabR.png",
+					"urlglobal": "global/tabs/tab3/tabR.png",
 					"location": "theme"
 				},
 				"tabbodyAct": {
-					"url": "tab3/tabBodyAct.png",
+					"urlglobal": "global/tabs/tab3/tabBodyAct.png",
 					"location": "theme"
 				},
 				"tabLAct": {
-					"url": "tab3/tabLAct.png",
+					"urlglobal": "global/tabs/tab3/tabLAct.png",
 					"location": "theme"
 				},
 				"tabRAct": {
-					"url": "tab3/tabRAct.png",
+					"urlglobal": "global/tabs/tab3/tabRAct.png",
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab3/tabIdx.png",
+					"urlglobal": "global/tabs/tab3/tabIdx.png",
 					"location": "theme"
 				}
 			},
 			"background": {
-				"url": "bg/bg_3.svg",
+				"urlglobal": "global/tabs/bg/bg_3.svg",
 				"location": "theme"
 			}
 		},
 		{
 			"ques_tab": {
 				"tabbody": {
-					"url": "tab4/tabBody.png",
+					"urlglobal": "global/tabs/tab4/tabBody.png",
 					"location": "theme"
 				},
 				"tabL": {
-					"url": "tab4/tabL.png",
+					"urlglobal": "global/tabs/tab4/tabL.png",
 					"location": "theme"
 				},
 				"tabR": {
-					"url": "tab4/tabR.png",
+					"urlglobal": "global/tabs/tab4/tabR.png",
 					"location": "theme"
 				},
 				"tabbodyAct": {
-					"url": "tab4/tabBodyAct.png",
+					"urlglobal": "global/tabs/tab4/tabBodyAct.png",
 					"location": "theme"
 				},
 				"tabLAct": {
-					"url": "tab4/tabLAct.png",
+					"urlglobal": "global/tabs/tab4/tabLAct.png",
 					"location": "theme"
 				},
 				"tabRAct": {
-					"url": "tab4/tabRAct.png",
+					"urlglobal": "global/tabs/tab4/tabRAct.png",
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab4/tabIdx.png",
+					"urlglobal": "global/tabs/tab4/tabIdx.png",
 					"location": "theme"
 				}
 			},
 			"background": {
-				"url": "bg/bg_4.svg",
+				"urlglobal": "global/tabs/bg/bg_4.svg",
 				"location": "theme"
 			}
 		},
 		{
 			"ques_tab": {
 				"tabbody": {
-					"url": "tab5/tabBody.png",
+					"urlglobal": "global/tabs/tab5/tabBody.png",
 					"location": "theme"
 				},
 				"tabL": {
-					"url": "tab5/tabL.png",
+					"urlglobal": "global/tabs/tab5/tabL.png",
 					"location": "theme"
 				},
 				"tabR": {
-					"url": "tab5/tabR.png",
+					"urlglobal": "global/tabs/tab5/tabR.png",
 					"location": "theme"
 				},
 				"tabbodyAct": {
-					"url": "tab5/tabBodyAct.png",
+					"urlglobal": "global/tabs/tab5/tabBodyAct.png",
 					"location": "theme"
 				},
 				"tabLAct": {
-					"url": "tab5/tabLAct.png",
+					"urlglobal": "global/tabs/tab5/tabLAct.png",
 					"location": "theme"
 				},
 				"tabRAct": {
-					"url": "tab5/tabRAct.png",
+					"urlglobal": "global/tabs/tab5/tabRAct.png",
 					"location": "theme"
 				},
 				"tabIdx": {
-					"url": "tab5/tabIdx.png",
+					"urlglobal": "global/tabs/tab5/tabIdx.png",
 					"location": "theme"
 				}
 			},
 			"background": {
-				"url": "bg/bg_5.svg",
+				"urlglobal": "global/tabs/bg/bg_5.svg",
 				"location": "theme"
 			}
 		}
 	],
 	"aagey_badhein": {
-		"url": "aagey.svg",
+		"urlglobal": "global/buttons/aagey.svg",
 		"location": "theme"
 	},
 	"aagey_badhein_original": {
-		"url": "aagey.svg",
+		"urlglobal": "global/buttons/aagey.svg",
 		"location": "theme"
 	},
 	"aagey_badhein_hover": {
-		"url": "aageyHover.svg",
+		"urlglobal": "global/buttons/aageyHover.svg",
 		"location": "theme"
 	},
 	"blink_btn1": {
-		"url": "blink_btn1.svg",
+		"urlglobal": "global/buttons/blink_btn1.svg",
 		"location": "theme"
 	},
 	"blink_btn2": {
-		"url": "blink_btn2.svg",
+		"urlglobal": "global/buttons/blink_btn2.svg",
 		"location": "theme"
 	},
 	"peechey_jayein": {
-		"url": "peechey.svg",
+		"urlglobal": "global/buttons/peechey.svg",
 		"location": "theme"
 	},
 	"peechey_jayein_original": {
-		"url": "peechey.svg",
+		"urlglobal": "global/buttons/peechey.svg",
 		"location": "theme"
 	},
 	"peechey_jayein_hover": {
-		"url": "peecheyHover.svg",
+		"urlglobal": "global/buttons/peecheyHover.svg",
 		"location": "theme"
 	},
 	"uttar_dikhayein": {
-		"url": "uttarBtn.svg",
+		"urlglobal": "global/buttons/uttarBtn.svg",
 		"location": "theme"
 	},
 	"uttar_dikhayein_original": {
-		"url": "uttarBtn.svg",
+		"urlglobal": "global/buttons/uttarBtn.svg",
 		"location": "theme"
 	},
 	"uttar_dikhayein_hover": {
-		"url": "uttarBtnHover.svg",
+		"urlglobal": "global/buttons/uttarBtnHover.svg",
 		"location": "theme"
 	},
 	"submit_btn": {
-		"url": "submit_btn.png",
+		"urlglobal": "global/buttons/submit_btn.png",
 		"location": "theme"
 	},
 	"submit_btn_hover": {
-		"url": "submit_btn_hover.png",
+		"urlglobal": "global/buttons/submit_btn_hover.png",
 		"location": "theme"
 	},
 	"submit_btn_original": {
-		"url": "submit_btn.png",
+		"urlglobal": "global/buttons/submit_btn.png",
 		"location": "theme"
 	},
 	"replay_btn": {
-		"url": "video_btn.png",
+		"urlglobal": "global/buttons/video_btn.png",
 		"location": "theme"
 	},
 	"replay_btn_hover": {
-		"url": "video_stream_btn.png",
+		"urlglobal": "global/buttons/video_stream_btn.png",
 		"location": "theme"
 	},
 	"replay_btn_original": {
-		"url": "video_btn.png",
+		"urlglobal": "global/buttons/video_btn.png",
 		"location": "theme"
 	},
 	"blink_btn3": {
-		"url": "blink_btn3.svg",
+		"urlglobal": "global/buttons/blink_btn3.svg",
 		"location": "theme"
 	},
 	"blink_btn4": {
-		"url": "blink_btn4.svg",
+		"urlglobal": "global/buttons/blink_btn4.svg",
 		"location": "theme"
 	}
 }

@@ -26,7 +26,7 @@ export class QuesController implements OnInit {
   subscriptionControlAssets: Subscription;
   firstQusubscription: Subscription;
   blinkerSubscription: Subscription;
-  CommonSubscription: Subscription;
+  // CommonSubscription: Subscription;
   ThemeSubscription: Subscription;
   controlAssets: any;
   isFirstQuestion: any = false;
@@ -129,7 +129,7 @@ export class QuesController implements OnInit {
       if(this.EVA) {
         this.quesTabs = this.quesCtrl.quesTabs;
       } else {
-        if(this.appModel.theme_name == undefined){
+        if(this.quesCtrl.quesTabs != undefined){
            this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
         }       
       }
@@ -152,7 +152,9 @@ export class QuesController implements OnInit {
         this.blinkFlag = false;
         clearInterval(this.timeInterval);
         this.timeInterval = undefined;
-        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        if(this.quesCtrl!=undefined){
+            this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        }
       }
     });
 
@@ -160,17 +162,17 @@ export class QuesController implements OnInit {
       this.isFirstQuestion = flag;
     })
 
-    this.CommonSubscription = this.appModel.getCommonControlAssets().subscribe(commonData =>{
-      console.log("commonData",commonData)
-      if(commonData){
-        //this.quesTabs = commonData.quesTabs;
-        this.quesTabs = commonData.quesTabs.slice(0, this.noOfQues);
-        this.themePath  = this.appModel.getPath("tabs")
-        this.quesCtrl = commonData;
-        this.buttonPath = this.appModel.getPath("buttons")
-      }
-      console.log("this.themePath",this.themePath, "buttonPath",this.buttonPath)
-    })
+    // this.CommonSubscription = this.appModel.getCommonControlAssets().subscribe(commonData =>{
+    //   console.log("commonData",commonData)
+    //   if(commonData){
+    //     //this.quesTabs = commonData.quesTabs;
+    //     this.quesTabs = commonData.quesTabs.slice(0, this.noOfQues);
+    //     this.themePath  = this.appModel.getPath("tabs")
+    //     this.quesCtrl = commonData;
+    //     this.buttonPath = this.appModel.getPath("buttons")
+    //   }
+    //   console.log("this.themePath",this.themePath, "buttonPath",this.buttonPath)
+    // })
 
     this.subcriptionUttarDikhayein = this.appModel.getPostVOActs().subscribe(flag => {
       this.disableUttarDikhayeinBtn = flag;

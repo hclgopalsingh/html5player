@@ -4,6 +4,8 @@ import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { PlayerConstants } from '../common/playerconstants';
 import { subscriptionLogsToBeFn } from 'rxjs/testing/TestScheduler';
+import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../common/themeconstants';
 
 
 declare var $: any;
@@ -16,7 +18,7 @@ declare var $: any;
 
 export class Ntemplate5 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService,private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -120,9 +122,12 @@ export class Ntemplate5 implements OnInit {
 		isSubmitRequired:false,
     isReplayRequired:false
    };
-  themePath:any = "";
+  //themePath:any = "";
+  themePath:any;
+   fetchedcontent:any;
+   functionalityType:any;
   playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused!) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       this.appModel.notifyUserAction();
@@ -242,7 +247,7 @@ export class Ntemplate5 implements OnInit {
     }
   }
   checkAnswer(opt, i, j) {
-    if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       this.optionsBlock.nativeElement.className += " disable_div";
@@ -356,6 +361,10 @@ export class Ntemplate5 implements OnInit {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
+    this.fetchedcontent = this.appModel.content.contentData.data;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
     if (this.rightFeedbackVO != undefined || this.wrongFeedbackVO != undefined) {
       this.rightFeedbackVO.nativeElement.pause();
       this.rightFeedbackVO.nativeElement.currentTime = 0;
