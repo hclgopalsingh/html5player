@@ -322,6 +322,9 @@ export class TemplateTenComponent implements OnInit {
     if (obj.wrongFeedbackOnAkshar && obj.wrongFeedbackOnAkshar.nativeElement) {
       obj.wrongFeedbackOnAkshar.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+      obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   /****Get base path****/
