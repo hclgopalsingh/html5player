@@ -46,7 +46,7 @@
             </div> 
             <div class="options" #optionRef >
                 <div *ngFor= "let item of myoption;let idx = index" [dragula]="'second-bag2'" optionContainer id={{idx}} (mouseenter)="playOptionHover(item,idx)">
-                    <img id={{idx}} class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"    (load)="checkImgLoaded();">
+                    <img id={{idx}} class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url"  (load)="checkImgLoaded();">
                     <img id={{idx}} class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)"  (mouseleave)="onHoveroutOptions(item,idx)" (load)="checkImgLoaded();">                
                 </div>
             </div>             
