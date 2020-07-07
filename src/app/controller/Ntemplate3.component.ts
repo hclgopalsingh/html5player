@@ -3,8 +3,8 @@ import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { PlayerConstants } from '../common/playerconstants';
-
-
+import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../common/themeconstants';
 declare var $: any;
 
 @Component({
@@ -16,7 +16,7 @@ declare var $: any;
 
 export class Ntemplate3 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -152,7 +152,9 @@ export class Ntemplate3 implements OnInit {
 		isSubmitRequired:false,
     isReplayRequired:false
    };
-
+   themePath:any;
+   fetchedcontent:any;
+   functionalityType:any;
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused!) {
       console.log("narrator/instruction voice still playing");
@@ -175,12 +177,12 @@ export class Ntemplate3 implements OnInit {
     if (opt && opt != undefined) {
       if (this.narrator.nativeElement.paused) {
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
-        if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        }
-        else {
-          this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-        }
+        // if (opt.imgsrc && opt.imgsrc.location == "content") {
+        //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
+        // }
+        // else {
+        //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
+        // }
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
       }
@@ -215,11 +217,12 @@ export class Ntemplate3 implements OnInit {
     //   }
     //   }
     if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
-      if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-      } else {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-      }
+      // if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
+      //   this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
+      // } else {
+      //   this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
+      // }
+      this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url;
       this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.pause();
@@ -306,11 +309,11 @@ export class Ntemplate3 implements OnInit {
   OptionZoomOutAnimation(opt, i, j) {
     if (!this.checked && this.narrator.nativeElement.paused) {
       opt.imgsrc = opt.imgsrc_original;
-      if (opt.imgsrc && opt.imgsrc.location == "content") {
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-      } else {
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-      }
+      // if (opt.imgsrc && opt.imgsrc.location == "content") {
+      //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
+      // } else {
+      //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
+      // }
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = " ";
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "";
@@ -364,6 +367,11 @@ export class Ntemplate3 implements OnInit {
     this.containgFolderPath = this.getBasePath();
 
     let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
+    this.checkquesTab();
     if (fetchedData.titleScreen) {
       this.quesInfo = fetchedData;
       this.noOfImgs = this.quesInfo.imgCount;
@@ -478,6 +486,14 @@ export class Ntemplate3 implements OnInit {
     this.resetAttempt();
   }
 
+  checkquesTab() {
+    if(this.fetchedcontent.commonassets.ques_control.quesTabs!=undefined) {
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+      this.appModel.getJson();      
+    }
+  }
+
 
   templatevolume(vol, obj) {
     if (obj.narrator && obj.narrator.nativeElement) {
@@ -569,7 +585,7 @@ export class Ntemplate3 implements OnInit {
     
   }
 
-  hoverPlayPause(){
+    hoverPlayPause(){
     if(this.PlayPauseFlag)
     {    
       this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
@@ -588,6 +604,7 @@ export class Ntemplate3 implements OnInit {
       this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
     }
   }
+
   hoverSkip(){
    // this.skipFlag = false;
    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
@@ -644,7 +661,8 @@ export class Ntemplate3 implements OnInit {
 
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      // this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
       this.appModel.enableReplayBtn(false);
@@ -710,20 +728,20 @@ export class Ntemplate3 implements OnInit {
 
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      if (fetchedData && fetchedData.titleScreen) {
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      console.log(this.fetchedcontent);
+      if (this.fetchedcontent && this.fetchedcontent.titleScreen) {
         this.showIntroScreen = true;
       } else {
         this.showIntroScreen = false;
-        this.feedback = fetchedData.feedback;
-        if(fetchedData.theme_name!=undefined) {
+        this.feedback = this.fetchedcontent.feedback;
+        if(this.fetchedcontent.theme_name!=undefined) {
           //this.assetsPath=this.appModel.getThemePath();
         }
-        this.commonAssets = fetchedData.commonassets;
-        this.narratorAudio = fetchedData.commonassets.narrator;
-        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-        this.ques_control = fetchedData.commonassets.ques_control;
+        this.commonAssets = this.fetchedcontent.commonassets;
+        this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+        //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+        this.ques_control = this.fetchedcontent.commonassets.ques_control;
         this.noOfImgs = this.commonAssets.imgCount;
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
@@ -731,19 +749,19 @@ export class Ntemplate3 implements OnInit {
         if (this.isLastQuesAct || this.isLastQues) {
           this.appModel.setlastQuesNT();
         }
-        this.optionObj = fetchedData.optionObj;
-        this.optionCommonAssets = fetchedData.option_common_assets;
+        this.optionObj = this.fetchedcontent.optionObj;
+        this.optionCommonAssets = this.fetchedcontent.option_common_assets;
         console.log(this.optionCommonAssets);
-        this.feedbackObj = fetchedData.feedback;
+        this.feedbackObj = this.fetchedcontent.feedback;
         this.correctImg = this.feedbackObj.popup_commmon_imgs.correctimg;
         this.incorrectImg = this.feedbackObj.popup_commmon_imgs.incorrectimg;
         this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
-        this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-        this.infoPopupAssets = fetchedData.feedback.info_popup;
-        this.oneAttemptPopupAssets = fetchedData.feedback.oneAttempt_popup;
-        this.replayconfirmAssets = fetchedData.feedback.replay_confirm;
-        this.submitPopupAssets = fetchedData.feedback.submit_popup;
-        this.quesObj = fetchedData.quesObj;
+        this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+        this.infoPopupAssets = this.fetchedcontent.feedback.info_popup;
+        this.oneAttemptPopupAssets = this.fetchedcontent.feedback.oneAttempt_popup;
+        this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
+        this.submitPopupAssets = this.fetchedcontent.feedback.submit_popup;
+        this.quesObj = this.fetchedcontent.quesObj;
         this.controlHandler={
               isSubmitRequired:this.quesObj.submitRequired,
               isReplayRequired:this.quesObj.replayRequired
@@ -796,14 +814,6 @@ export class Ntemplate3 implements OnInit {
     this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
   }
 
-  hoverinfopopupCloseConfirm() {
-    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
-  }
-
-  houtinfopopupCloseConfirm() {
-    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
-  }
-
 
   hoverDecline() {
     this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
@@ -840,36 +850,12 @@ export class Ntemplate3 implements OnInit {
     this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
   }
 
-  hoveroneAttemptClosePopup() {
-    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
-  }
-
-  houtoneAttemptClosePopup() {
-    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
-  }
-
-  hoversubmitCloseConfirm() {
-    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_hover;
-  }
-
-  houtsubmitCloseConfirm() {
-    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_original;
-  }
-
   houtClosePopup() {
     this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
   }
 
   hoverOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
-  }
-
-  hoveroneAttemptOK() {
-   this.oneAttemptPopupAssets.ok_btn=this.oneAttemptPopupAssets.ok_btn_hover;
-  }
-
-  houtoneAttemptOK() {
-    this.oneAttemptPopupAssets.ok_btn=this.oneAttemptPopupAssets.ok_btn_original;
   }
 
   houtOK() {
@@ -911,7 +897,8 @@ export class Ntemplate3 implements OnInit {
       if ((this.noOfRightAnsClicked < this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0 && this.noOfRightAnsClicked > 1) {
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
-        this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        // this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         this.feedbackInfoAudio.nativeElement.play();
         this.appModel.notifyUserAction();
       }
@@ -936,7 +923,8 @@ export class Ntemplate3 implements OnInit {
       if ((this.noOfRightAnsClicked + this.noOfWrongAnsClicked) >= 0 && (this.noOfRightAnsClicked + this.noOfWrongAnsClicked) < 2) {
         this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
         let oneAttemptFeedbackAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
-        this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        // this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.url + Math.random().toString(36); 
         this.feedbackoneAttemptAudio.nativeElement.play();
         this.appModel.notifyUserAction();
       }
@@ -1057,7 +1045,8 @@ export class Ntemplate3 implements OnInit {
     if (this.rightansArray1.length > 0) {
       if (this.rightansArray1[i] && this.rightansArray1[i].imgrightfeedback_audio) {
         this.feedbackAudio = this.rightansArray1[i].imgrightfeedback_audio;
-        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        // this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         console.log(this.feedbackPopupAudio.nativeElement.src);
         this.feedbackPopupAudio.nativeElement.play();
         if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i]) {
@@ -1077,7 +1066,8 @@ export class Ntemplate3 implements OnInit {
     } else {
       if (this.ansArray1[i] && this.ansArray1[i].imgrightfeedback_audio) {
         this.feedbackAudio = this.ansArray1[i].imgrightfeedback_audio;
-        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        // this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         console.log(this.feedbackPopupAudio.nativeElement.src);
         this.feedbackPopupAudio.nativeElement.play();
         if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i]) {
@@ -1111,7 +1101,7 @@ export class Ntemplate3 implements OnInit {
     let current = i;
     if (this.rightansArray2[i] && this.rightansArray2[i].imgrightfeedback_audio) {
       this.feedbackAudio = this.rightansArray2[i].imgrightfeedback_audio;
-      this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackPopupAudio.nativeElement.src);
       this.feedbackPopupAudio.nativeElement.play();
       if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[1].children[i]) {
@@ -1138,7 +1128,7 @@ export class Ntemplate3 implements OnInit {
     let current = i;
     if (this.rightansArray[i] && this.rightansArray[i].imgrightfeedback_audio) {
       this.feedbackAudio = this.rightansArray[i].imgrightfeedback_audio;
-      this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.url  + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
       if (this.partialpopupBodyRef && this.partialpopupBodyRef.nativeElement && this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i]) {
@@ -1163,7 +1153,7 @@ export class Ntemplate3 implements OnInit {
     let current = i;
     if (this.wrongansArray[i] && this.wrongansArray[i].imgwrongfeedback_audio) {
       this.feedbackAudio = this.wrongansArray[i].imgwrongfeedback_audio;
-      this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.url  + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
       if (this.partialpopupBodyRef && this.partialpopupBodyRef.nativeElement && this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i]) {

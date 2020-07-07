@@ -113,7 +113,9 @@ export class SharedserviceService {
 							value["urlMP4"] = themePath + '/type_'+ functionalityType +'/'+ value["urlMP4"];					
 						}
 						if(value["urlglobal"]){
-							value["urlglobal"] = themePath +'/'+ value["urlglobal"];					
+							value["urlglobal"] = themePath +'/'+ value["urlglobal"];
+                            value['url'] = value['urlglobal']; // replace existing key with new name 
+                            delete value['urlglobal'];					
 						}						
 					}
 				}			

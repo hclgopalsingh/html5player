@@ -12,6 +12,7 @@ import { Subject, Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../common/themeconstants';
 
 
 declare var $: any;
@@ -69,6 +70,8 @@ export class ApplicationmodelService {
   private nextCollectionCounterEVA: number = 0;
   tPath: any="" ;
   theme_name: any = '';
+  templatedata:any;
+  themePath:any;
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
     this.httpHandler = httpHandler;
@@ -464,14 +467,15 @@ export class ApplicationmodelService {
 
     if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50) {
       this.setQuestionNo();
-      let data = this.content.contentData.data;
-      let firsQflag = data['commonassets'].isFirstQues;
-      console.log("data['theme_name']",data);
-      if(data['theme_name'] && data['theme_name'].length > 0 ){
-      this.theme_name = data['theme_name']
-      this.setThemeName = data['theme_name']
+      let fetchdata=this.content.contentData.data;
+      this.templatedata = JSON.parse(JSON.stringify(fetchdata));
+      let firsQflag = this.templatedata['commonassets'].isFirstQues;
+      console.log("data['theme_name']",this.templatedata);
+      if(this.templatedata['theme_name'] && this.templatedata['theme_name'].length > 0 ){
+      this.theme_name = this.templatedata['theme_name']
+      this.setThemeName = this.templatedata['theme_name'];
       //get tabs.json file
-      this.getJson();
+      //this.getJson();
       } else {
         this.theme_name=undefined;
       }
@@ -1091,7 +1095,12 @@ export class ApplicationmodelService {
   }
 
   globalLoaded(data){
-    this.setCommonControlAssets(data)
+    this.templatedata.commonassets.ques_control=data;
+    //this.functionalityType = this.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.templatedata.theme_name ; 
+    this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, undefined);
+    this.setQuesControlAssets(this.templatedata.commonassets.ques_control);
+    //this.setCommonControlAssets(data)
     console.log("datajson", data)
     console.log("currentBackground", data.quesTabs[this.currentSection-1].background)
     if(data.quesTabs && data.quesTabs[this.currentSection-1] && data.quesTabs[this.currentSection-1].background)
