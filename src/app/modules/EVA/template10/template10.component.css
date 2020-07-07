@@ -191,7 +191,7 @@
 }
 
 /*** Border Blink Animation  ***/
-.refQues div div::before {    content: '';  z-index:1;  width: 100%;    height: 100%;    position: absolute;    top: 0;    left: 0;    border: solid .5vmax transparent;    border-radius: 1vmax;    animation: none;}
+.refQues div div::before {    content: '';  z-index:1;  width: 110%;    height: 106%;    position: absolute;    top: -3%;    left: -5%;    border: solid .5vmax transparent;    border-radius: 1vmax;    animation: none;}
 .refQues div div.blinkOn::before {    animation: borderBlink2 normal 1s infinite linear;}
 
 /*** Matra Positioning Classes ***/
