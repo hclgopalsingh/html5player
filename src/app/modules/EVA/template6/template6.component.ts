@@ -6,8 +6,8 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { DragulaService } from "ng2-dragula";
 
-// import 'jquery';
-// declare var $: any;
+import 'jquery';
+declare var $: any;
 
 @Component({
 	selector: 'app-template6',
