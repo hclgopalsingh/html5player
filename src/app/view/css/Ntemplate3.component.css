@@ -49,7 +49,7 @@ button:focus {
 #zaariRakheinId .zaariRakheinBtn {
 width: 16%;
 margin-top: .5%;
-margin-right: 7.5%;
+margin-right: .5%;/*7.5%*/
 float: right;
 cursor: pointer;
 }
@@ -98,10 +98,10 @@ cursor: pointer;
 
   #container #optionsBlock {
     position: absolute;
-    top: 20%;
+    top: 17.7%;/*18%;*/
     width: 100%;
     left: 0;
-    height: 67%;
+    height: 68%;/*67%*/
   }
 
 #optionsBlock img {
@@ -114,7 +114,7 @@ cursor: pointer;
   margin: 0;
   transition: transform .5s;
   vertical-align: middle;
-  width: 22%; /*18%;12%;*/
+  width: 24%; /*22%;*/
   display: inline-block;
   animation: scaleit 0.4s ease-in;
 }

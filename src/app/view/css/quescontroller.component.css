@@ -124,10 +124,10 @@
 }
 .quesnum{
 	position: absolute;
-	width: 1.2vmin;/*1vmin*/
+	width: 1.6vmin;/*1vmin*/
 	height: 43%;
 	/* left: 48%; */
-	top: 34%;/*30%*/
+	top: 29%;/*30%*/
 }
 .animation-shake {
 	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
