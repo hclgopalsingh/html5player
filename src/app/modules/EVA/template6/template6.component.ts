@@ -883,9 +883,12 @@ export class Template6Component extends Base implements OnInit {
 
 	/****** Option Hover VO  *******/
 	playOptionHover(option, index) {
-		if (option && option.audio && option.audio.url) {
-			this.playSound(option.audio, index);
+		if(!this.drag){
+			if (option && option.audio && option.audio.url) {
+				this.playSound(option.audio, index);
+			}
 		}
+	
 	}
 
 	/***** Play sound on option roll over *******/
