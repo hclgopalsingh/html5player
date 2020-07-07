@@ -2080,7 +2080,9 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   onClickAnimationManually(option, id,letterNumber) {
     console.log("start Animation");
     if (option.position == "right") {
-      this.Matra.nativeElement.children[letterNumber-1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if(!this.flag) {
+        this.Matra.nativeElement.children[letterNumber-1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      }
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesArr[letterNumber-1].id)) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
@@ -2088,7 +2090,9 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         }
       }
     } else if (option.position == "left") {
-      this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
+      if(!this.flag) {
+        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
+      }
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
@@ -2435,6 +2439,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;       
       this.Myspeaker.nativeElement.play();
+      $('.speakerWave').addClass("dispFlex");
       document.getElementById("coverTop").style.display = "block";
       document.getElementById("coverBtm").style.display = "block";
       $('.instructionBase').addClass('disable_div');
@@ -2446,14 +2451,15 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
           document.getElementById("coverBtm").style.display = "none";
         }
         $('.instructionBase').removeClass('disable_div');
+        $('.speakerWave').removeClass("dispFlex");
       }
-      $('.speakerWave').addClass("dispFlex");    
+          
     }
 
-    endedSpeakerAudio()
-    {
-      $('.speakerWave').removeClass("dispFlex"); 
-    }
+    // endedSpeakerAudio()
+    // {
+    //   $('.speakerWave').removeClass("dispFlex"); 
+    // }
 
   setData() {
   
@@ -2649,6 +2655,7 @@ document.getElementById("coverBtm").style.display = "block";
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
       this.confirmReplayRef.nativeElement.classList="modal";
+      this.count=0;
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
       if(this.index!=undefined) {
         this.Matra.nativeElement.children[this.index].classList.value="";
@@ -2774,6 +2781,7 @@ document.getElementById("coverBtm").style.display = "block";
         this.attemptType = "";
         this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 20 + "%";
         this.duplicateOption.nativeElement.children[id].style.zIndex = 1000;
+        this.duplicateOption.nativeElement.children[id].style.filter="";
         this.duplicateOption.nativeElement.children[id].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
       } else {
         this.attemptType = "manual";
@@ -2793,7 +2801,9 @@ document.getElementById("coverBtm").style.display = "block";
             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
-          this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          if(!this.flag) {
+            this.duplicateOption.nativeElement.children[id].style.opacity = 0;
+          }
           //console.log(this.attempt);
           //this.answerModalRef.nativeElement.classList = "modal";
           $(".bodyContent").css("opacity", "0.3");
@@ -2888,8 +2898,10 @@ document.getElementById("coverBtm").style.display = "block";
     //if (!this.flag) {
     //}
     if (this.flag) {
+      this.count=1;
       this.blinkOnLastQues();
-      this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
+      this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
+      //this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
       $(".bodyContent").css("opacity", "0.3");
       $(".instructionBar").css("opacity", "0.3");
       $(".bodyContent").addClass("disable_div");

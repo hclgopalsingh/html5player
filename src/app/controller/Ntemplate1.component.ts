@@ -1206,7 +1206,7 @@ houtSkip(){
   }
 
   closeModal() {
-     for(let i=0;i<this.popupBodyRef.nativeElement.children[0].children.length;i++) {
+    for(let i=0;i<this.popupBodyRef.nativeElement.children[0].children.length;i++) {
       if(!this.popupBodyRef.nativeElement.children[0].children[i].children[1].paused) {
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].pause();
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].currentTime=0;

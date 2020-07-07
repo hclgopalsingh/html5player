@@ -806,7 +806,7 @@ html [type=button] {
   position: static;
 }
 .bodyContent.videoExpand video {
-  height: 136.2% !important;
+  height: 136.3% !important;
   background: rgb(0, 0, 0);
   position: absolute;
   z-index: 100;

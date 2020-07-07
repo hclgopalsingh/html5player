@@ -86,7 +86,7 @@ export class Ntemplate18 implements OnInit {
   isQuesTypeVideo: boolean = false;
   showIntroScreen: boolean;
   isAllowed:boolean = true;
-
+  ifStopped :boolean = false;
   helpAudio: any = "";
   correctOpt: any;
   idArray: any = [];
@@ -754,6 +754,8 @@ houtSkip(){
         {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
+          // this.startActivity();
+          this.ifStopped = true;
         }
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
@@ -763,6 +765,8 @@ houtSkip(){
       if (action == "submitAnswer") {
         if (!this.instruction.nativeElement.paused)
             {
+              // this.startActivity();
+              this.ifStopped = true;
               this.instruction.nativeElement.pause();
               this.instruction.nativeElement.currentTime = 0;
             }
@@ -771,6 +775,8 @@ houtSkip(){
       if (action == "replayVideo") {
         if (!this.instruction.nativeElement.paused)
             {
+              // this.startActivity();
+              this.ifStopped = true;
               this.instruction.nativeElement.pause();
               this.instruction.nativeElement.currentTime = 0;
             }
@@ -1168,6 +1174,10 @@ houtSkip(){
   }
 
   dontshowFeedback(id: string, flag: string) {
+    if(this.ifStopped){
+      this.startActivity();
+    }
+    this.ifStopped = false;
     if (id == "submit-modal-id") {
       document.getElementById("optionsBlock").style.pointerEvents="none";
       this.submitModalRef.nativeElement.classList = "modal";
@@ -1554,7 +1564,10 @@ houtSkip(){
   sendFeedback(id: string, flag: string) {
       document.getElementById("optionsBlock").style.pointerEvents="none";
     this.confirmModalRef.nativeElement.classList = "modal";
-    
+    if(this.ifStopped){
+      this.startActivity();
+    }
+    this.ifStopped = false;
     this.noOfRightAnsClicked = 0;
     this.noOfWrongAnsClicked = 0;
     if (flag == "yes") {
@@ -1580,6 +1593,11 @@ houtSkip(){
   }
 
   showReplay(ref, flag: string, action?: string) {
+    if(this.ifStopped){
+      this.startActivity();
+    }
+    this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
+    this.ifStopped = false;
     ref.classList = "modal";
     this.appModel.navShow = 1;
     this.appModel.notifyUserAction();

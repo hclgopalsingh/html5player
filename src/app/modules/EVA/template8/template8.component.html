@@ -18,63 +18,68 @@
             (load)="checkImgLoaded();" />
     </div>
 
-    <div #maincontent>
-
+    <div #maincontent class="hide">
         <app-instruction-bar id="instructionBar" [data]="commonAssets?.instruction_bg"
             [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
             (load)="checkImgLoaded();"></app-instruction-bar>
-
-        <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath" [data]="this.ques"
-            containerType="main_screen">
-        </app-question-block>
-
+        <div id="refQuesBlock">
+            <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath"
+                [data]="this.dataService.data.mainScreenQuestionData">
+            </app-question-block>
+            <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
+                <!-- <div #sprite class="speaker"></div> -->
+                <div id="spkrBtn" class="speakerBtn">
+                    <img #speakerNormal id="speaker" class="img-fluid"
+                        [src]="speaker?.img_src?.location=='content' ?containgFolderPath + '/' +speaker?.img_src.url: assetsPath + '/'+ speaker?.img_src.url"
+                        (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
+                        (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
+                    <div class="waveAnimation" #sprite>
+                        <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
+                             + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
+                        <img class="img-fluid"
+                            [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
+                        <img class="img-fluid"
+                            [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
+                    </div>
+                    <audio id="S" #myAudiospeaker #audioEl
+                        [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
+                </div>
+            </div>
+        </div>
         <div id="optionsBlock" #ansBlock class="quesOptions">
             <div class="options" #optionRef>
-                <div id="{{'opt'+idx}}" *ngFor="let opts of myoption;let idx = index"
+                <div id="{{opts.id}}" *ngFor="let opts of myoption;let idx = index"
                     (click)="checkAnswer($event, opts)">
                     <img class="img-fluid" id="{{'optblank'+idx}}"
                         [src]="opts?.image?.location=='content' ?containgFolderPath + '/' +opts?.image?.url: assetsPath + '/'+ opts?.image?.url"
                         (load)="checkImgLoaded();">
                     <img class="img-fluid subOpt" id="{{'optimage'+idx}}"
-                        [src]="opts?.imgsrc?.location=='content' ?containgFolderPath + '/' +opts?.imgsrc?.url: assetsPath + '/'+ opts?.imgsrc?.url"
+                        [src]="opts?.img_src?.location=='content' ?containgFolderPath + '/' +opts?.img_src?.url: assetsPath + '/'+ opts?.img_src?.url"
                         on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
                         on-mouseenter='playOptionHover(opts,idx)' (load)="checkImgLoaded();">
                 </div>
             </div>
         </div>
-        <div #disableSpeaker id="disableSpeaker" class="pointer speakerBlock">
-            <!-- <div #sprite class="speaker"></div> -->
-            <div id="spkrBtn" class="speakerBtn">
-                <img #speakerNormal id="speaker" class="img-fluid"
-                    [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url"
-                    (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
-                    (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
-                <div class="waveAnimation" #sprite>
-                    <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
-                         + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
-                    <img class="img-fluid"
-                        [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
-                    <img class="img-fluid"
-                        [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
-                </div>
-                <audio id="S" #myAudiospeaker #audioEl
-                    [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
-            </div>
-        </div>
+
     </div>
     <!--END OF MAIN CONTENT-->
 
-    <!-- Right/Wrong Popup  -->
+    <!-- Feedback Popup  -->
     <div class="modal" id="modalTemp17" #ansPopup>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"
                         [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+
                     <div id="refQuesBlock">
                         <app-question-block #feedbackQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="right_wrong_popup">
+                            [contentPath]="containgFolderPath">
                         </app-question-block>
+                        <div #feedbackPopupSelectedOption class="selectedAns">
+                            <img class="img-fluid" [src]="popupSelectedOptionBaseURL">
+                            <img class="img-fluid" [src]="popupSelectedOptionURL">
+                        </div>
                     </div>
                     <div class="rightWrongAns">
                         <img class="img-fluid"
@@ -90,25 +95,7 @@
     </div>
 
     <!-- show answer Popup  -->
-    <div class="modal" id="showAnswer" #showAnswerRef>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body d-flex align-items-center">
-                    <img class="img-fluid"
-                        [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="refQuesBlockShowAnswer">
-                        <app-question-block #showAnswerQuestionBlock class="questionBlockPopup"
-                            [contentPath]="containgFolderPath" [data]="this.ques" containerType="show_answer_popup">
-                        </app-question-block>
-                    </div>
-                    <img class="popupCloseBtn"
-                        [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                        (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()"
-                        (mouseleave)="houtClosePopup()" title="बन्द करें">
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 </div>
 
 <!-- Popup Modal Audios -->
@@ -118,5 +105,3 @@
     [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
 <audio #clapSound
     [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
-<audio #showAnswerfeedback
-    [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>

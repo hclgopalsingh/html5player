@@ -25,6 +25,7 @@
     "bootstrap-slider": "^10.0.0",
     "core-js": "^2.4.1",
     "jquery": "^3.3.1",
+    "ng2-dragula": "^2.1.1",
     "ng2-nouislider": "^1.7.7",
     "ng2-signalr": "^2.1.1",
     "ng2-slider-component": "^1.0.9",
@@ -61,5 +62,5 @@
   },
   "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.",
   "main": "karma.conf.js",
-  "author": "prateek.niceguy@gmail.com"
+  "author": "singhgopal2002@gmail.com"
 }

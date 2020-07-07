@@ -1,0 +1,237 @@
+#parentBlock{
+    position: absolute;
+    top: 13%;
+    width: 100%;
+    height: 50%;
+    left: 0%;
+	z-index: 1;
+}
+.queryBlock {
+    position: absolute;
+    top: 1.3%;
+    left: .5%;
+    width: 35.5%;
+}
+.queryBlock>img{
+	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.20);
+    border-radius: 7.5%;
+}
+.queryBlock .refImage{
+	position: absolute;
+	top:0;
+	left: 0;
+}
+.queryBlock .positions{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+}
+.queryBlock .steps{
+	position: absolute;
+	width: 14%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.steps img{
+	position: absolute;
+}
+.steps img[src*='markPending.png'],
+.steps img[src*='markCrossed.png']{
+	width: 45%;
+}
+.steps:nth-child(1){
+	right: 10%;
+	bottom: 15.5%;
+}
+.steps:nth-child(2){
+	right: 33.7%;
+    bottom: 21%;
+}
+.steps:nth-child(3){
+	right: 23%;
+    bottom: 53.5%;
+}
+.steps:nth-child(4){
+	right: 38.8%;
+    bottom: 65%;
+}
+.steps:nth-child(5){
+	right: 59.3%;
+    bottom: 43.5%;
+}
+.steps:nth-child(6){
+	right: 59.3%;
+    bottom: 61.7%;
+}
+.steps:nth-child(7){
+	right: 75.2%;
+    bottom: 73.5%;
+}
+#optionsBlock{
+    position: absolute;
+	top: 1.3%;
+	left: 38%;
+    width: 62%;
+    height: 98%;
+}
+#optionsBlock .options{
+	position: absolute;
+    width: 22.7%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	transition: transform .2s;
+	cursor:pointer;
+}
+#optionsBlock .options:hover{
+	transform: scale(1.1);
+	border: solid .5vmin #f00;
+    border-radius: 1.4vmax;
+}
+#optionsBlock .options img:nth-child(2){
+	width: 100%;
+}
+.options:nth-child(1){
+    top: 4.5%;
+	left: 16.3%;
+}
+.options:nth-child(2){
+    top: 16%;
+    left: 47.3%;
+}
+.options:nth-child(3){
+    top: 4.5%;
+	left: 75.3%;
+}
+.options:nth-child(4){
+    top: 59.5%;
+    left: 61.3%;
+}
+.options:nth-child(5){
+    top: 58%;
+    left: 30%;
+}
+.options:nth-child(6){
+    top: 49%;
+    left: 1.3%;
+}
+#container .speakerBlock{
+	width: 6%;
+    top: 75%;
+    right: .5%;
+    padding: 0;
+    z-index: 1;
+}
+.speakerBlock .speakerBtn{
+    width: 100% !important;
+}
+#refQuesBlock{
+    position: absolute;
+    top: 62.7%;
+    width: 99.5%;
+    height: 21%;
+    left: .4%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.blocks{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+    left: 0;
+    top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.blocks div{
+	width: 15.5%;
+    margin: 0 .54%;
+    top: -1%;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.blocks div::before {
+	content: '';
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: solid .3vmax transparent;
+	border-radius: 2.7vmax;
+	animation: none;
+}
+.blocks div.blinkOn::before {
+	animation: borderBlink2 normal 1s infinite linear;
+}
+@keyframes borderBlink2{
+	0%{
+		border: solid .35vmax #0029d0;
+	}
+	25%{
+		border: solid .35vmax #f0e;
+	}
+	50%{
+		border: solid .35vmax #f0e;
+	}
+	100%{
+		border: solid .35vmax #0029d0;
+	}
+}
+.options img:nth-child(2),
+#refQuesBlock .blocks img:nth-child(2){
+	position: absolute;
+	width: 92%;
+	top: -1%;
+}
+#optionsBlock .options img[src*='optionBase.png']{
+    box-shadow: 0.1vmin 0.1vmin 0.1vmin 0.1vmin rgba(0,0,0,0.30);
+    border-radius: 1.17vmax;
+}
+
+/*** Media Query for 1366*768 ***/
+@media screen and (min-width: 1366px) and (max-width: 1366px){
+	#container{
+		width: 1168px;
+	}
+} 
+.eva .modal{
+	display: none; 
+}
+.modal .queryBlock{	
+	top: 8% !important;
+	left: 33.5% !important;
+	width:30%;
+}
+.modal .correct_order{
+	position: absolute;
+	display: flex;
+    top: 51%;
+    left: 0;
+    width: 97.4%;
+}
+.modal .correct_order div{
+	margin:auto;
+	text-align: center;
+}
+.modal .correct_order div img {
+    max-width: 90%;
+}
+.modal#showAnswer .queryBlock{
+	top: 18% !important;
+}
+.modal#showAnswer .correct_order{
+	top: 61% !important;
+}
+.rightWrongAns{
+	bottom: 12.3%;
+}
+.rightWrongAns img{
+    width: 6%;
+}

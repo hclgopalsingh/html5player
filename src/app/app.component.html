@@ -7,7 +7,7 @@
 			
 			<router-outlet></router-outlet>
 			
-			<quesCtrl [style.visibility]="(EVA && !isTitleScreenActive) ? 'visible':'hidden'"></quesCtrl>
+			<quesCtrl [style.visibility]="(EVA && !isTitleScreenActive && !isVideo) ? 'visible':'hidden'"></quesCtrl>
 			<controls class="bottomPlace" *ngIf="appModel.navShow==1 || appModel.navShow==2"></controls>
 		</div>
 		<div [ngClass]="{'showLoader container-fluid loaderDiv' :appModel.getLoader() && navUrl!='/'+'video' && navUrl!='/'+'videoext', 'hideLoader container-fluid d-flex align-items-center justify-content-center loaderDiv':!appModel.getLoader()}">
@@ -21,3 +21,5 @@
 <div class="d-flex flex-row justify-content-center align-items-center container-fluid" *ngIf="!autoplay">
 	<button type="button" class="btn btn-info autoplayBtn" (click)="startApplication();">click to start</button>
 </div>
+
+<div style="visibility:hidden">160620201402</div>
