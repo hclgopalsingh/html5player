@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/
 import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { ThemeConstants } from '../common/themeconstants';
 import 'jquery';
-
+import { SharedserviceService } from '../services/sharedservice.service';
 
 declare var $: any;
 
@@ -35,13 +35,11 @@ export class NTitleComponent implements OnInit {
 	loadFlag: boolean = false;
 	fetchedcontent: any;
 	themePath:any;
-	bgImage: any;
-	krikalapText: any;
 	functionalityType:any;
 
 
 	// private appModel: ApplicationmodelService;
-	constructor(private appModel: ApplicationmodelService) {
+	constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
 		this.appModel.setLoader(true);
@@ -112,11 +110,11 @@ export class NTitleComponent implements OnInit {
 		}
 		this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
 		if (this.quesInfo.templateType == undefined || this.quesInfo.templateType != 'EVA') {
-			//alert('not eva');
 			this.titleTextposition = this.fetchedcontent.titleText.position;
 			this.krikalapTextposition = this.fetchedcontent.krikalapText.position;
 			this.jariRakheinBtnposition = this.fetchedcontent.jariRakheinBtn.position;
-			this.imagePath();
+			//this.imagePath(this.fetchedcontent);
+			this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType)
 		}
 		
 	}
@@ -157,16 +155,6 @@ export class NTitleComponent implements OnInit {
 		}
 */
 
-
-		
-		//this.krikalapText = this.containgFolderPath + '/' + this.quesInfo.krikalapText.url;
-		 if(this.fetchedcontent.background.location == "content"){
-			this.bgImage = this.containgFolderPath + '/' + this.quesInfo.background.url;
-		}else if (this.fetchedcontent.background.location == "theme"){
-			this.bgImage = this.themePath + '/type_'+ this.functionalityType +'/'+ this.quesInfo.background.url;
-		}else{
-			this.bgImage = this.assetsPath + '/' +  this.quesInfo.background.url;
-		} 
 
 	}
 	templatevolume(vol, obj) {
