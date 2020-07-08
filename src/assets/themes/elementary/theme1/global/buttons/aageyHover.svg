@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="72px" height="73px" viewBox="0 0 72 73">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="72px" height="77px" viewBox="0 0 72 77">
 <defs>
 <image id="FL_1_png_copy_2" x="0" y="0" width="78" height="83" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABTCAYAAAAx4jFYAAAca0lEQVR4nO2ceawd133fP78z
 c/e3cKdEiaQ223JqW4zQzUtRNEZgFE1jtwjb/lPvNooCzX/9pyhQtEACtP2nC5DGddE4bpPC
@@ -185,7 +185,7 @@ L 17.35 8.85 Z"/>
 </g>
 
 <g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
-<g transform="matrix( 1, 0, 0, 1, 16.7,20) ">
+<g transform="matrix( -1, 0, 0, 1, 55.3,20) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#Symbol_32_0_Layer0_0_FILL"/>
 
