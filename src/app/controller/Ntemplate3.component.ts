@@ -495,7 +495,9 @@ export class Ntemplate3 implements OnInit {
   }
 
   ngOnDestroy() {
-    this.bgSubscription.unsubscribe();
+    if(this.bgSubscription!=undefined){
+      this.bgSubscription.unsubscribe();
+    }
   }
 
   postWrongAttemplt() {
@@ -830,6 +832,14 @@ export class Ntemplate3 implements OnInit {
     this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
   }
 
+  hoverinfopopupCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+  }
+
+  houtinfopopupCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+  }
+
 
   hoverDecline() {
     this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
@@ -870,12 +880,44 @@ export class Ntemplate3 implements OnInit {
     this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
   }
 
+  hoveroneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
+  }
+
+  houtoneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
+  }
+
+  hoversubmitCloseConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_hover;
+  }
+
+  houtsubmitCloseConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_original;
+  }
+
+  hoveroneAttemptOK() {
+   this.oneAttemptPopupAssets.ok_btn=this.oneAttemptPopupAssets.ok_btn_hover;
+  }
+
+  houtoneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn=this.oneAttemptPopupAssets.ok_btn_original;
+  }
+
   hoverOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
   }
 
   houtOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+  }
+
+  hoverreplayCloseConfirm() {
+    this.replayconfirmAssets.close_btn = this.replayconfirmAssets.close_btn_hover;
+  }
+
+  houtreplayCloseConfirm() {
+    this.replayconfirmAssets.close_btn = this.replayconfirmAssets.close_btn_original;
   }
 
   showFeedback(id: string, flag: string) {
