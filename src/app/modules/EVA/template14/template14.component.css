@@ -24,13 +24,15 @@
     position: absolute;
     left: 0;
     top: 0;
-      width:12.37%;
+    width:12.37%;
+    height: 100%;
   }
   #optionsBlock .topBlock {
     position: absolute;
-      right: 0;
+    right: 0;
     top: 0;
     width: 85.9%;
+    height: 9.8%;
   }
   #optionsBlock .rightBlock {
     position: absolute;
@@ -61,25 +63,47 @@
       cursor: pointer;
   }
   .leftBlock .blockContent img {
-       margin: 1.3% 0;
+       margin: 0;
   }
-  #optionsBlock .leftBlock .blockContent {
+  .leftBlock .blockContent img.monthName {
+    position: absolute;
+}
+/* #optionsBlock .leftBlock .blockContent {
       flex-direction: column;
     text-align: -webkit-center;
-  }
+  } */
+ #optionsBlock .leftBlock .blockContent div {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+ }
   .topBlock .blockContent img,
   .weekDays .blockContent img {
       margin: 0 .43%;
       max-width: 13.4% !important;
   }
-  #optionsBlock .topBlock .blockContent {
-      align-items: center;
-  }
-  .monthDates {
-    position: absolute;
-    top: 17%;
-    width: 100%;
-  }
+.topBlock .blockContent img.yearBase{
+  max-width: 94% !important;
+  margin: 0;
+}
+.topBlock .blockContent img.yearLabel{
+  position: absolute;
+  margin: 0;
+}
+#optionsBlock .topBlock .blockContent {
+    align-items: center;
+    flex-wrap: nowrap;
+}
+#optionsBlock .topBlock .blockContent div{
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+.monthDates {
+  position: absolute;
+  top: 17%;
+  width: 100%;
+}
   #optionsBlock .monthDates .blockContent {
       align-content: flex-start !important;
     justify-content: flex-start !important;

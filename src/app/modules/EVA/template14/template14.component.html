@@ -27,25 +27,29 @@
 
   <div id="optionsBlock" #optionsBlock>
     <div class="leftBlock">
-      <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url">
+      <!-- <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url"> -->
       <div class="blockContent">
-        <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.selected ? 
-        item?.selectedmonthImg?.location=='content' ? containgFolderPath + '/' + item?.selectedmonthImg?.url : assetsPath + '/' + item?.selectedmonthImg?.url :
-        item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
-        [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected}"  (click) = "onClickCalender(item,'month')">
-        <!-- <img style="margin:0 0.2%" class="img-fluid" [src]="item?.base?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.base.url" > -->
+        <div *ngFor="let item of monthsArr; let idx = index">
+          <img style="margin:0 0.2%" class="img-fluid" [src]="item?.base?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.base.url" >  
+          <img class="img-fluid monthName" [src]="item?.selected ? 
+          item?.selectedmonthImg?.location=='content' ? containgFolderPath + '/' + item?.selectedmonthImg?.url : assetsPath + '/' + item?.selectedmonthImg?.url :
+          item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
+          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected}"  (click) = "onClickCalender(item,'month')">
+        </div>
       </div>
     </div>
     <div class="topBlock">
       <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
-      <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url">
+      <!-- <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url"> -->
       <div class="blockContent">
+        <div *ngFor="let item of Arryears;">
+          <img class="img-fluid yearBase" [src]="item?.year_base?.location =='content' ?  containgFolderPath + '/'+ item.year_base.url : assetsPath +'/' +item.year_base.url" >
+          <img class="img-fluid yearLabel" [src]="item?.selected ? 
+          item?.selectedyearsImg?.location=='content' ? containgFolderPath + '/' + item?.selectedyearsImg?.url : assetsPath + '/' + item?.selectedyearsImg?.url :
+          item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
+          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">  
+        </div>
         <!-- <span *ngFor="let item of Arryears; let idx = index"> -->
-        <img class="img-fluid" *ngFor="let item of Arryears;"  [src]="item?.selected ? 
-        item?.selectedyearsImg?.location=='content' ? containgFolderPath + '/' + item?.selectedyearsImg?.url : assetsPath + '/' + item?.selectedyearsImg?.url :
-        item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
-        [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">
-        <!-- <img style="margin:0 0.2%" class="img-fluid" [src]="item?.year_base?.location =='content' ?  containgFolderPath + '/'+ item.year_base.url : assetsPath +'/' +item.year_base.url" > -->
       </div>
     </div>
     <div class="rightBlock">
