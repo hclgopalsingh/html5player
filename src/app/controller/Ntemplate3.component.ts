@@ -155,8 +155,10 @@ export class Ntemplate3 implements OnInit {
    themePath:any;
    fetchedcontent:any;
    functionalityType:any;
+   bgSubscription: Subscription;
+
   playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused!) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       this.appModel.notifyUserAction();
@@ -222,7 +224,7 @@ export class Ntemplate3 implements OnInit {
       // } else {
       //   this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
       // }
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url;
+      this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url+ "?someRandomSeed=" + Math.random().toString(36);;
       this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.pause();
@@ -321,7 +323,7 @@ export class Ntemplate3 implements OnInit {
   }
 
   onClickoption(opt, i, j) {
-    if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       //this.count = 0;
@@ -382,6 +384,16 @@ export class Ntemplate3 implements OnInit {
       }
     } else {
       this.setData();
+    }
+    if(this.appModel.theme_name){
+      this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
+        console.log("this.themePath",this.themePath)
+        console.log("data",data)
+        this.themePath = this.appModel.getPath("tabs");
+        if(data && data.url && this.themePath){
+          this.commonAssets.background = data
+        }
+      })
     }
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -480,6 +492,10 @@ export class Ntemplate3 implements OnInit {
     })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
+  }
+
+  ngOnDestroy() {
+    this.bgSubscription.unsubscribe();
   }
 
   postWrongAttemplt() {
@@ -924,7 +940,7 @@ export class Ntemplate3 implements OnInit {
         this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
         let oneAttemptFeedbackAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
         // this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-        this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.url + Math.random().toString(36); 
+        this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36); 
         this.feedbackoneAttemptAudio.nativeElement.play();
         this.appModel.notifyUserAction();
       }
@@ -1223,11 +1239,11 @@ export class Ntemplate3 implements OnInit {
         $("#optionsBlock .options").css("pointer-events", "unset");
         if (this.ansArray1.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate optionsWidth";
-          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.containgFolderPath + "/" + this.ansArray1[i].imgwrongfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.ansArray1[i].imgwrongfeedback_audio.url;
         }
         if (this.AnsObj.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate";
-          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.containgFolderPath + "/" + this.AnsObj[0][i].imgwrongfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.AnsObj[0][i].imgwrongfeedback_audio.url;
         }
 
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].load();
@@ -1251,7 +1267,7 @@ export class Ntemplate3 implements OnInit {
         //this.popupBodyRef.nativeElement.children[1].children[j].classList = "options optionAnimate";
         this.popupBodyRef.nativeElement.children[1].children[j].classList.value += " optionAnimate";
         if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
-          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src = this.containgFolderPath + "/" + this.AnsObj[1][j].imgrightfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src =  this.AnsObj[1][j].imgrightfeedback_audio.url;
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].load();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].play();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].onended = () => {
@@ -1263,7 +1279,7 @@ export class Ntemplate3 implements OnInit {
           }
         }
         if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src = this.containgFolderPath + "/" + this.AnsObj[1][j].imgwrongfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src = this.AnsObj[1][j].imgwrongfeedback_audio.url;
 
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].load();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].play();

@@ -32,7 +32,7 @@
 				}
 			},
 			"background": {
-				"urlglobal": "bg/bg_1.svg",
+				"urlglobal": "global/tabs/bg/bg_1.svg",
 				"location": "theme"
 			}
 		},
@@ -68,7 +68,7 @@
 				}
 			},
 			"background": {
-				"urlglobal": "bg/bg_2.svg",
+				"urlglobal": "global/tabs/bg/bg_2.svg",
 				"location": "theme"
 			}
 		},
@@ -104,7 +104,7 @@
 				}
 			},
 			"background": {
-				"urlglobal": "bg/bg_3.svg",
+				"urlglobal": "global/tabs/bg/bg_3.svg",
 				"location": "theme"
 			}
 		},
@@ -140,7 +140,7 @@
 				}
 			},
 			"background": {
-				"urlglobal": "bg/bg_4.svg",
+				"urlglobal": "global/tabs/bg/bg_4.svg",
 				"location": "theme"
 			}
 		},
@@ -176,7 +176,7 @@
 				}
 			},
 			"background": {
-				"urlglobal": "bg/bg_5.svg",
+				"urlglobal": "global/tabs/bg/bg_5.svg",
 				"location": "theme"
 			}
 		}
@@ -250,7 +250,7 @@
 		"location": "theme"
 	},
 	"blink_btn3": {
-		"urlglobal": "global/buttonsblink_btn3.svg",
+		"urlglobal": "global/buttons/blink_btn3.svg",
 		"location": "theme"
 	},
 	"blink_btn4": {
