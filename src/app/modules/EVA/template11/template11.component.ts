@@ -124,6 +124,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             }
         );
         this.assetsPath = this.appModel.assetsfolderpath;
+        this.appModel.navShow = 1;
     }
 
 
@@ -196,7 +197,8 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
         clearTimeout(this.rightSelectTimer);
         clearTimeout(this.wrongSelectTimer);
     }
-	
+    
+    /** To stop all the sounds**/
 	stopAllSounds() {
         this.audio.pause();
         this.audio.currentTime = 0;
@@ -610,10 +612,12 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             if (idx < 5) {
                 this.myoption.leftoption[idx].selected = true;
                 this.quesObj.questionText[this.quesBoxId].answer.image=this.myoption.leftoption[idx].image;
+                this.quesObj.questionText[this.quesBoxId].totalDigits=this.myoption.leftoption[idx].totalDigits;
             }
             else {
                 this.myoption.rightoption[idx-5].selected = true;
                 this.quesObj.questionText[this.quesBoxId].answer.image=this.myoption.rightoption[idx-5].image;
+                this.quesObj.questionText[this.quesBoxId].totalDigits=this.myoption.rightoption[idx-5].totalDigits;
             }
             this.answerPopupType = 'right';
             this.attemptType = "manual";
@@ -681,7 +685,6 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
                 }else{
                     this.Sharedservice.setShowAnsEnabled(false);
                 }
-                // this.maincontent.nativeElement.className = ""; 
                 this.disableMainContent=false; //Enable main content
                 
                 for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {    //Enable ShowAns Button
@@ -696,11 +699,11 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...      
-      if(array[currentIndex] && array[currentIndex].isShow==false){
+      if(array[currentIndex] && array[currentIndex].isShow==false){//If index does not exists and option is invalid move to next index
         currentIndex -= 1;
       }else{        
         randomIndex = Math.floor(Math.random() * currentIndex);
-        if(array[randomIndex] && array[randomIndex].isShow==true){            
+        if(array[randomIndex] && array[randomIndex].isShow==true){ //If index exists and option is valid           
             var optionBg1 = array[currentIndex].optBg;
             var img_hover1 = array[currentIndex].optBg_hover;
             var text1copy = array[currentIndex].optBg_original;
@@ -722,7 +725,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             array[randomIndex].optBg_hover = img_hover2;
             array[randomIndex].optBg_original = text2copy;
             
-            if(this.validOptCount==2){
+            if(this.validOptCount==2){// If there are only 2 option then exit to avoid double swap
                 break;
             }else{
                 currentIndex -= 1;
@@ -757,8 +760,9 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
         this.quesObj.questionText[highlightOn].highlight=false;
         this.quesObj.questionText[highlightOn].blinkBox=false;        
         this.playRandomQues();
-    
    }
+
+   /** Higlighting a random row **/
    playRandomQues(){
      
         while(this.rowsfilled!=10){
@@ -787,7 +791,6 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
                 break;
             }
         }
-        
                        
    }
   
