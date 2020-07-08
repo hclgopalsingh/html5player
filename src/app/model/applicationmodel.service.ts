@@ -746,22 +746,47 @@ export class ApplicationmodelService {
   }
 
   setAnimation(flag) {
+    // let data = this.content.contentData.data;
+    // if (data['commonassets'].animation && ((data['commonassets'].animation.img && data['commonassets'].animation.img.url) || data['commonassets'].animation.timeout)) {
+    //   let assts = {
+    //     animationImg: "",
+    //     audio: "",
+    //     timer: ""
+    //   };
+    //   let pathPre = data['commonassets'].animation.location == "content" ? this.content.id : ".";
+    //   let animationImg = data['commonassets'].animation.img && data['commonassets'].animation.img.url ? data['commonassets'].animation.img.url : "";
+    //   let audio = data['commonassets'].animation.audio && data['commonassets'].animation.audio.url ? data['commonassets'].animation.audio.url : "";
+    //   assts.animationImg = animationImg != "" ? pathPre + "/" + animationImg : "";
+    //   assts.audio = audio != "" ? pathPre + "/" + audio : "";
+    //   assts.timer = data['commonassets'].animation.timeout;
+    //   this._animationAssets.next(assts);
+    // } else {
+    //   this._animationAssets.next(undefined);
+    // }
     let data = this.content.contentData.data;
-    if (data['commonassets'].animation && ((data['commonassets'].animation.img && data['commonassets'].animation.img.url) || data['commonassets'].animation.timeout)) {
-      let assts = {
-        animationImg: "",
-        audio: "",
-        timer: ""
-      };
-      let pathPre = data['commonassets'].animation.location == "content" ? this.content.id : ".";
-      let animationImg = data['commonassets'].animation.img && data['commonassets'].animation.img.url ? data['commonassets'].animation.img.url : "";
-      let audio = data['commonassets'].animation.audio && data['commonassets'].animation.audio.url ? data['commonassets'].animation.audio.url : "";
-      assts.animationImg = animationImg != "" ? pathPre + "/" + animationImg : "";
-      assts.audio = audio != "" ? pathPre + "/" + audio : "";
-      assts.timer = data['commonassets'].animation.timeout;
-      this._animationAssets.next(assts);
+    let assets = {
+      animationImg: "",
+      audio: "",
+      timer: ""
+    };
+    if(data['commonassets'].rightAnimationAssets!=undefined) {
+     if (data['commonassets'].rightAnimationAssets && ((data['commonassets'].rightAnimationAssets.img && data['commonassets'].rightAnimationAssets.img.url) || data['commonassets'].rightAnimationAssets.timeout)) {
+        // let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
+        // let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
+        // let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
+        this.Sharedservice.imagePath(this.templatedata.commonassets.rightAnimationAssets, this.content.id, this.themePath, undefined);
+        assets.animationImg = this.templatedata.commonassets.rightAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.rightAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.rightAnimationAssets.timeout;
+        this._animationAssets.next(assets);
+      } else {
+        this._animationAssets.next(undefined);
+      }
     } else {
-      this._animationAssets.next(undefined);
+        assets.animationImg = this.templatedata.commonassets.ques_control.rightAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.ques_control.rightAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.ques_control.rightAnimationAssets.timeout;
+        this._animationAssets.next(assets);
     }
   }
   /*
@@ -967,22 +992,29 @@ export class ApplicationmodelService {
 
   wrongAttemptAnimation() {
     let data = this.content.contentData.data;
-    if (data['commonassets'].wrongAnimationAssts && ((data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url) || data['commonassets'].wrongAnimationAssts.timeout)) {
-      let assets = {
-        animationImg: "",
-        audio: "",
-        timer: ""
-      };
-
-      let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
-      let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
-      let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
-      assets.animationImg = animationImg != "" ? pathPre + "/" + animationImg : "";
-      assets.audio = audio != "" ? pathPre + "/" + audio : "";
-      assets.timer = data['commonassets'].wrongAnimationAssts.timeout;
-      this._wrongAttemptAnimation.next(assets);
+    let assets = {
+      animationImg: "",
+      audio: "",
+      timer: ""
+    };
+    if(data['commonassets'].wrongAnimationAssets!=undefined) {
+     if (data['commonassets'].wrongAnimationAssets && ((data['commonassets'].wrongAnimationAssets.img && data['commonassets'].wrongAnimationAssets.img.url) || data['commonassets'].wrongAnimationAssets.timeout)) {
+        // let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
+        // let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
+        // let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
+        this.Sharedservice.imagePath(this.templatedata.commonassets.wrongAnimationAssets, this.content.id, this.themePath, undefined);
+        assets.animationImg = this.templatedata.commonassets.wrongAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.wrongAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.wrongAnimationAssets.timeout;
+        this._wrongAttemptAnimation.next(assets);
+      } else {
+        this._wrongAttemptAnimation.next(undefined);
+      }
     } else {
-      this._wrongAttemptAnimation.next(undefined);
+        assets.animationImg = this.templatedata.commonassets.ques_control.wrongAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.ques_control.wrongAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.ques_control.wrongAnimationAssets.timeout;
+        this._wrongAttemptAnimation.next(assets);
     }
   }
   getFileString(url: string): Observable<string> {

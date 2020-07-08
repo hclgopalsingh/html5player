@@ -256,5 +256,27 @@
 	"blink_btn4": {
 		"urlglobal": "global/buttons/blink_btn4.svg",
 		"location": "theme"
+	},
+	"rightAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/happyFixedAnimation.webp",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/clap.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
+	"wrongAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/sadFixedAnimation.gif",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/shake.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
 	}
 }
