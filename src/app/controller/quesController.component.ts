@@ -100,6 +100,9 @@ export class QuesController implements OnInit {
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
+      if (this.isLastQues) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+      }
 
 
         //*********  Move to next segment after 5 min of last question attempt */
