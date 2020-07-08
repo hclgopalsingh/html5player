@@ -240,7 +240,7 @@ export class QuesController implements OnInit {
 
 
   confirmAction(action) {
-    if(this.EnableShowAnswer && this.EVA) {
+    if(this.EVA) {
       this.appModel.confirmPopup(action);
     }
     if(!this.EVA) {

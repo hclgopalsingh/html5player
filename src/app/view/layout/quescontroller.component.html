@@ -35,7 +35,7 @@
         </div>
         <img *ngIf="quesCtrl?.blinkingStatus" class="img-fluid nextBtn blink" [src]="quesCtrl?.aagey_badhein_blink?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein_blink?.url : assetsPath + '/' + quesCtrl?.aagey_badhein_blink?.url" (click)="next()" title="आगे बढ़ें"  >
         <img #nextBtn class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" [ngClass]="{'disableBtn': isLastQues}" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()" title="आगे बढ़ें" >
-        <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoveronSubmitBtn()" (mouseleave) = "hleaveSubmitBtn()"  [ngStyle]="{'cursor': 'default'}" >
+        <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoveronSubmitBtn()" (click)="confirmAction('submitAnswer')" (mouseleave) = "hleaveSubmitBtn()" [ngClass]="{'disableBtn':!enableSubmitBtn}" >
     </div>
   </div>
 </div>

@@ -81,6 +81,7 @@ import { Template2Component } from './modules/EVA/template2/template2.component'
 import { Template4Component } from './modules/EVA/template4/template4.component';
 import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
 import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
+import { TemplateFourteenComponent } from './modules/EVA/template14/template14.component';
 
 
 @NgModule({
@@ -152,6 +153,7 @@ import { ShowanswerComponent } from './modules/commonmodules/showanswer/showansw
 		Template2Component,
 		Template4Component,
 		TemplateTenComponent,
+		TemplateFourteenComponent,
 		NtemplateMap,
 		ShowanswerComponent
 	],
