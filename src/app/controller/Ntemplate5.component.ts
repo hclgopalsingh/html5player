@@ -289,6 +289,7 @@ export class Ntemplate5 implements OnInit {
         //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[3].style.display = "block";
         this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
         $("#instructionBar").addClass("disable_div");
+        this.popupImage.nativeElement.src =  opt.imgsrc.url;
         /*if (opt.imgsrc && opt.imgsrc.location == "content") {
           this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
         } else {
