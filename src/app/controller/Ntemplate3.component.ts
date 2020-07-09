@@ -148,6 +148,7 @@ export class Ntemplate3 implements OnInit {
   skipFlag:boolean = true;
   styleHeaderPopup:any;
   styleBodyPopup:any;
+  backgroundAssets:any;
   controlHandler = {
 		isSubmitRequired:false,
     isReplayRequired:false
@@ -387,11 +388,9 @@ export class Ntemplate3 implements OnInit {
     }
     if(this.appModel.theme_name){
       this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
-        console.log("this.themePath",this.themePath)
         console.log("data",data)
-        this.themePath = this.appModel.getPath("tabs");
-        if(data && data.url && this.themePath){
-          this.commonAssets.background = data
+        if(data && data.url){
+          this.backgroundAssets = data;
         }
       })
     }
@@ -505,7 +504,7 @@ export class Ntemplate3 implements OnInit {
   }
 
   checkquesTab() {
-    if(this.fetchedcontent.commonassets.ques_control.quesTabs!=undefined) {
+    if(this.fetchedcontent.commonassets.ques_control!=undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
     } else {
       this.appModel.getJson();      
@@ -760,6 +759,9 @@ export class Ntemplate3 implements OnInit {
         this.narratorAudio = this.fetchedcontent.commonassets.narrator;
         //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.ques_control = this.fetchedcontent.commonassets.ques_control;
+        if(this.ques_control && this.ques_control.background!=undefined){
+          this.backgroundAssets=this.ques_control.background;
+        }
         this.noOfImgs = this.commonAssets.imgCount;
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
