@@ -317,7 +317,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.appModel.handlePostVOActivity(true);
         this.narrator.nativeElement.play();
         this.narrator.nativeElement.onended = () => {
-                this.appModel.handlePostVOActivity(false);
+                // this.appModel.handlePostVOActivity(false);
                 instruction.style.pointerEvents="";
                 this.optionsBlock.nativeElement.classList = "row mx-0";
         }
@@ -333,11 +333,11 @@ export class TemplateFourteenComponent implements OnInit {
       //   this.instruction.nativeElement.currentTime=0;
       //   this.instruction.nativeElement.pause();
       // }
-      // item.monthImg = item.hovermonthImg;
+      item.base = item.base_hover;
     }
   
     houtonMonth(item) {
-      // item.monthImg = item.monthOriginalImg;
+      item.base = item.base_original;
     }
   
     hoveronYear(item) {
@@ -346,11 +346,11 @@ export class TemplateFourteenComponent implements OnInit {
         //   this.instruction.nativeElement.currentTime=0;
         //   this.instruction.nativeElement.pause();
         // }
-        // item.yearsImg = item.hoveryearsImg;
+        item.year_base = item.base_hover;
     }
   
     houtonYear(item) {
-        // item.yearsImg = item.yearsOriginalImg;
+        item.year_base = item.base_original;
     }
   
     hoveronWeekDays(item) {
@@ -359,11 +359,12 @@ export class TemplateFourteenComponent implements OnInit {
       //   this.instruction.nativeElement.currentTime=0;
       //   this.instruction.nativeElement.pause();
       // }
-      // item.weekDayImg = item.hoverweekDayImg;
+      item.base = item.base_hover;
     }
   
     houtonWeekDays(item) {
       // item.weekDayImg = item.weekDayOriginalImg;
+      item.base = item.base_original
     }
   
     hoveronDate(ev) {
@@ -724,16 +725,16 @@ export class TemplateFourteenComponent implements OnInit {
           this.ArrweekDays.filter((item)=>item.selected == true)[0].selected = false;
           this.weekDaySelected=false;
         }
-        for(let i = 0;i<days;i++) {
-          this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
-          this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
-          this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
-          if(this.datesArr[i].disable) {
-            this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
-          }
-            this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
-          this.startIndex++;
-        }
+        // for(let i = 0;i<days;i++) {
+        //   this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
+        //   this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
+        //   this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
+        //   if(this.datesArr[i].disable) {
+        //     this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
+        //   }
+        //     this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
+        //   this.startIndex++;
+        // }
       }
     }
   
