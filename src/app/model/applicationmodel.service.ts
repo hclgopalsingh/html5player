@@ -1037,10 +1037,16 @@ export class ApplicationmodelService {
     this.currentActive++;
     console.log('ApplicationmodelService: nextCollection - currentActive=',
       this.currentActive, 'initValues.files.length', this.initValues.files.length);
-    if (this.currentActive > this.initValues.files.length - 1 && !isLastQuestion) {  // If segment on last question and there is not other next segment 
+    if (this.currentActive > this.initValues.files.length - 1 && !isLastQuestion) {  // If segment not on last question and there is not other next segment
       this.selectQues(this.contentCollection.collection.length - 1);
       console.info('ApplicationmodelService: nextCollection - currentActive, currentSection reset');
-    } else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
+    }
+    else if (this.currentActive > this.initValues.files.length - 1 && isLastQuestion) { // If segment on last question and there is not other next segment
+      this.currentActive--;
+      this.currentSection--;
+      return;
+    }
+     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
       this.load(this.initValues.files[this.currentActive]);
       // this.nextCollectionCounterEVA = 0;
       console.log('ApplicationmodelService: nextCollection - currentActive=',

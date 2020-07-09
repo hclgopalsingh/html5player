@@ -246,7 +246,7 @@ export class TemplateTenComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
-    if (this.getChromeVersion() < 58) {
+    if (this.getChromeVersion() < 71) {
       for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
         this.refQuesWord.nativeElement.children[i].style.width = "fit-content";
       }
@@ -415,6 +415,7 @@ export class TemplateTenComponent implements OnInit {
     }, 2000);
   }
 
+  /****** Show right answer popup after all all correct matra selection  ********/
   showRightAnswerPopup() {
     if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
       let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
