@@ -10,7 +10,7 @@
       <img class="img-fluid" src="images/burst.gif">
   </div>
   -->
-  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div id="bgImage"><img class="img-fluid" [src]="backgroundAssets?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
     <div class="instructionBase">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
@@ -43,7 +43,7 @@
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()" (click)="sendFeedback('confirm-modal-id','no');">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
@@ -132,7 +132,7 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
           <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
-          <img class="close" [src]="replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverreplayCloseConfirm()" (mouseleave)="houtreplayCloseConfirm()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
           <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.url"></div>

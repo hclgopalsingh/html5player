@@ -14,8 +14,10 @@
 
 <div *ngIf="quesInfo.templateType != 'EVA'" class="ElementryTitle container-fluid temp5" #container id="container">
 	<div id="bgImage"><img [src]="fetchedcontent.background.url" (load)="checkImgLoaded();"/></div>
-	<div class="d-flex align-items-center justify-content-center" [ngStyle]="titleTextposition" id="activity">
-		<img class="img-fluid"  [src] ="fetchedcontent.krikalapText.url" (load)="checkImgLoaded();" />
+	<div class="d-flex align-items-center justify-content-center w-100">
+		<div class="d-flex align-items-center justify-content-center" [ngStyle]="titleTextposition" id="activity">
+			<img class="img-fluid"  [src] ="fetchedcontent.krikalapText.url" (load)="checkImgLoaded();" />
+		</div>	
 	</div>
 	<div class="d-flex align-items-center justify-content-center" [ngStyle]="krikalapTextposition" id="activityTitle">
 		<img class="img-fluid" [src] ="fetchedcontent.titleText.url" (load)="checkImgLoaded();" />

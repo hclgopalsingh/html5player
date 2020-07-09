@@ -60,26 +60,26 @@ cursor: pointer;
 
 #playPauseBtn {
   position: absolute;
-  top: 85%;
-  right: 16%;
+  top: 83.7%;/*85%*/
+  right: 14%;/*16%*/
   cursor: pointer;
-  width: 1.5%;
+  width: 3.7%;/*1.5%*/
 }
 #playPauseBtn img {
-  width: 200%;
-  filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
+  /* width: 200%; */
+  /* filter: drop-shadow(2px 4px 6px black); */
+  /* max-width: none; */
 }
 
 #SkipBtn{
   position: absolute;
   top: 83.7%;
-  right: -3.7%;
+  right: 9%;/*-3.7%*/
   cursor: pointer;
-  width: 16%;
+  width: 3.7%;/*16%*/
 }
 #SkipBtn img {
-  max-width: 70%;
+  /* max-width: 70%; */
 }
 
 #help {
