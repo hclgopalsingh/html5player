@@ -110,6 +110,7 @@ export class Ntemplate5 implements OnInit {
   bgSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
+  backgroundAssets:any;
   quesObj: any;
   attemptType: string = "";
   count: number = 0;
@@ -371,6 +372,14 @@ export class Ntemplate5 implements OnInit {
     }
 
     this.setData();
+    if(this.appModel.theme_name){
+      this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
+        console.log("data",data)
+        if(data && data.url){
+          this.backgroundAssets = data;
+        }
+      })
+    }
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         //show modal for manual
@@ -465,7 +474,7 @@ export class Ntemplate5 implements OnInit {
   }
   
   checkquesTab() {
-    if(this.fetchedcontent.commonassets.ques_control.quesTabs!=undefined) {
+    if(this.fetchedcontent.commonassets.ques_control!=undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
     } else {
       this.appModel.getJson();      
@@ -547,6 +556,9 @@ export class Ntemplate5 implements OnInit {
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
+      }
+      if(this.ques_control && this.ques_control.background!=undefined){
+        this.backgroundAssets=this.ques_control.background;
       }
       this.optionObj = this.fetchedcontent.optionObj;
       //this.optArr1 = this.optionObj[0].optionsArr;
