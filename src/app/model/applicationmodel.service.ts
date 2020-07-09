@@ -1123,13 +1123,13 @@ export class ApplicationmodelService {
   }
 
   getJson(){
-    this.httpHandler.get('./assets/themes/elementary/'+ this.theme_name+'/global/tabs.json', this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
+    this.httpHandler.get(ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.theme_name+ThemeConstants.THEME_JSON, this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
   }
 
   globalLoaded(data){
     this.templatedata.commonassets.ques_control=data;
     //this.functionalityType = this.content.contentLogic.functionalityType;
-    this.themePath = ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.templatedata.theme_name ; 
+    this.themePath = ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.theme_name ; 
     this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, undefined);
     this.setQuesControlAssets(this.templatedata.commonassets.ques_control);
     //this.setCommonControlAssets(data)
