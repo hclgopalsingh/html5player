@@ -37,7 +37,7 @@
   #optionsBlock .rightBlock {
     position: absolute;
       right: 0;
-    top: 15.5%;
+    top: 11.5%;
     width: 85.9%;
   }
   .rightBlock .weekDays {
@@ -101,7 +101,7 @@
 }
 .monthDates {
   position: absolute;
-  top: 17%;
+  top: 14%;
   width: 100%;
 }
 #optionsBlock .monthDates .blockContent {
@@ -110,8 +110,8 @@
   display: flex;/*inline-table*/
 }
 .monthDates .blockContent img {
-  margin: 0.5% 1.89%;
-  max-width: 95.5% !important;/*10.5% !important*/
+  margin: -0.5% 1.89%;
+  max-width: 90.5% !important;/*10.5% !important*/
 }
 .monthDates .blockContent img[src=''] {
     visibility: hidden;

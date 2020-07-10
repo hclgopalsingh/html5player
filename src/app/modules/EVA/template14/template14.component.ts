@@ -368,23 +368,30 @@ export class TemplateFourteenComponent implements OnInit {
     }
   
     hoveronDate(ev) {
+      console.log("ev", ev.target.src)
+      // console.log("this.datesArr",this.datesArr)
+      ev.target.src = this.datesArr[0].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_hover.url : this.assetsPath +"/"+ this.datesArr[0].base_hover.url;
+      console.log("ev", ev.target.src)
       // if(ev != undefined && ev.target.id!="") {
-      //   this.appModel.notifyUserAction();
+      //   //this.appModel.notifyUserAction();
       //   if (!this.instruction.nativeElement.paused) {
       //     this.instruction.nativeElement.currentTime=0;
       //     this.instruction.nativeElement.pause();
       //   }
       //   if(!this.datesArr[ev.target.id].selected) {
-      //   ev.target.src = this.datesArr[ev.target.id].hoverdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[ev.target.id].hoverdateImg.url : this.assetsPath +"/"+ this.datesArr[ev.target.id].hoverdateImg.url;
+      //   ev.target.src = this.datesArr[1].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[1].base_hover.url : this.assetsPath +"/"+ this.datesArr[1].base_hover.url;
       //   }
       // }
     }
   
     houtonDate(ev) {
+      console.log("ev",ev.target.src)
+      ev.target.src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
+      console.log("ev", ev.target.src)
       // if(ev != undefined && ev.target.id!="") {
-      //   this.appModel.notifyUserAction();
+      //   //this.appModel.notifyUserAction();
       //   if(!this.datesArr[ev.target.id].selected) {
-      //   ev.target.src = this.datesArr[ev.target.id].dateOriginalImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[ev.target.id].dateOriginalImg.url : this.assetsPath +"/"+ this.datesArr[ev.target.id].dateOriginalImg.url;
+      //   ev.target.src = this.datesArr[1].base.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[1].base.url : this.assetsPath +"/"+ this.datesArr[1].base.url;
       //   }
       // }
     }
@@ -457,7 +464,8 @@ export class TemplateFourteenComponent implements OnInit {
         //this.dateSelected=false;
         this.previousItemevent=undefined;
         for(let i=this.startIndex;i>=0;i--) {
-          this.monthDates.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+          // this.monthDates.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+          if(this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i])
           this.monthDates.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
         }
         if(this.monthsArr.filter((item) => item.selected == true)[0] !=undefined) {
@@ -725,16 +733,19 @@ export class TemplateFourteenComponent implements OnInit {
           this.ArrweekDays.filter((item)=>item.selected == true)[0].selected = false;
           this.weekDaySelected=false;
         }
-        // for(let i = 0;i<days;i++) {
-        //   this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
-        //   this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
-        //   this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
-        //   if(this.datesArr[i].disable) {
-        //     this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
-        //   }
-        //     this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
-        //   this.startIndex++;
-        // }
+        for(let i = 0;i<days;i++) {
+          this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
+          this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
+          this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
+          if(this.datesArr[i].disable) {
+            this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
+          }
+
+          this.monthDates.nativeElement.children[0].children[this.startIndex].children[1].textContent = this.datesArr[i].id;
+
+            // this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
+          this.startIndex++;
+        }
       }
     }
   
