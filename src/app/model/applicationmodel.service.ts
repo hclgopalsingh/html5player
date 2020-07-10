@@ -72,6 +72,9 @@ export class ApplicationmodelService {
   theme_name: any = '';
   templatedata:any;
   themePath:any;
+  nextSectionTimer: any;
+
+
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
     this.httpHandler = httpHandler;
@@ -138,7 +141,10 @@ export class ApplicationmodelService {
       ['/ntemp14', '/ntemp14ext', 0],
       ['/evatemp8', '/evatemp8ext', 0],
       ['/evatemp2', '/evatemp2ext', 0],
-	  ['/evatemp4', '/evatemp4ext', 0]
+      ['/evatemp4', '/evatemp4ext', 0],
+      ['/evatemp6', '/evatemp6ext', 0],
+      ['/evatemp10', '/evatemp10ext', 0],
+      ['/evatemp11', '/evatemp11ext', 0]
     ];
     this.externalCommunication = externalCommunication;
     this.dataLoader = dataLoader;
@@ -441,6 +447,10 @@ export class ApplicationmodelService {
         this.currentActive, 'this.initValues.files[this.currentActive]', this.initValues.files[this.currentActive]);
       this.eventDone = false;
     }
+    if (this.EVA && this.nextSectionTimer) {
+      clearTimeout(this.nextSectionTimer);
+      this.nextSectionTimer = undefined;
+    }
     /* 
    // ****check later**** //
     this.setQuestionNo();
@@ -465,7 +475,8 @@ export class ApplicationmodelService {
     this.navigateToRoute(this.config[functionalityType][this.config[functionalityType][2]]);
     this.updateConfig(functionalityType);
 
-    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50) {
+    
+    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51 || functionalityType == 52 || functionalityType == 53) {
       this.setQuestionNo();
       let fetchdata=this.content.contentData.data;
       this.templatedata = JSON.parse(JSON.stringify(fetchdata));
@@ -1061,7 +1072,7 @@ export class ApplicationmodelService {
 
   //////******EVA - Automatic move to next segment after last question attempt*******/////
 
-  public nextSectionEVA(): void {
+  public nextSectionEVA(isLastQuestion): void {
     this.nextCollectionCounterEVA++;
     this.refernceStore.setTitleFlag(false);
     this.segmentBeginvariable = false;
@@ -1072,7 +1083,7 @@ export class ApplicationmodelService {
       this.currentSection, 'contentCollection.collection.length', this.contentCollection.collection.length);
     if (this.currentSection > this.contentCollection.collection.length - 1) {
       if (this.nextCollectionCounterEVA === 1) {
-        this.nextCollectionEva();
+        this.nextCollectionEva(isLastQuestion);
         this.resetEVACollectionCounter();
       }
       this.isVideoPlayed = false;
@@ -1091,21 +1102,28 @@ export class ApplicationmodelService {
 
   
   //****GO TO NEXT COLLECTION****** */
-  private nextCollectionEva(): void {
+  private nextCollectionEva(isLastQuestion): void {
+    this.nextSectionTimer = undefined;
     this.segmentBeginvariable = true;
     this.currentActive++;
     console.log('ApplicationmodelService: nextCollection - currentActive=',
       this.currentActive, 'initValues.files.length', this.initValues.files.length);
-    if (this.currentActive > this.initValues.files.length - 1) {
+    if (this.currentActive > this.initValues.files.length - 1 && !isLastQuestion) {  // If segment not on last question and there is not other next segment
       this.selectQues(this.contentCollection.collection.length - 1);
       console.info('ApplicationmodelService: nextCollection - currentActive, currentSection reset');
-    } else {
+    }
+    else if (this.currentActive > this.initValues.files.length - 1 && isLastQuestion) { // If segment on last question and there is not other next segment
+      this.currentActive--;
+      this.currentSection--;
+      return;
+    }
+     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
       this.load(this.initValues.files[this.currentActive]);
       // this.nextCollectionCounterEVA = 0;
       console.log('ApplicationmodelService: nextCollection - currentActive=',
         this.currentActive, 'this.initValues.files[this.currentActive]', this.initValues.files[this.currentActive]);
       this.eventDone = false;
-    }
+    } 
   }
 
   public getPath(type){

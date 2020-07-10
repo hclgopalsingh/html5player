@@ -7,7 +7,7 @@ import { AppRoutingModule } from './modules/routing';
 import { NouisliderModule } from 'ng2-nouislider';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { ContainerComponent } from './controller/container.component';
@@ -67,7 +67,7 @@ import { Ntemplate23 } from './controller/Ntemplate23.component';
 import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
-
+import { NtemplateMap } from './controller/NtemplateMap.component';
 import { Template15Component } from './modules/EVA/template15/template15.component';
 import { SharedserviceService } from '../app/services/sharedservice.service';
 import { Template3Component } from './modules/EVA/template3/template3.component';
@@ -75,9 +75,13 @@ import { Template1Component } from './modules/EVA/template1/template1.component'
 import { Template8Component } from './modules/EVA/template8/template8.component';
 import { QuestionBlockComponent } from './modules/EVA/template8/question-block/question-block.component';
 import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
+import { Template6Component } from './modules/EVA/template6/template6.component';
 import { DataService } from './model/eva/template8/data.service';
 import { Template2Component } from './modules/EVA/template2/template2.component';
 import { Template4Component } from './modules/EVA/template4/template4.component';
+import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
+import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
+import { Template11Componenteva } from './modules/EVA/template11/template11.component';
 
 
 @NgModule({
@@ -145,8 +149,13 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 		Template8Component,
 		QuestionBlockComponent,
 		InstructionBarComponent,
+		Template6Component,
 		Template2Component,
-		Template4Component
+		Template4Component,
+		TemplateTenComponent,
+		NtemplateMap,
+		ShowanswerComponent,
+		Template11Componenteva
 	],
 	imports: [
 		BrowserModule,
@@ -156,7 +165,8 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 		FormsModule,
 		SignalrCustomModule.forRoot(),
 		NouisliderModule,
-		NgxPaginationModule
+		NgxPaginationModule,
+		DragulaModule.forRoot()
 	],
 	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, DataService],
 	bootstrap: [AppComponent]
