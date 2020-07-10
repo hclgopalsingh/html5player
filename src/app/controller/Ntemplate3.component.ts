@@ -335,14 +335,14 @@ export class Ntemplate3 implements OnInit {
     } else {
       this.setData();
     }
-    if(this.appModel.theme_name){
-      this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
-        console.log("data",data)
-        if(data && data.url){
-          this.backgroundAssets = data;
-        }
-      })
-    }
+    // if(this.appModel.theme_name){
+    //   this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
+    //     console.log("data",data)
+    //     if(data && data.url){
+    //       this.backgroundAssets = data;
+    //     }
+    //   })
+    // }
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         //show modal for manual
@@ -666,11 +666,6 @@ export class Ntemplate3 implements OnInit {
         this.narratorAudio = this.fetchedcontent.commonassets.narrator;
         //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.ques_control = this.fetchedcontent.commonassets.ques_control;
-        /*Start: Theme Implementation(Template Changes)*/
-        if(this.ques_control && this.ques_control.background!=undefined){
-          this.backgroundAssets=this.ques_control.background;
-        }
-        /*End: Theme Implementation(Template Changes)*/
         this.noOfImgs = this.commonAssets.imgCount;
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
