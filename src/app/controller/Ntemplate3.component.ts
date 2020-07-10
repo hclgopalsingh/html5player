@@ -637,7 +637,7 @@ export class Ntemplate3 implements OnInit {
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
       this.appModel.enableReplayBtn(false);
-      this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+      // this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
         this.appModel.handlePostVOActivity(false);
