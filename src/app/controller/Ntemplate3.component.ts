@@ -72,24 +72,15 @@ export class Ntemplate3 implements OnInit {
 
   quesInfo: any = "";
   audio = new Audio();
-  blink: boolean = false;
   currentIdx = 0;
   commonAssets: any = "";
-  optionslist: any = [];
-  optionslist_main: any = "";
-  myoption: any = [];
-  question: any = "";
   feedback: any = "";
   narratorAudio: any;
-  isLastActivity: any = "";
   checked: boolean = false;
-  selected: boolean = false;
-  bool: boolean = false;
   showIntroScreen: boolean;
 
-  helpAudio: any = "";
+ 
   correctOpt: any;
-  idArray: any = [];
   noOfRightAnsClicked: number = 0;
   noOfWrongAnsClicked: number = 0;
   rightansArray: any = [];
@@ -104,13 +95,11 @@ export class Ntemplate3 implements OnInit {
   wrongansArray: any = [];
   isFirstQues: boolean;
   isLastQues: boolean = false;
-  isAutoplayOn: boolean;
   isLastQuesAct: boolean;
 
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
-  disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
@@ -137,7 +126,6 @@ export class Ntemplate3 implements OnInit {
   quesObj: any;
   isPlayVideo: boolean;
   videoReplayd: boolean;
-  length: number;
   count: number = 0;
   attemptType: string = "";
   rightanspopUpheader_img: boolean = false;
@@ -149,14 +137,16 @@ export class Ntemplate3 implements OnInit {
   styleHeaderPopup:any;
   styleBodyPopup:any;
   backgroundAssets:any;
+  /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
 		isSubmitRequired:false,
     isReplayRequired:false
-   };
-   themePath:any;
-   fetchedcontent:any;
-   functionalityType:any;
-   bgSubscription: Subscription;
+  };
+  themePath:any;
+  fetchedcontent:any;
+  functionalityType:any;
+  bgSubscription: Subscription;
+  /*End: Theme Implementation(Template Changes)*/
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -180,51 +170,16 @@ export class Ntemplate3 implements OnInit {
     if (opt && opt != undefined) {
       if (this.narrator.nativeElement.paused) {
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
-        // if (opt.imgsrc && opt.imgsrc.location == "content") {
-        //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        // }
-        // else {
-        //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-        // }
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
       }
     }
   }
 
-  // playHoverOption(opt, i, j) {
-  //   if (this.optionAudio.nativeElement.paused && this.narrator.nativeElement.paused) {
-  //     if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-  //       this.optionAudio.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-  //     } else {
-  //       this.optionAudio.nativeElement.src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-  //     }
-  //     this.optionAudio.nativeElement.load();
-  //     if (!this.instruction.nativeElement.paused) {
-  //       this.instruction.nativeElement.pause();
-  //     }
-  //     this.optionAudio.nativeElement.play();
-  //     this.onHoverOption(opt, i, j);
-  //   }
-  // }
 
   playHoverOption(opt, i, j) {
     this.appModel.notifyUserAction();
-    // for(var x =0;x<this.optionsBlock.nativeElement.children.length;x++) {
-    //   for(var y=0;y<this.optionsBlock.nativeElement.children[x].children.length;y++) {
-    //     console.log("audio");
-    //     if(!this.optionsBlock.nativeElement.children[x].children[y].children[1].paused) {
-    //       this.optionsBlock.nativeElement.children[x].children[y].children[1].currentTime=0;
-    //       this.optionsBlock.nativeElement.children[x].children[y].children[1].pause();
-    //     }
-    //   }
-    //   }
     if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
-      // if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-      //   this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-      // } else {
-      //   this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-      // }
       this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url+ "?someRandomSeed=" + Math.random().toString(36);;
       this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
       if (!this.instruction.nativeElement.paused) {
@@ -294,8 +249,6 @@ export class Ntemplate3 implements OnInit {
   }
 
   optionHover(opt, i,j) {
-    // this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-    // this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
     this.onHoverOption(opt, i, j);
   }
           
@@ -312,11 +265,6 @@ export class Ntemplate3 implements OnInit {
   OptionZoomOutAnimation(opt, i, j) {
     if (!this.checked && this.narrator.nativeElement.paused) {
       opt.imgsrc = opt.imgsrc_original;
-      // if (opt.imgsrc && opt.imgsrc.location == "content") {
-      //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-      // } else {
-      //   this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-      // }
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = " ";
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "";
@@ -368,13 +316,14 @@ export class Ntemplate3 implements OnInit {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
-
+    /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
     this.functionalityType = this.appModel.content.contentLogic.functionalityType;
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
     this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
     this.checkquesTab();
+    /*End: Theme Implementation(Template Changes)*/
     if (fetchedData.titleScreen) {
       this.quesInfo = fetchedData;
       this.noOfImgs = this.quesInfo.imgCount;
@@ -494,15 +443,18 @@ export class Ntemplate3 implements OnInit {
   }
 
   ngOnDestroy() {
+    /*Start: Theme Implementation(Template Changes)*/
     if(this.bgSubscription!=undefined){
       this.bgSubscription.unsubscribe();
     }
+    /*End: Theme Implementation(Template Changes)*/
   }
 
   postWrongAttemplt() {
     this.resetAttempt();
   }
 
+/*Start: Theme Implementation(Template Changes)*/
   checkquesTab() {
     if(this.fetchedcontent.commonassets.ques_control!=undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -510,6 +462,8 @@ export class Ntemplate3 implements OnInit {
       this.appModel.getJson();      
     }
   }
+
+/*End: Theme Implementation(Template Changes)*/
 
 
   templatevolume(vol, obj) {
@@ -696,53 +650,9 @@ export class Ntemplate3 implements OnInit {
     }
   }
 
-  closeTitleScreen() {
-    this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeOutAnimation";
-    setTimeout(() => {
-      this.appModel.nextSection();
-      this.appModel.setLoader(true);
-    }, 200);
-    this.setData();
-    //this.showIntroScreen = false;
-    //this.isPlayVideo = true;
-  }
 
-  //next() {
-  //  if (this.quesInfo) {
-  //    this.quesInfo.aagey_badhein = this.quesInfo.aagey_badhein_original;
-  //    this.quesInfo.peechey_jayein = this.quesInfo.peechey_jayein_original;
-  //  }
-  //  if (this.isLastQuesAct) {
-  //    this.appModel.event = { 'action': 'segmentEnds' };
-  //  }
 
-  //  if (!this.isLastQues) {
-  //    if (this.maincontent && this.maincontent.nativeElement) {
-  //      this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-between";
-  //    }
-  //    //if (this.optionBlock && this.optionBlock.nativeElement) {
-  //    //  this.optionBlock.nativeElement.className = "ansBlock";
-  //    //}
-  //    this.audio.pause();
-  //    //if (this.titleHelpAudio && this.titleHelpAudio.nativeElement) {
-  //    //  this.titleHelpAudio.nativeElement.pause();
-  //    //  this.titleHelpAudio.nativeElement.currentTime = 0;
-  //    //}
-  //    //if (this.maincontent && this.maincontent.nativeElement) {
-  //    //  this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-between";
-
-  //    //}
-  //    this.appModel.nextSection();
-  //    this.appModel.setLoader(true);
-  //    this.setData();
-  //  }
-  //  else {
-
-  //    this.appModel.event = { 'action': 'exit' };
-  //  }
-
-  //}
-
+  
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       //let fetchedData: any = this.appModel.content.contentData.data;
@@ -752,16 +662,15 @@ export class Ntemplate3 implements OnInit {
       } else {
         this.showIntroScreen = false;
         this.feedback = this.fetchedcontent.feedback;
-        if(this.fetchedcontent.theme_name!=undefined) {
-          //this.assetsPath=this.appModel.getThemePath();
-        }
         this.commonAssets = this.fetchedcontent.commonassets;
         this.narratorAudio = this.fetchedcontent.commonassets.narrator;
         //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.ques_control = this.fetchedcontent.commonassets.ques_control;
+        /*Start: Theme Implementation(Template Changes)*/
         if(this.ques_control && this.ques_control.background!=undefined){
           this.backgroundAssets=this.ques_control.background;
         }
+        /*End: Theme Implementation(Template Changes)*/
         this.noOfImgs = this.commonAssets.imgCount;
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
@@ -782,10 +691,12 @@ export class Ntemplate3 implements OnInit {
         this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
         this.submitPopupAssets = this.fetchedcontent.feedback.submit_popup;
         this.quesObj = this.fetchedcontent.quesObj;
+        /*Start: Theme Implementation(Template Changes)*/
         this.controlHandler={
               isSubmitRequired:this.quesObj.submitRequired,
               isReplayRequired:this.quesObj.replayRequired
         }
+        /*End: Theme Implementation(Template Changes)*/
         if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
           this.isPlayVideo = true;
           //sessionStorage.setItem("isPlayVideo", "true");
@@ -927,9 +838,6 @@ export class Ntemplate3 implements OnInit {
     this.attemptType = "manual";
     if (id == "submit-modal-id") {
       this.submitModalRef.nativeElement.classList = "modal";
-      //this.optionsBlock.nativeElement.classList = "row mx-0";
-      //$("#optionsBlock .options").css("opacity", "unset");
-      //$("#optionsBlock .options").removeClass("disable_div");
     }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
@@ -997,10 +905,6 @@ export class Ntemplate3 implements OnInit {
     if (id == "submit-modal-id") {
       this.submitModalRef.nativeElement.classList = "modal";
       this.optionsBlock.nativeElement.classList = "row mx-0";
-      //$("#optionsBlock .options").removeClass("disable_div");
-      //$("#optionsBlock .options").css("opacity", "unset");
-      //this.appModel.enableSubmitBtn(false);
-      //this.appModel.enableReplayBtn(true);
       this.appModel.notifyUserAction();
       //this.resetAttempt();
     }

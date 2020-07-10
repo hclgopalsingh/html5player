@@ -251,7 +251,7 @@
     <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
   </video>
    <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()"/></div>
-  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
+  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 </div>
 <div class="container-fluid temp11" #container id="container" *ngIf="showIntroScreen">
   <div id="bgImage"><img [src]="quesInfo?.background?.location=='content' ? containgFolderPath + '/' + quesInfo?.background?.url : assetsPath + '/' +  quesInfo?.background?.url" (load)="checkImgLoaded();" /></div>
