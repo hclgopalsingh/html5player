@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #instruction
+  [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url"
+  autoplay="autoplay"></audio>
+<div class="" #overlay></div>
+<div class="container-fluid eva" id="container">
+  <div class="headerBar">
+    <img class="img-fluid"
+      [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" />
+  </div>
+  <div id="bgImage">
+    <img class="img-fluid"
+      [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url" />
+  </div>
+  <div #maincontent>
+    <div id="instructionBar">
+      <div class="instructionBase">
+        <img class="img-fluid"
+          [src]="commonAssets?.instruction_bg
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" />
+        <span class="instructionText">{{instructiontext}}</span>
+      </div>
+    </div>
+    <div id="parentBlock">
+      <div class="queryBlock">
+        <img class="img-fluid"
+          [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+        <div id="inputBlock">
+          <div class="value1" *ngFor="let quesTxt of quesObj?.tablet?.questionText; let idx = index">
+            <ng-container *ngFor="let no of quesTxt?.rowValues; let idx1 = index">
+              <div *ngIf="no.value; else showOperator" class="font-style">{{no.value}}</div>
+              <ng-template #showOperator><img class="img-fluid"
+                [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''"></ng-template>
+            </ng-container>
+            <hr *ngIf="quesTxt.bottomLine" class="border-line">
+          </div>
+        </div>
+      </div>
+
+      <div class="keypadBlock">
+        <img class="img-fluid"
+          [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
+          alt="">
+
+        <div class="keyContainer" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index">
+          <img class="img-fluid"
+            [src]="option?.image?.location=='content' ? containgFolderPath + '/' + option?.image?.url : option?.image?.location=='assets' ? assetsPath + '/' +option?.image?.url:''"
+            on-mousemove="onHoverOptions(option)" on-mouseout="onHoveroutOptions(option)"
+            on-mouseenter='playOptionHover(option,idx)'>
+        </div>
+      </div>
+      <app-globalspeaker></app-globalspeaker>
+    </div>
+
+  </div>
+  <!--END OF MAIN CONTENT-->
+
+  <!-- show answer Popup  -->
+  <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
+</div>
+  <!-- Popup Modal Audios -->
+  <audio #wrongFeedback
+    [src]="feedback?.wrong_ans_sound?.path?.location=='content'? containgFolderPath + '/' +  feedback?.wrong_ans_sound?.path?.url : assetsPath +'/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+  <audio #rightFeedback
+    [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+  <audio #clapSound
+    [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
+  <audio #showAnswerfeedback
+    [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
+  <audio #multiCorrectFeedback
+    [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>
