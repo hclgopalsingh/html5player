@@ -372,14 +372,14 @@ export class Ntemplate5 implements OnInit {
     }
 
     this.setData();
-    if(this.appModel.theme_name){
+   /* if(this.appModel.theme_name){
       this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
         console.log("data",data)
         if(data && data.url){
           this.backgroundAssets = data;
         }
       })
-    }
+    }*/
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         //show modal for manual
@@ -557,9 +557,9 @@ export class Ntemplate5 implements OnInit {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      if(this.ques_control && this.ques_control.background!=undefined){
+      /*if(this.ques_control && this.ques_control.background!=undefined){
         this.backgroundAssets=this.ques_control.background;
-      }
+      }*/
       this.optionObj = this.fetchedcontent.optionObj;
       //this.optArr1 = this.optionObj[0].optionsArr;
       //this.optArr2 = this.optionObj[1].optionsArr;

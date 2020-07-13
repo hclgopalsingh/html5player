@@ -10,7 +10,7 @@
       <img class="img-fluid" src="images/burst.gif">
   </div>
   -->
-  <div id="bgImage"><img class="img-fluid" [src]="backgroundAssets?.url" (load)="checkImgLoaded();" /></div>
+  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around" id="instructionBar">
     <div class="instructionBase">
       <img class="img-fluid" [src]="commonAssets.instruction_bg.url" (load)="checkImgLoaded();" (click)="playHoverInstruction()" />
