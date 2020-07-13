@@ -1133,13 +1133,13 @@ export class ApplicationmodelService {
     this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, undefined);
     this.setQuesControlAssets(this.templatedata.commonassets.ques_control);
     //this.setCommonControlAssets(data)
-    console.log("datajson", data)
-    console.log("currentBackground", data.quesTabs[this.currentSection-1].background)
-    if(data.quesTabs && data.quesTabs[this.currentSection-1] && data.quesTabs[this.currentSection-1].background)
-    {
-      this.setActiveBG(data.quesTabs[this.currentSection-1].background) ;
-    }
-    console.log("this.currentSection",this.currentSection)
+    // console.log("datajson", data);
+    // console.log("currentBackground", data.quesTabs[this.currentSection-1].background)
+    // if(data.quesTabs && data.quesTabs[this.currentSection-1] && data.quesTabs[this.currentSection-1].background)
+    // {
+    //   this.setActiveBG(data.quesTabs[this.currentSection-1].background) ;
+    // }
+    // console.log("this.currentSection",this.currentSection);
   }
 
   globalnotLoaded(data){
