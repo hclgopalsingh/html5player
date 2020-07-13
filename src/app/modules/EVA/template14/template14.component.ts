@@ -133,7 +133,10 @@ export class TemplateFourteenComponent implements OnInit {
   weekDaySelected:boolean = false;
   monthfromLocalMachine:boolean=true;
   yearfromLocalMachine:boolean=true;
-
+  selectedDaysId = [];
+  selectedDatesId = [];
+  selectedMonthsId = [];
+  previousYearItemEvent = [];
 
 
   playHoverInstruction() {
@@ -368,39 +371,35 @@ export class TemplateFourteenComponent implements OnInit {
     }
   
     hoveronDate(ev) {
-      console.log("ev", ev.target.src)
-      // console.log("this.datesArr",this.datesArr)
-      ev.target.src = this.datesArr[0].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_hover.url : this.assetsPath +"/"+ this.datesArr[0].base_hover.url;
-      console.log("ev", ev.target.src)
-      // if(ev != undefined && ev.target.id!="") {
-      //   //this.appModel.notifyUserAction();
-      //   if (!this.instruction.nativeElement.paused) {
-      //     this.instruction.nativeElement.currentTime=0;
-      //     this.instruction.nativeElement.pause();
-      //   }
-      //   if(!this.datesArr[ev.target.id].selected) {
-      //   ev.target.src = this.datesArr[1].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[1].base_hover.url : this.assetsPath +"/"+ this.datesArr[1].base_hover.url;
-      //   }
-      // }
+      if(ev != undefined && ev.target.id!="") {
+        //this.appModel.notifyUserAction();
+        if (!this.instruction.nativeElement.paused) {
+          this.instruction.nativeElement.currentTime=0;
+          this.instruction.nativeElement.pause();
+        }
+        if(!this.datesArr[ev.target.id].selected) {
+        ev.target.src = this.datesArr[0].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_hover.url : this.assetsPath +"/"+ this.datesArr[0].base_hover.url;
+           }
+       }
     }
   
     houtonDate(ev) {
-      console.log("ev",ev.target.src)
-      ev.target.src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
-      console.log("ev", ev.target.src)
-      // if(ev != undefined && ev.target.id!="") {
+     //// console.log("ev",ev.target.src)
+      // ev.target.src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
+      //console.log("ev", ev.target.src)
+      if(ev != undefined && ev.target.id!="") {
       //   //this.appModel.notifyUserAction();
-      //   if(!this.datesArr[ev.target.id].selected) {
-      //   ev.target.src = this.datesArr[1].base.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[1].base.url : this.assetsPath +"/"+ this.datesArr[1].base.url;
-      //   }
-      // }
+        if(!this.datesArr[ev.target.id].selected) {
+        ev.target.src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
+          }
+      }
     }
   
     setselectedDisableinCalender() {
       if(this.monthsArr.filter((item) => item.selected == true)[0]!=undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected=false;
       }
-      this.monthsArr[this.date.getMonth()].selected=true;
+      //this.monthsArr[this.date.getMonth()].selected=true;
       this.monthsArr[this.date.getMonth()].checkRightorWrong=true;
       if(this.quesObj.disablemonth) {
         if(this.monthsArr.filter((item) => item.selected != true)!=undefined) {
@@ -416,7 +415,7 @@ export class TemplateFourteenComponent implements OnInit {
         if(this.Arryears.filter((item) => item.selected != true)!=undefined) {
           this.Arryears.filter((item) => item.selected != true).map((item) => item.disabled = true);
         }
-      }
+      } 
       if(this.ArrweekDays.filter((item) => item.selected == true)[0]!=undefined) {
         this.ArrweekDays.filter((item) => item.selected == true)[0].selected=false;
       }
@@ -451,30 +450,49 @@ export class TemplateFourteenComponent implements OnInit {
         this.setCalender('');
       }
     }
-  
+    
     onClickCalender(item,flag) {
       console.log(this.date);
       this.appModel.notifyUserAction();
-      if(flag == "month" && !item.selected) {
+      if(flag == "month") {
+        if(!item.selected){
         this.monthfromLocalMachine = false;
         this.monthSelected = true;
         if(this.datesArr.filter((item) => item.selected == true)[0]!=undefined) {
           this.datesArr.filter((item) => item.selected == true)[0].selected=false;
         }
-        //this.dateSelected=false;
+       
+        this.dateSelected=false;
         this.previousItemevent=undefined;
         for(let i=this.startIndex;i>=0;i--) {
-          // this.monthDates.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+          this.monthDates.nativeElement.children[0].children[i].children[0].src=this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;;
           if(this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i])
           this.monthDates.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
         }
+        let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
+
         if(this.monthsArr.filter((item) => item.selected == true)[0] !=undefined) {
-          this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+          //for multi month
+          console.log("this.selectedMonthsId.indexOf(indexofMonth)",this.selectedMonthsId.indexOf(indexofMonth))
+          if(this.quesObj.multi_month){
+            if(this.selectedMonthsId.indexOf(indexofMonth)){
+            }
+            this.selectedMonthsId.push(indexofMonth);
+          }
+          else{
+            this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+          }
+          console.log("this.selectedMonthsId",this.selectedMonthsId)
+          //this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+        }
+        if(this.selectedMonthsId.length == 0){
+          this.selectedMonthsId.push(indexofMonth);
         }
         if(this.monthsArr.filter((item) => item.checkRightorWrong == true)[0]!=undefined) {
           this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
         }
-        let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
+        //let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
+        console.log("indexofMonth",indexofMonth)
         this.date.setMonth(indexofMonth);
         item.selected = true;
         this.setCalender('');
@@ -487,6 +505,12 @@ export class TemplateFourteenComponent implements OnInit {
           item.checkRightorWrong = true;
           item.ImginpopUp = item.wrongmonthImg;
         }
+      }else{
+     item.selected = false
+     let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
+        this.selectedMonthsId.splice(  this.selectedMonthsId.indexOf(indexofMonth), 1 )
+        console.log("this.selectedMonthsId",this.selectedMonthsId)
+    }
       } else if(flag =="year" && !item.selected) {
         this.yearfromLocalMachine=false;
         this.yearSelected = true;
@@ -497,8 +521,9 @@ export class TemplateFourteenComponent implements OnInit {
         //this.weekDaySelected = false;
         this.previousItemevent=undefined;
         for(let i=this.startIndex;i>=0;i--) {
-          this.monthDates.nativeElement.children[0].children[i].src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+          this.monthDates.nativeElement.children[0].children[i].children[0].src=this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;;
           this.monthDates.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
+          this.monthDates.nativeElement.children[0].children[i].children[0].style.pointerEvents ="";
         }
         if(this.Arryears.filter((item) => item.selected == true)[0] !=undefined) {
           this.Arryears.filter((item) => item.selected == true)[0].selected = false;
@@ -521,16 +546,28 @@ export class TemplateFourteenComponent implements OnInit {
           this.clickedID = Number(item.target.id)+1;
          let itemDate = this.datesArr.find((index) => index.id == this.clickedID);
          if(this.datesArr.filter((item) => item.selected == true)[0] !=undefined) {
-          let previousItem=this.datesArr.filter((item) => item.selected == true)[0];
-          previousItem.selected = false;
-          if(this.previousItemevent!=undefined) {
-            this.previousItemevent.src = previousItem.dateImg.location=="content" ? this.containgFolderPath +"/"+ previousItem.dateImg.url : this.assetsPath +"/"+ previousItem.dateImg.url;
+           if(!this.quesObj.multi_date){
+            let previousItem=this.datesArr.filter((item) => item.selected == true)[0];
+            previousItem.selected = false;
+            if(this.previousItemevent!=undefined) {
+            this.previousItemevent.src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
             this.previousItemevent.style.pointerEvents="";
+          }
+           }
+           else{
+            console.log("this.selectedDatesId",this.selectedDatesId)
+
+            this.selectedDatesId.push(this.clickedID)
+            console.log("this.selectedDatesId",this.selectedDatesId)
+
           }
           //previousItem.dateImg = previousItem.dateOriginalImg;
         }
+        if(this.selectedDatesId.length == 0){
+          this.selectedDatesId.push(this.clickedID)
+        }
         //itemDate.dateImg = itemDate.selecteddateImg;
-        item.target.src = itemDate.selecteddateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.selecteddateImg.url : this.assetsPath +"/"+ itemDate.selecteddateImg.url;
+        item.target.src = this.datesArr[0].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_selected.url : this.assetsPath +"/"+ this.datesArr[0].base_selected.url;
         this.previousItemevent = item.target;
         item.target.style.pointerEvents = "none";
         itemDate.selected = true;
@@ -564,12 +601,23 @@ export class TemplateFourteenComponent implements OnInit {
            //this.monthDatesinPopup.nativeElement.children[0].children[item.target.getAttribute("id")].src = itemDate.wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.wrongdateImg.url : this.assetsPath +"/"+ itemDate.wrongdateImg.url;
          }
       } else if(flag == "weekDays") {
+        if(!item.selected){
         this.weekDaySelected = true;
         //this.dateSelected=false;
         //this.dateSelected=false;
-        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
-          this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+        if(this.selectedDaysId.length == 0){
+          this.selectedDaysId.push(item.id);
         }
+        if(this.ArrweekDays.filter((item) => item.selected == true)[0] !=undefined) {
+          if(this.quesObj.multi_day){
+            this.selectedDaysId.push(item.id);
+            console.log("this.selectedDaysId",this.selectedDaysId,item.id)
+          }
+          else{
+            this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+          }
+        }
+        
         if(this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0]!=undefined) {
           this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
         }
@@ -620,6 +668,13 @@ export class TemplateFourteenComponent implements OnInit {
            }
         }
       }
+      else{
+        //remove selected day
+        item.selected = false
+        this.selectedDaysId.splice(this.selectedDaysId.indexOf(item.id),1)
+        console.log("this.selectedDaysId",this.selectedDaysId)
+      }
+      }
       if(this.monthSelected && this.yearSelected && this.dateSelected && this.weekDaySelected) {
         this.appModel.enableSubmitBtn(true);
       } else {
@@ -627,6 +682,11 @@ export class TemplateFourteenComponent implements OnInit {
       }
     }
   
+    refreshDates(){
+      //for resetting the base dates.
+      this.previousItemevent.src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
+    }
+
     setCalender(from) {
       //if(from !="showAnspopup") {
         this.date.setDate(1);
@@ -734,7 +794,7 @@ export class TemplateFourteenComponent implements OnInit {
           this.weekDaySelected=false;
         }
         for(let i = 0;i<days;i++) {
-          this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
+          this.monthDates.nativeElement.children[0].children[this.startIndex].children[0].id = i;
           this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
           this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
           if(this.datesArr[i].disable) {

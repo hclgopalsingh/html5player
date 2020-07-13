@@ -31,7 +31,8 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: 85.9%;
+    width: 85.5%;
+    left: 14%;
     height: 9.8%;
   }
   #optionsBlock .rightBlock {
@@ -44,6 +45,7 @@
     position: absolute;
       width: 100%;
       top: 1.7%;/*7.7%*/
+      left: 0.6%;
   }
   #optionsBlock .rightBlock .weekDays .blockContent {
       display: block !important;
@@ -139,7 +141,7 @@
       font-size: 2.5vmax;
       font-weight: bold;
       font-family: Kruti Dev!important;
-      top: -1.5%;
+      top: -6.5%;
     }
   /************************************#########$$$$$$$$$$$#########*************************************/
   #hoverques, #clickques {

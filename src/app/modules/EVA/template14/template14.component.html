@@ -33,7 +33,7 @@
           <img style="margin:0 0.2%" class="img-fluid" [src]="item?.selected ? 
           item?.slectedBaseImg?.location=='content' ? containgFolderPath + '/' + item?.slectedBaseImg?.url : assetsPath + '/' + item?.slectedBaseImg?.url:item?.base?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.base.url" >  
           <img class="img-fluid monthName" [src]="item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
-          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected}"  (click) = "onClickCalender(item,'month')">
+          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !this.quesObj.multi_month}"  (click) = "onClickCalender(item,'month')">
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
           <span *ngFor="let item of ArrweekDays; let idx = index">
           <img style="position: absolute;" class="img-fluid"  [src]="item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" 
           (mousemove)="hoveronWeekDays(item)" (mouseleave)="houtonWeekDays(item)"
-          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }" (click) = "onClickCalender(item,'weekDays')">
+          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !quesObj.multi_day }" (click) = "onClickCalender(item,'weekDays')">
           <img style="margin:0 0.2%" class="img-fluid" [src]="item?.selected ? 
           item?.base_selected?.location=='content' ? containgFolderPath + '/' + item?.base_selected?.url : assetsPath + '/' + item?.base_selected?.url : item?.base?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.base.url" >
           </span>
