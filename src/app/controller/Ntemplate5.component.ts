@@ -362,7 +362,6 @@ export class Ntemplate5 implements OnInit {
       this.wrongFeedbackVO.nativeElement.currentTime = 0;
     }
     if(this.appModel.theme_name){
-      debugger;
       this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
         this.themePath = this.appModel.getPath("tabs");
         if(data && data.url && this.themePath){
