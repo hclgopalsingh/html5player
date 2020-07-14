@@ -14,10 +14,10 @@ button:focus {
 }
 #container #optionsBlock {
   position: absolute;
-  top: 18%;/*21%*/
+  top: 17.2%;/*21%*/
   width: 97%;
   left: 1.6%;
-  height: 68%; /*62%*/
+  height: 69%; /*62%*/
 }
 #optionsBlock img{
 	position:relative;
@@ -29,7 +29,7 @@ button:focus {
   margin: 0;
   /*transition: transform .5s;*/
 	vertical-align:middle;
-  width: 27%;/*23%;*/
+  width: 28%;/*23%;*/
 	display:inline-block;
 	/*animation: scaleit 0.4s ease-in;*/
 }
@@ -527,8 +527,8 @@ html [type=button] {
 }
 
 .scaleInAnimation {
-  animation: scaleIn 0.5s linear;
-  transform: scale(1.2);
+  animation: scaleIn 0.2s linear;
+  transform: scale(1.1);
 }
 
 @keyframes scaleIn {
@@ -537,19 +537,19 @@ html [type=button] {
   }
 
   100% {
-    transform: scale(1.2)
+    transform: scale(1.1)
   }
 }
 
 
 .scaleOutAnimation {
-  animation: scaleOut 0.5s linear;
+  animation: scaleOut 0.2s linear;
   transform: scale(1.0);
 }
 
 @keyframes scaleOut {
   0% {
-    transform: scale(1.2)
+    transform: scale(1.1)
   }
 
   100% {
