@@ -366,12 +366,13 @@ button:focus{
 }
 /*** Misc classes ***/
 .disableDiv,
-.disableBtn{  
+.disableBtn,
+.disableFooterBtn{  
 	pointer-events: none;
 }
-.disableBtn{
+/* .disableBtn{
 	opacity: .5;  
-}
+} */
 .fadeContainer{
     background: rgba(0,0,0,.75);
     position: absolute;

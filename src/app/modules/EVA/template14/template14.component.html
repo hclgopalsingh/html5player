@@ -237,8 +237,11 @@
         </div>
       </div>
     </div>
+
+    <app-globalspeaker class="speaker_block"></app-globalspeaker>
   </div>
 </div>
+<app-confirmation></app-confirmation>
 
   <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.right_ans_sound?.url: assetsPath + '/' + feedbackObj?.right_ans_sound?.url"></audio>
   <audio #wrongFeedbackVO [src]="feedbackObj?.wrong_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.wrong_ans_sound?.url: assetsPath + '/' + feedbackObj?.wrong_ans_sound?.url"></audio>

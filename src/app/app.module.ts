@@ -82,6 +82,9 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
 import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
 import { TemplateFourteenComponent } from './modules/EVA/template14/template14.component';
+import { Template11Componenteva } from './modules/EVA/template11/template11.component';
+import { GlobalspeakerComponent } from './modules/commonmodules/globalspeaker/globalspeaker.component';
+import { ConfirmationComponent } from './modules/commonmodules/confirmation/confirmation.component';
 
 
 @NgModule({
@@ -155,7 +158,10 @@ import { TemplateFourteenComponent } from './modules/EVA/template14/template14.c
 		TemplateTenComponent,
 		TemplateFourteenComponent,
 		NtemplateMap,
-		ShowanswerComponent
+		ShowanswerComponent,
+		Template11Componenteva,
+		GlobalspeakerComponent,
+		ConfirmationComponent
 	],
 	imports: [
 		BrowserModule,

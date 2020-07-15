@@ -6,16 +6,18 @@ export class SharedserviceService {
   
     private subject = new Subject<any>();
     private ShowAnswer = new Subject<any>();
+    private SubmitAnswer = new Subject<any>();
     private IsVOPlaying = new Subject<any>();
     private AageyBadhe = new Subject<any>();
     private moveNextSubject = new Subject<any>();
     private isAageyBadhe = new Subject<any>();
     private isTimerActive = new Subject<any>();
-
+    public spriteElement = new Subject<any>();
+    public speakerVol = new Subject<any>();
     public showAnsRef = new Subject<any>();
     public showAnswerfeedback = new Subject<any>();
     public videoonshowAnspopUp = new Subject<any>();
-
+    public ShowHideConfirmation = new Subject<any>();
 
     sendData(data: any) {
         this.subject.next({ data: data });
@@ -37,6 +39,14 @@ export class SharedserviceService {
         return this.ShowAnswer.asObservable();
     }
   
+    setSubmitAnsEnabled(status:any){
+        this.SubmitAnswer.next({data:status});
+    }
+
+    getSubmitAnsEnabled(){
+        return this.SubmitAnswer.asObservable();
+    }
+
     setVoplayingStatus(status:any){
         this.IsVOPlaying.next({data:status});
     }
@@ -78,7 +88,13 @@ export class SharedserviceService {
       }
 
 
+    setShowHideConfirmation(status:any){
+        this.ShowHideConfirmation.next({data:status});
+    }
 
+    getsetShowHideConfirmation(){
+       return this.ShowHideConfirmation.asObservable();
+    }
 
 
 

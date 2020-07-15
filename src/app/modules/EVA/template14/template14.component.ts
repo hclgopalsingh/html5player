@@ -4,6 +4,7 @@ import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { element } from 'protractor';
 declare var $: any;
 
 @Component({
@@ -27,6 +28,14 @@ export class TemplateFourteenComponent implements OnInit {
       
       this.checkforQVO();
     }, 5000);
+
+    //subscribing speaker from shared service to get the updated object of speaker
+		this.Sharedservice.spriteElement.subscribe(imagesrc => {
+			this.speaker = imagesrc;
+		});
+		this.Sharedservice.speakerVol.subscribe(speakerVol =>{
+			this.speakerVolume = speakerVol;
+    });
 
     //this.rightFeedbackVO.nativeElement.currentTime = 0;
     //this.rightFeedbackVO.nativeElement.src = "";
@@ -66,6 +75,8 @@ export class TemplateFourteenComponent implements OnInit {
   @ViewChild('monthDates') monthDates: any;
   @ViewChild('monthDatesinPopup') monthDatesinPopup: any;
   @ViewChild('footerNavBlock') footerNavBlock: any;
+  @ViewChild('speakerNormal') speakerNormal: any;
+  @ViewChild('disableSpeaker') disableSpeaker: any;
 
   
   
@@ -74,7 +85,6 @@ export class TemplateFourteenComponent implements OnInit {
 
  
   
-
 
   audio = new Audio();
   commonAssets: any = "";
@@ -137,7 +147,8 @@ export class TemplateFourteenComponent implements OnInit {
   selectedDatesId = [];
   selectedMonthsId = [];
   previousYearItemEvent = [];
-
+  speaker: any;
+  speakerVolume: any;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -299,6 +310,7 @@ export class TemplateFourteenComponent implements OnInit {
           this.loadFlag = true;
           clearTimeout(this.loaderTimer);
           this.checkforQVO();
+          this.Sharedservice.setShowAnsEnabled(false);
         }
       }
     }
@@ -399,7 +411,7 @@ export class TemplateFourteenComponent implements OnInit {
       if(this.monthsArr.filter((item) => item.selected == true)[0]!=undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected=false;
       }
-      //this.monthsArr[this.date.getMonth()].selected=true;
+      this.monthsArr[this.date.getMonth()].selected=true;
       this.monthsArr[this.date.getMonth()].checkRightorWrong=true;
       if(this.quesObj.disablemonth) {
         if(this.monthsArr.filter((item) => item.selected != true)!=undefined) {
@@ -453,7 +465,8 @@ export class TemplateFourteenComponent implements OnInit {
     
     onClickCalender(item,flag) {
       console.log(this.date);
-      this.appModel.notifyUserAction();
+      this.Sharedservice.setSubmitAnsEnabled(true)
+//      this.appModel.notifyUserAction();
       if(flag == "month") {
         if(!item.selected){
         this.monthfromLocalMachine = false;
@@ -464,6 +477,8 @@ export class TemplateFourteenComponent implements OnInit {
        
         this.dateSelected=false;
         this.previousItemevent=undefined;
+        this.selectedDatesId.length = 0;
+        this.selectedDaysId.length = 0;
         for(let i=this.startIndex;i>=0;i--) {
           this.monthDates.nativeElement.children[0].children[i].children[0].src=this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;;
           if(this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i])
@@ -506,8 +521,8 @@ export class TemplateFourteenComponent implements OnInit {
           item.ImginpopUp = item.wrongmonthImg;
         }
       }else{
-     item.selected = false
-     let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
+        item.selected = false
+        let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
         this.selectedMonthsId.splice(  this.selectedMonthsId.indexOf(indexofMonth), 1 )
         console.log("this.selectedMonthsId",this.selectedMonthsId)
     }
@@ -542,8 +557,11 @@ export class TemplateFourteenComponent implements OnInit {
           item.ImginpopUp = item.wrongyearImg;
         }
       } else if(flag =="date") {
+        this.clickedID = Number(item.target.id)+1;
+        let itemDate = this.datesArr.find((index) => index.id == this.clickedID);
+         if(!itemDate.selected){
          this.dateSelected = true;
-          this.clickedID = Number(item.target.id)+1;
+          //this.clickedID = Number(item.target.id)+1;
          let itemDate = this.datesArr.find((index) => index.id == this.clickedID);
          if(this.datesArr.filter((item) => item.selected == true)[0] !=undefined) {
            if(!this.quesObj.multi_date){
@@ -569,7 +587,9 @@ export class TemplateFourteenComponent implements OnInit {
         //itemDate.dateImg = itemDate.selecteddateImg;
         item.target.src = this.datesArr[0].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_selected.url : this.assetsPath +"/"+ this.datesArr[0].base_selected.url;
         this.previousItemevent = item.target;
-        item.target.style.pointerEvents = "none";
+        if(!this.quesObj.multi_date){
+          item.target.style.pointerEvents = "none";
+        }
         itemDate.selected = true;
         if(this.weekDaySelected) {
           this.date.setDate(this.clickedID);
@@ -600,7 +620,17 @@ export class TemplateFourteenComponent implements OnInit {
            this.isCorrectDate = false;
            //this.monthDatesinPopup.nativeElement.children[0].children[item.target.getAttribute("id")].src = itemDate.wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.wrongdateImg.url : this.assetsPath +"/"+ itemDate.wrongdateImg.url;
          }
-      } else if(flag == "weekDays") {
+         
+        }else{
+          this.clickedID = Number(item.target.id)+1;
+          itemDate.selected = false
+          this.selectedDatesId.splice(  this.selectedDatesId.indexOf(this.clickedID), 1 )
+          console.log("this.selectedDATEsId",this.selectedDatesId)
+          item.target.src = this.datesArr[0].base_hover.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_selected.url : this.assetsPath +"/"+ this.datesArr[0].base.url;
+        }
+    }
+      
+      else if(flag == "weekDays") {
         if(!item.selected){
         this.weekDaySelected = true;
         //this.dateSelected=false;
@@ -790,7 +820,10 @@ export class TemplateFourteenComponent implements OnInit {
       }
       else {
         if(this.ArrweekDays.filter((item)=>item.selected == true)[0] != undefined) {
-          this.ArrweekDays.filter((item)=>item.selected == true)[0].selected = false;
+          // this.ArrweekDays.filter((item)=>item.selected == true)[0].selected = false;
+          this.ArrweekDays.forEach(element => {
+            element.selected = false;
+          });
           this.weekDaySelected=false;
         }
         for(let i = 0;i<days;i++) {
@@ -843,6 +876,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.dateSelected = this.quesObj.dateSelected;
         this.weekDaySelected=this.quesObj.weekdaySelected;
         //var date = new Date();
+        this.speaker = fetchedData.speaker;
         this.setDatefromJSON();
         this.confirmSubmitAssets = fetchedData.submit_confirm;
         this.quesAudio = this.commonAssets.QuestionAudio;
@@ -1161,6 +1195,62 @@ export class TemplateFourteenComponent implements OnInit {
         }, 1000);
       }
       }
+
+
+  CheckAnswer() {
+    console.log("right_date",this.feedback.right_date)
+    console.log("right_month",this.feedback.right_month)
+    console.log("right_weekDay",this.feedback.right_weekDay)
+    console.log("right_year",this.feedback.right_year)
+    if(this.feedback.right_year.length > 0){
+      //this.selec
+    }
+    if(this.feedback.right_date.length > 0){
+
+        for (let index = 0; index < this.selectedDatesId.length; index++) {
+          const element1 = this.selectedDatesId[index];
+          
+          for (let index = 0; index < this.quesObj.right_date.length; index++) {
+            const element2 = this.quesObj.right_date[index];
+              if(element1 == element2){
+                //put a green base 
+                break;
+              }
+              //put a red base 
+          }
+        }
+
+
+      // this.selectedDatesId.forEach(selectedElement => {
+      //   this.quesObj.right_date.forEach(rightElement => {
+          
+
+      //   });
+      // });
+
+      }
+    if(this.feedback.right_month.length > 0){
+    }
+    if(this.feedback.right_weekDay.length > 0){
+    }
+
+
+
+
+
+
+  }
+
+   /*****Check speaker voice*****/
+  //  checkSpeakerVoice(speaker) {
+  //   if (!this.audioEl.nativeElement.paused) {
+  //   } else {
+  //     speaker.imgsrc = speaker.imgorigional;
+  //     // this.sprite.nativeElement.style = "display:none";
+  //     (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+  //     clearInterval(this.speakerTimer);
+  //   }
+  // }
   
 
 }

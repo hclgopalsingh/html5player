@@ -246,7 +246,7 @@ export class TemplateTenComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
-    if (this.getChromeVersion() < 58) {
+    if (this.getChromeVersion() < 71) {
       for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
         this.refQuesWord.nativeElement.children[i].style.width = "fit-content";
       }
@@ -321,6 +321,9 @@ export class TemplateTenComponent implements OnInit {
     }
     if (obj.wrongFeedbackOnAkshar && obj.wrongFeedbackOnAkshar.nativeElement) {
       obj.wrongFeedbackOnAkshar.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+      obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
   }
 
@@ -412,6 +415,7 @@ export class TemplateTenComponent implements OnInit {
     }, 2000);
   }
 
+  /****** Show right answer popup after all all correct matra selection  ********/
   showRightAnswerPopup() {
     if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
       let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
@@ -429,14 +433,37 @@ export class TemplateTenComponent implements OnInit {
     }
   }
 
+  handleMarginOnAksharToggle(matraArrIndex, id, marginValue) {
+    if(matraArrIndex.indexOf(id) > -1) {
+      this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id)]].style["margin"] = "0";
+    }
+    else if (matraArrIndex.indexOf(id-1) > -1) {
+      this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id-1)]].style["margin"] = "0";
+    }
+    else {
+      matraArrIndex.forEach(index => {
+        this.refQuesWord.nativeElement.children[index].style["margin-right"] = marginValue;
+      });
+    }
+  }
 
   checkAkshar(letter, id) {
     //reset Akshar selection
+    let ooMatraArrIndex = [];
+    let angMatraArrIndex = [];
     for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
       if (this.refQuesWord.nativeElement.children[i].classList.contains("blinkOn")) {
         this.refQuesWord.nativeElement.children[i].classList.remove("blinkOn");
       }
+      if(this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "oo") {
+        ooMatraArrIndex.push(i);
+      }
+      else if (this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "ang") {
+        angMatraArrIndex.push(i);
+      }
     }
+    this.handleMarginOnAksharToggle(ooMatraArrIndex, id, "-2%");
+    this.handleMarginOnAksharToggle(angMatraArrIndex, id, "-3%");
     this.selectedIndex = id;
     this.refQuesWord.nativeElement.children[id].classList.add("blinkOn");
     //check if user clicked wrong akshar
@@ -456,6 +483,7 @@ export class TemplateTenComponent implements OnInit {
 
         this.wrongFeedbackOnAkshar.nativeElement.onended = () => {
           this.refQuesWord.nativeElement.children[id].classList.remove("blinkOn");
+          this.addMatraMargin();
           this.disableSpeaker.nativeElement.classList.remove("disableDiv");
           this.refQuesWord.nativeElement.classList.remove("disableDiv");
           for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
@@ -470,6 +498,17 @@ export class TemplateTenComponent implements OnInit {
     }
   }
 
+  addMatraMargin() {
+      for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
+        let matraValue = this.refQuesWord.nativeElement.children[i].getAttribute("matra");
+        if(matraValue === "oo") {
+        this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-2%";
+        }
+        else if (matraValue === "ang" && this.questionObj.letters[i].matraadded &&  this.questionObj.letters[i].matraadded.length === 1) {
+          this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-3%";
+        }
+      } 
+  }
   /****Check answer on option click*****/
   checkAnswer(option, index) {
     let selectedOption = this.optionsContainer.nativeElement.children[index];
@@ -482,6 +521,12 @@ export class TemplateTenComponent implements OnInit {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
     this.stopAllSounds("clicked");
+    if (option.matravalue === "oo") {
+      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra","oo");
+    }
+    else if(option.matravalue === "ang") {
+      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra","ang");
+    }
     let matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
     if (this.correctAnswerObj.correct_index.indexOf(option.id) > -1 && matraIndex < 0) {
       this.correctAnswerCounter++;
@@ -493,16 +538,10 @@ export class TemplateTenComponent implements OnInit {
       if (selectedAkshar.matra_selected === 0) {
         selectedAkshar.url = selectedAkshar.correct_ans.correct_ans_obj[option.matravalue] && selectedAkshar.correct_ans.correct_ans_obj[option.matravalue].url;
         selectedAkshar.matra_selected++;
-        if (option.matravalue === "ang") {
-          this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "-3%";
-        }
       }
       else {
         this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "0%";
         selectedAkshar.url = selectedAkshar.correct_ans.url;
-      }
-      if (option.matravalue === "oo") {
-        this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "-2%";
       }
       selectedAkshar.location = "content";
       this.refQuesWord.nativeElement.children[this.selectedIndex].children[0].classList.remove("dark");
@@ -513,6 +552,7 @@ export class TemplateTenComponent implements OnInit {
       this.refQuesWord.nativeElement.classList.add("disableDiv");
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
       this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
+      this.addMatraMargin();
 
       this.popupIcon = this.popupAssets.right_icon.url;
       this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -553,6 +593,7 @@ export class TemplateTenComponent implements OnInit {
           this.refQuesWord.nativeElement.classList.remove("disableDiv");
           this.disableSpeaker.nativeElement.classList.remove("disableDiv");
           this.shuffleOptions();
+          this.addMatraMargin();
           for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
             document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
           }

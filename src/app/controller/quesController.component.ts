@@ -39,10 +39,12 @@ export class QuesController implements OnInit {
   disableTabs:boolean = true;
   EVA:boolean = false;
   EnableShowAnswer:boolean = false;
+  EnableSubmitAnswer:boolean = false;
   Template: any;
   EVAQid:any;
   subscription: Subscription;
   UttarDikhayeinTooltip:any;
+  SubmitBtnTooltip:any;
   blink:any;
   
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -100,6 +102,9 @@ export class QuesController implements OnInit {
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
+      if (this.isLastQues) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+      }
 
 
         //*********  Move to next segment after 5 min of last question attempt */
@@ -128,6 +133,19 @@ export class QuesController implements OnInit {
       } else {
         this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
       }
+
+
+      // Enable DIsable submit button
+      this.subscription = this.Sharedservice.getSubmitAnsEnabled().subscribe(data => { 
+        this.EnableSubmitAnswer = data.data;
+        if(this.EnableSubmitAnswer === true){
+          this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
+          this.SubmitBtnTooltip = "उत्तर दिखाएँ!";
+        }else{
+          this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
+          this.SubmitBtnTooltip="";
+        }
+      });
 
 
     
@@ -208,11 +226,19 @@ export class QuesController implements OnInit {
   }
 
   hoveronSubmitBtn() {
-
+    if(this.EnableSubmitAnswer){
+      this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_hover;
+    }else{
+      this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
+    } 
   }
 
   hleaveSubmitBtn() {
-
+    if(this.EnableSubmitAnswer){
+      this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
+    }  else{
+      this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
+    } 
   }
 
 
@@ -314,7 +340,12 @@ export class QuesController implements OnInit {
 
 
   hleavePreBtn() {
-    this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
+    if(this.EVA && this.isFirstQuestion) {
+      this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_disabled;
+    }
+    else {
+      this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
+    }
   }
 
 
@@ -329,8 +360,13 @@ export class QuesController implements OnInit {
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
-      if(!this.blink) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      if (!this.blink) {
+        if (this.EVA && this.isLastQues && !this.quesCtrl.blinkingStatus) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+        }
+        else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        }
       }
     }
   }
@@ -357,6 +393,7 @@ export class QuesController implements OnInit {
   setBlinkOnLastQuestion() {
     if(this.EVA) {
       // if(this.EnableShowAnswer === true){
+         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
          this.nextBtn.nativeElement.classList.remove("disableBtn");
          this.quesCtrl.blinkingStatus=true;
         // }
@@ -385,5 +422,11 @@ export class QuesController implements OnInit {
   }
   ngOnDestroy() {
     this.blinkerSubscription.unsubscribe();
+  }
+
+  confirmActionEVA(type){
+    if(type == "submitAnswer"){
+      this.Sharedservice.setShowHideConfirmation(true)
+    }
   }
 }

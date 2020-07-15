@@ -103,7 +103,7 @@
 }
 .monthDates {
   position: absolute;
-  top: 14%;
+  top: 13%;
   width: 100%;
 }
 #optionsBlock .monthDates .blockContent {
@@ -300,6 +300,17 @@
       height:100%;
   }
   
+  #container .speakerBlock{
+    width: 6%;
+      top: 75%;
+      right: .5%;
+      padding: 0;
+      z-index: 1;
+  }
+  .speakerBlock .speakerBtn{
+      width: 100% !important;
+  }
+
   .disable_div {
       pointer-events: none;
     }
@@ -308,6 +319,15 @@
       position: relative;
   }
   
+  .speaker_block{
+    position: absolute;
+    right: 0;
+    top: 86%;
+    right: 1%;
+    width: 5%;
+  }
+  
+
   /*.options:hover {
     -ms-transform: scale(1.5);
     -webkit-transform: scale(1.5);
