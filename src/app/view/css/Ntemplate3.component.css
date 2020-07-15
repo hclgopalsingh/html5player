@@ -534,7 +534,7 @@ button:focus {
   }
 
 #confirmModal .modal-title {
-  margin-left: 3%;
+  margin-left: 1.5%;/*3%;*/
 }
 
 #confirmModal .close {
@@ -634,7 +634,7 @@ button:focus {
 }
 
 .modal-title {
-  margin-left: 1.5%;
+  margin-left: .3%;/*1.5%;*/
   height: 80%;
 }
 
