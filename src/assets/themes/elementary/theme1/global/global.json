@@ -239,7 +239,7 @@
 	},
 	"rightAnimationAssets": {
 		"img": {
-			"urlglobal": "global/animations/happyFixedAnimation.webp",
+			"urlglobal": "global/animations/Happyanimation.gif",
 			"location": "theme"
 		},
 		"audio": {
@@ -250,7 +250,7 @@
 	},
 	"wrongAnimationAssets": {
 		"img": {
-			"urlglobal": "global/animations/sadFixedAnimation.gif",
+			"urlglobal": "global/animations/Sadanimation.gif",
 			"location": "theme"
 		},
 		"audio": {
