@@ -30,10 +30,6 @@
 					"urlglobal": "global/tabs/tab1/tabIdx.png",
 					"location": "theme"
 				}
-			},
-			"background": {
-				"urlglobal": "global/tabs/bg/bg_1.svg",
-				"location": "theme"
 			}
 		},
 		{
@@ -66,10 +62,6 @@
 					"urlglobal": "global/tabs/tab2/tabIdx.png",
 					"location": "theme"
 				}
-			},
-			"background": {
-				"urlglobal": "global/tabs/bg/bg_2.svg",
-				"location": "theme"
 			}
 		},
 		{
@@ -102,10 +94,6 @@
 					"urlglobal": "global/tabs/tab3/tabIdx.png",
 					"location": "theme"
 				}
-			},
-			"background": {
-				"urlglobal": "global/tabs/bg/bg_3.svg",
-				"location": "theme"
 			}
 		},
 		{
@@ -138,10 +126,6 @@
 					"urlglobal": "global/tabs/tab4/tabIdx.png",
 					"location": "theme"
 				}
-			},
-			"background": {
-				"urlglobal": "global/tabs/bg/bg_4.svg",
-				"location": "theme"
 			}
 		},
 		{
@@ -174,10 +158,6 @@
 					"urlglobal": "global/tabs/tab5/tabIdx.png",
 					"location": "theme"
 				}
-			},
-			"background": {
-				"urlglobal": "global/tabs/bg/bg_5.svg",
-				"location": "theme"
 			}
 		}
 	],

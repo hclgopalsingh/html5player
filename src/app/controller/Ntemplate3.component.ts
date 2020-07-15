@@ -178,73 +178,74 @@ export class Ntemplate3 implements OnInit {
 
 
   playHoverOption(opt, i, j) {
-    this.appModel.notifyUserAction();
-    if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url+ "?someRandomSeed=" + Math.random().toString(36);;
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
-      if (!this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.pause();
-      }
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue;
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].play();
-      if (i == 0) {
-        if (this.optionsBlock.nativeElement.children[1] != undefined) {
-          this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
-        }
-        if (this.optionsBlock.nativeElement.children[2] != undefined) {
-          this.optionsBlock.nativeElement.children[2].style.pointerEvents = "none";
-        }
-      } else if(i == 1) {
-        if (this.optionsBlock.nativeElement.children[0] != undefined) {
-          this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
-        }
-        if (this.optionsBlock.nativeElement.children[2] != undefined) {
-          this.optionsBlock.nativeElement.children[2].style.pointerEvents = "none";
-        }
-      } else {
-        if (this.optionsBlock.nativeElement.children[0] != undefined) {
-          this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
-        }
-        if (this.optionsBlock.nativeElement.children[1] != undefined) {
-          this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
-        }
-      }
-      for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
-        if (x != j) {
-          this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "none";
-        }
-      }
-      //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].onended = () => {
-        if (i == 0) {
-          if (this.optionsBlock.nativeElement.children[1] != undefined) {
-            this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
-          }
-          if (this.optionsBlock.nativeElement.children[2] != undefined) {
-            this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
-          }
-        } else if(i==1) {
-          if (this.optionsBlock.nativeElement.children[0] != undefined) {
-            this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
-          }
-          if (this.optionsBlock.nativeElement.children[2] != undefined) {
-            this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
-          }
-        } else {
-          if (this.optionsBlock.nativeElement.children[0] != undefined) {
-            this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
-          }
-          if (this.optionsBlock.nativeElement.children[1] != undefined) {
-            this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
-          }
-        }
-        for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
-          if (x != j) {
-            this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "";
-          }
-        }
-      } 
-      
+    if(opt.imgsrc_audio.url != "" || opt.imgsrc_audio.location != "") {
+         this.appModel.notifyUserAction();
+         if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
+            this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url+ "?someRandomSeed=" + Math.random().toString(36);;
+            this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
+            if (!this.instruction.nativeElement.paused) {
+              this.instruction.nativeElement.pause();
+            }
+            this.optionsBlock.nativeElement.children[i].children[j].children[1].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue;
+            this.optionsBlock.nativeElement.children[i].children[j].children[1].play();
+            if (i == 0) {
+              if (this.optionsBlock.nativeElement.children[1] != undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
+              }
+              if (this.optionsBlock.nativeElement.children[2] != undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents = "none";
+              }
+            } else if(i == 1) {
+              if (this.optionsBlock.nativeElement.children[0] != undefined) {
+                this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
+              }
+              if (this.optionsBlock.nativeElement.children[2] != undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents = "none";
+              }
+            } else {
+              if (this.optionsBlock.nativeElement.children[0] != undefined) {
+                this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
+              }
+              if (this.optionsBlock.nativeElement.children[1] != undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
+              }
+            }
+            for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
+              if (x != j) {
+                this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "none";
+              }
+            }
+            //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+            this.optionsBlock.nativeElement.children[i].children[j].children[1].onended = () => {
+              if (i == 0) {
+                if (this.optionsBlock.nativeElement.children[1] != undefined) {
+                  this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
+                }
+                if (this.optionsBlock.nativeElement.children[2] != undefined) {
+                  this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
+                }
+              } else if(i==1) {
+                if (this.optionsBlock.nativeElement.children[0] != undefined) {
+                  this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
+                }
+                if (this.optionsBlock.nativeElement.children[2] != undefined) {
+                  this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
+                }
+              } else {
+                if (this.optionsBlock.nativeElement.children[0] != undefined) {
+                  this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
+                }
+                if (this.optionsBlock.nativeElement.children[1] != undefined) {
+                  this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
+                }
+              }
+              for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
+                if (x != j) {
+                  this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "";
+                }
+              }
+            } 
+       }
     }
   }
 
@@ -276,6 +277,8 @@ export class Ntemplate3 implements OnInit {
       console.log("narrator/instruction voice still playing");
     } else {
       //this.count = 0;
+      this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
+      this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
       this.appModel.enableSubmitBtn(true);
       this.appModel.enableReplayBtn(false);
       if (this.feedback.correct_ans_index.includes(opt.id)) {
@@ -285,8 +288,6 @@ export class Ntemplate3 implements OnInit {
         this.noOfWrongAnsClicked++;
         this.wrongansArray.push(opt);
       }
-      this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
-      this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
       this.appModel.notifyUserAction();
     }
   }
@@ -335,14 +336,14 @@ export class Ntemplate3 implements OnInit {
     } else {
       this.setData();
     }
-    if(this.appModel.theme_name){
-      this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
-        console.log("data",data)
-        if(data && data.url){
-          this.backgroundAssets = data;
-        }
-      })
-    }
+    // if(this.appModel.theme_name){
+    //   this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
+    //     console.log("data",data)
+    //     if(data && data.url){
+    //       this.backgroundAssets = data;
+    //     }
+    //   })
+    // }
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         //show modal for manual
@@ -666,11 +667,6 @@ export class Ntemplate3 implements OnInit {
         this.narratorAudio = this.fetchedcontent.commonassets.narrator;
         //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.ques_control = this.fetchedcontent.commonassets.ques_control;
-        /*Start: Theme Implementation(Template Changes)*/
-        if(this.ques_control && this.ques_control.background!=undefined){
-          this.backgroundAssets=this.ques_control.background;
-        }
-        /*End: Theme Implementation(Template Changes)*/
         this.noOfImgs = this.commonAssets.imgCount;
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
