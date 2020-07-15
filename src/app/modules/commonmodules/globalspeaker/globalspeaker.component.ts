@@ -38,7 +38,9 @@ export class GlobalspeakerComponent implements OnInit {
   ngOnInit() {
 	this.contentgFolderPath = this.basePath;
     this.setData();
-    this.sprite.nativeElement.style = "display:none";
+	this.sprite.nativeElement.style = "display:none";
+	this.Sharedservice.speakerVol.next(this.speakerVolume);
+    this.Sharedservice.spriteElement.next(this.sprite);
   }
   onHoverSpeaker() {
 		 

@@ -2,36 +2,60 @@
 	position: absolute;
     width: 52%;
     margin-left: 21%;
-    height: 100%;
-    top: 16px;
-    padding: 5% 0;
+    height: 84%;
+    top: 6%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
   }
   .font-style {
 	display: inline-block;
-    font-size: 5vw;
-    padding: 10% 6%;
-    height: 10%;
-    line-height: 10%;
+    font-size: 3vmax;
+    width: 6%;
+    margin: 10% 6%;
+    line-height: 0;
     font-weight: 500;
   }
   
-  .value1 img:not(:last-child) {
-	padding-right: 8%;
-  }
-  .value1,
-.value2,
-.result{
-	text-align: right;
+  .rowClass{
+	/* text-align: right; */
     padding-right: 13%;
-    /* height: 15%; */
-    /* line-height: 15%; */
     width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 .border-line {
-	border: solid 3px #000;
-    border-radius: 4px;
+	border-bottom: solid 4px #000;
+    /* border-radius: 4px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%; */
 }
-
+.operator {
+    width: 9%;
+    height: 70%;
+    margin: 0% 5% 0% 5%;
+}
+.placevalue {
+    width: 9%;
+    height: auto;
+    margin: 0% 4% 0% 5%;
+}
+.divide-img {
+    width: 40%;
+    height: auto;
+    margin: 0;
+}
+.divide>div:nth-child(1) {
+    margin-right: 18%;
+}
+.divide>div:nth-child(2) {
+    margin-bottom: -16%;
+}
+.divide>div:nth-child(2) .font-style  {
+    margin: 6% 1% 9% 3%;
+}
 .keypadBlock {
 	position: absolute;
     width: 35.5%;
@@ -91,205 +115,55 @@
     width: 100%;
     height: 80%;
     left: 0%;
-    z-index: 1;
 }
 .queryBlock {
     position: absolute;
     left: 1.8%;
     width: 53%;
 }
-.queryBlock>img{
-	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.20);
-    border-radius: 7.5%;
-}
-
 :host ::ng-deep .speakerBtn {
 	width: 6%;
     bottom: 14%;
     right: 1.2%;
     position: absolute;
 }
-/* .queryBlock .refImage{
-	position: absolute;
-	top:0;
-	left: 0;
+.highlightContainer {
+    position: relative;
+    width: 19%;
+    height: 100%;
+    padding: 2%;
 }
-.queryBlock .positions{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
+.highlightBox {
+    width: 96%;
+    height: 105%;
+    border-radius: 0.5vmax;
+    border: solid .3vmax #0029d0;
 }
-.queryBlock .steps{
-	position: absolute;
-	width: 14%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-#optionsBlock{
-    position: absolute;
-	top: 1.3%;
-	left: 38%;
-    width: 62%;
-    height: 98%;
-}
-#optionsBlock .options{
-	position: absolute;
-    width: 22.7%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	transition: transform .2s;
-	cursor:pointer;
-}
-#optionsBlock .options:hover{
-	transform: scale(1.1);
-	border: solid .5vmin #f00;
-    border-radius: 1.4vmax;
-}
-#optionsBlock .options img:nth-child(2){
-	width: 100%;
-}
-.options:nth-child(1){
-    top: 4.5%;
-	left: 16.3%;
-}
-.options:nth-child(2){
-    top: 16%;
-    left: 47.3%;
-}
-.options:nth-child(3){
-    top: 4.5%;
-	left: 75.3%;
-}
-.options:nth-child(4){
-    top: 59.5%;
-    left: 61.3%;
-}
-.options:nth-child(5){
-    top: 58%;
-    left: 30%;
-}
-.options:nth-child(6){
-    top: 49%;
-    left: 1.3%;
-}
-#container .speakerBlock{
-	width: 6%;
-    top: 75%;
-    right: .5%;
-    padding: 0;
+.blinkBox::before {
+    content: '';
     z-index: 1;
-}
-.speakerBlock .speakerBtn{
-    width: 100% !important;
-}
-#refQuesBlock{
+    width: 75%;
+    height: 84%;
     position: absolute;
-    top: 62.7%;
-    width: 99.5%;
-    height: 21%;
-    left: .4%; 
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    top: 10%;
+    left: 10%;
+    border: solid .2vmax transparent;
+    border-radius: 0.5vmax;
+    -webkit-animation: borderBlink2 normal 1s infinite linear;
+    animation: borderBlink2 normal 1s infinite linear;
 }
-.blocks{
-	width: 100%;
-	height: 100%;
-	position: absolute;
-    left: 0;
-    top: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.keyContainer:hover{
+	transition: transform .2s;
+	transform: scale(1.1);
 }
-.blocks div{
-	width: 15.5%;
-    margin: 0 .54%;
-    top: -1%;
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.blocks div::before {
-	content: '';
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	border: solid .3vmax transparent;
-	border-radius: 2.7vmax;
-	animation: none;
-}
-.blocks div.blinkOn::before {
-	animation: borderBlink2 normal 1s infinite linear;
-}
-@keyframes borderBlink2{
-	0%{
-		border: solid .35vmax #0029d0;
-	}
-	25%{
-		border: solid .35vmax #f0e;
-	}
-	50%{
-		border: solid .35vmax #f0e;
-	}
-	100%{
-		border: solid .35vmax #0029d0;
-	}
-}
-.options img:nth-child(2),
-#refQuesBlock .blocks img:nth-child(2){
-	position: absolute;
-	width: 92%;
-	top: -1%;
-}
-#optionsBlock .options img[src*='optionBase.png']{
-    box-shadow: 0.1vmin 0.1vmin 0.1vmin 0.1vmin rgba(0,0,0,0.30);
-    border-radius: 1.17vmax;
-}
-
-/*** Media Query for 1366*768 ***/
-/*@media screen and (min-width: 1366px) and (max-width: 1366px){
-	#container{
-		width: 1168px;
-	}
-} 
-.eva .modal{
-	display: none; 
-}
-.modal .queryBlock{	
-	top: 8% !important;
-	left: 33.5% !important;
-	width:30%;
-}
-.modal .correct_order{
-	position: absolute;
-	display: flex;
-    top: 51%;
-    left: 0;
-    width: 97.4%;
-}
-.modal .correct_order div{
-	margin:auto;
-	text-align: center;
-}
-.modal .correct_order div img {
-    max-width: 90%;
-}
-.modal#showAnswer .queryBlock{
-	top: 18% !important;
-}
-.modal#showAnswer .correct_order{
-	top: 61% !important;
+.modal .queryBlock {
+    left: 24%;
+    top: 8%;
+    width: 52%;
 }
 .rightWrongAns{
-	bottom: 12.3%;
+	bottom: 9%;
 }
 .rightWrongAns img{
     width: 6%;
-} */
+}

@@ -3,7 +3,7 @@
 <audio #instruction
   [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url"
   autoplay="autoplay"></audio>
-<div class="" #overlay></div>
+<div class="" [ngClass]="{'fadeContainer':isOverlay}"></div>
 <div class="container-fluid eva" id="container">
   <div class="headerBar">
     <img class="img-fluid"
@@ -13,7 +13,7 @@
     <img class="img-fluid"
       [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url" />
   </div>
-  <div #maincontent>
+  <div [ngClass]="{'disableDiv':disableMainContent}">
     <div id="instructionBar">
       <div class="instructionBase">
         <img class="img-fluid"
@@ -26,14 +26,20 @@
       <div class="queryBlock">
         <img class="img-fluid"
           [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
-        <div id="inputBlock">
-          <div class="value1" *ngFor="let quesTxt of quesObj?.tablet?.questionText; let idx = index">
-            <ng-container *ngFor="let no of quesTxt?.rowValues; let idx1 = index">
+        <div id="inputBlock" [ngClass]="{'divide':quesObj?.tablet?.quesType}">
+          <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;" [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}">
+            <ng-container *ngFor="let no of quesTxt?.rowValues;">
               <div *ngIf="no.value; else showOperator" class="font-style">{{no.value}}</div>
-              <ng-template #showOperator><img class="img-fluid"
-                [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''"></ng-template>
+              <ng-template #showOperator>
+                <div *ngIf="no.operator || no.placevalue" [ngClass]="{'operator':true, 'placevalue':no?.placevalue, 'divide-img':no?.isDivideImage}">
+                  <img class="img-fluid"
+                    [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
+                </div>
+                <div *ngIf="no.blank" [ngClass]="{'highlightContainer':true, 'blinkBox':no?.blink}">
+                  <div [ngClass]="{'highlightBox':!no?.blink}"></div>
+                </div>
+              </ng-template>
             </ng-container>
-            <hr *ngIf="quesTxt.bottomLine" class="border-line">
           </div>
         </div>
       </div>
@@ -43,7 +49,7 @@
           [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
           alt="">
 
-        <div class="keyContainer" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index">
+        <div class="keyContainer"  id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index" (click)="checkAnswer(option, idx)">
           <img class="img-fluid"
             [src]="option?.image?.location=='content' ? containgFolderPath + '/' + option?.image?.url : option?.image?.location=='assets' ? assetsPath + '/' +option?.image?.url:''"
             on-mousemove="onHoverOptions(option)" on-mouseout="onHoveroutOptions(option)"
@@ -56,17 +62,58 @@
   </div>
   <!--END OF MAIN CONTENT-->
 
+  <!-- Right/Wrong Popup  -->
+  <div class="modal" id="modalTemp17" #ansPopup>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+          <img class="img-fluid"
+            [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+            <div class="queryBlock">
+              <img class="img-fluid"
+                [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+              <div id="inputBlock">
+                <div [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}"
+                  *ngFor="let quesTxt of quesObj?.tablet?.questionText; let idx = index">
+                  <ng-container *ngFor="let no of quesTxt?.rowValues; let idx1 = index">
+                    <div *ngIf="no.value; else showOperator" class="font-style">{{no.value}}</div>
+                    <ng-template #showOperator>
+                      <div *ngIf="no.operator" class="operator">
+                        <img class="img-fluid"
+                          [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
+                      </div>
+                      <div *ngIf="no.correctValue" class="font-style">{{no.correctValue}}</div>
+                        <!-- <div [ngClass]="{'highlightBox':!no?.blink}"></div>
+                      </div> -->
+                    </ng-template>
+                  </ng-container>
+                  <!-- <hr *ngIf="quesTxt.bottomLine" class="border-line"> -->
+                </div>
+              </div>
+            </div>
+          <div class="rightWrongAns">
+            <img class="img-fluid"
+              [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+          </div>
+          <img class="popupCloseBtn"
+            [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+            (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- show answer Popup  -->
   <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
 </div>
-  <!-- Popup Modal Audios -->
-  <audio #wrongFeedback
-    [src]="feedback?.wrong_ans_sound?.path?.location=='content'? containgFolderPath + '/' +  feedback?.wrong_ans_sound?.path?.url : assetsPath +'/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
-  <audio #rightFeedback
-    [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
-  <audio #clapSound
-    [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
-  <audio #showAnswerfeedback
-    [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
-  <audio #multiCorrectFeedback
-    [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>
+<!-- Popup Modal Audios -->
+<audio #wrongFeedback
+  [src]="feedback?.wrong_ans_sound?.path?.location=='content'? containgFolderPath + '/' +  feedback?.wrong_ans_sound?.path?.url : assetsPath +'/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+<audio #rightFeedback
+  [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+<audio #clapSound
+  [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
+<audio #showAnswerfeedback
+  [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
+<audio #multiCorrectFeedback
+  [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>
