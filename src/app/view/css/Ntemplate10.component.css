@@ -724,7 +724,7 @@ button:focus {
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
-  opacity: 1;
+  opacity: 1 !important;
 }
 @media (min-width: 1366px){
 	.close {
