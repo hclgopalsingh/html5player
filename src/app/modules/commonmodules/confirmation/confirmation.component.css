@@ -30,3 +30,9 @@
     -ms-flex-align: center;
     align-items: center;
 }
+
+.Popuptext{
+    position: absolute;
+    font-size: x-large;
+    top: 36%;
+}

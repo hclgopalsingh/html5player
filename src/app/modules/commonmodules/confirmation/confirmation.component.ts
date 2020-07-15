@@ -19,7 +19,7 @@ export class ConfirmationComponent implements OnInit {
 
   @ViewChild('showAnswerRef') showAnswerRef: any;
   @ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
-  @Output("closePopupChild") closePopupChild: EventEmitter<any> = new EventEmitter();
+  @Output("closeConfirmationChild") closeConfirmationChild: EventEmitter<any> = new EventEmitter();
 
   constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -47,9 +47,27 @@ export class ConfirmationComponent implements OnInit {
 		this.popupAssets.close_button = this.popupAssets.close_button_origional;
   }
   
-  closePopup(){
-    this.closePopupChild.emit();
+  closePopup(type){
+    console.log("type",type)
+    this.closeConfirmationChild.emit(type);
   }
+
+  houtYes(){
+    this.popupAssets.btn_base = this.popupAssets.btn_base
+  }
+
+  hoverYes(){
+    this.popupAssets.btn_base = this.popupAssets.btn_base
+  }
+
+  hoverNo(){
+    this.popupAssets.btn_base = this.popupAssets.btn_base
+  }
+
+  houtNo(){
+    this.popupAssets.btn_base = this.popupAssets.btn_base
+  }
+
 
   ngOnInit() {
     this.contentgFolderPath = this.basePath;

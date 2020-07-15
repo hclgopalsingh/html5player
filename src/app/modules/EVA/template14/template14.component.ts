@@ -1196,6 +1196,10 @@ export class TemplateFourteenComponent implements OnInit {
       }
       }
 
+      closePopup(type) {
+      console.log("type",type)
+      }
+
 
   CheckAnswer() {
     console.log("right_date",this.feedback.right_date)
