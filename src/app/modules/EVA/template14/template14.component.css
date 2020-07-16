@@ -599,10 +599,11 @@
   }
   
   #modalTemp22 .modal-body {
+    -webkit-box-flex: 0 !important;
+    -ms-flex: none !important;
     flex: none !important;
-      padding: 3% !important;
-      height: 89.1%;
-  }
+    padding: 0% !important;
+    height: 96.1%;}
   
   #modalTemp22 .modal-body img {
     max-width: 100%;

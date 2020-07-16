@@ -109,6 +109,8 @@ export class TemplateFourteenComponent implements OnInit {
   rightanspopUp: any;
   wronganspopUp: any;
   quesObj:any;
+  popupIcon: any;
+  popupIconLocation: any;
   Id:any; 
   quesAudio:any;
   CorrectAudio:any;
@@ -496,6 +498,8 @@ export class TemplateFourteenComponent implements OnInit {
           }
           else{
             this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+            this.selectedMonthsId.length = 0;
+            this.selectedMonthsId.push(indexofMonth)
           }
           console.log("this.selectedMonthsId",this.selectedMonthsId)
           //this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
@@ -511,15 +515,15 @@ export class TemplateFourteenComponent implements OnInit {
         this.date.setMonth(indexofMonth);
         item.selected = true;
         this.setCalender('');
-        if(this.feedbackObj.correct_month!= "" && item.id == this.feedbackObj.correct_month) {
-          this.isCorrectMonth = true;
-          item.checkRightorWrong = true;
-          item.ImginpopUp = item.rightmonthImg;
-        } else {
-          this.isCorrectMonth = false;
-          item.checkRightorWrong = true;
-          item.ImginpopUp = item.wrongmonthImg;
-        }
+        // if(this.feedbackObj.correct_month!= "" && item.id == this.feedbackObj.correct_month) {
+        //   this.isCorrectMonth = true;
+        //   item.checkRightorWrong = true;
+        //   item.ImginpopUp = item.rightmonthImg;
+        // } else {
+        //   this.isCorrectMonth = false;
+        //   item.checkRightorWrong = true;
+        //   item.ImginpopUp = item.wrongmonthImg;
+        // }
       }else{
         item.selected = false
         let indexofMonth =this.monthsArr.findIndex((index) =>index.id==item.id);
@@ -652,51 +656,51 @@ export class TemplateFourteenComponent implements OnInit {
           this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
         }
         item.selected = true;
-        if(this.feedbackObj.correct_weekDay!= "") {
-          if(item.id == this.feedbackObj.correct_weekDay) {
-            this.isCorrectweekDay = true;
-            item.checkRightorWrong = true;
-            item.weekDayImginpopUp = item.rightweekDayImg;
-          } else {
-            this.isCorrectweekDay = false;
-            item.checkRightorWrong = true;
-            item.weekDayImginpopUp = item.wrongweekDayImg;
-          }
-        } else {
-           if(this.clickedID!=undefined) {
-             this.date.setDate(this.clickedID);
-             if(this.date.getDay() != 0) {
-              var getDay= this.date.getDay()-1;
-            } else {
-              var getDay=this.ArrweekDays.length-1;
-            }
-            var copiedDate = new Date(this.date.getTime());
-            if(this.feedbackObj.correct_month!="") {
-              copiedDate.setMonth(this.monthsArr.findIndex((item)=> item.id == this.feedbackObj.correct_month));
-            }
-            if(this.feedbackObj.correct_date!="") {
-              copiedDate.setDate(this.feedbackObj.correct_date);
-            } 
-            if(copiedDate.getDay() != 0) {
-              var copiedgetDay= copiedDate.getDay()-1;
-            } else {
-              var copiedgetDay=this.ArrweekDays.length-1;
-            }         
-             if((this.ArrweekDays[getDay].id == item.id || this.ArrweekDays[copiedgetDay].id==item.id) && this.monthsArr[this.date.getMonth()].id==this.feedback.correct_month) {
-              this.isCorrectweekDay = true;
-              item.checkRightorWrong = true;
-              item.weekDayImginpopUp = item.rightweekDayImg;
-             } else if((this.ArrweekDays[getDay].id == item.id || this.ArrweekDays[copiedgetDay].id==item.id) && this.feedback.correct_month=="") {
-              this.isCorrectweekDay = true;
-              item.checkRightorWrong = true;
-              item.weekDayImginpopUp = item.rightweekDayImg;
-             } else {
-              this.isCorrectweekDay = false;
-              item.checkRightorWrong = true;
-              item.weekDayImginpopUp = item.wrongweekDayImg;
-             }
-           }
-        }
+        // if(this.feedbackObj.correct_weekDay!= "") {
+        //   if(item.id == this.feedbackObj.correct_weekDay) {
+        //     this.isCorrectweekDay = true;
+        //     item.checkRightorWrong = true;
+        //     item.weekDayImginpopUp = item.rightweekDayImg;
+        //   } else {
+        //     this.isCorrectweekDay = false;
+        //     item.checkRightorWrong = true;
+        //     item.weekDayImginpopUp = item.wrongweekDayImg;
+        //   }
+        // } else {
+        //    if(this.clickedID!=undefined) {
+        //      this.date.setDate(this.clickedID);
+        //      if(this.date.getDay() != 0) {
+        //       var getDay= this.date.getDay()-1;
+        //     } else {
+        //       var getDay=this.ArrweekDays.length-1;
+        //     }
+        //     var copiedDate = new Date(this.date.getTime());
+        //     if(this.feedbackObj.correct_month!="") {
+        //       copiedDate.setMonth(this.monthsArr.findIndex((item)=> item.id == this.feedbackObj.correct_month));
+        //     }
+        //     if(this.feedbackObj.correct_date!="") {
+        //       copiedDate.setDate(this.feedbackObj.correct_date);
+        //     } 
+        //     if(copiedDate.getDay() != 0) {
+        //       var copiedgetDay= copiedDate.getDay()-1;
+        //     } else {
+        //       var copiedgetDay=this.ArrweekDays.length-1;
+        //     }         
+        //      if((this.ArrweekDays[getDay].id == item.id || this.ArrweekDays[copiedgetDay].id==item.id) && this.monthsArr[this.date.getMonth()].id==this.feedback.correct_month) {
+        //       this.isCorrectweekDay = true;
+        //       item.checkRightorWrong = true;
+        //       item.weekDayImginpopUp = item.rightweekDayImg;
+        //      } else if((this.ArrweekDays[getDay].id == item.id || this.ArrweekDays[copiedgetDay].id==item.id) && this.feedback.correct_month=="") {
+        //       this.isCorrectweekDay = true;
+        //       item.checkRightorWrong = true;
+        //       item.weekDayImginpopUp = item.rightweekDayImg;
+        //      } else {
+        //       this.isCorrectweekDay = false;
+        //       item.checkRightorWrong = true;
+        //       item.weekDayImginpopUp = item.wrongweekDayImg;
+        //      }
+        //    }
+        // }
       }
       else{
         //remove selected day
@@ -865,6 +869,10 @@ export class TemplateFourteenComponent implements OnInit {
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+        this.popupAssets = fetchedData.feedback.popupassets;
+        //need to be set acc. to the right or wrong answer.
+        this.popupIcon = this.popupAssets.right_icon.url;
+        this.popupIconLocation = this.popupAssets.right_icon.location;
         if (this.isLastQuesAct || this.isLastQues) {
           this.appModel.setlastQuesNT();
         }
@@ -1196,8 +1204,58 @@ export class TemplateFourteenComponent implements OnInit {
       }
       }
 
+
+      //After submit ans confirmation pop up clicked yes
       closePopup(type) {
       console.log("type",type)
+      this.setCalender("popup");            
+      this.attemptType = "manual";
+      if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
+        this.styleHeaderPopup = this.feedbackObj.style_header;
+        this.styleBodyPopup = this.feedbackObj.style_body;
+        if(!this.quesObj.disableweekDay) {
+          if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
+            this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].rightweekDayImg;
+          }
+        }
+        if(!this.quesObj.disablemonth) {
+          if(this.monthsArr.filter((item)=>item.selected == true)[0]!=undefined) {
+            this.monthsArr.filter((item)=>item.selected == true)[0].ImginpopUp = this.monthsArr.filter((item)=>item.selected == true)[0].rightmonthImg;
+          } 
+        }
+        if(!this.quesObj.disableyear) {
+          if(this.Arryears.filter((item)=>item.selected == true)[0]!=undefined) {
+            this.Arryears.filter((item)=>item.selected == true)[0].ImginpopUp = this.Arryears.filter((item)=>item.selected == true)[0].rightyearImg;
+          } 
+        }
+      } else {
+        this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+        this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+        // if(!this.quesObj.disableDate) {
+        //   if(this.datesArr.filter((item)=>item.selected == true)[0]!=undefined) {
+        //     this.datesArr.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
+        //   }
+        // }
+        // if(!this.quesObj.disableweekDay) {
+        //   if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
+        //     this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
+        //   }
+        // }
+        // if(!this.quesObj.disablemonth) {
+        //   if(this.monthsArr.filter((item)=>item.selected == true)[0]!=undefined) {
+        //     this.monthsArr.filter((item)=>item.selected == true)[0].ImginpopUp = this.monthsArr.filter((item)=>item.selected == true)[0].wrongmonthImg;
+        //   } 
+        // }
+        // if(!this.quesObj.disableyear) {
+        //   if(this.Arryears.filter((item)=>item.selected == true)[0]!=undefined) {
+        //     this.Arryears.filter((item)=>item.selected == true)[0].ImginpopUp = this.Arryears.filter((item)=>item.selected == true)[0].wrongyearImg;
+        //   } 
+        // }              
+      }
+      this.popupRef.nativeElement.classList = "displayPopup modal";
+      this.playFeedback();
+      this.CheckAnswer();
+        //}
       }
 
 
@@ -1209,21 +1267,50 @@ export class TemplateFourteenComponent implements OnInit {
     if(this.feedback.right_year.length > 0){
       //this.selec
     }
-    if(this.feedback.right_date.length > 0){
 
-        for (let index = 0; index < this.selectedDatesId.length; index++) {
-          const element1 = this.selectedDatesId[index];
-          
-          for (let index = 0; index < this.quesObj.right_date.length; index++) {
-            const element2 = this.quesObj.right_date[index];
+
+    //set right wrong for months
+    if(this.feedback.right_month.length > 0){
+        for (let index1 = 0; index1 < this.selectedMonthsId.length; index1++) {
+          const element1 = this.selectedMonthsId[index1];
+          for (let index2 = 0; index2 < this.feedback.right_month.length; index2++) {
+            const element2 = this.monthsArr.findIndex((item)=> item.id == this.feedback.right_month[index2]);
               if(element1 == element2){
                 //put a green base 
+                this.monthsArr[element1].ImginpopUp = this.monthsArr[element1].base_right
                 break;
+              }
+              else{
+                this.monthsArr[element1].ImginpopUp = this.monthsArr[element1].base_wrong
               }
               //put a red base 
           }
         }
-
+      //set right wrong for week days
+      if(this.feedback.right_weekDay.length > 0){
+        for (let index1 = 0; index1 < this.selectedDaysId.length; index1++) {
+          const element1 = this.selectedDaysId[index1];
+          for (let index2 = 0; index2 < this.feedback.right_weekDay.length; index2++) {
+            const element2 = this.feedback.right_weekDay[index2]
+            let id = this.ArrweekDays.findIndex((item)=> item.id == element2);
+            console.log("id",id)
+              if(element1 == element2){
+                //put a green base
+                this.ArrweekDays[id].weekDayImginpopUp = this.ArrweekDays[id].base_right
+                break;
+              }
+              else{
+                this.ArrweekDays[id].weekDayImginpopUp = this.ArrweekDays[id].base_wrong
+              }
+              //put a red base 
+          }
+        }
+      
+      
+      
+      
+      
+      }  
 
       // this.selectedDatesId.forEach(selectedElement => {
       //   this.quesObj.right_date.forEach(rightElement => {

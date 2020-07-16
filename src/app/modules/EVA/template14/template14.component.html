@@ -312,38 +312,37 @@
 
      <!-- The Modal -->
   <div class="modal" id="modalTemp22" #popupRef>
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <!-- <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url"> -->
       <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header" [ngStyle]="styleHeaderPopup">
-          <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
-          <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
-        </div>
-
         <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center"  [ngStyle]="styleBodyPopup">
+        <div class="modal-body d-flex justify-content-center">
+          <img class="img-fluid"
+            [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+         
           <div id="optionsBlock" #optionsBlock>
             <div class="leftBlock">
-              <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseMonths.png"> -->
-              <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url">
+              <!-- <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url"> -->
               <div class="blockContent">
-                <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.checkRightorWrong ? 
-                item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url :
-                item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                <div *ngFor="let item of monthsArr; let idx = index">
+                  <img style="margin:0 0.2%" class="img-fluid" [src]=" 
+                  item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url">  
+                  <img class="img-fluid monthName" [src]="item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url">
+                </div>
               </div>
             </div>
             <div class="topBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
-              <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url">
+              <!-- <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url"> -->
               <div class="blockContent">
-                <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.checkRightorWrong ? 
-                item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url :
-                item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                <div *ngFor="let item of Arryears;">
+                  <img class="img-fluid yearBase" [src]="item?.selected ? 
+                  item?.base_selected?.location=='content' ? containgFolderPath + '/' + item?.base_selected?.url : assetsPath + '/' + item?.base_selected?.url : item?.year_base?.location =='content' ?  containgFolderPath + '/'+ item.year_base.url : assetsPath +'/' +item.year_base.url" >
+                  <img class="img-fluid yearLabel" [src]="item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
+                  [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">  
+                </div>
+                <!-- <span *ngFor="let item of Arryears; let idx = index"> -->
               </div>
             </div>
             <div class="rightBlock">
@@ -351,59 +350,193 @@
               <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundDaysWeeks?.url : assetsPath + '/' + commonAssets?.backgroundDaysWeeks?.url">
               <div class="weekDays">
                 <div class="blockContent">
-                  <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.checkRightorWrong ? 
-                  item?.weekDayImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.weekDayImginpopUp?.url : assetsPath + '/' + item?.weekDayImginpopUp?.url :
-                  item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                  <span *ngFor="let item of ArrweekDays; let idx = index">
+                  <img style="position: absolute;" class="img-fluid"  [src]="item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url">
+                  <img style="margin:0 0.2%" class="img-fluid" [src]="item?.weekDayImginpopUp?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.weekDayImginpopUp.url" >
+                  </span>
                 </div>
               </div>
               <div class="monthDates" #monthDatesinPopup>
                 <div class="blockContent">
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" > 
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
-                  <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" >
+                  <div class="opacityZero" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
+                  <div class="opacityZero">
+                    <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+                    <span>1</span>
+                  </div>
                 </div> 
               </div> 
             </div> 
           </div>
+          <div class="rightWrongAns">
+            <img class="img-fluid"
+              [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+          </div>
+          <img class="popupCloseBtn"
+            [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+            (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
           <div class="actionButtonOk">
             <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.ok_btn?.url : assetsPath + '/' + feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
             </div>

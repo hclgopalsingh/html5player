@@ -49,7 +49,10 @@ export class ConfirmationComponent implements OnInit {
   
   closePopup(type){
     console.log("type",type)
-    this.closeConfirmationChild.emit(type);
+    this.enableConfirmation = false;
+    if(type == "yes"){
+      this.closeConfirmationChild.emit(type);
+    }
   }
 
   houtYes(){
