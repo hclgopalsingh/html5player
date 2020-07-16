@@ -530,6 +530,7 @@
   }
   .modal-dialog {
     max-width: 80%;
+    width: 43% !important;
     height: auto;
   }
   #modalTemp22 {
