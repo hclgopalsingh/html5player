@@ -23,8 +23,6 @@
 
 <filter id="Filter_1" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
 <feColorMatrix in="SourceGraphic" type="matrix" values="0.633558 0.32298200000000005 0.043460000000000006 0 0 0.163558 0.7929820000000001 0.043460000000000006 0 0 0.163558 0.32298200000000005 0.51346 0 0 0 0 0 1 0 " result="result1"/>
-
-<feColorMatrix in="result1" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.82 0" result="result2"/>
 </filter>
 
 <filter id="Filter_2" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
@@ -38,7 +36,7 @@
 
 <feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
 
-<feColorMatrix in="result5" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.33619999999999994 0" result="result6"/>
+<feColorMatrix in="result5" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.41 0" result="result6"/>
 </filter>
 
 <filter id="Filter_3" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
@@ -52,7 +50,7 @@
 
 <feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
 
-<feColorMatrix in="result5" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.33619999999999994 0" result="result6"/>
+<feColorMatrix in="result5" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.41 0" result="result6"/>
 </filter>
 
 <g id="Symbol_19_copy_0_Layer1_0_FILL">

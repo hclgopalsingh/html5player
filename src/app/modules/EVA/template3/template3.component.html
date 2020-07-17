@@ -69,24 +69,7 @@
   
   
    <!-- show answer Popup  -->
-      <div class="modal" id="showAnswer" #showAnswerRef>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body d-flex align-items-center">
-                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
-                    <div class="stageVideo">
-                        <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
-                        <video id="mainVideo" #videoonshowAnspopUp>
-                            <source src="">
-                         
-                          </video>
-                    </div> 
-                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showanswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
-                 </div>
-            </div>
-        </div>
-    </div>
+   <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
 
     </div>
 
@@ -94,9 +77,3 @@
   <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio>
   <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio>
   <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? contentgFolderPath + '/' + feedback?.right_ans_clap_sound?.url: assetsfolderlocation +'/'+feedback?.right_ans_clap_sound?.url"></audio>	
-  <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? contentgFolderPath + '/' +  showAnswerVO?.path?.url : assetsfolderlocation +'/'+ showAnswerVO?.path?.url"></audio>
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html> -->

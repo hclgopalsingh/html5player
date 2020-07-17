@@ -30,7 +30,6 @@ export class DataService {
 	}
 
 	private parseData(): void {
-		debugger;
 		this._dataVO = new TemplateVO();
 
 		/********* main screen question data *********/
