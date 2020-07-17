@@ -100,14 +100,7 @@ export class QuesController implements OnInit {
       console.log("selected question index", this.questionNo); 
     })
 
-      //*********  Move to next segment after 5 min of last question attempt */
-      this.Sharedservice.getTimerOnLastQues().subscribe(data => {
-        if (data.data && this.EVA) {
-          setTimeout(() => {
-            this.appModel.nextSectionEVA();
-          }, 5 * 60 * 1000);
-        }
-      });
+    
 
        
       // **** Disable aagey badhe button while on last question
@@ -115,6 +108,21 @@ export class QuesController implements OnInit {
       console.log("controlAssets",controlAssets);
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
+      if (this.isLastQues) {
+        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+      }
+
+
+        //*********  Move to next segment after 5 min of last question attempt */
+        this.Sharedservice.getTimerOnLastQues().subscribe(data => {
+          if (data.data && this.EVA && !this.appModel.nextSectionTimer) {
+            this.appModel.nextSectionTimer = setTimeout(() => {
+              this.appModel.nextSectionEVA(this.isLastQues);
+            }, 5 * 60 * 1000);
+          }
+        });
+
+
       // **** Enable show answer button
       this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
         this.EnableShowAnswer = data.data;
@@ -335,7 +343,12 @@ export class QuesController implements OnInit {
 
 
   hleavePreBtn() {
-    this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
+    if(this.EVA && this.isFirstQuestion) {
+      this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_disabled;
+    }
+    else {
+      this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
+    }
   }
 
 
@@ -350,8 +363,13 @@ export class QuesController implements OnInit {
 
   hleaveNextBtn() {
     if (!this.blinkFlag) {
-      if(!this.blink) {
-      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      if (!this.blink) {
+        if (this.EVA && this.isLastQues && !this.quesCtrl.blinkingStatus) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
+        }
+        else {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        }
       }
     }
   }
@@ -378,6 +396,7 @@ export class QuesController implements OnInit {
   setBlinkOnLastQuestion() {
     if(this.EVA) {
       // if(this.EnableShowAnswer === true){
+         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
          this.nextBtn.nativeElement.classList.remove("disableBtn");
          this.quesCtrl.blinkingStatus=true;
         // }

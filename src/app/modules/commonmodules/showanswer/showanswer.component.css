@@ -1,0 +1,32 @@
+.stageVideo {
+	position: absolute;
+    right: 5.6%;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.stageVideo img {
+	max-width: 100%;
+	width: 100%;
+}
+#mainVideo {
+	width: 98.6%;
+	height: auto;
+    position: relative;;
+}
+#showAnswer .stageVideo {
+    position: absolute;
+    height: 100%;
+    width: 92%;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
