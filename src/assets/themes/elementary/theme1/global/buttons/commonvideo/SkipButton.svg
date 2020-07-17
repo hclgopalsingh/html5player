@@ -136,7 +136,7 @@ l+TPlrXHChxsVV8OMKkrN9P886TWZarL1ZGUlq+J5Fu98LnLtketsrw9luBSy31f7r+KbbYc
 wPz9MmDbBYc8suYQdeE9PE7AUvtRgMtbDvFiW35tc5Oti2zwOMPK248a3GLLF8QXgS02XXiF
 HyGoJ9oT7cfb/h/g7M7oZ7S2EgAAAABJRU5ErkJggg=="/>
 
-<filter id="Filter_1" x="-20%" y="-28.46153846153846%" width="140%" height="156.9230769230769%" color-interpolation-filters="sRGB">
+<filter id="Filter_1" x="-23.3630289532294%" y="-20.771992818671453%" width="146.7260579064588%" height="141.5439856373429%" color-interpolation-filters="sRGB">
 <feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
 
 <feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
@@ -148,26 +148,29 @@ HyGoJ9oT7cfb/h/g7M7oZ7S2EgAAAABJRU5ErkJggg=="/>
 <feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
 </filter>
 
-<g id="Symbol_1_0_Layer0_0_FILL">
+<g id="Symbol_32_copy_0_Layer0_1_FILL">
 <path fill="#FFFFFF" stroke="none" d="
-M 12.05 4.7
-Q 12 3.3 11.3 2.2 10.55 1.1 9.25 0.55 7.9 0 6.15 0 4.55 0 3.25 0.5 1.95 1.05 1.25 2.1 0.6 3.15 0.6 4.3 0.6 5.4 1.15 6.3 1.7 7.15 2.8 7.75 3.7 8.2 5.85 8.75 8.05 9.25 8.65 9.5 9.65 9.9 10.1 10.45 10.5 11 10.5 11.7 10.5 12.45 10.1 13.1 9.6 13.7 8.7 14.05 7.8 14.4 6.6 14.4 5.25 14.4 4.2 13.95 3.1 13.45 2.6 12.7 2.1 11.95 1.95 10.75
-L 0 10.95
-Q 0.05 12.5 0.85 13.8 1.65 15 3.15 15.65 4.55 16.25 6.7 16.25 8.4 16.25 9.75 15.65 11.1 15.05 11.8 13.95 12.5 12.8 12.5 11.55 12.5 10.3 11.85 9.3 11.2 8.35 9.85 7.7 8.9 7.3 6.35 6.7 3.8 6.15 3.2 5.6 2.6 5.05 2.6 4.2 2.6 3.2 3.45 2.5 4.35 1.8 6.2 1.8 8.05 1.8 8.95 2.6 9.9 3.35 10.05 4.85
-L 12.05 4.7
-M 32.45 16
-L 32.45 0.25 30.35 0.25 30.35 16 32.45 16
-M 21.4 6.65
-L 28 0.25 25.15 0.25 17.35 8.05 17.35 0.25 15.25 0.25 15.25 16 17.35 16 17.35 10.55 19.9 8.05 25.55 16 28.3 16 21.4 6.65
-M 48.1 4.8
-Q 48.1 3.65 47.65 2.65 47.15 1.7 46.4 1.15 45.6 0.6 44.45 0.4 43.6 0.25 42.05 0.25
-L 36.1 0.25 36.1 16 38.2 16 38.2 9.6 42.2 9.6
-Q 45.55 9.6 46.85 8.2 48.1 6.8 48.1 4.8
-M 44.15 2.25
-Q 44.95 2.5 45.5 3.2 45.95 3.9 45.95 4.85 45.95 6.25 45.1 7 44.25 7.75 42.25 7.75
-L 38.2 7.75 38.2 2.1 42.2 2.1
-Q 43.65 2.1 44.15 2.25 Z"/>
+M 17.35 1.5
+Q 17.35 -0.85 15.55 0.5
+L 0.45 13.05
+Q -0.4 14.1 0.45 15.2
+L 15.5 27.65
+Q 16.9 28.2 17.35 27.05
+L 17.35 1.5 Z"/>
 </g>
+
+<path id="Symbol_32_copy_0_Layer0_0_1_STROKES" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M -5.1 3.9
+L -5.1 25.85"/>
+
+<path id="Symbol_32_copy_0_Layer0_1_1_STROKES" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 17.35 1.5
+Q 17.35 -0.85 15.55 0.5
+L 0.45 13.05
+Q -0.4 14.1 0.45 15.2
+L 15.5 27.65
+Q 16.9 28.2 17.35 27.05
+L 17.35 1.5 Z"/>
 </defs>
 
 <g transform="matrix( 1, 0, 0, 1, -3,-3) ">
@@ -175,9 +178,15 @@ Q 43.65 2.1 44.15 2.25 Z"/>
 </g>
 
 <g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
-<g transform="matrix( 1, 0, 0, 1, 13.25,27.45) ">
+<g transform="matrix( -1, 0, 0, 1, 41.7,21.35) ">
+<g transform="matrix( 1, 0, 0, 1, 0,-0.95) ">
+<use xlink:href="#Symbol_32_copy_0_Layer0_0_1_STROKES"/>
+</g>
+
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
-<use xlink:href="#Symbol_1_0_Layer0_0_FILL"/>
+<use xlink:href="#Symbol_32_copy_0_Layer0_1_FILL"/>
+
+<use xlink:href="#Symbol_32_copy_0_Layer0_1_1_STROKES"/>
 </g>
 </g>
 </g>

@@ -26,7 +26,6 @@ export class Ntemplate3 implements OnInit {
       this.appModel.setLoader(false);
       //this.checkforQVO();
     }, 5000);
-
     this.appModel.notification.subscribe(
       (data) => {
         console.log('Component: constructor - data=', data);
@@ -322,7 +321,7 @@ export class Ntemplate3 implements OnInit {
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
     this.functionalityType = this.appModel.content.contentLogic.functionalityType;
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
-    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
     this.checkquesTab();
     /*End: Theme Implementation(Template Changes)*/
     if (fetchedData.titleScreen) {

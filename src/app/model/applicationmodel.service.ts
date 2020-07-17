@@ -68,6 +68,7 @@ export class ApplicationmodelService {
   subscription: Subscription;
   Template: any;
   private nextCollectionCounterEVA: number = 0;
+  functionalityType:any;
   tPath: any="" ;
   theme_name: any = '';
   templatedata:any;
@@ -1146,9 +1147,9 @@ export class ApplicationmodelService {
 
   globalLoaded(data){
     this.templatedata.commonassets.ques_control=data;
-    //this.functionalityType = this.content.contentLogic.functionalityType;
+    this.functionalityType = this.content.contentLogic.functionalityType;
     this.themePath = ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.theme_name ; 
-    this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, undefined);
+    this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, this.functionalityType);
     this.setQuesControlAssets(this.templatedata.commonassets.ques_control);
     //this.setCommonControlAssets(data)
     // console.log("datajson", data);
