@@ -43,6 +43,7 @@ button:focus {
   width: 32%;
   text-align: center;
   position: relative;
+  cursor: pointer
 }
 
 #container #optionsBlock {

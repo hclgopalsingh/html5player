@@ -1,5 +1,5 @@
 <div class="container-fluid temp14" id="container">
-  <audio #narrator [src]="commonAssets?.narrator?.url"></audio>
+  <audio #narrator [src]="quesObj?.quesInstruction?.url"></audio>
   <!--
       <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
       <img class="img-fluid" src="images/optImg0.svg">
@@ -21,8 +21,9 @@
     </div>
   </div>
   <div class="bodyContent">
-    <div class="refQues" style="height: 96%;" [ngStyle]="quesObj?.bgColor">
-      <img  class="img-fluid fadeOut" [src]="quesObj?.quesImg?.url" (load)="checkImgLoaded();">
+    <div class="refQues" [ngClass]="{'disable_div':!clickableImg}" (click)="replayaudio_video()">
+      <img  class="img-fluid" [src]="quesObj?.quesImg?.url" (load)="checkImgLoaded();" >
+      <audio #questionAudio [src]="quesObj?.quesAudio?.url"></audio>
       <!--<video *ngIf="isQuesTypeVideo" #mainVideo id="mainVideo" width="100%" style="height: 100%;" poster="assets/images/videoPoster.svg">
         <source [src]="quesObj?.quesVideo?.urlOgv"
                 type="{{videoType}}">   
@@ -228,6 +229,6 @@
   <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"  poster="assets/images/videoPoster.svg" >
     <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
   </video>
-   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()"/></div>
-  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
+   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url"  (click)="PlayPauseVideo()"/></div>
+  <div id="SkipBtn" *ngIf="videoReplayd"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 </div>
