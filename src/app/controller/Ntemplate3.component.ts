@@ -26,7 +26,6 @@ export class Ntemplate3 implements OnInit {
       this.appModel.setLoader(false);
       //this.checkforQVO();
     }, 5000);
-
     this.appModel.notification.subscribe(
       (data) => {
         console.log('Component: constructor - data=', data);
