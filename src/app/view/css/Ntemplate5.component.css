@@ -482,7 +482,8 @@ button:focus {
 	border-bottom-right-radius: 20px;
 	border-top: none;
   */
-	flex:auto !important;
+  flex:auto !important;
+  height: -webkit-fill-available;
 }
 
 .modal-body img {
