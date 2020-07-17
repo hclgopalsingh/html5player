@@ -180,6 +180,10 @@ export class Ntemplate1 implements OnInit {
         this.instruction.nativeElement.play();
         $(".instructionBase img").css("cursor", "pointer");
       }
+      if(!this.questionAudio.nativeElement.paused) {
+        this.questionAudio.nativeElement.pause();
+        this.questionAudio.nativeElement.currentTime=0;
+      }
       if (!this.optionAudio.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.pause();
@@ -205,6 +209,10 @@ export class Ntemplate1 implements OnInit {
 
   playHoverOption(opt, i, j) {
     this.appModel.notifyUserAction();
+    if(!this.questionAudio.nativeElement.paused) {
+      this.questionAudio.nativeElement.pause();
+      this.questionAudio.nativeElement.currentTime=0;
+    }
     // for(var x =0;x<this.optionsBlock.nativeElement.children.length;x++) {
     //   for(var y=0;y<this.optionsBlock.nativeElement.children[x].children.length;y++) {
     //     console.log("audio");
@@ -547,12 +555,16 @@ export class Ntemplate1 implements OnInit {
     if(this.quesObj.quesType == "video") {
        this.replayVideo();
     } else {
-      $(".bodyContent").addClass("disable_div");
-      $(".instructionBase").addClass("disable_div");
+      //$(".bodyContent").addClass("disable_div");
+      //$(".instructionBase").addClass("disable_div");
+      if(!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();
+      }
       this.questionAudio.nativeElement.play();
       this.questionAudio.nativeElement.onended =() => {
-          $(".bodyContent").removeClass("disable_div");
-          $(".instructionBase").removeClass("disable_div"); 
+          //$(".bodyContent").removeClass("disable_div");
+          //$(".instructionBase").removeClass("disable_div"); 
       }
     }
   }
