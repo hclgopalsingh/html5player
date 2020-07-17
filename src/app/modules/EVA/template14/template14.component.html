@@ -45,7 +45,7 @@
           <img class="img-fluid yearBase" [src]="item?.selected ? 
           item?.base_selected?.location=='content' ? containgFolderPath + '/' + item?.base_selected?.url : assetsPath + '/' + item?.base_selected?.url : item?.year_base?.location =='content' ?  containgFolderPath + '/'+ item.year_base.url : assetsPath +'/' +item.year_base.url" >
           <img class="img-fluid yearLabel" [src]="item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
-          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">  
+          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !this.quesObj.multi_year }"  (click) = "onClickCalender(item,'year')">  
         </div>
         <!-- <span *ngFor="let item of Arryears; let idx = index"> -->
       </div>
@@ -337,10 +337,8 @@
               <!-- <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url"> -->
               <div class="blockContent">
                 <div *ngFor="let item of Arryears;">
-                  <img class="img-fluid yearBase" [src]="item?.selected ? 
-                  item?.base_selected?.location=='content' ? containgFolderPath + '/' + item?.base_selected?.url : assetsPath + '/' + item?.base_selected?.url : item?.year_base?.location =='content' ?  containgFolderPath + '/'+ item.year_base.url : assetsPath +'/' +item.year_base.url" >
-                  <img class="img-fluid yearLabel" [src]="item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
-                  [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">  
+                  <img class="img-fluid yearBase" [src]="item?.ImginpopUp?.location =='content' ?  containgFolderPath + '/'+ item.ImginpopUp.url : assetsPath +'/' +item.ImginpopUp.url" >
+                  <img class="img-fluid yearLabel" [src]="item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url">  
                 </div>
                 <!-- <span *ngFor="let item of Arryears; let idx = index"> -->
               </div>

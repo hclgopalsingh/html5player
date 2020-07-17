@@ -5,6 +5,7 @@ import 'jquery';
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { element } from 'protractor';
+import { getDiffieHellman } from 'crypto';
 declare var $: any;
 
 @Component({
@@ -148,7 +149,7 @@ export class TemplateFourteenComponent implements OnInit {
   selectedDaysId = [];
   selectedDatesId = [];
   selectedMonthsId = [];
-  previousYearItemEvent = [];
+  selectedYearID = [];
   speaker: any;
   speakerVolume: any;
 
@@ -482,7 +483,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.selectedDatesId.length = 0;
         this.selectedDaysId.length = 0;
         for(let i=this.startIndex;i>=0;i--) {
-          this.monthDates.nativeElement.children[0].children[i].children[0].src=this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;;
+          this.monthDates.nativeElement.children[0].children[i].children[0].src=this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
           if(this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i])
           this.monthDates.nativeElement.children[0].children[i].classList.value="img-fluid opacityZero";
         }
@@ -530,7 +531,8 @@ export class TemplateFourteenComponent implements OnInit {
         this.selectedMonthsId.splice(  this.selectedMonthsId.indexOf(indexofMonth), 1 )
         console.log("this.selectedMonthsId",this.selectedMonthsId)
     }
-      } else if(flag =="year" && !item.selected) {
+      } else if(flag =="year") {
+        if(!item.selected){
         this.yearfromLocalMachine=false;
         this.yearSelected = true;
         if(this.Arryears.filter((item) => item.checkRightorWrong == true)[0]!=undefined) {
@@ -545,7 +547,16 @@ export class TemplateFourteenComponent implements OnInit {
           this.monthDates.nativeElement.children[0].children[i].children[0].style.pointerEvents ="";
         }
         if(this.Arryears.filter((item) => item.selected == true)[0] !=undefined) {
-          this.Arryears.filter((item) => item.selected == true)[0].selected = false;
+          if(!this.quesObj.multi_year){
+            this.selectedYearID.push(item.id)
+            this.Arryears.filter((item) => item.selected == true)[0].selected = false;
+          }
+          else{
+            this.selectedYearID.push(item.id)
+          }
+        }
+        if(this.selectedYearID.length ==0){
+          this.selectedYearID.push(item.id)
         }
         //let indexofYear =this.Arryears.findIndex((index) =>index.id==item.id);
         this.date.setFullYear(item.id);
@@ -559,6 +570,12 @@ export class TemplateFourteenComponent implements OnInit {
           this.isCorrectYear = false;
           item.checkRightorWrong = true;
           item.ImginpopUp = item.wrongyearImg;
+        }
+      }
+      else{
+        item.selected = false
+        this.selectedYearID.splice(this.selectedYearID.indexOf(item.id),1)
+        console.log("this.selectedYearID",this.selectedYearID)
         }
       } else if(flag =="date") {
         this.clickedID = Number(item.target.id)+1;
@@ -832,6 +849,7 @@ export class TemplateFourteenComponent implements OnInit {
         }
         for(let i = 0;i<days;i++) {
           this.monthDates.nativeElement.children[0].children[this.startIndex].children[0].id = i;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].children[0].id = i;
           this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value="img-fluid";
           this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents="";
           if(this.datesArr[i].disable) {
@@ -839,7 +857,7 @@ export class TemplateFourteenComponent implements OnInit {
           }
 
           this.monthDates.nativeElement.children[0].children[this.startIndex].children[1].textContent = this.datesArr[i].id;
-
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].children[1].textContent = this.datesArr[i].id;
             // this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
           this.startIndex++;
         }
@@ -1264,11 +1282,7 @@ export class TemplateFourteenComponent implements OnInit {
     console.log("right_month",this.feedback.right_month)
     console.log("right_weekDay",this.feedback.right_weekDay)
     console.log("right_year",this.feedback.right_year)
-    if(this.feedback.right_year.length > 0){
-      //this.selec
-    }
-
-
+    
     //set right wrong for months
     if(this.feedback.right_month.length > 0){
         for (let index1 = 0; index1 < this.selectedMonthsId.length; index1++) {
@@ -1286,13 +1300,13 @@ export class TemplateFourteenComponent implements OnInit {
               //put a red base 
           }
         }
-      //set right wrong for week days
+      //set right wrong for week days base
       if(this.feedback.right_weekDay.length > 0){
         for (let index1 = 0; index1 < this.selectedDaysId.length; index1++) {
           const element1 = this.selectedDaysId[index1];
           for (let index2 = 0; index2 < this.feedback.right_weekDay.length; index2++) {
             const element2 = this.feedback.right_weekDay[index2]
-            let id = this.ArrweekDays.findIndex((item)=> item.id == element2);
+            let id = this.ArrweekDays.findIndex((item)=> item.id == element1);
             console.log("id",id)
               if(element1 == element2){
                 //put a green base
@@ -1305,32 +1319,83 @@ export class TemplateFourteenComponent implements OnInit {
               //put a red base 
           }
         }
-      
-      
-      
-      
-      
       }  
-
-      // this.selectedDatesId.forEach(selectedElement => {
-      //   this.quesObj.right_date.forEach(rightElement => {
-          
-
-      //   });
-      // });
-
+      //set right and wrong year base 
+      if(this.feedback.right_year.length > 0){
+        for (let index1 = 0; index1 < this.selectedYearID.length; index1++) {
+          const element1 = this.selectedYearID[index1];
+          for (let index2 = 0; index2 < this.feedback.right_year.length; index2++) {
+            const element2 = this.feedback.right_year[index2]
+            let id = this.Arryears.findIndex((item)=> item.id == element1);
+            console.log("id",id)
+              if(element1 == element2){
+                //put a green base
+                this.Arryears[id].ImginpopUp = this.Arryears[id].base_right
+                break;
+              }
+                //put a red base 
+              else{
+                this.Arryears[id].ImginpopUp = this.Arryears[id].base_wrong
+              }
+          }
+        }
       }
-    if(this.feedback.right_month.length > 0){
+
+          //set right wrong base for dates
+
+          if(this.feedback.right_date.length > 0){
+            for (let index1 = 0; index1 < this.selectedDatesId.length; index1++) {
+              const element1 = this.selectedDatesId[index1];
+              for (let index2 = 0; index2 < this.feedback.right_date.length; index2++) {
+                const element2 = this.feedback.right_date[index2]
+                //find ID of the element in #monthDatesinPopup to replace base url
+                if(element1 == element2){
+                 let ID =  this.getIdinMonthDatesinPopup(element1)
+
+                }
+
+
+
+
+                  // if(element1 == element2){
+                  //   //put a green base
+                  //   this.Arryears[id].ImginpopUp = this.Arryears[id].base_right
+                  //   break;
+                  // }
+                  //   //put a red base 
+                  // else{
+                  //   this.Arryears[id].ImginpopUp = this.Arryears[id].base_wrong
+                  // }
+              }
+            }
+          }
+
+
+
+
     }
-    if(this.feedback.right_weekDay.length > 0){
+    
+
+      
     }
+    getIdinMonthDatesinPopup(number){
+        console.log("number",number); 
+        // this.monthDates.nativeElement.children[0].children[i].children[0].src
+        let childElements = this.monthDates.nativeElement.children[0].children
+        for (let i = 0; i < childElements.length; childElements++) {
+            if(childElements[i].id ==number)
+            {
+              //set green base
+              childElements[i].children[0].src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
+            }
+            else{
+              // set redbase
+              childElements[i].children[0].src = this.datesArr[0].base_original.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[0].base_original.url : this.assetsPath +"/"+ this.datesArr[0].base_original.url;
+            }
 
+        }
 
-
-
-
-
-  }
+    }
 
    /*****Check speaker voice*****/
   //  checkSpeakerVoice(speaker) {

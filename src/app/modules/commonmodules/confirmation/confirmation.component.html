@@ -6,12 +6,12 @@
                 <img class="img-fluid"  [src]="popupAssets?.body?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.body?.url :  assetsfolderlocation +'/'+ popupAssets?.body?.url">
                 <span class="Popuptext">म से शुरू होने</span>
                 <div class="wrapper">
-                  <div>
+                  <div (click)="closePopup('yes')">
                     <img class="img-fluid" [src]="popupAssets?.btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.btn_base?.url : assetsfolderlocation + '/' + popupAssets?.btn_base?.url"
                     (click)="closePopup('yes');" (mousemove)="hoverYes()" (mouseleave)="houtYes()" title="करें">
                     <img class="img-fluid" [src]="popupAssets?.yesButton?.location=='content' ? contentgFolderPath + '/' + popupAssets?.yesButton?.url : assetsfolderlocation + '/' + popupAssets?.yesButton?.url">
                   </div>
-                  <div>
+                  <div (click)="closePopup('no')">
                     <img class="img-fluid" [src]="popupAssets?.btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.btn_base?.url : assetsfolderlocation + '/' + popupAssets?.btn_base?.url"
                     (click)="closePopup('no');" (mousemove)="hoverNo()" (mouseleave)="houtNo()" title="करें">
                     <img class="img-fluid" [src]="popupAssets?.noButton?.location=='content' ? contentgFolderPath + '/' + popupAssets?.noButton?.url : assetsfolderlocation + '/' + popupAssets?.noButton?.url">
