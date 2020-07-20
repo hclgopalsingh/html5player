@@ -500,6 +500,7 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
   onClickCalender(item, flag) {
+    this.Sharedservice.setSubmitAnsEnabled(true)
     console.log(this.date);
     //      this.appModel.notifyUserAction();
     if (flag == "month") {
