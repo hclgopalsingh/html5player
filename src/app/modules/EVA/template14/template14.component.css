@@ -136,13 +136,41 @@
     position: relative;
   }
   .monthDates .blockContent div span {
-      position: absolute;
-      /* line-height: 7%; */
-      font-size: 2.5vmax;
-      font-weight: bold;
-      font-family: Kruti Dev!important;
-      top: -6.5%;
+    position: absolute;
+    /* line-height: 7%; */
+    font-size: 2.5vmax;
+    font-weight: bold;
+    font-family: Kruti Dev!important;
+    top: -6.5%;
     }
+  .modal .monthDates{
+    top: 13.8%;
+  }
+  .modal .monthDates .blockContent div span {
+    font-size: 2vmax;
+  }
+  .modal #optionsBlock .rightBlock .weekDays .blockContent{
+    display: flex !important;
+    flex-wrap: nowrap;
+    height: auto;
+    width: 98.5%;
+    justify-content: space-between;
+  }
+  .modal .weekDays .blockContent div{
+    width: 14%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal .weekDays .blockContent .day{
+    position: absolute;
+  }
+  .modal .weekDays .blockContent img {
+      margin: 0;
+      max-width: 100% !important;
+  }
+
   /************************************#########$$$$$$$$$$$#########*************************************/
   #hoverques, #clickques {
   position: absolute;
@@ -537,9 +565,10 @@
     background: rgba(0,0,0,.85);
   }
   #modalTemp22 .modal-dialog {
-    width: 96%;
+    width: 84% !important;
+    /*96%;*/
     max-width: 100%;
-    height: 95%;
+    /* height: 95%; */
   }
   .modal-content {
       background: transparent !important;
@@ -606,23 +635,34 @@
     padding: 0% !important;
     height: 96.1%;}
   
-  #modalTemp22 .modal-body img {
+  .modal-body img {
     max-width: 100%;
     /* width: 100%; */
   }
   
   #modalTemp22 #optionsBlock {
-    top: 3.5%;
+    left: 4%;
+    top: 10%;
     pointer-events: none;
-    /* height: 65%; */
   }
   
+  .modal #optionsBlock .leftBlock {
+    width: 11.98%;
+  }
+
+  .modal #optionsBlock .topBlock {
+    width: 79.5%;
+    left: 12%;
+  }
+
   #modalTemp22 #optionsBlock .leftBlock .blockContent img {
     width: 92%;
   }
   
-  #modalTemp22 #optionsBlock .rightBlock {
-    top: 19%;
+  .modal #optionsBlock .rightBlock {
+    top: 13.7%;
+    left: 12.4%;
+    width: 79.2%;
   }
   
   .modalBodyContent {
@@ -688,7 +728,12 @@
       justify-content: center;
       width: 100%;
   }
-  
+  .rightWrongAns {
+    bottom: 10%;
+  }
+  .rightWrongAns img {
+    width: 6%;
+}
   /* .btn-secondary.focus, .btn-secondary:focus {
     box-shadow: none !important;
   } */

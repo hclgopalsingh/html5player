@@ -317,7 +317,7 @@
       <div class="modal-content">
 
         <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center">
+        <div class="modal-body d-flex align-items-center">
           <img class="img-fluid"
             [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
          
@@ -348,10 +348,10 @@
               <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundDaysWeeks?.url : assetsPath + '/' + commonAssets?.backgroundDaysWeeks?.url">
               <div class="weekDays">
                 <div class="blockContent">
-                  <span *ngFor="let item of ArrweekDays; let idx = index">
-                  <img style="position: absolute;" class="img-fluid"  [src]="item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url">
-                  <img style="margin:0 0.2%" class="img-fluid" [src]="item?.weekDayImginpopUp?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.weekDayImginpopUp.url" >
-                  </span>
+                  <div *ngFor="let item of ArrweekDays; let idx = index">
+                    <img class="img-fluid day"  [src]="item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url">
+                    <img class="img-fluid" [src]="item?.weekDayImginpopUp?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.weekDayImginpopUp.url" >
+                  </div>
                 </div>
               </div>
               <div class="monthDates" #monthDatesinPopup>
@@ -535,9 +535,9 @@
           <img class="popupCloseBtn"
             [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
             (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
-          <div class="actionButtonOk">
+          <!-- <div class="actionButtonOk">
             <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.ok_btn?.url : assetsPath + '/' + feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
-            </div>
+            </div> -->
           <audio #feedbackPopupAudio></audio>
         </div>
       </div>
