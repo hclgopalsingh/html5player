@@ -1440,13 +1440,20 @@ export class TemplateFourteenComponent implements OnInit {
     console.log("this.feedback.selectedYearID",this.selectedYearID)
     console.log("this.feedback.selectedMonthsId",this.selectedMonthsId)
     //
-
     let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
-    RightMonthArray.forEach(element => {
-      element = this.monthsArr.findIndex((item) => item.id == element);
+    let that = this
+    RightMonthArray.forEach(function(element1, i) {
+      that.monthsArr.forEach(function(item,ind) {
+        if(item.id == element1){
+          RightMonthArray[i] = ind
+        }
+      });
     });
     console.log("feedback_minths",RightMonthArray)
-
+    let finalRightArray = this.feedback.right_year.concat(RightMonthArray,this.feedback.right_weekDay,this.feedback.right_date)
+      console.log("finalRightArray",finalRightArray)
+    let finalSelectedArray  = this.selectedYearID.concat(this.selectedMonthsId, this.selectedDaysId, this.selectedDatesId)
+      console.log("finalSelectedArray",finalSelectedArray)
 
     let selectedAnsLength = this.selectedDatesId.length + this.selectedDaysId.length + 
     this.selectedYearID.length + this.selectedMonthsId.length
@@ -1460,7 +1467,21 @@ export class TemplateFourteenComponent implements OnInit {
       console.log("WRONG ans")
       this.isRight = false;
     }
+
+  console.log("this.arrayEquals(finalRightArray, finalSelectedArray)",this.arrayEquals(finalRightArray, finalSelectedArray))
+    //this.arrayEquals(finalRightArray, finalSelectedArray)
+
   }
+
+
+  //to check if two arrays are equal
+   arrayEquals(a, b) {
+    return Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index]);
+  }
+
 
   checkforsubmitButton(){
     let realAnsLength = this.feedback.right_date.length + this.feedback.right_month.length + 

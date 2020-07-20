@@ -247,7 +247,7 @@
       animation: scaleit 0.2s ease-in;
   }
   .disable-state {
-    opacity: 0.3;
+    opacity: 0.5;
     pointer-events: none;
   }
   
