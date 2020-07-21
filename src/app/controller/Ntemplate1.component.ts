@@ -155,19 +155,9 @@ export class Ntemplate1 implements OnInit {
   fetchedcontent:any;
   functionalityType:any;
   videoPlaytimer:any;
+  audioPlaytimer:any;
   clickableImg:boolean;
-  /*
-    hasEventFired:boolean = false;
-    	if(!this.hasEventFired){
-						if(this.isLastQuesAct){
-							this.hasEventFired = true;
-							this.appModel.event = {'action': 'segmentEnds'};
-						}
-						if(this.isLastQues){
-							this.appModel.event = {'action': 'exit'};	
-						}
-					}
-  */
+
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -385,6 +375,7 @@ export class Ntemplate1 implements OnInit {
 
   ngOnDestroy() {
    clearTimeout(this.videoPlaytimer); 
+   clearTimeout(this.audioPlaytimer);
   }
 
 
@@ -543,7 +534,9 @@ export class Ntemplate1 implements OnInit {
     if (obj.feedbackpartialPopupAudio && obj.feedbackpartialPopupAudio.nativeElement) {
       obj.feedbackpartialPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
+    if (obj.questionAudio && obj.questionAudio.nativeElement) {
+      obj.questionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   close() {
@@ -569,7 +562,7 @@ export class Ntemplate1 implements OnInit {
     }
   }
 
-  checkforVideoQuestion() {
+  checkforVideoorAudioQuestion() {
           if(this.quesObj.quesType == "video"){
                   this.isQuesTypeVideo = true;
                   this.videoPlaytimer=setTimeout(() => {
@@ -589,7 +582,17 @@ export class Ntemplate1 implements OnInit {
                   $(".instructionBase").removeClass("disable_div");
                    }
                   }, this.quesObj.timegap);
-            } else {
+            } else if(this.quesObj.quesType == "imagewithAudio") {
+                   this.audioPlaytimer=setTimeout(() => {
+                    this.questionAudio.nativeElement.play();
+                    this.questionAudio.nativeElement.onended =() => {
+                    this.appModel.handlePostVOActivity(false);
+                    $(".bodyContent").removeClass("disable_div");
+                    $(".instructionBase").removeClass("disable_div"); 
+                  }
+                  }, this.quesObj.timegap);
+            }
+            else {
                   this.appModel.handlePostVOActivity(false);
                   $(".bodyContent").removeClass("disable_div");
                   $(".instructionBase").removeClass("disable_div");
@@ -611,10 +614,10 @@ export class Ntemplate1 implements OnInit {
                if(this.quesObj.quesInstruction.autoPlay) {
                   this.narrator.nativeElement.play();
                   this.narrator.nativeElement.onended = () => {
-                  this.checkforVideoQuestion();
+                  this.checkforVideoorAudioQuestion();
               }
                } else {
-                   this.checkforVideoQuestion();
+                   this.checkforVideoorAudioQuestion();
                }
       }
     }
