@@ -1,29 +1,20 @@
 #inputBlock{
-	position: absolute;
-    width: 52%;
-    margin-left: 21%;
-    height: 84%;
-    top: 6%;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
+    position: absolute;
+    /* width: 100%; */
+    width: auto;
+    height: auto;
   }
   .font-style {
-	display: inline-block;
-    font-size: 3vmax;
-    width: 6%;
-    margin: 10% 6%;
-    line-height: 0;
-    font-weight: 500;
+    display: inline-block;
+    width: 25%;
   }
-  
+
+  .font-style img{
+    padding: 24%;
+  }
   .rowClass{
-	/* text-align: right; */
-    padding-right: 13%;
     width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+    text-align: end;
 }
 .border-line {
 	border-bottom: solid 4px #000;
@@ -33,9 +24,11 @@
     width: 100%; */
 }
 .operator {
-    width: 9%;
-    height: 70%;
-    margin: 0% 5% 0% 5%;
+    display: inline-block;
+    width: 19%;
+}
+.operator img {
+    padding: 24%;
 }
 .placevalue {
     width: 9%;
@@ -120,6 +113,15 @@
     position: absolute;
     left: 1.8%;
     width: 53%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 :host ::ng-deep .speakerBtn {
 	width: 6%;
@@ -129,6 +131,7 @@
 }
 .highlightContainer {
     position: relative;
+    display: inline-block;
     width: 19%;
     height: 100%;
     padding: 2%;

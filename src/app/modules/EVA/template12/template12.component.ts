@@ -23,7 +23,7 @@ export class Template12ComponentEVA implements OnInit {
   isLastQuesAct: boolean;
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
-  loaderTimer: any;
+  // loaderTimer: any;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
@@ -82,20 +82,13 @@ export class Template12ComponentEVA implements OnInit {
   disableMainContent: boolean = true;
   hightlightIndexes: any = {};
   isOverlay: boolean = false;
-  // isSpriteHide: any;
 
   @ViewChild('instruction') instruction: any;
-  // @ViewChild('audioEl') audioEl: any;
-  // @ViewChild('sprite') sprite: any;
-  // @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('ansPopup') ansPopup: any;
   @ViewChild('wrongFeedback') wrongFeedback: any;
   @ViewChild('rightFeedback') rightFeedback: any;
-  // @ViewChild('disableSpeaker') disableSpeaker: any;
-  // @ViewChild('myAudiospeaker') myAudiospeaker: any;
-  // @ViewChild('footerNavBlock') footerNavBlock: any;
+  @ViewChild('optionsContainer') optionsContainer: any;
   @ViewChild('clapSound') clapSound: any;
-  // @ViewChild('overlay') overlay: any;
   @ViewChild('multiCorrectFeedback') multiCorrectFeedback: any;
 
   constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
@@ -148,10 +141,8 @@ export class Template12ComponentEVA implements OnInit {
   }
 
   ngOnInit() {
-    // this.sprite.nativeElement.style = "display:none";
     this.Sharedservice.setShowAnsEnabled(false);
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
-    //this.optionsContainer.nativeElement.classList.add("disableDiv");
     this.attemptType = "";
     this.setTemplateType();
     console.log("this.attemptType = " + this.attemptType);
@@ -160,11 +151,6 @@ export class Template12ComponentEVA implements OnInit {
     }
     this.containgFolderPath = this.getBasePath();
     this.setData();
-    // this.quesObj.letters.forEach(question => {
-    //   if (question.correct_ans && question.correct_ans.correct_ans_obj) {
-    //     this.correctAnswerCount = this.correctAnswerCount + Object.keys(question.correct_ans.correct_ans_obj).length;
-    //   }
-    // });
     this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         console.log("manual mode ", mode);
@@ -178,32 +164,11 @@ export class Template12ComponentEVA implements OnInit {
 
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       this.appModel.stopAllTimer();
-      this.clapSound.nativeElement.pause();
-      this.clapSound.nativeElement.currentTime = 0;
-      this.rightFeedback.nativeElement.pause();
-      this.rightFeedback.nativeElement.currentTime = 0;
-      if (!this.wrongFeedback.nativeElement.paused) {
-        this.wrongFeedback.nativeElement.pause();
-        this.wrongFeedback.nativeElement.currentTime = 0;
-        this.shuffleOptions();
-      }
-      if (!this.audio.paused) {
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        // this.enableAllOptions();
-      }
+      this.pauseSpeaker();
+      this.stopAllSounds();
+      this.enableAllOptions();
       clearTimeout(this.clappingTimer);
-      // this.optionsContainer.nativeElement.classList.add("disableDiv");
-      // this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
-      // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-      let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-      if (!speakerEle.paused) {
-        speakerEle.pause();
-        speakerEle.currentTime = 0;
-        // this.sprite.nativeElement.style = "display:none";
-        (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-        this.speaker.imgsrc = this.speaker.imgorigional;
-      }
+      
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
         this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
@@ -255,12 +220,6 @@ export class Template12ComponentEVA implements OnInit {
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
-    // if (this.getChromeVersion() < 58) {
-    //   for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
-    //     this.refQuesWord.nativeElement.children[i].style.width = "fit-content";
-    //   }
-    // }
-
   }
 
   /****Set data for the Template****/
@@ -287,41 +246,14 @@ export class Template12ComponentEVA implements OnInit {
     this.isLastQues = this.appModel.isLastSection;
     this.isLastQuesAct = this.appModel.isLastSectionInCollection;
     this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-    // this.quesObj.tablet.questionText.forEach(row => {
-    //   let highlightObj = {
-    //     [row.rowid]: []
-    //   };
-    //   row.rowValues.forEach(digit => {
-    //     if(digit.correctValue != undefined) {
-    //       this.correctAnswerCount++;
-    //       highlightObj[Object.keys(highlightObj)[0]].push({"id":digit.id,"correctValue":digit.correctValue});
-    //     }
-    //   });
-    //   if (highlightObj[row.rowid].length > 0) {
-    //     this.hightlightIndexes.push(highlightObj);
-    //   }
-    // });
     this.quesObj.tablet.questionText.forEach(row => {
-      let highlightObj = {
-      };
       row.rowValues.forEach(digit => {
         if (digit.correctValue != undefined) {
           this.correctAnswerCount++;
-          this.hightlightIndexes[digit.blinkIndex] = { "rowId": row.rowid, "id": digit.id, "correctValue": digit.correctValue };
-          // highlightObj[Object.keys(highlightObj)[0]].push({"id":digit.id,"correctValue":digit.correctValue});
+          this.hightlightIndexes[digit.blinkIndex] = { "rowId": row.rowid, "id": digit.id, "correctValue": digit.correctValue };   //object having details all empty slots to be filled with answer
         }
       });
-      // if (highlightObj[row.rowid].length > 0) {
-      // this.hightlightIndexes.push(highlightObj);
-      // }
     });
-    console.log("highlightindexwe", this.hightlightIndexes);
-    // setTimeout(() => {
-    //   if (this.footerNavBlock && this.footerNavBlock.nativeElement) {
-    //     this.footerNavBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
-    //   }
-    // }, 200)
-
   }
 
   /******Set template type for EVA******/
@@ -336,8 +268,8 @@ export class Template12ComponentEVA implements OnInit {
     if (obj.instruction && obj.instruction.nativeElement) {
       obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-    if (obj.myAudiospeaker && obj.myAudiospeaker.nativeElement) {
-      obj.myAudiospeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    if (obj.speakerVolume && obj.speakerVolume.nativeElement) {
+      obj.speakerVolume.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
       obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -357,9 +289,6 @@ export class Template12ComponentEVA implements OnInit {
     if (obj.multiCorrectFeedback && obj.multiCorrectFeedback.nativeElement) {
       obj.multiCorrectFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-    if (obj.wrongFeedbackOnAkshar && obj.wrongFeedbackOnAkshar.nativeElement) {
-      obj.wrongFeedbackOnAkshar.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
     if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
       obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
@@ -371,75 +300,6 @@ export class Template12ComponentEVA implements OnInit {
       return this.appModel.content.id + '';
     }
   }
-
-  /*****Play speaker audio*****/
-  // playSpeaker(el: HTMLAudioElement, speaker) {
-  //   this.stopAllSounds();
-  //   this.enableAllOptions();
-  //   if (!this.instruction.nativeElement.paused) {
-  //     console.log("instruction voice still playing");
-  //   } else {
-  //     this.myAudiospeaker.nativeElement.currentTime = 0.0;
-  //     if (el.id == "S") {
-  //       this.myAudiospeaker.nativeElement.pause();
-  //       if (el.paused) {
-  //         el.currentTime = 0;
-  //         el.play();
-  //       } else {
-  //         el.currentTime = 0;
-  //         el.play();
-  //       }
-  //       this.speakerTimer = setInterval(() => {
-  //         speaker.imgsrc = speaker.imgactive;
-  //         this.sprite.nativeElement.style = "display:flex";
-  //         (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
-  //         this.checkSpeakerVoice(speaker);
-  //       }, 10)
-  //     }
-  //     else {
-  //       if (this.myAudiospeaker && this.myAudiospeaker.nativeElement) {
-  //         this.myAudiospeaker.nativeElement.pause();
-  //       }
-  //       el.pause();
-  //       el.currentTime = 0;
-  //       el.play();
-  //       if (this.maincontent) {
-  //         this.maincontent.nativeElement.className = "disableDiv";
-  //       }
-  //       el.onended = () => {
-  //         if (this.maincontent) {
-  //           this.maincontent.nativeElement.className = "";
-  //           (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-  //           this.sprite.nativeElement.style = "display:none";
-  //         }
-  //       }
-
-  //     }
-  //   }
-  // }
-
-  /*****Check speaker voice*****/
-  // checkSpeakerVoice(speaker) {
-  //   if (!this.audioEl.nativeElement.paused) {
-  //   } else {
-  //     speaker.imgsrc = speaker.imgorigional;
-  //     this.isSpriteHide=true;
-  //            this.isPointerNone=false;
-  //     // this.sprite.nativeElement.style = "display:none";
-  //     (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-  //     clearInterval(this.speakerTimer);
-  //   }
-  // }
-
-  /*********SPEAKER HOVER *********/
-  // onHoverSpeaker(speaker) {
-  //   speaker.imgsrc = speaker.imghover;
-  // }
-
-  /******Hover out speaker ********/
-  // onHoverOutSpeaker(speaker) {
-  //   speaker.imgsrc = speaker.imgorigional;
-  // }
 
   /****** sets clapping timer ********/
   setClappingTimer(feedback, popupRef?) {
@@ -455,13 +315,13 @@ export class Template12ComponentEVA implements OnInit {
     }, 2000);
   }
 
+  /****** Show right answer popup on all correct answer selection ********/
   showRightAnswerPopup() {
     if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
       let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
       this.setClappingTimer(this.multiCorrectFeedback, rightAnswerPopup);
     }
     this.multiCorrectFeedback.nativeElement.onended = () => {
-      // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
       this.disableMainContent = true;
       for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
         document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
@@ -472,100 +332,26 @@ export class Template12ComponentEVA implements OnInit {
     }
   }
 
-
-  // checkAkshar(letter, id) {
-  //   //reset Akshar selection
-  //   for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
-  //     if (this.refQuesWord.nativeElement.children[i].classList.contains("blinkOn")) {
-  //       this.refQuesWord.nativeElement.children[i].classList.remove("blinkOn");
-  //     }
-  //   }
-  //   this.selectedIndex = id;
-  //   this.refQuesWord.nativeElement.children[id].classList.add("blinkOn");
-  //   //check if user clicked wrong akshar
-  //   if (!letter.iscorrect_ans) {
-  //     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-  //       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
-  //     }
-  //     this.optionsContainer.nativeElement.classList.add("disableDiv");
-  //     this.refQuesWord.nativeElement.classList.add("disableDiv");
-  //     this.disableSpeaker.nativeElement.classList.add("disableDiv");
-  //     setTimeout(() => {
-  //       if (this.wrongFeedbackOnAkshar && this.wrongFeedbackOnAkshar.nativeElement) {
-  //         this.stopAllSounds();
-  //         this.enableAllOptions();
-  //         this.wrongFeedbackOnAkshar.nativeElement.play();
-  //       }
-
-  //       this.wrongFeedbackOnAkshar.nativeElement.onended = () => {
-  //         this.refQuesWord.nativeElement.children[id].classList.remove("blinkOn");
-  //         this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-  //         this.refQuesWord.nativeElement.classList.remove("disableDiv");
-  //         for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-  //           document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
-  //         }
-  //       }
-  //     });
-  //   }
-  //   else {
-  //     this.correctAnswerObj = letter;
-  //     this.optionsContainer.nativeElement.classList.remove("disableDiv");
-  //   }
-  // }
-
   /****Check answer on option click*****/
   checkAnswer(option, index) {
     this.selectedIndex = index;
-    // let selectedOption = this.optionsContainer.nativeElement.children[index];
-    // let selectedAkshar = this.quesObj.letters[this.selectedIndex];
-    // // if selected option is empty
-    // if (selectedOption && !selectedOption.children[1]) {
-    //   return;
-    // }
+    option.image = option.image_original;//Reset Hover image to normal
+    this.disableMainContent = true;//Disable the mainContent when option is selected
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
-    // this.stopAllSounds("clicked");
+    this.stopAllSounds();
+    this.enableAllOptions();
     let highLightDigitObj = this.getHighLightDigitDetails();
     let blinkingDigitRef = this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1];
-    // let matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
     if (option.id === blinkingDigitRef["correctValue"]) {
       this.correctAnswerCounter++;
-      // this.appModel.stopAllTimer();
+      this.appModel.stopAllTimer();
       blinkingDigitRef.value = option.id;
-      // this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId)-1].rowValues.pop();
-      // selectedAkshar.matraadded.push(option.matravalue);
-      // this.myoption[index].selected = true;
-      // option.optBg = option.optBg_original;
       this.ifRightAns = true;
-      // if (selectedAkshar.matra_selected === 0) {
-      //   selectedAkshar.url = selectedAkshar.correct_ans.correct_ans_obj[option.matravalue] && selectedAkshar.correct_ans.correct_ans_obj[option.matravalue].url;
-      //   selectedAkshar.matra_selected++;
-      //   if (option.matravalue === "ang") {
-      //     // this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "-3%";
-      //   }
-      // }
-      // else {
-      //   this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "0%";
-      //   selectedAkshar.url = selectedAkshar.correct_ans.url;
-      // }
-      // if (option.matravalue === "oo") {
-      //   // this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "-2%";
-      // }
-      // selectedAkshar.location = "content";
-      // this.refQuesWord.nativeElement.children[this.selectedIndex].children[0].classList.remove("dark");
-      // selectedOption.children[1].remove();
-
-      //disable matras and akshars
-      // this.optionsContainer.nativeElement.classList.add("disableDiv");
-      // this.refQuesWord.nativeElement.classList.add("disableDiv");
-      // this.disableSpeaker.nativeElement.classList.add("disableDiv");
-      // this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
-
       this.popupIcon = this.popupAssets.right_icon.url;
       this.popupIconLocation = this.popupAssets.right_icon.location;
 
-      // setTimeout(() => {
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
         if (this.correctAnswerCounter === this.correctAnswerCount) {
           this.showRightAnswerPopup();
@@ -573,107 +359,34 @@ export class Template12ComponentEVA implements OnInit {
         else {
           this.setClappingTimer(this.rightFeedback);
           this.rightFeedback.nativeElement.onended = () => {
-            // this.refQuesWord.nativeElement.classList.remove("disableDiv");
-            // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-            //this.updateHighlightIndex();  // update blinking digit index to next
             this.setBlink(); // set blinking on updated blinking digit index
+            this.disableMainContent = false; //Enable main content
             for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
               document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
             }
           }
         }
       }
-      // })
     }
     else {
       this.ifWrongAns = true;
-      option.image = option.image_original;
-      // this.refQuesWord.nativeElement.classList.add("disableDiv");
-      // this.optionsContainer.nativeElement.classList.add("disableDiv");
-      // this.disableSpeaker.nativeElement.classList.add("disableDiv");
       //play wrong feed back audio
       this.wrongCounter += 1;
-      // setTimeout(() => {
-        if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-          this.stopAllSounds();
-          this.wrongFeedback.nativeElement.play();
-        }
+      if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+        this.wrongFeedback.nativeElement.play();
+      }
 
-        this.wrongFeedback.nativeElement.onended = () => {
-          // this.refQuesWord.nativeElement.classList.remove("disableDiv");
-          // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-          // this.shuffleOptions();
-          for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
-          }
-          // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-          if (this.wrongCounter >= 3 && this.ifWrongAns) {
-            this.Sharedservice.setShowAnsEnabled(true);
-          }
-          // this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
+      this.wrongFeedback.nativeElement.onended = () => {
+        this.disableMainContent = false; //Enable main content
+        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {    //Enable Show Ans button
+          document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
         }
-      // });
+        if (this.wrongCounter >= 3 && this.ifWrongAns) {
+          this.Sharedservice.setShowAnsEnabled(true);
+        }
+      }
     }
   }
-
-  shuffleOptions() {
-    // this.idArray = [];
-    // for (let i of this.myoption) {
-    //   this.idArray.push(i.id);
-    // }
-    //this.doRandomize(this.myoption);
-    // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-    // if (this.wrongCounter >= 3 && this.ifWrongAns) {
-    //   this.Sharedservice.setShowAnsEnabled(true);
-    // }
-  }
-
-  /****Randomize option on wrong selection*****/
-  // doRandomize(array) {
-  //   var currentIndex = array.length, temporaryValue, randomIndex;
-  //   // While there remain elements to shuffle...
-  //   while (0 !== currentIndex) {
-  //     // Pick a remaining element...
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex -= 1;
-  //     var optionBg1 = array[currentIndex].optBg;
-  //     var img_hover1 = array[currentIndex].optBg_hover;
-  //     var text1copy = array[currentIndex].optBg_original;
-
-  //     var optionBg2 = array[randomIndex].optBg;
-  //     var img_hover2 = array[randomIndex].optBg_hover;
-  //     var text2copy = array[randomIndex].optBg_original;
-
-  //     // And swap it with the current element.
-  //     temporaryValue = array[currentIndex];
-  //     array[currentIndex] = array[randomIndex];
-  //     array[randomIndex] = temporaryValue;
-
-  //     array[currentIndex].optBg = optionBg1;
-  //     array[currentIndex].optBg_hover = img_hover1;
-  //     array[currentIndex].optBg_original = text1copy;
-
-  //     array[randomIndex].optBg = optionBg2;
-  //     array[randomIndex].optBg_hover = img_hover2;
-  //     array[randomIndex].optBg_original = text2copy;
-
-  //   }
-  //   var flag = this.arraysIdentical(array, this.idArray);
-  //   if (flag) {
-  //     this.doRandomize(array);
-  //   }
-  // }
-
-  /*****Check if array is identical******/
-  // arraysIdentical(a, b) {
-  //   var i = a.length;
-  //   while (i--) {
-  //     if (a[i].id == b[i]) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
 
   close() {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
@@ -702,8 +415,6 @@ export class Template12ComponentEVA implements OnInit {
 
     this.multiCorrectFeedback.nativeElement.pause();
     this.multiCorrectFeedback.nativeElement.currentTime = 0;
-
-    // this.refQuesWord.nativeElement.classList.remove("disableDiv");
 
     if (Type === "answerPopup") {
       this.popupclosedinRightWrongAns = true;
@@ -775,42 +486,20 @@ export class Template12ComponentEVA implements OnInit {
     }
   }
 
+  /****** gets row and digit id of next blinking position ********/
   getHighLightDigitDetails() {
-    // if (highLightRowId) {
-    // let hightLightRowLength = this.hightlightIndexes[0][Object.keys(this.hightlightIndexes[0])[0]].length;
-    // if (hightLightRowLength === 0) {
-    //   this.hightlightIndexes.splice(0,1);
-    // }
-    // highLightRowId = this.hightlightIndexes[0] && Object.keys(this.hightlightIndexes[0])[0];
-    // hightLightRowLength = this.hightlightIndexes[0][Object.keys(this.hightlightIndexes[0])[0]].length;
-    // highLightDigitId = this.hightlightIndexes[0][highLightRowId][hightLightRowLength-1].id;
-    // }
     return { "rowId": this.hightlightIndexes[this.correctAnswerCounter].rowId, "digitId": this.hightlightIndexes[this.correctAnswerCounter].id };
   }
+
+  /****** sets blinking on digit ********/
   setBlink() {
     let highLightDigitObj = this.getHighLightDigitDetails();
     this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
-    this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
-    // }
-    // this.quesObj.tablet.questionText[Object.keys(this.hightlightIndexes[0])]
   }
-
-  // updateHighlightIndex() {
-  // if (this.hightlightIndexes[0][Object.keys(this.hightlightIndexes[0])[0]].length === 0) {
-  //   this.hightlightIndexes.splice(0,1);
-  // }
-  // else {
-  // this.hightlightIndexes[0][Object.keys(this.hightlightIndexes[0])[0]].pop();
-  // }
-  // }
 
   /******On Hover option ********/
   onHoverOptions(option) {
-    // if (!this.speakerVolume.nativeElement.paused) {
-    //   this.speakerVolume.nativeElement.pause();
-    //   this.speakerVolume.nativeElement.currentTime = 0;
-    //   this.speaker.imgsrc = this.speaker.imgorigional;
-    // }
+    this.pauseSpeaker();
     option.image = option.image_hover;
   }
 
@@ -835,14 +524,14 @@ export class Template12ComponentEVA implements OnInit {
       }
       this.audio.load();
       this.audio.play();
-      //   for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-      //     if (i != idx) {
-      //         this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
-      //     }
-      // }
-      this.audio.onended = () => {
-        // this.enableAllOptions();
-      }
+      for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
+        if (i != idx) {
+            this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+        }
+    }
+    this.audio.onended = () => {
+        this.enableAllOptions();
+    }
     }
   }
 
@@ -857,13 +546,13 @@ export class Template12ComponentEVA implements OnInit {
   }
 
   /***** Enable all options and speaker on audio end *******/
-  // enableAllOptions() {
-  //   for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-  //     if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")  && !this.myoption[i].selected) {
-  //       this.optionsContainer.nativeElement.children[i].classList.remove("disableDiv");
-  //     }
-  //   }
-  // }
+  enableAllOptions() {
+    for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
+      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")) {
+        this.optionsContainer.nativeElement.children[i].classList.remove("disableDiv");
+      }
+    }
+  }
 
   /** Function to stop all sounds **/
   stopAllSounds(clicked?) {
@@ -887,9 +576,22 @@ export class Template12ComponentEVA implements OnInit {
     // }
   }
 
-  // getChromeVersion(): any {
-  //   let appVersion = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
-  //   return appVersion && appVersion.split('.')[0];
-  // }
+  pauseSpeaker() {
+    // if (!this.speakerVolume.nativeElement.paused) {
+    //   this.speakerVolume.nativeElement.pause();
+    //   this.speakerVolume.nativeElement.currentTime = 0;
+    //   document.getElementById('waveAnimation').style.display = 'none';
+    //   (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+    //   this.speaker.imgsrc = this.speaker.imgorigional;
+    // }
 
+    let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+		if (!speakerEle.paused) {
+			speakerEle.pause();
+			speakerEle.currentTime = 0;
+			document.getElementById('waveAnimation').style.display = 'none';
+			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+			this.speaker.imgsrc = this.speaker.imgorigional;
+		}
+  }
 }
