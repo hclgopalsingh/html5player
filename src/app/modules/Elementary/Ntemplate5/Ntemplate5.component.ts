@@ -588,7 +588,11 @@ export class Ntemplate5 implements OnInit {
       }
     } else {
       this.appModel.notifyUserAction();
+      $("#optionsBlock").addClass("disable_div");
       $("#instructionBar").removeClass("disable_div");
+       setTimeout(() => {
+        $("#optionsBlock").removeClass("disable_div");
+      }, 1000);
     }
   }
 
@@ -598,7 +602,8 @@ export class Ntemplate5 implements OnInit {
     }
   }
 
-  closeModal() {
+  closeModal() {  
+    $("#optionsBlock").addClass("disable_div");
     this.count = 1;
     if (!this.rightFeedbackVO.nativeElement.paused) {
       this.rightFeedbackVO.nativeElement.pause();
@@ -619,7 +624,9 @@ export class Ntemplate5 implements OnInit {
     if (!this.checked) {
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
-      }, 1000);
+        
+        $("#optionsBlock").removeClass("disable_div");
+      }, 3000);
       $("#optionsBlock .options").removeClass("disable_div");
       $("#optionsBlock .options").css("opacity", "unset");
     }
