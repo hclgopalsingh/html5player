@@ -1,16 +1,16 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
-import { SharedserviceService } from '../services/sharedservice.service';
-import { ThemeConstants } from '../common/themeconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
 declare var $: any;
 
 @Component({
   selector: 'ntemp3',
-  templateUrl: '../view/layout/Ntemplate3.component.html',
-  styleUrls: ['../view/css/Ntemplate3.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate3.component.html',
+  styleUrls: ['./Ntemplate3.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
@@ -335,14 +335,7 @@ export class Ntemplate3 implements OnInit {
     } else {
       this.setData();
     }
-    // if(this.appModel.theme_name){
-    //   this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
-    //     console.log("data",data)
-    //     if(data && data.url){
-    //       this.backgroundAssets = data;
-    //     }
-    //   })
-    // }
+  
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         //show modal for manual
@@ -649,9 +642,6 @@ export class Ntemplate3 implements OnInit {
       this.appModel.enableReplayBtn(true);
     }
   }
-
-
-
   
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
@@ -1319,9 +1309,6 @@ export class Ntemplate3 implements OnInit {
     this.appModel.notifyUserAction();
 
     if (this.checked) {
-      //if (this.count == 1 && mode == "auto") {
-      //  this.attemptType = "";
-      //}
       this.optionsBlock.nativeElement.style.pointerEvents = "none";
       this.blinkOnLastQues();
     }
