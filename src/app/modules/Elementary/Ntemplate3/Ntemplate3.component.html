@@ -7,7 +7,7 @@
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
     </div>
   </div>
-  <div class="row mx-0" id="optionsBlock" #optionsBlock>
+  <div class="row mx-0" [ngClass]="{'disable_div':disableDiv}" id="optionsBlock" #optionsBlock>
     <div id={{idx}} class="my-auto quesImage" *ngFor="let optArr of optionObj;let idx = index">
       <div id="{{idx+''+idxx}}" class="options" *ngFor="let opt of optArr.optionsArr;let idxx = index" >
         <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="onClickoption(opt,idx,idxx)" (mouseenter)="playHoverOption(opt,idx,idxx)" (mousemove)="optionHover(opt,idx,idxx)" (mouseleave)="onHoverOptionOut(opt,idx,idxx)">
