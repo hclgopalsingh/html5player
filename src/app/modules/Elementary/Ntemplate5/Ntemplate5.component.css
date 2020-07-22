@@ -476,13 +476,15 @@ button:focus {
 .modal-body {
   padding: 2%;
   /*
-	background: #afdec0;
-	border: solid .7vmin #85d222;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
-	border-top: none;
+  background: #afdec0;
+  border: solid .7vmin #85d222;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top: none;
   */
-	flex:auto !important;
+  flex:auto !important;
+  /* autoprefixer: off */
+  height: -webkit-fill-available;
 }
 
 .modal-body img {
