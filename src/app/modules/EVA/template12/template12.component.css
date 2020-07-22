@@ -1,34 +1,59 @@
-#inputBlock{
+.inputBlockParent {
     position: absolute;
-    /* width: 100%; */
-    width: auto;
-    height: auto;
+    left: 7.3%;
+    top: 5.5%;
+    width: 82.2%;
+    height: 88%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#inputBlock{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
   }
-  .font-style {
-    display: inline-block;
-    width: 25%;
-  }
+.font-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 21%;
+    margin: 0 2%;
+    position: relative;
+}
 
-  .font-style img{
-    padding: 24%;
-  }
-  .rowClass{
+.font-style img{
+    width: 63%;
+    /* padding: 24%; */
+}
+.rowClass{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     width: 100%;
-    text-align: end;
+    margin: 3.5% 0;
+    padding: 0 13%;
 }
 .border-line {
-	border-bottom: solid 4px #000;
+    border-bottom: solid 4px #000;
+    padding-bottom: 6.5%;
+    margin-bottom: 3%;
     /* border-radius: 4px;
     margin-top: 2%;
     margin-bottom: 2%;
     width: 100%; */
 }
 .operator {
-    display: inline-block;
-    width: 19%;
+    width: 24%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .operator img {
-    padding: 24%;
+    /* padding: 24%; */
+    max-width: 69%;
 }
 .placevalue {
     width: 9%;
@@ -129,21 +154,35 @@
     right: 1.2%;
     position: absolute;
 }
-.highlightContainer {
+/* .highlightContainer {
     position: relative;
     display: inline-block;
     width: 19%;
     height: 100%;
     padding: 2%;
-}
-.highlightBox {
-    width: 96%;
-    height: 105%;
+} */
+.highlightBox::before {
+    /* width: 96%;
+    height: 105%; */
+    content: '';
+    position: absolute;
+    height: 136%;
+    width: 105%;
     border-radius: 0.5vmax;
     border: solid .3vmax #0029d0;
 }
+.highlightBox img {
+    visibility: hidden;
+}
 .blinkBox::before {
+    animation: borderBlink2 normal 1s infinite linear;
     content: '';
+    position: absolute;
+    height: 136%;
+    width: 105%;
+    border-radius: 0.5vmax;
+    border: solid .3vmax #0029d0;
+    /* content: '';
     z-index: 1;
     width: 75%;
     height: 84%;
@@ -153,7 +192,7 @@
     border: solid .2vmax transparent;
     border-radius: 0.5vmax;
     -webkit-animation: borderBlink2 normal 1s infinite linear;
-    animation: borderBlink2 normal 1s infinite linear;
+    animation: borderBlink2 normal 1s infinite linear; */
 }
 .keyContainer:hover{
 	transition: transform .2s;
