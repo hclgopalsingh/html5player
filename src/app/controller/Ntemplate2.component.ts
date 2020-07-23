@@ -342,36 +342,36 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			let scaleValue:any
 			if(this.noofSubQues==3){
 				scaleValue = .80;
-				this.leftCss1 = -3.5+"%";
-				this.topCss1 = 4.2+"%";
+				this.leftCss1 = 1.5+"%";
+				this.topCss1 = 8.2+"%";
 				this.leftCss2 = 47+"%";
-				this.topCss2 = 4.2+"%";
+				this.topCss2 = 8.2+"%";
 			}else if(this.noofSubQues==4){
 				scaleValue = 1.05;
-				this.leftCss1 = 2.5+"%";
-				this.topCss1 = 14.8+"%";//14.2
+				this.leftCss1 = 7.5+"%";
+				this.topCss1 = 17.8+"%";
 				this.leftCss2 = 53.7+"%";
-				this.topCss2 = 14.8+"%";
+				this.topCss2 = 17.8+"%";
 		/*		if(window.innerWidth<1920){
 					this.topCss1 = 14.2+"%";
 					this.topCss2 = 14.2+"%";
 				}*/
 			}else if(this.noofSubQues==5){
 				scaleValue = 1.4;
-				this.leftCss1 = 7.9+"%";
-				this.topCss1 = 22.3+"%"; 
+				this.leftCss1 = 10.9+"%";
+				this.topCss1 = 24.3+"%"; 
 				this.leftCss2 = 58.5+"%";
-				this.topCss2 = 22.3+"%";
+				this.topCss2 = 24.3+"%";
 			/*	if(window.innerWidth<1920){
 					this.topCss1 = 22.2+"%";
 					this.topCss2 = 22.2+"%";
 				}*/
 			}else if(this.noofSubQues==6){
-				scaleValue = .90;
-				this.leftCss1 = -2+"%";
-				this.topCss1 = 26.5+"%";
-				this.leftCss2 = 48+"%";
-				this.topCss2 = 26.5+"%";
+				scaleValue = 1.6;
+				this.leftCss1 = 13+"%";
+				this.topCss1 = 28+"%";
+				this.leftCss2 = 60+"%";
+				this.topCss2 = 28+"%";
 			}
 			this.root.style.setProperty('--scaleValue', scaleValue);
 		}

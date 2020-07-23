@@ -40,7 +40,7 @@ button:focus {
 	width: 22%;
 }
 .quesBase6{
-	width:21%;
+	width:12%;
 }
 .ansBase{
 	width: 37%;
@@ -370,6 +370,9 @@ button:focus {
 }
 #customModal .optionsBlock{
 	width: 95%;/*44%*/
+}
+#customModal .optionsBlock.optBlock6{
+	width: 75%;/*44%*/
 }
 #customModal .optionsBlock .quesImage{
 	height: auto;/*95%;*/
