@@ -146,6 +146,7 @@ export class Ntemplate3 implements OnInit {
   functionalityType:any;
   bgSubscription: Subscription;
   /*End: Theme Implementation(Template Changes)*/
+  disableDiv:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -883,6 +884,10 @@ export class Ntemplate3 implements OnInit {
       }
     } else {
       this.appModel.notifyUserAction();
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+     }, 1000);
     }
   }
 
@@ -893,6 +898,10 @@ export class Ntemplate3 implements OnInit {
       this.appModel.notifyUserAction();
       //this.resetAttempt();
     }
+    this.disableDiv = true;
+    setTimeout(() => {
+      this.disableDiv = false;
+   }, 1000);
   }
 
   setFeedbackAudio(mode) {
@@ -1270,10 +1279,15 @@ export class Ntemplate3 implements OnInit {
     } else {
       this.appModel.notifyUserAction();
       $("#instructionBar").removeClass("disable_div");
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+     }, 1000);
     }
   }
 
   closeModal() {
+    this.disableDiv = true;
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
@@ -1314,9 +1328,11 @@ export class Ntemplate3 implements OnInit {
     }
 
     if (!this.checked) {
+      //alert();
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
-      }, 1000);
+        this.disableDiv = false;
+      }, 3000);
     }
 
   }
