@@ -43,7 +43,13 @@ button:focus {
   width: 32%;
   text-align: center;
   position: relative;
-  cursor: pointer
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.refQuesImg {
+  position: absolute;
 }
 
 #container #optionsBlock {
@@ -68,6 +74,10 @@ button:focus {
   width: 31%;
   display: inline-block;
   /*animation: scaleit 0.4s ease-in;*/
+}
+
+.optionswithFour .options {
+ width: 40% !important;
 }
 
 .quesImage {
@@ -242,7 +252,7 @@ button:focus {
 }
 
 #instructionBar .instructionBase {
-  width: 83%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
@@ -627,7 +637,7 @@ button:focus {
   margin-top: -.1%;
   -webkit-appearance: inherit !important;
   cursor: pointer;
-  opacity: 1;
+  opacity: 1!important;
 }
 
 @media (min-width: 1366px) {
@@ -852,3 +862,8 @@ html [type=button] {
   left:0;
   z-index: 101;
 }
+
+.waveAnimation img:nth-child(1) {
+  animation: blink1 normal infinite cubic-bezier(0, 0.5, 0.5, 0);
+  animation-duration: 1.5s;
+} 

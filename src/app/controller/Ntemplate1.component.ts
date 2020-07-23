@@ -63,7 +63,6 @@ export class Ntemplate1 implements OnInit {
   @ViewChild('partialpopupRef') partialpopupRef: any;
   @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
   @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any;
-  @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('mainVideo') mainVideo: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('questionAudio') questionAudio: any;
@@ -157,7 +156,8 @@ export class Ntemplate1 implements OnInit {
   videoPlaytimer:any;
   audioPlaytimer:any;
   clickableImg:boolean;
-
+  displayWave:boolean;
+  disable:boolean=false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -173,6 +173,7 @@ export class Ntemplate1 implements OnInit {
       if(!this.questionAudio.nativeElement.paused) {
         this.questionAudio.nativeElement.pause();
         this.questionAudio.nativeElement.currentTime=0;
+        this.displayWave=false;
       }
       if (!this.optionAudio.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -202,6 +203,7 @@ export class Ntemplate1 implements OnInit {
     if(!this.questionAudio.nativeElement.paused) {
       this.questionAudio.nativeElement.pause();
       this.questionAudio.nativeElement.currentTime=0;
+      this.displayWave=false;
     }
     // for(var x =0;x<this.optionsBlock.nativeElement.children.length;x++) {
     //   for(var y=0;y<this.optionsBlock.nativeElement.children[x].children.length;y++) {
@@ -413,7 +415,7 @@ export class Ntemplate1 implements OnInit {
           this.popupRef.nativeElement.classList = "displayPopup modal";
           this.confirmModalRef.nativeElement.classList = "modal";
           this.submitModalRef.nativeElement.classList = "modal";
-          this.confirmReplayRef.nativeElement.classList = "modal";
+          //this.confirmReplayRef.nativeElement.classList = "modal";
           this.infoModalRef.nativeElement.classList="modal";
           //this.appModel.enableReplayBtn(true);
           this.noOfRightAnsClicked = 0;
@@ -427,6 +429,7 @@ export class Ntemplate1 implements OnInit {
 
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
+      this.disable=true;
       if (action == "uttarDikhayein") {
         if (!this.instruction.nativeElement.paused)
         {
@@ -437,6 +440,7 @@ export class Ntemplate1 implements OnInit {
         {
           this.questionAudio.nativeElement.pause();
           this.questionAudio.nativeElement.currentTime = 0;
+          this.displayWave=false;
           $(".bodyContent").removeClass("disable_div");
           $(".instructionBase").removeClass("disable_div"); 
         }
@@ -453,20 +457,20 @@ export class Ntemplate1 implements OnInit {
             }
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
-      if (action == "replayVideo") {
-        if (!this.instruction.nativeElement.paused)
-            {
-              this.instruction.nativeElement.pause();
-              this.instruction.nativeElement.currentTime = 0;
-            }
-        this.appModel.videoStraming(true);
-        this.appModel.handlePostVOActivity(true);
-        if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          $("#optionsBlock .options").addClass("disable_div");
-          this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
-        }
-      }
+      // if (action == "replayVideo") {
+      //   if (!this.instruction.nativeElement.paused)
+      //       {
+      //         this.instruction.nativeElement.pause();
+      //         this.instruction.nativeElement.currentTime = 0;
+      //       }
+      //   this.appModel.videoStraming(true);
+      //   this.appModel.handlePostVOActivity(true);
+      //   if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+      //     $("#optionsBlock .options").addClass("disable_div");
+      //     this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
+      //     this.appModel.notifyUserAction();
+      //   }
+      // }
     })
 
     this.appModel.questionEvent.subscribe(() => {
@@ -545,20 +549,22 @@ export class Ntemplate1 implements OnInit {
   }
 
   replayaudio_video() {
-    if(this.quesObj.quesType == "video") {
-       this.replayVideo();
-    } else {
-      //$(".bodyContent").addClass("disable_div");
-      //$(".instructionBase").addClass("disable_div");
       if(!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.pause();
       }
-      this.questionAudio.nativeElement.play();
-      this.questionAudio.nativeElement.onended =() => {
-          //$(".bodyContent").removeClass("disable_div");
-          //$(".instructionBase").removeClass("disable_div"); 
-      }
+      if(this.quesObj.quesType == "video") {
+        this.replayVideo();
+      } else {
+        //$(".bodyContent").addClass("disable_div");
+        //$(".instructionBase").addClass("disable_div");
+        this.displayWave=true;
+        this.questionAudio.nativeElement.play();
+        this.questionAudio.nativeElement.onended =() => {
+          this.displayWave=false;
+            //$(".bodyContent").removeClass("disable_div");
+            //$(".instructionBase").removeClass("disable_div"); 
+        }
     }
   }
 
@@ -584,8 +590,10 @@ export class Ntemplate1 implements OnInit {
                   }, this.quesObj.timegap);
             } else if(this.quesObj.quesType == "imagewithAudio") {
                    this.audioPlaytimer=setTimeout(() => {
+                    this.displayWave=true; 
                     this.questionAudio.nativeElement.play();
                     this.questionAudio.nativeElement.onended =() => {
+                    this.displayWave=false;  
                     this.appModel.handlePostVOActivity(false);
                     $(".bodyContent").removeClass("disable_div");
                     $(".instructionBase").removeClass("disable_div"); 
@@ -606,21 +614,25 @@ export class Ntemplate1 implements OnInit {
         this.appModel.setLoader(false);
         this.loadFlag = true;
         clearTimeout(this.loaderTimer);
+        this.activityStart();
+      }
+    }
+  }
+
+  activityStart() {
         this.appModel.handlePostVOActivity(true);
         //this.appModel.enableReplayBtn(false);
         $(".bodyContent").addClass("disable_div");
         $(".instructionBase").addClass("disable_div");
         this.appModel.enableSubmitBtn(false);
-               if(this.quesObj.quesInstruction.autoPlay) {
-                  this.narrator.nativeElement.play();
-                  this.narrator.nativeElement.onended = () => {
-                  this.checkforVideoorAudioQuestion();
-              }
-               } else {
-                   this.checkforVideoorAudioQuestion();
-               }
-      }
-    }
+        if(this.quesObj.quesInstruction.autoPlay) {
+            this.narrator.nativeElement.play();
+            this.narrator.nativeElement.onended = () => {
+            this.checkforVideoorAudioQuestion();
+        }
+        } else {
+            this.checkforVideoorAudioQuestion();
+        }
   }
 
   //checkforQVO() {
@@ -745,6 +757,14 @@ export class Ntemplate1 implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
+  hoversubmitCloseConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_hover;
+  }
+
+  houtsubmitCloseConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_original;
+  }
+
   hoverClosePopup() {
     this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
   }
@@ -772,6 +792,9 @@ export class Ntemplate1 implements OnInit {
     }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
+      setTimeout(() => {
+        this.disable=false;
+      }, 1000);
       if (this.feedbackInfoAudio && !this.feedbackInfoAudio.nativeElement.paused) {
         this.feedbackInfoAudio.nativeElement.pause();
         this.feedbackInfoAudio.nativeElement.currentTime = 0;
@@ -805,7 +828,12 @@ export class Ntemplate1 implements OnInit {
         }, 100);
       }
       if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
-        this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+          if(this.commonAssets.noofOptions == 4) {
+          this.optionsBlock.nativeElement.classList = "row mx-0 disable_div optionswithFour"; 
+          } else {
+          this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+          }
+        //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
         setTimeout(() => {
@@ -821,8 +849,16 @@ export class Ntemplate1 implements OnInit {
 
   dontshowFeedback(id: string, flag: string) {
     if (id == "submit-modal-id") {
+      setTimeout(() => {
+        this.disable=false;
+      }, 1000);
       this.submitModalRef.nativeElement.classList = "modal";
-      this.optionsBlock.nativeElement.classList = "row mx-0";
+      if(this.commonAssets.noofOptions == 4) {
+       this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour"; 
+      } else {
+       this.optionsBlock.nativeElement.classList = "row mx-0";
+      }
+      //this.optionsBlock.nativeElement.classList = "row mx-0";
       //$("#optionsBlock .options").removeClass("disable_div");
       //$("#optionsBlock .options").css("opacity", "unset");
       //this.appModel.enableSubmitBtn(false);
@@ -912,8 +948,10 @@ houtSkip(){
       }, 100);
       this.appModel.enableSubmitBtn(false);
       //this.appModel.enableReplayBtn(false);
-      $(".refQues").css("opacity", "0.3");
-      $("#optionsBlock .options").css("opacity", "0.3");
+      $("#optionsBlock .options").css("opacity", "unset");
+      $(".bodyContent").css("opacity", "0.3");
+      $(".bodyContent").css("pointer-events", "none");
+      //$("#optionsBlock .options").css("opacity", "0.3");
       $("#instructionBar").css("pointer-events", "none");
       $("#instructionBar").css("opacity", "0.3");
     }
@@ -961,9 +999,9 @@ houtSkip(){
       }, 100);
       this.appModel.enableSubmitBtn(false);
       //this.appModel.enableReplayBtn(false);
-      $(".refQues").css("opacity", "0.3");
-      $("#optionsBlock .options").css("opacity", "0.3");
-      $("#optionsBlock .options").css("pointer-events", "none");
+      $("#optionsBlock .options").css("opacity", "unset");
+      $(".bodyContent").css("opacity", "0.3");
+      $(".bodyContent").css("pointer-events", "none");
       $("#instructionBar").css("pointer-events", "none");
       $("#instructionBar").css("opacity", "0.3");
     }
@@ -979,7 +1017,11 @@ houtSkip(){
       //this.appModel.enableReplayBtn(true);
       $("#optionsBlock .options").css("opacity", "unset");
       $("#optionsBlock .options").removeClass("disable_div");
-      this.optionsBlock.nativeElement.classList = "row mx-0";
+      if(this.commonAssets.noofOptions == 4) {
+       this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour"; 
+      } else {
+       this.optionsBlock.nativeElement.classList = "row mx-0";
+      }
     }
   }
   playrightFeedbackAudioPopup(i) {
@@ -1236,7 +1278,12 @@ houtSkip(){
       this.noOfWrongAnsClicked = 0;
     }
     if (flag == "yes") {
-      this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+      if(this.commonAssets.noofOptions == 4) {
+       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div optionswithFour"; 
+      } else {
+       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+      }
+      //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
       this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
       setTimeout(() => {
@@ -1248,6 +1295,9 @@ houtSkip(){
       $("#instructionBar").css("opacity", "0.3");
       this.checked = true;
     } else {
+      setTimeout(() => {
+        this.disable=false;
+      }, 1000);
       this.appModel.notifyUserAction();
       $("#instructionBar").removeClass("disable_div");
     }
@@ -1319,7 +1369,7 @@ houtSkip(){
     this.popupRef.nativeElement.classList = "modal";
     this.partialpopupRef.nativeElement.classList = "modal";
     this.infoModalRef.nativeElement.classList = "modal";
-    this.confirmReplayRef.nativeElement.classList = "modal";
+    //this.confirmReplayRef.nativeElement.classList = "modal";
     if (!this.checked) {
       this.appModel.wrongAttemptAnimation();
     }
