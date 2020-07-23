@@ -126,7 +126,7 @@ export class Ntemplate5 implements OnInit {
       this.appModel.notifyUserAction();
       console.log("play on Instruction");
       //this.instruction.nativeElement.load();
-      if (this.instruction.nativeElement.paused) {
+      if (this.instruction.nativeElement.paused && this.quesObj.quesInstruction.url!="") {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
         $(".instructionBase img").css("cursor", "pointer");
