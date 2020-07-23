@@ -119,6 +119,8 @@ export class Ntemplate5 implements OnInit {
   themePath:any;
    fetchedcontent:any;
    functionalityType:any;
+   InstructionVo:boolean=true;
+
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
@@ -127,9 +129,12 @@ export class Ntemplate5 implements OnInit {
       console.log("play on Instruction");
       //this.instruction.nativeElement.load();
       if (this.instruction.nativeElement.paused && this.quesObj.quesInstruction.url!="") {
+        this.InstructionVo = true;
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
         $(".instructionBase img").css("cursor", "pointer");
+      }else{
+        this.InstructionVo = false;
       }
       if (!this.optionAudio.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -300,6 +305,7 @@ export class Ntemplate5 implements OnInit {
 
 
   ngOnInit() {
+    
     this.appModel.functionone(this.templatevolume,this);
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
@@ -417,6 +423,7 @@ export class Ntemplate5 implements OnInit {
     });
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
+   
   }
   
   checkquesTab() {
@@ -513,7 +520,9 @@ export class Ntemplate5 implements OnInit {
          isReplayRequired:this.quesObj.replayRequired
       }
     }
-
+    if(this.quesObj.quesInstruction.url==""){
+       this.InstructionVo=false;
+    }
   }
 
   getBasePath() {
