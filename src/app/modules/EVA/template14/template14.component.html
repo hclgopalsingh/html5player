@@ -29,11 +29,11 @@
     <div class="leftBlock">
       <!-- <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url"> -->
       <div class="blockContent">
-        <div *ngFor="let item of monthsArr; let idx = index">
+        <div *ngFor="let item of monthsArr; let idx = index" [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !this.quesObj.multi_month}"  >
           <img style="margin:0 0.2%" class="img-fluid" [src]="item?.selected ? 
           item?.slectedBaseImg?.location=='content' ? containgFolderPath + '/' + item?.slectedBaseImg?.url : assetsPath + '/' + item?.slectedBaseImg?.url:item?.base?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.base.url" >  
           <img class="img-fluid monthName" [src]="item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
-          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !this.quesObj.multi_month}"  (click) = "onClickCalender(item,'month')">
+          (click) = "onClickCalender(item,'month')">
         </div>
       </div>
     </div>
@@ -41,11 +41,11 @@
       <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
       <!-- <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url"> -->
       <div class="blockContent">
-        <div *ngFor="let item of Arryears;">
+        <div *ngFor="let item of Arryears;" [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !this.quesObj.multi_year }"  >
           <img class="img-fluid yearBase" [src]="item?.selected ? 
           item?.base_selected?.location=='content' ? containgFolderPath + '/' + item?.base_selected?.url : assetsPath + '/' + item?.base_selected?.url : item?.year_base?.location =='content' ?  containgFolderPath + '/'+ item.year_base.url : assetsPath +'/' +item.year_base.url" >
           <img class="img-fluid yearLabel" [src]="item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
-          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !this.quesObj.multi_year }"  (click) = "onClickCalender(item,'year')">  
+          (click) = "onClickCalender(item,'year')">  
         </div>
         <!-- <span *ngFor="let item of Arryears; let idx = index"> -->
       </div>
@@ -55,10 +55,10 @@
       <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundDaysWeeks?.url : assetsPath + '/' + commonAssets?.backgroundDaysWeeks?.url">
       <div class="weekDays">
         <div class="blockContent">
-          <span *ngFor="let item of ArrweekDays; let idx = index">
+          <span *ngFor="let item of ArrweekDays; let idx = index" [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !quesObj.multi_day }">
           <img style="position: absolute;" class="img-fluid"  [src]="item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" 
           (mousemove)="hoveronWeekDays(item)" (mouseleave)="houtonWeekDays(item)"
-          [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected && !quesObj.multi_day }" (click) = "onClickCalender(item,'weekDays')">
+           (click) = "onClickCalender(item,'weekDays')">
           <img style="margin:0 0.2%" class="img-fluid" [src]="item?.selected ? 
           item?.base_selected?.location=='content' ? containgFolderPath + '/' + item?.base_selected?.url : assetsPath + '/' + item?.base_selected?.url : item?.base?.location =='content' ?  containgFolderPath + '/'+ item.base.url : assetsPath +'/' +item.base.url" >
           </span>
@@ -269,30 +269,10 @@
     </div>
   </div>
 
-  <!-- The infoPopup Modal -->
-  <div class="modal" id="confirmModal" #infoModalRef>
-    <div class="modal-dialog">
-      <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
-      <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.headerTxt_img?.url : assetsPath + '/' + infoPopupAssets?.headerTxt_img?.url">
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-        </div>
 
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url"></div>
-          <div class="actionButtons">
-            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url"></button>
-          </div>
-        </div>
-        <audio #feedbackInfoAudio></audio>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="confirmModal" #confirmSubmitRef>
+   <!-- show answer Popup  -->
+   <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
+  <!-- <div class="modal" id="confirmModal" #confirmSubmitRef>
     <div class="modal-dialog">
         <div class="modal-content" #modalRef>
           <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
@@ -308,7 +288,7 @@
           </div>
         </div>
     </div>
-  </div>
+  </div> -->
 
      <!-- The Modal -->
   <div class="modal" id="modalTemp22" #popupRef>
@@ -534,7 +514,7 @@
           </div>
           <img class="popupCloseBtn"
             [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-            (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+            (click)="onclickOK()" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
           <!-- <div class="actionButtonOk">
             <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.ok_btn?.url : assetsPath + '/' + feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
             </div> -->
@@ -544,3 +524,8 @@
      </div>
    </div>
 </div>
+
+ <!-- Popup Modal Audios -->
+ <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
+ <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+ <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	

@@ -18,7 +18,6 @@ export class GlobalspeakerComponent implements OnInit {
   assetsfolderlocation: string = "";
   speaker: any = "";
   videoPlayed = false;
-  speakerPlayed = false;
   contentgFolderPath: string = "";
   @ViewChild('speakerVolume') speakerVolume: any;
   @ViewChild('sprite') sprite: any;
@@ -45,12 +44,11 @@ export class GlobalspeakerComponent implements OnInit {
 		 
 	}
 	onHoveroutSpeaker() {
-		if (!this.speakerPlayed) {
+		if (this.speakerVolume.nativeElement.paused) {
 			this.speaker.imgsrc = this.speaker.imgorigional;
 		}
 	}
 	playSpeaker() {
-		this.speakerPlayed = true;
 		this.speaker.imgsrc = this.speaker.imgactive;
 		this.Sharedservice.spriteElement.next(this.speaker);
 		this.Sharedservice.speakerVol.next(this.speakerVolume);
@@ -61,7 +59,6 @@ export class GlobalspeakerComponent implements OnInit {
 			this.speaker.imgsrc = this.speaker.imgorigional;
 			this.sprite.nativeElement.style = "display:none";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			this.speakerPlayed = false;
 		}
 	}
 }

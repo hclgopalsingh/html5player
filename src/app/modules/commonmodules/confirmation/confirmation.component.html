@@ -4,7 +4,7 @@
           <div class="modal-body d-flex align-items-center">
               <div class="stageVideoPopup">
                 <img class="img-fluid"  [src]="popupAssets?.body?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.body?.url :  assetsfolderlocation +'/'+ popupAssets?.body?.url">
-                <span class="Popuptext">म से शुरू होने</span>
+                <span class="Popuptext">क्या आप इसे सबमिट करना चाहते हैं ?</span>
                 <div class="wrapper">
                   <div (click)="closePopup('yes')">
                     <img class="img-fluid" [src]="popupAssets?.btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.btn_base?.url : assetsfolderlocation + '/' + popupAssets?.btn_base?.url"

@@ -38,6 +38,18 @@ export class TemplateFourteenComponent implements OnInit {
       this.speakerVolume = speakerVol;
     });
 
+    //subscribing common popup from shared service to get the updated event and values of speaker
+    this.Sharedservice.showAnsRef.subscribe(showansref => {
+      this.showAnswerRef = showansref;
+     })
+     this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
+      this.showAnswerfeedback = showanswerfeedback;
+      });
+      this.Sharedservice.videoonshowAnspopUp.subscribe(videoonsAnspopUp => {
+          this.videoonshowAnspopUp = videoonsAnspopUp;
+      });
+
+
     //this.rightFeedbackVO.nativeElement.currentTime = 0;
     //this.rightFeedbackVO.nativeElement.src = "";
     //this.wrongFeedbackVO.nativeElement.src = "";
@@ -78,15 +90,24 @@ export class TemplateFourteenComponent implements OnInit {
   @ViewChild('footerNavBlock') footerNavBlock: any;
   @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('disableSpeaker') disableSpeaker: any;
+  @ViewChild('sprite') sprite: any;
+  @ViewChild('overlay') overlay: any;
+  @ViewChild('clapSound') clapSound: any;
+  @ViewChild('wrongFeedback') wrongFeedback: any;
+  @ViewChild('rightFeedback') rightFeedback: any;
+  @ViewChild('showAnswerVideo') showAnswerVideo: any;
 
 
-
-
-
-
-
-
-
+  LastquestimeStart: boolean = false;
+  videoonshowAnspopUp: any;
+  showAnswerRef: any;
+  showAnswerfeedback: any;
+  showAnswerTimer:any;
+  wrongCounter: number = 0;
+  rightPopup: any;
+  wrongPopup: any;
+  wrongTimer: any;
+  rightTimer: any;
   audio = new Audio();
   commonAssets: any = "";
   feedback: any = "";
@@ -152,8 +173,10 @@ export class TemplateFourteenComponent implements OnInit {
   selectedYearID = [];
   speaker: any;
   speakerVolume: any;
-  isAnyWrong: boolean = false;
   isRight:boolean = true;
+  showAnswerPopup: any;
+  showAnswerVO: any;
+  lastQuestionCheck: any;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -181,33 +204,71 @@ export class TemplateFourteenComponent implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
-  blinkOnLastQues() {
-    if (this.appModel.isLastSectionInCollection) {
-      this.appModel.blinkForLastQues(this.attemptType);
-      this.appModel.stopAllTimer();
-      if (!this.appModel.eventDone) {
-        if (this.isLastQuesAct) {
-          this.appModel.eventFired();
-          this.appModel.event = { 'action': 'segmentEnds' };
+  templatevolume(vol, obj) {
+        if (obj.quesVORef && obj.quesVORef.nativeElement) {
+            obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-        if (this.isLastQues) {
-          this.appModel.event = { 'action': 'exit' };
+        if (obj.instructionVO && obj.instructionVO.nativeElement) {
+            obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
-      }
-    } else {
-      this.appModel.moveNextQues(this.attemptType);
-    }
+        if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
+            obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.audio) {
+            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if(obj.showAnswerVideo && obj.showAnswerVideo.nativeElement){
+            this.showAnswerVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+          obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+         }
+        if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
+            obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
+        if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+          obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+         }
+        if (obj.clapSound && obj.clapSound.nativeElement) {
+          obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+         }
   }
+
+  /***** Blink on last question ******/
+  blinkOnLastQues() {
+    this.Sharedservice.setLastQuesAageyBadheStatus(false);
+    if (this.lastQuestionCheck) {
+        this.LastquestimeStart = true;
+    }
+    if (this.appModel.isLastSectionInCollection) {
+        this.appModel.blinkForLastQues();
+        this.appModel.stopAllTimer();
+        if (!this.appModel.eventDone) {
+            if (this.isLastQuesAct) {
+                this.appModel.eventFired();
+                this.appModel.event = { 'action': 'segmentEnds' };
+            }
+            if (this.isLastQues) {
+                this.appModel.event = { 'action': 'exit' };
+
+            }
+        }
+    } else {
+        this.appModel.moveNextQues("");
+    }
+}
 
   ngOnInit() {
     this.setTemplateType();
     this.setData();
     // this.sprite.nativeElement.style = "display:none";
+    this.Sharedservice.setSubmitAnsEnabled(false);
     this.Sharedservice.setShowAnsEnabled(false);
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
+    this.appModel.functionone(this.templatevolume, this);//start end
     this.containgFolderPath = this.getBasePath();
     if (this.rightFeedbackVO != undefined || this.wrongFeedbackVO != undefined) {
       this.rightFeedbackVO.nativeElement.pause();
@@ -264,12 +325,35 @@ export class TemplateFourteenComponent implements OnInit {
 
     this.appModel.getConfirmationPopup().subscribe((val) => {
       if (val == "uttarDikhayein") {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
-        if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-          this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
-        }
+        // this.instruction.nativeElement.currentTime = 0;
+        // this.instruction.nativeElement.pause();
+        // if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
+        //   this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+        //   this.appModel.notifyUserAction();
+        // }
+
+        this.appModel.stopAllTimer();
+            let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+            if (!speakerEle.paused) {
+                speakerEle.pause();
+                speakerEle.currentTime = 0;
+                this.sprite.nativeElement.style = "display:none";
+                (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+                this.speaker.imgsrc = this.speaker.imgorigional;
+            }
+            if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+                this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
+                this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+                if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+                    this.videoonshowAnspopUp.nativeElement.play();
+                    this.videoonshowAnspopUp.nativeElement.onended = () => {
+                        this.showAnswerTimer=  setTimeout(() => {
+                            this.closePopup('showAnswer');
+                        }, 10000);
+                    }
+                }
+            }
+
       } else if (val == "submitAnswer") {
         this.instruction.nativeElement.currentTime = 0;
         console.log("submit answer")
@@ -307,8 +391,25 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
   postWrongAttemplt() {
-    this.isAnyWrong = false;
-    this.setDatefromJSON()
+    this.setDatefromJSON();
+    this.Sharedservice.setSubmitAnsEnabled(false);
+    //resetting dates
+    for (let i = this.startIndex; i >= 0; i--) {
+      this.monthDatesinPopup.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;;
+      this.monthDatesinPopup.nativeElement.children[0].children[i].children[0].style.pointerEvents = "";
+    }
+    //resetting months
+    this.monthsArr.forEach(element => {
+      element.ImginpopUp = element.ImginpopUp_original
+    });
+    //resetting years
+    this.Arryears.forEach(element => {
+      element.ImginpopUp = element.ImginpopUp_original
+    });
+    //resetting weeks
+    this.ArrweekDays.forEach(element => {
+      element.weekDayImginpopUp = element.weekDayImginpopUp_original
+    });
   }
 
   checkImgLoaded() {
@@ -338,10 +439,10 @@ export class TemplateFourteenComponent implements OnInit {
       let instruction: HTMLElement = document.getElementsByClassName("instructionBase")[0] as HTMLElement;
       instruction.style.pointerEvents = "none"
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-      this.appModel.handlePostVOActivity(true);
+      //this.appModel.handlePostVOActivity(true);
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-        // this.appModel.handlePostVOActivity(false);
+        this.appModel.handlePostVOActivity(false);
         instruction.style.pointerEvents = "";
         this.optionsBlock.nativeElement.classList = "row mx-0";
       }
@@ -425,8 +526,11 @@ export class TemplateFourteenComponent implements OnInit {
             element.selected = false;
           });
     }
-    this.monthsArr[this.date.getMonth()].selected = true;
-    this.monthsArr[this.date.getMonth()].checkRightorWrong = true;
+    //if you want given month to be show selected
+    if(this.quesObj.monthSelected){
+      this.monthsArr[this.date.getMonth()].selected = true;
+    }
+    // this.monthsArr[this.date.getMonth()].checkRightorWrong = true;
     if (this.quesObj.disablemonth) {
       if (this.monthsArr.filter((item) => item.selected != true) != undefined) {
         this.monthsArr.filter((item) => item.selected != true).map((item) => item.disabled = true);
@@ -441,8 +545,12 @@ export class TemplateFourteenComponent implements OnInit {
             element.selected = false;
           });
     }
-    this.Arryears.find((item) => item.id == this.date.getFullYear()).selected = true;
-    this.Arryears.find((item) => item.id == this.date.getFullYear()).checkRightorWrong = true;
+    //if you want given year to appear selected
+    if(this.quesObj.yearSelected){
+      this.Arryears.find((item) => item.id == this.date.getFullYear()).selected = true;
+    }
+
+   // this.Arryears.find((item) => item.id == this.date.getFullYear()).checkRightorWrong = true;
     if (this.quesObj.disableyear) {
       if (this.Arryears.filter((item) => item.selected != true) != undefined) {
         this.Arryears.filter((item) => item.selected != true).map((item) => item.disabled = true);
@@ -450,7 +558,7 @@ export class TemplateFourteenComponent implements OnInit {
     }
 
     //resetting weekdays
-    this.selectedDaysId
+    this.selectedDaysId.length = 0 ;
     if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
         this.ArrweekDays.forEach(element => {
           element.selected = false;
@@ -500,7 +608,7 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
   onClickCalender(item, flag) {
-    this.Sharedservice.setSubmitAnsEnabled(true)
+    this.stopAllSounds();
     console.log(this.date);
     //      this.appModel.notifyUserAction();
     if (flag == "month") {
@@ -508,9 +616,23 @@ export class TemplateFourteenComponent implements OnInit {
         this.monthfromLocalMachine = false;
         this.monthSelected = true;
         if (this.datesArr.filter((item) => item.selected == true)[0] != undefined) {
-          this.datesArr.filter((item) => item.selected == true)[0].selected = false;
+          this.datesArr.forEach(element => {
+            element.selected = false;
+          });
+          // this.datesArr.filter((item) => item.selected == true)[0].selected = false;
         }
-
+        //resetting weekdays
+        this.selectedDaysId.length = 0 ;
+        if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
+            this.ArrweekDays.forEach(element => {
+              element.selected = false;
+            });
+        }
+        if (this.quesObj.disableweekDay) {
+          if (this.ArrweekDays.filter((item) => item.selected != true) != undefined) {
+            this.ArrweekDays.filter((item) => item.selected != true).map((item) => item.disabled = true);
+          }
+        }
         this.dateSelected = false;
         this.previousItemevent = undefined;
         this.selectedDatesId.length = 0;
@@ -568,11 +690,25 @@ export class TemplateFourteenComponent implements OnInit {
       if (!item.selected) {
         this.yearfromLocalMachine = false;
         this.yearSelected = true;
-        if (this.Arryears.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
-          this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
-        }
+        // if (this.Arryears.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
+        //   this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        // }
         //this.dateSelected=false;
         //this.weekDaySelected = false;
+        this.selectedMonthsId.length = 0;
+        this.selectedDatesId.length = 0 ;
+        if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
+      // this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+          this.monthsArr.forEach(element => {
+            element.selected = false;
+          });
+        }
+        if (this.datesArr.filter((item) => item.selected == true)[0] != undefined) {
+          this.datesArr.forEach(element => {
+            element.selected = false;
+          });
+          // this.datesArr.filter((item) => item.selected == true)[0].selected = false;
+        }
         this.previousItemevent = undefined;
         for (let i = this.startIndex; i >= 0; i--) {
           this.monthDates.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;;
@@ -791,32 +927,32 @@ export class TemplateFourteenComponent implements OnInit {
         this.monthDatesinPopup.nativeElement.children[0].children[i].src = "./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
         this.monthDatesinPopup.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
       }
-      if (this.monthfromLocalMachine) {
-        let monthInfo = this.monthsArr.filter((item) => item.checkRightorWrong == true)[0];
-        if (monthInfo.id == this.feedbackObj.correct_month && this.feedbackObj.correct_month != "") {
-          this.isCorrectMonth = true;
-          monthInfo.ImginpopUp = monthInfo.rightmonthImg;
-        } else if (this.feedbackObj.correct_month == "") {
-          this.isCorrectMonth = true;
-          monthInfo.ImginpopUp = monthInfo.selectedmonthImg;
-        } else {
-          this.isCorrectMonth = false;
-          monthInfo.ImginpopUp = monthInfo.wrongmonthImg;
-        }
-      }
-      if (this.yearfromLocalMachine) {
-        let yearInfo = this.Arryears.filter((item) => item.checkRightorWrong == true)[0];
-        if (yearInfo && yearInfo.id == this.feedbackObj.correct_year && this.feedbackObj.correct_year != "") {
-          this.isCorrectYear = true;
-          yearInfo.ImginpopUp = yearInfo.rightyearImg;
-        } else if (this.feedbackObj.correct_year == "") {
-          this.isCorrectYear = true;
-          yearInfo.ImginpopUp = yearInfo.selectedyearsImg;
-        } else {
-          this.isCorrectYear = false;
-          yearInfo.ImginpopUp = yearInfo.wrongyearImg;
-        }
-      }
+      // if (this.monthfromLocalMachine) {
+      //   let monthInfo = this.monthsArr.filter((item) => item.checkRightorWrong == true)[0];
+      //   if (monthInfo.id == this.feedbackObj.correct_month && this.feedbackObj.correct_month != "") {
+      //     this.isCorrectMonth = true;
+      //     monthInfo.ImginpopUp = monthInfo.rightmonthImg;
+      //   } else if (this.feedbackObj.correct_month == "") {
+      //     this.isCorrectMonth = true;
+      //     monthInfo.ImginpopUp = monthInfo.selectedmonthImg;
+      //   } else {
+      //     this.isCorrectMonth = false;
+      //     monthInfo.ImginpopUp = monthInfo.wrongmonthImg;
+      //   }
+      // }
+      // if (this.yearfromLocalMachine) {
+      //   let yearInfo = this.Arryears.filter((item) => item.checkRightorWrong == true)[0];
+      //   if (yearInfo && yearInfo.id == this.feedbackObj.correct_year && this.feedbackObj.correct_year != "") {
+      //     this.isCorrectYear = true;
+      //     yearInfo.ImginpopUp = yearInfo.rightyearImg;
+      //   } else if (this.feedbackObj.correct_year == "") {
+      //     this.isCorrectYear = true;
+      //     yearInfo.ImginpopUp = yearInfo.selectedyearsImg;
+      //   } else {
+      //     this.isCorrectYear = false;
+      //     yearInfo.ImginpopUp = yearInfo.wrongyearImg;
+      //   }
+      // }
       for (let i = 0; i < days; i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
@@ -925,6 +1061,10 @@ export class TemplateFourteenComponent implements OnInit {
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       this.popupAssets = fetchedData.feedback.popupassets;
+      this.showAnswerPopup = this.feedback.show_ans_popup;
+      this.rightPopup = this.feedback.right_ans_sound;
+      this.wrongPopup = this.feedback.wrong_ans_sound;
+      this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
       //need to be set acc. to the right or wrong answer.
       this.popupIcon = this.popupAssets.right_icon.url;
       this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -964,6 +1104,15 @@ export class TemplateFourteenComponent implements OnInit {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
 
+    /******On Hover close popup******/
+    hoverClosePopup() {
+      this.popupAssets.close_button = this.popupAssets.close_button_hover;
+  }
+
+    /******Hover out close popup******/
+    houtClosePopup() {
+        this.popupAssets.close_button = this.popupAssets.close_button_origional;
+    }
 
   hoverSubmitConfirm() {
     this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_hover;
@@ -997,13 +1146,13 @@ export class TemplateFourteenComponent implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
-  hoverClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
-  }
+  // hoverClosePopup() {
+  //   this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
+  // }
 
-  houtClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
-  }
+  // houtClosePopup() {
+  //   this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
+  // }
 
   hoverOK() {
     this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_hover;
@@ -1135,7 +1284,7 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
   onclickOK() {
-    this.closeModal();
+    this.closeModal();    
   }
 
   showFeedback(id: string, flag: string) {
@@ -1233,84 +1382,101 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
   closeModal() {
-    if (!this.feedbackPopupAudio.nativeElement.paused) {
-      this.feedbackPopupAudio.nativeElement.pause();
-      this.feedbackPopupAudio.nativeElement.currentTime = 0;
+    clearTimeout(this.wrongTimer);
+    clearTimeout(this.rightTimer);
+    if (!this.rightFeedback.nativeElement.paused) {
+      this.rightFeedback.nativeElement.pause();
+      this.rightFeedback.nativeElement.currentTime = 0;
+    }
+    if (!this.wrongFeedback.nativeElement.paused) {
+      this.wrongFeedback.nativeElement.pause();
+      this.wrongFeedback.nativeElement.currentTime = 0;
     }
     //this.showAnswerRef.nativeElement.classList="modal";
     this.popupRef.nativeElement.classList = "modal";
-    //this.appModel.notifyUserAction();
-    if (this.checked) {
+    if(this.isRight){
+      this.Sharedservice.setShowAnsEnabled(true);
       this.blinkOnLastQues();
-      $("#optionsBlock").css("opacity", "0.3");
-      $("#optionsBlock").css("pointer-events", "none");
-      //document.getElementById("mainques").style.pointerEvents = "none";
-      $("#instructionBar").css("opacity", "0.3");
-      $("#instructionBar").css("pointer-events", "none");
-      this.appModel.enableSubmitBtn(false);
-      //this.appModel.handlePostVOActivity(true);
     }
-    if (!this.checked) {
-      //this.resetActivity();
-      this.appModel.wrongAttemptAnimation();
-      setTimeout(() => {
-        // $("#instructionBar").removeClass("disable_div");
-      }, 1000);
+    else{
+      this.postWrongAttemplt();
     }
+
+    //this.appModel.notifyUserAction();
+    // if (this.checked) {
+    //  // this.blinkOnLastQues();
+    //   $("#optionsBlock").css("opacity", "0.3");
+    //   $("#optionsBlock").css("pointer-events", "none");
+    //   //document.getElementById("mainques").style.pointerEvents = "none";
+    //   $("#instructionBar").css("opacity", "0.3");
+    //   $("#instructionBar").css("pointer-events", "none");
+    //   this.appModel.enableSubmitBtn(false);
+    //   //this.appModel.handlePostVOActivity(true);
+    // }
+    // if (!this.checked) {
+    //   //this.resetActivity();
+    //   this.appModel.wrongAttemptAnimation();
+    //   setTimeout(() => {
+    //     // $("#instructionBar").removeClass("disable_div");
+    //   }, 1000);
+    // }
   }
 
 
   //After submit ans confirmation pop up clicked yes
   closePopup(type) {
     console.log("type", type)
-    this.setCalender("popup");
-    this.attemptType = "manual";
-    if (this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
-      this.styleHeaderPopup = this.feedbackObj.style_header;
-      this.styleBodyPopup = this.feedbackObj.style_body;
-      if (!this.quesObj.disableweekDay) {
-        if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
-          this.ArrweekDays.filter((item) => item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item) => item.selected == true)[0].rightweekDayImg;
+    clearTimeout(this.wrongTimer);
+    clearTimeout(this.rightTimer);
+    clearTimeout(this.showAnswerTimer);
+    this.showAnswerRef.nativeElement.classList = "modal";
+    this.videoonshowAnspopUp.nativeElement.pause();
+    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
+    if(type == "showAnswer"){
+      if (this.isRight) {
+        this.blinkOnLastQues();
         }
-      }
-      if (!this.quesObj.disablemonth) {
-        if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
-          this.monthsArr.filter((item) => item.selected == true)[0].ImginpopUp = this.monthsArr.filter((item) => item.selected == true)[0].rightmonthImg;
-        }
-      }
-      if (!this.quesObj.disableyear) {
-        if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
-          this.Arryears.filter((item) => item.selected == true)[0].ImginpopUp = this.Arryears.filter((item) => item.selected == true)[0].rightyearImg;
-        }
-      }
-    } else {
-      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
-      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
-      // if(!this.quesObj.disableDate) {
-      //   if(this.datesArr.filter((item)=>item.selected == true)[0]!=undefined) {
-      //     this.datesArr.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
-      //   }
-      // }
-      // if(!this.quesObj.disableweekDay) {
-      //   if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
-      //     this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].wrongweekDayImg;
-      //   }
-      // }
-      // if(!this.quesObj.disablemonth) {
-      //   if(this.monthsArr.filter((item)=>item.selected == true)[0]!=undefined) {
-      //     this.monthsArr.filter((item)=>item.selected == true)[0].ImginpopUp = this.monthsArr.filter((item)=>item.selected == true)[0].wrongmonthImg;
-      //   } 
-      // }
-      // if(!this.quesObj.disableyear) {
-      //   if(this.Arryears.filter((item)=>item.selected == true)[0]!=undefined) {
-      //     this.Arryears.filter((item)=>item.selected == true)[0].ImginpopUp = this.Arryears.filter((item)=>item.selected == true)[0].wrongyearImg;
-      //   } 
-      // }              
     }
-    this.popupRef.nativeElement.classList = "displayPopup modal";
-    this.playFeedback();
+
+    //for type confirmation pop up
+    if(type == "yes"){
     this.CheckAnswer();
-    //}
+    setTimeout(() => {
+
+
+    if(this.isRight){
+      if (this.rightFeedback && this.rightFeedback.nativeElement) {
+      this.clapSound.nativeElement.play();
+      setTimeout(() => {
+      this.clapSound.nativeElement.pause();
+      this.clapSound.nativeElement.currentTime = 0;
+      this.popupRef.nativeElement.classList = "displayPopup modal";
+      this.setCalender("popup");
+      this.rightFeedback.nativeElement.play();
+      this.rightFeedback.nativeElement.onended = () => {
+            this.rightTimer = setTimeout(() => {
+                this.closeModal();
+            }, 10000);
+        }
+      // this.playFeedback();
+    }, 2000);
+      } 
+   }
+   else{
+    this.popupRef.nativeElement.classList = "displayPopup modal";
+    this.setCalender("popup");
+    if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+        this.wrongFeedback.nativeElement.play();
+    }
+    this.wrongFeedback.nativeElement.onended = () => {
+        setTimeout(() => {
+          this.closeModal();
+        }, 10000);
+    }
+  }
+  }, 200);
+
+  }
   }
 
 
@@ -1331,7 +1497,6 @@ export class TemplateFourteenComponent implements OnInit {
             break;
           }
           else {
-            this.isAnyWrong = true;
             this.monthsArr[element1].ImginpopUp = this.monthsArr[element1].base_wrong
           }
           //put a red base 
@@ -1352,7 +1517,6 @@ export class TemplateFourteenComponent implements OnInit {
               break;
             }
             else {
-              this.isAnyWrong = true;
               this.ArrweekDays[id].weekDayImginpopUp = this.ArrweekDays[id].base_wrong
             }
             //put a red base 
@@ -1375,7 +1539,6 @@ export class TemplateFourteenComponent implements OnInit {
             }
             //put a red base 
             else {
-              this.isAnyWrong = true;
               this.Arryears[id].ImginpopUp = this.Arryears[id].base_wrong
             }
           }
@@ -1395,7 +1558,6 @@ export class TemplateFourteenComponent implements OnInit {
               break;
             }
             else {
-              this.isAnyWrong = true;
               this.setRightWrongbaseDates(element1, "wrong")
             }
           }
@@ -1429,17 +1591,17 @@ export class TemplateFourteenComponent implements OnInit {
   onSubmitResult(){
     //const element2 = this.monthsArr.findIndex((item) => item.id == this.feedback.right_month[index2]);
 
-    console.log("this.feedback.right_date",this.feedback.right_date)
-    console.log("this.feedback.right_month",this.feedback.right_month)
-    console.log("this.feedback.right_date",this.feedback.right_weekDay)
-    console.log("this.feedback.right_date",this.feedback.right_year)
-    let realAnsLength = this.feedback.right_date.length + this.feedback.right_month.length + this.feedback.right_weekDay.length + this.feedback.right_year.length
-    console.log("realAnsLength",realAnsLength)
-    console.log("this.feedback.selectedDatesId",this.selectedDatesId)
-    console.log("this.feedback.selectedDaysId",this.selectedDaysId)
-    console.log("this.feedback.selectedYearID",this.selectedYearID)
-    console.log("this.feedback.selectedMonthsId",this.selectedMonthsId)
+    // console.log("this.feedback.right_date",this.feedback.right_date)
+    // console.log("this.feedback.right_month",this.feedback.right_month)
+    // console.log("this.feedback.right_date",this.feedback.right_weekDay)
+    // console.log("this.feedback.right_date",this.feedback.right_year)
+    // console.log("realAnsLength",realAnsLength)
+    // console.log("this.feedback.selectedDatesId",this.selectedDatesId)
+    // console.log("this.feedback.selectedDaysId",this.selectedDaysId)
+    // console.log("this.feedback.selectedYearID",this.selectedYearID)
+    // console.log("this.feedback.selectedMonthsId",this.selectedMonthsId)
     //
+    //let realAnsLength = this.feedback.right_date.length + this.feedback.right_month.length + this.feedback.right_weekDay.length + this.feedback.right_year.length
     let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
     let that = this
     RightMonthArray.forEach(function(element1, i) {
@@ -1449,23 +1611,69 @@ export class TemplateFourteenComponent implements OnInit {
         }
       });
     });
+
+    let rightWeekDayArray = JSON.parse(JSON.stringify(this.feedback.right_weekDay))
+    rightWeekDayArray.forEach(function(element1, i) {
+      that.ArrweekDays.forEach(function(item,ind) {
+        if(item.id == element1){
+          rightWeekDayArray[i] = ind
+        }
+      });
+    });
+    console.log("rightWeekDayArray",rightWeekDayArray)
+
+    let selectedWeekDayArray = JSON.parse(JSON.stringify(this.selectedDaysId))
+    selectedWeekDayArray.forEach(function(element1, i) {
+      that.ArrweekDays.forEach(function(item,ind) {
+        if(item.id == element1){
+          selectedWeekDayArray[i] = ind
+        }
+      });
+    });
+    console.log("selectedWeekDayArray",selectedWeekDayArray)
+
     console.log("feedback_minths",RightMonthArray)
-    let finalRightArray = this.feedback.right_year.concat(RightMonthArray,this.feedback.right_weekDay,this.feedback.right_date)
+    let finalRightArray = this.feedback.right_year.concat(RightMonthArray,rightWeekDayArray,this.feedback.right_date)
       console.log("finalRightArray",finalRightArray)
-    let finalSelectedArray  = this.selectedYearID.concat(this.selectedMonthsId, this.selectedDaysId, this.selectedDatesId)
+      finalRightArray.sort();
+    let finalSelectedArray  = this.selectedYearID.concat(this.selectedMonthsId, selectedWeekDayArray, this.selectedDatesId)
       console.log("finalSelectedArray",finalSelectedArray)
+      finalSelectedArray.sort();
+    //let selectedAnsLength = this.selectedDatesId.length + this.selectedDaysId.length + 
+    //this.selectedYearID.length + this.selectedMonthsId.length
+    //console.log("selectedAnsLength",selectedAnsLength)
 
-    let selectedAnsLength = this.selectedDatesId.length + this.selectedDaysId.length + 
-    this.selectedYearID.length + this.selectedMonthsId.length
-    console.log("selectedAnsLength",selectedAnsLength)
-
-    if(realAnsLength == selectedAnsLength  && !this.isAnyWrong){
-      console.log("RIGHT ans")
+    if(finalRightArray.length == finalSelectedArray.length  && this.arrayEquals(finalRightArray, finalSelectedArray)){
+      console.log("RIGHT ANSWER BY USER")
       this.isRight = true;
+      this.popupIcon = this.popupAssets.right_icon.url;
+      this.popupIconLocation = this.popupAssets.right_icon.location;
+      this.Sharedservice.setSubmitAnsEnabled(false);
+      this.overlay.nativeElement.classList.value = "fadeContainer";
+    //   this.rightFeedback.nativeElement.onended = () => {
+    //     this.rightTimer = setTimeout(() => {
+    //         this.closeModal();
+    //     }, 10000);
+    // }
+      //this.blinkOnLastQues();
     }
     else{ 
-      console.log("WRONG ans")
+      console.log("WRONG ANSWER BY USER")
+      this.wrongCounter += 1;
       this.isRight = false;
+      this.popupIcon = this.popupAssets.wrong_icon.url;
+      this.popupIconLocation = this.popupAssets.wrong_icon.location;
+      console.log("this.wrongCounter",this.wrongCounter)
+      if (this.wrongCounter >= 3) {
+        this.Sharedservice.setShowAnsEnabled(true);
+      } else {
+          this.Sharedservice.setShowAnsEnabled(false);
+      }
+    //   this.wrongFeedback.nativeElement.onended = () => {
+    //     this.wrongTimer = setTimeout(() => {
+    //       this.closeModal();
+    //     }, 10000);
+    // }
     }
 
   console.log("this.arrayEquals(finalRightArray, finalSelectedArray)",this.arrayEquals(finalRightArray, finalSelectedArray))
@@ -1488,12 +1696,52 @@ export class TemplateFourteenComponent implements OnInit {
     this.feedback.right_weekDay.length + this.feedback.right_year.length
     let selectedAnsLength = this.selectedDatesId.length + this.selectedDaysId.length + 
     this.selectedYearID.length + this.selectedMonthsId.length
+    console.log("realAnsLength",realAnsLength);
+    console.log("selectedAnsLength",selectedAnsLength);
     if(selectedAnsLength >= realAnsLength){
       //enable submit button
       this.Sharedservice.setSubmitAnsEnabled(true)
     }
+    else{
+      this.Sharedservice.setSubmitAnsEnabled(false)
+    }
   }
 
+  //**Function to stop all sounds */
+  stopAllSounds(clickStatus?) {
+    
+    this.audio.pause();
+    this.audio.currentTime = 0;
 
+    // this.myAudiospeaker.nativeElement.pause();
+    // this.myAudiospeaker.nativeElement.currentTime=0;
+
+    this.wrongFeedback.nativeElement.pause();
+    this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.rightFeedback.nativeElement.pause();
+    this.rightFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+
+
+    let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+    if (!speakerEle.paused) {
+        speakerEle.pause();
+        speakerEle.currentTime = 0;
+        document.getElementById('waveAnimation').style.display = 'none';
+        (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+        this.speaker.imgsrc = this.speaker.imgorigional;
+    }
+}
+
+ngOnDestroy() {
+  clearTimeout(this.rightTimer);
+  clearTimeout(this.wrongTimer);
+  this.stopAllSounds();
+  // this.checkAnswer(this.myoption);
+
+}
 
 }
