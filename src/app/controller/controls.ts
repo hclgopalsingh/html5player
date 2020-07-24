@@ -107,6 +107,7 @@ export class ControlsComponent implements OnInit {
   }
 
   volumeIconClicked(event) {
+    debugger;
     this.displayVolume = !this.displayVolume;
 	if(this.displayVolume){
 		setTimeout(()=>{
@@ -146,6 +147,7 @@ export class ControlsComponent implements OnInit {
   }
 
   updateHandler(event) {
+    debugger;
     const duration = event.currentTarget.duration;
     this.currentVideoTime = event.currentTarget.currentTime;
     const value = (100 / duration) * this.currentVideoTime;
@@ -187,7 +189,14 @@ export class ControlsComponent implements OnInit {
     //console.log('VideoComponent: updateVolume - event=', event);
     //this.mainVideo.nativeElement.volume = event.target.value;
 		  
-	 this.appModel.functiontwo(event.target.value);
+   this.appModel.functiontwo(event.target.value);
+   if(event.target.value == 0){
+    this.appModel.isMute = true;
+    this.MuteVarTemp.nativeElement.children[0].checked = true;
+    this.volumeBtn = this.volumeMute;
+			this.volumeBar.nativeElement.className = "volumesliderDisable";
+			this.appModel.functiontwo(undefined);
+   }else{
 	 this.appModel.isMute = false;
 	 if(this.MuteVarTemp && this.MuteVarTemp.nativeElement){
 		if(this.MuteVarTemp.nativeElement.children[0].checked){
@@ -198,7 +207,12 @@ export class ControlsComponent implements OnInit {
 			/*let selectBox = <HTMLElement>document.getElementById("MuteVarTemp");
 			(<HTMLInputElement><any>selectBox.children[0]).checked = false;*/
 		}
-	 }
+   }
+   }
+
+
+   
+
   }
   
   UpdateMute(){
