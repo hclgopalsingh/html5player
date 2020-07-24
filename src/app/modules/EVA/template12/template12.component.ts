@@ -82,6 +82,8 @@ export class Template12ComponentEVA implements OnInit {
   disableMainContent: boolean = true;
   hightlightIndexes: any = {};
   isOverlay: boolean = false;
+  resultDigitCount: number;
+  parentInputClass: any = "";
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -168,7 +170,7 @@ export class Template12ComponentEVA implements OnInit {
       this.stopAllSounds();
       this.enableAllOptions();
       clearTimeout(this.clappingTimer);
-      
+
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
         this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
@@ -209,6 +211,10 @@ export class Template12ComponentEVA implements OnInit {
       this.appModel.notifyUserAction();
 
     })
+    // document.getElementsByClassName("speakerBtn")[0].addEventListener("click",()=> {
+    //   this.stopAllSounds();
+    //   this.enableAllOptions();
+    // });
   }
   ngOnDestroy() {
     this.showAnswerSubscription.unsubscribe();
@@ -254,6 +260,20 @@ export class Template12ComponentEVA implements OnInit {
         }
       });
     });
+    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-1].rowValues.length;
+    if (this.quesObj.tablet.quesType === "add" || this.quesObj.tablet.quesType === "subt") {
+      if(this.resultDigitCount === 4 || this.resultDigitCount === 5) {
+        this.parentInputClass = "input_digits-4-5";
+        // inputBlockRef.classList.add("input_digits-4-5");
+      }
+      else if(this.resultDigitCount === 3) {
+        this.parentInputClass = "input_digits-3";
+        // inputBlockRef.classList.add("input_digits-3");
+      }
+      else if(this.resultDigitCount === 2) {
+        this.parentInputClass = "input_digits-2";
+      }
+    }
   }
 
   /******Set template type for EVA******/
@@ -345,6 +365,8 @@ export class Template12ComponentEVA implements OnInit {
     let highLightDigitObj = this.getHighLightDigitDetails();
     let blinkingDigitRef = this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1];
     if (option.id === blinkingDigitRef["correctValue"]) {
+      blinkingDigitRef["highlight"] = false;
+      blinkingDigitRef["blink"] = false;
       this.correctAnswerCounter++;
       this.appModel.stopAllTimer();
       blinkingDigitRef.value = option.id;
@@ -494,7 +516,9 @@ export class Template12ComponentEVA implements OnInit {
   /****** sets blinking on digit ********/
   setBlink() {
     let highLightDigitObj = this.getHighLightDigitDetails();
+    // this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["highlight"] = false;
     this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
+    
   }
 
   /******On Hover option ********/
@@ -526,12 +550,12 @@ export class Template12ComponentEVA implements OnInit {
       this.audio.play();
       for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
         if (i != idx) {
-            this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+          this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
         }
-    }
-    this.audio.onended = () => {
+      }
+      this.audio.onended = () => {
         this.enableAllOptions();
-    }
+      }
     }
   }
 
@@ -570,12 +594,9 @@ export class Template12ComponentEVA implements OnInit {
 
     this.clapSound.nativeElement.pause();
     this.clapSound.nativeElement.currentTime = 0;
-
-    // if(clicked) {
-    //   this.enableAllOptions();
-    // }
   }
 
+  /** Function to pause the speaker **/
   pauseSpeaker() {
     // if (!this.speakerVolume.nativeElement.paused) {
     //   this.speakerVolume.nativeElement.pause();
@@ -586,12 +607,18 @@ export class Template12ComponentEVA implements OnInit {
     // }
 
     let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-		if (!speakerEle.paused) {
-			speakerEle.pause();
-			speakerEle.currentTime = 0;
-			document.getElementById('waveAnimation').style.display = 'none';
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			this.speaker.imgsrc = this.speaker.imgorigional;
-		}
+    if (!speakerEle.paused) {
+      speakerEle.pause();
+      speakerEle.currentTime = 0;
+      document.getElementById('waveAnimation').style.display = 'none';
+      (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+      this.speaker.imgsrc = this.speaker.imgorigional;
+    }
+  }
+
+  /** Function called on click of speaker **/
+  onSpeakerClicked() {
+    this.stopAllSounds();
+    this.enableAllOptions();
   }
 }

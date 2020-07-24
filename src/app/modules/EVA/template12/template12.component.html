@@ -27,15 +27,15 @@
         <img class="img-fluid"
           [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
         <div class="inputBlockParent">
-          <div id="inputBlock" [ngClass]="{'divide':quesObj?.tablet?.quesType}">
+          <div id="inputBlock" [ngClass]="[parentInputClass]">
             <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
               [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}">
               <ng-container *ngFor="let no of quesTxt?.rowValues;">
-                <div *ngIf="no.value; else showOperator" [ngClass]="{'font-style':no.value, 'highlightBox':no.correctValue, 'blinkBox':no?.blink}">
-                  <img class="img-fluid"
+                <div [ngClass]="{'font-style':no?.value, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no.operator, 'placevalue':no?.placevalue, 'divide-img':no?.isDivideImage}">
+                  <img class="img-fluid dark"
             [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
                 </div>
-                <ng-template #showOperator>
+                <!-- <ng-template #showOperator>
                   <div *ngIf="no.operator || no.placevalue"
                     [ngClass]="{'operator':true, 'placevalue':no?.placevalue, 'divide-img':no?.isDivideImage}">
                     <img class="img-fluid"
@@ -44,7 +44,7 @@
                   <div *ngIf="no.blank" [ngClass]="{'highlightContainer':true, 'blinkBox':no?.blink}">
                     <div [ngClass]="{'highlightBox':!no?.blink}"></div>
                   </div>
-                </ng-template>
+                </ng-template> -->
               </ng-container>
             </div>
           </div>          
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <app-globalspeaker></app-globalspeaker>
+      <app-globalspeaker (clickSpeaker)="onSpeakerClicked()"></app-globalspeaker>
     </div>
 
   </div>
@@ -78,29 +78,33 @@
         <div class="modal-body d-flex align-items-center">
           <img class="img-fluid"
             [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-          <div class="queryBlock">
-            <img class="img-fluid"
-              [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
-            <div id="inputBlock" [ngClass]="{'divide':quesObj?.tablet?.quesType}">
-              <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
-                [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}">
-                <ng-container *ngFor="let no of quesTxt?.rowValues; let idx1 = index">
-                  <div *ngIf="no.value; else showOperator" class="font-style">{{no.value}}</div>
-                  <ng-template #showOperator>
-                    <div *ngIf="no.operator || no.placevalue"
-                      [ngClass]="{'operator':true, 'placevalue':no?.placevalue, 'divide-img':no?.isDivideImage}">
-                      <img class="img-fluid"
-                        [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
-                    </div>
-                    <div *ngIf="no.correctValue" class="font-style">{{no.correctValue}}</div>
-                    <!-- <div [ngClass]="{'highlightBox':!no?.blink}"></div>
-                      </div> -->
-                  </ng-template>
-                </ng-container>
-                <!-- <hr *ngIf="quesTxt.bottomLine" class="border-line"> -->
+            <div class="queryBlock">
+              <img class="img-fluid"
+                [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+              <div class="inputBlockParent">
+                <div id="inputBlock" [ngClass]="[parentInputClass]">
+                  <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
+                    [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}">
+                    <ng-container *ngFor="let no of quesTxt?.rowValues;">
+                      <div [ngClass]="{'font-style':no?.value, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no.operator, 'placevalue':no?.placevalue, 'divide-img':no?.isDivideImage}">
+                        <img class="img-fluid"[ngClass]="{'img-fluid':true, 'globalOptionBlink': no?.correctValue}"
+                  [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
+                      </div>
+                      <!-- <ng-template #showOperator>
+                        <div *ngIf="no.operator || no.placevalue"
+                          [ngClass]="{'operator':true, 'placevalue':no?.placevalue, 'divide-img':no?.isDivideImage}">
+                          <img class="img-fluid"
+                            [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
+                        </div>
+                        <div *ngIf="no.blank" [ngClass]="{'highlightContainer':true, 'blinkBox':no?.blink}">
+                          <div [ngClass]="{'highlightBox':!no?.blink}"></div>
+                        </div>
+                      </ng-template> -->
+                    </ng-container>
+                  </div>
+                </div>          
               </div>
             </div>
-          </div>
           <div class="rightWrongAns">
             <img class="img-fluid"
               [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">

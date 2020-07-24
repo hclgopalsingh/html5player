@@ -23,10 +23,59 @@
     margin: 0 2%;
     position: relative;
 }
-
 .font-style img{
     width: 63%;
-    /* padding: 24%; */
+}
+.input_digits-4-5 {
+    width: 76% !important;
+}
+.input_digits-4-5 .rowClass .font-style {
+    width: 16%;
+}
+.input_digits-4-5 .rowClass .font-style img {
+    width: 59%;
+}
+.input_digits-4-5 .rowClass .operator {
+    width: 17%;
+}
+.input_digits-4-5 .rowClass .placevalue {
+    width: 11%;
+}
+.input_digits-3 {
+    width: 53% !important;
+}
+.input_digits-3 .rowClass {
+    margin: 4.5% 0;
+}
+.input_digits-3 .rowClass .font-style {
+    width: 22%;
+}
+.input_digits-3 .rowClass .font-style img {
+    width: 59%;
+}
+.input_digits-3 .rowClass .operator {
+    width: 20%;
+}
+.input_digits-3 .rowClass .placevalue {
+    width: 16%;
+}
+.input_digits-2 {
+    width: 32% !important;
+}
+.input_digits-2 .rowClass .font-style {
+    width: 36%;
+}
+.input_digits-2 .rowClass .font-style img {
+    width: 62%;
+}
+.input_digits-2 .rowClass .operator {
+    width: 49%;
+}
+.input_digits-2 .rowClass .operator img {
+    width: 53%;
+}
+.input_digits-2 .rowClass .placevalue {
+    width: 24%;
 }
 .rowClass{
     display: flex;
@@ -56,7 +105,7 @@
     max-width: 69%;
 }
 .placevalue {
-    width: 9%;
+    width: 16%;
     height: auto;
     margin: 0% 4% 0% 5%;
 }
@@ -197,6 +246,9 @@
 .keyContainer:hover{
 	transition: transform .2s;
 	transform: scale(1.1);
+}
+.dark {
+	filter: grayscale(100%) brightness(0) saturate(0);
 }
 .modal .queryBlock {
     left: 24%;
