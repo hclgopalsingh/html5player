@@ -203,16 +203,7 @@
     right: 1.2%;
     position: absolute;
 }
-/* .highlightContainer {
-    position: relative;
-    display: inline-block;
-    width: 19%;
-    height: 100%;
-    padding: 2%;
-} */
 .highlightBox::before {
-    /* width: 96%;
-    height: 105%; */
     content: '';
     position: absolute;
     height: 136%;
@@ -220,7 +211,8 @@
     border-radius: 0.5vmax;
     border: solid .3vmax #0029d0;
 }
-.highlightBox img {
+.highlightBox img,
+.blinkBox img  {
     visibility: hidden;
 }
 .blinkBox::before {
@@ -231,17 +223,6 @@
     width: 105%;
     border-radius: 0.5vmax;
     border: solid .3vmax #0029d0;
-    /* content: '';
-    z-index: 1;
-    width: 75%;
-    height: 84%;
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    border: solid .2vmax transparent;
-    border-radius: 0.5vmax;
-    -webkit-animation: borderBlink2 normal 1s infinite linear;
-    animation: borderBlink2 normal 1s infinite linear; */
 }
 .keyContainer:hover{
 	transition: transform .2s;
@@ -249,6 +230,114 @@
 }
 .dark {
 	filter: grayscale(100%) brightness(0) saturate(0);
+}
+
+/* Divider Classes begin*/
+.divideBlock img{
+    max-width: 100%;
+    margin: 0 1%;
+    width: 11.08%;
+}
+.divideBlock .quotient{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 7%;
+    width: 67%;
+    height: 17%;
+}
+.quotient span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16.8%;
+    height: 100%;
+    position: relative;
+}
+.quotient span img {
+    width: 66% !important;
+}
+.divideBlock .divisorDividend,
+.divideBlock .divisorDividendSub,
+.divideBlock .remainder{
+    position: absolute;
+    top: 31%;
+    left: 13%;
+    width: 67%;
+}
+.divideBlock .divisorDividendSub{
+    top: 51%;
+    left: 33%;
+    display: inline-flex;
+    height: 17%;
+}
+.divisorDividendSub span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16.8%;
+    height: 100%;
+    position: relative;
+}
+.divisorDividendSub span:last-child {
+    margin-left: 3.5%;
+}
+.divisorDividendSub span img{
+    width: 66%;
+}
+.divideBlock .remainder{
+    top: 71%;
+}
+.divideBlock .remainder div{
+    width: 70%;
+    height: 6.73vmax;
+    border-top: solid .45vmax #000;
+    border-bottom: solid .45vmax #000;
+    position: absolute;
+    left: 31%;
+    display: inline-flex;
+}
+.remainder div span {
+    margin: 3% 0;
+    margin-left: 23%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24%;
+    height: 82%;
+    position: relative;
+}
+.remainder div span:last-child {
+    margin-left: 4.2%;
+}
+.remainder div span img {
+    margin: 0 !important;
+}
+.divideMark{
+    position: absolute;
+    left: 29%;
+    top: -45%;
+    width: 71.5% !important;
+}
+.digitTens {
+    margin-left: 22.1% !important;
+    margin-right: 7% !important;
+}
+.divisorDividendSub .digitTens {
+    margin-left: 6% !important;
+}
+.remainder .digitTens {
+    width: 66% !important;
+}
+.divideBlock .highlightBox::before,
+.divideBlock .blinkBox::before{
+    height: 105%;
+}
+/* Divider Classes end*/
+
+#evaTemp12 .blinkDigit {
+    animation: optionBlink normal 1.3s infinite linear;
 }
 .modal .queryBlock {
     left: 24%;

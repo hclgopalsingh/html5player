@@ -23,7 +23,6 @@ export class Template12ComponentEVA implements OnInit {
   isLastQuesAct: boolean;
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
-  // loaderTimer: any;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
@@ -120,10 +119,6 @@ export class Template12ComponentEVA implements OnInit {
       this.isVideoLoaded = false;
     } else {
       this.appModel.setLoader(true);
-      // if error occured during image loading loader wil stop after 5 seconds 
-      // this.loaderTimer = setTimeout(() => {
-      //   this.appModel.setLoader(false);
-      // }, 5000);
     }
     this.appModel.notification.subscribe(
       (data) => {
@@ -183,7 +178,6 @@ export class Template12ComponentEVA implements OnInit {
           }
         }
       }
-
     })
 
 
@@ -211,10 +205,6 @@ export class Template12ComponentEVA implements OnInit {
       this.appModel.notifyUserAction();
 
     })
-    // document.getElementsByClassName("speakerBtn")[0].addEventListener("click",()=> {
-    //   this.stopAllSounds();
-    //   this.enableAllOptions();
-    // });
   }
   ngOnDestroy() {
     this.showAnswerSubscription.unsubscribe();
@@ -260,15 +250,15 @@ export class Template12ComponentEVA implements OnInit {
         }
       });
     });
+
+    //logic to set different width based on last row length
     this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-1].rowValues.length;
     if (this.quesObj.tablet.quesType === "add" || this.quesObj.tablet.quesType === "subt") {
       if(this.resultDigitCount === 4 || this.resultDigitCount === 5) {
         this.parentInputClass = "input_digits-4-5";
-        // inputBlockRef.classList.add("input_digits-4-5");
       }
       else if(this.resultDigitCount === 3) {
         this.parentInputClass = "input_digits-3";
-        // inputBlockRef.classList.add("input_digits-3");
       }
       else if(this.resultDigitCount === 2) {
         this.parentInputClass = "input_digits-2";
@@ -491,6 +481,7 @@ export class Template12ComponentEVA implements OnInit {
     this.checkforQVO();
   }
 
+  /**Disable all clickables until instruction VO ends**/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.instruction.nativeElement.src = this.quesObj.quesInstruction.location == "content"
@@ -598,14 +589,6 @@ export class Template12ComponentEVA implements OnInit {
 
   /** Function to pause the speaker **/
   pauseSpeaker() {
-    // if (!this.speakerVolume.nativeElement.paused) {
-    //   this.speakerVolume.nativeElement.pause();
-    //   this.speakerVolume.nativeElement.currentTime = 0;
-    //   document.getElementById('waveAnimation').style.display = 'none';
-    //   (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-    //   this.speaker.imgsrc = this.speaker.imgorigional;
-    // }
-
     let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
     if (!speakerEle.paused) {
       speakerEle.pause();
