@@ -221,6 +221,6 @@
   <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"  poster="assets/images/videoPoster.svg" >
     <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
   </video>
-   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url"  (click)="PlayPauseVideo()"/></div>
+   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()"/></div>
   <div id="SkipBtn" *ngIf="videoReplayd"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 </div>

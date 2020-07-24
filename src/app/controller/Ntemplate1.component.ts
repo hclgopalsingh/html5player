@@ -702,6 +702,25 @@ export class Ntemplate1 implements OnInit {
       return this.appModel.content.id + '';
     }
   }
+  hoverPlayPause(){
+    if(this.PlayPauseFlag)
+    {    
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+    }
+  }
+
+  leavePlayPause(){
+    if(this.PlayPauseFlag)
+    {   
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    }
+  }
   hoverConfirm() {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
@@ -1163,6 +1182,7 @@ houtSkip(){
     this.wrongansArray2 = [];
     this.ansArray1 = [];
     this.AnsObj = [];
+    $(".bodyContent").removeClass("disable_div");
     //this.appModel.enableReplayBtn(true);
   }
   playFeedbackAudio(i, j, flag) {
