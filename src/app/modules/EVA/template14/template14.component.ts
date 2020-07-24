@@ -442,7 +442,7 @@ export class TemplateFourteenComponent implements OnInit {
       //this.appModel.handlePostVOActivity(true);
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-        this.appModel.handlePostVOActivity(false);
+        // this.appModel.handlePostVOActivity(false);
         instruction.style.pointerEvents = "";
         this.optionsBlock.nativeElement.classList = "row mx-0";
       }
@@ -1433,17 +1433,16 @@ export class TemplateFourteenComponent implements OnInit {
     this.videoonshowAnspopUp.nativeElement.pause();
     this.videoonshowAnspopUp.nativeElement.currentTime = 0;
     if(type == "showAnswer"){
-      if (this.isRight) {
+      //if (this.isRight) {
+        this.overlay.nativeElement.classList.value = "fadeContainer";
         this.blinkOnLastQues();
-        }
+        //}
     }
 
     //for type confirmation pop up
     if(type == "yes"){
     this.CheckAnswer();
     setTimeout(() => {
-
-
     if(this.isRight){
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
       this.clapSound.nativeElement.play();
@@ -1469,7 +1468,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.wrongFeedback.nativeElement.play();
     }
     this.wrongFeedback.nativeElement.onended = () => {
-        setTimeout(() => {
+      this.wrongTimer = setTimeout(() => {
           this.closeModal();
         }, 10000);
     }
