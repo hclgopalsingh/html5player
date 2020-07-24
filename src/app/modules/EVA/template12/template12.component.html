@@ -34,7 +34,7 @@
               <ng-container *ngFor="let no of quesTxt?.rowValues;">
                 <div
                   [ngClass]="{'font-style':no?.value, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no.operator, 'placevalue':no?.placevalue}">
-                  <img class="img-fluid dark"
+                  <img [ngClass]="{'img-fluid':true, 'dark': true, 'onesPlaceOperator':no?.escape}"
                     [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
                 </div>
               </ng-container>

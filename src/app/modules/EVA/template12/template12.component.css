@@ -24,16 +24,24 @@
     position: relative;
 }
 .font-style img{
-    width: 63%;
+    width: 59%;
 }
 .input_digits-4-5 {
-    width: 76% !important;
+    width: 71% !important;
+}
+.input_digits-4-5 .rowClass .highlightBox::before {
+    height: 132%;
+    width: 111%;
+}
+.input_digits-4-5 .rowClass .blinkBox::before {
+    height: 132%;
+    width: 111%;
 }
 .input_digits-4-5 .rowClass .font-style {
     width: 16%;
 }
 .input_digits-4-5 .rowClass .font-style img {
-    width: 59%;
+    width: 67%;
 }
 .input_digits-4-5 .rowClass .operator {
     width: 17%;
@@ -42,7 +50,7 @@
     width: 11%;
 }
 .input_digits-3 {
-    width: 53% !important;
+    width: 58% !important;
 }
 .input_digits-3 .rowClass {
     margin: 4.5% 0;
@@ -55,6 +63,9 @@
 }
 .input_digits-3 .rowClass .operator {
     width: 20%;
+}
+.input_digits-3 .rowClass .operator img{
+    width: 87%;
 }
 .input_digits-3 .rowClass .placevalue {
     width: 16%;
@@ -86,13 +97,9 @@
     padding: 0 13%;
 }
 .border-line {
-    border-bottom: solid 4px #000;
+    border-bottom: solid .33vmax #000;
     padding-bottom: 6.5%;
     margin-bottom: 3%;
-    /* border-radius: 4px;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 100%; */
 }
 .operator {
     width: 24%;
@@ -101,8 +108,10 @@
     align-items: center;
 }
 .operator img {
-    /* padding: 24%; */
     max-width: 69%;
+}
+.onesPlaceOperator {
+    max-width: 45% !important;
 }
 .placevalue {
     width: 16%;
@@ -187,14 +196,8 @@
     position: absolute;
     left: 1.8%;
     width: 53%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
 }
 :host ::ng-deep .speakerBtn {
@@ -233,6 +236,9 @@
 }
 
 /* Divider Classes begin*/
+.inputBlockParent.divideBlock {
+    height: 83% !important;
+}
 .divideBlock img{
     max-width: 100%;
     margin: 0 1%;
@@ -292,8 +298,8 @@
 .divideBlock .remainder div{
     width: 70%;
     height: 6.73vmax;
-    border-top: solid .45vmax #000;
-    border-bottom: solid .45vmax #000;
+    border-top: solid .33vmax #000;
+    border-bottom: solid .33vmax #000;
     position: absolute;
     left: 31%;
     display: inline-flex;
