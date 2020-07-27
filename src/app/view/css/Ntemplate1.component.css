@@ -43,6 +43,13 @@ button:focus {
   width: 32%;
   text-align: center;
   position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.refQuesImg {
+  position: absolute;
 }
 
 #container #optionsBlock {
@@ -67,6 +74,10 @@ button:focus {
   width: 31%;
   display: inline-block;
   /*animation: scaleit 0.4s ease-in;*/
+}
+
+.optionswithFour .options {
+ width: 40% !important;
 }
 
 .quesImage {
@@ -241,7 +252,7 @@ button:focus {
 }
 
 #instructionBar .instructionBase {
-  width: 83%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
@@ -304,31 +315,41 @@ button:focus {
 }
 
 #playPauseBtn {
-  position: absolute;
+  /*position: absolute;
   top: 98%;
   right: 18%;
   cursor: pointer;
-  width: 1.5%;
+  width: 1.5%;*/
+  position: absolute;
+  top: 86%;/*85%*/
+  right: 5%;/*16%*/
+  cursor: pointer;
+  width: 3.5%;/*1.5%*/
 }
 #playPauseBtn img {
-  width: 200%;
+  /*width: 200%;
   filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
+  max-width: none;*/
 }
 #SkipBtn{
-  position: absolute;
+  /*position: absolute;
   top: 96.5%;
   right: 1.7%;
   cursor: pointer;
-  width: 16%;
+  width: 16%;*/
+  position: absolute;
+  top: 86%;
+  right: .7%;/*-3.7%*/
+  cursor: pointer;
+  width: 3.5%;/*16%*/
 }
 #SkipBtn img {
-  max-width: 70%;
+  /*max-width: 70%;*/
 }
-#playPauseBtn,
+/*#playPauseBtn,
 #SkipBtn {
   z-index: 9999;
-}
+}*/
 #burst {
   position: absolute;
   z-index: 101;
@@ -616,7 +637,7 @@ button:focus {
   margin-top: -.1%;
   -webkit-appearance: inherit !important;
   cursor: pointer;
-  opacity: 1;
+  opacity: 1!important;
 }
 
 @media (min-width: 1366px) {
@@ -832,3 +853,35 @@ html [type=button] {
   bottom: -8%;
   right: 1%;
 }
+
+.videoMainContainer{
+  width:100%;
+  height:auto;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index: 101;
+}
+
+.waveAnimation img:nth-child(1) {
+  animation: blink1 normal infinite cubic-bezier(0, 0.5, 0.5, 0);
+  animation-duration: 1.5s;
+}
+
+@keyframes blink1{
+	0%{
+		opacity: 0;
+	}
+	25%{
+		opacity: 1;
+	}
+	50%{
+		opacity: 0;
+	}
+	75%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 0;
+	}
+} 
