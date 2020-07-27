@@ -572,6 +572,7 @@ export class Ntemplate1 implements OnInit {
           if(this.quesObj.quesType == "video"){
                   this.isQuesTypeVideo = true;
                   this.videoPlaytimer=setTimeout(() => {
+                  this.disable=true;  
                   this.mainVideo.nativeElement.parentElement.style.visibility="visible";  
                   this.mainVideo.nativeElement.play();
                   this.mainVideo.nativeElement.onended = () => {
@@ -581,10 +582,13 @@ export class Ntemplate1 implements OnInit {
                   this.isQuesTypeImage=true;
                   this.clickableImg=true;
                   this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
+                        setTimeout(() => {
+                          this.disable=false;
+                        }, 1000);
                   this.appModel.videoStraming(false);
                   //this.appModel.enableReplayBtn(true);
                   this.appModel.handlePostVOActivity(false);
-                  $(".bodyContent").removeClass("disable_div");
+                  //$(".bodyContent").removeClass("disable_div");
                   $(".instructionBase").removeClass("disable_div");
                    }
                   }, this.quesObj.timegap);
@@ -1330,7 +1334,7 @@ houtSkip(){
     this.PlayPauseFlag=true;
     if (flag == "yes") {
       if (action == "replay") {
-        $(".bodyContent")[0].classList.value="bodyContent videoExpand";
+        //$(".bodyContent")[0].classList.value="bodyContent videoExpand";
         this.replayVideo();
       }
     } else if (flag == "no") {
@@ -1353,13 +1357,17 @@ houtSkip(){
     setTimeout(() => {
       $("#playPauseBtn")[0].children[0].src =  this.quesObj.quesPause.url;
       //this.PlayPauseFlag = true;
+      this.disable=true;
        this.mainVideo.nativeElement.parentElement.style.visibility="visible";
       this.mainVideo.nativeElement.play();
       //this.appModel.stopAllTimer();
       this.mainVideo.nativeElement.onended = () => {
         //this.appModel.enableSubmitBtn(true);
+        setTimeout(() => {
+            this.disable=false;
+        }, 1000);
          this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
-        $(".bodyContent")[0].classList.value="bodyContent";
+        //$(".bodyContent")[0].classList.value="bodyContent";
         this.appModel.handlePostVOActivity(false);
         //$("#optionsBlock .options").css("pointer-events", "unset");
         //$("#optionsBlock .options").removeClass("disable_div");
