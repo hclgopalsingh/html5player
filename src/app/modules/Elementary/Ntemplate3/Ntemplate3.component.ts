@@ -147,6 +147,7 @@ export class Ntemplate3 implements OnInit {
   bgSubscription: Subscription;
   /*End: Theme Implementation(Template Changes)*/
   disableDiv:boolean = false;
+  quesSkip:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -588,6 +589,7 @@ export class Ntemplate3 implements OnInit {
     if (flag == "yes") {
       this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
       if (action == "replay") {
+        this.quesSkip = true;
         //this.isPlayVideo = true;
         this.replayVideo();
       }
