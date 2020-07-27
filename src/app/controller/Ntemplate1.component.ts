@@ -1241,6 +1241,7 @@ houtSkip(){
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
       }, 1000);
+      
     }
 
   }
