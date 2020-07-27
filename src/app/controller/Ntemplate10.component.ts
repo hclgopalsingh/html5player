@@ -847,6 +847,7 @@ export class Ntemplate10 implements OnInit {
 			this.appModel.handlePostVOActivity(true);
 			this.appModel.enableReplayBtn(true);
 			$(".instructionBase img").css("cursor", "default");
+			$(".skipBtn").css("opacity", "0.5");
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			//   this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.narrator.nativeElement.play();
@@ -855,6 +856,7 @@ export class Ntemplate10 implements OnInit {
 
 				this.setBubbleEmpty();
 				this.appModel.enableReplayBtn(true);
+				$(".skipBtn").css("opacity", "1");
 			}
 		} else {
 			this.appModel.handlePostVOActivity(false);
