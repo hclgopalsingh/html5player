@@ -1,19 +1,19 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
 import { subscriptionLogsToBeFn } from 'rxjs/testing/TestScheduler';
-import { SharedserviceService } from '../services/sharedservice.service';
-import { ThemeConstants } from '../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
 
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp5',
-  templateUrl: '../view/layout/Ntemplate5.component.html',
-  styleUrls: ['../view/css/Ntemplate5.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate5.component.html',
+  styleUrls: ['./Ntemplate5.component.css', '../../../view/css/bootstrap.min.css'],
 })
 
 export class Ntemplate5 implements OnInit {
@@ -44,11 +44,6 @@ export class Ntemplate5 implements OnInit {
         }
       }
     );
-    //this.rightFeedbackVO.nativeElement.currentTime = 0;
-    //this.rightFeedbackVO.nativeElement.src = "";
-    //this.wrongFeedbackVO.nativeElement.src = "";
-   // this.wrongFeedbackVO.nativeElement.pause();
-    //this.wrongFeedbackVO.nativeElement.currentTime = 0;
   }
 
   @ViewChild("optionsBlock") optionsBlock: any;
@@ -62,9 +57,6 @@ export class Ntemplate5 implements OnInit {
   @ViewChild('rightFeedbackVO') rightFeedbackVO: any
   @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
   
-
-
-
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -110,6 +102,7 @@ export class Ntemplate5 implements OnInit {
   bgSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
+  backgroundAssets:any;
   quesObj: any;
   attemptType: string = "";
   count: number = 0;
@@ -126,6 +119,8 @@ export class Ntemplate5 implements OnInit {
   themePath:any;
    fetchedcontent:any;
    functionalityType:any;
+   InstructionVo:boolean=true;
+
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
@@ -133,10 +128,13 @@ export class Ntemplate5 implements OnInit {
       this.appModel.notifyUserAction();
       console.log("play on Instruction");
       //this.instruction.nativeElement.load();
-      if (this.instruction.nativeElement.paused) {
+      if (this.instruction.nativeElement.paused && this.quesObj.quesInstruction.url!="") {
+        this.InstructionVo = true;
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
         $(".instructionBase img").css("cursor", "pointer");
+      }else{
+        this.InstructionVo = false;
       }
       if (!this.optionAudio.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -153,31 +151,14 @@ export class Ntemplate5 implements OnInit {
     if (opt && opt != undefined) {
       if (this.narrator.nativeElement.paused) {
         $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
-        //opt.imgsrc = opt.imgsrc_hover;
-        //if (opt.imgsrc && opt.imgsrc.location == "content") {
-        //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        //}
-        //else {
-        //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-        //}
-        /*if (this.optionCommonAssets.option_base_hover && this.optionCommonAssets.option_base_hover.location == "content") {
-          this.optionsBlock.nativeElement.children[i].children[j].children[1].children[0].src = this.containgFolderPath + "/" + this.optionCommonAssets.option_base_hover.url;
-        } else {
-          this.optionsBlock.nativeElement.children[i].children[j].children[1].children[0].src = this.assetsPath + "/" + this.optionCommonAssets.option_base_hover.url;
-        }*/
-        //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-      }
+        }
     }
   }
 
   playHoverOption(opt, i, j) {
     this.appModel.notifyUserAction();
     if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
-      if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-      } else {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-      }
+      this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url;
       this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.pause();
@@ -236,15 +217,7 @@ export class Ntemplate5 implements OnInit {
         $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleInAnimation");
         $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleOutAnimation");
       }, 500);
-      //opt.imgsrc = opt.imgsrc_original;
-      //if (opt.imgsrc && opt.imgsrc.location == "content") {
-      //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-      //} else {
-      //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-      //}
-      //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
-      //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "";
-    }
+     }
   }
   checkAnswer(opt, i, j) {
     if (!this.narrator.nativeElement.paused || !this.instruction.nativeElement.paused) {
@@ -260,25 +233,14 @@ export class Ntemplate5 implements OnInit {
         this.showanspopUpheader_img = false;
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
-        //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[2].style.display = "block";
         this.optionsBlock.nativeElement.className += " disable_div";
         $("#instructionBar").addClass("disable_div");
-        //console.log(this.popupImage);
-        if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        } else {
-          this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
-        }
+        this.popupImage.nativeElement.src = opt.imgsrc.url;
         this.rightanspopUp=setTimeout(() => {
           this.popupRef.nativeElement.classList = "displayPopup modal";
-          //this.optionsBlock.nativeElement.style = "opacity:0.3";
           $("#optionsBlock .options").css("opacity", "0.3");
           $("#instructionBar").css("opacity", "0.3");
-          if (opt.imgrightfeedback_audio.location == "content") {
-            this.rightFeedbackVO.nativeElement.src = this.containgFolderPath + "/" + opt.imgrightfeedback_audio.url;
-          } else {
-            this.rightFeedbackVO.nativeElement.src = this.assetsPath + "/" + opt.imgrightfeedback_audio.url;
-          }
+          this.rightFeedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url;
             this.rightFeedbackVO.nativeElement.play();
           
         }, 700);
@@ -298,25 +260,16 @@ export class Ntemplate5 implements OnInit {
         this.rightanspopUpheader_img = false;
         this.wronganspopUpheader_img = true;
         this.showanspopUpheader_img = false;
-        //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[3].style.display = "block";
-        this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
+         this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
         $("#instructionBar").addClass("disable_div");
-        if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.popupImage.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        } else {
-          this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
-        }
+        this.popupImage.nativeElement.src =  opt.imgsrc.url;
         this.wronganspopUp=setTimeout(() => {
           //this.appModel.openModal("success-modal-id", this.popupAssets,'');
           this.popupRef.nativeElement.classList = "displayPopup modal";
           
           this.optionsBlock.nativeElement.classList.value = "row mx-0";
           this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
-          if (opt.imgwrongfeedback_audio.location == "content") {
-            this.wrongFeedbackVO.nativeElement.src = this.containgFolderPath + "/" + opt.imgwrongfeedback_audio.url;
-          } else {
-            this.wrongFeedbackVO.nativeElement.src = this.assetsPath + "/" + opt.imgwrongfeedback_audio.url;
-          }
+          this.wrongFeedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url;
           this.wrongFeedbackVO.nativeElement.play();
         },700);
         
@@ -326,10 +279,7 @@ export class Ntemplate5 implements OnInit {
             if (this.count == 0) {
               this.closeModal();
             }
-            //this.appModel.wrongAttemptAnimation();
-            //$("#optionsBlock .options").removeClass("disable_div");
-            //$("#optionsBlock .options").css("opacity", "unset");
-          }, 2000);        
+         }, 2000);        
         }
       }
       this.optionsBlock.nativeElement.children[i].children[j].style.transform = "none";
@@ -337,7 +287,6 @@ export class Ntemplate5 implements OnInit {
   }
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
-      //this.appModel.blinkForLastQues();
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
       if (!this.appModel.eventDone) {
@@ -356,15 +305,18 @@ export class Ntemplate5 implements OnInit {
 
 
   ngOnInit() {
+    
     this.appModel.functionone(this.templatevolume,this);
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
-    this.fetchedcontent = this.appModel.content.contentData.data;
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
     this.functionalityType = this.appModel.content.contentLogic.functionalityType;
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
     this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+    this.checkquesTab();
     if (this.rightFeedbackVO != undefined || this.wrongFeedbackVO != undefined) {
       this.rightFeedbackVO.nativeElement.pause();
       this.rightFeedbackVO.nativeElement.currentTime = 0;
@@ -415,13 +367,8 @@ export class Ntemplate5 implements OnInit {
             this.instruction.nativeElement.pause();
             this.optionAudio.nativeElement.pause();
           }
-          if (this.rightAnspopupAssets.imgsrc && this.rightAnspopupAssets.imgsrc.location == "content") {
-            this.popupImage.nativeElement.src = this.containgFolderPath + "/" + this.rightAnspopupAssets.imgsrc.url;
-            this.rightFeedbackVO.nativeElement.src = this.containgFolderPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url;
-          } else {
-            this.popupImage.nativeElement.src = this.assetsPath + "/" + this.rightAnspopupAssets.imgsrc.url;
-            this.rightFeedbackVO.nativeElement.src = this.assetsPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url;
-          }
+          this.popupImage.nativeElement.src = this.rightAnspopupAssets.imgsrc.url;
+          this.rightFeedbackVO.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url;
           this.rightFeedbackVO.nativeElement.play();
           this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
           $("#instructionBar").addClass("disable_div");
@@ -435,11 +382,8 @@ export class Ntemplate5 implements OnInit {
 
           this.blinkOnLastQues();
           this.appModel.moveNextQues();
-          //this.appModel.notifyUserAction();
         }
-
-        // this.setFeedbackAudio();
-      }
+ }
     })
 
     this.appModel.getConfirmationPopup().subscribe(() => {
@@ -479,6 +423,15 @@ export class Ntemplate5 implements OnInit {
     });
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
+   
+  }
+  
+  checkquesTab() {
+    if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+      this.appModel.getJson();      
+    }
   }
 
   postWrongAttemplt() {
@@ -526,7 +479,7 @@ export class Ntemplate5 implements OnInit {
 
   checkforQVO(){
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-			this.narrator.nativeElement.src = this.quesObj.quesInstruction.location=="content" ? this.containgFolderPath+ "/" + this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36):this.assetsPath + "/" + this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
+			this.narrator.nativeElement.src = this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
 			this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
 			this.narrator.nativeElement.play();
@@ -542,14 +495,12 @@ export class Ntemplate5 implements OnInit {
   setData() {
 
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      //this.subjectQuesControl.next(fetchedData.commonassets);
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      console.log(this.fetchedcontent);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+      this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
@@ -557,21 +508,21 @@ export class Ntemplate5 implements OnInit {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.optionObj = fetchedData.optionObj;
-      //this.optArr1 = this.optionObj[0].optionsArr;
-      //this.optArr2 = this.optionObj[1].optionsArr;
-      this.optionCommonAssets = fetchedData.option_common_assets;
+      this.optionObj = this.fetchedcontent.optionObj;
+      this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
-      this.feedbackObj = fetchedData.feedback;
+      this.feedbackObj = this.fetchedcontent.feedback;
       this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.quesObj = fetchedData.quesObj[0];
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.quesObj = this.fetchedcontent.quesObj;
       this.controlHandler={
          isSubmitRequired:this.quesObj.submitRequired,
          isReplayRequired:this.quesObj.replayRequired
       }
     }
-
+    if(this.quesObj.quesInstruction.url==""){
+       this.InstructionVo=false;
+    }
   }
 
   getBasePath() {
@@ -622,13 +573,8 @@ export class Ntemplate5 implements OnInit {
       this.appModel.resetBlinkingTimer();
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
-        if (this.rightAnspopupAssets.imgsrc && this.rightAnspopupAssets.imgsrc.location == "content") {
-          this.popupImage.nativeElement.src = this.containgFolderPath + "/" + this.rightAnspopupAssets.imgsrc.url;
-          this.rightFeedbackVO.nativeElement.src = this.containgFolderPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url;
-        } else {
-          this.popupImage.nativeElement.src = this.assetsPath + "/" + this.rightAnspopupAssets.imgsrc.url;
-          this.rightFeedbackVO.nativeElement.src = this.assetsPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url;
-        }
+        this.popupImage.nativeElement.src = this.rightAnspopupAssets.imgsrc.url;
+        this.rightFeedbackVO.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url;
         this.rightFeedbackVO.nativeElement.play();
       }, 100);
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
@@ -651,7 +597,11 @@ export class Ntemplate5 implements OnInit {
       }
     } else {
       this.appModel.notifyUserAction();
+      $("#optionsBlock").addClass("disable_div");
       $("#instructionBar").removeClass("disable_div");
+       setTimeout(() => {
+        $("#optionsBlock").removeClass("disable_div");
+      }, 1000);
     }
   }
 
@@ -661,7 +611,8 @@ export class Ntemplate5 implements OnInit {
     }
   }
 
-  closeModal() {
+  closeModal() {  
+    $("#optionsBlock").addClass("disable_div");
     this.count = 1;
     if (!this.rightFeedbackVO.nativeElement.paused) {
       this.rightFeedbackVO.nativeElement.pause();
@@ -682,7 +633,9 @@ export class Ntemplate5 implements OnInit {
     if (!this.checked) {
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
-      }, 1000);
+        
+        $("#optionsBlock").removeClass("disable_div");
+      }, 3000);
       $("#optionsBlock .options").removeClass("disable_div");
       $("#optionsBlock .options").css("opacity", "unset");
     }

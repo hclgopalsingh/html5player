@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
     <div class="" #overlay></div>	
-     <div class="container-fluid eva" id="container">
+     <div class="container-fluid eva eva1" id="container">
         <div class="headerBar">
             <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
            </div>
@@ -94,34 +94,7 @@
 
 
  <!-- show answer Popup  -->
-    <div class="modal" id="showAnswer" #showAnswerRef>
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-body d-flex align-items-center">
-                  <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                 
-                  <div id="refQuesBlock">
-				  <img class="quesBg" [src]="quesObj?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.background?.url : quesObj?.background?.location=='assets' ? assetsPath + '/' +quesObj?.background?.url:''" alt=""
-					(load)="checkImgLoaded();">
-                    <div class="refQues" #refQues>					
-                        <ng-container *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
-                            <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'']">
-                                <img [ngClass]="{'dark':!quesTxt?.isBlank}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
-                                (load)="checkImgLoaded();">
-                                <ng-template [ngIf]="quesTxt?.hasmatra">
-                                <img [ngClass]="{'dark':true, 'matraImg':true}" [src]="quesTxt?.matra?.location=='content' ? containgFolderPath + '/' + quesTxt?.matra?.url : quesTxt?.matra?.location=='assets' ? assetsPath + '/' +quesTxt?.matra?.url:''"
-                                (load)="checkImgLoaded();">
-                                </ng-template>                    
-                            </div>            
-                        </ng-container>
-                    </div>
-                </div>
-                  <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                  (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
-               </div>
-          </div>
-      </div>
-  </div>
+<app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 
   </div>
   
@@ -131,7 +104,6 @@
 <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
 <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
 <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : feedback?.right_ans_clap_sound?.location=='assets' ? assetsPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
-<audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
 
 
 
