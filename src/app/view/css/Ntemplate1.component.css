@@ -314,7 +314,7 @@ button:focus {
   }
 }
 
-#playPauseBtn {
+#SkipBtn{
   /*position: absolute;
   top: 98%;
   right: 18%;
@@ -331,7 +331,7 @@ button:focus {
   filter: drop-shadow(2px 4px 6px black);
   max-width: none;*/
 }
-#SkipBtn{
+#playPauseBtn{
   /*position: absolute;
   top: 96.5%;
   right: 1.7%;
