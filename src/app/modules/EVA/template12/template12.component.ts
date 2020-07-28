@@ -246,22 +246,27 @@ export class Template12ComponentEVA implements OnInit {
       row.rowValues.forEach(digit => {
         if (digit.correctValue != undefined) {
           this.correctAnswerCount++;
-          this.hightlightIndexes[digit.blinkIndex] = { "rowId": row.rowid, "id": digit.id, "correctValue": digit.correctValue };   //object having details all empty slots to be filled with answer
+          this.hightlightIndexes[digit.blinkIndex] = { "rowId": row.rowid, "id": digit.id, "correctValue": digit.correctValue };   //object having details of all empty slots to be filled with answer
         }
       });
     });
-
     //logic to set different width based on last row length
-    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-1].rowValues.length;
+    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-2].rowValues.length;
     if (this.quesObj.tablet.quesType === "add" || this.quesObj.tablet.quesType === "subt") {
-      if(this.resultDigitCount === 4 || this.resultDigitCount === 5) {
-        this.parentInputClass = "input_digits-4-5";
+      if(this.resultDigitCount === 5) {
+        this.parentInputClass = "input_digits-5";
+      }
+      else if(this.resultDigitCount === 4) {
+        this.parentInputClass = "input_digits-4";
       }
       else if(this.resultDigitCount === 3) {
         this.parentInputClass = "input_digits-3";
       }
       else if(this.resultDigitCount === 2) {
         this.parentInputClass = "input_digits-2";
+      }
+      else if(this.resultDigitCount === 1) {
+        this.parentInputClass = "input_digits-1";
       }
     }
   }
@@ -507,7 +512,6 @@ export class Template12ComponentEVA implements OnInit {
   /****** sets blinking on digit ********/
   setBlink() {
     let highLightDigitObj = this.getHighLightDigitDetails();
-    // this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["highlight"] = false;
     this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
     
   }

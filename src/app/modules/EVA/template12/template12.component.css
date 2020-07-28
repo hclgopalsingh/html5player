@@ -26,35 +26,75 @@
 .font-style img{
     width: 59%;
 }
-.input_digits-4-5 {
-    width: 71% !important;
+.input_digits-5 {
+    width: 87% !important;
 }
-.input_digits-4-5 .rowClass .highlightBox::before {
+.input_digits-5 .rowClass .highlightBox::before {
     height: 132%;
+    /* height: 5vmax; */
     width: 111%;
 }
-.input_digits-4-5 .rowClass .blinkBox::before {
+.input_digits-5 .rowClass .blinkBox::before {
     height: 132%;
+    /* height: 5vmax; */
     width: 111%;
 }
-.input_digits-4-5 .rowClass .font-style {
+.input_digits-5 .rowClass .font-style {
     width: 16%;
 }
-.input_digits-4-5 .rowClass .font-style img {
+.input_digits-5 .rowClass .font-style img {
     width: 67%;
 }
-.input_digits-4-5 .rowClass .operator {
+.input_digits-5 .rowClass .operator {
     width: 17%;
 }
-.input_digits-4-5 .rowClass .placevalue {
-    width: 11%;
+.input_digits-5 .rowClass .placevalue {
+    width: 13.5%;
+}
+.input_digits-4 {
+    width: 87% !important;
+    margin-right: 10%;
+}
+.input_digits-4 .rowClass .highlightBox::before {
+    height: 132%;
+    /* height: 5vmax; */
+    width: 111%;
+}
+.input_digits-4 .rowClass .blinkBox::before {
+    height: 132%;
+    /* height: 5vmax; */
+    width: 111%;
+}
+.input_digits-4 .rowClass .font-style {
+    width: 16%;
+}
+.input_digits-4 .rowClass .font-style img {
+    width: 67%;
+}
+.input_digits-4 .rowClass .operator {
+    width: 17%;
+}
+.input_digits-4 .rowClass .placevalue {
+    width: 13.5%;
+}
+.input_digits-4 .rowClass.borderlineParent .border-line {
+    width: 85%;
 }
 .input_digits-3 {
-    width: 58% !important;
+    width: 72% !important;
+    margin-right: 7%;
 }
 .input_digits-3 .rowClass {
     margin: 4.5% 0;
 }
+/* .input_digits-3 .rowClass .highlightBox::before {
+    height: 5vmax;
+    width: 100%;
+}
+.input_digits-3 .rowClass .blinkBox::before {
+    height: 5vmax;
+    width: 100%;
+} */
 .input_digits-3 .rowClass .font-style {
     width: 22%;
 }
@@ -68,7 +108,11 @@
     width: 87%;
 }
 .input_digits-3 .rowClass .placevalue {
-    width: 16%;
+    width: 19%;
+    margin: 0% 3%;
+}
+.input_digits-3 .rowClass.borderlineParent .border-line {
+    width: 87%;
 }
 .input_digits-2 {
     width: 32% !important;
@@ -88,6 +132,32 @@
 .input_digits-2 .rowClass .placevalue {
     width: 24%;
 }
+.input_digits-1 {
+    width: 50% !important;
+    margin-right: 10%;
+}
+.input_digits-1 .rowClass .font-style {
+    width: 36%;
+}
+.input_digits-1 .rowClass .font-style img {
+    width: 62%;
+}
+.input_digits-1 .rowClass .operator {
+    width: 49%;
+}
+.input_digits-1 .rowClass .operator img {
+    width: 53%;
+}
+.input_digits-1 .rowClass .placevalue {
+    width: 27%;
+}
+.input_digits-1 .rowClass.borderlineParent .border-line {
+    width: 81%;
+}
+.input_digits-1 .rowClass .highlightBox::before, .input_digits-1 .rowClass .blinkBox::before {
+    height: 5.5vmax;
+    width: 96%;
+}
 .rowClass{
     display: flex;
     justify-content: flex-end;
@@ -96,10 +166,21 @@
     margin: 3.5% 0;
     padding: 0 13%;
 }
-.border-line {
-    border-bottom: solid .33vmax #000;
-    padding-bottom: 6.5%;
+.borderlineParent {
+    padding: 0 1%;
+    margin: 2% 0 0 0 !important;
+}
+.borderlineParent .border-line {
+    /* display: inline-block;
+    width: 97%;
+    height: 100%;
+    margin: 1% 0 3% 0;
+    border-radius: 10px;
+    border: .33vmin solid black; */
+    width: 97%;
     margin-bottom: 3%;
+    border-radius: 10px;
+    border: .33vmin solid black;
 }
 .operator {
     width: 24%;
@@ -116,7 +197,7 @@
 .placevalue {
     width: 16%;
     height: auto;
-    margin: 0% 4% 0% 5%;
+    margin: 0% 3%;
 }
 .divide-img {
     width: 40%;
@@ -212,7 +293,7 @@
     height: 136%;
     width: 105%;
     border-radius: 0.5vmax;
-    border: solid .3vmax #0029d0;
+    border: solid .3vmax #000000;
 }
 .highlightBox img,
 .blinkBox img  {
@@ -225,7 +306,7 @@
     height: 136%;
     width: 105%;
     border-radius: 0.5vmax;
-    border: solid .3vmax #0029d0;
+    border: solid .3vmax #f0e;
 }
 .keyContainer:hover{
 	transition: transform .2s;

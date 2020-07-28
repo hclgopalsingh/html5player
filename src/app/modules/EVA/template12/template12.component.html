@@ -30,14 +30,15 @@
           <div id="inputBlock" *ngIf="quesObj?.tablet?.quesType!=='divide'; else divideBlock"
             [ngClass]="[parentInputClass]">
             <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
-              [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}">
+              [ngClass]="{'rowClass':true, 'borderlineParent':quesTxt?.bottomLine}">
               <ng-container *ngFor="let no of quesTxt?.rowValues;">
                 <div
-                  [ngClass]="{'font-style':no?.value, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no.operator, 'placevalue':no?.placevalue}">
+                  [ngClass]="{'font-style':true, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no?.operator, 'placevalue':no?.placevalue}">
                   <img [ngClass]="{'img-fluid':true, 'dark': true, 'onesPlaceOperator':no?.escape}"
                     [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
                 </div>
               </ng-container>
+              <div class="border-line" *ngIf="quesTxt?.bottomLine"></div>
             </div>
           </div>
 
@@ -111,14 +112,15 @@
               <div id="inputBlock" *ngIf="quesObj?.tablet?.quesType!=='divide'; else divideBlock"
                 [ngClass]="[parentInputClass]">
                 <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
-                  [ngClass]="{'rowClass':true, 'border-line':quesTxt?.bottomLine}">
+                  [ngClass]="{'rowClass':true, 'borderlineParent':quesTxt?.bottomLine}">
                   <ng-container *ngFor="let no of quesTxt?.rowValues;">
                     <div
-                      [ngClass]="{'font-style':no?.value, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no.operator, 'placevalue':no?.placevalue}">
+                      [ngClass]="{'font-style':true, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no?.operator, 'placevalue':no?.placevalue}">
                       <img class="img-fluid" [ngClass]="{'img-fluid':true, 'globalOptionBlink': no?.correctValue}"
                         [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
                     </div>
                   </ng-container>
+                  <div class="border-line" *ngIf="quesTxt?.bottomLine"></div>
                 </div>
               </div>
             </div>
