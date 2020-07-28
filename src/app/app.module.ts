@@ -28,9 +28,10 @@ import { TemplateoneComponent } from './controller/templateone.component';
 import { TemplatethirteenComponent } from './controller/templatethirteen.component';
 import { Template16Component } from './controller/template16.component';
 import { ApplicationmodelService } from './model/applicationmodel.service';
+import { SharedserviceService } from './services/sharedservice.service';
 import { CommonloaderService } from './model/commonloader.service';
 import { DataloaderService } from './model/dataloader.service';
-import { HttphandlerService } from './model/httphandler.service'
+import { HttphandlerService } from './model/httphandler.service';
 import { ControlsComponent } from './controller/controls';
 import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
@@ -142,7 +143,7 @@ import { EvaModule } from './modules/EVA/eva.module';
 		NgxPaginationModule,
 		EvaModule
 	],
-	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService],
+	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
