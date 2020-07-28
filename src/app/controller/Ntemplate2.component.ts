@@ -3,6 +3,8 @@ import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { timer } from 'rxjs/observable/timer';
+import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../common/themeconstants';
 import { PlayerConstants } from '../common/playerconstants';
 import 'jquery';
 
@@ -16,9 +18,9 @@ declare var $: any;
 
 })
 
-export class Ntemplate2 implements OnInit {
+export class Ntemplate2 implements OnInit, OnDestroy {
 	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService) {
+	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
 		this.appModel.navShow = 2;
@@ -131,6 +133,17 @@ export class Ntemplate2 implements OnInit {
 	topCss2:any;
 	checkForRandom:any;
 	type:any
+	/*Start: Theme Implementation(Template Changes)*/
+	controlHandler = {
+		isSubmitRequired:false,
+		isReplayRequired:false
+	};
+	themePath:any;
+	fetchedcontent:any;
+	functionalityType:any;
+	bgSubscription: Subscription;
+	/*End: Theme Implementation(Template Changes)*/
+
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
 	}
@@ -140,6 +153,14 @@ export class Ntemplate2 implements OnInit {
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
 		this.containgFolderPath = this.getBasePath();
+		/*Start: Theme Implementation(Template Changes)*/
+		let fetchedData: any = this.appModel.content.contentData.data;
+		this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+		this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+		this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+		this.checkquesTab();
+		/*End: Theme Implementation(Template Changes)*/
 		this.setData();
 		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
@@ -200,6 +221,7 @@ export class Ntemplate2 implements OnInit {
 			this.postWrongAttempt()
 		});
 		this.appModel.resetBlinkingTimer();
+		this.appModel.handleController(this.controlHandler);
 	}
 
 	postWrongAttempt(){
@@ -241,7 +263,24 @@ export class Ntemplate2 implements OnInit {
 				}
 			}
 	}*/
+	ngOnDestroy() {
+		/*Start: Theme Implementation(Template Changes)*/
+		if(this.bgSubscription!=undefined){
+		  this.bgSubscription.unsubscribe();
+		}
+		/*End: Theme Implementation(Template Changes)*/
+	}
 
+	/*Start: Theme Implementation(Template Changes)*/
+	checkquesTab() {
+		if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+		  this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+		} else {
+		  this.appModel.getJson();      
+		}
+	  }
+	
+	/*End: Theme Implementation(Template Changes)*/
 
 	templatevolume(vol, obj) {
 		if(obj.quesVORef && obj.quesVORef.nativeElement){
@@ -266,11 +305,11 @@ export class Ntemplate2 implements OnInit {
 
 	setData() {
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-			let fetchedData: any = this.appModel.content.contentData.data;
-			console.log(fetchedData);
-			this.feedback = fetchedData.feedback;
-			this.commonAssets = fetchedData.commonassets;
-			this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+			// let fetchedData: any = this.appModel.content.contentData.data;
+			console.log(this.fetchedcontent);
+			this.feedback = this.fetchedcontent.feedback;
+			this.commonAssets = this.fetchedcontent.commonassets;
+			//this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
 			this.noOfImgs = this.commonAssets.imgCount;
 			this.isFirstQues = this.commonAssets.isFirstQues;
 			this.isLastQues = this.appModel.isLastSection;
@@ -278,19 +317,27 @@ export class Ntemplate2 implements OnInit {
 			if(this.appModel.isLastSectionInCollection || this.appModel.isLastSection){
 				this.appModel.setlastQuesNT();
 			}
-			this.optionObj = fetchedData.optionObj;
+			this.optionObj = this.fetchedcontent.optionObj;
 			this.leftOptions = this.optionObj.leftOptions;
 			this.rightOptions = this.optionObj.rightOptions;
-			this.optionCommonAssets = fetchedData.option_common_assets;
+			this.optionCommonAssets = this.fetchedcontent.option_common_assets;
 			console.log(this.optionCommonAssets);
 			this.popupAssetsToShow = Object.assign([], this.popupAssets);
-			if (fetchedData.quesObj && fetchedData.quesObj[0]) {
-				this.questionObj = fetchedData.quesObj[0];
+			if (this.fetchedcontent.quesObj && this.fetchedcontent.quesObj[0]) {
+				this.questionObj = this.fetchedcontent.quesObj[0];
 				console.log(this.questionObj.quesInstruction.url);
 			}
-			this.feedbackObj = fetchedData.feedback;
+			/*Start: Theme Implementation(Template Changes)*/
+			this.controlHandler={
+				isSubmitRequired:this.questionObj.submitRequired,
+				isReplayRequired:this.questionObj.replayRequired
+			}
+			  
+			console.log(this.controlHandler.isReplayRequired);
+		  /*End: Theme Implementation(Template Changes)*/
+			this.feedbackObj = this.fetchedcontent.feedback;
 			this.popupAssets = this.feedbackObj.popupAssets;
-			this.confirmPopupAssets = fetchedData.confirm_popup;
+			this.confirmPopupAssets = this.fetchedcontent.confirm_popup;
 			this.noofSubQues =  this.feedbackObj.noOfSubQues;
 			let scaleValue:any
 			if(this.noofSubQues==3){
@@ -531,7 +578,6 @@ export class Ntemplate2 implements OnInit {
 			}
 			if (this.rightSelectedIdx > -1 && this.rightList == "pl") {//options 
 				$(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]).animate({ left: 0, top: 0 }, 500).addClass('zoomOutAnimation').removeClass('zoomInAnimation');
-				//this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx].remove("disabeDiv");
 				if(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]){
 					this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx].classList.remove("disableDiv");
 				}
@@ -544,7 +590,7 @@ export class Ntemplate2 implements OnInit {
 					this.removeAssetsFromPopup(opt.matchingId+","+ opt.id);
 					setTimeout(() => {
 						this.checkForOtherVO();
-						this.rightFeedbackVO.nativeElement.src = this.containgFolderPath + "/"+ this.feedback.single_right_ans[this.leftSelectedIdx ].url
+						this.rightFeedbackVO.nativeElement.src = this.feedback.single_right_ans[this.leftSelectedIdx ].url
 						this.rightFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.rightFeedbackVO.nativeElement.onended = () => {
@@ -700,7 +746,7 @@ removeAssetsFromPopup(id:string){
 
 	checkforQVO(){
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-			this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location=="content" ? this.containgFolderPath+ "/" + this.questionObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36):this.assetsPath + "/" + this.questionObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
+			this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
 			this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
@@ -757,7 +803,7 @@ removeAssetsFromPopup(id:string){
 	playSound(soundAssets, idx, side) {
 		if(this.audio && this.audio.paused){
 			if (soundAssets.location == 'content') {
-				this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+				this.audio.src = soundAssets.url;
 			} else {
 				this.audio.src = soundAssets.url;
 			}
@@ -1015,7 +1061,7 @@ removeAssetsFromPopup(id:string){
 			let current = i;
 			if(this.popupAssets[i] && this.popupAssets[i].feedbackAudio){
 				this.feedbackAudio = this.popupAssets[i].feedbackAudio;
-				this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location=="content" ? this.containgFolderPath+ "/" + this.feedbackAudio.url+"?someRandomSeed="+ Math.random().toString(36):this.assetsPath + "/" + this.feedbackAudio.url+"?someRandomSeed="+ Math.random().toString(36);
+				this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url+"?someRandomSeed="+ Math.random().toString(36);
 				console.log(this.feedbackPopupAudio.nativeElement.src);
 				this.feedbackPopupAudio.nativeElement.play();
 				if(this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[i]){

@@ -70,6 +70,7 @@
 	display: inline-flex;
 	flex-grow: 1;
 	position: relative;
+	justify-content: center;
 }
 .quesTab img{
 	vertical-align: text-bottom;
@@ -101,8 +102,8 @@
 	margin-right: .7%;
 }
 #navBlock .nextBtn{
-	-webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
+	/* -webkit-transform: scaleX(-1);
+	transform: scaleX(-1); */
 }
 #navBlock .submitBtn {
   cursor: pointer;
@@ -123,10 +124,10 @@
 }
 .quesnum{
 	position: absolute;
-	width: 1vmin;/*4%;*/
+	width: 1.6vmin;/*1vmin*/
 	height: 43%;
-  left: 48%;
-  top: 30%;
+	/* left: 48%; */
+	top: 29%;/*30%*/
 }
 .animation-shake {
 	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;

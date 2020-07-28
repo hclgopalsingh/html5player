@@ -3,6 +3,8 @@ import { ApplicationmodelService } from '../model/applicationmodel.service';
 import 'jquery';
 import { Subscription } from 'rxjs'
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { ThemeConstants } from '../common/themeconstants';
+import { SharedserviceService } from '../services/sharedservice.service';
 declare var $: any;
 
 @Component({
@@ -14,7 +16,7 @@ declare var $: any;
 
 export class Ntemplate10 implements OnInit {
 	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService) {
+	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
 		this.appModel.navShow = 2;
@@ -101,8 +103,15 @@ export class Ntemplate10 implements OnInit {
 	isShake: boolean = false;
 	controlHandler = {
 		isShowAns:true,
+		isSubmitRequired:false,
+    	isReplayRequired:false
 	 };
-
+	/*Start: Theme Implementation(Template Changes)*/	
+	themePath:any;
+	fetchedcontent:any;
+	functionalityType:any;
+	bgSubscription: Subscription;
+	/*End: Theme Implementation(Template Changes)*/
 
 	onHoverHelp() {
 		this.quesInfo.help_btn = this.quesInfo.help_btn_hover;
@@ -522,11 +531,19 @@ export class Ntemplate10 implements OnInit {
 			this.resizeContainer();
 		}*/
 		this.containgFolderPath = this.getBasePath();
+		/*Start: Theme Implementation(Template Changes)*/
+		let fetchedData: any = this.appModel.content.contentData.data;
+		this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+		this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+		this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+		this.checkquesTab();
+		/*End: Theme Implementation(Template Changes)*/
+
 		if (this.appModel.isNewCollection) {
 			//console.log("chck:",this.appModel.isNewCollection);
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
-		let fetchedData: any = this.appModel.content.contentData.data;
 		if (fetchedData.titleScreen) {
 			this.quesInfo = fetchedData;
 			this.noOfImgs = this.quesInfo.imgCount;
@@ -599,7 +616,24 @@ export class Ntemplate10 implements OnInit {
 		this.appModel.resetBlinkingTimer();
 	}
 
+	ngOnDestroy() {
+		/*Start: Theme Implementation(Template Changes)*/
+		if(this.bgSubscription!=undefined){
+		  this.bgSubscription.unsubscribe();
+		}
+		/*End: Theme Implementation(Template Changes)*/
+	  }
+	
+	  /*Start: Theme Implementation(Template Changes)*/
+	checkquesTab() {
+		if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+		this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+		} else {
+		this.appModel.getJson();      
+		}
+	}
 
+	/*End: Theme Implementation(Template Changes)*/
 
 	postWrongAttemplt() {
 		//wrong-right ans	
@@ -654,31 +688,29 @@ export class Ntemplate10 implements OnInit {
 		}, 100)
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
 
-			let fetchedData: any = JSON.parse(JSON.stringify(this.appModel.content.contentData.data));
-			if (fetchedData && fetchedData.titleScreen) {
+			//let fetchedData: any = JSON.parse(JSON.stringify(this.appModel.content.contentData.data));
+			if (this.fetchedcontent && this.fetchedcontent.titleScreen) {
 				this.showIntroScreen = true;
 			} else {
 				this.showIntroScreen = false;
 			}
-			this.quesObj = fetchedData.quesObj;
-
-			//this.myoption = fetchedData.options;
+			this.quesObj = this.fetchedcontent.quesObj;
 			this.myoption.splice(0, this.myoption.length);
-			this.commonAssets = fetchedData.commonassets;
-			this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+			this.commonAssets = this.fetchedcontent.commonassets;
+			//this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
 			this.optionRandomArray.splice(0, this.optionRandomArray.length);
 			this.randomOptionIndex.splice(0, this.randomOptionIndex.length);
-			let orig_option = this.doRandomizeQues(fetchedData.options);
-			this.optBackup = JSON.parse(JSON.stringify(fetchedData.options));
-			this.question = this.doRandomizeQues(fetchedData.ques);
-			this.feedback = fetchedData.feedback;
-			this.feedbackObj = fetchedData.feedback;
+			let orig_option = this.doRandomizeQues(this.fetchedcontent.options);
+			this.optBackup = JSON.parse(JSON.stringify(this.fetchedcontent.options));
+			this.question = this.doRandomizeQues(this.fetchedcontent.ques);
+			this.feedback = this.fetchedcontent.feedback;
+			this.feedbackObj = this.fetchedcontent.feedback;
 			// this.correctImg = this.feedbackObj.popup_commmon_imgs.correctimg;
 			// this.incorrectImg = this.feedbackObj.popup_commmon_imgs.incorrectimg;
 			// this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
-			this.narratorAudio = fetchedData.commonassets.narrator;
-			this.quesInfo = fetchedData.commonassets;
-			this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
+			this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+			this.quesInfo = this.fetchedcontent.commonassets;
+			this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
 			this.maxNosOpt = this.quesInfo.maxNosOpt;
 			let emptyOpt = { "imgsrc": "", "bgImgsrc": "" };
 			for (let i = 0; i < this.maxNosOpt; i++) {
@@ -703,7 +735,7 @@ export class Ntemplate10 implements OnInit {
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			this.noOfImgs = this.quesInfo.imgCount;
-			this.quesObj = fetchedData.quesObj;
+			this.quesObj = this.fetchedcontent.quesObj;
 			// if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
 			//  this.isPlayVideo = true;
 			// 	//sessionStorage.setItem("isPlayVideo", "true");
@@ -712,6 +744,13 @@ export class Ntemplate10 implements OnInit {
 			// }
 			console.log(this.optBackup);
 			//this.setBubbleEmpty();
+			/*Start: Theme Implementation(Template Changes)*/
+			this.controlHandler={
+				isShowAns:true,
+				isSubmitRequired:this.quesObj.submitRequired,
+				isReplayRequired:this.quesObj.replayRequired
+		  }
+		  /*End: Theme Implementation(Template Changes)*/
 		} else {
 			this.myoption = [];
 			this.question = "";
@@ -766,11 +805,12 @@ export class Ntemplate10 implements OnInit {
 			this.instruction.nativeElement.currentTime = 0;
 		}
 		if (this.questionSound && this.questionSound.nativeElement) {
-			if (this.quesSoundInfo.sound.location == 'content') {
-				this.questionSound.nativeElement.src = this.containgFolderPath + '/' + this.quesSoundInfo.sound.url;
-			} else {
-				this.questionSound.nativeElement.src = this.assetsPath + '/' + this.quesSoundInfo.sound.url;
-			}
+			// if (this.quesSoundInfo.sound.location == 'content') {
+			// 	this.questionSound.nativeElement.src = this.containgFolderPath + '/' + this.quesSoundInfo.sound.url;
+			// } else {
+			// 	this.questionSound.nativeElement.src = this.assetsPath + '/' + this.quesSoundInfo.sound.url;
+			// }
+			this.questionSound.nativeElement.src = this.quesSoundInfo.sound.url;
 			this.questionSound.nativeElement.play();
 			this.speakerBtn.nativeElement.children[1].className = "speaker dispFlex";
 			this.questionSound.nativeElement.onended = () => {
@@ -807,6 +847,7 @@ export class Ntemplate10 implements OnInit {
 			this.appModel.handlePostVOActivity(true);
 			this.appModel.enableReplayBtn(true);
 			$(".instructionBase img").css("cursor", "default");
+			$(".skipBtn").css("opacity", "0.5");
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			//   this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.narrator.nativeElement.play();
@@ -815,6 +856,7 @@ export class Ntemplate10 implements OnInit {
 
 				this.setBubbleEmpty();
 				this.appModel.enableReplayBtn(true);
+				$(".skipBtn").css("opacity", "1");
 			}
 		} else {
 			this.appModel.handlePostVOActivity(false);
