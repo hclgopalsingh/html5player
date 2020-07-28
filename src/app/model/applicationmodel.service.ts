@@ -12,6 +12,7 @@ import { Subject, Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../common/themeconstants';
 
 
 declare var $: any;
@@ -67,6 +68,11 @@ export class ApplicationmodelService {
   subscription: Subscription;
   Template: any;
   private nextCollectionCounterEVA: number = 0;
+  functionalityType:any;
+  tPath: any="" ;
+  theme_name: any = '';
+  templatedata:any;
+  themePath:any;
   nextSectionTimer: any;
 
 
@@ -152,6 +158,7 @@ export class ApplicationmodelService {
   private subjectQuestionNos = new Subject<any>();
   private subjectQuestionIdx = new Subject<any>();
   subjectQuesControl = new Subject<any>();
+  subjectThemePath = new Subject<any>();
   popupSubject = new Subject<any>();
   moveNextSubject = new Subject<any>();
   moveNextQuesSubject = new Subject<any>();
@@ -163,10 +170,12 @@ export class ApplicationmodelService {
   _submitAns = new Subject<any>();
   _restartAct = new Subject<any>();
   _postWrongVO = new Subject<any>();
+  subjectCommonControl = new Subject<any>();
   eventDone: boolean = false;
   lastQuesNT: boolean = false;
   autoPlayFlag: boolean = false;
-
+  _avtiveBG = new Subject<any>();
+  activeBg:any = "";
   get initVal() {
     return this.initValues.files[this.currentActive].startAt;
   }
@@ -471,8 +480,18 @@ export class ApplicationmodelService {
     
     if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51 || functionalityType == 52 || functionalityType == 53 || functionalityType == 54) {
       this.setQuestionNo();
-      let data = this.content.contentData.data;
-      let firsQflag = data['commonassets'].isFirstQues;
+      let fetchdata=this.content.contentData.data;
+      this.templatedata = JSON.parse(JSON.stringify(fetchdata));
+      let firsQflag = this.templatedata['commonassets'].isFirstQues;
+      console.log("data['theme_name']",this.templatedata);
+      if(this.templatedata['theme_name'] && this.templatedata['theme_name'].length > 0 ){
+      this.theme_name = this.templatedata['theme_name']
+      this.setThemeName = this.templatedata['theme_name'];
+      //get tabs.json file
+      //this.getJson();
+      } else {
+        this.theme_name=undefined;
+      }
       this._firstQues.next(firsQflag);
       //this.notifyUserAction();
     }
@@ -672,6 +691,27 @@ export class ApplicationmodelService {
     return this.subjectQuesControl.asObservable();
   }
 
+  setCommonControlAssets(controlAssets) {
+    this.subjectCommonControl.next(controlAssets);
+  }
+
+  getCommonControlAssets() {
+    return this.subjectCommonControl.asObservable();
+  }
+
+
+
+  setThemeName(theme) {
+    this.subjectThemePath.next(theme);
+  }
+
+  getThemeName() {
+    return this.subjectThemePath.asObservable();
+  }
+
+  // getThemePath() {
+  //   return "./assets/themes/elementary/"+ this.theme_name+'/type_'+this.content.contentLogic.functionalityType;
+  // }
 
   public invokeTempSubject(msg, mode) {
     if (msg == "showModal") {
@@ -719,22 +759,47 @@ export class ApplicationmodelService {
   }
 
   setAnimation(flag) {
+    // let data = this.content.contentData.data;
+    // if (data['commonassets'].animation && ((data['commonassets'].animation.img && data['commonassets'].animation.img.url) || data['commonassets'].animation.timeout)) {
+    //   let assts = {
+    //     animationImg: "",
+    //     audio: "",
+    //     timer: ""
+    //   };
+    //   let pathPre = data['commonassets'].animation.location == "content" ? this.content.id : ".";
+    //   let animationImg = data['commonassets'].animation.img && data['commonassets'].animation.img.url ? data['commonassets'].animation.img.url : "";
+    //   let audio = data['commonassets'].animation.audio && data['commonassets'].animation.audio.url ? data['commonassets'].animation.audio.url : "";
+    //   assts.animationImg = animationImg != "" ? pathPre + "/" + animationImg : "";
+    //   assts.audio = audio != "" ? pathPre + "/" + audio : "";
+    //   assts.timer = data['commonassets'].animation.timeout;
+    //   this._animationAssets.next(assts);
+    // } else {
+    //   this._animationAssets.next(undefined);
+    // }
     let data = this.content.contentData.data;
-    if (data['commonassets'].animation && ((data['commonassets'].animation.img && data['commonassets'].animation.img.url) || data['commonassets'].animation.timeout)) {
-      let assts = {
-        animationImg: "",
-        audio: "",
-        timer: ""
-      };
-      let pathPre = data['commonassets'].animation.location == "content" ? this.content.id : ".";
-      let animationImg = data['commonassets'].animation.img && data['commonassets'].animation.img.url ? data['commonassets'].animation.img.url : "";
-      let audio = data['commonassets'].animation.audio && data['commonassets'].animation.audio.url ? data['commonassets'].animation.audio.url : "";
-      assts.animationImg = animationImg != "" ? pathPre + "/" + animationImg : "";
-      assts.audio = audio != "" ? pathPre + "/" + audio : "";
-      assts.timer = data['commonassets'].animation.timeout;
-      this._animationAssets.next(assts);
+    let assets = {
+      animationImg: "",
+      audio: "",
+      timer: ""
+    };
+    if(data['commonassets'].rightAnimationAssets!=undefined) {
+     if (data['commonassets'].rightAnimationAssets && ((data['commonassets'].rightAnimationAssets.img && data['commonassets'].rightAnimationAssets.img.url) || data['commonassets'].rightAnimationAssets.timeout)) {
+        // let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
+        // let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
+        // let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
+        this.Sharedservice.imagePath(this.templatedata.commonassets.rightAnimationAssets, this.content.id, this.themePath, undefined);
+        assets.animationImg = this.templatedata.commonassets.rightAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.rightAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.rightAnimationAssets.timeout;
+        this._animationAssets.next(assets);
+      } else {
+        this._animationAssets.next(undefined);
+      }
     } else {
-      this._animationAssets.next(undefined);
+        assets.animationImg = this.templatedata.commonassets.ques_control.rightAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.ques_control.rightAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.ques_control.rightAnimationAssets.timeout;
+        this._animationAssets.next(assets);
     }
   }
   /*
@@ -940,22 +1005,29 @@ export class ApplicationmodelService {
 
   wrongAttemptAnimation() {
     let data = this.content.contentData.data;
-    if (data['commonassets'].wrongAnimationAssts && ((data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url) || data['commonassets'].wrongAnimationAssts.timeout)) {
-      let assets = {
-        animationImg: "",
-        audio: "",
-        timer: ""
-      };
-
-      let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
-      let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
-      let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
-      assets.animationImg = animationImg != "" ? pathPre + "/" + animationImg : "";
-      assets.audio = audio != "" ? pathPre + "/" + audio : "";
-      assets.timer = data['commonassets'].wrongAnimationAssts.timeout;
-      this._wrongAttemptAnimation.next(assets);
+    let assets = {
+      animationImg: "",
+      audio: "",
+      timer: ""
+    };
+    if(data['commonassets'].wrongAnimationAssets!=undefined) {
+     if (data['commonassets'].wrongAnimationAssets && ((data['commonassets'].wrongAnimationAssets.img && data['commonassets'].wrongAnimationAssets.img.url) || data['commonassets'].wrongAnimationAssets.timeout)) {
+        // let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
+        // let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
+        // let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
+        this.Sharedservice.imagePath(this.templatedata.commonassets.wrongAnimationAssets, this.content.id, this.themePath, undefined);
+        assets.animationImg = this.templatedata.commonassets.wrongAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.wrongAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.wrongAnimationAssets.timeout;
+        this._wrongAttemptAnimation.next(assets);
+      } else {
+        this._wrongAttemptAnimation.next(undefined);
+      }
     } else {
-      this._wrongAttemptAnimation.next(undefined);
+        assets.animationImg = this.templatedata.commonassets.ques_control.wrongAnimationAssets.img.url;
+        assets.audio = this.templatedata.commonassets.ques_control.wrongAnimationAssets.audio.url;
+        assets.timer = this.templatedata.commonassets.ques_control.wrongAnimationAssets.timeout;
+        this._wrongAttemptAnimation.next(assets);
     }
   }
   getFileString(url: string): Observable<string> {
@@ -1056,7 +1128,52 @@ export class ApplicationmodelService {
     } 
   }
 
+  public getPath(type){
+    if (this.theme_name){
+    let basePath = "./assets/themes/elementary/"
+    if(type == "tabs"){
+      return basePath + this.theme_name +'/global/tabs'
+    //set path
+    }
+    if(type == "buttons"){
+      return basePath + this.theme_name +'/global/buttons'
+    }
+  }
+    else return false
+  }
 
+  getJson(){
+    this.httpHandler.get(ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.theme_name+ThemeConstants.THEME_JSON, this.globalLoaded.bind(this), this.globalnotLoaded.bind(this));
+  }
+
+  globalLoaded(data){
+    this.templatedata.commonassets.ques_control=data;
+    this.functionalityType = this.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.theme_name ; 
+    this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, this.functionalityType);
+    this.setQuesControlAssets(this.templatedata.commonassets.ques_control);
+    //this.setCommonControlAssets(data)
+    // console.log("datajson", data);
+    // console.log("currentBackground", data.quesTabs[this.currentSection-1].background)
+    // if(data.quesTabs && data.quesTabs[this.currentSection-1] && data.quesTabs[this.currentSection-1].background)
+    // {
+    //   this.setActiveBG(data.quesTabs[this.currentSection-1].background) ;
+    // }
+    // console.log("this.currentSection",this.currentSection);
+  }
+
+  globalnotLoaded(data){
+  console.log(data)
+
+  }
+
+  getActiveBG() {
+    return this._avtiveBG.asObservable();
+  }
+  
+  setActiveBG(val) {
+    this._avtiveBG.next(val);
+  }
 }
 
 
