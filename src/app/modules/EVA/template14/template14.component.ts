@@ -1432,7 +1432,7 @@ export class TemplateFourteenComponent implements OnInit {
     clearTimeout(this.wrongTimer);
     clearTimeout(this.rightTimer);
     clearTimeout(this.showAnswerTimer);
-    // this.showAnswerRef.nativeElement.classList = "modal";
+    this.showAnswerRef.nativeElement.classList = "modal";
     if(this.videoonshowAnspopUp){
       this.videoonshowAnspopUp.nativeElement.pause();
       this.videoonshowAnspopUp.nativeElement.currentTime = 0;
