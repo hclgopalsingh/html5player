@@ -21,7 +21,7 @@
 	-webkit-appearance: none;
 	margin-top: 0px;
 }
-
+.volumeslider{cursor: pointer;}
 #controlsContainer {
   display: flex;
 	align-items: center;
@@ -92,6 +92,7 @@ div#MuteVarTemp::after {
     left: 1%;
     bottom: -13%;
     z-index: -1;
+    cursor: default;
 }
 
 .hideAutoplay{

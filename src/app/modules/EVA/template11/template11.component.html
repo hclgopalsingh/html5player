@@ -42,7 +42,10 @@
                         </div>
                         <div [ngClass]="{'answer':true, 'blinkBox':quesTxt?.blinkBox}">
                             <img class="img-fluid" [src]="quesObj?.answer?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.answer?.background?.url : quesObj?.answer?.background?.location=='assets' ? assetsPath + '/' +quesObj?.answer?.background?.url:''" alt="">
-                            <div class="answer_img" *ngIf="quesTxt.isfilled">
+                            <div class="answer_img" 
+                            [class.totDigit2]='quesTxt?.totalDigits==2'
+                            [class.totDigit3]='quesTxt?.totalDigits==3'
+                            *ngIf="quesTxt.isfilled">
                                 <img class="img-fluid" [src]="quesTxt?.answer?.image?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.image?.url : quesTxt?.answer?.image?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.image?.url:''" alt="">
                             </div>
                         </div>
@@ -57,7 +60,10 @@
                     (click)="selectOpt(opt, leftOptRef, idx)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
                     <ng-template [ngIf]="opt.isShow">
                         <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" >
-                        <div class="subOpt" *ngIf="!opt.selected">
+                        <div class="subOpt" 
+                        [class.digit_2]='opt?.totalDigits==2'
+                        [class.digit_3]='opt?.totalDigits==3'
+                        *ngIf="!opt.selected">
                             <img class="img-fluid"
                             [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url">
                         </div>
@@ -69,7 +75,10 @@
                 (click)="selectOpt(opt, rightOptRef, idx+5)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+5)'>
                 <ng-template [ngIf]="opt.isShow">
                     <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url">
-                    <div class="subOpt" *ngIf="!opt.selected">
+                    <div class="subOpt" 
+                    [class.digit_2]='opt?.totalDigits==2'
+                    [class.digit_3]='opt?.totalDigits==3'
+                    *ngIf="!opt.selected">
                         <img class="img-fluid"
                         [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url">
                     </div>
@@ -121,7 +130,10 @@
                                 </div>
                                 <div class="answer">
                                     <img class="img-fluid" [src]="quesObj?.answer?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.answer?.background?.url : quesObj?.answer?.background?.location=='assets' ? assetsPath + '/' +quesObj?.answer?.background?.url:''" alt="">
-                                    <div class="answer_img" *ngIf="quesTxt.isfilled">
+                                    <div class="answer_img"
+                                        [class.totDigit2]='quesTxt?.totalDigits==2'
+                                        [class.totDigit3]='quesTxt?.totalDigits==3'
+                                    *ngIf="quesTxt.isfilled">
                                         <img class="img-fluid" [src]="quesTxt?.answer?.image?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.image?.url : quesTxt?.answer?.image?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.image?.url:''" alt="">
                                     </div>
                                 </div>
