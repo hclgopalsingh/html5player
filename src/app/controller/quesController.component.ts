@@ -5,6 +5,7 @@ import { SharedserviceService } from '../services/sharedservice.service';
 
 
 import 'jquery';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 declare var $: any;
@@ -25,6 +26,8 @@ export class QuesController implements OnInit {
   subscriptionControlAssets: Subscription;
   firstQusubscription: Subscription;
   blinkerSubscription: Subscription;
+  // CommonSubscription: Subscription;
+  ThemeSubscription: Subscription;
   controlAssets: any;
   isFirstQuestion: any = false;
   subcriptionUttarDikhayein: Subscription;
@@ -46,7 +49,11 @@ export class QuesController implements OnInit {
   UttarDikhayeinTooltip:any;
   SubmitBtnTooltip:any;
   blink:any;
-  
+  themePath:any;
+  themeType:any;
+  buttonPath:any;
+  disableSubmit: boolean = true;
+  disableReplay: boolean;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
@@ -100,6 +107,7 @@ export class QuesController implements OnInit {
        
       // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
+      console.log("controlAssets",controlAssets);
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if (this.isLastQues) {
@@ -131,7 +139,9 @@ export class QuesController implements OnInit {
       if(this.EVA) {
         this.quesTabs = this.quesCtrl.quesTabs;
       } else {
-        this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+        if(this.quesCtrl.quesTabs != undefined){
+           this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+        }       
       }
 
 
@@ -156,6 +166,8 @@ export class QuesController implements OnInit {
 
       this.assetsPath = this.appModel.assetsfolderpath;
       this.containgFolderPath = this.appModel.content.id;
+      this.themeType = controlAssets.theme_type
+      console.log("this.themeType",this.themeType,controlAssets)
     })
 
     this.blinkerSubscription = this.appModel.getblinkingNextBtn().subscribe(resetBlink=> {
@@ -163,13 +175,27 @@ export class QuesController implements OnInit {
         this.blinkFlag = false;
         clearInterval(this.timeInterval);
         this.timeInterval = undefined;
-        this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        if(this.quesCtrl!=undefined){
+            this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        }
       }
     });
 
     this.firstQusubscription = this.appModel.getIsFirstQuestion().subscribe(flag => {
       this.isFirstQuestion = flag;
     })
+
+    // this.CommonSubscription = this.appModel.getCommonControlAssets().subscribe(commonData =>{
+    //   console.log("commonData",commonData)
+    //   if(commonData){
+    //     //this.quesTabs = commonData.quesTabs;
+    //     this.quesTabs = commonData.quesTabs.slice(0, this.noOfQues);
+    //     this.themePath  = this.appModel.getPath("tabs")
+    //     this.quesCtrl = commonData;
+    //     this.buttonPath = this.appModel.getPath("buttons")
+    //   }
+    //   console.log("this.themePath",this.themePath, "buttonPath",this.buttonPath)
+    // })
 
     this.subcriptionUttarDikhayein = this.appModel.getPostVOActs().subscribe(flag => {
       this.disableUttarDikhayeinBtn = flag;
@@ -204,7 +230,7 @@ export class QuesController implements OnInit {
     })
     this.appModel.controllerHandler.subscribe((controllerObj) =>{
       this.controlHandle(controllerObj);
-    })
+    });
   }
 
 
@@ -402,10 +428,18 @@ export class QuesController implements OnInit {
       let flag = true;
       this.timeInterval = setInterval(() => {
         if (flag) {
-          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
+          if(this.appModel.theme_name){
+            this.quesCtrl.aagey_badhein = this.appModel.isLastSectionInCollection ? this.quesCtrl.blink_btn3 : this.quesCtrl.blink_btn1;
+          }else{
+            this.quesCtrl.aagey_badhein =  this.quesCtrl.blink_btn1;
+          }
           flag = false;
         } else {
-          this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+         if(this.appModel.theme_name){
+           this.quesCtrl.aagey_badhein =this.appModel.isLastSectionInCollection? this.quesCtrl.blink_btn4 : this.quesCtrl.blink_btn2;
+         } else {
+            this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
+         }
           flag = true;
         }
       }, 300)
@@ -419,6 +453,9 @@ export class QuesController implements OnInit {
     this.disablePrev = controlObj.isPrev;
     this.hideShowAnswer = controlObj.isShowAns;
     this.disableTabs = controlObj.isTab;
+    this.disableSubmit = controlObj.isSubmitRequired;
+    this.disableReplay= controlObj.isReplayRequired;
+
   }
   ngOnDestroy() {
     this.blinkerSubscription.unsubscribe();

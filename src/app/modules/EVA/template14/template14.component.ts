@@ -360,7 +360,7 @@ export class TemplateFourteenComponent implements OnInit {
             this.videoonshowAnspopUp.nativeElement.play();
             this.videoonshowAnspopUp.nativeElement.onended = () => {
               this.showAnswerTimer = setTimeout(() => {
-                // this.closePopup('showAnswer');
+                this.closePopup('showAnswer');
               }, 10000);
             }
           }

@@ -6,7 +6,12 @@
 		},
 		
 		"lms": {
-			"enabled": false
+			"enabled": false,
+			"version":{
+				"flashPlayer":"1.0.0.0",
+				"htmlPlayer":"1.0.12.0"
+				
+			}
 		}
 	}
 }

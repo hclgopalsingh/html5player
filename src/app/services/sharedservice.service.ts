@@ -95,6 +95,54 @@ export class SharedserviceService {
     getsetShowHideConfirmation(){
        return this.ShowHideConfirmation.asObservable();
     }
+      //method to convert json with complate url based on location
+      imagePath(data, containgFolderPath, themePath, functionalityType){	
+        var keys = Object.keys(data);
+		var objlength = keys.length;
+        this.setPath(objlength, data, containgFolderPath, themePath, functionalityType);
+    }
+
+	setPath(objlength, data, containgFolderPath, themePath, functionalityType){
+		for (var i=0; i<objlength; i++){
+			var value =	data[Object.keys(data)[i]];
+
+			if(typeof value != "object"){
+				//console.log('not object')
+			}else{
+				if(value.hasOwnProperty("location") && value.length == undefined ){
+					var location = value["location"];
+					
+					if(location == "content"){
+						if(value["url"]){
+							value["url"] = containgFolderPath + '/' + value["url"];
+						}
+						if(value["urlOgv"]){
+							value["urlOgv"] = containgFolderPath + '/' + value["urlOgv"];
+						}
+						if(value["urlMP4"]){
+							value["urlMP4"] = containgFolderPath + '/' + value["urlMP4"];
+						}														
+					} else if(location == "theme"){
+						if(value["url"]){
+							value["url"] = themePath + '/type_'+ functionalityType +'/'+ value["url"];					
+						}
+						if(value["urlOgv"]){
+							value["urlOgv"] = themePath + '/type_'+ functionalityType +'/'+ value["urlOgv"];					
+						}
+						if(value["urlMP4"]){
+							value["urlMP4"] = themePath + '/type_'+ functionalityType +'/'+ value["urlMP4"];					
+						}
+						if(value["urlglobal"]){
+							value["urlglobal"] = themePath +'/'+ value["urlglobal"];
+                            value['url'] = value['urlglobal']; // replace existing key with new name 
+                            delete value['urlglobal'];					
+						}						
+					}
+				}			
+				this.imagePath(value, containgFolderPath, themePath, functionalityType)
+			}
+        }
+	}
 
 
 

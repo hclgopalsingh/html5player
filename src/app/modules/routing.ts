@@ -23,10 +23,10 @@ import {Ntemplate2} from '../controller/Ntemplate2.component';
 import { Ntemplate18 } from '../controller/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../controller/Ntemplate8.component';
-import { Ntemplate3 } from '../controller/Ntemplate3.component';
+import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate1 } from '../controller/Ntemplate1.component';
 import {Ntemplate4} from '../controller/Ntemplate4.component';
-import {Ntemplate5} from '../controller/Ntemplate5.component';
+import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
 import { Ntemplate6 } from '../controller/Ntemplate6.component';
 import { Ntemplate9 } from '../controller/Ntemplate9.component';
@@ -61,6 +61,7 @@ import { Template4Component } from './EVA/template4/template4.component';
 import { TemplateTenComponent } from './EVA/template10/template10.component';
 import { TemplateFourteenComponent } from '../modules/EVA/template14/template14.component';
 import { Template11Componenteva } from '../modules/EVA/template11/template11.component';
+import { Template12ComponentEVA } from './EVA/template12/template12.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -178,7 +179,9 @@ export const APP_ROUTES: Routes = [
 			{ path: 'evatemp14', component: TemplateFourteenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp14ext', component: TemplateFourteenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp11', component: Template11Componenteva, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
+			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp12', component: Template12ComponentEVA, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp12ext', component: Template12ComponentEVA, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
 			
 		]
 	}

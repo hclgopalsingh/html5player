@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+ 
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
@@ -18,9 +19,11 @@ export class GlobalspeakerComponent implements OnInit {
   assetsfolderlocation: string = "";
   speaker: any = "";
   videoPlayed = false;
+//   speakerPlayed = false;
   contentgFolderPath: string = "";
   @ViewChild('speakerVolume') speakerVolume: any;
   @ViewChild('sprite') sprite: any;
+  @Output() clickSpeaker = new EventEmitter<any>();
   get basePath(): any {
 		if (this.appModel && this.appModel.content) {
 			return this.appModel.content.id + '';
@@ -36,7 +39,9 @@ export class GlobalspeakerComponent implements OnInit {
   ngOnInit() {
 	this.contentgFolderPath = this.basePath;
     this.setData();
-    this.sprite.nativeElement.style = "display:none";
+	this.sprite.nativeElement.style = "display:none";
+	this.Sharedservice.speakerVol.next(this.speakerVolume);
+    this.Sharedservice.spriteElement.next(this.sprite);
   }
   onHoverSpeaker() {
 		 
@@ -49,6 +54,7 @@ export class GlobalspeakerComponent implements OnInit {
 		}
 	}
 	playSpeaker() {
+		this.clickSpeaker.emit();
 		this.speaker.imgsrc = this.speaker.imgactive;
 		this.Sharedservice.spriteElement.next(this.speaker);
 		this.Sharedservice.speakerVol.next(this.speakerVolume);

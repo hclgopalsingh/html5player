@@ -1,0 +1,439 @@
+.inputBlockParent {
+    position: absolute;
+    left: 7.3%;
+    top: 5.5%;
+    width: 82.2%;
+    height: 88%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#inputBlock{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+  }
+.font-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 21%;
+    margin: 0 2%;
+    position: relative;
+}
+.font-style img{
+    width: 59%;
+}
+.input_digits-5 {
+    width: 87% !important;
+}
+.input_digits-5 .rowClass .highlightBox::before {
+    height: 132%;
+    /* height: 5vmax; */
+    width: 111%;
+}
+.input_digits-5 .rowClass .blinkBox::before {
+    height: 132%;
+    /* height: 5vmax; */
+    width: 111%;
+}
+.input_digits-5 .rowClass .font-style {
+    width: 16%;
+}
+.input_digits-5 .rowClass .font-style img {
+    width: 67%;
+}
+.input_digits-5 .rowClass .operator {
+    width: 17%;
+}
+.input_digits-5 .rowClass .placevalue {
+    width: 13.5%;
+}
+.input_digits-4 {
+    width: 87% !important;
+    margin-right: 10%;
+}
+.input_digits-4 .rowClass .highlightBox::before {
+    height: 132%;
+    /* height: 5vmax; */
+    width: 111%;
+}
+.input_digits-4 .rowClass .blinkBox::before {
+    height: 132%;
+    /* height: 5vmax; */
+    width: 111%;
+}
+.input_digits-4 .rowClass .font-style {
+    width: 16%;
+}
+.input_digits-4 .rowClass .font-style img {
+    width: 67%;
+}
+.input_digits-4 .rowClass .operator {
+    width: 17%;
+}
+.input_digits-4 .rowClass .placevalue {
+    width: 13.5%;
+}
+.input_digits-4 .rowClass.borderlineParent .border-line {
+    width: 85%;
+}
+.input_digits-3 {
+    width: 72% !important;
+    margin-right: 7%;
+}
+.input_digits-3 .rowClass {
+    margin: 4.5% 0;
+}
+/* .input_digits-3 .rowClass .highlightBox::before {
+    height: 5vmax;
+    width: 100%;
+}
+.input_digits-3 .rowClass .blinkBox::before {
+    height: 5vmax;
+    width: 100%;
+} */
+.input_digits-3 .rowClass .font-style {
+    width: 22%;
+}
+.input_digits-3 .rowClass .font-style img {
+    width: 59%;
+}
+.input_digits-3 .rowClass .operator {
+    width: 20%;
+}
+.input_digits-3 .rowClass .operator img{
+    width: 87%;
+}
+.input_digits-3 .rowClass .placevalue {
+    width: 19%;
+    margin: 0% 3%;
+}
+.input_digits-3 .rowClass.borderlineParent .border-line {
+    width: 87%;
+}
+.input_digits-2 {
+    width: 32% !important;
+}
+.input_digits-2 .rowClass .font-style {
+    width: 36%;
+}
+.input_digits-2 .rowClass .font-style img {
+    width: 62%;
+}
+.input_digits-2 .rowClass .operator {
+    width: 49%;
+}
+.input_digits-2 .rowClass .operator img {
+    width: 53%;
+}
+.input_digits-2 .rowClass .placevalue {
+    width: 24%;
+}
+.input_digits-1 {
+    width: 50% !important;
+    margin-right: 10%;
+}
+.input_digits-1 .rowClass .font-style {
+    width: 36%;
+}
+.input_digits-1 .rowClass .font-style img {
+    width: 62%;
+}
+.input_digits-1 .rowClass .operator {
+    width: 49%;
+}
+.input_digits-1 .rowClass .operator img {
+    width: 53%;
+}
+.input_digits-1 .rowClass .placevalue {
+    width: 27%;
+}
+.input_digits-1 .rowClass.borderlineParent .border-line {
+    width: 81%;
+}
+.input_digits-1 .rowClass .highlightBox::before, .input_digits-1 .rowClass .blinkBox::before {
+    height: 5.5vmax;
+    width: 96%;
+}
+.rowClass{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin: 3.5% 0;
+    padding: 0 13%;
+}
+.borderlineParent {
+    padding: 0 1%;
+    margin: 2% 0 0 0 !important;
+}
+.borderlineParent .border-line {
+    /* display: inline-block;
+    width: 97%;
+    height: 100%;
+    margin: 1% 0 3% 0;
+    border-radius: 10px;
+    border: .33vmin solid black; */
+    width: 97%;
+    margin-bottom: 3%;
+    border-radius: 10px;
+    border: .33vmin solid black;
+}
+.operator {
+    width: 24%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.operator img {
+    max-width: 69%;
+}
+.onesPlaceOperator {
+    max-width: 45% !important;
+}
+.placevalue {
+    width: 16%;
+    height: auto;
+    margin: 0% 3%;
+}
+.divide-img {
+    width: 40%;
+    height: auto;
+    margin: 0;
+}
+.divide>div:nth-child(1) {
+    margin-right: 18%;
+}
+.divide>div:nth-child(2) {
+    margin-bottom: -16%;
+}
+.divide>div:nth-child(2) .font-style  {
+    margin: 6% 1% 9% 3%;
+}
+.keypadBlock {
+	position: absolute;
+    width: 35.5%;
+    left: 56%;
+    top: 3%;
+}
+.keyContainer {
+	position: absolute;
+	display: inline-block;
+	width: 24%;
+	cursor: pointer;
+}
+.keyContainer#key1 {
+    left: 16%;
+    top: 3%;
+}
+.keyContainer#key2 {
+    left: 38%;
+    top: 3%;
+}
+.keyContainer#key3 {
+    left: 60.5%;
+    top: 3%;
+}
+.keyContainer#key4 {
+    left: 16%;
+    top: 26.5%;
+}
+.keyContainer#key5 {
+    left: 38%;
+    top: 26.5%;
+}
+.keyContainer#key6 {
+    left: 60.5%;
+    top: 26.5%;
+}
+.keyContainer#key7 {
+    left: 16%;
+    top: 50%;
+}
+.keyContainer#key8 {
+    left: 38%;
+    top: 50%;
+}
+.keyContainer#key9 {
+    left: 60.5%;
+    top: 50%;
+}
+.keyContainer#key10 {
+    left: 38%;
+    top: 73.5%;
+}
+
+#parentBlock{
+    position: absolute;
+    top: 13%;
+    width: 100%;
+    height: 80%;
+    left: 0%;
+}
+.queryBlock {
+    position: absolute;
+    left: 1.8%;
+    width: 53%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+:host ::ng-deep .speakerBtn {
+	width: 6%;
+    bottom: 14%;
+    right: 1.2%;
+    position: absolute;
+}
+.highlightBox::before {
+    content: '';
+    position: absolute;
+    height: 136%;
+    width: 105%;
+    border-radius: 0.5vmax;
+    border: solid .3vmax #000000;
+}
+.highlightBox img,
+.blinkBox img  {
+    visibility: hidden;
+}
+.blinkBox::before {
+    animation: borderBlink2 normal 1s infinite linear;
+    content: '';
+    position: absolute;
+    height: 136%;
+    width: 105%;
+    border-radius: 0.5vmax;
+    border: solid .3vmax #f0e;
+}
+.keyContainer:hover{
+	transition: transform .2s;
+	transform: scale(1.1);
+}
+.dark {
+	filter: grayscale(100%) brightness(0) saturate(0);
+}
+
+/* Divider Classes begin*/
+.inputBlockParent.divideBlock {
+    height: 83% !important;
+}
+.divideBlock img{
+    max-width: 100%;
+    margin: 0 1%;
+    width: 11.08%;
+}
+.divideBlock .quotient{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 7%;
+    width: 67%;
+    height: 17%;
+}
+.quotient span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16.8%;
+    height: 100%;
+    position: relative;
+}
+.quotient span img {
+    width: 66% !important;
+}
+.divideBlock .divisorDividend,
+.divideBlock .divisorDividendSub,
+.divideBlock .remainder{
+    position: absolute;
+    top: 31%;
+    left: 13%;
+    width: 67%;
+}
+.divideBlock .divisorDividendSub{
+    top: 51%;
+    left: 33%;
+    display: inline-flex;
+    height: 17%;
+}
+.divisorDividendSub span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16.8%;
+    height: 100%;
+    position: relative;
+}
+.divisorDividendSub span:last-child {
+    margin-left: 3.5%;
+}
+.divisorDividendSub span img{
+    width: 66%;
+}
+.divideBlock .remainder{
+    top: 71%;
+}
+.divideBlock .remainder div{
+    width: 70%;
+    height: 6.73vmax;
+    border-top: solid .33vmax #000;
+    border-bottom: solid .33vmax #000;
+    position: absolute;
+    left: 31%;
+    display: inline-flex;
+}
+.remainder div span {
+    margin: 3% 0;
+    margin-left: 23%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24%;
+    height: 82%;
+    position: relative;
+}
+.remainder div span:last-child {
+    margin-left: 4.2%;
+}
+.remainder div span img {
+    margin: 0 !important;
+}
+.divideMark{
+    position: absolute;
+    left: 29%;
+    top: -45%;
+    width: 71.5% !important;
+}
+.digitTens {
+    margin-left: 22.1% !important;
+    margin-right: 7% !important;
+}
+.divisorDividendSub .digitTens {
+    margin-left: 6% !important;
+}
+.remainder .digitTens {
+    width: 66% !important;
+}
+.divideBlock .highlightBox::before,
+.divideBlock .blinkBox::before{
+    height: 105%;
+}
+/* Divider Classes end*/
+
+#evaTemp12 .blinkDigit {
+    animation: optionBlink normal 1.3s infinite linear;
+}
+.modal .queryBlock {
+    left: 24%;
+    top: 8%;
+    width: 52%;
+}
+.rightWrongAns{
+	bottom: 9%;
+}
+.rightWrongAns img{
+    width: 6%;
+}
