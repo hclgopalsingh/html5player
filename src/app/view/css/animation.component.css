@@ -59,6 +59,7 @@
 .successFailure .modal-content,
 .successFailure .modal-content img{
 	/*height: 100%;*/
+	background: transparent;
 }
 
 .successFailure .modal-body{

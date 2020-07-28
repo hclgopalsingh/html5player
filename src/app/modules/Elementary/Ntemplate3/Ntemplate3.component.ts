@@ -1,16 +1,16 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
-import { SharedserviceService } from '../services/sharedservice.service';
-import { ThemeConstants } from '../common/themeconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
 declare var $: any;
 
 @Component({
   selector: 'ntemp3',
-  templateUrl: '../view/layout/Ntemplate3.component.html',
-  styleUrls: ['../view/css/Ntemplate3.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate3.component.html',
+  styleUrls: ['./Ntemplate3.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
@@ -26,7 +26,6 @@ export class Ntemplate3 implements OnInit {
       this.appModel.setLoader(false);
       //this.checkforQVO();
     }, 5000);
-
     this.appModel.notification.subscribe(
       (data) => {
         console.log('Component: constructor - data=', data);
@@ -147,6 +146,8 @@ export class Ntemplate3 implements OnInit {
   functionalityType:any;
   bgSubscription: Subscription;
   /*End: Theme Implementation(Template Changes)*/
+  disableDiv:boolean = false;
+  quesSkip:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -322,7 +323,7 @@ export class Ntemplate3 implements OnInit {
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
     this.functionalityType = this.appModel.content.contentLogic.functionalityType;
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
-    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
     this.checkquesTab();
     /*End: Theme Implementation(Template Changes)*/
     if (fetchedData.titleScreen) {
@@ -336,14 +337,7 @@ export class Ntemplate3 implements OnInit {
     } else {
       this.setData();
     }
-    // if(this.appModel.theme_name){
-    //   this.bgSubscription = this.appModel.getActiveBG().subscribe(data=>{
-    //     console.log("data",data)
-    //     if(data && data.url){
-    //       this.backgroundAssets = data;
-    //     }
-    //   })
-    // }
+  
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         //show modal for manual
@@ -595,6 +589,7 @@ export class Ntemplate3 implements OnInit {
     if (flag == "yes") {
       this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
       if (action == "replay") {
+        this.quesSkip = true;
         //this.isPlayVideo = true;
         this.replayVideo();
       }
@@ -650,9 +645,6 @@ export class Ntemplate3 implements OnInit {
       this.appModel.enableReplayBtn(true);
     }
   }
-
-
-
   
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
@@ -894,6 +886,10 @@ export class Ntemplate3 implements OnInit {
       }
     } else {
       this.appModel.notifyUserAction();
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+     }, 1000);
     }
   }
 
@@ -904,6 +900,10 @@ export class Ntemplate3 implements OnInit {
       this.appModel.notifyUserAction();
       //this.resetAttempt();
     }
+    this.disableDiv = true;
+    setTimeout(() => {
+      this.disableDiv = false;
+   }, 1000);
   }
 
   setFeedbackAudio(mode) {
@@ -1281,10 +1281,15 @@ export class Ntemplate3 implements OnInit {
     } else {
       this.appModel.notifyUserAction();
       $("#instructionBar").removeClass("disable_div");
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+     }, 1000);
     }
   }
 
   closeModal() {
+    this.disableDiv = true;
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
@@ -1320,17 +1325,16 @@ export class Ntemplate3 implements OnInit {
     this.appModel.notifyUserAction();
 
     if (this.checked) {
-      //if (this.count == 1 && mode == "auto") {
-      //  this.attemptType = "";
-      //}
       this.optionsBlock.nativeElement.style.pointerEvents = "none";
       this.blinkOnLastQues();
     }
 
     if (!this.checked) {
+      //alert();
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
-      }, 1000);
+        this.disableDiv = false;
+      }, 3000);
     }
 
   }
