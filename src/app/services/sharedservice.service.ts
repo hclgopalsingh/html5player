@@ -12,6 +12,8 @@ export class SharedserviceService {
     private isAageyBadhe = new Subject<any>();
     private isTimerActive = new Subject<any>();
 
+    public spriteElement = new Subject<any>();
+    public speakerVol = new Subject<any>();
     public showAnsRef = new Subject<any>();
     public showAnswerfeedback = new Subject<any>();
     public videoonshowAnspopUp = new Subject<any>();
