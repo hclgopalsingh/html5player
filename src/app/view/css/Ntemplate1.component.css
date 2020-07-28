@@ -33,7 +33,7 @@ button:focus {
   top: 18%; /*20%;*/
   width: 100%;
   left: 0;
-  height: 69%; /*67%;*/
+  height: 66%; /*67%;*/
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -592,8 +592,10 @@ button:focus {
 
 #modalTemp5 .modal-dialog {
   /* width: 60%; */
+  min-width: 58.5%;
   max-width: 80%;
   height: auto;
+
 }
 
 .modal-content {
@@ -707,10 +709,15 @@ html [type=button] {
 }
 
 
-/*Partial Pop-up*/
+/*Partial Pop-up Default*/
 #modalPartialOptions .modal-dialog {
-  max-width: 87%;
+  max-width: 80%;/*87%*/
 }
+/*Partial Pop-up for 6+ options*/
+#modalPartialOptions .modal-dialog.sixplus {
+  max-width: 92%;
+}
+
 
 #modalPartialOptions .modal-header {
   margin-bottom: -1px;
@@ -752,7 +759,7 @@ html [type=button] {
   display: flex;
   justify-content: center; /*space-evenly;*/
   align-items: center;
-  padding: 3% 0;
+  padding: 1.5% 0;/*3% 0*/
   background: #c4c4c4;
   border: solid 1px #444;
   border-top: none;
@@ -765,8 +772,11 @@ html [type=button] {
 }
 
   #modalPartialOptions .optionsBlock .options {
-    width: 13%;
+    width: 18.8%;
     margin: 0 .5%;
+  }
+  #modalPartialOptions .modal-dialog.sixplus .optionsBlock .options {
+    width: 13.2%;
   }
 
 @media (min-width: 576px) {
