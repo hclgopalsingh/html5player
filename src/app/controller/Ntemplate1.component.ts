@@ -728,6 +728,10 @@ export class Ntemplate1 implements OnInit {
         }, 100);
       }
       if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
+        let maxOptinpartialPopup=Math.max(this.noOfRightAnsClicked,this.noOfWrongAnsClicked);
+        if(maxOptinpartialPopup>=6) {
+          this.partialpopupRef.nativeElement.children[0].classList.add("sixplus");
+        }
           if(this.commonAssets.noofOptions == 4) {
           this.optionsBlock.nativeElement.classList = "row mx-0 disable_div optionswithFour"; 
           } else {
@@ -1033,6 +1037,7 @@ houtSkip(){
     this.ansArray1 = [];
     this.AnsObj = [];
     $(".bodyContent").removeClass("disable_div");
+    this.partialpopupRef.nativeElement.children[0].classList.remove("sixplus");
   }
   playFeedbackAudio(i, j, flag) {
     if (this.popupBodyRef.nativeElement.children[0].children[i] != undefined && !flag) {
