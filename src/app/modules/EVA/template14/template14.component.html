@@ -6,12 +6,12 @@
   <div class="headerBar">
     <img class="img-fluid"
       [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url"
-      (load)="checkImgLoaded();" />
+       />
   </div>
   <div id="bgImage">
     <img class="img-fluid"
       [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
-      (load)="checkImgLoaded();" />
+       />
   </div>
   <div #maincontent>
   <div id="instructionBar">
@@ -19,7 +19,7 @@
       <img class="img-fluid"
         [src]="commonAssets?.instruction_bg
               ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url"
-        (load)="checkImgLoaded();" />
+         />
       <span class="instructionText">{{instructiontext}}</span>
     </div>
   </div>
@@ -66,7 +66,7 @@
       </div>
       <div class="monthDates" #monthDates [ngClass] = "{'disable-state': quesObj.disableDate}">
         <div class="blockContent">
-          <div class="opacityZero" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
+          <div class="opacityZero" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)">
             <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
             <span>1</span>
           </div>
@@ -74,7 +74,7 @@
             <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
             <span>1</span>
           </div>
-          <div class="opacityZero">
+          <div class="opacityZero" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)">
             <img class="img-fluid" src="./assets/images\EVAGlobal/template_14/Days/base.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
             <span>1</span>
           </div>
@@ -240,55 +240,19 @@
 
     <app-globalspeaker class="speaker_block"></app-globalspeaker>
   </div>
+
 </div>
 <app-confirmation (closeConfirmationChild)="closePopup($event);"></app-confirmation>
+<app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 
   <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.right_ans_sound?.url: assetsPath + '/' + feedbackObj?.right_ans_sound?.url"></audio>
   <audio #wrongFeedbackVO [src]="feedbackObj?.wrong_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.wrong_ans_sound?.url: assetsPath + '/' + feedbackObj?.wrong_ans_sound?.url"></audio>
   <!-- The Confirmation Modal -->
-  <div class="modal" id="confirmModal" #confirmModalRef>
-    <div class="modal-dialog">
-      <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
-      <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-        </div>
-
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
-          <div class="actionButtons">
-            <button type="button" (click)="showFeedback('showAnswer-modal-id','answer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
+  
 
 
-   <!-- show answer Popup  -->
-   <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
-  <!-- <div class="modal" id="confirmModal" #confirmSubmitRef>
-    <div class="modal-dialog">
-        <div class="modal-content" #modalRef>
-          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
-            <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.headerTxt_img?.url : assetsPath + '/' + confirmSubmitAssets?.headerTxt_img?.url">
-            <img class="close" [src]="confirmSubmitAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.close_btn?.url : assetsPath + '/' + confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-          </div>
-          <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
-            <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_text?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_text?.url"></div>
-            <div class="actionButtons">
-              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_btn?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_btn?.url"></button>
-              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.decline_btn?.url : assetsPath + '/' + confirmSubmitAssets?.decline_btn?.url"></button>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div> -->
+   
+  
 
      <!-- The Modal -->
   <div class="modal" id="modalTemp22" #popupRef>

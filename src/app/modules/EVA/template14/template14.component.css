@@ -738,3 +738,8 @@
     box-shadow: none !important;
   } */
   
+  #showAnswer .modal-content{
+    height: 20%;
+    min-width: 200%;
+    margin-left: -51%;
+  }

@@ -49,6 +49,8 @@ export class ConfirmationComponent implements OnInit {
   
   closePopup(type){
     console.log("type",type)
+    this.houtYes();
+    this.houtNo();
     this.enableConfirmation = false;
     if(type == "yes"){
       this.closeConfirmationChild.emit(type);
@@ -56,19 +58,19 @@ export class ConfirmationComponent implements OnInit {
   }
 
   houtYes(){
-    this.popupAssets.btn_base = this.popupAssets.btn_base
+    this.popupAssets.yes_btn_base = this.popupAssets.btn_base_original
   }
 
   hoverYes(){
-    this.popupAssets.btn_base = this.popupAssets.btn_base
+    this.popupAssets.yes_btn_base = this.popupAssets.btn_base_hover
   }
 
   hoverNo(){
-    this.popupAssets.btn_base = this.popupAssets.btn_base
+    this.popupAssets.no_btn_base = this.popupAssets.btn_base_hover
   }
 
   houtNo(){
-    this.popupAssets.btn_base = this.popupAssets.btn_base
+    this.popupAssets.no_btn_base = this.popupAssets.btn_base_original
   }
 
 
