@@ -54,7 +54,6 @@ export class GlobalspeakerComponent implements OnInit {
 		}
 	}
 	playSpeaker() {
-		// this.speakerPlayed = true;
 		this.clickSpeaker.emit();
 		this.speaker.imgsrc = this.speaker.imgactive;
 		this.Sharedservice.spriteElement.next(this.speaker);
@@ -66,7 +65,6 @@ export class GlobalspeakerComponent implements OnInit {
 			this.speaker.imgsrc = this.speaker.imgorigional;
 			this.sprite.nativeElement.style = "display:none";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			// this.speakerPlayed = false;
 		}
 	}
 }

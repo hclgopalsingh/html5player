@@ -17,8 +17,8 @@ import { Template12ComponentEVA } from './template12/template12.component';
 import { SharedserviceService } from '../../services/sharedservice.service';
 import { DataService } from '../../model/eva/template8/data.service';
 import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspeaker.component';
-
-
+import { TemplateFourteenComponent } from './template14/template14.component';
+import { ConfirmationComponent } from '../commonmodules/confirmation/confirmation.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +38,9 @@ import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspe
 		ShowanswerComponent,
 		Template11Componenteva,
 		Template12ComponentEVA,
-		GlobalspeakerComponent
+		GlobalspeakerComponent,
+		TemplateFourteenComponent,
+		ConfirmationComponent
   ],
   providers: [SharedserviceService, DataService]
 })
