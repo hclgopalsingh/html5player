@@ -258,5 +258,6 @@
 			"location": "theme"
 		},
 		"timeout": 5000
-	}
+	},
+	"showAnsTimeout": 5000
 }
