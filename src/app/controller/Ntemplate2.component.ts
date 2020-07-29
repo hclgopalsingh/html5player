@@ -349,9 +349,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			}else if(this.noofSubQues==4){
 				scaleValue = 1.05;
 				this.leftCss1 = 7.5+"%";
-				this.topCss1 = 17.8+"%";
+				this.topCss1 = 24.8+"%";
 				this.leftCss2 = 53.7+"%";
-				this.topCss2 = 17.8+"%";
+				this.topCss2 = 24.8+"%";
 		/*		if(window.innerWidth<1920){
 					this.topCss1 = 14.2+"%";
 					this.topCss2 = 14.2+"%";
