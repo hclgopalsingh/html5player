@@ -148,6 +148,9 @@ export class Ntemplate3 implements OnInit {
   /*End: Theme Implementation(Template Changes)*/
   disableDiv:boolean = false;
   quesSkip:boolean = false;
+  showAnsTimeout:number;
+  disableSection:boolean = false;
+  enableOption:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -179,8 +182,9 @@ export class Ntemplate3 implements OnInit {
 
 
   playHoverOption(opt, i, j) {
+    this.appModel.notifyUserAction();
     if(opt.imgsrc_audio.url != "" || opt.imgsrc_audio.location != "") {
-         this.appModel.notifyUserAction();
+        
          if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
             this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url+ "?someRandomSeed=" + Math.random().toString(36);;
             this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
@@ -326,6 +330,9 @@ export class Ntemplate3 implements OnInit {
     this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
     this.checkquesTab();
     /*End: Theme Implementation(Template Changes)*/
+    this.appModel.globalJsonData.subscribe(data=>{
+      this.showAnsTimeout = data.showAnsTimeout;
+    });
     if (fetchedData.titleScreen) {
       this.quesInfo = fetchedData;
       this.noOfImgs = this.quesInfo.imgCount;
@@ -633,12 +640,22 @@ export class Ntemplate3 implements OnInit {
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
       this.appModel.enableReplayBtn(false);
-      this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+     // this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+     this.disableDiv = true;
+     this.disableSection=true;
+     this.enableOption = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
-        this.optionsBlock.nativeElement.classList = "row mx-0";
+        
+        this.disableSection=false;
+        setTimeout(() => {
+         // alert();
+         this.disableDiv = false;
+        }, 1000);
+        
+      //  this.optionsBlock.nativeElement.classList = "row mx-0";
       }
     } else {
       this.appModel.handlePostVOActivity(false);
@@ -1047,7 +1064,7 @@ export class Ntemplate3 implements OnInit {
           if (this.count == 0 || mode == "manual" || (this.count == 1 && mode == "auto")) {
             this.closeModal();
           }
-        }, 500);
+        }, this.showAnsTimeout);
         if (this.count == 1 && mode == "auto") {
           this.attemptType = "";
         }

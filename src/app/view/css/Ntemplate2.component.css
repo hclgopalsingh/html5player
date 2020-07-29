@@ -30,17 +30,20 @@ button:focus {
 	border:solid 6px #cba8a8;
 	border-radius: 15px; */
 }
-.quesBase5{
-	width: 13%;
-}
-.quesBase4{
-	width: 17%;
-}
 .quesBase3{
 	width: 22%;
 }
+.quesBase4{
+	width: 20%;
+    height: 88%;
+}
+.quesBase5{
+	width: 15.65%;
+    height: 88%;
+}
 .quesBase6{
-	width:21%;
+	width: 13.65%;
+    height: 80%;
 }
 .ansBase{
 	width: 37%;
@@ -52,12 +55,12 @@ button:focus {
 }
 #container #optionsBlock {
 	position: absolute;
-  top: 20%;/*18%;*/
-  width: 85%;/*97%;*/
-  left: 7.6%;/*1.6%;*/
-  height: 67%;
+    top: 13%;
+    width: 85%;
+    left: 7.6%;
+    height: 84%;
 	display: flex;
-  justify-content: space-around;
+  	justify-content: space-around;
 }
 #optionsBlock img{
 	cursor:pointer;
@@ -213,13 +216,13 @@ button:focus {
 	width:70%;
 }
 #container #instructionBar {
-  position: absolute;
-  top: 10%;
+	position: absolute;
+	top: 10%;
 	width: 100%;
 	text-align: center;
 }
 #instructionBar .instructionBase {
-  width: 86%;
+ 	width: 50%;
 	position: relative;
 }
 #instructionBar img {
@@ -371,6 +374,9 @@ button:focus {
 #customModal .optionsBlock{
 	width: 95%;/*44%*/
 }
+#customModal .optionsBlock.optBlock6{
+	width: 75%;/*44%*/
+}
 #customModal .optionsBlock .quesImage{
 	height: auto;/*95%;*/
 	display: flex;
@@ -480,12 +486,11 @@ button:focus {
   width: 85%;
 }
 #confirmModal .modal-title {
-  margin-left: 3%;
-  font-size: auto;
+  margin-left: 1.5%;
 }
 #confirmModal .close {
   /* width: 5%; */
-  margin: -.1% 1.6% 0 auto	;
+  margin: 0 1.6% 0 auto	;
 }
 #confirmModal .modal-footer {
   display: flex;
