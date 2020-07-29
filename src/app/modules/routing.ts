@@ -23,10 +23,10 @@ import {Ntemplate2} from '../controller/Ntemplate2.component';
 import { Ntemplate18 } from '../controller/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../controller/Ntemplate8.component';
-import { Ntemplate3 } from '../controller/Ntemplate3.component';
+import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate1 } from '../controller/Ntemplate1.component';
 import {Ntemplate4} from '../controller/Ntemplate4.component';
-import {Ntemplate5} from '../controller/Ntemplate5.component';
+import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
 import { Ntemplate6 } from '../controller/Ntemplate6.component';
 import { Ntemplate9 } from '../controller/Ntemplate9.component';
@@ -55,8 +55,11 @@ import {Template15Component } from '../modules/EVA/template15/template15.compone
 import { Template3Component } from './EVA/template3/template3.component';
 import { Template1Component } from '../modules/EVA/template1/template1.component';
 import { Template8Component } from '../modules/EVA/template8/template8.component';
+import { Template6Component } from '../modules/EVA/template6/template6.component';
 import { Template2Component } from './EVA/template2/template2.component';
 import { Template4Component } from './EVA/template4/template4.component';
+import { TemplateTenComponent } from './EVA/template10/template10.component';
+import { Template11Componenteva } from '../modules/EVA/template11/template11.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -163,10 +166,16 @@ export const APP_ROUTES: Routes = [
 			{ path: 'evatemp1ext', component: Template1Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp8', component: Template8Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp8ext', component: Template8Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp6', component: Template6Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp6ext', component: Template6Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp2', component: Template2Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp2ext', component: Template2Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp4', component: Template4Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp4ext', component: Template4Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
+			{ path: 'evatemp4ext', component: Template4Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp10', component: TemplateTenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp10ext', component: TemplateTenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp11', component: Template11Componenteva, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
 			
 		]
 	}

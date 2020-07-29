@@ -7,6 +7,12 @@
 	align-items: center;
 	justify-content: center;
 }
+
+::selection {
+	color: none;
+	background: none;
+	}
+	
 .modal #optionsBlock{
 	top: 7.5%;
 }

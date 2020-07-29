@@ -94,9 +94,7 @@ export class NTitleComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		 this.appModel.functionone(this.templatevolume, this);
-	
-
+		this.appModel.functionone(this.templatevolume, this);
 		if (this.appModel.isNewCollection) {
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
@@ -116,7 +114,9 @@ export class NTitleComponent implements OnInit {
 			//this.imagePath(this.fetchedcontent);
 			this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType)
 		}
-		
+		if (fetchedData.templateType === 'EVA') {
+			this.appModel.navShow = 2;
+		}
 	}
 
 	imagePath(){
@@ -153,6 +153,7 @@ export class NTitleComponent implements OnInit {
 				
 			}
 		}
+<<<<<<< HEAD
 */
 
 

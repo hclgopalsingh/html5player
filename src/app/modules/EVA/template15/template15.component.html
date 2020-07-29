@@ -67,26 +67,7 @@
   
   
    <!-- show answer Popup  -->
-      <div class="modal" id="showAnswer" #showAnswerRef>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body d-flex align-items-center">
-                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-                    <div id="optionsBlock" class="onShowAns">
-                        <div class="options">
-                            <div>
-                                <!-- <img class="img-fluid" [src]="answerImagelocation =='content' ? containgFolderPath +'/'+ answerImageBase :  assetsPath +'/'+ answerImageBase"> -->
-                                <img class="img-fluid" [src]="answerImagelocation =='content' ? containgFolderPath +'/'+ showAnswerOptionBg :  assetsPath +'/'+ showAnswerOptionBg">
-                                <img class="img-fluid subOpt" [src]="showAnswerPopup?.imgsrc?.location=='content' ? containgFolderPath +'/'+ showAnswerPopup?.imgsrc?.url :  assetsPath +'/'+ showAnswerPopup?.imgsrc?.url">
-                            </div>
-                        </div>
-                    </div>
-                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
-                 </div>
-            </div>
-        </div>
-    </div>
+   <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 
     </div>
     
@@ -96,6 +77,5 @@
   <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? containgFolderPath + '/' +  wrongPopup?.path?.url : assetsPath +'/'+ wrongPopup?.path?.url"></audio>
   <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
   <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
-  <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
-
+ 
   
