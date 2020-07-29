@@ -14,7 +14,6 @@ import { TemplateTenComponent } from './template10/template10.component';
 import { ShowanswerComponent } from '../commonmodules/showanswer/showanswer.component';
 import { Template11Componenteva } from './template11/template11.component';
 import { Template12ComponentEVA } from './template12/template12.component';
-import { SharedserviceService } from '../../services/sharedservice.service';
 import { DataService } from '../../model/eva/template8/data.service';
 import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspeaker.component';
 import { TemplateFourteenComponent } from './template14/template14.component';
@@ -42,6 +41,6 @@ import { ConfirmationComponent } from '../commonmodules/confirmation/confirmatio
 		TemplateFourteenComponent,
 		ConfirmationComponent
   ],
-  providers: [SharedserviceService, DataService]
+  providers: [DataService]
 })
 export class EvaModule { }
