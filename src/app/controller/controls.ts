@@ -107,8 +107,7 @@ export class ControlsComponent implements OnInit {
   }
 
   volumeIconClicked(event) {
-    debugger;
-    this.displayVolume = !this.displayVolume;
+  this.displayVolume = !this.displayVolume;
 	if(this.displayVolume){
 		setTimeout(()=>{
 				 if(this.appModel){
@@ -147,7 +146,6 @@ export class ControlsComponent implements OnInit {
   }
 
   updateHandler(event) {
-    debugger;
     const duration = event.currentTarget.duration;
     this.currentVideoTime = event.currentTarget.currentTime;
     const value = (100 / duration) * this.currentVideoTime;

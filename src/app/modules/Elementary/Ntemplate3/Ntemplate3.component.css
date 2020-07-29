@@ -535,11 +535,15 @@ button:focus {
 
 #confirmModal .modal-title {
   margin-left: 1.5%;/*3%;*/
+  width: 40%!important;
+  height: auto!important;
 }
 
 #confirmModal .close {
   /* width: 5%; */
   margin: 0 1.6% 0 auto;
+  width: 5%!important;
+  height: auto!important;
 }
 
 #confirmModal .modal-footer {
@@ -639,9 +643,9 @@ button:focus {
 }
 
 .close {
-  width: auto;
-  height: 75%;
-  margin-right: 0%;
+  width: 3%;
+  height: auto;
+  margin-right: .5%;
   margin-top: -.1%;
   -webkit-appearance: inherit !important;
   cursor: pointer;
@@ -649,10 +653,10 @@ button:focus {
 }
 
 @media (min-width: 1366px) {
-  .close {
+  /*.close {
     height: 95%;
     margin-right: .3%;
-  }
+  }*/
 }
 
 #modalTemp5 .modal-header .close {
@@ -859,4 +863,8 @@ html [type=button] {
   100% {
     opacity: 1;
   }
+}
+ 
+.videoMainContainer{
+  width:99.9%
 }

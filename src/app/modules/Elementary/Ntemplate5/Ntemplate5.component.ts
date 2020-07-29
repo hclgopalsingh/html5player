@@ -120,6 +120,8 @@ export class Ntemplate5 implements OnInit {
    fetchedcontent:any;
    functionalityType:any;
    InstructionVo:boolean=true;
+   showAnsTimeout:number;
+   disableSection:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -317,6 +319,9 @@ export class Ntemplate5 implements OnInit {
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
     this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
     this.checkquesTab();
+    this.appModel.globalJsonData.subscribe(data=>{
+      this.showAnsTimeout = data.showAnsTimeout;
+    });
     if (this.rightFeedbackVO != undefined || this.wrongFeedbackVO != undefined) {
       this.rightFeedbackVO.nativeElement.pause();
       this.rightFeedbackVO.nativeElement.currentTime = 0;
@@ -482,10 +487,12 @@ export class Ntemplate5 implements OnInit {
 			this.narrator.nativeElement.src = this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
 			this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-			this.narrator.nativeElement.play();
+      this.narrator.nativeElement.play();
+      this.disableSection=true;
 			this.narrator.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
               this.optionsBlock.nativeElement.classList = "row mx-0";
+              this.disableSection=false;
 			}
 		} else {
 			this.appModel.handlePostVOActivity(false);
@@ -587,9 +594,12 @@ export class Ntemplate5 implements OnInit {
           if (this.count == 0) {
             this.closeModal();
           }
-        }, 2000);
+        }, this.showAnsTimeout);
         //this.blinkOnLastQues();
-        this.closeModal();
+        setTimeout(() => {
+           this.closeModal();
+         }, this.showAnsTimeout);
+        
         this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
         $("#instructionBar").addClass("disable_div");
         this.appModel.notifyUserAction();
