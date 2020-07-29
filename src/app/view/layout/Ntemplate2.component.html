@@ -66,7 +66,7 @@
 
           <!-- Modal body -->
           <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
-            <div class="row mx-0 optionsBlock">
+            <div class="row mx-0 optionsBlock optBlock{{noofSubQues}}">
               <div class="my-auto quesImage" #popupBodyRef>
                 <div class="options" *ngFor="let assts of popupAssets">
                   <div>
