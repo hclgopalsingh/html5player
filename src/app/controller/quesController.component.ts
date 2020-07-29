@@ -42,10 +42,12 @@ export class QuesController implements OnInit {
   disableTabs:boolean = true;
   EVA:boolean = false;
   EnableShowAnswer:boolean = false;
+  EnableSubmitAnswer:boolean = false;
   Template: any;
   EVAQid:any;
   subscription: Subscription;
   UttarDikhayeinTooltip:any;
+  SubmitBtnTooltip:any;
   blink:any;
   themePath:any;
   themeType:any;
@@ -143,6 +145,19 @@ export class QuesController implements OnInit {
       }
 
 
+      // Enable DIsable submit button
+      this.subscription = this.Sharedservice.getSubmitAnsEnabled().subscribe(data => { 
+        this.EnableSubmitAnswer = data.data;
+        if(this.EnableSubmitAnswer === true){
+          this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
+          this.SubmitBtnTooltip = "उत्तर दिखाएँ!";
+        }else{
+          this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
+          this.SubmitBtnTooltip="";
+        }
+      });
+
+
     
 
 
@@ -237,11 +252,19 @@ export class QuesController implements OnInit {
   }
 
   hoveronSubmitBtn() {
-
+    if(this.EnableSubmitAnswer){
+      this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_hover;
+    }else{
+      this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
+    } 
   }
 
   hleaveSubmitBtn() {
-
+    if(this.EnableSubmitAnswer){
+      this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
+    }  else{
+      this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
+    } 
   }
 
 
@@ -269,7 +292,7 @@ export class QuesController implements OnInit {
 
 
   confirmAction(action) {
-    if(this.EnableShowAnswer && this.EVA) {
+    if(this.EVA) {
       this.appModel.confirmPopup(action);
     }
     if(!this.EVA) {
@@ -438,6 +461,9 @@ export class QuesController implements OnInit {
     this.blinkerSubscription.unsubscribe();
   }
 
-  
-
+  confirmActionEVA(type){
+    if(type == "submitAnswer"){
+      this.Sharedservice.setShowHideConfirmation(true)
+    }
+  }
 }
