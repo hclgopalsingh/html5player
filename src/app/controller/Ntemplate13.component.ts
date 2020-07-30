@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs'
 import 'jquery';
 declare var $: any;
 import { PlayerConstants } from '../common/playerconstants';
+import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../common/themeconstants';
 
 @Component({
 	selector: 'ntemp13',
@@ -14,7 +16,7 @@ import { PlayerConstants } from '../common/playerconstants';
 
 export class Ntemplate13 implements OnInit {
 	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService) {
+	constructor(appModel: ApplicationmodelService,private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
 		this.appModel.navShow = 2;
@@ -116,6 +118,10 @@ export class Ntemplate13 implements OnInit {
 	ifRightAns: boolean = false;
 	rightAnsSoundUrl: string = "";
 	fixedOptions:any = [];
+	themePath:any;
+	fetchedcontent:any;
+	functionalityType:any;
+	InstructionVo:boolean=true;
 
 	hoverConfirm() {
 		this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
@@ -343,6 +349,11 @@ export class Ntemplate13 implements OnInit {
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
 		let fetchedData: any = this.appModel.content.contentData.data;
+        this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+        this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+        this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+        this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+        this.checkquesTab();
 		console.log(fetchedData);
 		if (fetchedData.titleScreen) {
 			this.quesInfo = fetchedData;
@@ -430,7 +441,13 @@ export class Ntemplate13 implements OnInit {
 		this.appModel.notifyUserAction();
 		//shake options
 	}
-
+	checkquesTab() {
+		if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+		  this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+		} else {
+		  this.appModel.getJson();      
+		}
+	  }
 	templatevolume(vol, obj) {
 		if (obj.wrongOptAudio && obj.wrongOptAudio.nativeElement) {
 			obj.wrongOptAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -468,33 +485,33 @@ export class Ntemplate13 implements OnInit {
 			}
 		}, 100)
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-			let fetchedData: any = this.appModel.content.contentData.data;
-			console.log(fetchedData);
-			if (fetchedData && fetchedData.titleScreen) {
+			//let fetchedData: any = this.appModel.content.contentData.data;
+			console.log(this.fetchedcontent);
+			if (this.fetchedcontent && this.fetchedcontent.titleScreen) {
 				this.showIntroScreen = true;
 			} else {
 				this.showIntroScreen = false;
 			}
 
-			this.myoption = fetchedData.options;
-			this.fixedOptions =  JSON.parse(JSON.stringify(fetchedData.options))
+			this.myoption = this.fetchedcontent.optionObj;
+			this.fixedOptions =  JSON.parse(JSON.stringify(this.fetchedcontent.optionObj))
 			console.log(this.myoption);
-			this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-			this.feedback = fetchedData.feedback;
-			this.commonAssets = fetchedData.commonassets;
-			this.narratorAudio = fetchedData.commonassets.narrator;
-			this.question = fetchedData.ques;
-			this.feedback = fetchedData.feedback;
-			this.quesInfo = fetchedData.commonassets;
+		//	this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+			this.feedback = this.fetchedcontent.feedback;
+			this.commonAssets = this.fetchedcontent.commonassets;
+			this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+			this.question = this.fetchedcontent.ques;
+			this.feedback = this.fetchedcontent.feedback;
+			this.quesInfo = this.fetchedcontent.commonassets;
 			this.isFirstQues = this.quesInfo.isFirstQues;
 			this.isLastQues = this.appModel.isLastSection;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			this.noOfImgs = this.quesInfo.imgCount;
-			this.quesObj = fetchedData.quesObj;
-			this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-			this.feedbackObj = fetchedData.feedback;
-			this.rightPopup = fetchedData.rightFeedback;
-			this.wrongPopup = fetchedData.wrongFeedback;
+			this.quesObj = this.fetchedcontent.quesObj;
+			this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+			this.feedbackObj = this.fetchedcontent.feedback;
+			this.rightPopup = this.fetchedcontent.rightFeedback;
+			this.wrongPopup = this.fetchedcontent.wrongFeedback;
 			this.rightAnsSoundUrl = this.myoption[this.feedback.correct_ans_index]
 			if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
 				this.isPlayVideo = true;
@@ -545,7 +562,7 @@ export class Ntemplate13 implements OnInit {
 
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
 			$("#instructionBar").css("pointer-events", 'none');
-			this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.location == "content" ? this.containgFolderPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+			this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
 			//this.feedbackVoRef.nativeElement.play();
 
 			setTimeout(() => {
@@ -804,14 +821,17 @@ export class Ntemplate13 implements OnInit {
 
 	checkforQVO() {
 		if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-			this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+			this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
 			this.appModel.enableReplayBtn(false);
 			// this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.narrator.nativeElement.play();
 			this.narrator.nativeElement.onended = () => {
 				this.appModel.handlePostVOActivity(false);
-				this.appModel.enableReplayBtn(true);
+				if (this.quesObj.replayRequired){
+					this.appModel.enableReplayBtn(true);
+				}
+				
 				//enable ansBlock
 				this.optionBlock.nativeElement.className = "";
 			}
@@ -851,7 +871,7 @@ export class Ntemplate13 implements OnInit {
 	playAnySound(sound) {
 		this.containgFolderPath = this.getBasePath();
 		this.wrongOptAudio.nativeElement.pause();
-		this.wrongOptAudio.nativeElement.src = this.containgFolderPath + "/" + sound;
+		this.wrongOptAudio.nativeElement.src = sound;
 		this.wrongOptAudio.nativeElement.load();
 		this.wrongOptAudio.nativeElement.play();
 	}
