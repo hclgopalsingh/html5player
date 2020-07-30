@@ -74,6 +74,7 @@ export class ApplicationmodelService {
   templatedata:any;
   themePath:any;
   nextSectionTimer: any;
+ 
 
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
@@ -176,6 +177,7 @@ export class ApplicationmodelService {
   lastQuesNT: boolean = false;
   autoPlayFlag: boolean = false;
   _avtiveBG = new Subject<any>();
+  globalJsonData = new Subject<any>();
   activeBg:any = "";
   get initVal() {
     return this.initValues.files[this.currentActive].startAt;
@@ -1153,6 +1155,7 @@ export class ApplicationmodelService {
     this.themePath = ThemeConstants.THEME_PATH + this.templatedata.productType + '/'+ this.theme_name ; 
     this.Sharedservice.imagePath(this.templatedata.commonassets.ques_control, this.content.id, this.themePath, this.functionalityType);
     this.setQuesControlAssets(this.templatedata.commonassets.ques_control);
+    this.globalJsonData.next(data);
     //this.setCommonControlAssets(data)
     // console.log("datajson", data);
     // console.log("currentBackground", data.quesTabs[this.currentSection-1].background)

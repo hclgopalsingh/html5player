@@ -68,3 +68,9 @@
 	align-items: center;
 	padding: 0;
 }
+
+.noShadow{
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	border: none!important;
+}
