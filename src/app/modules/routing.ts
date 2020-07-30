@@ -42,7 +42,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Phase3T01V01 } from '../controller/phase3/template01/variant01.component';
 import { Ntemplate13 } from '../controller/Ntemplate13.component';
 import { Ntemplate20 } from '../controller/Ntemplate20.component';
-import { Ntemplate10 } from '../controller/Ntemplate10.component';
+import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from '../controller/Ntemplate11.component';
 import { Ntemplate12 } from '../controller/Ntemplate12.component';
 import { Ntemplate16 } from '../controller/Ntemplate16.component';

@@ -460,9 +460,9 @@ button:focus {
 	height: 80%;
 }
 .close {
-	width: 3%;
+	width: 3.8%;
   height: auto;
-  margin-right: .5%;
+  margin-right: .7%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   cursor: pointer;

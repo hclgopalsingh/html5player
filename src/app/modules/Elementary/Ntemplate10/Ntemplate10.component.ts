@@ -1,16 +1,16 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import 'jquery';
 import { Subscription } from 'rxjs'
 import { analyzeAndValidateNgModules } from '@angular/compiler';
-import { ThemeConstants } from '../common/themeconstants';
-import { SharedserviceService } from '../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 declare var $: any;
 
 @Component({
 	selector: 'temp14',
-	templateUrl: '../view/layout/Ntemplate10.component.html',
-	styleUrls: ['../view/css/Ntemplate10.component.css', '../view/css/bootstrap.min.css'],
+	templateUrl: './Ntemplate10.component.html',
+	styleUrls: ['./Ntemplate10.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
@@ -112,6 +112,7 @@ export class Ntemplate10 implements OnInit {
 	functionalityType:any;
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
+	showAnsTimeout:number;
 
 	onHoverHelp() {
 		this.quesInfo.help_btn = this.quesInfo.help_btn_hover;
@@ -358,6 +359,8 @@ export class Ntemplate10 implements OnInit {
 				$("#optionsBlock ").addClass("disable-click");
 				$(".speakerBtn ").addClass("disable-div");
 				$("#instructionBar").addClass("disable_div");
+				$("#optionsBlock").css("opacity", "0.3");
+				$("#instructionBar").css("opacity", "0.3");
 				this.removeEvents();
 				this.blinkOnLastQues()
 			}, 200)
@@ -539,6 +542,9 @@ export class Ntemplate10 implements OnInit {
 		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
 		this.checkquesTab();
 		/*End: Theme Implementation(Template Changes)*/
+		this.appModel.globalJsonData.subscribe(data=>{
+			this.showAnsTimeout = data.showAnsTimeout;
+		});
 
 		if (this.appModel.isNewCollection) {
 			//console.log("chck:",this.appModel.isNewCollection);
