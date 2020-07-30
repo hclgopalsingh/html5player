@@ -10,7 +10,6 @@
 }
 #container .optionsBlock {
 	position: absolute;
-	/*background: url(../../../assets/images/refBase.svg) no-repeat center center;*/
     background-size: contain;
     top: 0;
     width: 97%;
@@ -80,7 +79,7 @@
 	height:35%;
 	padding-bottom:68%;
 	margin: 0% auto;
-	background: url(../../../assets/images/speakerSprite14.png) repeat-x 0 0;
+	background: url(../../../../assets/images/speakerSprite14.png) repeat-x 0 0;
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
