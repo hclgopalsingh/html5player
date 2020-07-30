@@ -119,45 +119,6 @@ export class NTitleComponent implements OnInit {
 		}
 	}
 
-	imagePath(){
-	/*	debugger;
-		var keys = Object.keys(this.fetchedcontent);
-		var len = keys.length;
-
-		for (var i=0; i<len; i++){
-			var value =	this.fetchedcontent[Object.keys(this.fetchedcontent)[i]];
-			if(typeof value != "object"){
-				console.log('not object')
-			}else{
-				if(value.hasOwnProperty("location")){
-					var v = value["location"];
-					var l = value["url"];
-					
-					if(v == "content"){
-						value["url"] = this.containgFolderPath + '/' + value["url"];
-						//console.log(this.fetchedcontent);
-					   //return this.fetchedcontent;				
-						
-					} else if(v == "theme"){
-						if(value["url"]){
-							value["url"] = this.themePath + '/type_'+ this.functionalityType +'/'+ value["url"];
-						}else if(value["urlglobal"]){
-							value["url"] = this.themePath + '/type_'+ this.functionalityType +'/'+ value["url"];
-						}
-						
-						//console.log(this.fetchedcontent);
-					//	return this.fetchedcontent;
-						
-					}
-				}
-				
-			}
-		}
-<<<<<<< HEAD
-*/
-
-
-	}
 	templatevolume(vol, obj) {
 		if (obj.titleAudio && obj.titleAudio.nativeElement) {
 			obj.titleAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
