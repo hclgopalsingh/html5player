@@ -358,6 +358,8 @@ export class Ntemplate10 implements OnInit {
 				$("#optionsBlock ").addClass("disable-click");
 				$(".speakerBtn ").addClass("disable-div");
 				$("#instructionBar").addClass("disable_div");
+				$("#optionsBlock").css("opacity", "0.3");
+				$("#instructionBar").css("opacity", "0.3");
 				this.removeEvents();
 				this.blinkOnLastQues()
 			}, 200)
