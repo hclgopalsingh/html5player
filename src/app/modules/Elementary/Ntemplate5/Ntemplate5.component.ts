@@ -486,13 +486,14 @@ export class Ntemplate5 implements OnInit {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
 			this.narrator.nativeElement.src = this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
-			this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-      this.narrator.nativeElement.play();
+			this.narrator.nativeElement.play();
       this.disableSection=true;
 			this.narrator.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
-              this.optionsBlock.nativeElement.classList = "row mx-0";
-              this.disableSection=false;
+              setTimeout(() => {
+               this.disableSection=false;
+               }, 1000);
+             
 			}
 		} else {
 			this.appModel.handlePostVOActivity(false);
