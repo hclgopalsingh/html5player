@@ -38,7 +38,6 @@ import { Phase3T01V01 } from './controller/phase3/template01/variant01.component
 import { Ntemplate2 } from './controller/Ntemplate2.component';
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
-import { Ntemplate1 } from './controller/Ntemplate1.component';
 import { Ntemplate4 } from './controller/Ntemplate4.component';
 import { Ntemplate9 } from './controller/Ntemplate9.component';
 import { Ntemplate6 } from './controller/Ntemplate6.component';
@@ -82,6 +81,7 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
 import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
 import { Template11Componenteva } from './modules/EVA/template11/template11.component';
+import { Ntemplate1Component } from './modules/Elementary/ntemplate1/ntemplate1.component';
 
 
 @NgModule({
@@ -116,7 +116,6 @@ import { Template11Componenteva } from './modules/EVA/template11/template11.comp
 		Ntemplate23_1,
 		Ntemplate8,
 		Ntemplate3,
-		Ntemplate1,
 		Ntemplate4,
 		Ntemplate9,
 		Ntemplate6,
@@ -155,7 +154,8 @@ import { Template11Componenteva } from './modules/EVA/template11/template11.comp
 		TemplateTenComponent,
 		NtemplateMap,
 		ShowanswerComponent,
-		Template11Componenteva
+		Template11Componenteva,
+		Ntemplate1Component
 	],
 	imports: [
 		BrowserModule,
