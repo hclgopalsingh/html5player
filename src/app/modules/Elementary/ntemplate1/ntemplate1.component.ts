@@ -509,16 +509,18 @@ private appModel: ApplicationmodelService;
       if(this.quesObj.quesType == "video") {
         this.replayVideo();
       } else {
-      if(!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
-        this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].pause();
-        this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].currentTime=0;
-      }
-      for (let x = 0; x < this.optionsBlock.nativeElement.children[this.i].children.length; x++) {
-          if (x != this.j) {
-            this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
-          }
-          this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
-          this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+        if(this.i !=undefined && this.j !=undefined) {
+            if(!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
+              this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].pause();
+              this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].currentTime=0;
+            }
+            for (let x = 0; x < this.optionsBlock.nativeElement.children[this.i].children.length; x++) {
+              if (x != this.j) {
+                this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
+            }
+            this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
+            this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+        }
         }
         this.displayWave=true;
         this.questionAudio.nativeElement.play();
