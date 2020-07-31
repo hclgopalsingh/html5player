@@ -19,7 +19,7 @@ import { Template14Component } from '../controller/template14.component';
 import { Template16Component } from '../controller/template16.component';
 import { TemplatethirteenComponent } from '../controller/templatethirteen.component';
 import {Template12Component} from '../controller/template12.component';
-import {Ntemplate2} from '../controller/Ntemplate2.component';
+import {Ntemplate2} from './Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate18 } from '../controller/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../controller/Ntemplate8.component';

@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, HostListener,OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { timer } from 'rxjs/observable/timer';
-import { SharedserviceService } from '../services/sharedservice.service';
-import { ThemeConstants } from '../common/themeconstants';
-import { PlayerConstants } from '../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
 import 'jquery';
 
 
@@ -13,8 +13,8 @@ declare var $: any;
 
 @Component({
 	selector: 'ntemp18',
-	templateUrl: '../view/layout/Ntemplate2.component.html',
-	styleUrls: ['../view/css/Ntemplate2.component.css', '../view/css/bootstrap.min.css']
+	templateUrl: './Ntemplate2.component.html',
+	styleUrls: ['./Ntemplate2.component.css', '../../../view/css/bootstrap.min.css']
 
 })
 
@@ -143,6 +143,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	functionalityType:any;
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
+	showAnsTimeout:number;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -161,6 +162,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
 		this.checkquesTab();
 		/*End: Theme Implementation(Template Changes)*/
+		this.appModel.globalJsonData.subscribe(data=>{
+			this.showAnsTimeout = data.showAnsTimeout;
+		});
 		this.setData();
 		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
@@ -1075,7 +1079,7 @@ removeAssetsFromPopup(id:string){
 		}else{
 		setTimeout(()=>{
 			this.closeModal();
-		},2000)
+		},this.showAnsTimeout)
 		}
 		}
 

@@ -30,35 +30,33 @@ button:focus {
 	border:solid 6px #cba8a8;
 	border-radius: 15px; */
 }
-.quesBase3{
-	width: 22%;
-}
-.quesBase4{
+
+.quesBase3,.quesBase4{
 	width: 20%;
-    height: 88%;
+    /* height: 88%; */
 }
 .quesBase5{
 	width: 15.65%;
-    height: 88%;
+    /* height: 88%; */
 }
 .quesBase6{
 	width: 13.65%;
-    height: 80%;
+    /* height: 80%; */
 }
 .ansBase{
-	width: 37%;
-	height: 35%;
-	margin: 0 50px;
+	width: 45%;
+	height: auto;
+	margin: 0 100px;
   flex-wrap: nowrap;
 	justify-content: space-around;
 	pointer-events: none;
 }
 #container #optionsBlock {
 	position: absolute;
-    top: 13%;
+    top: 19%;
     width: 85%;
     left: 7.6%;
-    height: 84%;
+    height: 73.5%;
 	display: flex;
   	justify-content: space-around;
 }
@@ -222,7 +220,7 @@ button:focus {
 	text-align: center;
 }
 #instructionBar .instructionBase {
- 	width: 50%;
+ 	width: 60%;
 	position: relative;
 }
 #instructionBar img {
