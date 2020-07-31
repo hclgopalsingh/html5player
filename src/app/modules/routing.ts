@@ -62,6 +62,7 @@ import { TemplateTenComponent } from './EVA/template10/template10.component';
 import { TemplateFourteenComponent } from '../modules/EVA/template14/template14.component';
 import { Template11Componenteva } from '../modules/EVA/template11/template11.component';
 import { Template12ComponentEVA } from './EVA/template12/template12.component';
+import { TemplateSevenComponent } from './EVA/template7/template7.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -181,8 +182,9 @@ export const APP_ROUTES: Routes = [
 			{ path: 'evatemp11', component: Template11Componenteva, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp12', component: Template12ComponentEVA, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp12ext', component: Template12ComponentEVA, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
-			
+			{ path: 'evatemp12ext', component: Template12ComponentEVA, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp7', component: TemplateSevenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp7ext', component: TemplateSevenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
 		]
 	}
 ];
