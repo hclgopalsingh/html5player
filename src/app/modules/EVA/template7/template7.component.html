@@ -28,9 +28,9 @@
             <div class="stageVideo">
                 <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
                 <div class= "filler" *ngFor= "let item of ansArray;let idx = index">
-                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" />
+                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
                     <input type="text" style="font-size: 331%;" disabled = {{item.disabled}} [(ngModel)]= item.value id= {{item.id}}>
-                    <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" />
+                    <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)"/>
                 </div>
             </div>   
         </div> 

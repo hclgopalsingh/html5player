@@ -700,6 +700,21 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	getEndWordGroupings() {return {'2304':true,'2305':true,'2306':true,'2307':true,'2362':true,'2363':true,'2364':true,'2365':true,'2366':true,'2367':true,'2368':true,'2369':true,'2370':true,'2371':true,'2372':true,'2373':true,'2374':true,'2375':true,'2376':true,'2377':true,'2378':true,'2379':true,'2380':true,'2381':true,'2382':true,'2383':true,'2385':true,'2386':true,'2389':true,'2390':true,'2391':true,'2402':true,'2403':true,'2416':true,'2417':true,};}
 
+	onHoverRefresh(item,i){
+		item.refresh = item.refresh_hover
+	}
+
+	onHoverOutRefresh(item,i){
+		item.refresh = item.refresh_original;
+	}
+
+	onHoverLock(item,i){
+		item.unlock = item.unlock_hover
+	}
+
+	onHoverOutLock(item,i){
+		item.unlock = item.unlock_original;
+	}
 
 
 }
