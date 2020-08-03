@@ -27,10 +27,18 @@
             </div>
             <div class="stageVideo">
                 <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
-                <div class= "filler" *ngFor= "let item of ansArray;let idx = index">
-                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" />
-                    <input type="text" style="font-size: 331%;" disabled = {{item.disabled}} [(ngModel)]= item.value id= {{item.id}}>
-                    <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" />
+                <div class="fillerBlock">
+                    <div class= "filler" *ngFor= "let item of ansArray;let idx = index">
+                        <div>
+                            <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" />
+                        </div>
+                        <div>
+                            <input type="text" style="font-size: 331%;" disabled = {{item.disabled}} [(ngModel)]= item.value id= {{item.id}}>
+                        </div>
+                        <div>
+                            <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" />
+                        </div>
+                    </div>
                 </div>
             </div>   
         </div> 
