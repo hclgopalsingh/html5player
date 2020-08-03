@@ -34,8 +34,10 @@
 
 .options div .subOpt {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 13%;
+    font-size: 7em;
+    left: 26%;
+    cursor: pointer;
 }
 
 .options div:hover{
@@ -52,8 +54,8 @@
 }
 .stageVideo {
 	position: absolute;
-    width: 51%;
-	right: 9.6%;
+    width: 54%;
+    right: 12.6%;
 	top: 15.7%;
 	display: flex;
 	justify-content: center;
@@ -98,6 +100,7 @@
 .filler {
 	position: absolute;
     width: 35%!important;
+    display: flex;
 }
 
 #modalTemp17 .stageVideo {
@@ -140,3 +143,4 @@
     justify-content: center;
     align-items: center;
 }
+

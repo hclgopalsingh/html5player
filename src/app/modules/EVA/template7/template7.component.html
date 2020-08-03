@@ -3,35 +3,39 @@
     <div class="" #overlay></div>	
     <div class="container-fluid eva" id="container" style="opacity: 0;;"><!--style="width: 1168px;" -->
         <div class="headerBar">
-            <img class="img-fluid" [src]="common_assets?.header_bar?.location =='content' ? contentgFolderPath + '/' + common_assets?.header_bar?.url : assetsfolderlocation + '/' + common_assets?.header_bar?.url" (load)="checkImgLoaded();" />
+            <img class="img-fluid" [src]="common_assets?.header_bar?.location =='content' ? contentgFolderPath + '/' + common_assets?.header_bar?.url : assetsfolderlocation + '/' + common_assets?.header_bar?.url" />
         </div>
         <div id="bgImage">
-            <img class="img-fluid" [src]="common_assets?.background?.location =='content' ? contentgFolderPath + '/' + common_assets?.background?.url : assetsfolderlocation + '/' + common_assets?.background?.url"
-			(load)="checkImgLoaded();" />  
+            <img class="img-fluid" [src]="common_assets?.background?.location =='content' ? contentgFolderPath + '/' + common_assets?.background?.url : assetsfolderlocation + '/' + common_assets?.background?.url" />  
         </div>
         <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? contentgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
         <div #maincontent>
         <div id="instructionBar">
             <div class="instructionBase">
             <img class="img-fluid" [src]="common_assets?.instruction_bg
-                ?.location =='content' ? contentgFolderPath + '/' + common_assets?.instruction_bg?.url : assetsfolderlocation + '/' + common_assets?.instruction_bg?.url" (load)="checkImgLoaded();" />
+                ?.location =='content' ? contentgFolderPath + '/' + common_assets?.instruction_bg?.url : assetsfolderlocation + '/' + common_assets?.instruction_bg?.url"/>
                  <span class="instructionText">{{instructiontext}}</span>
             </div>
         </div>
         <div id="optionsBlock" #optionsBlock >
             <div class="options" #optionRef>
                 <div *ngFor= "let item of myoption;let idx = index" (mouseenter)="playOptionHover(item,idx)">
-                    <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="checkAnswer(item)"  (load)="checkImgLoaded();">
-                    <img class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"  (click)="checkAnswer(item)" (load)="checkImgLoaded();">
+                    <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="clickAkshar(item)" >
+                    <span class="subOpt" (click)="clickAkshar(item)">{{item.value}}</span>
+                    <!-- <img class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"  (click)="clickAkshar(item)" (load)="checkImgLoaded();"> -->
                 </div>
             </div>
             <div class="stageVideo">
-                <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
-                <img _ngcontent-c7="" class="img-fluid filler" [src]="common_assets?.penpaperContent?.location=='content' ? contentgFolderPath + '/' + common_assets?.penpaperContent?.url : assetsfolderlocation + '/' + common_assets?.penpaperContent?.url" (load)="checkImgLoaded();">
+                <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
+                <div class= "filler" *ngFor= "let item of ansArray;let idx = index">
+                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" />
+                    <input type="text" style="font-size: 331%;" disabled = {{item.disabled}} [(ngModel)]= item.value id= {{item.id}}>
+                    <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" />
+                </div>
             </div>   
         </div> 
         <div id="spkrBtn" class="speakerBtn">
-            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" (load)="checkImgLoaded();" title="स्पीकर"/>
+            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" title="स्पीकर"/>
             <div class="waveAnimation" #sprite>
                 <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
                 <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?contentgFolderPath + '/' +speaker?.wave2.url: assetsfolderlocation + '/'+ speaker?.wave2.url">
@@ -47,7 +51,7 @@
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
                     <div class="stageVideo">
-                        <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" (load)="checkImgLoaded();" />
+                        <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
                         <video id="mainVideo" #videoStageonpopUp>
                             <source src="">
                           </video>

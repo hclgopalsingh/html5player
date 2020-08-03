@@ -147,6 +147,14 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	LastquestimeStart:boolean = false;
 	showAnswerTimer :any;
 
+
+	//new vars
+	firstWord:string = '';
+	seconWord:string = '';
+	thirdWord:string = '';
+	ansArray:any;
+
+
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
 
@@ -171,6 +179,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.isLastQues = this.appModel.isLastSection;			
 			this.lastQuestionCheck = this.common_assets.ques_control.isLastQues;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+			this.ansArray = fetchedData.ansArray;
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			this.common_assets.ques_control.blinkingStatus = false;
 			this.common_assets.ques_control.uttar_dikhayein = this.common_assets.ques_control.uttar_dikhayein_disable;
@@ -262,86 +271,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	// 	}
 	// }
 
-	checkAnswer(option) {
-		this.popupclosedinRightWrongAns = false;
-		this.stopAllSounds("clicked"); 
-		if (option.id == this.feedback.correct_answer) {
-			clearTimeout(this.wrongTimer);
-			this.correctOpt = option;
-			this.attemptType = "manual";
-			this.appModel.stopAllTimer();
-			this.videoBase = option.videosrc;
-			this.videoStageonpopUp.nativeElement.src = this.videoBase.location == "content" ? this.contentgFolderPath + "/" + this.videoBase.url : this.assetsfolderlocation + "/" + this.videoBase.url;
-			this.popupIcon = this.popupAssets.right_icon.url;
-			this.popupIconLocation = this.popupAssets.right_icon.location;
-			this.ifRightAns = true;
-			option.image = option.image_original;
-			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-                document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
-            }
-			setTimeout(() => {
-				if (this.rightFeedback && this.rightFeedback.nativeElement) {
-					this.clapSound.nativeElement.play();
-					this.clapTimer=	setTimeout(() => {
-						this.clapSound.nativeElement.pause();
-						this.clapSound.nativeElement.currentTime = 0;
-						let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-						ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-						if (!this.popupclosedinRightWrongAns) {
-							this.rightFeedback.nativeElement.play();
-							this.videoStageonpopUp.nativeElement.play();
-						} else {
-							this.Sharedservice.setShowAnsEnabled(true);
-						}
-					}, 2000)
-				}
-				//disable option and question on right attempt
-				this.maincontent.nativeElement.className = "disableDiv";			
-				this.rightFeedback.nativeElement.onended = () => {
-					this.rightTimer = setTimeout(() => {
-						this.closePopup('answerPopup');
-						//this.Sharedservice.setShowAnsEnabled(true);
-					}, 10000)
-					//new code
-					setTimeout(() => {
-						this.attemptType = "manual";
-						//disable option and question on right attempt
-					}, 200)
-				}
-			})
-
-		} else {
-			this.wrongCount++;
-			clearTimeout(this.wrongTimer);
-			this.idArray = [];
-			for (let i of this.myoption) {
-				this.idArray.push(i.id);
-			}
-			this.popUpObj = option;
-			this.ifWrongAns = true;
-			this.wrongImgOption = option  //setting wrong image options
-			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
-			ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-			option.image = option.image_original;
-			this.videoBase = option.videosrc;
-			this.popupIcon = this.popupAssets.wrong_icon.url;
-			this.popupIconLocation = this.popupAssets.wrong_icon.location;
-			this.videoStageonpopUp.nativeElement.src = this.videoBase.location == "content" ? this.contentgFolderPath + "/" + this.videoBase.url : this.assetsfolderlocation + "/" + this.videoBase.url;
-			setTimeout(() => {
-				if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-					this.wrongFeedback.nativeElement.play();
-				}
-				this.videoStageonpopUp.nativeElement.play();
-				this.wrongFeedback.nativeElement.onended = () => {
-					this.wrongTimer = setTimeout(() => {
-						this.closePopup('answerPopup');
-					}, 10000);
-				}
-
-			}, 20);
-			this.doRandomize(this.myoption);
-		}
-	}
 	playSpeaker() {
 		this.stopAllSounds();
 		this.enableAllOptions();
@@ -359,23 +288,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
-	playVideo(option, index) {
-		this.videoPlayed = true;
-		this.myoption[index].play_button_normal = this.myoption[index].play_button_selected;
-		this.videoStage.nativeElement.style.opacity = 1;
-		this.videoStage.nativeElement.src = this.myoption[index].videosrc.location == "content" ? this.contentgFolderPath + "/" + this.myoption[index].videosrc.url : this.assetsfolderlocation + "/" + this.myoption[index].videosrc.url;
-		this.videoStage.nativeElement.play();
-		let optionBlock = document.getElementById("optionsBlock") as HTMLElement;
-		optionBlock.style.pointerEvents = "none";
-		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
-		this.videoStage.nativeElement.onended = () => {
-			this.videoPlayed = false;
-			this.videoStage.nativeElement.style.opacity = 0;
-			this.myoption[index].play_button_normal = this.myoption[index].play_button_original;
-			optionBlock.style.pointerEvents = "";
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-		}
-	}
 
 	doRandomize(array) {
 		var currentIndex = array.length, temporaryValue, randomIndex;
@@ -470,6 +382,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 
 	ngOnInit() {
+		// document.getElementById("firstWord").focus();
 		this.Sharedservice.setLastQuesAageyBadheStatus(true); 
 		this.attemptType = "";
 		this.setTemplateType();
@@ -571,24 +484,29 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
     }
 	
-	checkImgLoaded() {
-		if (!this.LoadFlag) {
-			this.noOfImgsLoaded++;
-			if (this.noOfImgsLoaded >= this.noOfImgs) {
-				this.appModel.setLoader(false);
-				this.Sharedservice.setShowAnsEnabled(false);
-				//this.Sharedservice.setShowAnsEnabled(false);
-				document.getElementById("container").style.opacity = "1";
-				clearTimeout(this.loaderTimer);
-				this.LoadFlag = true;
-				// this.optionsBlock.nativeElement.style.opacity="1";
-				// document.getElementById("footerNavBlock").style.opacity="1";
-				this.checkforQVO();
-				// if(this.narrator_voice && this.narrator_voice.nativeElement){
-				// 	this.narrator_voice.nativeElement.play();
-				// }
-			}
-		}
+	// checkImgLoaded() {
+	// 	if (!this.LoadFlag) {
+	// 		this.noOfImgsLoaded++;
+	// 		if (this.noOfImgsLoaded >= this.noOfImgs) {
+	// 			this.appModel.setLoader(false);
+	// 			this.Sharedservice.setShowAnsEnabled(false);
+	// 			//this.Sharedservice.setShowAnsEnabled(false);
+	// 			document.getElementById("container").style.opacity = "1";
+	// 			clearTimeout(this.loaderTimer);
+	// 			this.LoadFlag = true;
+	// 			// this.optionsBlock.nativeElement.style.opacity="1";
+	// 			// document.getElementById("footerNavBlock").style.opacity="1";
+	// 			this.checkforQVO();
+	// 			// if(this.narrator_voice && this.narrator_voice.nativeElement){
+	// 			// 	this.narrator_voice.nativeElement.play();
+	// 			// }
+	// 		}
+	// 	}
+	// }
+
+	ngAfterViewInit(){
+		this.appModel.setLoader(false);
+		this.checkforQVO();
 	}
 
 	checkforQVO() {
@@ -600,11 +518,13 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			// let nxtBtndiv=(document.getElementsByClassName("nextBtn")[0] as HTMLElement);
 			// nxtBtndiv.classList.value ="img-fluid nextBtn disableBtn";
 			this.narrator_voice.nativeElement.play();
+			document.getElementById("container").style.opacity = "1";
 			//this.Sharedservice.setVoplayingStatus(true); 
 			this.narrator_voice.nativeElement.onended = () => {
 				//this.appModel.handlePostVOActivity(false);
 				//   nxtBtndiv.classList.value="img-fluid nextBtn";
 				//this.Sharedservice.setVoplayingStatus(false); 
+				document.getElementById(this.ansArray[0].id).focus();
 				this.optionsBlock.nativeElement.classList = "";
 				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			}
@@ -719,5 +639,75 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 	}
+
+	clickAkshar(aksharObj){
+		console.log("this.firstWord",this.firstWord,this.firstWord.length)
+		let activefieldId = this.ansArray.findIndex((item) => (!item.disabled));
+		this.ansArray[activefieldId].value = this.ansArray[activefieldId].value + aksharObj.value
+		document.getElementById(this.ansArray[activefieldId].id).focus();
+		let wordArr = this.stringToChars({'word':this.ansArray[activefieldId].value})
+		console.log(this.stringToChars({'word':this.ansArray[activefieldId].value}));
+		if(wordArr.length >= 6){
+			//disable options
+			document.getElementById(this.ansArray[activefieldId].id).blur();
+			this.ansArray[activefieldId].disabled = true
+		}
+	}
+
+	returnActiveobj(){
+		this.ansArray.forEach((element,ind) => {
+			if(!element.disabled){
+				return ind
+			}
+		});
+	}
+
+	// to find the hindi word Length ignoring the matras
+	stringToChars(args) {
+		var word = args.word;
+		var chars = [];
+		var endings = this.getEndWordGroupings();
+		var incluster = false;
+		var cluster = '';
+		var whitespace = new RegExp("\\s+");
+		for(var i = word.length - 1; i >= 0; i--) {
+			var character = word.charAt(i);
+			var charactercode = word.charCodeAt(i);
+			
+			if(incluster) {
+				if(whitespace.test(character)) {
+					incluster = false;
+					chars.push(cluster);
+					cluster = '';
+				} else if(endings[charactercode]) {
+					chars.push(cluster);
+					cluster = character;
+				} else {
+					incluster = false;
+					cluster = character + cluster;
+					chars.push(cluster);
+					cluster = '';
+				}
+			} else if(endings[charactercode]) {
+				incluster = true;
+				cluster = character;
+			} else if(whitespace.test(character)) {
+				incluster = false;
+				chars.push(cluster);
+				cluster = '';
+			} else {
+				chars.push(character);
+			}
+		}
+		if(cluster.length > 0) {
+			chars.push(cluster);
+		}
+		return chars.reverse();
+	}
+
+	getEndWordGroupings() {return {'2304':true,'2305':true,'2306':true,'2307':true,'2362':true,'2363':true,'2364':true,'2365':true,'2366':true,'2367':true,'2368':true,'2369':true,'2370':true,'2371':true,'2372':true,'2373':true,'2374':true,'2375':true,'2376':true,'2377':true,'2378':true,'2379':true,'2380':true,'2381':true,'2382':true,'2383':true,'2385':true,'2386':true,'2389':true,'2390':true,'2391':true,'2402':true,'2403':true,'2416':true,'2417':true,};}
+
+
+
 }
 

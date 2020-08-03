@@ -19,9 +19,13 @@ import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspe
 import { TemplateFourteenComponent } from './template14/template14.component';
 import { ConfirmationComponent } from '../commonmodules/confirmation/confirmation.component';
 import { TemplateSevenComponent } from './template7/template7.component';
+import { FormsModule } from '@angular/forms';
+
+
 @NgModule({
   imports: [
-    CommonModule,
+	CommonModule,
+	FormsModule,
     DragulaModule.forRoot()
   ],
   declarations: [
