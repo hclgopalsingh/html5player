@@ -654,13 +654,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
-	returnActiveobj(){
-		this.ansArray.forEach((element,ind) => {
-			if(!element.disabled){
-				return ind
-			}
-		});
-	}
 
 	// to find the hindi word Length ignoring the matras
 	stringToChars(args) {
