@@ -18,19 +18,27 @@
             </div>
         </div>
         <div id="optionsBlock" #optionsBlock >
-            <div class="options" #optionRef>
+            <div class="options" #optionRef [ngClass]="{'disableBtn' : disableOption }">
                 <div *ngFor= "let item of myoption;let idx = index" (mouseenter)="playOptionHover(item,idx)">
                     <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="clickAkshar(item)" >
-                    <span class="subOpt" (click)="clickAkshar(item)">{{item.value}}</span>
+                    <span class="subOpt" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="clickAkshar(item)" >{{item.value}}</span>
                     <!-- <img class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"  (click)="clickAkshar(item)" (load)="checkImgLoaded();"> -->
                 </div>
             </div>
             <div class="stageVideo">
                 <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
-                <div class= "filler" *ngFor= "let item of ansArray;let idx = index">
-                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
-                    <input type="text" style="font-size: 331%;" disabled = {{item.disabled}} [(ngModel)]= item.value id= {{item.id}}>
-                    <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)"/>
+                <div class="fillerBlock">
+                    <div class= "filler" *ngFor= "let item of ansArray;let idx = index" [ngClass]="{'disableBtn' : item.disabled }">
+                        <div (click)="refreshClicked(item,idx)">
+                            <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
+                        </div>
+                        <div Class="disableBtn">
+                            <input type="text" style="font-size: 331%;" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" autofocus>
+                        </div>
+                        <div (click)="lockClicked(item,idx)">
+                            <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                        </div>
+                    </div>
                 </div>
             </div>   
         </div> 

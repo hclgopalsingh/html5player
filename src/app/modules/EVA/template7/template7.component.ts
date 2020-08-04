@@ -147,14 +147,14 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	LastquestimeStart:boolean = false;
 	showAnswerTimer :any;
 
-
 	//new vars
 	firstWord:string = '';
 	seconWord:string = '';
 	thirdWord:string = '';
 	ansArray:any;
-
-
+	disableOption:boolean = false;
+	activeId:any =0;
+	autofocus:boolean = true;
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
 
@@ -483,26 +483,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
           }
 
     }
-	
-	// checkImgLoaded() {
-	// 	if (!this.LoadFlag) {
-	// 		this.noOfImgsLoaded++;
-	// 		if (this.noOfImgsLoaded >= this.noOfImgs) {
-	// 			this.appModel.setLoader(false);
-	// 			this.Sharedservice.setShowAnsEnabled(false);
-	// 			//this.Sharedservice.setShowAnsEnabled(false);
-	// 			document.getElementById("container").style.opacity = "1";
-	// 			clearTimeout(this.loaderTimer);
-	// 			this.LoadFlag = true;
-	// 			// this.optionsBlock.nativeElement.style.opacity="1";
-	// 			// document.getElementById("footerNavBlock").style.opacity="1";
-	// 			this.checkforQVO();
-	// 			// if(this.narrator_voice && this.narrator_voice.nativeElement){
-	// 			// 	this.narrator_voice.nativeElement.play();
-	// 			// }
-	// 		}
-	// 	}
-	// }
 
 	ngAfterViewInit(){
 		this.appModel.setLoader(false);
@@ -641,16 +621,17 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 	clickAkshar(aksharObj){
-		console.log("this.firstWord",this.firstWord,this.firstWord.length)
-		let activefieldId = this.ansArray.findIndex((item) => (!item.disabled));
-		this.ansArray[activefieldId].value = this.ansArray[activefieldId].value + aksharObj.value
-		document.getElementById(this.ansArray[activefieldId].id).focus();
-		let wordArr = this.stringToChars({'word':this.ansArray[activefieldId].value})
-		console.log(this.stringToChars({'word':this.ansArray[activefieldId].value}));
+		// let activefieldId = this.ansArray.findIndex((item) => (!item.disabled));
+		this.ansArray[this.activeId].value = this.ansArray[this.activeId].value + aksharObj.value
+		document.getElementById(this.ansArray[this.activeId].id).focus();
+		let wordArr = this.stringToChars({'word':this.ansArray[this.activeId].value})
+		console.log(this.stringToChars({'word':this.ansArray[this.activeId].value}));
 		if(wordArr.length >= 6){
 			//disable options
-			document.getElementById(this.ansArray[activefieldId].id).blur();
-			this.ansArray[activefieldId].disabled = true
+			this.autofocus = false;
+			document.getElementById(this.ansArray[this.activeId].id).blur();
+			this.ansArray[this.activeId].disable_ip = true;
+			this.disableOption = true;
 		}
 	}
 
@@ -715,6 +696,34 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	onHoverOutLock(item,i){
 		item.unlock = item.unlock_original;
 	}
+
+	refreshClicked(item,i){
+		item.value = "";
+		this.disableOption = false
+		this.autofocus = true;
+		document.getElementById(this.ansArray[this.activeId].id).focus();
+	}
+
+	lockClicked(item,i){
+		item.unlock = item.lock;
+		item.disabled = true;
+		if(this.activeId < 2){
+			this.activeId = this.activeId + 1;
+			this.ansArray[this.activeId].disabled = false;
+			document.getElementById(this.ansArray[this.activeId].id).focus();
+			this.autofocus =true ;
+			}
+			this.disableOption = false
+	}
+
+	focusAuto(){
+		console.log("auto focusssing")
+		if (this.autofocus){
+			document.getElementById(this.ansArray[this.activeId].id).focus();		
+		}
+	}
+
+	
 
 
 }
