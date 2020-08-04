@@ -29,13 +29,14 @@
                 <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
                 <div class="fillerBlock">
                     <div class= "filler" *ngFor= "let item of ansArray;let idx = index" [ngClass]="{'disableBtn' : item.disabled }">
-                        <div (click)="refreshClicked(item,idx)">
+                        <div class="refreshBlock" (click)="refreshClicked(item,idx)">
                             <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
                         </div>
-                        <div Class="disableBtn">
-                            <input type="text" style="font-size: 331%;" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" autofocus>
+                        <div class="inputField disableBtn">
+                            <img class="img-fluid"  [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                            <input type="text" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" autofocus>
                         </div>
-                        <div (click)="lockClicked(item,idx)">
+                        <div class="lockBlock" (click)="lockClicked(item,idx)">
                             <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
                         </div>
                     </div>

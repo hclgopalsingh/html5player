@@ -81,10 +81,10 @@
 	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
 }
 #container .speakerBtn{
-	width:7%;
-	height: 12%;
-	position:absolute;
-	top:69.2%;
+	width:5%;
+    /* height: 12%; */
+    position: absolute;
+    top: 72.2%;
 	right: 1.8%;
 }
 
@@ -109,7 +109,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-content: center;
 }
 .filler {
 	/* position: absolute; */
@@ -117,8 +117,31 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 1.5% 0;
 }
-
+.refreshBlock,
+.lockBlock{
+    width: 11%;
+    cursor: pointer;
+}
+.inputField{
+    width: 76%;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    position: relative; 
+}
+.inputField input{
+    position: absolute;
+    width: 96%;
+    border: none;
+    font-family: Kruti Dev!important;
+    font-weight: normal;
+    font-size: 2.5vmax;
+}
+input:focus {
+    outline: none;
+}
 #modalTemp17 .stageVideo {
     position: absolute;
     width: 48%;
