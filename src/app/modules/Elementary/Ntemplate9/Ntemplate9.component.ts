@@ -1,22 +1,20 @@
 import { Component, OnInit, HostListener, ViewChild,OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
-
 
 declare var $: any;
 
 @Component({
-  selector: 'ntemp1',
-  templateUrl: '../view/layout/Ntemplate9.component.html',
-  styleUrls: ['../view/css/Ntemplate9.component.css', '../view/css/bootstrap.min.css'],
-
+  selector: 'app-ntemplate9',
+  templateUrl: './Ntemplate9.component.html',
+  styleUrls: ['./Ntemplate9.component.css','../../../view/css/bootstrap.min.css']
 })
+export class Ntemplate9Component implements OnInit {
 
-export class Ntemplate9 implements OnInit {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService,private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -797,6 +795,5 @@ ngAfterViewChecked() {
     }
 
   }
+
 }
-
-

@@ -10,8 +10,8 @@ declare var $: any;
 
 @Component({
   selector: 'ntemp1',
-  templateUrl: './ntemplate1.component.html',
-  styleUrls: ['./ntemplate1.component.css', '../../../view/css/bootstrap.min.css']
+  templateUrl: './Ntemplate1.component.html',
+  styleUrls: ['./Ntemplate1.component.css', '../../../view/css/bootstrap.min.css']
 })
 export class Ntemplate1Component implements OnInit {
 

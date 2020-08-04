@@ -39,7 +39,6 @@ import { Ntemplate2 } from './controller/Ntemplate2.component';
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate4 } from './controller/Ntemplate4.component';
-import { Ntemplate9 } from './controller/Ntemplate9.component';
 import { Ntemplate6 } from './controller/Ntemplate6.component';
 import { Ntemplate7 } from './controller/Ntemplate7.component';
 import { Ntemplate5 } from './modules/Elementary/Ntemplate5/Ntemplate5.component';
@@ -81,7 +80,8 @@ import { Template4Component } from './modules/EVA/template4/template4.component'
 import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
 import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
 import { Template11Componenteva } from './modules/EVA/template11/template11.component';
-import { Ntemplate1Component } from './modules/Elementary/ntemplate1/ntemplate1.component';
+import { Ntemplate1Component } from './modules/Elementary/Ntemplate1/Ntemplate1.component';
+import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.component';
 
 
 @NgModule({
@@ -117,7 +117,6 @@ import { Ntemplate1Component } from './modules/Elementary/ntemplate1/ntemplate1.
 		Ntemplate8,
 		Ntemplate3,
 		Ntemplate4,
-		Ntemplate9,
 		Ntemplate6,
 		Ntemplate7,
 		Ntemplate18,
@@ -155,7 +154,8 @@ import { Ntemplate1Component } from './modules/Elementary/ntemplate1/ntemplate1.
 		NtemplateMap,
 		ShowanswerComponent,
 		Template11Componenteva,
-		Ntemplate1Component
+		Ntemplate1Component,
+		Ntemplate9Component
 	],
 	imports: [
 		BrowserModule,
