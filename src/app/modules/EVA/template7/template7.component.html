@@ -33,10 +33,11 @@
                             <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
                         </div>
                         <div Class="disableBtn">
-                            <input type="text" style="font-size: 331%;" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" autofocus>
+                            <input type="text" style="font-size: 331%;" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
                         </div>
-                        <div (click)="lockClicked(item,idx)">
-                            <img class="img-fluid"  [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                        <div>
+                            <img *ngIf="item.locked" class="img-fluid" [src]="item?.lock?.location=='content' ? contentgFolderPath + '/' + item?.lock?.url : assetsfolderlocation + '/' + item?.lock?.url"/>
+                            <img *ngIf="!item.locked" class="img-fluid" [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" (click)="lockClicked(item,idx)" />
                         </div>
                     </div>
                 </div>

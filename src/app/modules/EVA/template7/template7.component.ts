@@ -6,6 +6,7 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-template7',
   templateUrl: './template7.component.html',
@@ -705,15 +706,20 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 	lockClicked(item,i){
-		item.unlock = item.lock;
+		item.locked = true;
 		item.disabled = true;
 		if(this.activeId < 2){
 			this.activeId = this.activeId + 1;
 			this.ansArray[this.activeId].disabled = false;
 			document.getElementById(this.ansArray[this.activeId].id).focus();
 			this.autofocus =true ;
-			}
 			this.disableOption = false
+			}
+			else{
+				this.disableOption = true;
+				this.autofocus =false ;
+				document.getElementById(this.ansArray[this.activeId].id).blur();
+			}
 	}
 
 	focusAuto(){
