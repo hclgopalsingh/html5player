@@ -27,7 +27,7 @@
         <img class="img-fluid" [src]="quesCtrl?.footer?.location=='content' ? containgFolderPath + '/' + quesCtrl?.footer?.url : assetsPath + '/' + quesCtrl?.footer?.url">    
         <img class="img-fluid prevBtn" [src]="quesCtrl?.peechey_jayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.peechey_jayein?.url : assetsPath + '/' + quesCtrl?.peechey_jayein?.url" (click)="previous()"  [ngClass]="{'disableFooterBtn': isFirstQuestion || disablePrev==false}"  (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()" title="पीछे जाएँ">
         <img class="img-fluid ansBtn" [src]="quesCtrl?.uttar_dikhayein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.uttar_dikhayein?.url : assetsPath + '/' + quesCtrl?.uttar_dikhayein?.url"   title="{{UttarDikhayeinTooltip}}" 
-        [ngStyle]="!EnableShowAnswer && {'cursor': 'default'}"  (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayeinEVA()" (mouseleave)="houtUttarDikhayeinEVA()">
+        [ngClass]="{'disableFooterBtn': !EnableShowAnswer}"  (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayeinEVA()" (mouseleave)="houtUttarDikhayeinEVA()">
         <div class="navQuesBlock" #quesBlockChild>
         <div *ngFor="let quesTab of quesTabs; let idx = index">
           <img class="img-fluid" [src]="quesTab?.ques_tab?.tabcircle?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabcircle?.url : assetsPath + '/' + quesTab?.ques_tab?.tabcircle?.url" >
@@ -35,7 +35,7 @@
         </div>
         <img *ngIf="quesCtrl?.blinkingStatus" class="img-fluid nextBtn blink" [src]="quesCtrl?.aagey_badhein_blink?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein_blink?.url : assetsPath + '/' + quesCtrl?.aagey_badhein_blink?.url" (click)="next()" title="आगे बढ़ें"  >
         <img #nextBtn class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein?.url : assetsPath + '/' + quesCtrl?.aagey_badhein?.url" [ngClass]="{'disableFooterBtn': isLastQues}" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()" title="आगे बढ़ें" >
-        <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoveronSubmitBtn()" (mouseleave) = "hleaveSubmitBtn()"   [ngStyle]="!EnableSubmitAnswer && {'cursor': 'default'}" (click)="confirmActionEVA('submitAnswer')" title="{{SubmitBtnTooltip}}" >
+        <img class="img-fluid submitBtn" [src]="quesCtrl?.submit_btn?.location=='content' ? containgFolderPath + '/' + quesCtrl?.submit_btn?.url : assetsPath + '/' + quesCtrl?.submit_btn?.url" (mousemove)="hoveronSubmitBtn()" (mouseleave) = "hleaveSubmitBtn()" [ngClass]="{'disableFooterBtn': !EnableSubmitAnswer}" (click)="confirmActionEVA('submitAnswer')" title="{{SubmitBtnTooltip}}" >
     </div>
   </div>
 </div>
