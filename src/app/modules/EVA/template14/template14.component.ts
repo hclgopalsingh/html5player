@@ -1,11 +1,8 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Subject, Observable, Subscription } from 'rxjs'
-import 'jquery';
+import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router';
 import { SharedserviceService } from '../../../services/sharedservice.service';
-
-declare var $: any;
 
 @Component({
   selector: 'app-template14',
@@ -45,7 +42,6 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
 
-  //remove unused-------------------------------------
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
@@ -53,12 +49,7 @@ export class TemplateFourteenComponent implements OnInit {
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('rightFeedbackVO') rightFeedbackVO: any
   @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
-  @ViewChild('mySelect') MySelect: any;
-  @ViewChild('MyForm') MyFormVar: any;
-  @ViewChild('imgRef') imgRef: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  @ViewChild('infoModalRef') infoModalRef: any;
-  @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('monthDates') monthDates: any;
   @ViewChild('monthDatesinPopup') monthDatesinPopup: any;
   @ViewChild('footerNavBlock') footerNavBlock: any;
@@ -71,7 +62,6 @@ export class TemplateFourteenComponent implements OnInit {
   @ViewChild('rightFeedback') rightFeedback: any;
   @ViewChild('showAnswerVideo') showAnswerVideo: any;
 
-  //remove unused
   LastquestimeStart: boolean = false;
   videoonshowAnspopUp: any;
   showAnswerRef: any;
@@ -163,14 +153,7 @@ export class TemplateFourteenComponent implements OnInit {
     this.checkforQVO();
   }
 
-  //remove unused
   templatevolume(vol, obj) {
-    if (obj.quesVORef && obj.quesVORef.nativeElement) {
-      obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.instructionVO && obj.instructionVO.nativeElement) {
-      obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
     if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
       obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
@@ -231,64 +214,7 @@ export class TemplateFourteenComponent implements OnInit {
     this.appModel.functionone(this.templatevolume, this);//start end
     this.containgFolderPath = this.getBasePath();
     this.stopAllSounds()
-    // if (this.rightFeedbackVO != undefined || this.wrongFeedbackVO != undefined) {
-    //   this.rightFeedbackVO.nativeElement.pause();
-    //   this.rightFeedbackVO.nativeElement.currentTime = 0;
-    //   this.rightFeedbackVO.nativeElement.src = "";
-    //   this.wrongFeedbackVO.nativeElement.src = "";
-    //   this.wrongFeedbackVO.nativeElement.pause();
-    //   this.wrongFeedbackVO.nativeElement.currentTime = 0;
-    // }
-
-    //this.setData();
-
-
-
-
-    //remove unused code
-    // this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
-    //   if (mode == "manual") {
-    //     //show modal for manual
-    //     this.appModel.notifyUserAction();
-    //     if (this.popupRef && this.popupRef.nativeElement) {
-    //       $("#instructionBar").addClass("disable_div");
-    //       // this.popupRef.nativeElement.classList = "displayPopup modal";
-    //       console.log("No-1");
-
-    //       //this.setFeedbackAudio();
-    //     }
-    //   } else if (mode == "auto") {
-    //     this.checked = true;
-    //     //show modal of auto
-    //     this.appModel.notifyUserAction();
-    //     if (this.popupRef && this.popupRef.nativeElement) {
-    //       $("#instructionBar").addClass("disable_div");
-    //       //this.popupRef.nativeElement.classList = "displayPopup modal";
-    //       console.log("No-2");
-    //       this.showAnswerFeedback();
-    //       this.styleHeaderPopup = this.feedbackObj.style_header;
-    //       this.styleBodyPopup = this.feedbackObj.style_body;
-    //       this.confirmModalRef.nativeElement.classList = "modal";
-    //       this.confirmSubmitRef.nativeElement.classList = "modal";
-    //       this.popupRef.nativeElement.classList = "displayPopup modal";
-    //       //this.grayOverTimer();
-    //       //this.showAnswer();		 
-    //       this.feedbackPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.location == "content" ? this.containgFolderPath + "/" + this.commonAssets.showAnsAudio.url : this.assetsPath + "/" + this.commonAssets.showAnsAudio.url;
-    //       this.feedbackPopupAudio.nativeElement.load();
-    //       this.feedbackPopupAudio.nativeElement.play();
-    //       this.feedbackPopupAudio.nativeElement.onended = () => {
-    //         //this.closeModal();
-
-    //       }
-    //       $("#optionsBlock").css("opacity", "0.3");
-    //       $("#instructionBar").css("opacity", "0.3");
-    //       //this.appModel.handlePostVOActivity(true);
-    //       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-    //       $("#instructionBar").addClass("disable_div");
-    //     }
-    //   }
-    // })
-
+    
     this.appModel.getConfirmationPopup().subscribe((val) => {
       if (val == "uttarDikhayein") {
         this.appModel.stopAllTimer();
@@ -886,15 +812,11 @@ export class TemplateFourteenComponent implements OnInit {
     }
   }
 
-  // showAnswerFeedback() {
-  //   this.setCalender("showAnspopup");
-  // }
-
   onclickOK() {
     this.closeModal();
   }
 
-// on answer pop up close event
+  // on answer pop up close event
   closeModal() {
     clearTimeout(this.wrongTimer);
     clearTimeout(this.rightTimer);
@@ -1282,6 +1204,7 @@ export class TemplateFourteenComponent implements OnInit {
     }
   }
 
+  //clear timers stop sounds on destroy
   ngOnDestroy() {
     clearTimeout(this.rightTimer);
     clearTimeout(this.wrongTimer);
