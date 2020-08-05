@@ -528,13 +528,15 @@ button:focus {
     width: 85%;
   }
 
-#confirmModal .modal-title {
+/*#confirmModal .modal-title {
   margin-left: 3%;
-}
+}*/
 
 #confirmModal .close {
   /* width: 5%; */
   margin: 0 1.6% 0 auto;
+  width: 5%!important;
+  height: auto!important;
 }
 
 #confirmModal .modal-footer {
@@ -628,14 +630,15 @@ button:focus {
 }
 
 .modal-title {
-  margin-left: 1.5%;
-  height: 80%;
+  margin-left: 0.3%;
+  width: 40%!important;
+  height: auto!important;
 }
 
 .close {
-  width: auto;
-  height: 75%;
-  margin-right: 0%;
+  width: 4%;
+  height: auto;
+  margin-right: 0.5%;
   margin-top: -.1%;
   -webkit-appearance: inherit !important;
   cursor: pointer;
@@ -643,10 +646,10 @@ button:focus {
 }
 
 @media (min-width: 1366px) {
-  .close {
+  /*.close {
     height: 95%;
     margin-right: .3%;
-  }
+  }*/
 }
 
 #modalTemp5 .modal-header .close {
@@ -864,8 +867,9 @@ html [type=button] {
   right: 1%;
 }
 
+
 .videoMainContainer{
-  width:100%;
+  width:99.9%;
   height:auto;
   position:absolute;
   top:0;

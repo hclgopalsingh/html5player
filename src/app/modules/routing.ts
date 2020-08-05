@@ -24,7 +24,7 @@ import { Ntemplate18 } from '../controller/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../controller/Ntemplate8.component';
 import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
-import { Ntemplate1 } from '../controller/Ntemplate1.component';
+import { Ntemplate1Component } from '../modules/Elementary/ntemplate1/ntemplate1.component';
 import {Ntemplate4} from '../controller/Ntemplate4.component';
 import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
@@ -116,8 +116,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp9ext', component: Ntemplate9, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp3', component: Ntemplate3, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp3ext', component: Ntemplate3, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp1', component: Ntemplate1, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp1ext', component: Ntemplate1, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp1', component: Ntemplate1Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp1ext', component: Ntemplate1Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp4', component: Ntemplate4, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp4ext', component: Ntemplate4, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp6', component: Ntemplate6, runGuardsAndResolvers: 'always' },
