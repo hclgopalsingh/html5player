@@ -46,12 +46,14 @@ button:focus {
 .quesBase5:first-child,
 .quesBase6:first-child{
 	left: 0;
+	z-index: 101;
 }
 .quesBase3:last-child,
 .quesBase4:last-child,
 .quesBase5:last-child,
 .quesBase6:last-child{
 	right: 0;
+	z-index: 101;
 }
 .quesBase5{
 	width: 14.65%;
