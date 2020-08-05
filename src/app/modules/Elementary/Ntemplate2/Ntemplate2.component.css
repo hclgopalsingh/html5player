@@ -640,3 +640,6 @@ html [type=button] {
 .fullWidth{
 	width:100%;
 }
+.modal-dialog .options div{
+	position: absolute;
+}

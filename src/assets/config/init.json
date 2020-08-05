@@ -2,7 +2,7 @@
 	"environment": {
 		"standalone": {
 			"enabled": true,
-			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8080/contentNT-2/\"}]}"
+			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8088/contentNT-2/\"}]}"
 		},
 		
 		"lms": {
