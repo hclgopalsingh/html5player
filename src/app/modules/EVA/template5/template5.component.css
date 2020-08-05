@@ -1,0 +1,185 @@
+.parentBlock {
+    position: absolute;
+    top: 13%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    height: 16%;
+}
+.answerBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28%;
+}
+.answerBlock img:first-child {
+    width: 83%;
+}
+.answerBlock img:nth-child(2) {
+    position: absolute;
+    width: 20%;
+}
+.keypadParent {
+    position: absolute;
+    top: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 55%;
+}
+.keypadBlock {
+    position: relative;
+    width: 30.5%;
+    height: auto;
+}
+.keypadBlock img {
+    width: 100%;
+}
+.keyContainer {
+	position: absolute;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23%;
+    height: 23%;
+	cursor: pointer;
+}
+.keyContainer:hover{
+	transition: transform .2s;
+	transform: scale(1.1);
+}
+.keyContainer img:first-child {
+    width: 84%;
+    z-index:2;
+}
+.keyContainer img:nth-child(2) {
+    position: absolute;
+    width: 42%;
+    z-index:3;
+}
+.keyContainer img:nth-child(3) {
+    position: absolute;
+    width: 87%;
+    top: 3.3%;
+    left: 6%;
+    z-index: 1;
+}
+.keyContainer#key1 {
+    top: 3.3%;
+    left: 6%;
+}
+.keyContainer#key2 {
+    left: 28%;
+    top: 3.3%;
+}
+.keyContainer#key3 {
+    left: 50%;
+    top: 3.3%;
+}
+.keyContainer#key4 {
+    left: 72%;
+    top: 3.3%;
+}
+.keyContainer#key5 {
+    left: 6%;
+    top: 27%;
+}
+.keyContainer#key6 {
+    left: 28%;
+    top: 27%;
+}
+.keyContainer#key7 {
+    left: 50%;
+    top: 27%;
+}
+.keyContainer#key8 {
+    left: 72%;
+    top: 27%;
+}
+.keyContainer#key9 {
+    left: 6%;
+    top: 50.7%;
+}
+.keyContainer#key10 {
+    left: 28%;
+    top: 50.7%;
+}
+.keyContainer#key11 {
+    left: 50%;
+    top: 50.7%;
+}
+.keyContainer#key12 {
+    left: 72%;
+    top: 50.7%;
+}
+.keyContainer#key13 {
+    left: 6%;
+    top: 74.3%;
+}
+.keyContainer#key14 {
+    left: 28%;
+    top: 74.3%;
+}
+.keyContainer#key15 {
+    left: 50%;
+    top: 74.3%;
+}
+.keyContainer#key16 {
+    left: 72%;
+    top: 74.3%;
+}
+/*** 3*3 matrix class ***/
+.keypad3by3 .keyContainer {
+    width: 27%;
+    height: 27%;
+}
+.keypad3by3 .keyContainer#key1 {
+    top: 7.3%;
+    left: 9.2%;
+}
+.keypad3by3 .keyContainer#key2 {
+    left: 36.7%;
+    top: 7.3%
+}
+.keypad3by3 .keyContainer#key3 {
+    left: 64%;
+    top: 7.3%;
+}
+.keypad3by3 .keyContainer#key4 {
+    left: 9.2%;
+    top: 36.3%;
+}
+.keypad3by3 .keyContainer#key5 {
+    left: 36.7%;
+    top: 36.3%;
+}
+.keypad3by3 .keyContainer#key6 {
+    left: 64%;
+    top: 36.3%;
+}
+.keypad3by3 .keyContainer#key7 {
+    left: 9.2%;
+    top: 66%;
+}
+.keypad3by3 .keyContainer#key8 {
+    left: 36.7%;
+    top: 66%;
+}
+.keypad3by3 .keyContainer#key9 {
+    left: 64%;
+    top: 66%;
+}
+:host ::ng-deep .speakerBtn {
+	width: 5.5%;
+    bottom: 19.5%;
+    right: 3.2%;
+    position: absolute;
+}

@@ -1,0 +1,198 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #instruction
+  [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url"
+  autoplay="autoplay"></audio>
+<div class="" [ngClass]="{'fadeContainer':isOverlay}"></div>
+<div class="container-fluid eva" id="container">
+  <div class="headerBar">
+    <img class="img-fluid"
+      [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" />
+  </div>
+  <div id="bgImage">
+    <img class="img-fluid"
+      [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url" />
+  </div>
+  <div [ngClass]="{'disableDiv':disableMainContent}">
+    <div id="instructionBar">
+      <div class="instructionBase">
+        <img class="img-fluid"
+          [src]="commonAssets?.instruction_bg
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" />
+        <span class="instructionText">{{instructiontext}}</span>
+      </div>
+    </div>
+    <div class="parentBlock">
+      <div class="answerBlock" *ngFor="let quesTxt of quesObj?.questionText;">
+        <img class="img-fluid"
+      [src]="quesObj?.quesBackground?.location =='content' ? containgFolderPath + '/' + quesObj?.quesBackground?.url : assetsPath + '/' + quesObj?.quesBackground?.url" />
+      <img *ngIf="quesTxt?.image" class="img-fluid"
+      [src]="quesTxt?.image?.location =='content' ? containgFolderPath + '/' + quesTxt?.image?.url : assetsPath + '/' + quesTxt?.image?.url" />
+      </div>
+    </div>
+    <div class="keypadParent">
+      <div class="keypadBlock">
+      <img class="img-fluid"
+        [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
+        alt="">
+      <div #optionsContainer [ngClass]="[parentInputClass]">
+        <div class="keyContainer" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index"
+          (click)="checkAnswer(option, idx)" on-mousemove="onHoverOptions(option)" on-mouseout="onHoveroutOptions(option)"
+          on-mouseenter='playOptionHover(option,idx)'>
+          <img class="img-fluid"
+            [src]="option?.image_bg?.location=='content' ? containgFolderPath + '/' + option?.image_bg?.url : option?.image_bg?.location=='assets' ? assetsPath + '/' +option?.image_bg?.url:''">
+            <img class="img-fluid"
+            [src]="option?.image?.location=='content' ? containgFolderPath + '/' + option?.image?.url : option?.image?.location=='assets' ? assetsPath + '/' +option?.image?.url:''">
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- <div id="parentBlock">
+      <div class="queryBlock">
+        <img class="img-fluid"
+          [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+        <div [ngClass]="{'inputBlockParent':true,'divideBlock':quesObj?.tablet?.quesType==='divide'}">
+          <div id="inputBlock" *ngIf="quesObj?.tablet?.quesType!=='divide'; else divideBlock"
+            [ngClass]="[parentInputClass]">
+            <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
+              [ngClass]="{'rowClass':true, 'borderlineParent':quesTxt?.bottomLine}">
+              <ng-container *ngFor="let no of quesTxt?.rowValues;">
+                <div
+                  [ngClass]="{'font-style':true, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no?.operator, 'placevalue':no?.placevalue}">
+                  <img [ngClass]="{'img-fluid':true, 'dark': true, 'onesPlaceOperator':no?.escape}"
+                    [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
+                </div>
+              </ng-container>
+              <div class="border-line" *ngIf="quesTxt?.bottomLine"></div>
+            </div>
+          </div>
+
+
+          <ng-template #divideBlock>
+            <div id="inputBlock">
+              <div class='quotient' *ngFor="let digit of quesObj?.tablet?.questionText[0]?.rowValues">
+                <span [ngClass]="{'highlightBox':digit?.highlight, 'blinkBox':digit?.blink}">
+                  <img [ngClass]="{'img-fluid':true, 'dark':true, 'blinkDigit': digit?.correctValue}"
+                    [src]="digit?.location=='content' ? containgFolderPath + '/' + digit?.url : digit?.location=='assets' ? assetsPath + '/' +digit?.url:''">
+                </span>
+              </div>
+              <div class='divisorDividend'>
+                <ng-container *ngFor="let digit of quesObj?.tablet?.questionText[1]?.rowValues">
+                  <img [ngClass]="{'img-fluid':true, 'digitTens':digit?.isTensDigit, 'divideMark':digit?.isDivideImage, 'blinkDigit': digit?.correctValue}"
+                    [src]="digit?.location=='content' ? containgFolderPath + '/' + digit?.url : digit?.location=='assets' ? assetsPath + '/' +digit?.url:''">
+                </ng-container>
+              </div>
+              <div class='divisorDividendSub'>
+                <span *ngFor="let digit of quesObj?.tablet?.questionText[2]?.rowValues"
+                  [ngClass]="{'highlightBox':digit?.highlight, 'blinkBox':digit?.blink}">
+                  <img [ngClass]="{'img-fluid':true, 'dark':true, 'digitTens':digit?.isTensDigit, 'blinkDigit': digit?.correctValue}"
+                    [src]="digit?.location=='content' ? containgFolderPath + '/' + digit?.url : digit?.location=='assets' ? assetsPath + '/' +digit?.url:''">
+                </span>
+              </div>
+              <div class='remainder'>
+                <div>
+                  <span *ngFor="let digit of quesObj?.tablet?.questionText[3].rowValues"
+                    [ngClass]="{'highlightBox':digit?.highlight, 'blinkBox':digit?.blink}">
+                    <img [ngClass]="{'img-fluid':true, 'dark':true, 'digitTens':digit?.isTensDigit, 'blinkDigit': digit?.correctValue}"
+                      [src]="digit?.location=='content' ? containgFolderPath + '/' + digit?.url : digit?.location=='assets' ? assetsPath + '/' +digit?.url:''">
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="keypadBlock">
+        <img class="img-fluid"
+          [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
+          alt="">
+        <div #optionsContainer>
+          <div class="keyContainer" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index"
+            (click)="checkAnswer(option, idx)">
+            <img class="img-fluid"
+              [src]="option?.image?.location=='content' ? containgFolderPath + '/' + option?.image?.url : option?.image?.location=='assets' ? assetsPath + '/' +option?.image?.url:''"
+              on-mousemove="onHoverOptions(option)" on-mouseout="onHoveroutOptions(option)"
+              on-mouseenter='playOptionHover(option,idx)'>
+          </div>
+        </div>
+      </div>
+      <app-globalspeaker (clickSpeaker)="onSpeakerClicked()"></app-globalspeaker>
+    </div> -->
+    <app-globalspeaker (clickSpeaker)="onSpeakerClicked()"></app-globalspeaker>
+  </div>
+  <!--END OF MAIN CONTENT-->
+
+  <!-- Right/Wrong Popup  -->
+  <div class="modal" id="evaTemp12" #ansPopup>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+          <img class="img-fluid"
+            [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+          <!-- <div class="queryBlock">
+            <img class="img-fluid"
+        [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
+        alt="">
+            <div [ngClass]="{'inputBlockParent':true,'divideBlock':quesObj?.tablet?.quesType==='divide'}">
+              <div id="inputBlock" *ngIf="quesObj?.tablet?.quesType!=='divide'; else divideBlock"
+                [ngClass]="[parentInputClass]">
+                <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
+                  [ngClass]="{'rowClass':true, 'borderlineParent':quesTxt?.bottomLine}">
+                  <ng-container *ngFor="let no of quesTxt?.rowValues;">
+                    <div
+                      [ngClass]="{'font-style':true, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no?.operator, 'placevalue':no?.placevalue}">
+                      <img class="img-fluid" [ngClass]="{'img-fluid':true, 'globalOptionBlink': no?.correctValue}"
+                        [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
+                    </div>
+                  </ng-container>
+                  <div class="border-line" *ngIf="quesTxt?.bottomLine"></div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="keypadParent">
+            <div class="keypadBlock">
+            <img class="img-fluid"
+              [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
+              alt="">
+            <div #optionsContainer [ngClass]="[parentInputClass]">
+              <div class="keyContainer" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index">
+                <img *ngIf="!option?.selected" class="img-fluid"
+                  [src]="option?.image_bg?.location=='content' ? containgFolderPath + '/' + option?.image_bg?.url : option?.image_bg?.location=='assets' ? assetsPath + '/' +option?.image_bg?.url:''">
+                  <img *ngIf="option?.selected" class="img-fluid"
+                  [src]="option?.image_bg_original?.location=='content' ? containgFolderPath + '/' + option?.image_bg_original?.url : option?.image_bg_original?.location=='assets' ? assetsPath + '/' +option?.image_bg_original?.url:''">
+                  <img class="img-fluid"
+                  [src]="option?.image?.location=='content' ? containgFolderPath + '/' + option?.image?.url : option?.image?.location=='assets' ? assetsPath + '/' +option?.image?.url:''">
+                  <img *ngIf="option?.highlightWord_bg" class="img-fluid"
+                  [src]="option?.highlightWord_bg?.location=='content' ? containgFolderPath + '/' + option?.highlightWord_bg?.url : option?.highlightWord_bg?.location=='assets' ? assetsPath + '/' +option?.highlightWord_bg?.url:''">
+              </div>
+            </div>
+          </div>
+          </div>
+          <!-- <div class="rightWrongAns">
+            <img class="img-fluid"
+              [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+          </div> -->
+          <img class="popupCloseBtn"
+            [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+            (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- show answer Popup  -->
+  <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
+</div>
+<!-- Popup Modal Audios -->
+<audio #wrongFeedback
+  [src]="feedback?.wrong_ans_sound?.path?.location=='content'? containgFolderPath + '/' +  feedback?.wrong_ans_sound?.path?.url : assetsPath +'/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+<audio #rightFeedback
+  [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+<audio #clapSound
+  [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
+<audio #showAnswerfeedback
+  [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
+<audio #multiCorrectFeedback
+  [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>

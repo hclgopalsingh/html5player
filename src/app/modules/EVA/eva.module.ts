@@ -18,6 +18,7 @@ import { DataService } from '../../model/eva/template8/data.service';
 import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspeaker.component';
 import { TemplateFourteenComponent } from './template14/template14.component';
 import { ConfirmationComponent } from '../commonmodules/confirmation/confirmation.component';
+import { Template5Component } from './template5/template5.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +40,8 @@ import { ConfirmationComponent } from '../commonmodules/confirmation/confirmatio
 		Template12ComponentEVA,
 		GlobalspeakerComponent,
 		TemplateFourteenComponent,
-		ConfirmationComponent
+		ConfirmationComponent,
+		Template5Component
   ],
   providers: [DataService]
 })
