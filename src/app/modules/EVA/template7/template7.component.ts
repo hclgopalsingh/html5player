@@ -575,6 +575,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			}
 		} 
 		else if (Type == 'yes'){
+			this.checkAnswer();
 			this.ansPopup.nativeElement.classList = "displayPopup modal";
 
 			//this.CheckAnswer();
@@ -582,7 +583,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
     //     if (this.isRight) {
     //       if (this.rightFeedback && this.rightFeedback.nativeElement) {
     //         this.clapSound.nativeElement.play();
-    //         setTimeout(() => {
+    //         setTimeout(() => {Fcheck
     //           this.rightFeedback.nativeElement.play();
     //           this.rightFeedback.nativeElement.onended = () => {
     //             this.rightTimer = setTimeout(() => {
@@ -776,7 +777,21 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
-	
+	checkAnswer(){
+		console.log(this.feedback.answer_key)
+		console.log(this.ansArray)
+
+
+		this.ansArray.forEach(element => {
+			console.log((this.feedback.answer_key).indexOf(element.value))
+			if((this.feedback.answer_key).indexOf(element.value)>-1){
+				element.isRight = true
+			}
+			else{
+				element.isRight = false
+			}
+		});
+	}
 
 
 }

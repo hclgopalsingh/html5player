@@ -67,13 +67,13 @@
                                 <!-- <div class="refreshBlock" (click)="refreshClicked(item,idx)" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
                                     <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
                                 </div> -->
-                                <div class="inputField disableBtn">
-                                    <img class="img-fluid"  [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
-                                    <input type="text" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
+                                <div class="inputField disableBtn inputPop">
+                                    <img class="img-fluid" [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                                    <input type="text" class= "in-pop" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
                                 </div>
-                                <div class="lockBlock" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
-                                    <img *ngIf="item.locked" class="img-fluid" [src]="item?.lock?.location=='content' ? contentgFolderPath + '/' + item?.lock?.url : assetsfolderlocation + '/' + item?.lock?.url"/>
-                                    <img *ngIf="!item.locked" class="img-fluid" [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" (click)="lockClicked(item,idx)" />
+                                <div class="rightWrongBlock disableBtn" >
+                                    <img *ngIf="item.isRight" class="img-fluid" [src]="popupAssets?.right_icon?.location=='content' ? containgFolderPath +'/'+ popupAssets?.right_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.right_icon?.url"/>
+                                    <img *ngIf="!item.isRight" class="img-fluid" [src]="popupAssets?.wrong_icon?.location=='content' ? containgFolderPath +'/'+ popupAssets?.wrong_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.wrong_icon?.url"/>
                                 </div>
                             </div>
                         </div>

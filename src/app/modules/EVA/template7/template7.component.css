@@ -124,6 +124,14 @@
     width: 11%;
     cursor: pointer;
 }
+
+.rightWrongBlock{
+    width: 10%;
+    cursor: pointer;
+    /* right: 115%; */
+    margin-right: 4%;
+}
+
 .inputField{
     width: 76%;
     display: flex;
@@ -133,10 +141,11 @@
 }
 .inputField input{
     position: absolute;
+    color: black;
     width: 96%;
     border: none;
     font-family: Kruti Dev!important;
-    font-weight: normal;
+    font-weight: 500;
     font-size: 2.5vmax;
 }
 input:focus {
@@ -186,4 +195,15 @@ input:focus {
     width: 74% !important;
     left: 13%;
     top: 15% !important;
+  }
+
+  .inputPop{
+    left:5% 
+  }
+
+  .in-pop{
+    text-align: center;
+    font-size: 3vmax !important;
+    color: black;
+    font-weight: 500 !important;
   }
