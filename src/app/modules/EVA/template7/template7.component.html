@@ -29,13 +29,14 @@
                 <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
                 <div class="fillerBlock">
                     <div class= "filler" *ngFor= "let item of ansArray;let idx = index" [ngClass]="{'disableBtn' : item.disabled }">
-                        <div (click)="refreshClicked(item,idx)">
+                        <div class="refreshBlock" (click)="refreshClicked(item,idx)" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
                             <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
                         </div>
-                        <div Class="disableBtn">
-                            <input type="text" style="font-size: 331%;" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
+                        <div class="inputField disableBtn">
+                            <img class="img-fluid"  [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                            <input type="text" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
                         </div>
-                        <div>
+                        <div class="lockBlock" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
                             <img *ngIf="item.locked" class="img-fluid" [src]="item?.lock?.location=='content' ? contentgFolderPath + '/' + item?.lock?.url : assetsfolderlocation + '/' + item?.lock?.url"/>
                             <img *ngIf="!item.locked" class="img-fluid" [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" (click)="lockClicked(item,idx)" />
                         </div>
@@ -59,15 +60,27 @@
             <div class="modal-content">
                 <div class="modal-body d-flex align-items-center">
                     <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
-                    <div class="stageVideo">
+                    <div class="stageVideo popRW">
                         <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
-                        <video id="mainVideo" #videoStageonpopUp>
-                            <source src="">
-                          </video>
+                        <div class="fillerBlock">
+                            <div class= "filler" *ngFor= "let item of ansArray;let idx = index" [ngClass]="{'disableBtn' : item.disabled }">
+                                <!-- <div class="refreshBlock" (click)="refreshClicked(item,idx)" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
+                                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
+                                </div> -->
+                                <div class="inputField disableBtn">
+                                    <img class="img-fluid"  [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                                    <input type="text" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
+                                </div>
+                                <div class="lockBlock" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
+                                    <img *ngIf="item.locked" class="img-fluid" [src]="item?.lock?.location=='content' ? contentgFolderPath + '/' + item?.lock?.url : assetsfolderlocation + '/' + item?.lock?.url"/>
+                                    <img *ngIf="!item.locked" class="img-fluid" [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" (click)="lockClicked(item,idx)" />
+                                </div>
+                            </div>
+                        </div>
                     </div> 
-                    <div class="rightWrongAns">
+                    <!-- <div class="rightWrongAns">
                         <img class="img-fluid" [src]="popupIconLocation=='content' ? contentgFolderPath +'/'+ popupIcon :  assetsfolderlocation +'/'+ popupIcon">
-                    </div>
+                    </div> -->
                     <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
                     (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
                  </div>
@@ -75,6 +88,9 @@
         </div>
     </div>
   
+    <!-- submit confirmation pop-up -->
+    <app-confirmation (closeConfirmationChild)="closePopup($event);"></app-confirmation>
+
   
    <!-- show answer Popup  -->
    <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>

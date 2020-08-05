@@ -240,9 +240,9 @@
 
     <app-globalspeaker class="speaker_block"></app-globalspeaker>
   </div>
+  <app-confirmation (closeConfirmationChild)="closePopup($event);"></app-confirmation>
 
 </div>
-<app-confirmation (closeConfirmationChild)="closePopup($event);"></app-confirmation>
 <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 
   <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.right_ans_sound?.url: assetsPath + '/' + feedbackObj?.right_ans_sound?.url"></audio>

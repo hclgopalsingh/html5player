@@ -147,6 +147,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
     clapTimer:any;
 	LastquestimeStart:boolean = false;
 	showAnswerTimer :any;
+	isRight: boolean = true;
 
 	//new vars
 	firstWord:string = '';
@@ -572,11 +573,56 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			if (this.ifRightAns) {
 				this.blinkOnLastQues();
 			}
-		} else {
+		} 
+		else if (Type == 'yes'){
+			this.ansPopup.nativeElement.classList = "displayPopup modal";
 
+			//this.CheckAnswer();
+    //   setTimeout(() => {
+    //     if (this.isRight) {
+    //       if (this.rightFeedback && this.rightFeedback.nativeElement) {
+    //         this.clapSound.nativeElement.play();
+    //         setTimeout(() => {
+    //           this.rightFeedback.nativeElement.play();
+    //           this.rightFeedback.nativeElement.onended = () => {
+    //             this.rightTimer = setTimeout(() => {
+    //               this.closeModal();
+    //             }, 10000);
+    //           }
+    //         }, 2000);
+    //       }
+    //     }
+    //     else {
+    //       if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+    //         this.wrongFeedback.nativeElement.play();
+    //       }
+    //       this.wrongFeedback.nativeElement.onended = () => {
+    //         this.wrongTimer = setTimeout(() => {
+    //           //this.closeModal();
+    //         }, 10000);
+    //       }
+    //     }
+    //   }, 200);
 		}
-
 	}
+
+	// on answer pop up close event
+	closeModal() {
+		clearTimeout(this.wrongTimer);
+		clearTimeout(this.rightTimer);
+		if (!this.rightFeedback.nativeElement.paused) {
+		  this.rightFeedback.nativeElement.pause();
+		  this.rightFeedback.nativeElement.currentTime = 0;
+		}
+		if (!this.wrongFeedback.nativeElement.paused) {
+		  this.wrongFeedback.nativeElement.pause();
+		  this.wrongFeedback.nativeElement.currentTime = 0;
+		}
+		//this.popupRef.nativeElement.classList = "modal";		
+	  }
+
+
+
 
 	/****** Option Hover VO  *******/
 	playOptionHover(option, index) {
@@ -719,6 +765,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				this.disableOption = true;
 				this.autofocus =false ;
 				document.getElementById(this.ansArray[this.activeId].id).blur();
+				this.Sharedservice.setSubmitAnsEnabled(true)
 			}
 	}
 

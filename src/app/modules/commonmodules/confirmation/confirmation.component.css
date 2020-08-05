@@ -58,3 +58,18 @@
     align-items: center;
     font-size: x-large;
 }
+
+.modal-dialog {
+    max-width: 80%;
+    width: 43% !important;
+    height: auto;
+  }
+
+  .modal-content {
+background: transparent !important;
+border: none !important;
+box-shadow: none !important;
+  height: 100%;
+  min-width: 450px; /*640px;*/
+  min-height: 350px; /*198px;*/
+}
