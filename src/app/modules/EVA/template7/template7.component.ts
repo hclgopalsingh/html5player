@@ -778,19 +778,27 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 	checkAnswer(){
+		let rightCounter = 0;
 		console.log(this.feedback.answer_key)
 		console.log(this.ansArray)
-
-
 		this.ansArray.forEach(element => {
 			console.log((this.feedback.answer_key).indexOf(element.value))
 			if((this.feedback.answer_key).indexOf(element.value)>-1){
 				element.isRight = true
+				rightCounter = rightCounter + 1;
 			}
 			else{
 				element.isRight = false
 			}
 		});
+
+		if(rightCounter == this.ansArray.length){
+			console.log("right answer")
+		}
+		else{
+			console.log("wrong answer")
+		}
+
 	}
 
 
