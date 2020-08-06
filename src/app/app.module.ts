@@ -35,7 +35,7 @@ import { HttphandlerService } from './model/httphandler.service';
 import { ControlsComponent } from './controller/controls';
 import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
-import { Ntemplate2 } from './controller/Ntemplate2.component';
+import { Ntemplate2 } from './modules/Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate4 } from './controller/Ntemplate4.component';
@@ -56,7 +56,7 @@ import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
 import { InactivityTimerComponent } from './controller/inactivity-timer-component'
-import { Ntemplate13 } from './controller/Ntemplate13.component';
+import { Ntemplate13 } from './modules/Elementary/Ntemplate13/Ntemplate13.component';
 import { Ntemplate10 } from './modules/Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from './controller/Ntemplate11.component';
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
