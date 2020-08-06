@@ -56,7 +56,7 @@ import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
 import { InactivityTimerComponent } from './controller/inactivity-timer-component'
-import { Ntemplate13 } from './controller/Ntemplate13.component';
+import { Ntemplate13 } from './modules/Elementary/Ntemplate13/Ntemplate13.component';
 import { Ntemplate10 } from './modules/Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from './controller/Ntemplate11.component';
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
