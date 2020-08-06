@@ -299,6 +299,24 @@ private appModel: ApplicationmodelService;
     if (!this.narrator.nativeElement.paused || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
+            if(this.i!=undefined && this.j!=undefined ) {
+      if(!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
+        this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].pause();
+        this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].currentTime=0;
+      }
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[this.i].children.length; x++) {
+          if (x != this.j) {
+            this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
+          }
+          this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
+          if( this.optionsBlock.nativeElement.children[1]!=undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+          }
+          if( this.optionsBlock.nativeElement.children[2]!=undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents="";
+          }
+        }
+      }
       //this.count = 0;
       this.appModel.enableSubmitBtn(true);
       if (this.feedback.correct_ans_index.includes(opt.id)) {
