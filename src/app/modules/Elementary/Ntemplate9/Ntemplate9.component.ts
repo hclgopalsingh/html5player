@@ -159,12 +159,6 @@ export class Ntemplate9Component implements OnInit {
   index1: number = 0;
   index2: number = 0;
   selectableOpts: number;
-  selectedOptList: any = [];
-  selectedOpt: any = {
-    "idx": undefined,
-    "moveFrom": undefined,
-    "moveTo": undefined
-  };
   moveFrom: any;
   moveTo: any;
   quesBlockStart: any;
@@ -658,7 +652,9 @@ ngAfterViewChecked() {
           this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_blink;
           this.blinkFlag = false;
         } else {
+          if(this.optionObj[i].imgsrc_original!=undefined) {
           this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+          }
           this.blinkFlag = true;
         }
     } else {
@@ -689,7 +685,9 @@ ngAfterViewChecked() {
       }
       this.optionObj = this.fetchedcontent.optionObj;
       for (let i = 0; i < this.optionObj.length; i++) {
-        this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+        if(this.optionObj[i].imgsrc_original!=undefined) {
+          this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+        }
         this.optionObj[i].Matched = false;
         }
       //this.optionCommonAssets = this.fetchedcontent.option_common_assets;
