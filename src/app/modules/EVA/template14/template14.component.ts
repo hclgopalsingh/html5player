@@ -151,6 +151,11 @@ export class TemplateFourteenComponent implements OnInit {
   ngAfterViewInit(){
     this.appModel.setLoader(false);
     this.checkforQVO();
+    // let that = this;
+    // document.getElementById('submitAns').onclick = function(){
+    //   console.log("submit clicked")
+    //   that.stopAllSounds()
+    // }
   }
 
   templatevolume(vol, obj) {
@@ -218,14 +223,7 @@ export class TemplateFourteenComponent implements OnInit {
     this.appModel.getConfirmationPopup().subscribe((val) => {
       if (val == "uttarDikhayein") {
         this.appModel.stopAllTimer();
-        let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-        if (!speakerEle.paused) {
-          speakerEle.pause();
-          speakerEle.currentTime = 0;
-          this.sprite.nativeElement.style = "display:none";
-          (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-          this.speaker.imgsrc = this.speaker.imgorigional;
-        }
+        this.stopAllSounds()
         if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
           this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
           this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
@@ -240,6 +238,11 @@ export class TemplateFourteenComponent implements OnInit {
         }
 
       } 
+    })
+
+    this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
+      console.log(data,"changed")
+      this.stopAllSounds()
     })
 
     this.appModel.nextBtnEvent().subscribe(() => {
@@ -568,6 +571,7 @@ export class TemplateFourteenComponent implements OnInit {
         console.log("this.selectedYearID", this.selectedYearID)
       }
     } else if (flag == "date") {
+      console.log("item",item)
       this.clickedID = Number(item.target.id) + 1;
       let itemDate = this.datesArr.find((index) => index.id == this.clickedID);
       if (!itemDate.selected) {
@@ -581,17 +585,22 @@ export class TemplateFourteenComponent implements OnInit {
               this.previousItemevent.src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;
               this.previousItemevent.style.pointerEvents = "";
             }
+            this.selectedDatesId.length = 0;
+            this.selectedDatesId.push(this.clickedID)
           }
           else {
             console.log("this.selectedDatesId", this.selectedDatesId)
             this.selectedDatesId.push(this.clickedID)
             console.log("this.selectedDatesId", this.selectedDatesId)
-
+            // if( this.selectedDatesId > this.feedback.right_date){
+            // this.CheckforUnselect()
+            // }
           }
         }
         if (this.selectedDatesId.length == 0) {
           this.selectedDatesId.push(this.clickedID)
         }
+        console.log("this.selectedDatesId",this.selectedDatesId)
         item.target.src = this.datesArr[0].base_hover.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_selected.url : this.assetsPath + "/" + this.datesArr[0].base_selected.url;
         this.previousItemevent = item.target;
         if (!this.quesObj.multi_date) {
@@ -670,6 +679,18 @@ export class TemplateFourteenComponent implements OnInit {
     }
     this.checkforsubmitButton();
   }
+
+  // CheckforUnselect(){
+  //   let firstItem:any
+  //   firstItem = this.selectedDatesId[0];
+  //   //remove selected and set url for normal base
+  //   let itemDate = this.datesArr.find((index) => index.id == (firstItem -1));
+
+
+
+  //   this.selectedDatesId.shift();
+  // }
+
 
 //set calendar for different purposes
   setCalender(from) {
@@ -929,6 +950,7 @@ export class TemplateFourteenComponent implements OnInit {
     console.log("right_year", this.feedback.right_year)
     //set right wrong for months
     if (this.feedback.right_month.length > 0 && !this.Smart_Calendar) {
+
       for (let index1 = 0; index1 < this.selectedMonthsId.length; index1++) {
         const element1 = this.selectedMonthsId[index1];
         for (let index2 = 0; index2 < this.feedback.right_month.length; index2++) {
@@ -1171,11 +1193,18 @@ export class TemplateFourteenComponent implements OnInit {
       this.selectedYearID.length + this.selectedMonthsId.length
     console.log("realAnsLength", realAnsLength);
     console.log("selectedAnsLength", selectedAnsLength);
-    if (selectedAnsLength >= realAnsLength) {
-      //enable submit button
+    // if (selectedAnsLength >= realAnsLength) {
+    //   //enable submit button
+    //   this.Sharedservice.setSubmitAnsEnabled(true)
+    // }
+    // else {
+    //   this.Sharedservice.setSubmitAnsEnabled(false)
+    // }
+    if(this.selectedDatesId.length >= this.feedback.right_date.length && this.selectedDaysId.length >=  this.feedback.right_weekDay.length && this.selectedMonthsId.length>= this.feedback.right_month.length &&  this.selectedYearID.length >= this.feedback.right_year.length)
+    {
       this.Sharedservice.setSubmitAnsEnabled(true)
     }
-    else {
+    else{
       this.Sharedservice.setSubmitAnsEnabled(false)
     }
   }
@@ -1212,4 +1241,21 @@ export class TemplateFourteenComponent implements OnInit {
     this.appModel.stopAllTimer();
   }
   
+  clickedChild(ev){
+    console.log("ev",ev)
+    
+    let event = {target : ev.target.parentNode.children[0]}
+    this.onClickCalender(event,'date')
+  }
+
+  NumberHover(ev){
+    let event = {target : ev.target.parentNode.children[0]}
+    this.hoveronDate(event)
+  }
+
+  NumberHoverOut(ev){
+    let event = {target : ev.target.parentNode.children[0]}
+    this.houtonDate(event)
+  }
+
 }
