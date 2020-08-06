@@ -159,6 +159,9 @@ private appModel: ApplicationmodelService;
           if( this.optionsBlock.nativeElement.children[1]!=undefined) {
                 this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
           }
+          if( this.optionsBlock.nativeElement.children[2]!=undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents="";
+          }
         }
       }
       console.log("play on Instruction");
@@ -544,6 +547,9 @@ private appModel: ApplicationmodelService;
             if( this.optionsBlock.nativeElement.children[1]!=undefined) {
                 this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
             }
+            if( this.optionsBlock.nativeElement.children[2]!=undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents="";
+           }
 
         }
         }
