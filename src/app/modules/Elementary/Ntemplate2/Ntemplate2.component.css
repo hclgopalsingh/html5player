@@ -390,25 +390,32 @@ button:focus {
 	background:rgba(0,0,0,.85);
 }
 #customModal .optionsBlock{
-	width: 95%;/*44%*/
+	width: 91%;/*95%,44%*/
+    justify-content: center;
+}
+#customModal .optionsBlock.optBlock4{
+	width: 70%;
 }
 #customModal .optionsBlock.optBlock5{
-	width: 89%;/*44%*/
+	width: 56%;/*44%*/
 }
 #customModal .optionsBlock.optBlock6{
-	width: 75%;/*44%*/
+	width: 46%;/*44%*/
 }
 #customModal .optionsBlock .quesImage{
-	height: auto;/*95%;*/
+	height: 98%;/*auto;95%;*/
+	width: 92%;
 	display: flex;
-  flex-direction: column;
-  justify-content: center;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: space-between;
 }
 #customModal .modal-body{
-	height: auto;/*91%;*/
-	padding: 4% 15px;
-	flex: 0;
-	min-height: 30vmin;
+	height: 91%;/*auto;*/
+	/* padding: 4% 15px; */
+	flex: 1;
+	padding: 0;
+	/* min-height: 30vmin; */
 }
 #customModal .options{
 	position: relative;
@@ -419,13 +426,14 @@ button:focus {
 	top: 0;
 	width: 100%;
 	height: 100%;
+	padding: 0 1%;
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
-	margin:1%;
+	/* margin:1%; */
 }
 #customModal .options div img{
-	width: 48%;
+	width: 45%;
 }
 
 
@@ -549,7 +557,9 @@ button:focus {
   padding-left: 0px;
 }
 #customModal .modal-dialog{
-  width: 100%;
+  width: 48%;
+  height: 98%;
+  margin: 0 !important;
 }
 .modal-content{
 	background: transparent !important;
@@ -631,8 +641,8 @@ html [type=button] {
 }
 @media (min-width: 576px){
 	#customModal .modal-dialog {
-		max-width: 30% !important;/*32%*/
-		margin: 1.4% auto !important;
+		max-width: 48% !important;/*32%*/
+		/* margin: 1.4% auto !important; */
 	}
 }
 
