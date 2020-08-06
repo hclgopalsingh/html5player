@@ -69,6 +69,8 @@
             <div class="row mx-0 optionsBlock optBlock{{noofSubQues}}">
               <div class="my-auto quesImage" #popupBodyRef>
                 <div class="options" *ngFor="let assts of popupAssets">
+                  <img class="img-fluid"
+                  [src]="optionObj?.centralImg?.url" (load)="checkImgLoaded();">
                   <div>
                     <img class="img-fluid" [src]="assts?.imgLeft?.url">
                     <img class="img-fluid" [src]="assts?.imgRight?.url">
