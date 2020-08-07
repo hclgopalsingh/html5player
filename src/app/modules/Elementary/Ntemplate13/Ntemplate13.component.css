@@ -18,7 +18,8 @@
     /*width: 18%;*/
 	position: absolute;
     width: 12%;/* 18% updated on 11 April */
-    right: 9%;
+    right: 14%; 
+    margin-top:20px;
 }
 #ansBlock .options{
 	text-align:right;
@@ -42,9 +43,9 @@
 	pointer-events: none;
 }
 #quesImage{
-	width: 40%;
+	width: 46%;
     position: absolute;
-    left: 10%;
+    left: 14%;
 }
 #quesImage img{
 	/*cursor:pointer;*/
@@ -60,7 +61,7 @@
     height: 100%;
     /*padding-bottom: 100%;*/
     margin: 0% auto;
-   background: url(../../../assets/images/speakerSpritetemp10.png) repeat-x 0 0;
+   background: url(../../../../assets/images/speakerSpritetemp10.png) repeat-x 0 0;
     background-size: 400%;
     animation: play 1.2s steps(4) infinite;
     position: absolute;
@@ -186,16 +187,6 @@
 #zaariRakheinId .zaariRakheinBtn img{
    width:100%;
 }
-/*.zaariRakheinBtn{
-	background: url("../../../assets/images/zaariRakhein.svg") no-repeat;
-    background-size: 100% 100%;
-    height: 70px;
-}
-.zaariRakheinBtn:hover{
-	background: url("../../../assets/images/zaariRakhein_hover.svg") no-repeat;
-    background-size: 100% 100%;
-    height: 70px;
-}*/
 .title_class{
 	font-size: 50px;
     color: white;
@@ -203,37 +194,14 @@
     font-weight: bold;
     font-family: sans-serif;
 }
-/*
-.speaker {
-  width: 100%;
-  padding-bottom:100%;
-  margin: 0% auto;
-  background: url(../../../assets/images/speakerSprite.png) 0 0;
-  background-size: 400%;
-  animation: play 1.3s steps(4) infinite;
-}
-@-webkit-keyframes play {
-   from { background-position:    400%; }
-     to { background-position: 0%;  }
-}
-@-moz-keyframes play {
-   from { background-position:    400%; }
-     to { background-position: 0%;  }
-}
-@keyframes play {
-   from { background-position:    400%; }
-     to { background-position: 0%;  }
-}
-*/
+
 .temp10 .speakerBtn{
 	width:18%;
 	position:absolute;
 	right:-3%;
 	top:-39%;
 }
-/*.temp4 .speaker, .temp4 #speaker{
-	cursor:pointer;
-}*/
+
 .temp10 #speaker {
     position: absolute;
     top: 3%;
@@ -241,12 +209,6 @@
 }
 /* css update begins - 27 March */
 /*
-#correctAns img{
-	position:absolute;
-	width:70%;
-	animation: scaleit 0.2s ease-in;
-}
-*/
 /* css update ends - 27 March */
 @keyframes scaleit {
 	0% {
@@ -272,28 +234,7 @@
     top: auto;
 	left: auto;
 }
-.aagebadho {
-   /* background: url(../../../assets/images/aagey.svg) no-repeat;
-    background-size: 100% 100%;
-    height: 40px !important;*/
-}
-.aagebadho:hover {
-  /*  background: url('../../../assets/images/aagey_hover.svg') no-repeat;
-	background-size: 100% 100%;
-   height: 40px !important;
-	cursor:pointer;*/
-}
-.peechejao {
-    /*background: url(../../../assets/images/peechey.svg) no-repeat;
-    background-size: 100% 100%;
-    height: 40px !important;*/
-}
-.peechejao:hover {
-    /*background: url('../../../assets/images/peechey_hover.svg') no-repeat;
-	background-size: 100% 100%;
-   height: 40px !important;
-	cursor:pointer;*/
-}
+
 .ansImage {
     width: 59%;
     position: relative;
@@ -305,13 +246,7 @@
 	visibility:hidden;
 }
 .blink_btn{
-	/*
-	background: url(../../../assets/images/aageyBlink.svg) no-repeat;
-    background-size: 100% 100%!important;
-    height: 40px!important;
-	width: 100%;
-    top: 0;
-    left: 0;*/
+ 
 	display:none;
 	cursor:pointer;
 	top:0;
@@ -349,11 +284,7 @@
 }
 /* css update ends - 27 March */
 @media (min-width: 800px) and (max-width: 1299px){
-#navBlock .prevBtn, #navBlock .nextBtn{
-	/*width:90px;
-	height:35px;
-	position:relative;*/
-}
+
 }
 @media (min-width: 1520px) and (max-width: 1920px){
 /*.temp5 #placeholders img {
@@ -406,7 +337,7 @@
   }
 
   #instructionBar .instructionBase {
-    width: 58%;
+    width: 60%;
     position: relative;
     cursor: pointer;
   }
@@ -494,10 +425,6 @@
 	  max-width: 80%;
 	}
 
-  #confirmModal .modal-header {
-    top: 0;
-  }
-
   #confirmModal .bodyText {
     position: absolute;
     top: 30%;
@@ -507,15 +434,6 @@
     #confirmModal .bodyText img {
       width: 85%;
     }
-
-  #confirmModal .modal-title {
-    margin-left: 3%;
-  }
-
-  #confirmModal .close {
-    /* width: 5%; */
-    margin: 0 1.6% 0 auto;
-  }
 
   #confirmModal .modal-footer {
     display: flex;
@@ -585,52 +503,7 @@
     min-height: 50vmin; /*350px;*/
   }
 
-  .modal-header {
-    padding: .5% !important;
-    height: 7vmin; /*56px;*/
-    position: relative;
-    top: 0;
-    width: 100%;
-    border-bottom: none !important;
-    margin-bottom: -1px;
-    /*
-       border: solid .7vmin #85d222;
-      border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background: #248446;
-    */
-  }
-
-  #modalTemp5 .modal-header {
-    top: 0;
-  }
-
-  .modal-title {
-    margin-left: 1.5%;
-    height: 80%;
-  }
-
-  .close {
-    width: auto;
-    height: 75%;
-    margin-right: 0%;
-    margin-top: -.1%;
-    -webkit-appearance: inherit !important;
-    cursor: pointer;
-    opacity: 1;
-  }
-
-  @media (min-width: 1366px) {
-    .close {
-      height: 95%;
-      margin-right: .3%;
-    }
-  }
-
-  #modalTemp5 .modal-header .close {
-    margin-left: auto;
-  }
-
+  
 .modal-body {
 	padding: 2%;
 	/*
@@ -670,18 +543,9 @@
     margin: 1% auto !important;
   }
 
-  #modalTemp5 .quesImage {
-    /* height: 100%; */
-  }
 
   #modalTemp5 .optionsBlock .options {
     width: 25%;/*100%*/
-  }
-
-  .close:focus, .close:hover {
-    /*color: #000;
-    text-decoration: none;
-    opacity: 1;*/
   }
 
   html [type=button] {
@@ -692,15 +556,6 @@
   /*Partial Pop-up*/
   #modalPartialOptions .modal-dialog {
     max-width: 87%;
-  }
-
-  #modalPartialOptions .modal-header {
-    margin-bottom: -1px;
-  }
-
-  #modalPartialOptions .modal-header:before,
-  #modalPartialOptions .modal-header:after {
-      content: none !important;
   }
 
   #modalPartialOptions .modal-body img {
@@ -757,7 +612,6 @@
     left: 23px;
   }
 
-
 /* wrongAns pop up */
 .wrongAns{
     position:absolute;
@@ -782,9 +636,6 @@
     position: absolute;
     width: 70%;
 }
-
-
-
 
 /* correct ans pop-up */
 #correctAns {
@@ -836,6 +687,7 @@
         margin: 0;
         width: 23%;
       }
+      .modelpopup{position: absolute;}
 
   button:focus {
     outline: none;
@@ -844,11 +696,6 @@
   #correctAns .modal-body .actionButtons img {
     width: 100%;
   }
-
-  #correctAns .modal-header {
-    top: 0;
-  }
-
   #correctAns .bodyText {
     position: absolute;
     top: 30%;
@@ -859,9 +706,9 @@
       width: 85%;
     }
 
-  #correctAns .modal-title {
+ /*#correctAns .modal-title {
     margin-left: 3%;
-  }
+  }*/
 
   #correctAns .close {
     /* width: 5%; */
@@ -888,16 +735,12 @@
   #correctAns .popupModelBody {
     padding: 0;
   }
-
-
-  #modalTemp7 {
+#modalTemp7 {
     background:rgba(0,0,0,.85);
       position: absolute !important;
       height: 94% !important;
   }
-
-
-  /* Modal */
+/* Modal */
 .modal{
 	position: absolute;
 	width: 100%;
@@ -914,59 +757,12 @@
 	position: absolute !important;
 	height: 94% !important;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
-  margin-left: 1.5%;
-  height: 80%;
-}
-.close {
-	width: auto;
-	height: 75%;
-  margin-right: .5%;
-	margin-top: -.1%;
-  -webkit-appearance: inherit !important;
-  opacity: 1;
-}
-@media (min-width: 1366px){
-	.close {
-		height: 95%;
-    margin-right: .3%;
-	}
-}
-.close:focus, .close:hover {
-  color: #000;
-  text-decoration: none;
-  opacity: 1;
-}
-.modal-dialog{
-	/* width: 30%; */
-  width: 60% !important;
-  height: 60%;
-	/* max-width: 80%; */
-	/* height: auto; */
-}
 .modal-content{
 	background: transparent;
 	border: 0;
 	height: 100%;
 	min-width: 510px;/*540px;*/
   /* min-height: 400px; */
-}
-.modal-header{
-	padding: .5%;
-	height: 7vmin;/*56px;*/
-  position: relative;
-  top: 0;
-  width: 100%;
-  border: solid .7vmin #85d222;
-  border-bottom: none;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #248446;
-}
-.modal-header:before, .modal-header:after {
-    content: none !important;
 }
 .modal-body{
 	padding:2%;
@@ -975,9 +771,6 @@
 	border-top:none;
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
-}
-.modal-body img{
-	/* max-width: 94%; */
 }
 .modalBodyContent{
 	background: #afdec0;
@@ -1001,47 +794,35 @@
 		opacity:1;
 	  }
 }
-
 .modal-dialog {
     max-width: 100%;
     margin: 30px auto;
-    width: 81% !important;
-    height: 70%;
+    
 }
-
-@media (min-width: 576px){
-    .modal-dialog {
-        max-width: none !important;
-    }
-}
-
 .disable-ansBlock{
     opacity: 0.5;
     pointer-events: none;
 
 }
-
 .initDisable-ansBlock{
   pointer-events: none;
 }
-
 .speakerPopUp{
   cursor: pointer;
 }
-
 .speakerd {
-	width: 14%;
-	height:13%;
-	padding-bottom:100%;
-	margin: 0% auto;
-	background: url(../../../assets/images/speakerSprite14.png) repeat-x 0 0;
-	background-size: 400%;
-	animation: play 1.2s steps(4) infinite;
-	position: absolute;
-	top: -67%;
-	left: 76%;
-	display:none;
-	pointer-events: none;
+  width: 14%;
+  height: 41%;
+  margin: 0% auto;
+  background: url(../../../../assets/images/speakerSprite14.png) repeat-x 0 0;
+  background-size: 400%;
+  -webkit-animation: play 1.2s steps(4) infinite;
+  animation: play 1.2s steps(4) infinite;
+  position: absolute;
+  top: 28%;
+  left: 76%;
+  display: none;
+  pointer-events: none;
 }
 
 button:focus {

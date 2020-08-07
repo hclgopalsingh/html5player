@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, HostListener,OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { timer } from 'rxjs/observable/timer';
-import { SharedserviceService } from '../services/sharedservice.service';
-import { ThemeConstants } from '../common/themeconstants';
-import { PlayerConstants } from '../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
 import 'jquery';
 
 
@@ -13,8 +13,8 @@ declare var $: any;
 
 @Component({
 	selector: 'ntemp18',
-	templateUrl: '../view/layout/Ntemplate2.component.html',
-	styleUrls: ['../view/css/Ntemplate2.component.css', '../view/css/bootstrap.min.css']
+	templateUrl: './Ntemplate2.component.html',
+	styleUrls: ['./Ntemplate2.component.css', '../../../view/css/bootstrap.min.css']
 
 })
 
@@ -143,6 +143,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	functionalityType:any;
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
+	showAnsTimeout:number;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -161,6 +162,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
 		this.checkquesTab();
 		/*End: Theme Implementation(Template Changes)*/
+		this.appModel.globalJsonData.subscribe(data=>{
+			this.showAnsTimeout = data.showAnsTimeout;
+		});
 		this.setData();
 		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
@@ -341,37 +345,37 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.noofSubQues =  this.feedbackObj.noOfSubQues;
 			let scaleValue:any
 			if(this.noofSubQues==3){
-				scaleValue = .80;
-				this.leftCss1 = 1.5+"%";
-				this.topCss1 = 8.2+"%";
-				this.leftCss2 = 47+"%";
-				this.topCss2 = 8.2+"%";
+				scaleValue = 1.0;
+				this.leftCss1 = 2+"%";
+				this.topCss1 = 5+"%";
+				this.leftCss2 = 50.9+"%";
+				this.topCss2 = 5+"%";
 			}else if(this.noofSubQues==4){
-				scaleValue = 1.05;
-				this.leftCss1 = 7.5+"%";
-				this.topCss1 = 24.8+"%";
-				this.leftCss2 = 53.7+"%";
-				this.topCss2 = 24.8+"%";
+				scaleValue = 1.2;
+				this.leftCss1 = 5.5+"%";
+				this.topCss1 = 10.6+"%";
+				this.leftCss2 = 53.8+"%";
+				this.topCss2 = 10.6+"%";
 		/*		if(window.innerWidth<1920){
 					this.topCss1 = 14.2+"%";
 					this.topCss2 = 14.2+"%";
 				}*/
 			}else if(this.noofSubQues==5){
-				scaleValue = 1.4;
-				this.leftCss1 = 10.9+"%";
-				this.topCss1 = 24.3+"%"; 
-				this.leftCss2 = 58.5+"%";
-				this.topCss2 = 24.3+"%";
+				scaleValue = 1.5;
+				this.leftCss1 = 9.5+"%";
+				this.topCss1 = 18+"%";
+				this.leftCss2 = 57.2+"%";
+				this.topCss2 = 18+"%";
 			/*	if(window.innerWidth<1920){
 					this.topCss1 = 22.2+"%";
 					this.topCss2 = 22.2+"%";
 				}*/
 			}else if(this.noofSubQues==6){
-				scaleValue = 1.6;
-				this.leftCss1 = 13+"%";
-				this.topCss1 = 28+"%";
-				this.leftCss2 = 60+"%";
-				this.topCss2 = 28+"%";
+				scaleValue = 1.8;
+				this.leftCss1 = 12+"%";
+				this.topCss1 = 23+"%";
+				this.leftCss2 = 60.5+"%";
+				this.topCss2 = 23+"%";
 			}
 			this.root.style.setProperty('--scaleValue', scaleValue);
 		}
@@ -395,8 +399,8 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.appModel.notifyUserAction();
 		if (this.audio && !this.audio.paused) {
 			//commenting to not pause the audio on selection.
-			// this.audio.pause();
-			// this.audio.currentTime = 0;
+			this.audio.pause();
+			this.audio.currentTime = 0;
 			for (let i = 0; i < this.leftOptions.length; i++) {
 			/*	if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
 					this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
@@ -440,7 +444,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					this.noOfRightAns++;
 					this.removeAssetsFromPopup(opt.id+","+opt.matchingId);
 					setTimeout(() => {
-						this.checkForOtherVO();
+						this.checkForOtherVO();						
 						this.rightFeedbackVO.nativeElement.play();
 						this.rightFeedbackVO.nativeElement.onended = () => {
 							setTimeout(() => {
@@ -545,9 +549,10 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		if(this.rightList=="pl" || this.rightList==undefined){
      this.resetTimerForAnswer('right');
 		}
+		
 		if (this.audio && !this.audio.paused) {
-			// this.audio.pause();
-			// this.audio.currentTime = 0;
+			this.audio.pause();
+			this.audio.currentTime = 0;
 			for (let i = 0; i < this.leftOptions.length; i++) {
 				/*if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
 					this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
@@ -635,7 +640,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					setTimeout(() => {
 						this.type = "left"
 						this.checkForOtherVO();
-						console.log("i am in the wrong option selected block--------->")
+						console.log("i am in the wrong option selected block--------->")						
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
@@ -1075,7 +1080,7 @@ removeAssetsFromPopup(id:string){
 		}else{
 		setTimeout(()=>{
 			this.closeModal();
-		},2000)
+		},this.showAnsTimeout)
 		}
 		}
 
