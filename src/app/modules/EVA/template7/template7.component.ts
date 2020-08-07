@@ -62,7 +62,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	@ViewChild('fireworks') fireworks: any;
 	@ViewChild('ansBlock') ansBlock: any;
 	@ViewChild('helpbtn') helpbtn: any;
-	@ViewChild('sprite') sprite: any;
 	@ViewChild('speakerNormal') speakerNormal: any;
 	@ViewChild('disableSpeaker') disableSpeaker: any;
 	@ViewChild('navBlock') navBlock: any;
@@ -78,7 +77,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	@ViewChild('ansPopup') ansPopup: any;
 	@ViewChild('rightFeedback') rightFeedback: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
-	@ViewChild('speakerVolume') speakerVolume: any;
 	@ViewChild('videoStageonpopUp') videoStageonpopUp: any;
 	@ViewChild('showAnswerVO') showAnswerVO: any;
 	@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
@@ -197,7 +195,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (!speakerEle.paused) {
 			speakerEle.pause();
 			speakerEle.currentTime = 0;
-			this.sprite.nativeElement.style = "display:none";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			this.speakerPlayed = false;
 			this.speaker.imgsrc = this.speaker.imgorigional;
@@ -273,22 +270,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	// 	}
 	// }
 
-	playSpeaker() {
-		this.stopAllSounds();
-		this.enableAllOptions();
-		
-		this.speakerPlayed = true;
-		this.speaker.imgsrc = this.speaker.imgactive;
-		this.speakerVolume.nativeElement.play();
-		this.sprite.nativeElement.style = "display:flex";
-		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
-		this.speakerVolume.nativeElement.onended = () => {
-			this.speaker.imgsrc = this.speaker.imgorigional;
-			this.sprite.nativeElement.style = "display:none";
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			this.speakerPlayed = false;
-		}
-	}
+	
 
 
 	doRandomize(array) {
@@ -388,7 +370,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		this.Sharedservice.setLastQuesAageyBadheStatus(true); 
 		this.attemptType = "";
 		this.setTemplateType();
-		this.sprite.nativeElement.style = "display:none";
 		this.contentgFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 
@@ -420,7 +401,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				if (!speakerEle.paused) {
 					speakerEle.pause();
 					speakerEle.currentTime = 0;
-					this.sprite.nativeElement.style = "display:none";
 					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 					this.speakerPlayed = false;
 					this.speaker.imgsrc = this.speaker.imgorigional;
@@ -467,9 +447,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	  stopAllSounds(clickStatus?) {
         this.audio.pause();
         this.audio.currentTime = 0;
-		
-		this.speakerVolume.nativeElement.pause();
-        this.speakerVolume.nativeElement.currentTime=0;
 
         this.wrongFeedback.nativeElement.pause();
         this.wrongFeedback.nativeElement.currentTime = 0;
