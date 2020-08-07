@@ -129,15 +129,12 @@
 	position: absolute;
 	width: 36%;			
 }
-.options div div:first-child:hover{
-	transition: transform .2s;
+
+.options div:hover{
 	transform: scale(1.1);
+	/* transition: transform .2s; */
 }
 
-.options div.transform {
-	transition: transform .2s;
-	transform: scale(1.1);
-}
 
 #optionsBlock .shadow{
 	position: absolute;
@@ -196,9 +193,7 @@
 	top: 70%;
     right:10%;
 }
-.options div:hover{
-	/* transform: scale(1.1); */
-}
+
 .options div.subOpt:hover{
 	transform: none;
 }
