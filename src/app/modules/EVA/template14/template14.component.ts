@@ -460,6 +460,8 @@ export class TemplateFourteenComponent implements OnInit {
     }
   }
 
+
+  previousItemeventArr = []
   //on clicking various components of calendar
   onClickCalender(item, flag) {
     this.stopAllSounds();
@@ -520,6 +522,9 @@ export class TemplateFourteenComponent implements OnInit {
         console.log("indexofMonth", indexofMonth)
         this.date.setMonth(indexofMonth);
         item.selected = true;
+        if(this.quesObj.multi_month &&(this.selectedMonthsId.length > this.feedback.right_month.length)){
+          this.CheckforUnselectMonth()
+          }
         this.setCalender('');
       } else {
         item.selected = false
@@ -564,6 +569,9 @@ export class TemplateFourteenComponent implements OnInit {
         this.date.setFullYear(item.id);
         item.selected = true;
         this.setCalender('');
+        if(this.quesObj.multi_year && this.selectedYearID.length > this.feedback.right_year.length){
+        this.CheckforUnselctYear()
+        }
       }
       else {
         item.selected = false
@@ -587,26 +595,36 @@ export class TemplateFourteenComponent implements OnInit {
             }
             this.selectedDatesId.length = 0;
             this.selectedDatesId.push(this.clickedID)
+            this.previousItemeventArr.push(item.target)
+
           }
           else {
             console.log("this.selectedDatesId", this.selectedDatesId)
             this.selectedDatesId.push(this.clickedID)
+            this.previousItemeventArr.push(item.target)
+
             console.log("this.selectedDatesId", this.selectedDatesId)
-            // if( this.selectedDatesId > this.feedback.right_date){
-            // this.CheckforUnselect()
-            // }
+            console.log("this.previousItemeventArr",this.previousItemeventArr)
+
           }
         }
         if (this.selectedDatesId.length == 0) {
           this.selectedDatesId.push(this.clickedID)
+          this.previousItemeventArr.push(item.target)
+
         }
         console.log("this.selectedDatesId",this.selectedDatesId)
+          console.log("this.previousItemeventArr",this.previousItemeventArr)
+
         item.target.src = this.datesArr[0].base_hover.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_selected.url : this.assetsPath + "/" + this.datesArr[0].base_selected.url;
         this.previousItemevent = item.target;
         if (!this.quesObj.multi_date) {
           item.target.style.pointerEvents = "none";
         }
         itemDate.selected = true;
+        if(this.quesObj.multi_date &&(this.selectedDatesId.length > this.feedback.right_date.length)){
+          this.CheckforUnselect()
+          }
         if (this.weekDaySelected) {
           this.date.setDate(this.clickedID);
           if (this.date.getDay() != 0) {
@@ -637,9 +655,13 @@ export class TemplateFourteenComponent implements OnInit {
 
       } else {
         this.clickedID = Number(item.target.id) + 1;
-        itemDate.selected = false
+        itemDate.selected = false;
+        let tempId = this.selectedDatesId.indexOf(this.clickedID)
         this.selectedDatesId.splice(this.selectedDatesId.indexOf(this.clickedID), 1)
+        this.previousItemeventArr.splice(tempId, 1)
         console.log("this.selectedDATEsId", this.selectedDatesId)
+        console.log("this.previousItemeventArr",this.previousItemeventArr)
+
         item.target.src = this.datesArr[0].base_hover.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_selected.url : this.assetsPath + "/" + this.datesArr[0].base.url;
       }
     }
@@ -664,6 +686,9 @@ export class TemplateFourteenComponent implements OnInit {
           this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
         }
         item.selected = true;
+        if(this.quesObj.multi_day && this.selectedDaysId.length > this.feedback.right_year.length){
+          this.CheckforUnselctWeekday()
+          }
       }
       else {
         //remove selected day
@@ -680,16 +705,41 @@ export class TemplateFourteenComponent implements OnInit {
     this.checkforsubmitButton();
   }
 
-  // CheckforUnselect(){
-  //   let firstItem:any
-  //   firstItem = this.selectedDatesId[0];
-  //   //remove selected and set url for normal base
-  //   let itemDate = this.datesArr.find((index) => index.id == (firstItem -1));
+  CheckforUnselect(){
+    let firstItem:any
+    firstItem = this.selectedDatesId[0];
+    //remove selected and set url for normal base
+    let itemDate = this.datesArr.find((index) => index.id == (firstItem));
+    itemDate.selected = false;
+    this.previousItemeventArr[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;
+    this.previousItemeventArr.shift();
+    this.selectedDatesId.shift();
+    console.log("this.selectedDATEsId", this.selectedDatesId)
+    console.log("this.previousItemeventArr",this.previousItemeventArr)
+  }
 
+  CheckforUnselectMonth(){
+    let firstItem:any
+    firstItem = this.selectedMonthsId[0];
+    this.monthsArr[firstItem].selected = false;
+    this.selectedMonthsId.shift();
+  }
 
+  CheckforUnselctYear(){
+    let firstItem:any
+    firstItem = this.selectedYearID[0];
+    let itemYear = this.Arryears.find((index) => index.id == (firstItem));
+    itemYear.selected = false;
+    this.selectedYearID.shift();
+  }
 
-  //   this.selectedDatesId.shift();
-  // }
+  CheckforUnselctWeekday(){
+    let firstItem:any
+    firstItem = this.selectedDaysId[0];
+    let itemWeekDay = this.ArrweekDays.find((index) => index.id == (firstItem));
+    itemWeekDay.selected = false;
+    this.selectedDaysId.shift();
+  }
 
 
 //set calendar for different purposes
