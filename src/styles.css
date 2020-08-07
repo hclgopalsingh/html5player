@@ -220,7 +220,7 @@ button:focus{
   height: 2.12vmax !important;
   width: auto !important;
 }
-
+.ele #confirmModal .modal-body{height: 36%;}
 .ele .close,
 .ele #confirmModal .close {
 	position:absolute;
