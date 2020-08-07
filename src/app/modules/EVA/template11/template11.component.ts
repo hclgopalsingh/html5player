@@ -514,6 +514,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
     option.optBg = option.optBg_original;
   }
 
+
   /****** Option Hover VO  *******/
   playOptionHover(option, index) {
     if (option && option.audio && option.audio.url && !option.selected) {
