@@ -195,6 +195,45 @@ button:focus{
 	animation: none !important;
 	transform: none !important;
 }
+
+
+.ele .modal-header {
+  padding: .5% !important;
+  height: 7vmin; /*56px;*/
+  position: relative;
+  top: 0;
+  width: 100%;
+  border-bottom: none !important;
+  margin-bottom: -1px;
+  /*
+     border: solid .7vmin #85d222;
+    border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #248446;
+  */
+}
+
+.ele .modal-title,
+.ele #confirmModal .modal-title{
+	position:absolute;
+    left: 1%; 
+  height: 2.12vmax !important;
+  width: auto !important;
+}
+
+.ele .close,
+.ele #confirmModal .close {
+	position:absolute;
+	right:1%;
+  width: auto !important;
+  height: 2.12vmax !important;
+  /* margin-right: 0.5%; */
+   margin-top: 0% !important; 
+  -webkit-appearance: inherit !important;
+  cursor: pointer;
+  opacity: 1!important;
+}
+
 .rightWrongAns{
     position: absolute;
     bottom: 11%;
