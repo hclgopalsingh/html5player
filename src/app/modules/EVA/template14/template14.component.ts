@@ -419,6 +419,7 @@ export class TemplateFourteenComponent implements OnInit {
 
     //resetting dates
     this.selectedDatesId.length = 0;
+    this.previousItemeventArr.length =0
     if (this.datesArr.filter((item) => item.selected == true)[0] != undefined) {
       // this.datesArr.filter((item) => item.selected == true)[0].selected = false;
       this.datesArr.forEach(element => {
@@ -490,6 +491,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.dateSelected = false;
         this.previousItemevent = undefined;
         this.selectedDatesId.length = 0;
+        this.previousItemeventArr.length =0
         this.selectedDaysId.length = 0;
         for (let i = this.startIndex; i >= 0; i--) {
           this.monthDates.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;
@@ -538,6 +540,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.yearSelected = true;
         this.selectedMonthsId.length = 0;
         this.selectedDatesId.length = 0;
+        this.previousItemeventArr.length =0
         if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
           this.monthsArr.forEach(element => {
             element.selected = false;
@@ -594,6 +597,7 @@ export class TemplateFourteenComponent implements OnInit {
               this.previousItemevent.style.pointerEvents = "";
             }
             this.selectedDatesId.length = 0;
+            this.previousItemeventArr.length =0;
             this.selectedDatesId.push(this.clickedID)
             this.previousItemeventArr.push(item.target)
 
