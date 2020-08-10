@@ -447,14 +447,13 @@ button:focus {
   width: 85%;
 }
 
-#confirmModal .modal-title {
+/* #confirmModal .modal-title {
   margin-left: 1.5%;
-}
+} */
 
-#confirmModal .close {
-  /* width: 5%; */
+/* #confirmModal .close {
   margin: 0 1.6% 0 auto;
-}
+} */
 
 #confirmModal .modal-footer {
   display: flex;
@@ -524,21 +523,15 @@ button:focus {
 	min-height: 50vmin; /*350px;*/
   }
 
-  .modal-header {
+  /* .modal-header {
 	padding: .5% !important;
-	height: 7vmin; /*56px;*/
+	height: 7vmin; 
 	position: relative;
 	top: 0;
 	width: 100%;
 	border-bottom: none !important;
-	margin-bottom: -1px;
-	/*
-	   border: solid .7vmin #85d222;
-	  border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
-	background: #248446;
-	*/
-  }
+	margin-bottom: -1px;	
+  } */
 
   #container #instructionBar {
 	position: absolute;
@@ -650,9 +643,9 @@ button:focus {
     width: 100%;
   }
 
-  #correctAns .modal-header {
+  /* #correctAns .modal-header {
     top: 0;
-  }
+  } */
 
   #correctAns .bodyText {
     position: absolute;
@@ -664,14 +657,13 @@ button:focus {
       width: 85%;
     }
 
-  #correctAns .modal-title {
+  /* #correctAns .modal-title {
     margin-left: 3%;
-  }
+  } */
 
-  #correctAns .close {
-    /* width: 5%; */
+  /* #correctAns .close {
     margin: 0 1.6% 0 auto;
-  }
+  } */
 
   #correctAns .modal-footer {
     display: flex;
@@ -713,9 +705,7 @@ button:focus {
 	position: absolute !important;
 	height: 94% !important;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
+/* .modal-title{	
   margin-left: 1.5%;
   height: 80%;
 }
@@ -726,24 +716,21 @@ button:focus {
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   opacity: 1 !important;
-}
+} */
 @media (min-width: 1366px){
-	.close {
+	/* .close {
 		height: 95%;
     margin-right: .3%;
-	}
+	} */
 }
-.close:focus, .close:hover {
+/* .close:focus, .close:hover {
   color: #000;
   text-decoration: none;
   opacity: 1;
-}
+} */
 .modal-dialog{
-	/* width: 30%; */
   width: 60% !important;
   height: 60%;
-	/* max-width: 80%; */
-	/* height: auto; */
 }
 .modal-content{
 	background: transparent;
@@ -752,9 +739,9 @@ button:focus {
 	min-width: 510px;/*540px;*/
   /* min-height: 400px; */
 }
-.modal-header{
+/* .modal-header{
 	padding: .5%;
-	height: 7vmin;/*56px;*/
+	height: 7vmin;
   position: relative;
   top: 0;
   width: 100%;
@@ -763,7 +750,7 @@ button:focus {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: #248446;
-}
+} */
 .modal-header:before, .modal-header:after {
     content: none !important;
 }

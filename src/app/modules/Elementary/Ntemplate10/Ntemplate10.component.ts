@@ -113,6 +113,7 @@ export class Ntemplate10 implements OnInit {
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
 	showAnsTimeout:number;
+	showAnsDisableTimer:any;
 
 	onHoverHelp() {
 		this.quesInfo.help_btn = this.quesInfo.help_btn_hover;
@@ -406,18 +407,19 @@ export class Ntemplate10 implements OnInit {
 		}
 		console.log("myoption",this.myoption,this.optBackup)
 		this.attemptType = "hideAnimation"
+		$(".ansBtn").addClass("disableBtn");
 		$(".speakerBtn ").addClass("disable_div");
-
 		$("#instructionBar").addClass("disable_div");	  
 		$("#optionsBlock ").addClass("disable_div");
 		$("#optionsBlock").css("cursor", "inherit");
 		$("#optionsBlock").css("opacity", "1");
 		$("#instructionBar").css("opacity", "1");
 		this.appModel.resetBlinkingTimer();
-		setTimeout(()=>{
+		this.showAnsDisableTimer=setTimeout(()=>{
+			$(".ansBtn").removeClass("disableBtn");
 			this.blinkOnLastQues();	
 			$("#optionsBlock").css("opacity", "0.3");
-			$("#instructionBar").css("opacity", "0.3");	
+			$("#instructionBar").css("opacity", "0.3");				
 		},5000)
 
 		this.myoption.forEach(element1 => {
