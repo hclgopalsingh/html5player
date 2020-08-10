@@ -168,9 +168,11 @@ private appModel: ApplicationmodelService;
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
+        $(".instructionBase").addClass("disable_div");
         this.instructionDisable=true;
         this.instruction.nativeElement.onended=() => {
           this.instructionDisable=false;
+          $(".instructionBase").removeClass("disable_div");
         }
         //$(".instructionBase img").css("cursor", "pointer");
       }
@@ -451,6 +453,14 @@ private appModel: ApplicationmodelService;
               this.instruction.nativeElement.currentTime = 0;
               this.instructionDisable=false;
             }
+                    if (!this.questionAudio.nativeElement.paused)
+        {
+          this.questionAudio.nativeElement.pause();
+          this.questionAudio.nativeElement.currentTime = 0;
+          this.displayWave=false;
+          $(".bodyContent").removeClass("disable_div");
+          $(".instructionBase").removeClass("disable_div"); 
+        }
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
     })
