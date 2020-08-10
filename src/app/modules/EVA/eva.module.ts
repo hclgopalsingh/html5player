@@ -19,6 +19,7 @@ import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspe
 import { TemplateFourteenComponent } from './template14/template14.component';
 import { ConfirmationComponent } from '../commonmodules/confirmation/confirmation.component';
 import { Template5Component } from './template5/template5.component';
+import { EncodeUriPipe } from '../../common/encode_uri.pipe';
 @NgModule({
   imports: [
     CommonModule,
@@ -41,7 +42,8 @@ import { Template5Component } from './template5/template5.component';
 		GlobalspeakerComponent,
 		TemplateFourteenComponent,
 		ConfirmationComponent,
-		Template5Component
+		Template5Component,
+		EncodeUriPipe
   ],
   providers: [DataService]
 })
