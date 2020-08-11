@@ -80,16 +80,10 @@
 	top: 1.1%;
 	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
 }
-#container .speakerBtn{
-	width:5%;
-    /* height: 12%; */
-    position: absolute;
-    top: 72.2%;
-	right: 1.8%;
-}
 
-.options img,
-.speakerBtn img {
+
+.options img
+{
 	cursor:pointer;
 }
 
@@ -206,4 +200,12 @@ input:focus {
     font-size: 3vmax !important;
     color: black;
     font-weight: 500 !important;
+  }
+
+  .speaker_block{
+    position: absolute;
+    right: 0;
+    top: 86%;
+    right: 1%;
+    width: 5%;
   }

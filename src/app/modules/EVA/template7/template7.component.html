@@ -73,7 +73,7 @@
                                 </div> -->
                                 <div class="inputField disableBtn inputPop">
                                     <img class="img-fluid" [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
-                                    <input type="text" class= "in-pop" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
+                                    <input type="text" class= "in-pop" [(ngModel)]= item.value (blur)= "focusAuto()" onkeydown="return false">
                                 </div>
                                 <div class="rightWrongBlock disableBtn" >
                                     <img *ngIf="item.isRight" class="img-fluid" [src]="popupAssets?.right_icon?.location=='content' ? containgFolderPath +'/'+ popupAssets?.right_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.right_icon?.url"/>
@@ -102,6 +102,7 @@
     </div>
 
      <!-- Popup Modal Audios -->
+  <audio #partialFeedback [src]="partialPopup?.path?.location=='content'? contentgFolderPath + '/' +  partialPopup?.path?.url : assetsfolderlocation +'/'+ partialPopup?.path?.url"></audio>
   <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio>
   <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio>
   <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? contentgFolderPath + '/' + feedback?.right_ans_clap_sound?.url: assetsfolderlocation +'/'+feedback?.right_ans_clap_sound?.url"></audio>	
