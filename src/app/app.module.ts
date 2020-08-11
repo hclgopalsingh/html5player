@@ -35,10 +35,9 @@ import { HttphandlerService } from './model/httphandler.service';
 import { ControlsComponent } from './controller/controls';
 import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
-import { Ntemplate2 } from './controller/Ntemplate2.component';
+import { Ntemplate2 } from './modules/Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
-import { Ntemplate1 } from './controller/Ntemplate1.component';
 import { Ntemplate4 } from './controller/Ntemplate4.component';
 import { Ntemplate9 } from './controller/Ntemplate9.component';
 import { Ntemplate6 } from './controller/Ntemplate6.component';
@@ -57,7 +56,7 @@ import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
 import { InactivityTimerComponent } from './controller/inactivity-timer-component'
-import { Ntemplate13 } from './controller/Ntemplate13.component';
+import { Ntemplate13 } from './modules/Elementary/Ntemplate13/Ntemplate13.component';
 import { Ntemplate10 } from './modules/Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from './controller/Ntemplate11.component';
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
@@ -68,7 +67,10 @@ import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 import { NtemplateMap } from './controller/NtemplateMap.component';
+import { Ntemplate1Component } from './modules/Elementary/ntemplate1/ntemplate1.component';
 import { EvaModule } from './modules/EVA/eva.module';
+
+
 
 
 @NgModule({
@@ -103,7 +105,6 @@ import { EvaModule } from './modules/EVA/eva.module';
 		Ntemplate23_1,
 		Ntemplate8,
 		Ntemplate3,
-		Ntemplate1,
 		Ntemplate4,
 		Ntemplate9,
 		Ntemplate6,
@@ -130,7 +131,8 @@ import { EvaModule } from './modules/EVA/eva.module';
 		InactivityTimerComponent,
 		AnimationComponent,
 		Ntemplate17_1,
-		NtemplateMap
+		NtemplateMap,
+		Ntemplate1Component
 	],
 	imports: [
 		BrowserModule,

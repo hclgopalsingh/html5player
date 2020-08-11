@@ -27,37 +27,17 @@ export class TemplateSevenComponent extends Base implements OnInit {
         });
 		this.appModel = appModel;
 		this.assetsfolderlocation = this.appModel.assetsfolderpath;
-		this.appModel.navShow = 1;
+		this.appModel.navShow = 2;
 		this.appModel.setLoader(true);
 		// if error occured during image loading loader wil stop after 5 seconds 
-		this.loaderTimer = setTimeout(() => {
-			this.appModel.setLoader(false);
-		}, 5000);
 
-		this.appModel.notification.subscribe(
-			(data) => {
-				switch (data) {
-					case PlayerConstants.CMS_PLAYER_CLOSE:
-						console.log('VideoComponent: constructor - cmsPlayerClose');
-						this.close();
-						break;
-
-					default:
-						console.log('Component: constructor - default');
-						break;
-				}
-			}
-		);
 
 	}
 
 	@ViewChild('narrator_voice') narrator_voice: any;
-	@ViewChild('myAudiospeaker') myAudiospeaker: any;
-	@ViewChild('audioEl') audioEl: any;
 	@ViewChild('titleNavBtn') titleNavBtn: any;
 	@ViewChild('container') containerBlock: any;
 	@ViewChild('titleAudio') titleAudio: any;
-	@ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer: any;
 	@ViewChild('clapSound') clapSound: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
 	@ViewChild('showAnswerfeedback') showAnswerfeedback: any;
@@ -66,51 +46,33 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	@ViewChild('rightFeedback') rightFeedback: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
 	@ViewChild('partialFeedback') partialFeedback : any;
-	@ViewChild('showAnswerVO') showAnswerVO: any;
 	@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
 	@ViewChild('overlay') overlay: any;
 	@ViewChild('optionRef') optionRef: any;
 
 
 	assetsfolderlocation: string = "";
-	disableHelpBtn: boolean = false;
-	optimage: any;
 	lastQuestionCheck:any;
-	assetspath: any;
 	wrongCounter: number = 0;
 	//opttext:any;
-	currentIdx = 0;
 	showIntroScreen: boolean;
 	audio = new Audio();
-	bool: boolean = false;
-	timernextseg: any = "";
 	idArray: any = [];
 	speakerTimer: any = "";
 	speaker: any = "";
 	myoption: any = [];
 	question: any = "";
 	feedback: any = "";
-	Instruction: any = "";
 	quesInfo: any = "";
-	correctOpt: any;
-	isFirstQues: boolean;
 	isLastQues: boolean = false;
-	isAutoplayOn: boolean;
 	isLastQuesAct: boolean;
-	autoplay_text: string = "";
-	resizeFlag: boolean = false;
 	noOfImgs: number;
-	noOfImgsLoaded: number = 0;
-	loaderTimer: any;
 	common_assets: any = "";
 	contentgFolderPath: string = "";
 	videoPlayed = false;
 	speakerPlayed = false;
 	instructiontext: string;
-	wrongCount: number = 0;
 	showAnswerSubscription: any;
-	popupIcon: any;
-	popupIconLocation: any;
 	popupType: string = "";
 	attemptType: string = "";
 	ifRightAns: boolean = false;
@@ -118,12 +80,8 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	rightPopup: any;
 	wrongPopup: any;
 	partialPopup: any;
-	popUpObj: any;
-	wrongImgOption: any;
-	closed: boolean = false;
 	wrongTimer: any;
 	showAnswerPopup: any;
-	popupclosedinRightWrongAns: boolean = false;
 	rightTimer:any;   
     clapTimer:any;
 	LastquestimeStart:boolean = false;
@@ -153,7 +111,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.rightPopup = this.feedback.right_ans_sound;
 			this.wrongPopup = this.feedback.wrong_ans_sound;
 			this.partialPopup = this.feedback.partial_ans_sound
-			this.showAnswerVO = this.feedback.show_ans_sound;
 			this.showAnswerPopup = this.feedback.show_ans_popup;
 			this.noOfImgs = fetchedData.imgCount;
 			this.isLastQues = this.appModel.isLastSection;			
@@ -171,40 +128,11 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 
 	onHoverOptions(option, index) {
-		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-		if (!speakerEle.paused) {
-			speakerEle.pause();
-			speakerEle.currentTime = 0;
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			this.speakerPlayed = false;
-			this.speaker.imgsrc = this.speaker.imgorigional;
-		}
 		this.myoption[index].imgsrc = this.myoption[index].imgsrc_hover;
 	}
 
 	onHoveroutOptions(option, index) {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
-	}
-	onHoverPlay(option, index) {
-		if (!this.videoPlayed) {
-			this.myoption[index].play_button_normal = this.myoption[index].play_button_hover;
-		}
-	}
-	onHoveroutPlay(option, index) {
-		if (!this.videoPlayed) {
-			this.myoption[index].play_button_normal = this.myoption[index].play_button_original;
-		}
-	}
-
-	onHoverSpeaker() {
-		if (!this.videoPlayed) {
-			this.speaker.imgsrc = this.speaker.imghover;
-		}
-	}
-	onHoveroutSpeaker() {
-		if (!this.videoPlayed && !this.speakerPlayed) {
-			this.speaker.imgsrc = this.speaker.imgorigional;
-		}
 	}
 
 	blinkOnLastQues() {
@@ -287,15 +215,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 	houtClosePopup() {
 		this.popupAssets.close_button = this.popupAssets.close_button_origional;
-	}
-
-	isPaused() {
-		return this.audio.paused;
-	}
-
-	close() {
-		//this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
-		this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
 	}
 
 	templatevolume(vol, obj) {
@@ -418,11 +337,11 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
-		  speakerEle.pause();
-		  speakerEle.currentTime = 0;
-		  document.getElementById('waveAnimation').style.display = 'none';
-		  (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-		  this.speaker.imgsrc = this.speaker.imgorigional;
+		speakerEle.pause();
+		speakerEle.currentTime = 0;
+		document.getElementById('waveAnimation').style.display = 'none';
+		(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+		this.speaker.imgsrc = this.speaker.imgorigional;
 		}
 	  }
 
@@ -460,12 +379,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.Sharedservice.sendData(data);
 		})
 
-	}
-
-
-	clearData(): void {
-		// clear message
-		this.Sharedservice.clearData();
 	}
 
 	closePopup(Type) {
@@ -583,6 +496,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	/****** Option Hover VO  *******/
 	playOptionHover(option, index) {
+		this.stopAllSounds();
 		if (option && option.audio && option.audio.url) {
 			this.playSound(option.audio, index);
 		}
@@ -751,7 +665,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				element.isRight = false
 			}
 		});
-		this.checkforDuplicates();
+		//this.checkforDuplicates();
 	}
 
 	checkforDuplicates(){

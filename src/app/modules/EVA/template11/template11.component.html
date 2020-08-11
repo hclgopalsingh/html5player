@@ -56,9 +56,8 @@
        
         <div id="optionsBlock">
             <div class="options">                
-                <div  [ngClass]="{'disableDiv':opt.selected}" id="{{'optimage'+idx}}" #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index"
-                    (click)="selectOpt(opt, leftOptRef, idx)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
-                    <ng-template [ngIf]="opt.isShow">
+                <div on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)' [ngClass]="{'disableDiv':opt.selected}" id="{{'optimage'+idx}}" #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index" (click)="selectOpt(opt, leftOptRef, idx)">
+                    <ng-template [ngIf]="opt.isShow">                   
                         <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" >
                         <div class="subOpt" 
                         [class.digit_2]='opt?.totalDigits==2'
@@ -66,22 +65,26 @@
                         *ngIf="!opt.selected">
                             <img class="img-fluid"
                             [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url">
-                        </div>
+                        </div> 
+                        <img class="img-fluid shadow disablePointer"  [src]="commonAssets?.opt_shadow?.location=='content' ? containgFolderPath + '/' + commonAssets?.opt_shadow?.url : assetsPath + '/' +commonAssets?.opt_shadow?.url"
+                        (load)="checkImgLoaded();">
                     </ng-template>                        
                 </div>
             </div>
             <div class="options">
-              <div [ngClass]="{'disableDiv':opt.selected}" id="{{'optimage'+(idx+5)}}" #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
-                (click)="selectOpt(opt, rightOptRef, idx+5)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+5)'>
+              <div  on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+5)' [ngClass]="{'disableDiv':opt.selected}" (click)="selectOpt(opt, rightOptRef, idx+5)"  id="{{'optimage'+(idx+5)}}" #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
+                >
                 <ng-template [ngIf]="opt.isShow">
-                    <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url">
+                    <img class="img-fluid"  [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url">
                     <div class="subOpt" 
                     [class.digit_2]='opt?.totalDigits==2'
                     [class.digit_3]='opt?.totalDigits==3'
                     *ngIf="!opt.selected">
                         <img class="img-fluid"
                         [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url">
-                    </div>
+                     </div>
+                         <img class="img-fluid shadow disablePointer" [src]="commonAssets?.opt_shadow?.location=='content' ? containgFolderPath + '/' + commonAssets?.opt_shadow?.url : assetsPath + '/' +commonAssets?.opt_shadow?.url"
+                        (load)="checkImgLoaded();">
                 </ng-template>                
               </div>
             </div>             

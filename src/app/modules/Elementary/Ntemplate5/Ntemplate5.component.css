@@ -365,17 +365,8 @@ button:focus {
 #confirmModal .bodyText img {
   width: 85%;
 }
-#confirmModal .modal-title {
-  margin-left: 1.5%;/*3%;*/
-  width: 40%!important;
-  height: auto!important;
-}
-#confirmModal .close {
-  /* width: 5%; */
-  margin: 0 1.6% 0 auto;
-  width: 5%!important;
-  height: auto!important;
-}
+ 
+ 
 #confirmModal .modal-footer {
   display: flex;
   align-items: center;
@@ -426,7 +417,11 @@ button:focus {
 #modalTemp5 .modal-dialog {
   width: 67%;/*60%*/
   max-width: 100%;
-  height: 91%;/*78%*/
+/*  height: 91%;78%*/
+}
+
+#modalTemp5 .modal-body{
+  height: 35.3vmax;
 }
 .modal-content {
 	background: transparent !important;
@@ -437,37 +432,12 @@ button:focus {
   min-height: 350px; /*198px;*/
 }
 
-.modal-header {
-  padding: .5% !important;
-  height: 7vmin; /*56px;*/
-  position: relative;
-  top: -12.8%;
-  width: 100%;
-  border-bottom: none !important;
-  margin-bottom: -1px;
-  /*
-     border: solid .7vmin #85d222;
-    border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #248446;
-  */
-}
+ 
 #modalTemp5 .modal-header {
   top: 0;
 }
-.modal-title {
-	margin-left: .3%;/*1.5%;*/
-	height: 80%;
-}
-.close {
-	width: 3%;
-  height: auto;
-  margin-right: .5%;
-	margin-top: -.1%;
-  -webkit-appearance: inherit !important;
-  cursor: pointer;
-  opacity: 1 !important;
-}
+ 
+ 
 @media (min-width: 1366px){
 /*	.close {
 		height: 95%;
