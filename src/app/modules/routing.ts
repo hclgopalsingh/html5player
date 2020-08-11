@@ -25,7 +25,7 @@ import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../controller/Ntemplate8.component';
 import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate1Component } from '../modules/Elementary/ntemplate1/ntemplate1.component';
-import {Ntemplate4} from '../controller/Ntemplate4.component';
+import {Ntemplate4} from '../modules/Elementary/Ntemplate4/Ntemplate4.component';
 import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
 import { Ntemplate6 } from '../controller/Ntemplate6.component';

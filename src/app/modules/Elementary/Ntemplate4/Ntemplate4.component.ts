@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, HostListener, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { timer } from 'rxjs/observable/timer';
-import { PlayerConstants } from '../common/playerconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 import 'jquery';
 import { defer } from 'rxjs/observable/defer';
 import { interval } from 'rxjs/observable/interval';
@@ -12,14 +14,14 @@ declare var $: any;
 
 @Component({
     selector: 'ntemp4',
-    templateUrl: '../view/layout/Ntemplate4.component.html',
-    styleUrls: ['../view/css/Ntemplate4.component.css', '../view/css/bootstrap.min.css']
+    templateUrl: './Ntemplate4.component.html',
+    styleUrls: ['./Ntemplate4.component.css', '../../../view/css/bootstrap.min.css']
 
 })
 
 export class Ntemplate4 implements OnInit {
     private appModel: ApplicationmodelService;
-    constructor(appModel: ApplicationmodelService) {
+    constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
         this.appModel = appModel;
         if(!this.appModel.isVideoPlayed){
             this.isVideoLoaded = false;
@@ -136,6 +138,17 @@ export class Ntemplate4 implements OnInit {
     PlayPauseFlag:boolean = true;
     skipFlag:boolean = true;
     showAnswerClicked:boolean = false;
+    controlHandler = {
+		isShowAns:true,
+		isSubmitRequired:true,
+    	isReplayRequired:true
+	};
+    /*Start: Theme Implementation(Template Changes)*/	
+	themePath:any;
+	fetchedcontent:any;
+	functionalityType:any;
+	bgSubscription: Subscription;
+	/*End: Theme Implementation(Template Changes)*/
 
 
     @ViewChild('mainContainer') mainContainer: any;
@@ -167,6 +180,14 @@ export class Ntemplate4 implements OnInit {
           });
 
         this.containgFolderPath = this.getBasePath();
+        /*Start: Theme Implementation(Template Changes)*/
+		let fetchedData: any = this.appModel.content.contentData.data;
+		this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+		this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+		this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+		this.checkquesTab();
+		/*End: Theme Implementation(Template Changes)*/
         this.setData();
         this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
@@ -222,7 +243,21 @@ export class Ntemplate4 implements OnInit {
         clearTimeout(this.nextFeedbackTimer);
         this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
         this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+        /*Start: Theme Implementation(Template Changes)*/
+		if(this.bgSubscription!=undefined){
+            this.bgSubscription.unsubscribe();
+        }
+        /*End: Theme Implementation(Template Changes)*/
     }
+    /*Start: Theme Implementation(Template Changes)*/
+	checkquesTab() {
+		if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+		this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+		} else {
+		this.appModel.getJson();      
+		}
+	}
+    /*End: Theme Implementation(Template Changes)*/
     
     ngAfterViewChecked() {
         this.templatevolume(this.appModel.volumeValue, this);
@@ -260,17 +295,17 @@ export class Ntemplate4 implements OnInit {
        }
 
     setData() {
-        let fetchedData: any = this.appModel.content.contentData.data;
-        this.timerFeedback = fetchedData.feedback_next_timer;
-        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-        console.log(fetchedData);
-        this.optionHolder = fetchedData.option_holder;
-        this.options = JSON.parse(JSON.stringify(fetchedData.options));
-        this.commonAssets = fetchedData.commonassets;
+        // let fetchedData: any = this.appModel.content.contentData.data;
+        this.timerFeedback = this.fetchedcontent.feedback_next_timer;
+        // this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+        console.log(this.fetchedcontent);
+        this.optionHolder = this.fetchedcontent.option_holder;
+        this.options = JSON.parse(JSON.stringify(this.fetchedcontent.options));
+        this.commonAssets = this.fetchedcontent.commonassets;
         for(let i=0;i<this.maxOpotions;i++){
-            this.dummyImgs.push(fetchedData.options[0]);
+            this.dummyImgs.push(this.fetchedcontent.options[0]);
         }
-        this.questionObj = fetchedData.quesObj;
+        this.questionObj = this.fetchedcontent.quesObj;
         this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
         if(this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed){
             this.isPlayVideo = true;
@@ -284,10 +319,10 @@ export class Ntemplate4 implements OnInit {
         this.randomArray = new Array(this.questionObj.noOfOptions);
         this.maxRandomNo = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
         this.noOfImgs = this.commonAssets.imgCount;
-        this.infoPopupAssets = fetchedData.info_popup;
-        this.confirmAssets = fetchedData.show_answer_confirm;
-        this.confirmSubmitAssets = fetchedData.submit_confirm;
-        this.confirmReplayAssets = fetchedData.replay_confirm;
+        this.infoPopupAssets = this.fetchedcontent.info_popup;
+        this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+        this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
+        this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
         if(this.isLastQuesAct || this.isLastQues){
@@ -297,7 +332,14 @@ export class Ntemplate4 implements OnInit {
         for (let i = 0; i < this.questionObj.noOfOptions; i++) {
             this.randomArray[i] = i;
         }
-        this.quesObj = fetchedData.quesObj;
+        this.quesObj = this.fetchedcontent.quesObj;
+        /*Start: Theme Implementation(Template Changes)*/
+        this.controlHandler={
+            isShowAns:true,
+            isSubmitRequired:this.quesObj.submitRequired,
+            isReplayRequired:this.quesObj.replayRequired
+        }
+        /*End: Theme Implementation(Template Changes)*/
     }
 
     getBasePath() {
@@ -406,11 +448,12 @@ export class Ntemplate4 implements OnInit {
 
     playSound(soundAssets, idx) {
        if(this.audio && this.audio.paused){
-        if (soundAssets.location == 'content') {
-            this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-        } else {
-            this.audio.src = soundAssets.url;
-        }
+        // if (soundAssets.location == 'content') {
+        //     this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+        // } else {
+        //     this.audio.src = soundAssets.url;
+        // }
+        this.audio.src = soundAssets.url;
         this.audio.load();
         this.audio.play();
         for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
@@ -473,7 +516,7 @@ export class Ntemplate4 implements OnInit {
     checkforQVO() {
         this.isVideoLoaded = true;
         if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.quesVORef.nativeElement.src =this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
             this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
             this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
             this.quesVORef.nativeElement.play();
@@ -786,7 +829,7 @@ export class Ntemplate4 implements OnInit {
         let no = num;
         if (this.correctCategory && this.correctCategory.nativeElement && this.correctCategory.nativeElement.children[num]) {
             if (this.category.correct[num].correct_vo) {
-                this.feedbackAudio.nativeElement.src = this.category.correct[num].correct_vo.location == "content" ? this.containgFolderPath + "/" + this.category.correct[num].correct_vo.url : this.assetsPath + "/" + this.category.correct[num].correct_vo.url;
+                this.feedbackAudio.nativeElement.src = this.category.correct[num].correct_vo.url;
                 this.feedbackAudio.nativeElement.play();
                 this.correctCategory.nativeElement.children[num].classList = "img-fluid optionAnimate";
                 this.currentFeedbackElem = this.correctCategory.nativeElement.children[num];
@@ -807,7 +850,7 @@ export class Ntemplate4 implements OnInit {
         let no = num;
         if (this.correctCategory && this.correctCategory.nativeElement && this.correctCategory.nativeElement.children[num]) {
             if (this.category.correct[num].showAns_vo) {
-                this.feedbackAudio.nativeElement.src = this.category.correct[num].showAns_vo.location == "content" ? this.containgFolderPath + "/" + this.category.correct[num].showAns_vo.url : this.assetsPath + "/" + this.category.correct[num].showAns_vo.url;
+                this.feedbackAudio.nativeElement.src =this.category.correct[num].showAns_vo.url;
                 this.feedbackAudio.nativeElement.play();
                 this.correctCategory.nativeElement.children[num].classList = "img-fluid optionAnimate";
                 this.currentFeedbackElem = this.correctCategory.nativeElement.children[num];
@@ -827,7 +870,7 @@ export class Ntemplate4 implements OnInit {
         let no = num;
         if (this.incorrectCategory && this.incorrectCategory.nativeElement && this.incorrectCategory.nativeElement.children[num]) {
             if (this.category.incorrect[num].correct_vo) {
-                this.feedbackAudio.nativeElement.src = this.category.incorrect[num].incorrect_vo.location == "content" ? this.containgFolderPath + "/" + this.category.incorrect[num].incorrect_vo.url : this.assetsPath + "/" + this.category.incorrect[num].incorrect_vo.url;
+                this.feedbackAudio.nativeElement.src =this.category.incorrect[num].incorrect_vo.url;
                 this.feedbackAudio.nativeElement.play();
                 this.incorrectCategory.nativeElement.children[num].classList = "img-fluid optionAnimate";
                 this.currentFeedbackElem = this.incorrectCategory.nativeElement.children[num];
