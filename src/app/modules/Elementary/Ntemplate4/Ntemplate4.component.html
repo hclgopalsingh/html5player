@@ -142,11 +142,10 @@
 </div>
 <div class="videoMainContainer" *ngIf="isPlayVideo">
   <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
-          <source [src]="questionObj?.quesVideo?.urlOgv"
-          type="{{videoType}}">
+    <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
   </video>
-  <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()"/></div>
-  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
+   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()"/></div>
+  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="quesSkip" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 
   <div class="video_loader" *ngIf="!isVideoLoaded">
     <img src="assets/images/loaderVideo.gif">

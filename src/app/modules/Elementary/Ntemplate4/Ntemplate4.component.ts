@@ -295,9 +295,7 @@ export class Ntemplate4 implements OnInit {
        }
 
     setData() {
-        // let fetchedData: any = this.appModel.content.contentData.data;
         this.timerFeedback = this.fetchedcontent.feedback_next_timer;
-        // this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
         console.log(this.fetchedcontent);
         this.optionHolder = this.fetchedcontent.option_holder;
         this.options = JSON.parse(JSON.stringify(this.fetchedcontent.options));
@@ -771,17 +769,17 @@ export class Ntemplate4 implements OnInit {
 
     checkResponseType() {
         this.attemptType = "manual";
-        let fetchedData: any = this.appModel.content.contentData.data;
+        // let fetchedData: any = this.appModel.content.contentData.data;
         if (this.isAllRight) {
             clearInterval(this.blinkTimeInterval);
             this.appModel.stopAllTimer();
             console.log("show both category A and category B modal for all right");
             if(this.categoryA && this.categoryA.correct.length){
-                this.feedbackAssets = fetchedData.category_1;
+                this.feedbackAssets = this.fetchedcontent.category_1;
                 this.currentFeedbackPlaying = "categoryA";
                 this.category = JSON.parse(JSON.stringify(this.categoryA));
             }else if(this.categoryB && this.categoryB.correct.length){
-                this.feedbackAssets = fetchedData.category_2;
+                this.feedbackAssets = this.fetchedcontent.category_2;
                 this.currentFeedbackPlaying = "categoryB";
                 this.category = JSON.parse(JSON.stringify(this.categoryB));
             }
@@ -798,11 +796,11 @@ export class Ntemplate4 implements OnInit {
                 this.appModel.stopAllTimer();
                 console.log("show category A and category B modal for both right and wrong");
                 if(this.categoryA && (this.categoryA.correct.length || this.categoryA.incorrect.length)){
-                    this.feedbackAssets = fetchedData.category_1;
+                    this.feedbackAssets = this.fetchedcontent.category_1;
                     this.currentFeedbackPlaying = "categoryA";
                     this.category = JSON.parse(JSON.stringify(this.categoryA));
                 }else if(this.categoryB && (this.categoryB.correct.length || this.categoryB.incorrect.length)){
-                     this.feedbackAssets = fetchedData.category_2;
+                     this.feedbackAssets = this.fetchedcontent.category_2;
                     this.currentFeedbackPlaying = "categoryB";
                     this.category = JSON.parse(JSON.stringify(this.categoryB));
                 }
@@ -1085,12 +1083,12 @@ export class Ntemplate4 implements OnInit {
         }
         this.currentFeedbackPlaying = "categoryB";
         this.category = JSON.parse(JSON.stringify(this.categoryB));
-        let fetchedData: any = this.appModel.content.contentData.data;
+        // let fetchedData: any = this.appModel.content.contentData.data;
         if(this.showAnswerClicked){
-            this.feedbackAssets = fetchedData.showans_2
+            this.feedbackAssets = this.fetchedcontent.showans_2
         }
         else{
-            this.feedbackAssets = fetchedData.category_2;
+            this.feedbackAssets = this.fetchedcontent.category_2;
         }
         clearInterval(this.nextBtnInterval);
         setTimeout(() => {
@@ -1111,13 +1109,13 @@ export class Ntemplate4 implements OnInit {
         }
         this.currentFeedbackPlaying = "categoryA";
         this.category = JSON.parse(JSON.stringify(this.categoryA));
-        let fetchedData: any = this.appModel.content.contentData.data;
+        // let fetchedData: any = this.appModel.content.contentData.data;
 
         if(this.showAnswerClicked){
-            this.feedbackAssets = fetchedData.showans_1
+            this.feedbackAssets = this.fetchedcontent.showans_1
         }
         else{
-            this.feedbackAssets = fetchedData.category_1;
+            this.feedbackAssets = this.fetchedcontent.category_1;
         }
         setTimeout(() => {
             this.setFeedbackAndPlayCorrect(0);
@@ -1151,12 +1149,12 @@ export class Ntemplate4 implements OnInit {
         }
 
         this.appModel.stopAllTimer();
-        let fetchedData: any = this.appModel.content.contentData.data;
+        // let fetchedData: any = this.appModel.content.contentData.data;
         if(this.showAnswerClicked){
-            this.feedbackAssets = fetchedData.showans_1
+            this.feedbackAssets = this.fetchedcontent.showans_1
         }
         else{
-            this.feedbackAssets = fetchedData.category_1;
+            this.feedbackAssets = this.fetchedcontent.category_1;
         }
         this.currentFeedbackPlaying = "categoryA";
         this.category = JSON.parse(JSON.stringify(this.categoryA));
