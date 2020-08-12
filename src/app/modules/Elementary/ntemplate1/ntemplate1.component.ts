@@ -140,6 +140,7 @@ private appModel: ApplicationmodelService;
   instructionDisable:boolean=false;
   i:number;
   j:number;
+  disableDiv:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -168,9 +169,11 @@ private appModel: ApplicationmodelService;
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
+        $(".instructionBase").addClass("disable_div");
         this.instructionDisable=true;
         this.instruction.nativeElement.onended=() => {
           this.instructionDisable=false;
+          $(".instructionBase").removeClass("disable_div");
         }
         //$(".instructionBase img").css("cursor", "pointer");
       }
@@ -451,6 +454,14 @@ private appModel: ApplicationmodelService;
               this.instruction.nativeElement.currentTime = 0;
               this.instructionDisable=false;
             }
+                    if (!this.questionAudio.nativeElement.paused)
+        {
+          this.questionAudio.nativeElement.pause();
+          this.questionAudio.nativeElement.currentTime = 0;
+          this.displayWave=false;
+          $(".bodyContent").removeClass("disable_div");
+          $(".instructionBase").removeClass("disable_div"); 
+        }
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
     })
@@ -838,6 +849,10 @@ private appModel: ApplicationmodelService;
       }
     } else {
       this.appModel.notifyUserAction();
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+      }, 1000);
     }
   }
 
@@ -1334,7 +1349,7 @@ houtSkip(){
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
-      }, 1000);
+      }, 4000);
       
     }
 
