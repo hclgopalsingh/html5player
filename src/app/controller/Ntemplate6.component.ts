@@ -4,7 +4,8 @@ import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { style } from '@angular/animations';
 import { PlayerConstants } from '../common/playerconstants';
-
+import { ThemeConstants } from '../common/themeconstants';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 declare var $: any;
 
@@ -17,7 +18,7 @@ declare var $: any;
 
 export class Ntemplate6 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -240,7 +241,11 @@ export class Ntemplate6 implements OnInit {
   skipFlag:boolean = true;
   styleHeaderPopup:any;
   styleBodyPopup:any;
-
+  fetchedcontent: any;
+  functionalityType: any;
+  themePath: any;
+  showAnsTimeout: any;
+  closeDelayTime:any;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -2001,15 +2006,15 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
       this.flag = true;
       console.log("Answer is right");
-      this.styleHeaderPopup = this.confirmAssets.style_header;
-      this.styleBodyPopup = this.confirmAssets.style_body;
+      this.styleHeaderPopup = this.feedbackObj.style_header;
+      this.styleBodyPopup = this.feedbackObj.style_body;
        setTimeout(() => {
          this.sendFeedback(undefined, 'yes', 'rightAnswer');
        }, 2000);
     } else {
       console.log("Answer is wrong");
-      this.styleHeaderPopup = this.confirmAssets.wrong_style_header;
-      this.styleBodyPopup = this.confirmAssets.wrong_style_body;
+      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
        setTimeout(() => { 
          this.sendFeedback(undefined, 'yes', 'wrongAnswer');
        }, 2000);
@@ -2155,50 +2160,6 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
 
-  //  MatraPopUpLoaded(i)
-  //{ 
-  //   if ( i % 3 == 0) {
-  //     this.MatraPopUp.nativeElement.children[i].style.display = "block";
-  //     if(this.currentOptionNumberjson == 0)
-  //     {
-  //        this.MatraPopUp.nativeElement.children[this.currentMatraNumberjson+2].style.display = "block";
-  //     }
-  //     if(this.currentOptionNumberjson == 3)
-  //     {
-  //       this.MatraPopUp.nativeElement.children[this.currentMatraNumberjson+1].style.display = "block";
-  //     }
-       
-  //   }
-  //   else{this.MatraPopUp.nativeElement.children[i].style.display = "none";}   
-  //}
-
-  //WrongMatraPopUpLoaded(i)
-  //{
-  //  if ( i % 3 == 0) {
-  //     this.wrongMatraPopUp.nativeElement.children[i].style.display = "block";       
-  //   }
-  //   else{
-  //     this.wrongMatraPopUp.nativeElement.children[i].style.display = "none";      
-  //    } 
-  //}
-
-//DuplicateOptionLoaded(i)
-//{
-// this.popUpDuplicateOption.nativeElement.children[i].style.display = "none";
-//}
-  
-
-  
-
-  //OptionLoaded(event, i)
-  //{
-
-  //  setTimeout(() => { 
-  //     this.duplicateOption.nativeElement.children[i].style.opacity = 0;           
-  //      }, 0); 
- 
-  //}
-
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
@@ -2230,16 +2191,34 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.appModel.event = { 'action': 'segmentBegins' };
     }
         this.containgFolderPath = this.getBasePath();
-        this.setData();
+       
         this.appModel.functionone(this.templatevolume, this);//start end
+
+
+        let fetchedData: any = this.appModel.content.contentData.data;
+        this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+        this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+        this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
+        this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+        this.checkquesTab();
+        this.appModel.globalJsonData.subscribe(data => {
+          this.showAnsTimeout = data.showAnsTimeout;
+          if(this.feedback.closeDelayTime){
+            this.closeDelayTime = this.feedback.closeDelayTime
+          } else{
+            this.closeDelayTime = this.showAnsTimeout;
+          }
+        });
+
+        this.setData();
     this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
                 console.log("manual mode ", mode);
             } else if (mode == "auto") {
               console.log("auto mode", mode);
               this.attemptType = "";
-              this.styleHeaderPopup = this.confirmAssets.style_header;
-              this.styleBodyPopup = this.confirmAssets.style_body;
+              this.styleHeaderPopup = this.feedbackObj.style_header;
+              this.styleBodyPopup = this.feedbackObj.style_body;
               this.showFeedback('yes');
             }
         })
@@ -2293,7 +2272,13 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
   }
-
+  checkquesTab() {
+		if (this.fetchedcontent.commonassets.ques_control != undefined) {
+			this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+		} else {
+			this.appModel.getJson();
+		}
+	}
   postWrongAttemplt() {
     //this.resetAttempt();
     this.controlHandler.isTab = true;
@@ -2464,21 +2449,22 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   setData() {
   
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      console.log(this.fetchedcontent);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.options = this.fetchedcontent.optionsObj;
      // this.speaker = fetchedData.commonassets.speaker.url;
-      this.optionBase = fetchedData.commonassets.optionBase.url;
-      this.narratorAudio = fetchedData.commonassets.narrator;
+      this.optionBase = this.fetchedcontent.commonassets.optionBase.url;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
       //this.subjectQuesControl.next(fetchedData.commonassets);
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+     // this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+      //this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-      this.optionsAssets = fetchedData.optionsObj;
+      this.optionsAssets = this.fetchedcontent.optionsObj;
       for (let j = 0; j < this.optionsAssets.length; j++) {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
@@ -2486,13 +2472,17 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       for (let i = 0; i < this.optionArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (this.optionArr[i] == this.defaultLetterConfig[j].id) {
-            this.optionObj.push(this.defaultLetterConfig[j]);
+            var a = this.defaultLetterConfig[j];
+            var b = this.optionsAssets[i];
+            var fobc = {...a, ...b};
+            this.optionObj.push(fobc);
+          //  this.optionObj.push()
             break;
           }
         }
       }
-      this.answerObj = fetchedData.AnswerObj;  
-      this.refQuesObj = fetchedData.refQuesObj;
+      //this.answerObj = this.fetchedcontent.AnswerObj;  
+      this.refQuesObj = this.fetchedcontent.refQuesObj;
       this.QuesArr = this.refQuesObj.quesIdConfig;
       for (let i = 0; i < this.QuesArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
@@ -2502,23 +2492,23 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
           }
         }
       }
-      this.optPosObj =  fetchedData.optionInitPosObj;
+      this.optPosObj =  this.fetchedcontent.optionInitPosObj;
       //this.refQuesArr = this.refQuesObj[0].refQuesArr; 
       this.optionInitPosArr = this.optPosObj[0].optionInitPosArr;
      // this.optArr1 = this.optionObj[0].optionsArr;        
-      this.optionCommonAssets = fetchedData.option_common_assets;
+      this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
-      this.feedbackObj = fetchedData.feedback;
+      this.feedbackObj = this.fetchedcontent.feedback;
       this.currentOptionNumberjson = this.feedbackObj.correct_option_number;
       this.currentMatraNumberjson = this.feedbackObj.correct_matra_number;
       this.isValid = true;
       this.isNotValid = false;
       //this.popupAssets = fetchedData.feedback;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.confirmAssets = fetchedData.show_answer_confirm;
-      this.confirmReplayAssets = fetchedData.replay_confirm;
-       this.questionObj = fetchedData.quesObj;
-       this.quesObj = fetchedData.quesObj;
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+      this.confirmReplayAssets = this.fetchedcontent.feedback.replay_confirm;
+       this.questionObj = this.fetchedcontent.quesObj;
+       this.quesObj = this.fetchedcontent.quesObj;
         //this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
          if(this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed){
              this.isPlayVideo = true;
@@ -2542,7 +2532,7 @@ document.getElementById("coverBtm").style.display = "block";
   checkforQVO() {  
         this.isVideoLoaded = true;
         if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
           this.mainContainer.nativeElement.classList = "bodyContent disable_div";
           this.instructionBar.nativeElement.classList = "instructionBase disable_div";
             this.quesVORef.nativeElement.play();
@@ -2699,14 +2689,14 @@ document.getElementById("coverBtm").style.display = "block";
     }
     if (action == 'wrongAnswer') {
       this.rightanspopUpheader_img = false;
-      this.wronganspopUpheader_img = true;
-      this.showanspopUpheader_img = false;
+			this.wronganspopUpheader_img = true;
+			this.showanspopUpheader_img = false;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) + 20 + "%";
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls"
       if (this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url) {
-        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -2725,8 +2715,8 @@ document.getElementById("coverBtm").style.display = "block";
     if (action == "rightAnswer") {
       this.flag = true;
       this.rightanspopUpheader_img = true;
-      this.wronganspopUpheader_img = false;
-      this.showanspopUpheader_img = false;
+			this.wronganspopUpheader_img = false;
+			this.showanspopUpheader_img = false;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
       if (id != undefined) {
         this.attemptType = "";
@@ -2741,7 +2731,7 @@ document.getElementById("coverBtm").style.display = "block";
       }
       
       if (this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url) {
-        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -2769,13 +2759,13 @@ document.getElementById("coverBtm").style.display = "block";
       }
     }
     if (action == "showAnswer") {
-      this.styleHeaderPopup = this.confirmAssets.style_header;
-      this.styleBodyPopup = this.confirmAssets.style_body;
+      this.styleHeaderPopup = this.feedbackObj.style_header;
+      this.styleBodyPopup = this.feedbackObj.style_body;
       this.flag = true;
       this.appModel.resetBlinkingTimer();
-      this.rightanspopUpheader_img = false;
-      this.wronganspopUpheader_img = false;
-      this.showanspopUpheader_img = true;
+      this.rightanspopUpheader_img = true;
+			this.wronganspopUpheader_img = false;
+			this.showanspopUpheader_img = false;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
       if (id != undefined) {
         this.attemptType = "";
@@ -2791,7 +2781,7 @@ document.getElementById("coverBtm").style.display = "block";
       }
       
       if (this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio && this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url) {
-        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {

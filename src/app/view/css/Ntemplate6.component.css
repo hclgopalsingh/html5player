@@ -164,16 +164,21 @@ button:focus {
 }
 
 .refQues{
-  width: 42%;
+  width: 57%;
   height: 40%;
   /* text-align: center; */
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
-  border: solid 2px #000;
-  border-radius: 2vmin;
+  position:relative;
   z-index: 1;
+}
+.refQues .img-fluid{
+  position: absolute;
+  height: auto!important;
+  -webkit-filter: none!important;;
+  filter: none!important;
+  z-index: 0;
 }
 
 .refQuesPopUp {
@@ -318,7 +323,11 @@ button:focus {
   height: 78%;
   -webkit-filter: grayscale(100%) brightness(0) saturate(0);
   filter: grayscale(100%) brightness(0) saturate(0);
+  z-index: 1;
   ;
+}
+.refQuesPopUp .img-fluid{
+  width: 85%;
 }
 .modal .refQues img {
   height: 75%;/*61%;*/
