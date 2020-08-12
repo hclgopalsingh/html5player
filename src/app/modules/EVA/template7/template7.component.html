@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <audio #narrator_voice [src]="common_assets?.instruction?.location=='content' ? contentgFolderPath + '/' +common_assets?.instruction.url: assetsfolderlocation + '/'+ common_assets?.instruction.url"></audio>
-    <div class="" #overlay></div>	
+<div class="" [ngClass]="{'fadeContainer':isOverlay}"></div>
     <div class="container-fluid eva" id="container" style="opacity: 0;;"><!--style="width: 1168px;" -->
         <div class="headerBar">
             <img class="img-fluid" [src]="common_assets?.header_bar?.location =='content' ? contentgFolderPath + '/' + common_assets?.header_bar?.url : assetsfolderlocation + '/' + common_assets?.header_bar?.url" />
