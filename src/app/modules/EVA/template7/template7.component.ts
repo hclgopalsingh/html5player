@@ -85,6 +85,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	showAnswerTimer: any;
 	isOverlay: boolean = false;
 	//new vars
+	speakerVolume: any;
 	ansArray: any;
 	disableOption: boolean = false;
 	activeId: any = 0;
@@ -241,6 +242,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
 			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.audio) {
+			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+		  }
 	}
 	//end
 
@@ -252,7 +256,13 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		this.setTemplateType();
 		this.contentgFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
-
+		//subscribing speaker from shared service to get the updated object of speaker
+		this.Sharedservice.spriteElement.subscribe(imagesrc => {
+			this.speaker = imagesrc;
+		  });
+		  this.Sharedservice.speakerVol.subscribe(speakerVol => {
+			this.speakerVolume = speakerVol;
+		  });
 		if (this.appModel.isNewCollection) {
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
@@ -274,17 +284,14 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				this.popupType = "showanswer"
 			}
 		})
+		this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
+			console.log(data,"changed")
+			this.stopAllSounds()
+		  })
 		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
 			if (val == "uttarDikhayein") {
 				this.appModel.stopAllTimer();
-				let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-				if (!speakerEle.paused) {
-					speakerEle.pause();
-					speakerEle.currentTime = 0;
-					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-					this.speakerPlayed = false;
-					this.speaker.imgsrc = this.speaker.imgorigional;
-				}
+				this.stopAllSounds()
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
 					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
