@@ -876,5 +876,15 @@ html [type=button] {
 }
  
 .videoMainContainer{
-  width:99.9%
+  width:100%;
+}
+.videoWrapper{
+  width: 100%;height: 
+  auto;position: 
+  absolute;top: 0;
+  left: 0;
+  z-index: 101;
+}
+.videoMainContainer .videoBg{
+  opacity: 0;
 }
