@@ -24,7 +24,6 @@ export class Template5Component implements OnInit {
   noOfImgsLoaded: number = 0;
   containgFolderPath: string = "";
   assetsPath: string = "";
-  loadFlag: boolean = false;
   quesObj: any;
   confirmAssets: any;
   feedbackAssets: any;
@@ -35,7 +34,6 @@ export class Template5Component implements OnInit {
   currentIdx: number = 0;
   wrongCounter: number = 0;
   instructiontext: string;
-  timernextseg: any = "";
   idArray: any = [];
   speaker: any;
   speakerVolume: any;
@@ -46,9 +44,6 @@ export class Template5Component implements OnInit {
   ifRightAns: boolean = false;
   popupAssets: any;
   showAnswerSubscription: any;
-  answerImageBase: any;
-  answerImage: any;
-  answerImagelocation: any;
   popupIcon: any;
   popupIconLocation: any;
   lastQuestionCheck: any;
@@ -76,6 +71,7 @@ export class Template5Component implements OnInit {
   parentInputClass: any = "";
   selectedLetterCount: number = 0;
   rightAnsBackground: any;
+  blinkInterval: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -152,7 +148,6 @@ export class Template5Component implements OnInit {
       }
     })
 
-
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       this.appModel.stopAllTimer();
       this.pauseSpeaker();
@@ -173,7 +168,6 @@ export class Template5Component implements OnInit {
         }
       }
     })
-
 
     this.appModel.nextBtnEvent().subscribe(() => {
       alert();
@@ -197,9 +191,18 @@ export class Template5Component implements OnInit {
 
     this.appModel.postWrongAttempt.subscribe(() => {
       this.appModel.notifyUserAction();
-
     })
   }
+
+  ngAfterViewInit() {
+    this.appModel.setLoader(false);
+    this.checkforQVO();
+  }
+
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
   ngOnDestroy() {
     this.showAnswerSubscription.unsubscribe();
     clearTimeout(this.clappingTimer);
@@ -208,8 +211,57 @@ export class Template5Component implements OnInit {
     this.stopAllSounds();
   }
 
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
+  /******On Hover option ********/
+  onHoverOptions(option) {
+    this.pauseSpeaker();
+    option.image_bg = option.image_bg_hover;
+  }
+
+  /******Hover out option ********/
+  onHoveroutOptions(option) {
+    if (option.selected) {
+      option.image_bg == this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
+    }
+    else {
+      option.image_bg = option.image_bg_original;
+    }
+  }
+
+  /****** Option Hover VO  *******/
+  playOptionHover(option, index) {
+    if (option && option.audio && option.audio.url && !option.selected) {
+      this.playSound(option.audio, index);
+    }
+  }
+  /***** Play sound on option roll over *******/
+  playSound(soundAssets, idx) {
+    if (this.audio && this.audio.paused) {
+      if (soundAssets.location == 'content') {
+        this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+      } else {
+        this.audio.src = soundAssets.url;
+      }
+      this.audio.load();
+      this.audio.play();
+      for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
+        if (i != idx) {
+          this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+        }
+      }
+      this.audio.onended = () => {
+        this.enableAllOptions();
+      }
+    }
+  }
+
+  /******On Hover close popup******/
+  hoverClosePopup() {
+    this.popupAssets.close_button = this.popupAssets.close_button_hover;
+  }
+
+  /******Hover out close popup******/
+  houtClosePopup() {
+    this.popupAssets.close_button = this.popupAssets.close_button_origional;
   }
 
   /****Set data for the Template****/
@@ -313,26 +365,33 @@ export class Template5Component implements OnInit {
   /****** Play right answer VO for each correct word ********/
   playrightFeedbackAudioPopup(i) {
     let current = i;
-    let backgroundStartingIndex = this.feedback.correct_ans[current].correct_index[0];
+    let highlightStartIndex = this.feedback.correct_ans[current].correct_index[0];
+    let highlightedOption = this.myoption_right_ans.optionsArr[highlightStartIndex - 1];
     let feedbackAudio = this.feedback.right_ans_popup[current].rightfeedback_audio;
     this.feedbackPopupAudio.nativeElement.src = feedbackAudio.location == "content" ? this.containgFolderPath + "/" + feedbackAudio.url : this.assetsPath + "/" + feedbackAudio.url;
     this.feedbackPopupAudio.nativeElement.play();
-    this.feedback.correct_ans[current].correct_index.forEach(index => {
-      if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[index - 1]) {
-        this.popupBodyRef.nativeElement.children[index - 1].classList.add("optionAnimate");
+    let flag = true;
+    this.blinkInterval = setInterval(() => {
+      if (flag) {
+        highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
+        this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_original;
+        flag = false;
       }
-    });
+      else {
+        highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_border;
+        this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_border;
+        flag = true;
+      }
+    }, 300);
     this.feedbackPopupAudio.nativeElement.onended = () => {
-      this.feedback.correct_ans[current].correct_index.forEach(index => {
-        if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[index - 1]) {
-          this.popupBodyRef.nativeElement.children[index - 1].classList.remove("optionAnimate");
-          this.popupBodyRef.nativeElement.children[index - 1].classList.add("nutralize");
-        }
-      });
+      highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
+      this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_original;
+      clearInterval(this.blinkInterval);
+      this.blinkInterval = undefined;
       ++current;
       if (this.feedback.correct_ans.length == current) {
         this.rightTimer = setTimeout(() => {
-          this.closePopup('answerPopup');
+          // this.closePopup('answerPopup');
         }, 10000);
         return;
       }
@@ -344,16 +403,11 @@ export class Template5Component implements OnInit {
   checkAnswer(option, index) {
     let currentIndexArr = this.feedback.correct_ans[this.correctAnswerCounter].correct_index;
     this.selectedIndex = index;
-
-    // option.image_bg = option.image_bg_selected;
-
-    //option.image = option.image_original;//Reset Hover image to normal
     this.disableMainContent = true;//Disable the mainContent when option is selected
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
     this.stopAllSounds();
-    // this.enableAllOptions();
     if (currentIndexArr[this.selectedLetterCount] == option.id) {
       option["selected"] = true;
       this.optionsContainer.nativeElement.children[this.selectedIndex].classList.add("disableDiv");
@@ -381,7 +435,7 @@ export class Template5Component implements OnInit {
         this.rightFeedbackVO = option.isMatra ? this.feedback.right_ans_sound_matra : this.feedback.right_ans_sound_akshar;
       }
       if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1 && this.selectedLetterCount == currentIndexArr.length) {
-        this.myoption.optionsArr.forEach(option => {
+        this.myoption.optionsArr.forEach(option => {  // disable all other non selected keys on final word completion
           if (!option.selected) {
             option.image_bg = option.image_bg_disabled;
           }
@@ -392,15 +446,13 @@ export class Template5Component implements OnInit {
         this.rightFeedback.nativeElement.onended = () => {
           if (this.selectedLetterCount == currentIndexArr.length) {  // if all correct letters/matra of a word are selected
             if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1) {  //if all correct words are filled
+              this.storeVisitedTabs();
+
               this.multiCorrectTimer = setTimeout(() => {
                 let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
                 rightAnswerPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                let playFeedbackInterval = setInterval(() => {
-                  clearInterval(playFeedbackInterval);
-                  this.playrightFeedbackAudioPopup(0);
-                }, 200);
+                this.playrightFeedbackAudioPopup(0);
               }, 2000);
-
             }
             else {
               this.correctAnswerCounter++;
@@ -412,16 +464,16 @@ export class Template5Component implements OnInit {
           }
           else {
             this.disableMainContent = false; //Enable main content
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+              document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+            }
           }
-          for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-            document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
-          }
+
         }
       }
     }
     else {
       this.ifWrongAns = true;
-      //option.image = option.image_original;//Reset Hover image to normal
       //play wrong feed back audio
       this.wrongCounter += 1;
       if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
@@ -447,6 +499,21 @@ export class Template5Component implements OnInit {
     }
   }
 
+  /**** Store question id on sessionStorage *****/
+  storeVisitedTabs() {
+    if (sessionStorage.getItem("tabsVisited")) {
+      let visitedArr = JSON.parse(sessionStorage.getItem("tabsVisited"));
+      if (visitedArr.indexOf(this.commonAssets.ques_control.quesTabs.quesID) < 0) {   //If question is not already answered
+        visitedArr.push(this.commonAssets.ques_control.quesTabs.quesID);
+        sessionStorage.setItem("tabsVisited", JSON.stringify(visitedArr));
+      }
+    }
+    else {
+      let visitedTabsArr = [this.commonAssets.ques_control.quesTabs.quesID];
+      sessionStorage.setItem("tabsVisited", JSON.stringify(visitedTabsArr));
+    }
+  }
+
   close() {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
@@ -457,6 +524,10 @@ export class Template5Component implements OnInit {
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
     clearTimeout(this.multiCorrectTimer);
+    if (this.blinkInterval) {
+      clearInterval(this.blinkInterval);
+      this.blinkInterval = undefined;
+    }
 
     this.showAnswerRef.nativeElement.classList = "modal";
     this.ansPopup.nativeElement.classList = "modal";
@@ -472,6 +543,9 @@ export class Template5Component implements OnInit {
 
     this.videoonshowAnspopUp.nativeElement.pause();
     this.videoonshowAnspopUp.nativeElement.currentTime = 0;
+
+    this.feedbackPopupAudio.nativeElement.pause();
+    this.feedbackPopupAudio.nativeElement.currentTime = 0;
 
     if (Type === "answerPopup") {
       this.popupclosedinRightWrongAns = true;
@@ -521,11 +595,6 @@ export class Template5Component implements OnInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.appModel.setLoader(false);
-    this.checkforQVO();
-  }
-
   /**Disable all clickables until instruction VO ends**/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
@@ -542,7 +611,7 @@ export class Template5Component implements OnInit {
     }
   }
 
-/****** Play Answer Hint VO for each word to be filled ********/
+  /****** Play Answer Hint VO for each word to be filled ********/
   playAnsHintVO() {
     let currentAnswerObj = this.quesObj.questionText[this.correctAnswerCounter];
     if (currentAnswerObj.audio.location == 'content') {
@@ -557,60 +626,10 @@ export class Template5Component implements OnInit {
     this.answerHint.onended = () => {
       this.appModel.handlePostVOActivity(false);
       this.disableMainContent = false;
-    }
-  }
-
-  /******On Hover option ********/
-  onHoverOptions(option) {
-    this.pauseSpeaker();
-    option.image_bg = option.image_bg_hover;
-  }
-
-  /******Hover out option ********/
-  onHoveroutOptions(option) {
-    if (option.selected) {
-      option.image_bg == this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
-    }
-    else {
-      option.image_bg = option.image_bg_original;
-    }
-  }
-
-  /****** Option Hover VO  *******/
-  playOptionHover(option, index) {
-    if (option && option.audio && option.audio.url && !option.selected) {
-      this.playSound(option.audio, index);
-    }
-  }
-  /***** Play sound on option roll over *******/
-  playSound(soundAssets, idx) {
-    if (this.audio && this.audio.paused) {
-      if (soundAssets.location == 'content') {
-        this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-      } else {
-        this.audio.src = soundAssets.url;
-      }
-      this.audio.load();
-      this.audio.play();
-      for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-        if (i != idx) {
-          this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
-        }
-      }
-      this.audio.onended = () => {
-        this.enableAllOptions();
+      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
       }
     }
-  }
-
-  /******On Hover close popup******/
-  hoverClosePopup() {
-    this.popupAssets.close_button = this.popupAssets.close_button_hover;
-  }
-
-  /******Hover out close popup******/
-  houtClosePopup() {
-    this.popupAssets.close_button = this.popupAssets.close_button_origional;
   }
 
   /***** Enable all options and speaker on audio end *******/

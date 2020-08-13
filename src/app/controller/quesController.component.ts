@@ -36,38 +36,39 @@ export class QuesController implements OnInit {
   quesTabs: any = [];
   quesCtrl: any;
   timeInterval: any;
-  hideShowAnswer:boolean = true;
-	disablePrev:boolean = true;
-	disableNext:boolean = true;
-  disableTabs:boolean = true;
-  EVA:boolean = false;
-  EnableShowAnswer:boolean = false;
-  EnableSubmitAnswer:boolean = false;
+  hideShowAnswer: boolean = true;
+  disablePrev: boolean = true;
+  disableNext: boolean = true;
+  disableTabs: boolean = true;
+  EVA: boolean = false;
+  EnableShowAnswer: boolean = false;
+  EnableSubmitAnswer: boolean = false;
   Template: any;
-  EVAQid:any;
+  EVAQid: any;
   subscription: Subscription;
-  UttarDikhayeinTooltip:any;
-  SubmitBtnTooltip:any;
-  blink:any;
-  themePath:any;
-  themeType:any;
-  buttonPath:any;
+  UttarDikhayeinTooltip: any;
+  SubmitBtnTooltip: any;
+  blink: any;
+  themePath: any;
+  themeType: any;
+  buttonPath: any;
   disableSubmit: boolean = true;
   disableReplay: boolean;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
-    this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
-      if(this.Template === 'EVA'){
+    this.subscription = this.Sharedservice.getData().subscribe(data => {
+      this.Template = data.data.TemplateType;
+      if (this.Template === 'EVA') {
         this.EVA = true;
-      }else{
+      } else {
         this.EVA = false;
       }
 
     });
 
 
- 
+
   }
   pointObjArr: any[] = [];
   questionNo: number = 0;
@@ -78,11 +79,13 @@ export class QuesController implements OnInit {
   enableSubmitBtn: boolean = false;
   enableReplayBtn: boolean = false;
   enableNavBtns: boolean = false;
-  isVideoPlaying:boolean = false;
-  isLastQuesAageyBadhe:boolean = false;
-  isLastQues:boolean = false;
+  isVideoPlaying: boolean = false;
+  isLastQuesAageyBadhe: boolean = false;
+  isLastQues: boolean = false;
   ngOnInit() {
-
+    if (sessionStorage.getItem("tabsVisited")) {
+      sessionStorage.removeItem("tabsVisited");
+    }
 
     this.subscriptionQuesNos = this.appModel.getNoOfQues().subscribe(num => {
       console.log("number of questions", num);
@@ -99,15 +102,15 @@ export class QuesController implements OnInit {
     })
     this.subscriptionQuesIndex = this.appModel.getQuesionIdx().subscribe(idx => {
       this.questionNo = idx;
-      console.log("selected question index", this.questionNo); 
+      console.log("selected question index", this.questionNo);
     })
 
-    
 
-       
-      // **** Disable aagey badhe button while on last question
+
+
+    // **** Disable aagey badhe button while on last question
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
-      console.log("controlAssets",controlAssets);
+      console.log("controlAssets", controlAssets);
       this.quesCtrl = controlAssets;
       this.isLastQues = this.quesCtrl.isLastQues;
       if (this.isLastQues) {
@@ -115,50 +118,66 @@ export class QuesController implements OnInit {
       }
 
 
-        //*********  Move to next segment after 5 min of last question attempt */
-        this.Sharedservice.getTimerOnLastQues().subscribe(data => {
-          if (data.data && this.EVA && !this.appModel.nextSectionTimer) {
-            this.appModel.nextSectionTimer = setTimeout(() => {
-              this.appModel.nextSectionEVA(this.isLastQues);
-            }, 5 * 60 * 1000);
-          }
-        });
+      //*********  Move to next segment after 5 min of last question attempt */
+      this.Sharedservice.getTimerOnLastQues().subscribe(data => {
+        if (data.data && this.EVA && !this.appModel.nextSectionTimer) {
+          this.appModel.nextSectionTimer = setTimeout(() => {
+            this.appModel.nextSectionEVA(this.isLastQues);
+          }, 5 * 60 * 1000);
+        }
+      });
 
 
       // **** Enable show answer button
-      this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => { 
+      this.subscription = this.Sharedservice.getShowAnsEnabled().subscribe(data => {
         this.EnableShowAnswer = data.data;
-        if(this.EnableShowAnswer === true){
+        if (this.EnableShowAnswer === true) {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
-        }else{
+        } else {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
-          this.UttarDikhayeinTooltip="";
+          this.UttarDikhayeinTooltip = "";
         }
       });
-      if(this.EVA) {
-        this.quesTabs = this.quesCtrl.quesTabs;
+      if (this.EVA) {
+        for (let i = 0; i < 5; i++) {
+          if (i > this.noOfQues - 1) {  // disabled question tab
+            this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleDisabled"];
+          }
+          else {
+            this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleUnVisited"];
+          }
+          if (sessionStorage.getItem("tabsVisited")) {  // tabs for which answer is given once
+            let visitedTabArr = JSON.parse(sessionStorage.getItem("tabsVisited"));
+            if (visitedTabArr.indexOf(i) > -1) {
+              this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleVisited"];
+            }
+          }
+          if (i == this.questionNo) { //current question tab
+            this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleActive"];
+          }
+        }
       } else {
-        if(this.quesCtrl.quesTabs != undefined){
-           this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
-        }       
+        if (this.quesCtrl.quesTabs != undefined) {
+          this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);
+        }
       }
 
 
       // Enable DIsable submit button
-      this.subscription = this.Sharedservice.getSubmitAnsEnabled().subscribe(data => { 
+      this.subscription = this.Sharedservice.getSubmitAnsEnabled().subscribe(data => {
         this.EnableSubmitAnswer = data.data;
-        if(this.EnableSubmitAnswer === true){
+        if (this.EnableSubmitAnswer === true) {
           this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
           this.SubmitBtnTooltip = "उत्तर दिखाएँ!";
-        }else{
+        } else {
           this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
-          this.SubmitBtnTooltip="";
+          this.SubmitBtnTooltip = "";
         }
       });
 
 
-    
+
 
 
       console.log(this.quesCtrl);
@@ -167,16 +186,16 @@ export class QuesController implements OnInit {
       this.assetsPath = this.appModel.assetsfolderpath;
       this.containgFolderPath = this.appModel.content.id;
       this.themeType = controlAssets.theme_type
-      console.log("this.themeType",this.themeType,controlAssets)
+      console.log("this.themeType", this.themeType, controlAssets)
     })
 
-    this.blinkerSubscription = this.appModel.getblinkingNextBtn().subscribe(resetBlink=> {
-      if(resetBlink) {
+    this.blinkerSubscription = this.appModel.getblinkingNextBtn().subscribe(resetBlink => {
+      if (resetBlink) {
         this.blinkFlag = false;
         clearInterval(this.timeInterval);
         this.timeInterval = undefined;
-        if(this.quesCtrl!=undefined){
-            this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+        if (this.quesCtrl != undefined) {
+          this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
         }
       }
     });
@@ -210,61 +229,61 @@ export class QuesController implements OnInit {
     this.appModel.enableFlagSubmit.subscribe((flag) => {
       this.enableSubmitBtn = flag
 
-  })
-  
-  this.appModel.enableFlagNav.subscribe((flag) => {
-    console.log("nav wala flaggg")
-    this.enableNavBtns = flag
-  })
-
-
-	this.appModel.enableFlagReplay.subscribe((flag) => {
-		this.enableReplayBtn = flag
     })
-    
-    this.appModel.isVideoStraming.subscribe((flag) =>{
+
+    this.appModel.enableFlagNav.subscribe((flag) => {
+      console.log("nav wala flaggg")
+      this.enableNavBtns = flag
+    })
+
+
+    this.appModel.enableFlagReplay.subscribe((flag) => {
+      this.enableReplayBtn = flag
+    })
+
+    this.appModel.isVideoStraming.subscribe((flag) => {
       this.isVideoPlaying = flag;
-      if(flag==false){
+      if (flag == false) {
         this.quesCtrl.replay_btn = this.quesCtrl.replay_btn_original;
       }
     })
-    this.appModel.controllerHandler.subscribe((controllerObj) =>{
+    this.appModel.controllerHandler.subscribe((controllerObj) => {
       this.controlHandle(controllerObj);
     });
   }
 
 
   hoverUttarDikhayeinEVA() {
-    if(this.EnableShowAnswer){
+    if (this.EnableShowAnswer) {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
-    }else{
+    } else {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
-    }   
+    }
   }
 
   houtUttarDikhayeinEVA() {
-    if(this.EnableShowAnswer){
+    if (this.EnableShowAnswer) {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
-    }  else{
+    } else {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
-    }  
-    
+    }
+
   }
 
   hoveronSubmitBtn() {
-    if(this.EnableSubmitAnswer){
+    if (this.EnableSubmitAnswer) {
       this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_hover;
-    }else{
+    } else {
       this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
-    } 
+    }
   }
 
   hleaveSubmitBtn() {
-    if(this.EnableSubmitAnswer){
+    if (this.EnableSubmitAnswer) {
       this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
-    }  else{
+    } else {
       this.quesCtrl.submit_btn = this.quesCtrl.submitBtnDisabled;
-    } 
+    }
   }
 
 
@@ -292,10 +311,10 @@ export class QuesController implements OnInit {
 
 
   confirmAction(action) {
-    if(this.EVA) {
+    if (this.EVA) {
       this.appModel.confirmPopup(action);
     }
-    if(!this.EVA) {
+    if (!this.EVA) {
       this.appModel.confirmPopup(action);
     }
   }
@@ -329,9 +348,9 @@ export class QuesController implements OnInit {
     clearInterval(this.timeInterval);
     this.timeInterval = undefined;
     this.blinkFlag = false;
-    
-    this.EnableShowAnswer=false;
-    if(this.EVA) {
+
+    this.EnableShowAnswer = false;
+    if (this.EVA) {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
     } else {
       this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
@@ -347,18 +366,18 @@ export class QuesController implements OnInit {
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_hover;
   }
   next() {
-    if(this.appModel && !this.appModel.isLastSection){
-       clearInterval(this.timeInterval);
+    if (this.appModel && !this.appModel.isLastSection) {
+      clearInterval(this.timeInterval);
       this.timeInterval = undefined;
       this.blinkFlag = false;
       this.EnableShowAnswer = false;
-      if(this.EVA) {
+      if (this.EVA) {
         this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
       } else {
         this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
       }
       //this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
-      this.UttarDikhayeinTooltip="";
+      this.UttarDikhayeinTooltip = "";
       this.appModel.nextSection();
       this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
     }
@@ -366,7 +385,7 @@ export class QuesController implements OnInit {
 
 
   hleavePreBtn() {
-    if(this.EVA && this.isFirstQuestion) {
+    if (this.EVA && this.isFirstQuestion) {
       this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_disabled;
     }
     else {
@@ -377,7 +396,7 @@ export class QuesController implements OnInit {
 
   hoverNextBtn() {
     if (!this.blinkFlag) {
-      if(!this.blink) {
+      if (!this.blink) {
         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
       }
     }
@@ -411,42 +430,42 @@ export class QuesController implements OnInit {
   }
 
   houtReplayBtn() {
-    if(!this.isVideoPlaying){
+    if (!this.isVideoPlaying) {
       this.quesCtrl.replay_btn = this.quesCtrl.replay_btn_original;
     }
   }
 
   setBlinkOnLastQuestion() {
-    if(this.EVA) {
+    if (this.EVA) {
       // if(this.EnableShowAnswer === true){
-         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
-         this.nextBtn.nativeElement.classList.remove("disableBtn");
-         this.quesCtrl.blinkingStatus=true;
-        // }
+      this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+      this.nextBtn.nativeElement.classList.remove("disableBtn");
+      this.quesCtrl.blinkingStatus = true;
+      // }
     } else {
       this.blinkFlag = true;
       let flag = true;
       this.timeInterval = setInterval(() => {
         if (flag) {
-          if(this.appModel.theme_name){
+          if (this.appModel.theme_name) {
             this.quesCtrl.aagey_badhein = this.appModel.isLastSectionInCollection ? this.quesCtrl.blink_btn3 : this.quesCtrl.blink_btn1;
-          }else{
-            this.quesCtrl.aagey_badhein =  this.quesCtrl.blink_btn1;
+          } else {
+            this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn1;
           }
           flag = false;
         } else {
-         if(this.appModel.theme_name){
-           this.quesCtrl.aagey_badhein =this.appModel.isLastSectionInCollection? this.quesCtrl.blink_btn4 : this.quesCtrl.blink_btn2;
-         } else {
+          if (this.appModel.theme_name) {
+            this.quesCtrl.aagey_badhein = this.appModel.isLastSectionInCollection ? this.quesCtrl.blink_btn4 : this.quesCtrl.blink_btn2;
+          } else {
             this.quesCtrl.aagey_badhein = this.quesCtrl.blink_btn2;
-         }
+          }
           flag = true;
         }
       }, 300)
     }
   }
 
-  controlHandle(controlObj){
+  controlHandle(controlObj) {
     console.log("object of controller");
     console.log(controlObj);
     this.disableNext = controlObj.isNext;
@@ -454,15 +473,15 @@ export class QuesController implements OnInit {
     this.hideShowAnswer = controlObj.isShowAns;
     this.disableTabs = controlObj.isTab;
     this.disableSubmit = controlObj.isSubmitRequired;
-    this.disableReplay= controlObj.isReplayRequired;
+    this.disableReplay = controlObj.isReplayRequired;
 
   }
   ngOnDestroy() {
     this.blinkerSubscription.unsubscribe();
   }
 
-  confirmActionEVA(type){
-    if(type == "submitAnswer"){
+  confirmActionEVA(type) {
+    if (type == "submitAnswer") {
       this.Sharedservice.setShowHideConfirmation(true)
     }
   }

@@ -454,6 +454,9 @@ export class ApplicationmodelService {
       this.eventDone = false;
     }
     if (this.EVA && this.nextSectionTimer) {
+      if (sessionStorage.getItem("tabsVisited")) {
+        sessionStorage.removeItem("tabsVisited");
+      }
       clearTimeout(this.nextSectionTimer);
       this.nextSectionTimer = undefined;
     }
@@ -1123,7 +1126,10 @@ export class ApplicationmodelService {
       this.currentSection--;
       return;
     }
-     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
+     else if(this.currentActive <= this.initValues.files.length - 1) {   // If segment is not last in the activity
+      if (sessionStorage.getItem("tabsVisited")) {
+        sessionStorage.removeItem("tabsVisited");
+      }
       this.load(this.initValues.files[this.currentActive]);
       // this.nextCollectionCounterEVA = 0;
       console.log('ApplicationmodelService: nextCollection - currentActive=',
