@@ -140,6 +140,7 @@ private appModel: ApplicationmodelService;
   instructionDisable:boolean=false;
   i:number;
   j:number;
+  disableDiv:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -156,16 +157,23 @@ private appModel: ApplicationmodelService;
             this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
           }
           this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
-          this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+          if( this.optionsBlock.nativeElement.children[1]!=undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+          }
+          if( this.optionsBlock.nativeElement.children[2]!=undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents="";
+          }
         }
       }
       console.log("play on Instruction");
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
+        $(".instructionBase").addClass("disable_div");
         this.instructionDisable=true;
         this.instruction.nativeElement.onended=() => {
           this.instructionDisable=false;
+          $(".instructionBase").removeClass("disable_div");
         }
         //$(".instructionBase img").css("cursor", "pointer");
       }
@@ -297,6 +305,24 @@ private appModel: ApplicationmodelService;
     if (!this.narrator.nativeElement.paused || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
+            if(this.i!=undefined && this.j!=undefined ) {
+      if(!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
+        this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].pause();
+        this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].currentTime=0;
+      }
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[this.i].children.length; x++) {
+          if (x != this.j) {
+            this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
+          }
+          this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
+          if( this.optionsBlock.nativeElement.children[1]!=undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+          }
+          if( this.optionsBlock.nativeElement.children[2]!=undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents="";
+          }
+        }
+      }
       //this.count = 0;
       this.appModel.enableSubmitBtn(true);
       if (this.feedback.correct_ans_index.includes(opt.id)) {
@@ -395,7 +421,9 @@ private appModel: ApplicationmodelService;
               this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
             }
             this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
-            this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+            if( this.optionsBlock.nativeElement.children[1]!=undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+            }
           }
       }
       this.disable=true;
@@ -426,6 +454,14 @@ private appModel: ApplicationmodelService;
               this.instruction.nativeElement.currentTime = 0;
               this.instructionDisable=false;
             }
+                    if (!this.questionAudio.nativeElement.paused)
+        {
+          this.questionAudio.nativeElement.pause();
+          this.questionAudio.nativeElement.currentTime = 0;
+          this.displayWave=false;
+          $(".bodyContent").removeClass("disable_div");
+          $(".instructionBase").removeClass("disable_div"); 
+        }
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
     })
@@ -519,7 +555,13 @@ private appModel: ApplicationmodelService;
                 this.optionsBlock.nativeElement.children[this.i].children[x].style.pointerEvents = "";
             }
             this.optionsBlock.nativeElement.children[0].style.pointerEvents="";
-            this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+            if( this.optionsBlock.nativeElement.children[1]!=undefined) {
+                this.optionsBlock.nativeElement.children[1].style.pointerEvents="";
+            }
+            if( this.optionsBlock.nativeElement.children[2]!=undefined) {
+                this.optionsBlock.nativeElement.children[2].style.pointerEvents="";
+           }
+
         }
         }
         this.displayWave=true;
@@ -552,20 +594,25 @@ private appModel: ApplicationmodelService;
                   }, this.quesObj.timegap);
             } else if(this.quesObj.quesType == "imagewithAudio") {
                    this.audioPlaytimer=setTimeout(() => {
-                    this.displayWave=true; 
+                    this.displayWave=true;
+                    this.disable=true; 
                     this.questionAudio.nativeElement.play();
                     this.questionAudio.nativeElement.onended =() => {
-                    this.displayWave=false;  
+                    this.displayWave=false;
+                    setTimeout(() => {
+                      this.disable=false;
+                    }, 1000);  
                     this.appModel.handlePostVOActivity(false);
-                    $(".bodyContent").removeClass("disable_div");
                     $(".instructionBase").removeClass("disable_div"); 
                   }
                   }, this.quesObj.timegap);
             }
             else {
                   this.appModel.handlePostVOActivity(false);
-                  $(".bodyContent").removeClass("disable_div");
-                  $(".instructionBase").removeClass("disable_div");
+                        setTimeout(() => {
+                          this.disable=false;
+                        }, 1000);
+                        this.instructionDisable=false;
             }
   }
 
@@ -583,10 +630,11 @@ private appModel: ApplicationmodelService;
 
   activityStart() {
         this.appModel.handlePostVOActivity(true);
-        $(".bodyContent").addClass("disable_div");
-        $(".instructionBase").addClass("disable_div");
+        this.disable=true;
+        this.instructionDisable=true;
         this.appModel.enableSubmitBtn(false);
         if(this.quesObj.quesInstruction.autoPlay) {
+            
             this.narrator.nativeElement.play();
             this.narrator.nativeElement.onended = () => {
             this.checkforVideoorAudioQuestion();
@@ -801,6 +849,10 @@ private appModel: ApplicationmodelService;
       }
     } else {
       this.appModel.notifyUserAction();
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+      }, 1000);
     }
   }
 
@@ -1297,7 +1349,7 @@ houtSkip(){
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
-      }, 1000);
+      }, 4000);
       
     }
 

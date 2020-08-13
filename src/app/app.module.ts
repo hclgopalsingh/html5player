@@ -7,7 +7,6 @@ import { AppRoutingModule } from './modules/routing';
 import { NouisliderModule } from 'ng2-nouislider';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { ContainerComponent } from './controller/container.component';
@@ -29,13 +28,14 @@ import { TemplateoneComponent } from './controller/templateone.component';
 import { TemplatethirteenComponent } from './controller/templatethirteen.component';
 import { Template16Component } from './controller/template16.component';
 import { ApplicationmodelService } from './model/applicationmodel.service';
+import { SharedserviceService } from './services/sharedservice.service';
 import { CommonloaderService } from './model/commonloader.service';
 import { DataloaderService } from './model/dataloader.service';
-import { HttphandlerService } from './model/httphandler.service'
+import { HttphandlerService } from './model/httphandler.service';
 import { ControlsComponent } from './controller/controls';
 import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
-import { Ntemplate2 } from './controller/Ntemplate2.component';
+import { Ntemplate2 } from './modules/Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate4 } from './controller/Ntemplate4.component';
@@ -55,7 +55,7 @@ import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
 import { InactivityTimerComponent } from './controller/inactivity-timer-component'
-import { Ntemplate13 } from './controller/Ntemplate13.component';
+import { Ntemplate13 } from './modules/Elementary/Ntemplate13/Ntemplate13.component';
 import { Ntemplate10 } from './modules/Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from './controller/Ntemplate11.component';
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
@@ -66,22 +66,10 @@ import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 import { NtemplateMap } from './controller/NtemplateMap.component';
-import { Template15Component } from './modules/EVA/template15/template15.component';
-import { SharedserviceService } from '../app/services/sharedservice.service';
-import { Template3Component } from './modules/EVA/template3/template3.component';
-import { Template1Component } from './modules/EVA/template1/template1.component';
-import { Template8Component } from './modules/EVA/template8/template8.component';
-import { QuestionBlockComponent } from './modules/EVA/template8/question-block/question-block.component';
-import { InstructionBarComponent } from './modules/EVA/template8/instruction-bar/instruction-bar.component';
-import { Template6Component } from './modules/EVA/template6/template6.component';
-import { DataService } from './model/eva/template8/data.service';
-import { Template2Component } from './modules/EVA/template2/template2.component';
-import { Template4Component } from './modules/EVA/template4/template4.component';
-import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
-import { ShowanswerComponent } from './modules/commonmodules/showanswer/showanswer.component';
-import { Template11Componenteva } from './modules/EVA/template11/template11.component';
+import { EvaModule } from './modules/EVA/eva.module';
 import { Ntemplate1Component } from './modules/Elementary/Ntemplate1/Ntemplate1.component';
 import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.component';
+
 
 
 @NgModule({
@@ -141,16 +129,6 @@ import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.
 		InactivityTimerComponent,
 		AnimationComponent,
 		Ntemplate17_1,
-		Template15Component,
-		Template3Component,
-		Template1Component,
-		Template8Component,
-		QuestionBlockComponent,
-		InstructionBarComponent,
-		Template6Component,
-		Template2Component,
-		Template4Component,
-		TemplateTenComponent,
 		NtemplateMap,
 		ShowanswerComponent,
 		Template11Componenteva,
@@ -166,9 +144,9 @@ import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.
 		SignalrCustomModule.forRoot(),
 		NouisliderModule,
 		NgxPaginationModule,
-		DragulaModule.forRoot()
+		EvaModule
 	],
-	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, DataService],
+	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

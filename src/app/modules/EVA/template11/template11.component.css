@@ -129,9 +129,19 @@
 	position: absolute;
 	width: 36%;			
 }
+
 .options div:hover{
-	transition: transform .2s;
 	transform: scale(1.1);
+	/* transition: transform .2s; */
+}
+
+
+#optionsBlock .shadow{
+	position: absolute;
+    left: 15%;
+    top: 4%;
+	z-index: -2;
+	cursor:default;
 }
 @keyframes scaleIn{
 	0%{
@@ -140,8 +150,7 @@
 	100%{
    transform: scale(1.1)
 	}
-}
-.options div{
+}.options div{
 	width:25%;
 }
 .options #optimage0{
@@ -161,7 +170,7 @@
     right:0;
 }
 .options #optimage4{
-	bottom:0;
+	top:78%;
     left: 46%;
 }
 .options #optimage5{
@@ -184,9 +193,7 @@
 	top: 70%;
     right:10%;
 }
-.options div:hover{
-	transform: scale(1.1);
-}
+
 .options div.subOpt:hover{
 	transform: none;
 }
@@ -203,7 +210,7 @@
 	z-index: 3;
 }
 div.subOpt.digit_2 img{
-	max-width: 54%;
+	max-width: 56%;
 }
 div.subOpt.digit_3 img{
 	max-width: 83%;

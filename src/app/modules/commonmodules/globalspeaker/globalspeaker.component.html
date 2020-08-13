@@ -1,0 +1,9 @@
+<div id="spkrBtn" class="speakerBtn">
+  <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker()" (mouseleave)="onHoveroutSpeaker()" (click)="playSpeaker()" title="स्पीकर"/>
+  <div class="waveAnimation" #sprite id="waveAnimation">
+      <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
+      <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?contentgFolderPath + '/' +speaker?.wave2.url: assetsfolderlocation + '/'+ speaker?.wave2.url">
+      <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?contentgFolderPath + '/' +speaker?.wave3.url: assetsfolderlocation + '/'+ speaker?.wave3.url">
+  </div> 
+  <audio #speakerVolume [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
+</div>
