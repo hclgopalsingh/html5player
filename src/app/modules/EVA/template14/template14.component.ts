@@ -850,6 +850,7 @@ export class TemplateFourteenComponent implements OnInit {
       this.rightPopup = this.feedback.right_ans_sound;
       this.wrongPopup = this.feedback.wrong_ans_sound;
       this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
+      this.commonAssets.ques_control.blinkingStatus = false;
       //need to be set acc. to the right or wrong answer.
       this.popupIcon = this.popupAssets.right_icon.url;
       this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -910,6 +911,11 @@ export class TemplateFourteenComponent implements OnInit {
       this.blinkOnLastQues();
     }
     else {
+      if (this.wrongCounter >= 3) {
+        this.Sharedservice.setShowAnsEnabled(true);
+      } else {
+        this.Sharedservice.setShowAnsEnabled(false);
+      }
       this.postWrongAttemplt();
     }
   }
@@ -927,10 +933,9 @@ export class TemplateFourteenComponent implements OnInit {
       this.videoonshowAnspopUp.nativeElement.currentTime = 0;
     }
     if (type == "showAnswer") {
-      //if (this.isRight) {
-      this.overlay.nativeElement.classList.value = "fadeContainer";
+      if (this.isRight) {
       this.blinkOnLastQues();
-      //}
+      }
     }
 
     //for type confirmation pop up
@@ -1219,11 +1224,6 @@ export class TemplateFourteenComponent implements OnInit {
       this.popupIcon = this.popupAssets.wrong_icon.url;
       this.popupIconLocation = this.popupAssets.wrong_icon.location;
       console.log("this.wrongCounter", this.wrongCounter)
-      if (this.wrongCounter >= 3) {
-        this.Sharedservice.setShowAnsEnabled(true);
-      } else {
-        this.Sharedservice.setShowAnsEnabled(false);
-      }
     }
 
     console.log("this.arrayEquals(finalRightArray, finalSelectedArray)", this.arrayEquals(finalRightArray, finalSelectedArray))
