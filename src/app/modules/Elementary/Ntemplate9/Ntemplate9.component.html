@@ -1,4 +1,4 @@
-<div class="container-fluid temp14" id="container">
+<div class="container-fluid ele temp14" id="container">
   <audio #narrator [src]="quesObj?.quesInstruction?.url"></audio>
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div #maincontent>
@@ -32,7 +32,7 @@
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
       <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
@@ -66,7 +66,7 @@
         </div>
 
         <!-- Modal body -->
-        <div class="modal-body d-flex justify-content-center">
+        <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
           <div class="row mx-0 optionsBlock">
             <div class="my-auto quesImage">
               <div class="options">
