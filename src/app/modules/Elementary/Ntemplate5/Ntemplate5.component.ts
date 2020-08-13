@@ -594,17 +594,18 @@ export class Ntemplate5 implements OnInit {
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
+            this.appModel.moveNextQues();
           }
         }, this.showAnsTimeout);
         //this.blinkOnLastQues();
         setTimeout(() => {
            this.closeModal();
+           this.appModel.moveNextQues();
          }, this.showAnsTimeout);
         
         this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
         $("#instructionBar").addClass("disable_div");
         this.appModel.notifyUserAction();
-        this.appModel.moveNextQues();
       }
     } else {
       this.appModel.notifyUserAction();
