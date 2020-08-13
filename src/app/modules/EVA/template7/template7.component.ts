@@ -90,6 +90,93 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	disableOption: boolean = false;
 	activeId: any = 0;
 	autofocus: boolean = true;
+
+	//things too do at start
+	ngOnInit() {
+		// document.getElementById("firstWord").focus();
+		this.Sharedservice.setLastQuesAageyBadheStatus(true);
+		this.attemptType = "";
+		this.setTemplateType();
+		this.contentgFolderPath = this.basePath;
+		this.appModel.functionone(this.templatevolume, this);//start end
+		//subscribing speaker from shared service to get the updated object of speaker
+		this.Sharedservice.spriteElement.subscribe(imagesrc => {
+			this.speaker = imagesrc;
+		  });
+		  this.Sharedservice.speakerVol.subscribe(speakerVol => {
+			this.speakerVolume = speakerVol;
+		  });
+		if (this.appModel.isNewCollection) {
+			this.appModel.event = { 'action': 'segmentBegins' };
+		}
+		let fetchedData: any = this.appModel.content.contentData.data;
+		if (fetchedData.titleScreen) {
+			this.quesInfo = fetchedData;
+			this.showIntroScreen = true;
+			this.noOfImgs = this.quesInfo.imgCount;
+		}
+		else {
+			this.showIntroScreen = false;
+			this.setData();
+		}
+		this.appModel.getNotification().subscribe(mode => {
+			if (mode == "manual") {
+
+			} else if (mode == "auto") {
+				this.attemptType = "uttarDikhayein";
+				this.popupType = "showanswer"
+			}
+		})
+		this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
+			console.log(data,"changed")
+			this.stopAllSounds()
+		  })
+		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
+			if (val == "uttarDikhayein") {
+				this.appModel.stopAllTimer();
+				this.stopAllSounds()
+				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
+					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+						this.videoonshowAnspopUp.nativeElement.play();
+						this.videoonshowAnspopUp.nativeElement.onended = () => {
+							this.showAnswerTimer = setTimeout(() => {
+								this.closePopup('showAnswer');
+							}, 10000);
+							// this.videoonshowAnspopUp.nativeElement.play();
+						}
+					}
+				}
+			}
+		})
+	}
+
+	//clear timers and stop sounds
+	ngOnDestroy() {
+		this.showAnswerSubscription.unsubscribe();
+		clearTimeout(this.rightTimer);
+		clearTimeout(this.clapTimer);
+		this.stopAllSounds();
+	}
+
+
+	ngAfterViewChecked() {
+		if (this.titleAudio && this.titleAudio.nativeElement) {
+			this.titleAudio.nativeElement.onended = () => {
+				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
+			}
+		}
+		this.templatevolume(this.appModel.volumeValue, this);
+	}
+
+	ngAfterViewInit() {
+		this.appModel.setLoader(false);
+		this.checkforQVO();
+	}
+
+
+
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
 
@@ -248,84 +335,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 	//end
 
-	//things too do at start
-	ngOnInit() {
-		// document.getElementById("firstWord").focus();
-		this.Sharedservice.setLastQuesAageyBadheStatus(true);
-		this.attemptType = "";
-		this.setTemplateType();
-		this.contentgFolderPath = this.basePath;
-		this.appModel.functionone(this.templatevolume, this);//start end
-		//subscribing speaker from shared service to get the updated object of speaker
-		this.Sharedservice.spriteElement.subscribe(imagesrc => {
-			this.speaker = imagesrc;
-		  });
-		  this.Sharedservice.speakerVol.subscribe(speakerVol => {
-			this.speakerVolume = speakerVol;
-		  });
-		if (this.appModel.isNewCollection) {
-			this.appModel.event = { 'action': 'segmentBegins' };
-		}
-		let fetchedData: any = this.appModel.content.contentData.data;
-		if (fetchedData.titleScreen) {
-			this.quesInfo = fetchedData;
-			this.showIntroScreen = true;
-			this.noOfImgs = this.quesInfo.imgCount;
-		}
-		else {
-			this.showIntroScreen = false;
-			this.setData();
-		}
-		this.appModel.getNotification().subscribe(mode => {
-			if (mode == "manual") {
-
-			} else if (mode == "auto") {
-				this.attemptType = "uttarDikhayein";
-				this.popupType = "showanswer"
-			}
-		})
-		this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
-			console.log(data,"changed")
-			this.stopAllSounds()
-		  })
-		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
-			if (val == "uttarDikhayein") {
-				this.appModel.stopAllTimer();
-				this.stopAllSounds()
-				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
-					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
-						this.videoonshowAnspopUp.nativeElement.play();
-						this.videoonshowAnspopUp.nativeElement.onended = () => {
-							this.showAnswerTimer = setTimeout(() => {
-								this.closePopup('showAnswer');
-							}, 10000);
-							// this.videoonshowAnspopUp.nativeElement.play();
-						}
-					}
-				}
-			}
-		})
-	}
-
-	//clear timers and stop sounds
-	ngOnDestroy() {
-		this.showAnswerSubscription.unsubscribe();
-		clearTimeout(this.rightTimer);
-		clearTimeout(this.clapTimer);
-		this.stopAllSounds();
-	}
-
-
-	ngAfterViewChecked() {
-		if (this.titleAudio && this.titleAudio.nativeElement) {
-			this.titleAudio.nativeElement.onended = () => {
-				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
-			}
-		}
-		this.templatevolume(this.appModel.volumeValue, this);
-	}
+	
 
 	//**Function to stop all sounds */
 	stopAllSounds(clickStatus?) {
@@ -357,10 +367,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
-	ngAfterViewInit() {
-		this.appModel.setLoader(false);
-		this.checkforQVO();
-	}
+	
 
 	//call functions after loading of temp
 	checkforQVO() {
@@ -569,7 +576,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
-
+	//to-do:: regex to check charcode of matras
 	// to find the hindi word Length ignoring the matras
 	stringToChars(args) {
 		var word = args.word;
@@ -667,6 +674,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	focusAuto() {
 		console.log("auto focusssing")
 		if (this.autofocus) {
+			//TODO: check to handle focus by attribute if present.
 			document.getElementById(this.ansArray[this.activeId].id).focus();
 		}
 	}
@@ -690,6 +698,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 	//to check for duplicate entered shabds
+	//todo check with regex
 	checkforDuplicates() {
 		for (let i = 0; i < this.ansArray.length; i++) {
 			let element1 = this.ansArray[i].value;
@@ -737,4 +746,4 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 }
-
+//sorting methods according to types.
