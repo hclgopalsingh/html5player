@@ -140,6 +140,7 @@ private appModel: ApplicationmodelService;
   instructionDisable:boolean=false;
   i:number;
   j:number;
+  disableDiv:boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -848,6 +849,10 @@ private appModel: ApplicationmodelService;
       }
     } else {
       this.appModel.notifyUserAction();
+      this.disableDiv = true;
+      setTimeout(() => {
+        this.disableDiv = false;
+      }, 1000);
     }
   }
 
@@ -1344,7 +1349,7 @@ houtSkip(){
       setTimeout(() => {
         $("#instructionBar").removeClass("disable_div");
         $("#optionsBlock .options").removeClass("disable_div");
-      }, 1000);
+      }, 4000);
       
     }
 

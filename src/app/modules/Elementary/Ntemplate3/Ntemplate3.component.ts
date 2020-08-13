@@ -496,6 +496,30 @@ export class Ntemplate3 implements OnInit {
     if (obj.feedbackoneAttemptAudio && obj.feedbackoneAttemptAudio.nativeElement) {
       obj.feedbackoneAttemptAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.popupBodyRef && obj.popupBodyRef.nativeElement.children[0]) {
+      if(this.currentAudioIndex!=undefined && obj.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex]!=undefined) {
+        obj.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].volume = obj.appModel.isMute ? 0 : vol;
+      }
+    }
+    if (obj.popupBodyRef && obj.popupBodyRef.nativeElement.children[1]) {
+      if(this.currentAudioIndex!=undefined && obj.popupBodyRef.nativeElement.children[1].children[this.currentAudioIndex]!=undefined) {
+        obj.popupBodyRef.nativeElement.children[1].children[this.currentAudioIndex].children[1].volume = obj.appModel.isMute ? 0 : vol;
+      }
+    }
+    //     if (this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex]) {
+    //   if (!this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].paused) {
+    //     this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].pause();
+    //     this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].currentTime = 0;
+    //   }
+    // }
+    // if (this.popupBodyRef.nativeElement.children[1]) {
+    //   if (this.popupBodyRef.nativeElement.children[1].children[this.currentAudioIndex]) {
+    //     if (!this.popupBodyRef.nativeElement.children[1].children[this.currentAudioIndex].children[1].paused) {
+    //       this.popupBodyRef.nativeElement.children[1].children[this.currentAudioIndex].children[1].pause();
+    //       this.popupBodyRef.nativeElement.children[1].children[this.currentAudioIndex].children[1].currentTime = 0;
+    //     }
+    //   }
+    // }
   }
 
   close() {
@@ -1311,7 +1335,7 @@ export class Ntemplate3 implements OnInit {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
-    if (this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex]) {
+    if (this.popupBodyRef.nativeElement.children[0] && this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex]) {
       if (!this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].paused) {
         this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].pause();
         this.popupBodyRef.nativeElement.children[0].children[this.currentAudioIndex].children[1].currentTime = 0;
