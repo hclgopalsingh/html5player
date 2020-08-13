@@ -102,10 +102,10 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		//subscribing speaker from shared service to get the updated object of speaker
 		this.Sharedservice.spriteElement.subscribe(imagesrc => {
 			this.speaker = imagesrc;
-		  });
-		  this.Sharedservice.speakerVol.subscribe(speakerVol => {
+		});
+		this.Sharedservice.speakerVol.subscribe(speakerVol => {
 			this.speakerVolume = speakerVol;
-		  });
+		});
 		if (this.appModel.isNewCollection) {
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
@@ -128,9 +128,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			}
 		})
 		this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
-			console.log(data,"changed")
+			console.log(data, "changed")
 			this.stopAllSounds()
-		  })
+		})
 		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
 			if (val == "uttarDikhayein") {
 				this.appModel.stopAllTimer();
@@ -176,39 +176,21 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 
-
-	get basePath(): any {
-		if (this.appModel && this.appModel.content) {
-
-			return this.appModel.content.id + '';
-		}
+	// on hover of various buttons
+	onHoverRefresh(item, i) {
+		item.refresh = item.refresh_hover
 	}
-	setData() {
-		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-			let fetchedData: any = this.appModel.content.contentData.data;
-			this.instructiontext = fetchedData.instructiontext;
-			this.common_assets = fetchedData.commonassets;
-			this.speaker = JSON.parse(JSON.stringify(fetchedData.speaker));
-			this.myoption = JSON.parse(JSON.stringify(fetchedData.optionArray));
-			this.question = fetchedData.quesObj;
-			this.feedback = fetchedData.feedback;
-			this.popupAssets = fetchedData.feedback.popupassets;
-			this.rightPopup = this.feedback.right_ans_sound;
-			this.wrongPopup = this.feedback.wrong_ans_sound;
-			this.partialPopup = this.feedback.partial_ans_sound
-			this.showAnswerPopup = this.feedback.show_ans_popup;
-			this.noOfImgs = fetchedData.imgCount;
-			this.isLastQues = this.appModel.isLastSection;
-			this.lastQuestionCheck = this.common_assets.ques_control.isLastQues;
-			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-			this.ansArray = JSON.parse(JSON.stringify(fetchedData.ansArray));
-			//this.isAutoplayOn = this.appModel.autoPlay;
-			this.common_assets.ques_control.blinkingStatus = false;
-			this.common_assets.ques_control.uttar_dikhayein = this.common_assets.ques_control.uttar_dikhayein_disable;
-			this.appModel.setQuesControlAssets(this.common_assets.ques_control);
-		} else {
 
-		}
+	onHoverOutRefresh(item, i) {
+		item.refresh = item.refresh_original;
+	}
+
+	onHoverLock(item, i) {
+		item.unlock = item.unlock_hover
+	}
+
+	onHoverOutLock(item, i) {
+		item.unlock = item.unlock_original;
 	}
 
 	//on hover option img change
@@ -221,84 +203,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
 	}
 
-	//called everytime after a successfull attempt
-	blinkOnLastQues() {
-		this.Sharedservice.setLastQuesAageyBadheStatus(false);
-		if (this.lastQuestionCheck) {
-			this.LastquestimeStart = true;
-		}
-		if (this.appModel.isLastSectionInCollection) {
-			this.appModel.blinkForLastQues();
-			this.appModel.stopAllTimer();
-			if (!this.appModel.eventDone) {
-				if (this.isLastQuesAct) {
-					this.appModel.eventFired();
-					this.appModel.event = { 'action': 'segmentEnds' };
-				}
-				if (this.isLastQues) {
-					this.appModel.event = { 'action': 'exit' };
-
-				}
-			}
-		} else {
-			this.appModel.moveNextQues("");
-		}
-	}
-
-	//to randomize
-	doRandomize(array) {
-		var currentIndex = array.length, temporaryValue, randomIndex;
-		// While there remain elements to shuffle...
-		while (0 !== currentIndex) {
-			// Pick a remaining element...
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
-			var img_hover1 = array[currentIndex].imgsrc_hover;
-			var text1 = array[currentIndex].imgsrc_letter;
-			var text1copy = array[currentIndex].image_original;
-			var optionBg1 = array[currentIndex].image_original;
-
-			var img_hover2 = array[randomIndex].imgsrc_hover;
-			var text2 = array[randomIndex].imgsrc_letter;
-			var text2copy = array[randomIndex].image_original;
-			var optionBg2 = array[randomIndex].image_original;
-			// And swap it with the current element.
-			temporaryValue = array[currentIndex];
-			array[currentIndex] = array[randomIndex];
-			array[randomIndex] = temporaryValue;
-
-			array[currentIndex].imgsrc_hover = img_hover1;
-			array[currentIndex].imgsrc_letter = text1;
-			array[currentIndex].image_original = text1copy;
-			array[currentIndex].imgsrc = optionBg1;
-
-			array[randomIndex].imgsrc_hover = img_hover2;
-			array[randomIndex].imgsrc_letter = text2;
-			array[randomIndex].image_original = text2copy;
-			array[randomIndex].imgsrc = optionBg2;
-
-		}
-		var flag = this.arraysIdentical(array, this.idArray);
-		if (flag) {
-			this.doRandomize(array);
-		}
-		else {
-
-		}
-
-	}
-
-	//to check if arrays are identical
-	arraysIdentical(a, b) {
-		var i = a.length;
-		while (i--) {
-			if (a[i].id == b[i]) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	//hover on close pop up button
 	hoverClosePopup() {
 		this.popupAssets.close_button = this.popupAssets.close_button_hover;
@@ -309,54 +213,49 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		this.popupAssets.close_button = this.popupAssets.close_button_origional;
 	}
 
-	//increase decrease all volumes
-	templatevolume(vol, obj) {
-		if (obj.narrator_voice && obj.narrator_voice.nativeElement) {
-			obj.narrator_voice.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.clapSound && obj.clapSound.nativeElement) {
-			obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.speakerVolume && obj.speakerVolume.nativeElement) {
-			obj.speakerVolume.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
-			obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
-			obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
-			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.audio) {
-			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-		  }
+	//on clicking refresh buttons
+	refreshClicked(item, i) {
+		item.value = "";
+		this.disableOption = false
+		this.autofocus = true;
+		document.getElementById(this.ansArray[this.activeId].id).focus();
 	}
-	//end
 
-	
+	//on clicking the lock button
+	lockClicked(item, i) {
+		item.locked = true;
+		item.disabled = true;
+		let DoneCounter = 0;
+		this.ansArray.forEach(element => {
+			if (element.value && element.value.length > 0) {
+				DoneCounter = DoneCounter + 1;
+			}
+		});
+		if (DoneCounter < this.ansArray.length) {
+			this.focusNxtEle();
+			this.autofocus = true;
+			this.disableOption = false
+		}
+		else {
+			this.disableOption = true;
+			this.autofocus = false;
+			document.getElementById(this.ansArray[this.activeId].id).blur();
+			this.Sharedservice.setSubmitAnsEnabled(true)
+		}
+	}
 
-	//**Function to stop all sounds */
-	stopAllSounds(clickStatus?) {
-		this.audio.pause();
-		this.audio.currentTime = 0;
+	//for automatic focus
+	focusAuto() {
+		console.log("auto focusssing")
+		if (this.autofocus) {
+			//TODO: check to handle focus by attribute if present.
+			document.getElementById(this.ansArray[this.activeId].id).focus();
+		}
+	}
 
-		this.wrongFeedback.nativeElement.pause();
-		this.wrongFeedback.nativeElement.currentTime = 0;
-
-		this.partialFeedback.nativeElement.pause();
-		this.partialFeedback.nativeElement.currentTime = 0;
-
-		this.rightFeedback.nativeElement.pause();
-		this.rightFeedback.nativeElement.currentTime = 0;
-
-		this.clapSound.nativeElement.pause();
-		this.clapSound.nativeElement.currentTime = 0;
-
-		this.videoonshowAnspopUp.nativeElement.pause();
-		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
-
+	/****** Option Hover VO  *******/
+	playOptionHover(option, index) {
+		//this.stopAllSounds();
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
 			speakerEle.pause();
@@ -365,32 +264,23 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			this.speaker.imgsrc = this.speaker.imgorigional;
 		}
-	}
-
-	
-
-	//call functions after loading of temp
-	checkforQVO() {
-		if (this.question && this.question.quesInstruction && this.question.quesInstruction.url && this.question.quesInstruction.autoPlay) {
-			this.appModel.handlePostVOActivity(true);
-			this.optionsBlock.nativeElement.classList = "disable_div";
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
-			this.narrator_voice.nativeElement.play();
-			document.getElementById("container").style.opacity = "1";
-			this.narrator_voice.nativeElement.onended = () => {
-				document.getElementById(this.ansArray[0].id).focus();
-				this.optionsBlock.nativeElement.classList = "";
-				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			}
+		if (option && option.audio && option.audio.url) {
+			this.playSound(option.audio, index);
 		}
 	}
 
-	// send message to subscribers via observable subject
-	setTemplateType(): void {
-		this.ActivatedRoute.data.subscribe(data => {
-			this.Sharedservice.sendData(data);
-		})
-
+	/***** Play sound on option roll over *******/
+	playSound(soundAssets, idx) {
+		if (this.audio && this.audio.paused) {
+			if (soundAssets.location == 'content') {
+				this.audio.src = this.contentgFolderPath + '/' + soundAssets.url;
+			} else {
+				this.audio.src = soundAssets.url;
+			}
+			this.audio.load();
+			this.audio.play();
+			this.disableOtherOptions(idx, this.optionRef);
+		}
 	}
 
 	//on closing vaious pop ups
@@ -471,18 +361,6 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
-	//check right or wrong
-	decideRigthWrong() {
-		let rightCounter = 0;
-
-		this.ansArray.forEach(element => {
-			if (element.isRight) {
-				rightCounter = rightCounter + 1;
-			}
-		});
-		return rightCounter
-	}
-
 	// on answer pop up close event
 	closeModal() {
 		clearTimeout(this.wrongTimer);
@@ -505,12 +383,165 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	}
 
+	get basePath(): any {
+		if (this.appModel && this.appModel.content) {
 
+			return this.appModel.content.id + '';
+		}
+	}
 
+	setData() {
+		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
+			let fetchedData: any = this.appModel.content.contentData.data;
+			this.instructiontext = fetchedData.instructiontext;
+			this.common_assets = fetchedData.commonassets;
+			this.speaker = JSON.parse(JSON.stringify(fetchedData.speaker));
+			this.myoption = JSON.parse(JSON.stringify(fetchedData.optionArray));
+			this.question = fetchedData.quesObj;
+			this.feedback = fetchedData.feedback;
+			this.popupAssets = fetchedData.feedback.popupassets;
+			this.rightPopup = this.feedback.right_ans_sound;
+			this.wrongPopup = this.feedback.wrong_ans_sound;
+			this.partialPopup = this.feedback.partial_ans_sound
+			this.showAnswerPopup = this.feedback.show_ans_popup;
+			this.noOfImgs = fetchedData.imgCount;
+			this.isLastQues = this.appModel.isLastSection;
+			this.lastQuestionCheck = this.common_assets.ques_control.isLastQues;
+			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+			this.ansArray = JSON.parse(JSON.stringify(fetchedData.ansArray));
+			//this.isAutoplayOn = this.appModel.autoPlay;
+			this.common_assets.ques_control.blinkingStatus = false;
+			this.common_assets.ques_control.uttar_dikhayein = this.common_assets.ques_control.uttar_dikhayein_disable;
+			this.appModel.setQuesControlAssets(this.common_assets.ques_control);
+		} else {
 
-	/****** Option Hover VO  *******/
-	playOptionHover(option, index) {
-		//this.stopAllSounds();
+		}
+	}
+
+	//called everytime after a successfull attempt
+	blinkOnLastQues() {
+		this.Sharedservice.setLastQuesAageyBadheStatus(false);
+		if (this.lastQuestionCheck) {
+			this.LastquestimeStart = true;
+		}
+		if (this.appModel.isLastSectionInCollection) {
+			this.appModel.blinkForLastQues();
+			this.appModel.stopAllTimer();
+			if (!this.appModel.eventDone) {
+				if (this.isLastQuesAct) {
+					this.appModel.eventFired();
+					this.appModel.event = { 'action': 'segmentEnds' };
+				}
+				if (this.isLastQues) {
+					this.appModel.event = { 'action': 'exit' };
+
+				}
+			}
+		} else {
+			this.appModel.moveNextQues("");
+		}
+	}
+
+	//to randomize
+	doRandomize(array) {
+		var currentIndex = array.length, temporaryValue, randomIndex;
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			var img_hover1 = array[currentIndex].imgsrc_hover;
+			var text1 = array[currentIndex].imgsrc_letter;
+			var text1copy = array[currentIndex].image_original;
+			var optionBg1 = array[currentIndex].image_original;
+
+			var img_hover2 = array[randomIndex].imgsrc_hover;
+			var text2 = array[randomIndex].imgsrc_letter;
+			var text2copy = array[randomIndex].image_original;
+			var optionBg2 = array[randomIndex].image_original;
+			// And swap it with the current element.
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+
+			array[currentIndex].imgsrc_hover = img_hover1;
+			array[currentIndex].imgsrc_letter = text1;
+			array[currentIndex].image_original = text1copy;
+			array[currentIndex].imgsrc = optionBg1;
+
+			array[randomIndex].imgsrc_hover = img_hover2;
+			array[randomIndex].imgsrc_letter = text2;
+			array[randomIndex].image_original = text2copy;
+			array[randomIndex].imgsrc = optionBg2;
+
+		}
+		var flag = this.arraysIdentical(array, this.idArray);
+		if (flag) {
+			this.doRandomize(array);
+		}
+		else {
+
+		}
+
+	}
+
+	//to check if arrays are identical
+	arraysIdentical(a, b) {
+		var i = a.length;
+		while (i--) {
+			if (a[i].id == b[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//increase decrease all volumes
+	templatevolume(vol, obj) {
+		if (obj.narrator_voice && obj.narrator_voice.nativeElement) {
+			obj.narrator_voice.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.clapSound && obj.clapSound.nativeElement) {
+			obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.speakerVolume && obj.speakerVolume.nativeElement) {
+			obj.speakerVolume.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
+			obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+			obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
+			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.audio) {
+			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+		}
+	}
+	//end
+
+	//**Function to stop all sounds */
+	stopAllSounds(clickStatus?) {
+		this.audio.pause();
+		this.audio.currentTime = 0;
+
+		this.wrongFeedback.nativeElement.pause();
+		this.wrongFeedback.nativeElement.currentTime = 0;
+
+		this.partialFeedback.nativeElement.pause();
+		this.partialFeedback.nativeElement.currentTime = 0;
+
+		this.rightFeedback.nativeElement.pause();
+		this.rightFeedback.nativeElement.currentTime = 0;
+
+		this.clapSound.nativeElement.pause();
+		this.clapSound.nativeElement.currentTime = 0;
+
+		this.videoonshowAnspopUp.nativeElement.pause();
+		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
+
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
 			speakerEle.pause();
@@ -519,25 +550,44 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			this.speaker.imgsrc = this.speaker.imgorigional;
 		}
-		if (option && option.audio && option.audio.url) {
-			this.playSound(option.audio, index);
-		}
 	}
 
-	/***** Play sound on option roll over *******/
-	playSound(soundAssets, idx) {
-		if (this.audio && this.audio.paused) {
-			if (soundAssets.location == 'content') {
-				this.audio.src = this.contentgFolderPath + '/' + soundAssets.url;
-			} else {
-				this.audio.src = soundAssets.url;
+	//call functions after loading of temp
+	checkforQVO() {
+		if (this.question && this.question.quesInstruction && this.question.quesInstruction.url && this.question.quesInstruction.autoPlay) {
+			this.appModel.handlePostVOActivity(true);
+			this.optionsBlock.nativeElement.classList = "disable_div";
+			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
+			this.narrator_voice.nativeElement.play();
+			document.getElementById("container").style.opacity = "1";
+			this.narrator_voice.nativeElement.onended = () => {
+				document.getElementById(this.ansArray[0].id).focus();
+				this.optionsBlock.nativeElement.classList = "";
+				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
 			}
-			this.audio.load();
-			this.audio.play();
-			this.disableOtherOptions(idx, this.optionRef);
 		}
 	}
 
+	// send message to subscribers via observable subject
+	setTemplateType(): void {
+		this.ActivatedRoute.data.subscribe(data => {
+			this.Sharedservice.sendData(data);
+		})
+
+	}
+
+
+	//check right or wrong
+	decideRigthWrong() {
+		let rightCounter = 0;
+
+		this.ansArray.forEach(element => {
+			if (element.isRight) {
+				rightCounter = rightCounter + 1;
+			}
+		});
+		return rightCounter
+	}
 
 	/***** Disable speaker and options other than hovered until audio end *******/
 	disableOtherOptions(idx, selectedBlock) {
@@ -622,62 +672,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	getEndWordGroupings() { return { '2304': true, '2305': true, '2306': true, '2307': true, '2362': true, '2363': true, '2364': true, '2365': true, '2366': true, '2367': true, '2368': true, '2369': true, '2370': true, '2371': true, '2372': true, '2373': true, '2374': true, '2375': true, '2376': true, '2377': true, '2378': true, '2379': true, '2380': true, '2381': true, '2382': true, '2383': true, '2385': true, '2386': true, '2389': true, '2390': true, '2391': true, '2402': true, '2403': true, '2416': true, '2417': true, }; }
 
-	// on hover of various buttons
-	onHoverRefresh(item, i) {
-		item.refresh = item.refresh_hover
-	}
 
-	onHoverOutRefresh(item, i) {
-		item.refresh = item.refresh_original;
-	}
-
-	onHoverLock(item, i) {
-		item.unlock = item.unlock_hover
-	}
-
-	onHoverOutLock(item, i) {
-		item.unlock = item.unlock_original;
-	}
-
-	//on clicking refresh buttons
-	refreshClicked(item, i) {
-		item.value = "";
-		this.disableOption = false
-		this.autofocus = true;
-		document.getElementById(this.ansArray[this.activeId].id).focus();
-	}
-
-	//on clicking the lock button
-	lockClicked(item, i) {
-		item.locked = true;
-		item.disabled = true;
-		let DoneCounter = 0;
-		this.ansArray.forEach(element => {
-			if (element.value && element.value.length > 0) {
-				DoneCounter = DoneCounter + 1;
-			}
-		});
-		if (DoneCounter < this.ansArray.length) {
-			this.focusNxtEle();
-			this.autofocus = true;
-			this.disableOption = false
-		}
-		else {
-			this.disableOption = true;
-			this.autofocus = false;
-			document.getElementById(this.ansArray[this.activeId].id).blur();
-			this.Sharedservice.setSubmitAnsEnabled(true)
-		}
-	}
-
-	//for automatic focus
-	focusAuto() {
-		console.log("auto focusssing")
-		if (this.autofocus) {
-			//TODO: check to handle focus by attribute if present.
-			document.getElementById(this.ansArray[this.activeId].id).focus();
-		}
-	}
 
 	//check right/wrong ans
 	checkAnswer() {
@@ -746,4 +741,3 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	}
 
 }
-//sorting methods according to types.
