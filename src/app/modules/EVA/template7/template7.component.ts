@@ -311,6 +311,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.checkAnswer();
 			if (this.decideRigthWrong() == this.ansArray.length) {
 				//disable things
+				this.appModel.storeVisitedTabs();
 				this.ifRightAns = true;
 				this.isOverlay = true;
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
@@ -739,5 +740,19 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.autofocus = true;
 		}
 	}
+
+	storeVisitedTabs() {
+		if (sessionStorage.getItem("tabsVisited")) {
+		  let visitedArr = JSON.parse(sessionStorage.getItem("tabsVisited"));
+		  if (visitedArr.indexOf(this.common_assets.ques_control.quesTabs.quesID) < 0) {   //If question is not already answered
+			visitedArr.push(this.common_assets.ques_control.quesTabs.quesID);
+			sessionStorage.setItem("tabsVisited", JSON.stringify(visitedArr));
+		  }
+		}
+		else {
+		  let visitedTabsArr = [this.common_assets.ques_control.quesTabs.quesID];
+		  sessionStorage.setItem("tabsVisited", JSON.stringify(visitedTabsArr));
+		}
+	  }
 
 }

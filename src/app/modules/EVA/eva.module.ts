@@ -22,6 +22,8 @@ import { TemplateSevenComponent } from './template7/template7.component';
 import { FormsModule } from '@angular/forms';
 
 
+import { Template5Component } from './template5/template5.component';
+import { EncodeUriPipe } from '../../common/encode_uri.pipe';
 @NgModule({
   imports: [
 	CommonModule,
@@ -45,7 +47,9 @@ import { FormsModule } from '@angular/forms';
 		GlobalspeakerComponent,
 		TemplateFourteenComponent,
 		ConfirmationComponent,
-		TemplateSevenComponent
+		TemplateSevenComponent,
+		Template5Component,
+		EncodeUriPipe
   ],
   providers: [DataService]
 })

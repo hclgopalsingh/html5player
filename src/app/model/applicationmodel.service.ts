@@ -149,6 +149,7 @@ export class ApplicationmodelService {
       ['/evatemp11', '/evatemp11ext', 0],
       ['/evatemp12', '/evatemp12ext', 0],
       ['/evatemp14', '/evatemp14ext', 0],
+      ['/evatemp5', '/evatemp5ext', 0],
       ['/evatemp7', '/evatemp7ext', 0]
     ];
     this.externalCommunication = externalCommunication;
@@ -454,6 +455,9 @@ export class ApplicationmodelService {
       this.eventDone = false;
     }
     if (this.EVA && this.nextSectionTimer) {
+      if (sessionStorage.getItem("tabsVisited")) {
+        sessionStorage.removeItem("tabsVisited");
+      }
       clearTimeout(this.nextSectionTimer);
       this.nextSectionTimer = undefined;
     }
@@ -482,7 +486,7 @@ export class ApplicationmodelService {
     this.updateConfig(functionalityType);
 
     
-    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51 || functionalityType == 52 || functionalityType == 53 || functionalityType == 54 || functionalityType == 55 || functionalityType == 56) {
+    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51 || functionalityType == 52 || functionalityType == 53 || functionalityType == 54 || functionalityType == 55 || functionalityType == 56 || functionalityType == 57) {
       this.setQuestionNo();
       let fetchdata=this.content.contentData.data;
       this.templatedata = JSON.parse(JSON.stringify(fetchdata));
@@ -1123,7 +1127,10 @@ export class ApplicationmodelService {
       this.currentSection--;
       return;
     }
-     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
+     else if(this.currentActive <= this.initValues.files.length - 1) {   // If segment is not last in the activity
+      if (sessionStorage.getItem("tabsVisited")) {
+        sessionStorage.removeItem("tabsVisited");
+      }
       this.load(this.initValues.files[this.currentActive]);
       // this.nextCollectionCounterEVA = 0;
       console.log('ApplicationmodelService: nextCollection - currentActive=',
@@ -1179,6 +1186,24 @@ export class ApplicationmodelService {
   setActiveBG(val) {
     this._avtiveBG.next(val);
   }
+
+  storeVisitedTabs() {
+    
+		if (sessionStorage.getItem("tabsVisited")) {
+		  let visitedArr = JSON.parse(sessionStorage.getItem("tabsVisited"));
+		  if (visitedArr.indexOf(this.templatedata['commonassets'].ques_control.quesTabs.quesID) < 0) {   //If question is not already answered
+			visitedArr.push(this.templatedata['commonassets'].ques_control.quesTabs.quesID);
+			sessionStorage.setItem("tabsVisited", JSON.stringify(visitedArr));
+		  }
+		}
+		else {
+		  let visitedTabsArr = [this.templatedata['commonassets'].ques_control.quesTabs.quesID];
+		  sessionStorage.setItem("tabsVisited", JSON.stringify(visitedTabsArr));
+		}
+	  }
+
+
+
 }
 
 
