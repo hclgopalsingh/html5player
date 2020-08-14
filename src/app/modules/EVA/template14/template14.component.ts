@@ -162,9 +162,6 @@ export class TemplateFourteenComponent implements OnInit {
     if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
       obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-    if (obj.audio) {
-      obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-    }
     if (obj.showAnswerVideo && obj.showAnswerVideo.nativeElement) {
       this.showAnswerVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
@@ -177,8 +174,14 @@ export class TemplateFourteenComponent implements OnInit {
     if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
       obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.speakerVolume && obj.speakerVolume.nativeElement) {
+      obj.speakerVolume.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
     if (obj.clapSound && obj.clapSound.nativeElement) {
       obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.audio) {
+      obj.audio.volume = obj.appModel.isMute ? 0 : vol;
     }
   }
 
@@ -257,8 +260,11 @@ export class TemplateFourteenComponent implements OnInit {
 
   //to reset things after a wrong answer
   postWrongAttemplt() {
-    this.setDatefromJSON();
     this.Sharedservice.setSubmitAnsEnabled(false);
+    this.selectedYearID.length = 0;
+    this.selectedMonthsId.length = 0;
+    this.selectedDaysId.length = 0;
+    this.selectedDatesId.length = 0;
     //resetting dates
     for (let i = this.startIndex; i >= 0; i--) {
       this.monthDatesinPopup.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;;
@@ -276,6 +282,8 @@ export class TemplateFourteenComponent implements OnInit {
     this.ArrweekDays.forEach(element => {
       element.weekDayImginpopUp = element.weekDayImginpopUp_original
     });
+    this.setDatefromJSON();
+
   }
 
   /******Set template type for EVA******/
@@ -374,6 +382,7 @@ export class TemplateFourteenComponent implements OnInit {
     //if you want given month to be show selected
     if (this.quesObj.monthSelected) {
       this.monthsArr[this.date.getMonth()].selected = true;
+      this.monthsArr[this.date.getMonth()].ImginpopUp = this.monthsArr[this.date.getMonth()].base_right
     }
 
     // this.monthsArr[this.date.getMonth()].checkRightorWrong = true;
@@ -394,7 +403,9 @@ export class TemplateFourteenComponent implements OnInit {
 
     //if you want given year to appear selected
     if (this.quesObj.yearSelected) {
-      this.Arryears.find((item) => item.id == this.date.getFullYear()).selected = true;
+        let item = this.Arryears.find((item) => item.id == this.date.getFullYear())
+        item.selected = true;
+        item.ImginpopUp = item.base_right;
     }
 
     // this.Arryears.find((item) => item.id == this.date.getFullYear()).checkRightorWrong = true;
@@ -559,6 +570,7 @@ export class TemplateFourteenComponent implements OnInit {
         }
         if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
           if (!this.quesObj.multi_year) {
+            this.selectedYearID.length = 0;
             this.selectedYearID.push(item.id)
             this.Arryears.filter((item) => item.selected == true)[0].selected = false;
           }
@@ -850,6 +862,7 @@ export class TemplateFourteenComponent implements OnInit {
       this.rightPopup = this.feedback.right_ans_sound;
       this.wrongPopup = this.feedback.wrong_ans_sound;
       this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
+      this.commonAssets.ques_control.blinkingStatus = false;
       //need to be set acc. to the right or wrong answer.
       this.popupIcon = this.popupAssets.right_icon.url;
       this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -908,8 +921,16 @@ export class TemplateFourteenComponent implements OnInit {
     if (this.isRight) {
       this.Sharedservice.setShowAnsEnabled(true);
       this.blinkOnLastQues();
+      if (this.lastQuestionCheck) {
+        this.Sharedservice.setTimeOnLastQues(true);
+      }
     }
     else {
+      if (this.wrongCounter >= 3) {
+        this.Sharedservice.setShowAnsEnabled(true);
+      } else {
+        this.Sharedservice.setShowAnsEnabled(false);
+      }
       this.postWrongAttemplt();
     }
   }
@@ -927,10 +948,9 @@ export class TemplateFourteenComponent implements OnInit {
       this.videoonshowAnspopUp.nativeElement.currentTime = 0;
     }
     if (type == "showAnswer") {
-      //if (this.isRight) {
-      this.overlay.nativeElement.classList.value = "fadeContainer";
+      if (this.isRight) {
       this.blinkOnLastQues();
-      //}
+      }
     }
 
     //for type confirmation pop up
@@ -940,12 +960,18 @@ export class TemplateFourteenComponent implements OnInit {
         if (this.isRight) {
           if (this.rightFeedback && this.rightFeedback.nativeElement) {
             this.clapSound.nativeElement.play();
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+              document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+            }
             setTimeout(() => {
               this.clapSound.nativeElement.pause();
               this.clapSound.nativeElement.currentTime = 0;
               this.popupRef.nativeElement.classList = "displayPopup modal";
               this.setCalender("popup");
               this.rightFeedback.nativeElement.play();
+              for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+              }
               this.rightFeedback.nativeElement.onended = () => {
                 this.rightTimer = setTimeout(() => {
                   this.closeModal();
@@ -996,81 +1022,20 @@ export class TemplateFourteenComponent implements OnInit {
 
   }
 
-
+  ifYearAnsCorrect =true;
+  ifMonthAnsCorrect =true;
   CheckAnswer() {
+    this.ifYearAnsCorrect =true;
+    this.ifMonthAnsCorrect =true;
+
     console.log("right_date", this.feedback.right_date)
     console.log("right_month", this.feedback.right_month)
     console.log("right_weekDay", this.feedback.right_weekDay)
     console.log("right_year", this.feedback.right_year)
     //set right wrong for months
-    if (this.feedback.right_month.length > 0 && !this.Smart_Calendar) {
-
-      for (let index1 = 0; index1 < this.selectedMonthsId.length; index1++) {
-        const element1 = this.selectedMonthsId[index1];
-        for (let index2 = 0; index2 < this.feedback.right_month.length; index2++) {
-          const element2 = this.monthsArr.findIndex((item) => item.id == this.feedback.right_month[index2]);
-          if (element1 == element2) {
-            //put a green base 
-            this.monthsArr[element1].ImginpopUp = this.monthsArr[element1].base_right
-            break;
-          }
-          else {
-            this.monthsArr[element1].ImginpopUp = this.monthsArr[element1].base_wrong
-          }
-          //put a red base 
-        }
-      }
-    }
-
-    //to check when localmachine is true
-    // if (this.quesObj.localMachineDate && this.feedback.right_month.length == 0 && this.selectedMonthsId.length == 1) {
-    //   //check selected month against current month
-    //   let current_month = new Date().getMonth();
-    //   console.log(current_month)
-    //   console.log(this.selectedMonthsId)
-    //   if (current_month == this.selectedMonthsId[0]) {
-    //     this.monthsArr[current_month].ImginpopUp = this.monthsArr[current_month].base_right
-    //   }
-    //   else {
-    //     this.monthsArr[this.selectedMonthsId[0]].ImginpopUp = this.monthsArr[this.selectedMonthsId[0]].base_wrong
-    //   }
-    // }
-    //set right wrong for week days base
-    if (this.feedback.right_weekDay.length > 0 && !this.Smart_Calendar) {
-      for (let index1 = 0; index1 < this.selectedDaysId.length; index1++) {
-        const element1 = this.selectedDaysId[index1];
-        for (let index2 = 0; index2 < this.feedback.right_weekDay.length; index2++) {
-          const element2 = this.feedback.right_weekDay[index2]
-          let id = this.ArrweekDays.findIndex((item) => item.id == element1);
-          console.log("id", id)
-          if (element1 == element2) {
-            //put a green base
-            this.ArrweekDays[id].weekDayImginpopUp = this.ArrweekDays[id].base_right
-            break;
-          }
-          else {
-            this.ArrweekDays[id].weekDayImginpopUp = this.ArrweekDays[id].base_wrong
-          }
-          //put a red base 
-        }
-      }
-    }
-    //to check when localmachine is true
-    // if (this.quesObj.localMachineDate && this.feedback.right_weekDay.length == 0 && this.selectedDaysId.length == 1) {
-    //   //check selected month against current month
-    //   let current_week = new Date().getDay();
-    //   current_week = current_week - 1;
-    //   console.log(current_week)
-    //   console.log(this.selectedDaysId)
-    //   if (this.ArrweekDays[current_week].id == this.selectedDaysId[0]) {
-    //     this.ArrweekDays[current_week].weekDayImginpopUp = this.ArrweekDays[current_week].base_right
-    //   }
-    //   else {
-    //     this.ArrweekDays[current_week].weekDayImginpopUp = this.ArrweekDays[current_week].base_wrong
-    //   }
-    // }
     //set right and wrong year base 
-    if (this.feedback.right_year.length > 0 && !this.Smart_Calendar) {
+    if (this.feedback.right_year.length > 0) {
+      this.ifYearAnsCorrect =( this.feedback.right_year.length == this.selectedYearID.length && this.arrayEquals(this.feedback.right_year,this.selectedYearID))
       for (let index1 = 0; index1 < this.selectedYearID.length; index1++) {
         const element1 = this.selectedYearID[index1];
         for (let index2 = 0; index2 < this.feedback.right_year.length; index2++) {
@@ -1105,6 +1070,88 @@ export class TemplateFourteenComponent implements OnInit {
     //   }
     // }
 
+
+
+
+    if (this.feedback.right_month.length > 0 ) {
+      
+      let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
+      let that = this
+      RightMonthArray.forEach(function (element1, i) {
+        that.monthsArr.forEach(function (item, ind) {
+          if (item.id == element1) {
+            RightMonthArray[i] = ind
+          }
+        });
+      });
+
+      this.ifMonthAnsCorrect = (this.selectedMonthsId.length == RightMonthArray.length &&  this.arrayEquals(this.selectedMonthsId,RightMonthArray))
+      for (let index1 = 0; index1 < this.selectedMonthsId.length; index1++) {
+        const element1 = this.selectedMonthsId[index1];
+        for (let index2 = 0; index2 < this.feedback.right_month.length; index2++) {
+          const element2 = this.monthsArr.findIndex((item) => item.id == this.feedback.right_month[index2]);
+          if (element1 == element2) {
+            //put a green base 
+            this.monthsArr[element1].ImginpopUp = this.ifYearAnsCorrect ? this.monthsArr[element1].base_right : this.monthsArr[element1].base_wrong
+            break;
+          }
+          else {
+            this.monthsArr[element1].ImginpopUp = this.monthsArr[element1].base_wrong
+          }
+          //put a red base 
+        }
+      }
+    }
+
+    //to check when localmachine is true
+    // if (this.quesObj.localMachineDate && this.feedback.right_month.length == 0 && this.selectedMonthsId.length == 1) {
+    //   //check selected month against current month
+    //   let current_month = new Date().getMonth();
+    //   console.log(current_month)
+    //   console.log(this.selectedMonthsId)
+    //   if (current_month == this.selectedMonthsId[0]) {
+    //     this.monthsArr[current_month].ImginpopUp = this.monthsArr[current_month].base_right
+    //   }
+    //   else {
+    //     this.monthsArr[this.selectedMonthsId[0]].ImginpopUp = this.monthsArr[this.selectedMonthsId[0]].base_wrong
+    //   }
+    // }
+    //set right wrong for week days base
+    if (this.feedback.right_weekDay.length > 0 && !this.Smart_Calendar) {
+      for (let index1 = 0; index1 < this.selectedDaysId.length; index1++) {
+        const element1 = this.selectedDaysId[index1];
+        for (let index2 = 0; index2 < this.feedback.right_weekDay.length; index2++) {
+          const element2 = this.feedback.right_weekDay[index2]
+          let id = this.ArrweekDays.findIndex((item) => item.id == element1);
+          console.log("id", id)
+          if (element1 == element2) {
+            //put a green base
+            this.ArrweekDays[id].weekDayImginpopUp = (this.ifYearAnsCorrect && this.ifMonthAnsCorrect) ? this.ArrweekDays[id].base_right : this.ArrweekDays[id].base_wrong;
+            break;
+          }
+          else {
+            this.ArrweekDays[id].weekDayImginpopUp = this.ArrweekDays[id].base_wrong
+          }
+          //put a red base 
+        }
+      }
+    }
+    //to check when localmachine is true
+    // if (this.quesObj.localMachineDate && this.feedback.right_weekDay.length == 0 && this.selectedDaysId.length == 1) {
+    //   //check selected month against current month
+    //   let current_week = new Date().getDay();
+    //   current_week = current_week - 1;
+    //   console.log(current_week)
+    //   console.log(this.selectedDaysId)
+    //   if (this.ArrweekDays[current_week].id == this.selectedDaysId[0]) {
+    //     this.ArrweekDays[current_week].weekDayImginpopUp = this.ArrweekDays[current_week].base_right
+    //   }
+    //   else {
+    //     this.ArrweekDays[current_week].weekDayImginpopUp = this.ArrweekDays[current_week].base_wrong
+    //   }
+    // }
+    
+
     //set right wrong base for dates
     if (this.feedback.right_date.length > 0 && !this.Smart_Calendar) {
       for (let index1 = 0; index1 < this.selectedDatesId.length; index1++) {
@@ -1112,7 +1159,7 @@ export class TemplateFourteenComponent implements OnInit {
         for (let index2 = 0; index2 < this.feedback.right_date.length; index2++) {
           const element2 = this.feedback.right_date[index2]
           //find ID of the element in #monthDatesinPopup to replace base url
-          if (element1 == element2) {
+          if (element1 == element2 && ((this.ifYearAnsCorrect && this.ifMonthAnsCorrect))) {
             this.setRightWrongbaseDates(element1, "right")
             break;
           }
@@ -1219,11 +1266,6 @@ export class TemplateFourteenComponent implements OnInit {
       this.popupIcon = this.popupAssets.wrong_icon.url;
       this.popupIconLocation = this.popupAssets.wrong_icon.location;
       console.log("this.wrongCounter", this.wrongCounter)
-      if (this.wrongCounter >= 3) {
-        this.Sharedservice.setShowAnsEnabled(true);
-      } else {
-        this.Sharedservice.setShowAnsEnabled(false);
-      }
     }
 
     console.log("this.arrayEquals(finalRightArray, finalSelectedArray)", this.arrayEquals(finalRightArray, finalSelectedArray))
@@ -1285,6 +1327,12 @@ export class TemplateFourteenComponent implements OnInit {
       (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
       this.speaker.imgsrc = this.speaker.imgorigional;
     }
+
+    if(this.speakerVolume && this.speakerVolume.nativeElement){
+      this.speakerVolume.nativeElement.pause();
+      this.speakerVolume.nativeElement.currentTime = 0;
+    }
+
   }
 
   //clear timers stop sounds on destroy
@@ -1310,6 +1358,11 @@ export class TemplateFourteenComponent implements OnInit {
   NumberHoverOut(ev){
     let event = {target : ev.target.parentNode.children[0]}
     this.houtonDate(event)
+  }
+
+  /** Function called on click of speaker **/
+  onSpeakerClicked() {
+    this.stopAllSounds();
   }
 
 }
