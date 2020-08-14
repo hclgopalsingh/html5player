@@ -144,6 +144,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
 	showAnsTimeout:number;
+	instructionDisable:boolean=false;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -194,6 +195,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.appModel.notifyUserAction();
 			this.instructionVO.nativeElement.pause();
 			this.instructionVO.nativeElement.currentTime = 0;
+			this.instructionDisable=false;
 			if(val=="uttarDikhayein"){
 				if(this.confirmModalRef && this.confirmModalRef.nativeElement){
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -228,6 +230,16 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.appModel.handleController(this.controlHandler);
 	}
 
+	ngOnDestroy() {
+		/*Start: Theme Implementation(Template Changes)*/
+		if(this.bgSubscription!=undefined){
+		  this.bgSubscription.unsubscribe();
+		}
+		/*End: Theme Implementation(Template Changes)*/
+		this.audio.pause();
+		this.audio.currentTime = 0;
+	}
+
 	postWrongAttempt(){
 		if(this.type == "left"){
 			this.appModel.notifyUserAction();
@@ -253,29 +265,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.optionsBlock.nativeElement.classList = "row mx-0"
 		this.instructionBar.nativeElement.classList ="instructionBase";
 	}
-
-	/*getEditedPopupAssets() {
-			for (let i = 0; i < this.popupAssets.length; i++) {
-				if ((this.popupAssets[i].id.includes(this.leftOptions[this.leftSelectedIdx])) || (this.popupAssets[i].id.includes(this.rightOptions[this.rightSelectedIdx].id))) {
-					let imglist: any = [];
-					imglist.push(this.popupAssets[i]);
-					for(let j =0;j<this.popupAssetsToShow.length;j++){
-						if(this.popupAssets[i]===this.popupAssetsToShow[i]){
-							this.popupAssetsToShow.splice(j,1);
-						}
-					}
-				}
-			}
-	}*/
-	ngOnDestroy() {
-		/*Start: Theme Implementation(Template Changes)*/
-		if(this.bgSubscription!=undefined){
-		  this.bgSubscription.unsubscribe();
-		}
-		/*End: Theme Implementation(Template Changes)*/
-		this.audio.pause();
-		this.audio.currentTime = 0;
-	}
+		
 
 	/*Start: Theme Implementation(Template Changes)*/
 	checkquesTab() {
@@ -488,38 +478,17 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						}
 					}, 500)
 				} else {
-					//this.timerSubscription.unsubscribe();
 					setTimeout(() => {
 						this.checkForOtherVO();
 						this.type = "right"
-						// this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 						this.stopOptionHoverAudio();
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
-							// this.optionsBlock.nativeElement.classList = "row mx-0";
 							this.resetTimerForAnswer('right');
-						//	setTimeout(() => {
-								//setTimeout(() => {
-									this.appModel.notifyUserAction();
-									//this.wrongFeedbackVO.nativeElement.onended = () => {
-										this.appModel.wrongAttemptAnimation();	
-										//setTimeout(() => {
-										//	setTimeout(() => {
-			
-									//	}, 500)
-									//}
-									// for (var i = 0; i < this.rightOptions.length; i++) {
-									// 	/*if (i != this.rightSelectedIdx && this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
-									// 	}*/
-									// 	if(i != this.rightSelectedIdx ){
-									// 		this.optionsBlock.nativeElement.children[2].children[i].classList.add("disableDivWrong");
-									// 	}
-									// }
-								//}, 500)
-								// this.optionsBlock.nativeElement.classList = "row mx-0";
-								// this.instructionBar.nativeElement.classList ="instructionBase";
-							//}, 500)
+							this.appModel.notifyUserAction();
+							this.appModel.wrongAttemptAnimation();	
+										
 						}
 					}, 500)
 				}
@@ -688,6 +657,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		if(this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused){
 			this.instructionVO.nativeElement.pause();
 			this.instructionBar.nativeElement.currentTime = 0;
+			this.instructionDisable=false;
 		}
 	}
 	stopOptionHoverAudio(){
@@ -843,6 +813,7 @@ removeAssetsFromPopup(id:string){
 			this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 			this.instructionVO.nativeElement.pause();
 			this.instructionVO.nativeElement.currentTime = 0;
+			// this.instructionDisable=false;
 			this.audio.onended = () => {
 				optionEnabled = false;
 				this.instructionBar.nativeElement.classList ="instructionBase";
@@ -990,10 +961,10 @@ removeAssetsFromPopup(id:string){
 		playInstruction(){
 			this.appModel.notifyUserAction();
 			if(this.instructionVO.nativeElement && this.instructionVO.nativeElement.src){
-				this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+				this.instructionDisable=true;
 				this.instructionVO.nativeElement.play();
 				this.instructionVO.nativeElement.onended = () =>{
-					this.instructionBar.nativeElement.classList = "instructionBase";
+					this.instructionDisable=false;
 				}
 			}
 		}
@@ -1070,7 +1041,8 @@ removeAssetsFromPopup(id:string){
 		setFeedbackAudio(){
 			if(this.instructionVO && this.instructionVO.nativeElement){
 				this.instructionVO.nativeElement.pause();
-		    this.instructionVO.nativeElement.currentTime = 0;
+				this.instructionVO.nativeElement.currentTime = 0;
+				this.instructionDisable=false;
 			}
 			if(this.rightFeedbackVO && this.rightFeedbackVO.nativeElement){
 				this.rightFeedbackVO.nativeElement.pause();
