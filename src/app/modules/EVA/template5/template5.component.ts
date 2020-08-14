@@ -391,7 +391,7 @@ export class Template5Component implements OnInit {
       ++current;
       if (this.feedback.correct_ans.length == current) {
         this.rightTimer = setTimeout(() => {
-          // this.closePopup('answerPopup');
+          this.closePopup('answerPopup');
         }, 10000);
         return;
       }
