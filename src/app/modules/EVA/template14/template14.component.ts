@@ -921,6 +921,9 @@ export class TemplateFourteenComponent implements OnInit {
     if (this.isRight) {
       this.Sharedservice.setShowAnsEnabled(true);
       this.blinkOnLastQues();
+      if (this.lastQuestionCheck) {
+        this.Sharedservice.setTimeOnLastQues(true);
+      }
     }
     else {
       if (this.wrongCounter >= 3) {
@@ -957,12 +960,18 @@ export class TemplateFourteenComponent implements OnInit {
         if (this.isRight) {
           if (this.rightFeedback && this.rightFeedback.nativeElement) {
             this.clapSound.nativeElement.play();
+            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+              document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+            }
             setTimeout(() => {
               this.clapSound.nativeElement.pause();
               this.clapSound.nativeElement.currentTime = 0;
               this.popupRef.nativeElement.classList = "displayPopup modal";
               this.setCalender("popup");
               this.rightFeedback.nativeElement.play();
+              for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+                document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+              }
               this.rightFeedback.nativeElement.onended = () => {
                 this.rightTimer = setTimeout(() => {
                   this.closeModal();
