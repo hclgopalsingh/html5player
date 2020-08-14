@@ -1,4 +1,4 @@
-<div class="container-fluid temp10" #container id="container">
+<div class="container-fluid temp10 ele" #container id="container">
 	<audio id="abc" #narrator [src]="quesInfo?.narrator?.url"></audio>
 	<audio #wrongOptAudio [src]=""></audio>
 	<div class="d-flex align-items-center justify-content-center hideit" #burst id="burst">
@@ -38,9 +38,7 @@
 	</div>
 
 	<audio #titleHelpAudio [src]="quesInfo?.narrator?.url "></audio>
-</div>
-
-<!-- The Confirmation Modal -->
+	<!-- The Confirmation Modal -->
 <div class="modal" id="confirmModal" #confirmModalRef>
 	<div class="modal-dialog">
 		<!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
@@ -73,7 +71,7 @@
 <!-- correctAns Modal -->
 
 <div class="modal" id="modalTemp17" #correctAns>
-	<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content">
 
 			<!-- Modal Header -->
@@ -102,3 +100,5 @@
 	</div>
 	<audio  class="feedbackVoRef" #feedbackVoRef></audio>
 </div>
+</div>
+
