@@ -957,12 +957,14 @@ export class TemplateFourteenComponent implements OnInit {
         if (this.isRight) {
           if (this.rightFeedback && this.rightFeedback.nativeElement) {
             this.clapSound.nativeElement.play();
+            this.Sharedservice.setShowAnsEnabled(false);
             setTimeout(() => {
               this.clapSound.nativeElement.pause();
               this.clapSound.nativeElement.currentTime = 0;
               this.popupRef.nativeElement.classList = "displayPopup modal";
               this.setCalender("popup");
               this.rightFeedback.nativeElement.play();
+              this.Sharedservice.setShowAnsEnabled(true);
               this.rightFeedback.nativeElement.onended = () => {
                 this.rightTimer = setTimeout(() => {
                   this.closeModal();
