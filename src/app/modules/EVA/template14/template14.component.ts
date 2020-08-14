@@ -145,7 +145,7 @@ export class TemplateFourteenComponent implements OnInit {
 
 
   ngAfterViewChecked() {
-    this.appModel.templatevolume(this.appModel.volumeValue, this);
+    this.templatevolume(this.appModel.volumeValue, this);
   }
 
   ngAfterViewInit(){
@@ -161,6 +161,9 @@ export class TemplateFourteenComponent implements OnInit {
   templatevolume(vol, obj) {
     if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
       obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.narrator && obj.narrator.nativeElement) {
+      obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.showAnswerVideo && obj.showAnswerVideo.nativeElement) {
       this.showAnswerVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -219,7 +222,6 @@ export class TemplateFourteenComponent implements OnInit {
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
-    this.appModel.functionone(this.templatevolume, this);//start end
     this.containgFolderPath = this.getBasePath();
     this.stopAllSounds()
     
