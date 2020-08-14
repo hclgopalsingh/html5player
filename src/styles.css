@@ -420,3 +420,6 @@ button:focus{
     top: 0;
     z-index: 3;
 }
+#autoPlayOnOffContainer label{
+    font-size: .8vmax !important;
+}
