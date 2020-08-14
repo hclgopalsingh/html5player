@@ -142,6 +142,7 @@ export class TemplateFourteenComponent implements OnInit {
   showAnswerPopup: any;
   showAnswerVO: any;
   lastQuestionCheck: any;
+  clappingTimer: any;
 
 
   ngAfterViewChecked() {
@@ -384,7 +385,7 @@ export class TemplateFourteenComponent implements OnInit {
     //if you want given month to be show selected
     if (this.quesObj.monthSelected) {
       this.monthsArr[this.date.getMonth()].selected = true;
-      this.monthsArr[this.date.getMonth()].ImginpopUp = this.monthsArr[this.date.getMonth()].base_right
+      this.monthsArr[this.date.getMonth()].ImginpopUp = this.monthsArr[this.date.getMonth()].slectedBaseImg
     }
 
     // this.monthsArr[this.date.getMonth()].checkRightorWrong = true;
@@ -407,7 +408,7 @@ export class TemplateFourteenComponent implements OnInit {
     if (this.quesObj.yearSelected) {
         let item = this.Arryears.find((item) => item.id == this.date.getFullYear())
         item.selected = true;
-        item.ImginpopUp = item.base_right;
+        item.ImginpopUp = item.base_selected;
     }
 
     // this.Arryears.find((item) => item.id == this.date.getFullYear()).checkRightorWrong = true;
@@ -569,6 +570,8 @@ export class TemplateFourteenComponent implements OnInit {
           this.monthDates.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;;
           this.monthDates.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
           this.monthDates.nativeElement.children[0].children[i].children[0].style.pointerEvents = "";
+          this.monthDates.nativeElement.children[0].children[i].style.pointerEvents = "";
+
         }
         if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
           if (!this.quesObj.multi_year) {
@@ -608,7 +611,7 @@ export class TemplateFourteenComponent implements OnInit {
             previousItem.selected = false;
             if (this.previousItemevent != undefined) {
               this.previousItemevent.src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;
-              this.previousItemevent.style.pointerEvents = "";
+              this.previousItemevent.parentNode.style.pointerEvents = "";
             }
             this.selectedDatesId.length = 0;
             this.previousItemeventArr.length =0;
@@ -637,7 +640,8 @@ export class TemplateFourteenComponent implements OnInit {
         item.target.src = this.datesArr[0].base_hover.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_selected.url : this.assetsPath + "/" + this.datesArr[0].base_selected.url;
         this.previousItemevent = item.target;
         if (!this.quesObj.multi_date) {
-          item.target.style.pointerEvents = "none";
+          item.target.parentNode.style.pointerEvents = "none";
+          console.log("item",item.target)
         }
         itemDate.selected = true;
         if(this.quesObj.multi_date &&(this.selectedDatesId.length > this.feedback.right_date.length)){
@@ -704,7 +708,7 @@ export class TemplateFourteenComponent implements OnInit {
           this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
         }
         item.selected = true;
-        if(this.quesObj.multi_day && this.selectedDaysId.length > this.feedback.right_year.length){
+        if(this.quesObj.multi_day && this.selectedDaysId.length > this.feedback.right_weekDay.length){
           this.CheckforUnselctWeekday()
           }
       }
@@ -822,6 +826,7 @@ export class TemplateFourteenComponent implements OnInit {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].children[0].id = i;
         this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
         this.monthDates.nativeElement.children[0].children[this.startIndex].style.pointerEvents = "";
+
         if (this.datesArr[i].disable) {
           this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
@@ -965,7 +970,7 @@ export class TemplateFourteenComponent implements OnInit {
             for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
               document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
             }
-            setTimeout(() => {
+            this.clappingTimer = setTimeout(() => {
               this.clapSound.nativeElement.pause();
               this.clapSound.nativeElement.currentTime = 0;
               this.popupRef.nativeElement.classList = "displayPopup modal";
@@ -1341,6 +1346,7 @@ export class TemplateFourteenComponent implements OnInit {
   ngOnDestroy() {
     clearTimeout(this.rightTimer);
     clearTimeout(this.wrongTimer);
+    clearTimeout(this.clappingTimer);
     this.stopAllSounds();
     this.appModel.stopAllTimer();
   }
