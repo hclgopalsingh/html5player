@@ -260,7 +260,6 @@ export class TemplateFourteenComponent implements OnInit {
 
   //to reset things after a wrong answer
   postWrongAttemplt() {
-    this.setDatefromJSON();
     this.Sharedservice.setSubmitAnsEnabled(false);
     this.selectedYearID.length = 0;
     this.selectedMonthsId.length = 0;
@@ -283,6 +282,8 @@ export class TemplateFourteenComponent implements OnInit {
     this.ArrweekDays.forEach(element => {
       element.weekDayImginpopUp = element.weekDayImginpopUp_original
     });
+    this.setDatefromJSON();
+
   }
 
   /******Set template type for EVA******/
@@ -1300,9 +1301,6 @@ export class TemplateFourteenComponent implements OnInit {
     this.audio.pause();
     this.audio.currentTime = 0;
 
-    this.speakerVolume.nativeElement.pause();
-    this.speakerVolume.nativeElement.currentTime = 0;
-
     this.wrongFeedback.nativeElement.pause();
     this.wrongFeedback.nativeElement.currentTime = 0;
 
@@ -1320,6 +1318,12 @@ export class TemplateFourteenComponent implements OnInit {
       (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
       this.speaker.imgsrc = this.speaker.imgorigional;
     }
+
+    if(this.speakerVolume && this.speakerVolume.nativeElement){
+      this.speakerVolume.nativeElement.pause();
+      this.speakerVolume.nativeElement.currentTime = 0;
+    }
+
   }
 
   //clear timers stop sounds on destroy
