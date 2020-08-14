@@ -130,8 +130,6 @@ import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.
 		AnimationComponent,
 		Ntemplate17_1,
 		NtemplateMap,
-		ShowanswerComponent,
-		Template11Componenteva,
 		Ntemplate1Component,
 		Ntemplate9Component
 	],
