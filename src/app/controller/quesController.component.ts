@@ -120,7 +120,7 @@ export class QuesController implements OnInit {
           if (data.data && this.EVA && !this.appModel.nextSectionTimer) {
             this.appModel.nextSectionTimer = setTimeout(() => {
               this.appModel.nextSectionEVA(this.isLastQues);
-            }, 5 * 60 * 1000);
+            }, .2 * 60 * 1000);
           }
         });
 
