@@ -273,6 +273,8 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		  this.bgSubscription.unsubscribe();
 		}
 		/*End: Theme Implementation(Template Changes)*/
+		this.audio.pause();
+		this.audio.currentTime = 0;
 	}
 
 	/*Start: Theme Implementation(Template Changes)*/
@@ -444,7 +446,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					this.noOfRightAns++;
 					this.removeAssetsFromPopup(opt.id+","+opt.matchingId);
 					setTimeout(() => {
-						this.checkForOtherVO();						
+						this.checkForOtherVO();
+						this.rightFeedbackVO.nativeElement.src = this.feedback.right_ans_sound[this.rightSelectedIdx ].url;
+						this.stopOptionHoverAudio();
 						this.rightFeedbackVO.nativeElement.play();
 						this.rightFeedbackVO.nativeElement.onended = () => {
 							setTimeout(() => {
@@ -488,9 +492,12 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					setTimeout(() => {
 						this.checkForOtherVO();
 						this.type = "right"
+						// this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+						this.stopOptionHoverAudio();
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
+							// this.optionsBlock.nativeElement.classList = "row mx-0";
 							this.resetTimerForAnswer('right');
 						//	setTimeout(() => {
 								//setTimeout(() => {
@@ -596,6 +603,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					setTimeout(() => {
 						this.checkForOtherVO();
 						this.rightFeedbackVO.nativeElement.src = this.feedback.single_right_ans[this.leftSelectedIdx ].url
+						this.stopOptionHoverAudio();
 						this.rightFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.rightFeedbackVO.nativeElement.onended = () => {
@@ -640,7 +648,8 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					setTimeout(() => {
 						this.type = "left"
 						this.checkForOtherVO();
-						console.log("i am in the wrong option selected block--------->")						
+						console.log("i am in the wrong option selected block--------->")
+						this.stopOptionHoverAudio();
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
@@ -681,7 +690,25 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.instructionBar.nativeElement.currentTime = 0;
 		}
 	}
-
+	stopOptionHoverAudio(){
+		if (this.audio && !this.audio.paused) {
+			//commenting to not pause the audio on selection.
+			this.audio.pause();
+			this.audio.currentTime = 0;
+			for (let i = 0; i < this.leftOptions.length; i++) {
+			/*	if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
+					this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
+				}*/
+				this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivAudio")
+			}
+			for (let i = 0; i < this.rightOptions.length; i++) {
+				/*if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
+					this.optionsBlock.nativeElement.children[2].children[i].classList = "options";
+				}*/
+				this.optionsBlock.nativeElement.children[2].children[i].classList.remove("disableDivAudio");
+			}
+		}
+	}
 removeAssetsFromPopup(id:string){
 		for(let i=0;i<this.popupAssetsToShow.length;i++){
 			if(this.popupAssetsToShow[i].id ==id){
@@ -801,9 +828,7 @@ removeAssetsFromPopup(id:string){
 		return false;
 	}
 
-	hoverLeftOption(idx) {
-		this.removeOptionAnimation(idx, "left");
-	}
+	
 
 	playSound(soundAssets, idx, side) {
 		if(this.audio && this.audio.paused){
@@ -865,10 +890,14 @@ removeAssetsFromPopup(id:string){
 		}
 	}
 
-	hoverRightOption(idx) {
+	hoverRightOption(opt,idx) {
 		this.removeOptionAnimation(idx, "right");
+		this.playOptionHover(opt,idx, 'right');
 	}
-
+	hoverLeftOption(opt,idx) {
+		this.removeOptionAnimation(idx, "left");
+		this.playOptionHover(opt,idx, 'left');
+	}
 	houtLeftOption(idx) {
 		/*if (this.optionsBlock.nativeElement.children[0].children[idx].classList == "options disableDiv") {
 			this.optionsBlock.nativeElement.children[0].children[idx].classList = "options disableDiv removeOptAnimation";
@@ -961,10 +990,10 @@ removeAssetsFromPopup(id:string){
 		playInstruction(){
 			this.appModel.notifyUserAction();
 			if(this.instructionVO.nativeElement && this.instructionVO.nativeElement.src){
-				//this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+				this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
 				this.instructionVO.nativeElement.play();
 				this.instructionVO.nativeElement.onended = () =>{
-				//	this.optionsBlock.nativeElement.classList = "row mx-0";
+					this.instructionBar.nativeElement.classList = "instructionBase";
 				}
 			}
 		}

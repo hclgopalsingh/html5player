@@ -11,7 +11,7 @@
     </div>
     <div class="row mx-0" id="optionsBlock" #optionsBlock>
         <div class="my-auto quesBase{{noofSubQues}}" [ngClass]="{'disableDiv': !((leftList==null) || (leftList=='pl') || (leftList=='sl' && primarySelected))}" >
-            <div class="options" *ngFor="let opt of leftOptions;let idx = index" (click)="selectLeft(opt,idx);" (mousemove)="hoverLeftOption(idx);" (mouseenter)="playOptionHover(opt,idx, 'left')" (mouseleave)="houtLeftOption(idx)">
+            <div class="options" *ngFor="let opt of leftOptions;let idx = index" (click)="selectLeft(opt,idx);" (mousemove)="hoverLeftOption(opt,idx);" (mouseleave)="houtLeftOption(idx)">
                 <img class="img-fluid fullWidth" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();">
             </div>
         </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="my-auto quesBase{{noofSubQues}}"  [ngClass]="{'disableDiv': !((rightList==null) || (rightList=='pl') || (rightList=='sl' && primarySelected))}">
             <div class="options"
-                *ngFor="let opt of rightOptions;let idx = index" (click)="selectRight(opt,idx)" (mousemove)="hoverRightOption(idx)" (mouseenter)="playOptionHover(opt,idx,'right')" (mouseleave)="houtRightOption(idx)">
+                *ngFor="let opt of rightOptions;let idx = index" (click)="selectRight(opt,idx)" (mousemove)="hoverRightOption(opt,idx)" (mouseleave)="houtRightOption(idx)">
                 <img class="img-fluid fullWidth"
                     [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();">
             </div>
