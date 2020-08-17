@@ -876,10 +876,10 @@ html [type=button] {
 }
  
 .videoMainContainer{
-  width:99.9%;
+  width:100%;
 }
 .videoWrapper{
-  width: 100%;
+  width: 99.9%;
   height:100%;
   position:absolute;
   top: 0;

@@ -129,7 +129,8 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
 
 
 
-    ngOnInit() {        
+    ngOnInit() {
+        this.Sharedservice.setShowAnsEnabled(false);
 		this.Sharedservice.setLastQuesAageyBadheStatus(true);
         this.isSpriteHide=true;
         this.ifRightAns = false;
