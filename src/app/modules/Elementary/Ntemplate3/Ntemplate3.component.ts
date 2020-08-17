@@ -1087,13 +1087,13 @@ export class Ntemplate3 implements OnInit {
           console.log("play right feedback audio");
           if (this.count == 0 || mode == "manual" || (this.count == 1 && mode == "auto")) {
             this.closeModal();
+            if (this.count == 1 && mode == "auto") {
+              this.attemptType = "";
+            }
+            this.blinkOnLastQues();
+            this.appModel.moveNextQues();
           }
         }, this.showAnsTimeout);
-        if (this.count == 1 && mode == "auto") {
-          this.attemptType = "";
-        }
-        this.blinkOnLastQues();
-        this.appModel.moveNextQues();
       }
     }
 
