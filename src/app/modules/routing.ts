@@ -28,7 +28,7 @@ import { Ntemplate1Component } from '../modules/Elementary/ntemplate1/ntemplate1
 import {Ntemplate4} from '../controller/Ntemplate4.component';
 import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
-import { Ntemplate6 } from '../controller/Ntemplate6.component';
+import { Ntemplate6 } from '../modules/Elementary/Ntemplate6/Ntemplate6.component';
 import { Ntemplate9 } from '../controller/Ntemplate9.component';
 import {Ntemplate7} from '../controller/Ntemplate7.component';
 import {Ntemplate17} from '../controller/Ntemplate17.component';

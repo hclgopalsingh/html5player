@@ -73,7 +73,7 @@ export class Ntemplate13 implements OnInit {
 	@ViewChild('infoModalRef') infoModalRef: any;
 	@ViewChild('feedbackVoRef') feedbackVoRef: any;
 
-
+	disableSection:boolean = false;
 	audio = new Audio();
 	blink: boolean = false;
 	currentIdx = 0;
@@ -199,6 +199,7 @@ export class Ntemplate13 implements OnInit {
 	}
 
 	playHoverInstruction() {
+		this.disableSection=true;
 		this.appModel.notifyUserAction();
 		if (!this.narrator.nativeElement.paused!) {
 			console.log("narrator/instruction voice still playing");
@@ -213,6 +214,9 @@ export class Ntemplate13 implements OnInit {
 				this.instruction.nativeElement.currentTime = 0;
 				this.instruction.nativeElement.pause();
 			}
+		}
+		this.instruction.nativeElement.onended = () => {
+			this.disableSection=false;
 		}
 	}
 
@@ -768,7 +772,9 @@ export class Ntemplate13 implements OnInit {
 			this.appModel.enableReplayBtn(false);
 			// this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.narrator.nativeElement.play();
+			this.disableSection=true;
 			this.narrator.nativeElement.onended = () => {
+				this.disableSection=false;
 				this.appModel.handlePostVOActivity(false);
 				if (this.quesObj.replayRequired) {
 					this.appModel.enableReplayBtn(true);
