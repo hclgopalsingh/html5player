@@ -296,7 +296,7 @@ ngAfterViewChecked() {
           }
         }
 
-        this.blinkHolder();
+        //this.blinkHolder();
       } else {
         if (this.noOfBlocks == 4) {
           $("#puzzleBlock4").addClass("disable_div");
@@ -323,6 +323,7 @@ ngAfterViewChecked() {
     let width = this.moveFrom.width;
     if (opt.id == this.indexOfBlock) {
       this.optionObj[this.index1].Matched = true;
+      this.startCount=0;
       $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
           this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -341,6 +342,8 @@ ngAfterViewChecked() {
             } else if (this.noOfBlocks == 12) {
               $("#puzzleBlock12").removeClass("disable_div");
             }
+            this.startCount=1;
+            this.blinkHolder();
           }
         }, 300);
         this.optionsBlock.nativeElement.children[j].style.pointerEvents = "none";
@@ -433,8 +436,10 @@ ngAfterViewChecked() {
           $("#instructionBar").addClass("disable_div");
           this.popupRef.nativeElement.classList = "displayPopup modal";
           //this.setFeedbackAudio();
-          if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
+          if (this.attemptType=="manual" && this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
             this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+          } else {
+            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgshowAnsfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           }
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -457,7 +462,7 @@ ngAfterViewChecked() {
           this.confirmModalRef.nativeElement.classList="modal";
           this.popupRef.nativeElement.classList = "displayPopup modal";
           if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
-            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgshowAnsfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           }
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
