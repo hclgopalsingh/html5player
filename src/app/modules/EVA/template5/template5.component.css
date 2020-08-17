@@ -177,7 +177,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-image: inherit;
-    width: 27.1vmax;
+    width: 55.6vmin;
     background-position: center center;
     left: 6.6%;
     height: 100%;
@@ -185,10 +185,10 @@
     position: absolute;
 }
 .keypad3by3 .keyContainer.bg_horizontal:before {
-    width: 33.2vmax;
+    width: 68.2vmin;
 }
 .keypad3by3 .keyContainer.bg_vertical:before {
-    height: 36.2vmax;
+    height: 72vmin;
 }
 .keyContainer.bg_vertical:before {
     content: '';
@@ -198,7 +198,7 @@
     width: 100%;
     background-position: center center;
     top: 6%;
-    height: 28.6vmax;
+    height: 58.8vmin;
     visibility: visible;
     position: absolute;
 }
