@@ -149,7 +149,8 @@ export class Ntemplate4 implements OnInit {
 	functionalityType:any;
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
-
+    quesSkip:boolean = false;
+    instructionDisable:boolean=false;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -176,6 +177,7 @@ export class Ntemplate4 implements OnInit {
             {
               that.instructionVO.nativeElement.pause();
               that.instructionVO.nativeElement.currentTime = 0;
+              this.instructionDisable=false;
             }
           });
 
@@ -285,7 +287,25 @@ export class Ntemplate4 implements OnInit {
         }
         
       }
-
+      hoverPlayPause(){
+        if(this.PlayPauseFlag)
+        {    
+          this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+        }
+        else{
+          this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+        }
+      }
+    
+      leavePlayPause(){
+        if(this.PlayPauseFlag)
+        {   
+          this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+        }
+        else{
+          this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+        }
+      }
       hoverSkip(){
         // this.skipFlag = false;
         this.quesObj.quesSkip = this.quesObj.quesSkipHover;
@@ -348,6 +368,7 @@ export class Ntemplate4 implements OnInit {
 
     optionHover(idx, opt) {
         $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleInAnimation");
+        this.playOptionHover(idx,opt);
     }
 
     optionLeave(idx, opt) {
@@ -373,7 +394,7 @@ export class Ntemplate4 implements OnInit {
         this.selectedOptList.push(copyOpt);
         console.log(this.selectedOptList);
         $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor")
-        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .18)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .18)) }, 500).addClass("shrink_it");
+        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .12)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .12)) }, 500).addClass("shrink_it");
         this.startCount = 0;
         setTimeout(() => {
             this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
@@ -462,6 +483,7 @@ export class Ntemplate4 implements OnInit {
         this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
         this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
+        this.instructionDisable=false;
         this.audio.onended = () => {
             this.instructionBar.nativeElement.classList = "instructionBase";
             for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
@@ -592,7 +614,7 @@ export class Ntemplate4 implements OnInit {
     }
 
     blinkCategoryB(randomIdx){
-         this.completeRandomArr.splice(randomIdx, 1);
+        this.completeRandomArr.splice(randomIdx, 1);
         this.moveTo = this.mainContainer.nativeElement.children[0].children[1].children[1].children[this.rightSelectedIdx].getBoundingClientRect();
         console.log(this.moveTo);
         this.blinkSide = "right";
@@ -604,28 +626,7 @@ export class Ntemplate4 implements OnInit {
     }
 
     blinkHolder() {
-        this.blinkFlag = true;
-        /* this.blinkTimeInterval = setInterval(() => {
-             clearInterval(this.blinkTimeInterval);
-             console.log(this.blinkTimeInterval);
-           if (this.blinkSide=='left') {
-               if(flag){
-                 this.optionHolder.leftHolder = this.optionHolder.leftHolder_blink;
-                  flag = false;
-               }else {
-                 this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-                 flag = true; 
-               }
-           } else if (this.blinkSide=='right') {
-             if(flag){
-               this.optionHolder.rightHolder = this.optionHolder.rightHolder_blink;
-                flag = false;
-             }else {
-               this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
-               flag = true; 
-             }
-         } 
-         }, 300)*/
+        this.blinkFlag = true;       
         this.blinkTimeInterval = setInterval(() => {
             if (this.startCount == 1) {
                 this.blinkHolderImg();
@@ -659,9 +660,10 @@ export class Ntemplate4 implements OnInit {
     playInstruction() {
         this.appModel.notifyUserAction();
         if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
+            this.instructionDisable=true;
             this.instructionVO.nativeElement.play();
             this.instructionVO.nativeElement.onended = () => {
-
+                this.instructionDisable=false;
             }
         }
     }
@@ -743,17 +745,22 @@ export class Ntemplate4 implements OnInit {
                 this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
                 this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
             }
-            if (this.isWrongAttempted) {
-               /* this.resetActivity();
-                this.appModel.startPreviousTimer();
-                this.appModel.notifyUserAction();*/
+            if (this.isWrongAttempted) {               
                 this.appModel.wrongAttemptAnimation();
             } else if(this.isAllRight){
                 this.disableScreen();
                 this.blinkOnLastQues();
             }
         }else if(action=="replay"){
+            this.quesSkip = true;
             this.replayVideo();
+        }else if(flag=="no"){
+            this.appModel.videoStraming(false);
+            this.appModel.enableReplayBtn(true);
+            setTimeout(() => {
+                $("#instructionBar").removeClass("disable_div");
+                $("#optionsBlock .options").removeClass("disable_div");
+            }, 1000);
         }else if(action=="resetActivity"){
             this.resetActivity();
         }else if(action=="partialFeedback"){
@@ -1205,6 +1212,7 @@ export class Ntemplate4 implements OnInit {
             this.isPlayVideo = false;
             console.log("video eneded in replay function");
             this.appModel.startPreviousTimer();
+            this.appModel.videoStraming(false);
             this.appModel.notifyUserAction();
         }
         },500)
