@@ -322,11 +322,17 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				this.isOverlay = true;
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
-					setTimeout(() => {
+					for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+						document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+					  }
+					this.clapTimer = setTimeout(() => {
 						this.clapSound.nativeElement.pause();
 						this.clapSound.nativeElement.currentTime = 0;
 						this.ansPopup.nativeElement.classList = "displayPopup modal";
 						this.rightFeedback.nativeElement.play();
+						for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+							document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+						  }
 						this.Sharedservice.setShowAnsEnabled(true);
 						this.rightFeedback.nativeElement.onended = () => {
 							this.rightTimer = setTimeout(() => {
@@ -416,6 +422,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.lastQuestionCheck = this.common_assets.ques_control.isLastQues;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			this.ansArray = JSON.parse(JSON.stringify(fetchedData.ansArray));
+			if (this.isLastQuesAct || this.isLastQues) {
+				this.appModel.setlastQuesNT();
+			  }
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			this.common_assets.ques_control.blinkingStatus = false;
 			this.common_assets.ques_control.uttar_dikhayein = this.common_assets.ques_control.uttar_dikhayein_disable;

@@ -1,22 +1,22 @@
 import { Component, OnInit, HostListener, ViewChild,OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
-
+import { PlayerConstants } from '../../../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
 
 declare var $: any;
 
 @Component({
-  selector: 'ntemp1',
-  templateUrl: '../view/layout/Ntemplate9.component.html',
-  styleUrls: ['../view/css/Ntemplate9.component.css', '../view/css/bootstrap.min.css'],
-
+  selector: 'app-ntemplate9',
+  templateUrl: './Ntemplate9.component.html',
+  styleUrls: ['./Ntemplate9.component.css','../../../view/css/bootstrap.min.css']
 })
+export class Ntemplate9Component implements OnInit {
 
-export class Ntemplate9 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService,private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -109,7 +109,16 @@ export class Ntemplate9 implements OnInit {
   isLastQues: boolean = false;
   isAutoplayOn: boolean;
   isLastQuesAct: boolean;
-
+  /*Start: Theme Implementation(Template Changes)*/
+  controlHandler = {
+		isSubmitRequired:false,
+    isReplayRequired:false
+  };
+  themePath:any;
+  fetchedcontent:any;
+  functionalityType:any;
+  showAnsTimeout:number;
+  /*END: Theme Implementation(Template Changes)*/
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
@@ -150,12 +159,6 @@ export class Ntemplate9 implements OnInit {
   index1: number = 0;
   index2: number = 0;
   selectableOpts: number;
-  selectedOptList: any = [];
-  selectedOpt: any = {
-    "idx": undefined,
-    "moveFrom": undefined,
-    "moveTo": undefined
-  };
   moveFrom: any;
   moveTo: any;
   quesBlockStart: any;
@@ -179,7 +182,7 @@ export class Ntemplate9 implements OnInit {
   }
 
   playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused!) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       console.log("play on Instruction");
@@ -192,60 +195,60 @@ export class Ntemplate9 implements OnInit {
     }
   }
 
-  onHoverOption(opt, i, j) {
-    if (opt && opt != undefined) {
-      if (this.narrator.nativeElement.paused) {
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
-        if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        }
-        else {
-          this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-        }
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
-      }
-    }
-  }
+  // onHoverOption(opt, i, j) {
+  //   if (opt && opt != undefined) {
+  //     if (this.narrator.nativeElement.paused) {
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
+  //       if (opt.imgsrc && opt.imgsrc.location == "content") {
+  //         this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
+  //       }
+  //       else {
+  //         this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
+  //       }
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
+  //     }
+  //   }
+  // }
 
-  playHoverOption(opt, i, j) {
-    if (this.optionAudio.nativeElement.paused && this.narrator.nativeElement.paused) {
-      if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-        this.optionAudio.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-      } else {
-        this.optionAudio.nativeElement.src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-      }
-      this.optionAudio.nativeElement.load();
-      if (!this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.pause();
-      }
-      this.optionAudio.nativeElement.play();
-      this.onHoverOption(opt, i, j);
-    }
-  }
-  onHoverOptionOut(opt, i, j) {
-    if (opt && opt != undefined) {
-      this.OptionZoomOutAnimation(opt, i, j);
-    }
-  }
+  // playHoverOption(opt, i, j) {
+  //   if (this.optionAudio.nativeElement.paused && this.narrator.nativeElement.paused) {
+  //     if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
+  //       this.optionAudio.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
+  //     } else {
+  //       this.optionAudio.nativeElement.src = this.assetsPath + "/" + opt.imgsrc_audio.url;
+  //     }
+  //     this.optionAudio.nativeElement.load();
+  //     if (!this.instruction.nativeElement.paused) {
+  //       this.instruction.nativeElement.pause();
+  //     }
+  //     this.optionAudio.nativeElement.play();
+  //     this.onHoverOption(opt, i, j);
+  //   }
+  // }
+  // onHoverOptionOut(opt, i, j) {
+  //   if (opt && opt != undefined) {
+  //     this.OptionZoomOutAnimation(opt, i, j);
+  //   }
+  // }
 
 ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
   }
 
-  OptionZoomOutAnimation(opt, i, j) {
-    if (!this.checked && this.narrator.nativeElement.paused) {
-      opt.imgsrc = opt.imgsrc_original;
-      if (opt.imgsrc && opt.imgsrc.location == "content") {
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-      } else {
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-      }
-      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
-      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = " ";
-      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = " ";
-    }
-  }
+  // OptionZoomOutAnimation(opt, i, j) {
+  //   if (!this.checked && this.narrator.nativeElement.paused) {
+  //     opt.imgsrc = opt.imgsrc_original;
+  //     if (opt.imgsrc && opt.imgsrc.location == "content") {
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
+  //     } else {
+  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
+  //     }
+  //     this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
+  //     this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = " ";
+  //     this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = " ";
+  //   }
+  // }
 
   onClickoption(opt, j) {
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
@@ -311,7 +314,7 @@ ngAfterViewChecked() {
   onPlacePuzzle(opt, i, j) {
     this.tempOpt = opt;
     this.tj = j
-    this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrcOriginalSize.location == "content" ? this.containgFolderPath + "/" + this.optionObj[j].imgsrcOriginalSize.url : this.assetsPath + "/" + this.optionObj[j].imgsrcOriginalSize.url;
+    this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrcOriginalSize.url;
     console.log("Puzzle placed");
     this.moveFrom = this.optionObj[this.index1].style_block;
     let left = this.moveFrom.left;
@@ -322,7 +325,7 @@ ngAfterViewChecked() {
       this.optionObj[this.index1].Matched = true;
       $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
-          this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.location == "content" ? this.containgFolderPath + "/" + opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         setTimeout(() => {
           this.feedbackVO.nativeElement.play();
@@ -346,7 +349,7 @@ ngAfterViewChecked() {
     else {
       $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
-          this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.location == "content" ? this.containgFolderPath + "/" + opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         //setTimeout(() => {
           this.feedbackVO.nativeElement.play();
@@ -410,6 +413,17 @@ ngAfterViewChecked() {
     this.containgFolderPath = this.getBasePath();
     clearInterval(this.blinkTimeInterval);
     this.startCount = 0;
+    /*Start: Theme Implementation(Template Changes)*/
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
+    this.checkquesTab();
+    this.appModel.globalJsonData.subscribe(data=>{
+      this.showAnsTimeout = data.showAnsTimeout;
+    });
+    /*End: Theme Implementation(Template Changes)*/
     this.setData();
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -420,7 +434,7 @@ ngAfterViewChecked() {
           this.popupRef.nativeElement.classList = "displayPopup modal";
           //this.setFeedbackAudio();
           if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
-            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           }
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -443,7 +457,7 @@ ngAfterViewChecked() {
           this.confirmModalRef.nativeElement.classList="modal";
           this.popupRef.nativeElement.classList = "displayPopup modal";
           if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
-            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           }
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -506,6 +520,7 @@ ngAfterViewChecked() {
 				},750 )
 		});
     this.appModel.resetBlinkingTimer();
+    this.appModel.handleController(this.controlHandler);
   }
 
   postWrongAttemplt(){
@@ -517,7 +532,7 @@ ngAfterViewChecked() {
           let position = this.moveFrom.position;
           let width = this.moveFrom.width;
           $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-            this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.optionObj[j].imgsrc.url : this.assetsPath + "/" + this.optionObj[j].imgsrc.url;
+            this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrc.url;
             if (this.noOfBlocks == 4) {
               $("#puzzleBlock4").removeClass("disable_div");
             } else if (this.noOfBlocks == 9) {
@@ -527,12 +542,16 @@ ngAfterViewChecked() {
             }
             this.appModel.handlePostVOActivity(false)
             this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-          });
-
-    
+          });   
   }
 
-
+  checkquesTab() {
+    if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+      this.appModel.getJson();      
+    }
+  }
 
   ngOnDestory() {
     clearInterval(this.blinkTimeInterval);
@@ -584,7 +603,7 @@ ngAfterViewChecked() {
 
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      //this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
 
       this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
@@ -628,12 +647,14 @@ ngAfterViewChecked() {
   }
 
   blinkHolderImg(i) {
-    if (this.optionObj[i] && this.optionObj[i].imgsrc_hover && !this.optionObj[i].Matched) {
+    if (this.optionObj[i] && this.optionObj[i].imgsrc_blink && !this.optionObj[i].Matched) {
         if (this.blinkFlag) {
-          this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_hover;
+          this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_blink;
           this.blinkFlag = false;
         } else {
+          if(this.optionObj[i].imgsrc_original!=undefined) {
           this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+          }
           this.blinkFlag = true;
         }
     } else {
@@ -648,13 +669,13 @@ ngAfterViewChecked() {
   setData() {
 
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      //console.log(fetchedData);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+      //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+      this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
@@ -662,20 +683,28 @@ ngAfterViewChecked() {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.optionObj = fetchedData.optionObj;
+      this.optionObj = this.fetchedcontent.optionObj;
       for (let i = 0; i < this.optionObj.length; i++) {
-        this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+        if(this.optionObj[i].imgsrc_original!=undefined) {
+          this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+        }
         this.optionObj[i].Matched = false;
         }
-      this.optionCommonAssets = fetchedData.option_common_assets;
+      //this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
-      this.feedbackObj = fetchedData.feedback;
+      this.feedbackObj = this.fetchedcontent.feedback;
       this.correctImg = this.feedbackObj.popup_commmon_imgs.correctimg;
       this.incorrectImg = this.feedbackObj.popup_commmon_imgs.incorrectimg;
       this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.infoPopupAssets = fetchedData.feedback.info_popup;
-      this.quesObj = fetchedData.quesObj;
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.infoPopupAssets = this.fetchedcontent.feedback.info_popup;
+      this.quesObj = this.fetchedcontent.quesObj;
+      /*Start: Theme Implementation(Template Changes)*/
+        this.controlHandler={
+              isSubmitRequired:this.quesObj.submitRequired,
+              isReplayRequired:this.quesObj.replayRequired
+        }
+      /*End: Theme Implementation(Template Changes)*/
       this.noOfBlocks = this.quesObj.noOfBlocks;
       this.blockcount = this.noOfBlocks;
       if (this.noOfBlocks == 12) {
@@ -775,6 +804,5 @@ ngAfterViewChecked() {
     }
 
   }
+
 }
-
-

@@ -238,7 +238,7 @@
       </div>
     </div>
 
-    <app-globalspeaker class="speaker_block"></app-globalspeaker>
+    <app-globalspeaker (clickSpeaker)="onSpeakerClicked()" class="speaker_block"></app-globalspeaker>
   </div>
   <app-confirmation (closeConfirmationChild)="closePopup($event);"></app-confirmation>
 

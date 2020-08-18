@@ -423,3 +423,11 @@ button:focus{
 #autoPlayOnOffContainer label{
     font-size: .8vmax !important;
 }
+
+
+@media (min-width: 576px){
+	#autoPlayOnOffContainer.col-sm-1 {
+		flex: 0 0 8.52%;
+    	max-width: 8.52%;
+	}
+}
