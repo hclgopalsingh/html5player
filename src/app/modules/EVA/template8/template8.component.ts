@@ -116,7 +116,7 @@ export class Template8Component implements OnInit {
     @ViewChild('feedbackPopupSelectedOption') feedbackPopupSelectedOption: any;
     @ViewChild('showAnswerPopupSelectedOption') showAnswerPopupSelectedOption: any;
 
-    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, private dataService: DataService) {
+    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, public dataService: DataService) {
         
          //subscribing common popup from shared service to get the updated event and values of speaker
          this.Sharedservice.showAnsRef.subscribe(showansref => {
