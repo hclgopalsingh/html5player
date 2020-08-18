@@ -1,6 +1,6 @@
 .parentBlock {
     position: absolute;
-    top: 13%;
+    top: 12.5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,18 +11,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 28%;
+    width: 24.3%;
 }
 .answerBlock img:first-child {
-    width: 83%;
+    width: 85%;
 }
 .answerBlock img:nth-child(2) {
     position: absolute;
-    width: 20%;
+    width: 21%;
 }
 .keypadParent {
     position: absolute;
-    top: 30%;
+    top: 29%;
     display: flex;
     justify-content: center;
     align-items: center;
