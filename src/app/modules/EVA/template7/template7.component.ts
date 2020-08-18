@@ -303,9 +303,15 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 		else if (Type === 'showanswer') {
 			this.appModel.stopAllTimer();
-			this.isOverlay = true
-			this.stopAllSounds()
-			this.blinkOnLastQues();
+			
+			if(this.ifRightAns){
+				this.isOverlay = true
+				this.stopAllSounds()
+				this.blinkOnLastQues();
+			}
+			else{
+				
+			}
 		}
 		else if (Type == 'yes') {
 			this.checkAnswer();
