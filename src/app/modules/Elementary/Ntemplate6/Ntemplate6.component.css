@@ -53,7 +53,7 @@ button:focus {
 }
 .bodyContent .speaker {
   position: absolute;
-  top: 9%;
+  top: 13%;
   right: 6%;
   width: 11%;
 }
@@ -70,12 +70,7 @@ button:focus {
   cursor: pointer;
   width: 3.5%;/*16%*/
 }
-#playPauseBtn img {
-  /* width: 200%; */
-  /* filter: drop-shadow(2px 4px 6px black); */
-  /* max-width: none; */
-}
-
+ 
 #SkipBtn{
   /*position: absolute;
   top: 98%;
@@ -89,11 +84,6 @@ button:focus {
   width: 3.5%;/*1.5%*/
 }
 
-#SkipBtn img {
-  /* max-width: 70%; */
-}
-
-
 .speakerWave {
 	width: 100%;
 	height:100%;
@@ -103,7 +93,7 @@ button:focus {
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
-	top: -13%;
+	top: -2%;
 	left: -8%;
 	display:none;
 	pointer-events: none;
@@ -151,7 +141,7 @@ button:focus {
 
 .duplicateOption img {
   z-index: 1;
-  height: 36%;
+  height: 35.1%;
   width: auto;
 }
 
@@ -194,7 +184,7 @@ button:focus {
 
 .refQuesPopUp {
   position: relative;
-  top: 20%;
+  top: 19.9%;
   background: transparent !important;
   border: solid 2px transparent !important;
   z-index: 110;
@@ -237,48 +227,7 @@ button:focus {
   padding-left: 0px;
 }
 
-.modal-body {
-	/*padding:2%;
-	background: #afdec0;
-	border: solid .7vmin #85d222;
-	border-top:none;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;*/
-}
-.modal-body img{
-	/*max-width: 94%;*/
-}
-
-/* #confirmModal .modal-body {
-  padding: 0;
-  margin: 0;
-	flex: 0 !important;
-}
-#confirmModal .modal-body .msgImage {
-	display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 6% 0;
-}
-#confirmModal .modal-body .actionButtons{
-	text-align: center;
-	margin-bottom: 2%;
-}
-#confirmModal .modal-body .msgImage img {
-	width: 70%;
-}
-#confirmModal .modal-body .actionButtons button {
-	border:none;
-	background: transparent;
-	padding:0;
-	margin:0;
-	width: 23%;
-}
-
-#confirmModal .modal-body .actionButtons img {
-	width: 77%;
-} */
-
+ 
 #infoModalId .modal-body {
   padding: 0;
   margin: 0;
@@ -546,14 +495,7 @@ button:focus {
   border-top-right-radius: 20px;
   background: #248446;
 }
-.modal-body{
-	/*padding:2%;
-	background: #afdec0;
-	border: solid .7vmin #85d222;
-	border-top:none;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;*/
-}
+ 
 .modal-body img{
 	/*max-width: 94%;*/
 }
@@ -642,7 +584,7 @@ button:focus {
 
 
 .videoMainContainer{
-  width:99.9%;
+  width:99.8%;
 }
 .videoWrapper{
   width: 100%;

@@ -32,7 +32,7 @@
 					(mousemove)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt)"
 					(click)="checkAnswer(opt,idx)" (load)="checkImgLoaded();">
 				<div class="speaker"></div>
-				<audio [src]="opt?.sound?.url"></audio>
+				<audio [src]="opt?.sound?.url" id="{{idx}}"></audio>
 			</div>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 				<!-- <h4 class="modal-title">Modal Heading</h4> -->
 				<img class="modal-title" [src]="feedbackObj.confirm_popup.headerTxt_img.url">
 				<!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-				<img class="close" [src]="confirmPopupAssets?.close_btn?.url"
+				<img class="close" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()" [src]="confirmPopupAssets?.close_btn?.url"
 					(click)="sendFeedback('confirm-modal-id','no');" 
 					>
 			</div>
@@ -55,12 +55,13 @@
 			<div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
 				<div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
 				<div class="actionButtons">
-					<button type="button" (click)="sendFeedback('confirm-modal-id','yes');"  
+					<button type="button" (mousemove)="showhoverConfirm()"
+					(mouseleave)="showhoutConfirm()" (click)="sendFeedback('confirm-modal-id','yes');"  
 						 ><img class="img-fluid"
-							[src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
+							[src]="confirmPopupAssets?.confirm_btn?.url"></button>
 					<button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
 						(mouseleave)="houtDecline()"><img class="img-fluid"
-							[src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+							[src]="confirmPopupAssets?.decline_btn?.url"></button>
 				</div>
 			</div>
 
@@ -81,7 +82,7 @@
 				<img *ngIf="wronganspopUpheader_img" class="modal-title"
 					[src]="feedbackObj.wrongAnswerheaderTxt_img.url">
 				<img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj.showAnswerheaderTxt_img.url">
-				<img class="close" [src]="feedbackObj.popup_commmon_imgs.close_btn.url"
+				<img class="close" [src]="confirmPopupAssets?.close_btn?.url" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()"
 					(click)="sendFeedback(feedbackModalRef,'no','feedbackClosed');" >
 			</div>
 

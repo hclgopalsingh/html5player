@@ -143,6 +143,20 @@ export class Ntemplate13 implements OnInit {
 		this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
 	}
 
+	showhoverConfirm() {
+		this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
+	  }
+	
+	  showhoutConfirm() {
+		this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
+	  }
+	  hoverCloseConfirm() {
+		this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
+	  }
+	  houtCloseConfirm() {
+		this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
+	  }
+
 	lastOpt: any;
 
 	onHoverOption(opt, index) {
@@ -502,6 +516,12 @@ export class Ntemplate13 implements OnInit {
 	}
 
 	checkAnswer(opt, index) {
+		//this.titleHelpAudio.nativeElement.pause();
+		    this.optionBlock.nativeElement.children[index].children[2].pause();
+		 	this.optionBlock.nativeElement.children[index].children[2].currentTime = 0;
+			this.optionBlock.nativeElement.children[index].children[1].className = "speaker";
+			$(".speakerd").removeClass("dispFlex");
+		
 		this.disableHelpBtn = true;
 		opt.imgsrc = opt.imgsrc_original;
 		this.popUpClosed = false;
@@ -545,6 +565,10 @@ export class Ntemplate13 implements OnInit {
 						$("#quesImage").css("opacity", "0.3");
 						$("#quesImage").css("pointer-events", 'none');
 						this.blinkOnLastQues();
+						this.wrongOptAudio.nativeElement.pause();
+						this.wrongOptAudio.nativeElement.currentTime = 0;
+			           //this.correctAns.nativeElement.children[0].lastElementChild.children[1].lastElementChild.className = "speaker";
+					//alert();	
 					}
 				}, this.closeDelayTime)
 			}
@@ -595,9 +619,13 @@ export class Ntemplate13 implements OnInit {
 						}
 						this.ifWrongAns = false;
 					}
+					    this.wrongOptAudio.nativeElement.pause();
+						this.wrongOptAudio.nativeElement.currentTime = 0;
+						//this.correctAns.nativeElement.children[0].lastElementChild.children[1].lastElementChild.className = "speaker";
 				}, this.closeDelayTime)
 			}
 		}
+	 
 	}
 
 	// previous function
@@ -793,7 +821,7 @@ export class Ntemplate13 implements OnInit {
 
 	onWrongImgHoverOption(option, i) {
 
-		$(".speakerd ").addClass("dispFlex");
+		$(".speakerd").addClass("dispFlex");
 		//stop clapping
 		if (this.instruction.nativeElement) {
 			this.clapSound.nativeElement.pause()
@@ -808,10 +836,13 @@ export class Ntemplate13 implements OnInit {
 			this.feedbackVoRef.nativeElement.pause();
 			this.feedbackVoRef.nativeElement.currentTime = 0
 		}
-
-		this.playAnySound(option.sound.url)
+		//$(".speakerd").addClass("dispFlex");
+		this.playAnySound(option.sound.url);
+		this.disableSpeaker = true;
+		
 		this.wrongOptAudio.nativeElement.onended = () => {
-			$(".speakerd ").removeClass("dispFlex");
+			$(".speakerd").removeClass("dispFlex");
+			this.disableSpeaker = false;
 		}
 	}
 
@@ -822,6 +853,7 @@ export class Ntemplate13 implements OnInit {
 		this.wrongOptAudio.nativeElement.src = sound;
 		this.wrongOptAudio.nativeElement.load();
 		this.wrongOptAudio.nativeElement.play();
+		
 	}
 
 
@@ -846,6 +878,9 @@ export class Ntemplate13 implements OnInit {
 
 
 	showAnsModal(opt) {
+		this.styleHeaderPopup = this.feedbackObj.style_header;
+		this.styleBodyPopup = this.feedbackObj.style_body;
+		$(".speakerd").removeClass("dispFlex");
 		this.appModel.stopAllTimer();
 		this.attemptType = "hideAnimation"
 		this.ifWrongAns = false;

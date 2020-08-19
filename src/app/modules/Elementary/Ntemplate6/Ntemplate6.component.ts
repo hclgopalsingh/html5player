@@ -236,8 +236,8 @@ export class Ntemplate6 implements OnInit {
   closeDelayTime: any;
   replayDefaultVideo: boolean = false;
   skipButton: boolean = false;
-  replayClicked:boolean = false;
-  disableSection:boolean = false;
+  replayClicked: boolean = false;
+  disableSection: boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -1880,7 +1880,6 @@ export class Ntemplate6 implements OnInit {
       this.PlayPauseFlag = false;
     }
     else {
-      //alert("2");
       this.mainVideo.nativeElement.play();
       this.quesObj.quesPlayPause = this.quesObj.quesPause;
       this.PlayPauseFlag = true;
@@ -2059,12 +2058,12 @@ export class Ntemplate6 implements OnInit {
     if (option.position == "bottom") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.5 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
-    } else if (option.position == "left" || option.position == "right") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
+    } else if (option.position == "left" || option.position == "right") {
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 4.9 + "%";
     }
     else {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
     }
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
   }
@@ -2302,17 +2301,24 @@ export class Ntemplate6 implements OnInit {
   }
 
   replayVideo() {
-    this.replayClicked=true;
+
+    this.replayClicked = true;
     this.skipButton = true;
     this.hideVideoBg = true;
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.stopAllTimer();
+
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
+        this.appModel.setLoader(false);
         this.isPlayVideo = false;
+        setTimeout(() => {
+          document.getElementById("coverTop").style.display = "none";
+        }, 1000);
         this.hideVideoBg = true;
+
         console.log("video eneded in replay function");
         // this.appModel.startPreviousTimer();
         this.appModel.videoStraming(false);
@@ -2338,16 +2344,16 @@ export class Ntemplate6 implements OnInit {
   }
 
   hoverReplayCloseConfirm() {
-
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
   }
 
   houtReplayCloseConfirm() {
-
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
   checkVideoLoaded() {
     if (!this.videoReplayd) {
-      // alert("default2");
+      //console.log("default2");
       this.isVideoLoaded = true;
       this.appModel.setLoader(false);
       this.appModel.navShow = 1;
@@ -2359,7 +2365,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   endedHandler() {
-   // alert('aaaaa');
+    this.appModel.setLoader(true);
     this.replayDefaultVideo = true;
     if (!this.videoReplayd) {
       this.isPlayVideo = false;
@@ -2395,12 +2401,12 @@ export class Ntemplate6 implements OnInit {
       this.Myspeaker.nativeElement.pause();
       this.Myspeaker.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.play();
-       document.getElementById("coverTop").style.display = "block";
-       document.getElementById("coverBtm").style.display = "block";
-       this.disableSection=true;
+      document.getElementById("coverTop").style.display = "block";
+      document.getElementById("coverBtm").style.display = "block";
+      this.disableSection = true;
 
       this.instructionVO.nativeElement.onended = () => {
-        this.disableSection=false;
+        this.disableSection = false;
         if (!this.clicked) {
           document.getElementById("coverTop").style.display = "none";
         }
@@ -2473,6 +2479,7 @@ export class Ntemplate6 implements OnInit {
       //this.answerObj = this.fetchedcontent.AnswerObj;  
       this.refQuesObj = this.fetchedcontent.refQuesObj;
       this.QuesArr = this.refQuesObj.quesIdConfig;
+
       for (let i = 0; i < this.QuesArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (this.QuesArr[i] == this.defaultLetterConfig[j].id) {
@@ -2481,6 +2488,8 @@ export class Ntemplate6 implements OnInit {
           }
         }
       }
+
+      
       this.optPosObj = this.fetchedcontent.optionInitPosObj;
       //this.refQuesArr = this.refQuesObj[0].refQuesArr; 
       this.optionInitPosArr = this.optPosObj[0].optionInitPosArr;
@@ -2503,16 +2512,13 @@ export class Ntemplate6 implements OnInit {
         isReplayRequired: this.quesObj.replayRequired
       }
 
-    
+
       //this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
       if (this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
-        //alert("default1");
         this.isPlayVideo = true;
-       // alert('bbbbb');
 
         this.videoReplayd = false;
       } else {
-       //alert('ccccc');
         this.isPlayVideo = false;
       }
 
@@ -2535,7 +2541,7 @@ export class Ntemplate6 implements OnInit {
       this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.mainContainer.nativeElement.classList = "bodyContent disable_div";
       this.instructionBar.nativeElement.classList = "instructionBase disable_div";
-      
+
       this.quesVORef.nativeElement.play();
       this.appModel.enableReplayBtn(false);
       this.appModel.enableSubmitBtn(false);
@@ -2568,7 +2574,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   showhoverConfirm() {
-    this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
 
   houtConfirm() {
@@ -2576,7 +2582,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   showhoutConfirm() {
-    this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_original;
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
   }
 
   hoverDecline() {
@@ -2584,7 +2590,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   showhoverDecline() {
-    this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_hover;
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
   }
 
   houtDecline() {
@@ -2592,7 +2598,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   showhoutDecline() {
-    this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_original;
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
   }
 
   hoverCloseConfirm() {
@@ -2744,7 +2750,7 @@ export class Ntemplate6 implements OnInit {
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
       if (id != undefined) {
         this.attemptType = "";
-        this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 20 + "%";
+        this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 18.2 + "%";
         this.duplicateOption.nativeElement.children[id].style.zIndex = 1000;
         this.duplicateOption.nativeElement.children[id].style.filter = "";
         this.duplicateOption.nativeElement.children[id].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
