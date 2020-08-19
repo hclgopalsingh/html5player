@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, HostListener, OnDestroy } from '@angular/
 import { ApplicationmodelService } from '../model/applicationmodel.service';
 import 'jquery';
 import { PlayerConstants } from '../common/playerconstants';
+import { ThemeConstants } from '../common/themeconstants';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 
 declare var $: any;
@@ -15,7 +17,7 @@ declare var $: any;
 
 export class Ntemplate7 implements OnInit {
     private appModel: ApplicationmodelService;
-    constructor(appModel: ApplicationmodelService) {
+    constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
         this.appModel = appModel;
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
@@ -98,6 +100,9 @@ export class Ntemplate7 implements OnInit {
     isBlankImgLoaded:boolean = false;
     attemptType:string = "";
     isShowans:boolean = false; 
+    fetchedcontent: any;
+    functionalityType: any;
+    themePath: any;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -125,6 +130,13 @@ export class Ntemplate7 implements OnInit {
         }
         this.appModel.functionone(this.templatevolume, this);//start end
         this.containgFolderPath = this.getBasePath();
+        let fetchedData: any = this.appModel.content.contentData.data;
+
+        this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+        this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+        this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
+        this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+        this.checkquesTab();
         this.setData();
         this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
@@ -165,7 +177,13 @@ export class Ntemplate7 implements OnInit {
 
         this.appModel.resetBlinkingTimer();
     }
-
+    checkquesTab() {
+        if (this.fetchedcontent.commonassets.ques_control != undefined) {
+          this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+        } else {
+          this.appModel.getJson();
+        }
+      }
     ngOnDestroy() {
     }
 
@@ -205,11 +223,11 @@ export class Ntemplate7 implements OnInit {
     */
 
     setData() {
-        let fetchedData: any = this.appModel.content.contentData.data;
-        this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-        this.optionObj = JSON.parse(JSON.stringify(fetchedData.options));
-        this.commonAssets = fetchedData.commonassets;
-        this.questionObj = fetchedData.quesObj;
+      //  let fetchedData: any = this.appModel.content.contentData.data;
+        //this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+        this.optionObj = JSON.parse(JSON.stringify(this.fetchedcontent.options));
+        this.commonAssets = this.fetchedcontent.commonassets;
+        this.questionObj = this.fetchedcontent.quesObj;
         this.quesObjCopy = JSON.parse(JSON.stringify(this.questionObj));
         for (let i = 0; i < this.questionObj.questionText.length; i++) {
             if (this.questionObj.questionText[i].isHide) {
@@ -218,17 +236,17 @@ export class Ntemplate7 implements OnInit {
             }
         }
         this.noOfImgs = this.commonAssets.imgCount;
-        this.infoPopupAssets = fetchedData.info_popup;
-        this.confirmAssets = fetchedData.show_answer_confirm;
-        this.confirmSubmitAssets = fetchedData.submit_confirm;
-        this.confirmReplayAssets = fetchedData.replay_confirm;
+        this.infoPopupAssets = this.fetchedcontent.info_popup;
+        this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+        this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
+        this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
         if (this.isLastQuesAct || this.isLastQues) {
             this.appModel.setlastQuesNT();
         }
-        this.rightPopup = fetchedData.rightFeedback;
-        this.wrongPopup = fetchedData.wrongFeedback;
+        this.rightPopup = this.fetchedcontent.rightFeedback;
+        this.wrongPopup = this.fetchedcontent.wrongFeedback;
         /* if(this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed){
             this.isPlayVideo = true;
         }else{
@@ -265,7 +283,7 @@ export class Ntemplate7 implements OnInit {
     playSound(soundAssets, idx) {
        if(this.audio && this.audio.paused){
         if (soundAssets.location == 'content') {
-            this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+            this.audio.src = soundAssets.url;
         } else {
             this.audio.src = soundAssets.url;
         }
@@ -307,7 +325,7 @@ export class Ntemplate7 implements OnInit {
     checkforQVO() {
         this.isVideoLoaded = true;
         if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
             this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
             this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
             this.quesVORef.nativeElement.play();
@@ -469,7 +487,7 @@ export class Ntemplate7 implements OnInit {
                     this.feedbackModalRef.nativeElement.classList = "displayPopup modal";
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
-                    this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.location == "content" ? this.containgFolderPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+                    this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
@@ -486,7 +504,7 @@ export class Ntemplate7 implements OnInit {
                     this.feedbackModalRef.nativeElement.classList = "displayPopup modal";
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
-                    this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.location == "content" ? this.containgFolderPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+                    this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
@@ -652,10 +670,10 @@ export class Ntemplate7 implements OnInit {
         this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
         if(this.isShowans){
-            this.feedbackVoRef.nativeElement.src = this.containgFolderPath + "/" + this.feedbackPopup.showansSound.url + "?someRandomSeed=" + Math.random().toString(36)
+            this.feedbackVoRef.nativeElement.src = this.feedbackPopup.showansSound.url + "?someRandomSeed=" + Math.random().toString(36)
         }
         else{
-            this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.location == "content" ? this.containgFolderPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         this.feedbackVoRef.nativeElement.play();
         this.isRightSelected = true;
