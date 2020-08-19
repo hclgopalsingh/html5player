@@ -28,7 +28,7 @@ button:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 52%;
+    width: 55%;
 }
 .matchHolder{
   width: 100%;
@@ -38,7 +38,7 @@ button:focus {
   align-items: center;
 }
 .matchHolder img{
-  width: 92%;
+  width: 94%;
 }
 .matchHolder .optSelectedHidden {
   position: absolute;
@@ -743,7 +743,7 @@ info modal modal
   align-content: space-around;
   width: 91%; /*40%*/
   height: 87%;
-  margin-top: 4%;
+  margin-top: 8%;
   flex-wrap: wrap;
 }
 #modalTemp4 .matchHolder .optSelected img{
