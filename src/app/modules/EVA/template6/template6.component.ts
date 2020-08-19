@@ -117,7 +117,7 @@ export class Template6Component extends Base implements OnInit {
 
 	assetsfolderlocation: string = "";
 	lastQuestionCheck: any;
-	assetspath: any;
+	assetsPath: any;
 	blink: boolean = false;
 	showIntroScreen: boolean;
 	audio = new Audio();

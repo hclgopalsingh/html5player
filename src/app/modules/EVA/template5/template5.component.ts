@@ -391,7 +391,7 @@ export class Template5Component implements OnInit {
       ++current;
       if (this.feedback.correct_ans.length == current) {
         this.rightTimer = setTimeout(() => {
-          // this.closePopup('answerPopup');
+          this.closePopup('answerPopup');
         }, 10000);
         return;
       }
@@ -565,7 +565,7 @@ export class Template5Component implements OnInit {
       }
     }
     else if (Type === 'showanswer') {
-      if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1) {
+      if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1 && this.selectedLetterCount == this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length) {
         this.blinkOnLastQues();
       }
     }

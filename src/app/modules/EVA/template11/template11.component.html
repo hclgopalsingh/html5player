@@ -168,8 +168,7 @@
   <audio #rightFeedback [src]="rightFeedbackVO?.path?.location=='content'? containgFolderPath + '/' +  rightFeedbackVO?.path?.url : assetsPath +'/'+ rightFeedbackVO?.path?.url"></audio>
   <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : feedback?.right_ans_clap_sound?.location=='assets' ? assetsPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
   <audio #rightPopupfeedback [src]="rightPopupVO?.path?.location=='content' ? containgFolderPath + '/' + rightPopupVO?.path?.url : rightPopupVO?.path?.location=='assets' ? assetsPath + '/' + rightPopupVO?.path?.url:rightPopupVO?.path?.url"></audio>	
-  <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content' ? containgFolderPath + '/' + showAnswerVO?.path?.url : showAnswerVO?.path?.location=='assets' ? assetsPath + '/' + showAnswerVO?.path?.url:showAnswerVO?.path?.url"></audio>
-
+  
 
 
     

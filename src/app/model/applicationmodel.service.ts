@@ -1127,7 +1127,7 @@ export class ApplicationmodelService {
       this.currentSection--;
       return;
     }
-     else if(this.currentActive <= this.initValues.files.length - 1) {   // If segment is not last in the activity
+     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
       if (sessionStorage.getItem("tabsVisited")) {
         sessionStorage.removeItem("tabsVisited");
       }

@@ -1,6 +1,6 @@
 .parentBlock {
     position: absolute;
-    top: 13%;
+    top: 12.5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,18 +11,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 28%;
+    width: 24.3%;
 }
 .answerBlock img:first-child {
-    width: 83%;
+    width: 85%;
 }
 .answerBlock img:nth-child(2) {
     position: absolute;
-    width: 20%;
+    width: 21%;
 }
 .keypadParent {
     position: absolute;
-    top: 30%;
+    top: 29%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,7 +177,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-image: inherit;
-    width: 27.1vmax;
+    width: 55.6vmin;
     background-position: center center;
     left: 6.6%;
     height: 100%;
@@ -185,10 +185,10 @@
     position: absolute;
 }
 .keypad3by3 .keyContainer.bg_horizontal:before {
-    width: 33.2vmax;
+    width: 68.2vmin;
 }
 .keypad3by3 .keyContainer.bg_vertical:before {
-    height: 36.2vmax;
+    height: 72vmin;
 }
 .keyContainer.bg_vertical:before {
     content: '';
@@ -198,7 +198,7 @@
     width: 100%;
     background-position: center center;
     top: 6%;
-    height: 28.6vmax;
+    height: 58.8vmin;
     visibility: visible;
     position: absolute;
 }
