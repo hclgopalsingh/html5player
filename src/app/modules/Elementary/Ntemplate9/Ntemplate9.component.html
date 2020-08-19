@@ -3,12 +3,9 @@
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div #maincontent>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="top:9% !important;">
-    <div class="instructionBase">
+    <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
-      <!--
-       <img class="img-fluid instructionText" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
-      -->
     </div>
   </div>
   <div class="bodyContent" #puzzleSection>
@@ -30,12 +27,9 @@
     <!-- The Confirmation Modal -->
   <div class="modal" id="confirmModal" #confirmModalRef>
     <div class="modal-dialog">
-      <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
           <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
@@ -57,12 +51,9 @@
 
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="feedbackObj?.style_header">
-          <!--<img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">-->
           <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
-          <!--<img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.wrongAnswerheaderTxt_img?.url : assetsPath + '/' + feedbackObj?.wrongAnswerheaderTxt_img?.url">-->
           <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
           <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
-          <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
         </div>
 
         <!-- Modal body -->

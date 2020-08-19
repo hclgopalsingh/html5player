@@ -71,43 +71,11 @@ export class Ntemplate9Component implements OnInit {
 
 
   audio = new Audio();
-  blink: boolean = false;
-  currentIdx = 0;
   commonAssets: any = "";
-  optionslist: any = [];
-  optionslist_main: any = "";
-  myoption: any = [];
-  question: any = "";
   feedback: any = "";
-  narratorAudio: any;
-  isLastActivity: any = "";
   checked: boolean = false;
-  selected: boolean = false;
-  bool: boolean = false;
-  isQuesTypeImage: boolean = false;
-  isQuesTypeVideo: boolean = false;
-  showIntroScreen: boolean;
-  displayAnswerTimer: number = 2.5;
-  timerSubscription: Subscription;
 
-  helpAudio: any = "";
-  correctOpt: any;
-  idArray: any = [];
-  noOfRightAnsClicked: number = 0;
-  noOfWrongAnsClicked: number = 0;
-  rightansArray: any = [];
-  rightansArray1: any = [];
-  rightansArray2: any = [];
-  wrongansArray1: any = [];
-  wrongansArray2: any = [];
-  AnsObj: any = [];
-  ansArray1: any = [];
-  Array2required: boolean = false;
-  partialpopupRequired: boolean = false;
-  wrongansArray: any = [];
-  isFirstQues: boolean;
   isLastQues: boolean = false;
-  isAutoplayOn: boolean;
   isLastQuesAct: boolean;
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -122,25 +90,12 @@ export class Ntemplate9Component implements OnInit {
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
-  disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
   optionObj: any;
-  optArr1: any;
-  optArr2: any;
-  optionCommonAssets: any;
-  ques_control: any;
   feedbackObj: any;
-  feedbackAudio: any;
-  correctImg: any;
-  incorrectImg: any;
-  popupAssets: any;
   confirmPopupAssets: any;
-  infoPopupAssets: any;
-  submitPopupAssets: any;
-  replayconfirmAssets: any;
-  noOfRightAns: any;
   rightAnspopupAssets: any;
   tempSubscription: Subscription;
   rightanspopUp: any;
@@ -151,22 +106,13 @@ export class Ntemplate9Component implements OnInit {
   isBlock12: any;
   isBlock9: any;
   isBlock4: boolean;
-  isPlayVideo: boolean = true;
-  videoReplayd: boolean = false;
   startCount: number = 0;
   blinkFlag: boolean = true;
   blinkTimeInterval: any;
   index1: number = 0;
   index2: number = 0;
-  selectableOpts: number;
   moveFrom: any;
   moveTo: any;
-  quesBlockStart: any;
-  quesBlockCenter: any;
-  quesBlockEnd: any;
-  quesIdx0: any;
-  quesIdx1: any;
-  quesIdx2: any;
   indexOfBlock: any;
   leftTo: any;
   topTo: any;
@@ -176,8 +122,12 @@ export class Ntemplate9Component implements OnInit {
   showanspopUpheader_img = false;
   tempOpt:any;
   tj:any;
+  instructionDisable:boolean=false;
+  rightAnsTimeout:any;
+
   ngOnDestroy() {
     clearInterval(this.blinkTimeInterval);
+    clearInterval(this.rightAnsTimeout);
     this.index1 = 0;
   }
 
@@ -190,78 +140,30 @@ export class Ntemplate9Component implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        $(".instructionBase img").css("cursor", "pointer");
+        this.instructionDisable=true;
+        this.instruction.nativeElement.onended=() => {
+          this.instructionDisable=false;
+        }
       }
     }
   }
 
-  // onHoverOption(opt, i, j) {
-  //   if (opt && opt != undefined) {
-  //     if (this.narrator.nativeElement.paused) {
-  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
-  //       if (opt.imgsrc && opt.imgsrc.location == "content") {
-  //         this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-  //       }
-  //       else {
-  //         this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-  //       }
-  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
-  //     }
-  //   }
-  // }
-
-  // playHoverOption(opt, i, j) {
-  //   if (this.optionAudio.nativeElement.paused && this.narrator.nativeElement.paused) {
-  //     if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-  //       this.optionAudio.nativeElement.src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
-  //     } else {
-  //       this.optionAudio.nativeElement.src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-  //     }
-  //     this.optionAudio.nativeElement.load();
-  //     if (!this.instruction.nativeElement.paused) {
-  //       this.instruction.nativeElement.pause();
-  //     }
-  //     this.optionAudio.nativeElement.play();
-  //     this.onHoverOption(opt, i, j);
-  //   }
-  // }
-  // onHoverOptionOut(opt, i, j) {
-  //   if (opt && opt != undefined) {
-  //     this.OptionZoomOutAnimation(opt, i, j);
-  //   }
-  // }
 
 ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
   }
 
-  // OptionZoomOutAnimation(opt, i, j) {
-  //   if (!this.checked && this.narrator.nativeElement.paused) {
-  //     opt.imgsrc = opt.imgsrc_original;
-  //     if (opt.imgsrc && opt.imgsrc.location == "content") {
-  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-  //     } else {
-  //       this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-  //     }
-  //     this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
-  //     this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = " ";
-  //     this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = " ";
-  //   }
-  // }
 
   onClickoption(opt, j) {
+    this.instructionDisable=false;
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
     this.appModel.handlePostVOActivity(true);
-    // if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.pause();}
-     //} else {
       this.appModel.notifyUserAction();
       let i = this.index1;
       this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1].id;
-      //this.moveTo = this.optionsBlock.nativeElement.children[this.index1].getBoundingClientRect();
       if (opt.id == this.indexOfBlock) {
         this.checked = true;
         if (this.noOfBlocks == 4) {
@@ -278,8 +180,7 @@ ngAfterViewChecked() {
         this.blockcount--;
         if (this.blockcount < 1) {
           this.startCount = 0;
-          //this.checked = true;
-          setTimeout(() => {
+         this.rightAnsTimeout= setTimeout(() => {
             this.attemptType = "manual";
             this.rightanspopUpheader_img = true;
             this.showanspopUpheader_img = false;
@@ -295,8 +196,6 @@ ngAfterViewChecked() {
             }
           }
         }
-
-        //this.blinkHolder();
       } else {
         if (this.noOfBlocks == 4) {
           $("#puzzleBlock4").addClass("disable_div");
@@ -307,7 +206,6 @@ ngAfterViewChecked() {
         }
         this.onPlacePuzzle(opt, i, j);
       }
-    //}
   }
 
   
@@ -354,36 +252,11 @@ ngAfterViewChecked() {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
           this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
-        //setTimeout(() => {
           this.feedbackVO.nativeElement.play();
         this.feedbackVO.nativeElement.onended = () => {
           this.appModel.wrongAttemptAnimation();
           console.log("wrong option chosen")
-
-          // this.moveFrom = opt.style_block;
-          // let left = this.moveFrom.left;
-          // let top = this.moveFrom.top;
-          // let position = this.moveFrom.position;
-          // let width = this.moveFrom.width;
-          // $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-          //   this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.optionObj[j].imgsrc.url : this.assetsPath + "/" + this.optionObj[j].imgsrc.url;
-          //   if (this.noOfBlocks == 4) {
-          //     $("#puzzleBlock4").removeClass("disable_div");
-          //   } else if (this.noOfBlocks == 9) {
-          //     $("#puzzleBlock9").removeClass("disable_div");
-          //   } else if (this.noOfBlocks == 12) {
-          //     $("#puzzleBlock12").removeClass("disable_div");
-          //   }
-          // });
-          //if (this.noOfBlocks == 4) {
-          //  $("#puzzleBlock4").removeClass("disable_div");
-          //} else if (this.noOfBlocks == 9) {
-          //  $("#puzzleBlock9").removeClass("disable_div");
-          //} else if (this.noOfBlocks == 12) {
-          //  $("#puzzleBlock12").removeClass("disable_div");
-          //}
           }
-        //}, 300);
       }); 
     }
   }
@@ -435,7 +308,6 @@ ngAfterViewChecked() {
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.popupRef.nativeElement.classList = "displayPopup modal";
-          //this.setFeedbackAudio();
           if (this.attemptType=="manual" && this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
             this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           } else {
@@ -479,6 +351,7 @@ ngAfterViewChecked() {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
+        this.instructionDisable=false;
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.currentTime = 0;
           this.instruction.nativeElement.pause();}
@@ -487,17 +360,7 @@ ngAfterViewChecked() {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
         }
       }
-      if (action == "submitAnswer") {
-        this.submitModalRef.nativeElement.classList = "displayPopup modal";
-      }
-      if (action == "replayVideo") {
-        this.appModel.videoStraming(true);
-        if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          $("#optionsBlock .options").addClass("disable_div");
-          this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
-        }
-      }
-    })
+    });
 
     this.appModel.questionEvent.subscribe(() => {
       if (this.rightanspopUp) {
@@ -519,7 +382,6 @@ ngAfterViewChecked() {
 		})
 
     this.appModel.postWrongAttempt.subscribe(() => {
-			//this.postWrongAttemplt();
 			setTimeout(()=>{
 				this.postWrongAttemplt()
 				},750 )
@@ -588,7 +450,6 @@ ngAfterViewChecked() {
   }
 
   close() {
-    //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
@@ -608,19 +469,15 @@ ngAfterViewChecked() {
 
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      //this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
-
       this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
       this.puzzleSection.nativeElement.classList = "bodyContent disable_div";
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
         this.puzzleSection.nativeElement.classList = "bodyContent";
         this.optionsBlock.nativeElement.classList = "row mx-0";
-        this.isQuesTypeImage = true;
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
-
       }
     } else {
       this.startActivity();
@@ -641,7 +498,6 @@ ngAfterViewChecked() {
       } else {
         clearInterval(this.blinkTimeInterval);
         console.log(this.optionsBlock.nativeElement);
-        //console.log(this.optionObj);
         for (let i = 0; i < this.optionsBlock.nativeElement.children.length; i++) {
             if (this.optionObj[i] && this.optionObj[i].imgsrc_original) {
               this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
@@ -664,7 +520,6 @@ ngAfterViewChecked() {
         }
     } else {
       ++this.index1;
-      //this.index2 = 0;
       this.blinkHolderImg(this.index1);
     }
 
@@ -674,15 +529,8 @@ ngAfterViewChecked() {
   setData() {
 
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      //let fetchedData: any = this.appModel.content.contentData.data;
-      //console.log(fetchedData);
-      this.feedback = this.fetchedcontent.feedback;
       this.commonAssets = this.fetchedcontent.commonassets;
-      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
-      //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
-      this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
@@ -695,14 +543,9 @@ ngAfterViewChecked() {
         }
         this.optionObj[i].Matched = false;
         }
-      //this.optionCommonAssets = this.fetchedcontent.option_common_assets;
-      console.log(this.optionCommonAssets);
       this.feedbackObj = this.fetchedcontent.feedback;
-      this.correctImg = this.feedbackObj.popup_commmon_imgs.correctimg;
-      this.incorrectImg = this.feedbackObj.popup_commmon_imgs.incorrectimg;
       this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
       this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
-      this.infoPopupAssets = this.fetchedcontent.feedback.info_popup;
       this.quesObj = this.fetchedcontent.quesObj;
       /*Start: Theme Implementation(Template Changes)*/
         this.controlHandler={
