@@ -461,25 +461,20 @@ export class Ntemplate4 implements OnInit {
                 }
 
                 //For Feedback popup styling
-                if (this.categoryA.correct.length == this.optionHolder.left_random_index){
-                    this.isCat1AllRight=true;
-                }else if(this.categoryA.correct.length == 0){
-                    this.isCat1AllWrong=true;
-                }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
-                    this.isCat1Mix=true;
-                }
-                if (this.categoryB.correct.length == this.optionHolder.right_random_index){
-                    this.isCat2AllRight=true;
-                }else if(this.categoryA.correct.length == 0){
-                    this.isCat2AllWrong=true;
-                }else if(this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0){
-                    this.isCat2Mix=true;
-                }
-                // if (this.categoryA.incorrect.length == 0 && this.categoryB.incorrect.length == 0) {
-                //     this.isAllRight = true;
-                // } else {
-                //     this.isWrongAttempted = true;
+                // if (this.categoryA.correct.length == this.optionHolder.left_random_index){
+                //     this.isCat1AllRight=true;
+                // }else if(this.categoryA.correct.length == 0){
+                //     this.isCat1AllWrong=true;
+                // }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
+                //     this.isCat1Mix=true;
                 // }
+                // if (this.categoryB.correct.length == this.optionHolder.right_random_index){
+                //     this.isCat2AllRight=true;
+                // }else if(this.categoryA.correct.length == 0){
+                //     this.isCat2AllWrong=true;
+                // }else if(this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0){
+                //     this.isCat2Mix=true;
+                // }               
             }
         }, 500)
     }
@@ -812,16 +807,18 @@ export class Ntemplate4 implements OnInit {
                 this.currentFeedbackPlaying = "categoryA";
                 this.category = JSON.parse(JSON.stringify(this.categoryA));
                 if (this.categoryA.correct.length == this.optionHolder.left_random_index.length){
-                    this.feedbackAssets.style_header=  this.fetchedcontent.category_1.style_header;
-                    this.feedbackAssets.style_body=  this.fetchedcontent.category_1.style_body;
+                    console.log("W-1");
+                    this.feedbackAssets.style_header=  this.fetchedcontent.category_1.right_style_header;
+                    this.feedbackAssets.style_body=  this.fetchedcontent.category_1.right_style_body;
                 }
             }else if(this.categoryB && this.categoryB.correct.length){
                 this.feedbackAssets = this.fetchedcontent.category_2;           
                 this.currentFeedbackPlaying = "categoryB";
                 this.category = JSON.parse(JSON.stringify(this.categoryB));
                 if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){
-                    this.feedbackAssets.style_header=  this.fetchedcontent.category_2.style_header;
-                    this.feedbackAssets.style_body=  this.fetchedcontent.category_2.style_body;
+                    console.log("W0");
+                    this.feedbackAssets.style_header=  this.fetchedcontent.category_2.right_style_header;
+                    this.feedbackAssets.style_body=  this.fetchedcontent.category_2.right_style_body;
                 }
             }
             setTimeout(() => {
@@ -841,12 +838,15 @@ export class Ntemplate4 implements OnInit {
                     this.currentFeedbackPlaying = "categoryA";
                     this.category = JSON.parse(JSON.stringify(this.categoryA));
                     if (this.categoryA.correct.length == this.optionHolder.left_random_index.length){
-                        this.feedbackAssets.style_header=  this.fetchedcontent.category_1.style_header;
-                        this.feedbackAssets.style_body=  this.fetchedcontent.category_1.style_body;
+                        console.log("W1");
+                        this.feedbackAssets.style_header=  this.fetchedcontent.category_1.right_style_header;
+                        this.feedbackAssets.style_body=  this.fetchedcontent.category_1.right_style_body;
                     }else if(this.categoryA.correct.length == 0){
+                        console.log("W2");
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.wrong_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.wrong_style_body;
                     }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
+                        console.log("W3");
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.partial_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.partial_style_body;
                     }
@@ -855,12 +855,15 @@ export class Ntemplate4 implements OnInit {
                     this.currentFeedbackPlaying = "categoryB";
                     this.category = JSON.parse(JSON.stringify(this.categoryB));
                     if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){
-                        this.feedbackAssets.style_header=  this.fetchedcontent.category_2.style_header;
-                        this.feedbackAssets.style_body=  this.fetchedcontent.category_2.style_body;
+                        console.log("W4");
+                        this.feedbackAssets.style_header=  this.fetchedcontent.category_2.right_style_header;
+                        this.feedbackAssets.style_body=  this.fetchedcontent.category_2.right_style_body;
                     }else if(this.categoryB.correct.length == 0){
+                        console.log("W5");
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.wrong_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.wrong_style_body;
                     }else if(this.categoryB.correct.length > 0 && this.categoryA.incorrect.length > 0){
+                        console.log("W6");
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.partial_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.partial_style_body;
                     }
@@ -879,32 +882,7 @@ export class Ntemplate4 implements OnInit {
             }
 
             //this.resetActivity();
-        }
-        //Feedback Popup Styling
-        // if(this.categoryA){
-        //     if (this.categoryA.correct.length == this.optionHolder.left_random_index){
-        //         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.style_header;
-        //         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.style_body;
-        //     }else if(this.categoryA.correct.length == 0){
-        //         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.wrong_style_header;
-        //         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.wrong_style_body;
-        //     }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
-        //         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.partial_style_header;
-        //         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.partial_style_body;
-        //     }
-        // }else if(this.categoryB){
-        //     if (this.categoryB.correct.length == this.optionHolder.right_random_index){
-        //         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.style_header;
-        //         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.style_body;
-        //     }else if(this.categoryB.correct.length == 0){
-        //         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.wrong_style_header;
-        //         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.wrong_style_body;
-        //     }else if(this.categoryB.correct.length > 0 && this.categoryA.incorrect.length > 0){
-        //         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.partial_style_header;
-        //         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.partial_style_body;
-        //     }
-        // }        
-        
+        }       
         
     }
 
@@ -1176,21 +1154,17 @@ export class Ntemplate4 implements OnInit {
             this.feedbackAssets = this.fetchedcontent.showans_2
         }
         else{
-            this.feedbackAssets = this.fetchedcontent.category_2;
-            // if(this.categoryB.correct.length){
-            //     this.feedbackAssets.style_header=  this.fetchedcontent.category_2.style_header;
-            //     this.feedbackAssets.style_body=  this.fetchedcontent.category_2.style_body;
-            // }else if(this.categoryB.incorrect.length){
-            //     this.feedbackAssets.style_header=  this.fetchedcontent.category_2.style_header;
-            //     this.feedbackAssets.style_body=  this.fetchedcontent.category_2.style_body;
-            // }
-            if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){
-                this.feedbackAssets.style_header=  this.fetchedcontent.category_2.style_header;
-                this.feedbackAssets.style_body=  this.fetchedcontent.category_2.style_body;
+            this.feedbackAssets = this.fetchedcontent.category_2;            
+            if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){                                
+                this.feedbackAssets.style_header=  this.fetchedcontent.category_2.right_style_header;
+                this.feedbackAssets.style_body=  this.fetchedcontent.category_2.right_style_body;
+                console.log("N1");
             }else if(this.categoryB.correct.length == 0){
+                console.log("N2");
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_2.wrong_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_2.wrong_style_body;
             }else if(this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0){
+                console.log("N3");
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_2.partial_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_2.partial_style_body;
             }
@@ -1222,22 +1196,22 @@ export class Ntemplate4 implements OnInit {
         }
         else{
             this.feedbackAssets = this.fetchedcontent.category_1;
-            // if(this.categoryA.correct.length){
-            //     this.feedbackAssets.style_header=  this.fetchedcontent.category_1.style_header;
-            //     this.feedbackAssets.style_body=  this.fetchedcontent.category_1.style_body;
-            // }else if(this.categoryA.incorrect.length){
-            //     this.feedbackAssets.style_header=  this.fetchedcontent.category_1.style_header;
-            //     this.feedbackAssets.style_body=  this.fetchedcontent.category_1.style_body;
-            // }
+            
             if (this.categoryA.correct.length == this.optionHolder.left_random_index.length){
-                this.feedbackAssets.style_header=  this.fetchedcontent.category_1.style_header;
-                this.feedbackAssets.style_body=  this.fetchedcontent.category_1.style_body;
+                this.feedbackAssets.style_header=  this.fetchedcontent.category_1.right_style_header;
+                this.feedbackAssets.style_body=  this.fetchedcontent.category_1.right_style_body;
+                console.log("P1");
+                
             }else if(this.categoryA.correct.length == 0){
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_1.wrong_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_1.wrong_style_body;
+                console.log("P2");
+                
             }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_1.partial_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_1.partial_style_body;
+                console.log("P3");
+                
             }
         }
         setTimeout(() => {
