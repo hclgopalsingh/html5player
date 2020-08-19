@@ -30,7 +30,7 @@
         [ngClass]="{'disableFooterBtn': !EnableShowAnswer}"  (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayeinEVA()" (mouseleave)="houtUttarDikhayeinEVA()">
         <div class="navQuesBlock" #quesBlockChild>
         <div *ngFor="let quesTab of quesTabs; let idx = index">
-          <img class="img-fluid" [src]="quesTab?.ques_tab?.tabcircle?.location=='content' ? containgFolderPath + '/' + quesTab?.ques_tab?.tabcircle?.url : assetsPath + '/' + quesTab?.ques_tab?.tabcircle?.url" >
+          <img class="img-fluid" [src]="quesTab?.location=='content' ? containgFolderPath + '/' + quesTab?.url : assetsPath + '/' + quesTab?.url" >
         </div>
         </div>
         <img *ngIf="quesCtrl?.blinkingStatus" class="img-fluid nextBtn blink" [src]="quesCtrl?.aagey_badhein_blink?.location=='content' ? containgFolderPath + '/' + quesCtrl?.aagey_badhein_blink?.url : assetsPath + '/' + quesCtrl?.aagey_badhein_blink?.url" (click)="next()" title="आगे बढ़ें"  >
