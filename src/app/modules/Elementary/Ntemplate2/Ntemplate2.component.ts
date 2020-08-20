@@ -145,6 +145,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	/*End: Theme Implementation(Template Changes)*/
 	showAnsTimeout:number;
 	instructionDisable:boolean=false;
+	isOptionEnabled:boolean=false;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -383,11 +384,12 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.instructionBar.nativeElement.classList ="instructionBase";
 		if(this.timerSubscription && !this.timerSubscription.closed){
 			this.timerSubscription.unsubscribe(); 
-			this.appModel.startPreviousTimer();  
+			this.appModel.startPreviousTimer();
+			$(".ansBtn").addClass("disableBtn");  
 		}
 		if(this.leftList=="pl" || this.leftList==undefined){
 			this.resetTimerForAnswer('left');
-		 }
+		 }		 
 		this.appModel.notifyUserAction();
 		if (this.audio && !this.audio.paused) {
 			//commenting to not pause the audio on selection.
@@ -449,6 +451,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 								    $(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomOutAnimation');
 									this.appModel.notifyUserAction();
 									this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx].classList = "options disableDiv reduceOpacity";
+									$(".ansBtn").removeClass("disableBtn");
 									for (var i = 0; i < this.rightOptions.length; i++) {
 									/*	if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
 											this.optionsBlock.nativeElement.children[2].children[i].classList = "options";
@@ -487,6 +490,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						this.wrongFeedbackVO.nativeElement.onended = () => {
 							this.resetTimerForAnswer('right');
 							this.appModel.notifyUserAction();
+							$(".ansBtn").removeClass("disableBtn");
 							this.appModel.wrongAttemptAnimation();	
 										
 						}
@@ -519,11 +523,12 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.instructionBar.nativeElement.classList ="instructionBase";
 		if(this.timerSubscription && !this.timerSubscription.closed){
 			this.timerSubscription.unsubscribe(); 
-			this.appModel.startPreviousTimer();  
-		}
+			this.appModel.startPreviousTimer(); 
+			$(".ansBtn").addClass("disableBtn"); 
+		}		
 		this.appModel.notifyUserAction();
 		if(this.rightList=="pl" || this.rightList==undefined){
-     this.resetTimerForAnswer('right');
+     		this.resetTimerForAnswer('right');
 		}
 		
 		if (this.audio && !this.audio.paused) {
@@ -591,6 +596,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 										this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivWrong");
 									}
 									this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx].classList.remove("disableDiv");
+									$(".ansBtn").removeClass("disableBtn");
 									this.primarySelected = false;
 									this.checkForRandom = setTimeout(()=>{
 										this.idArray = [];
@@ -613,7 +619,6 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						}
 					}, 500)
 				} else {
-					//this.timerSubscription.unsubscribe();
 					setTimeout(() => {
 						this.type = "left"
 						this.checkForOtherVO();
@@ -622,12 +627,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
-							this.appModel.wrongAttemptAnimation();	
-							this.resetTimerForAnswer('left');
-							//setTimeout(() => {
-							//	setTimeout(() => {
-
-						//	}, 500)
+							this.appModel.wrongAttemptAnimation();
+							$(".ansBtn").removeClass("disableBtn");	
+							this.resetTimerForAnswer('left');							
 						}
 					}, 500)
 				}
@@ -750,9 +752,12 @@ removeAssetsFromPopup(id:string){
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
 			this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
 			this.appModel.handlePostVOActivity(true);
+			// if($('.options img:hover')){
+			// 	this.isOptionEnabled=false;
+			// }
 			this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
-			this.quesVORef.nativeElement.play();
+			this.quesVORef.nativeElement.play();			
 			this.quesVORef.nativeElement.onended = () => {
 				this.optionsBlock.nativeElement.classList = "row mx-0";
 				this.instructionBar.nativeElement.classList ="instructionBase";
@@ -856,53 +861,64 @@ removeAssetsFromPopup(id:string){
 
 	playOptionHover(opt, idx, side) {
 		this.appModel.notifyUserAction();
+		
+		if(this.timerSubscription && !this.timerSubscription.closed){
+			//this.timerSubscription.unsubscribe(); 
+			if(this.rightList=="pl" || this.rightList==undefined){
+				this.resetTimerForAnswer('right');
+			}
+			if(this.leftList=="pl" || this.leftList==undefined){
+				this.resetTimerForAnswer('left');
+			}
+		}
 		if (opt && opt.imgsrc_audio && opt.imgsrc_audio.url) {
 			this.playSound(opt.imgsrc_audio, idx, side);
 		}
 	}
 
 	hoverRightOption(opt,idx) {
-		this.removeOptionAnimation(idx, "right");
-		this.playOptionHover(opt,idx, 'right');
+		if(this.isOptionEnabled){
+			this.optionsBlock.nativeElement.children[2].children[idx].style.cursor = "pointer";
+			this.removeOptionAnimation(idx, "right");
+			this.playOptionHover(opt,idx, 'right');
+		}else{
+			return;
+		}
+		
 	}
 	hoverLeftOption(opt,idx) {
-		this.removeOptionAnimation(idx, "left");
-		this.playOptionHover(opt,idx, 'left');
+		if(this.isOptionEnabled){
+			this.optionsBlock.nativeElement.children[0].children[idx].style.cursor = "pointer";
+			this.removeOptionAnimation(idx, "left");
+			this.playOptionHover(opt,idx, 'left');
+		}else{
+			return;
+		}
+		
 	}
-	houtLeftOption(idx) {
-		/*if (this.optionsBlock.nativeElement.children[0].children[idx].classList == "options disableDiv") {
-			this.optionsBlock.nativeElement.children[0].children[idx].classList = "options disableDiv removeOptAnimation";
-		} else {
-			this.optionsBlock.nativeElement.children[0].children[idx].classList = "options removeOptAnimation";
-		}*/
-		this.optionsBlock.nativeElement.children[0].children[idx].classList.add("removeOptAnimation");
-		setTimeout(() => {
-		/*	if (this.optionsBlock.nativeElement.children[0].children[idx].classList == "options disableDiv removeOptAnimation") {
-				this.optionsBlock.nativeElement.children[0].children[idx].classList = "options disableDiv";
-			} else {
-				this.optionsBlock.nativeElement.children[0].children[idx].classList = "options";
-			}*/
-			//this.optionsBlock.nativeElement.children[0].children[idx].classList.remove("removeOptAnimation");
-			$(this.optionsBlock.nativeElement.children[0].children[idx]).removeClass('optionAnimate').removeClass('removeOptAnimation');
-		}, 200)
+	houtLeftOption(idx) {	
+		if(this.isOptionEnabled){
+			this.optionsBlock.nativeElement.children[0].children[idx].classList.add("removeOptAnimation");		
+			setTimeout(() => {		
+				$(this.optionsBlock.nativeElement.children[0].children[idx]).removeClass('optionAnimate').removeClass('removeOptAnimation');
+			}, 200)
+		}else{
+			this.isOptionEnabled=true;
+			return;
+		}		
 		
 	}
 	houtRightOption(idx) {
-		/*if (this.optionsBlock.nativeElement.children[2].children[idx].classList == "options disableDiv") {
-			this.optionsBlock.nativeElement.children[2].children[idx].classList = "options disableDiv removeOptAnimation";
-		} else {
-			this.optionsBlock.nativeElement.children[2].children[idx].classList = "options removeOptAnimation";
-		}*/
-		this.optionsBlock.nativeElement.children[2].children[idx].classList.add("removeOptAnimation");
-		setTimeout(() => {
-		/*	if (this.optionsBlock.nativeElement.children[2].children[idx].classList == "options disableDiv removeOptAnimation") {
-				this.optionsBlock.nativeElement.children[2].children[idx].classList = "options disableDiv";
-			} else {
-				this.optionsBlock.nativeElement.children[2].children[idx].classList = "options";
-			}*/
-			//this.optionsBlock.nativeElement.children[2].children[idx].classList.remove("removeOptAnimation")
-			$(this.optionsBlock.nativeElement.children[2].children[idx]).removeClass('optionAnimate').removeClass('removeOptAnimation');
-		}, 200)
+		if(this.isOptionEnabled){
+			this.optionsBlock.nativeElement.children[2].children[idx].classList.add("removeOptAnimation");
+			setTimeout(() => {
+				$(this.optionsBlock.nativeElement.children[2].children[idx]).removeClass('optionAnimate').removeClass('removeOptAnimation');
+			}, 200)
+		}else{
+			this.isOptionEnabled=true;
+			return;
+		}
+		
 	}
 
 	resetTimerForAnswer(flag:string) {

@@ -81,7 +81,7 @@ button:focus {
   	justify-content: space-between;
 }
 #optionsBlock img{
-	cursor:pointer;
+	/* cursor:pointer; */
 	position:relative;
 	/* max-width: 286px; */
 }
@@ -602,7 +602,6 @@ button:focus {
   cursor: pointer;
   opacity: 1 !important;
   margin-left: auto;
-  cursor:pointer;
 } */
 
 html [type=button] {
