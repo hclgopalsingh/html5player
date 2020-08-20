@@ -609,6 +609,14 @@ ngAfterViewChecked() {
     this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
   }
 
+  hoveronOption(opt) {
+    opt.imgsrc=opt.imgsrc_hover;
+  }
+
+  hoverOptionOut(opt) {
+    opt.imgsrc=opt.imgsrc_original;
+  }
+
   sendFeedback(id: string, flag: string) {
     this.confirmModalRef.nativeElement.classList = "modal";
     if (flag == "yes") {
