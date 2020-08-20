@@ -399,7 +399,7 @@ export class Ntemplate4 implements OnInit {
         this.selectedOptList.push(copyOpt);
         console.log(this.selectedOptList);
         $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor")
-        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .18)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .15)) }, 500).addClass("shrink_it");
+        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14)) }, 500).addClass("shrink_it");
         this.startCount = 0;
         setTimeout(() => {
             this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
