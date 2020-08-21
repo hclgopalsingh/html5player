@@ -11,14 +11,17 @@
   <div class="bodyContent" #puzzleSection>
     <!-- New Implementation -->
     <div id="puzzleBlock4" #optionsBlock *ngIf="isBlock4">
+      <div class="shadowBlock"></div>
       <img id={{opt.id}} class="img-fluid" *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block" (load)="checkImgLoaded();" (click)="onClickoption(opt,idx)">
       <audio #optionAudio></audio>
     </div>
     <div id="puzzleBlock12" #optionsBlock *ngIf="isBlock12">
+      <div class="shadowBlock"></div>
       <img id={{opt.id}} class="img-fluid" *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block" (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)" (click)="onClickoption(opt,idx)">
       <audio #optionAudio></audio>
     </div>
     <div id="puzzleBlock9" #optionsBlock *ngIf="isBlock9">
+      <div class="shadowBlock"></div>
       <img id={{opt.id}} class="img-fluid" *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block" (load)="checkImgLoaded();" (click)="onClickoption(opt,idx)">
       <audio #optionAudio></audio>
     </div>
