@@ -502,10 +502,12 @@ ngAfterViewChecked() {
       } else {
         clearInterval(this.blinkTimeInterval);
         console.log(this.optionsBlock.nativeElement);
-        for (let i = 0; i < this.optionsBlock.nativeElement.children.length-1; i++) {
+        if (this.blockcount > 1) {
+          for (let i = 0; i < this.optionsBlock.nativeElement.children.length-1; i++) {
             if (this.optionObj[i] && this.optionObj[i].imgsrc_original) {
               this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
             } 
+        }
         }
       }
     }, 300);
