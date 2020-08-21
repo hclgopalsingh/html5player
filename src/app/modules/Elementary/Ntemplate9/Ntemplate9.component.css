@@ -239,7 +239,7 @@ button:focus {
 }
 
 .modal .optionsBlock .options {
-  width: 69%;
+  width: 91%;/*69%;*/
 }
 
 .modal .optionsBlock {
@@ -485,9 +485,9 @@ button:focus {
 }
 
 .modal-dialog {
-  /* width: 30%; */
-  max-width: 60%; /*80%*/
-  height: auto; /*100%;*/
+  width: 66% !important;
+  height: 92%;
+  max-width: 66% !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -545,7 +545,7 @@ button:focus {
 @media (min-width: 576px) {
   .modal-dialog {
     margin: 0 auto !important;
-    max-width: 60% !important;
+    /* max-width: 60% !important; */
   }
 }
 
