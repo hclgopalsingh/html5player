@@ -225,8 +225,23 @@ ngAfterViewChecked() {
       this.optionObj[this.index1].Matched = true;
       this.startCount=0;
       $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-        if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
+        this.feedbackVO.nativeElement.src=undefined;
+        if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url!="") {
           this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        } else {
+            this.puzzleBlockclicked=false;
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.appModel.handlePostVOActivity(false)
+            this.checked = false;
+            if (this.noOfBlocks == 4) {
+              $("#puzzleBlock4").removeClass("disable_div");
+            } else if (this.noOfBlocks == 9) {
+              $("#puzzleBlock9").removeClass("disable_div");
+            } else if (this.noOfBlocks == 12) {
+              $("#puzzleBlock12").removeClass("disable_div");
+            }
+            this.startCount=1;
+            this.blinkHolder();
         }
         setTimeout(() => {
           this.feedbackVO.nativeElement.play();
@@ -253,7 +268,8 @@ ngAfterViewChecked() {
     else {
       this.puzzleBlockclicked=false;
       $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-        if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
+        this.feedbackVO.nativeElement.src=undefined;
+        if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url!="") {
           this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
           this.feedbackVO.nativeElement.play();
@@ -508,7 +524,7 @@ ngAfterViewChecked() {
               this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
             } 
         }
-        }
+         }
       }
     }, 300);
   }
