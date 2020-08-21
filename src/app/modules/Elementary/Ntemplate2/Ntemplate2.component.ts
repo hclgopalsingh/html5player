@@ -145,7 +145,8 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	/*End: Theme Implementation(Template Changes)*/
 	showAnsTimeout:number;
 	instructionDisable:boolean=false;
-	isOptionEnabled:boolean=false;
+	isOptionDisabled:boolean=true;
+	// isOptionPlayed:boolean=false;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -197,6 +198,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.instructionVO.nativeElement.pause();
 			this.instructionVO.nativeElement.currentTime = 0;
 			this.instructionDisable=false;
+			this.isOptionDisabled=true;
 			if(val=="uttarDikhayein"){
 				if(this.confirmModalRef && this.confirmModalRef.nativeElement){
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -264,6 +266,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		}
 	//	}, 500)
 		this.optionsBlock.nativeElement.classList = "row mx-0"
+		setTimeout(() => {
+			this.isOptionDisabled=false;
+		}, 1000);
 		this.instructionBar.nativeElement.classList ="instructionBase";
 	}
 		
@@ -349,20 +354,12 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 				this.topCss1 = 10.6+"%";
 				this.leftCss2 = 53.8+"%";
 				this.topCss2 = 10.6+"%";
-		/*		if(window.innerWidth<1920){
-					this.topCss1 = 14.2+"%";
-					this.topCss2 = 14.2+"%";
-				}*/
 			}else if(this.noofSubQues==5){
 				scaleValue = 1.5;
 				this.leftCss1 = 9.5+"%";
 				this.topCss1 = 18+"%";
 				this.leftCss2 = 57.2+"%";
 				this.topCss2 = 18+"%";
-			/*	if(window.innerWidth<1920){
-					this.topCss1 = 22.2+"%";
-					this.topCss2 = 22.2+"%";
-				}*/
 			}else if(this.noofSubQues==6){
 				scaleValue = 1.8;
 				this.leftCss1 = 12+"%";
@@ -396,15 +393,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.audio.pause();
 			this.audio.currentTime = 0;
 			for (let i = 0; i < this.leftOptions.length; i++) {
-			/*	if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
-					this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
-				}*/
 				this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivAudio")
 			}
 			for (let i = 0; i < this.rightOptions.length; i++) {
-				/*if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
-					this.optionsBlock.nativeElement.children[2].children[i].classList = "options";
-				}*/
 				this.optionsBlock.nativeElement.children[2].children[i].classList.remove("disableDivAudio");
 			}
 		}
@@ -422,14 +413,12 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						}
 					},500)
 				}
-				//this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx].remove("disableDiv");
 			}
 			if (this.leftSelectedIdx > -1 && this.leftList == "pl") {
 				$(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomInAnimation').addClass('zoomOutAnimation');
 				if(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]){
 					this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx].classList.remove("disableDiv");
 				}
-				//this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx].remove("disableDiv");
 			}
 			if (this.leftList != "pl" && this.leftList != null) {
 				this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
@@ -453,9 +442,6 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 									this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx].classList = "options disableDiv reduceOpacity";
 									$(".ansBtn").removeClass("disableBtn");
 									for (var i = 0; i < this.rightOptions.length; i++) {
-									/*	if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
-											this.optionsBlock.nativeElement.children[2].children[i].classList = "options";
-										}*/
 										this.optionsBlock.nativeElement.children[2].children[i].classList.remove("disableDivWrong");
 									}
 									this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx].classList.remove("disableDiv");
@@ -487,12 +473,16 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						this.stopOptionHoverAudio();
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
-						this.wrongFeedbackVO.nativeElement.onended = () => {
+						this.wrongFeedbackVO.nativeElement.onended = () => {							
+							// this.appModel.notifyUserAction();
+							$(".ansBtn").removeClass("disableBtn");	
+							// this.isOptionDisabled=false;							
+							setTimeout(() => {
+								this.isOptionDisabled=false;
+								console.log(this.isOptionDisabled);
+							}, 1000);
 							this.resetTimerForAnswer('right');
-							this.appModel.notifyUserAction();
-							$(".ansBtn").removeClass("disableBtn");
-							this.appModel.wrongAttemptAnimation();	
-										
+							this.appModel.wrongAttemptAnimation();			
 						}
 					}, 500)
 				}
@@ -509,7 +499,6 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.topOneRatio = this.topOne/window.innerWidth;
 			this.optionsBlock.nativeElement.children[0].children[idx].style.zIndex = 500;
 			this.optionsBlock.nativeElement.children[0].children[idx].classList = "options disableDiv";
-			//$(this.optionsBlock.nativeElement.children[0].children[idx]).animate({ left: leftTo - ($(this.optionsBlock.nativeElement.children[0].children[idx]).width() / 2), top: topTo - ($(this.optionsBlock.nativeElement.children[0].children[idx]).height() / 2) }, 500);
 			$(this.optionsBlock.nativeElement.children[0].children[idx]).animate({ left: this.leftOne, top: this.topOne}, 500).addClass('zoomInAnimation');
 			if (this.leftList == null) {
 				this.leftList = "pl";
@@ -535,15 +524,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.audio.pause();
 			this.audio.currentTime = 0;
 			for (let i = 0; i < this.leftOptions.length; i++) {
-				/*if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
-					this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
-				}*/
 				this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivAudio");
 			}
 			for (let i = 0; i < this.rightOptions.length; i++) {
-				/*if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
-					this.optionsBlock.nativeElement.children[2].children[i].classList = "options";
-				}*/
 				this.optionsBlock.nativeElement.children[2].children[i].classList.remove("disableDivAudio");
 			}
 		}
@@ -590,9 +573,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 									this.appModel.notifyUserAction();
 									this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx].classList = "options disableDiv reduceOpacity";
 									for (var i = 0; i < this.leftOptions.length; i++) {
-									/*	if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
-											this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
-										}*/
+								
 										this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivWrong");
 									}
 									this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx].classList.remove("disableDiv");
@@ -627,9 +608,16 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.wrongFeedbackVO.nativeElement.onended = () => {
-							this.appModel.wrongAttemptAnimation();
+							
 							$(".ansBtn").removeClass("disableBtn");	
-							this.resetTimerForAnswer('left');							
+							// this.isOptionDisabled=false;
+							setTimeout(() => {
+								this.isOptionDisabled=false;
+								console.log(this.isOptionDisabled);
+							}, 1000);
+							
+							this.resetTimerForAnswer('left');	
+							this.appModel.wrongAttemptAnimation();													
 						}
 					}, 500)
 				}
@@ -645,7 +633,6 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.leftTwoRatio = this.leftTwo/window.innerWidth;
 			this.topTwoRatio = this.topTwo/window.innerWidth;
 			this.optionsBlock.nativeElement.children[2].children[idx].style.zIndex = 500;
-		//	$(this.optionsBlock.nativeElement.children[2].children[idx]).animate({ left: leftTo - ($(this.optionsBlock.nativeElement.children[2].children[idx]).width() / 2), top: topTo - ($(this.optionsBlock.nativeElement.children[2].children[idx]).height() / 2) }, 500);
 		$(this.optionsBlock.nativeElement.children[2].children[idx]).animate({ left: this.leftTwo, top: this.topTwo}, 500).addClass('zoomInAnimation');
 			if (this.rightList == null) {
 				this.primarySelected = true;
@@ -667,16 +654,10 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			//commenting to not pause the audio on selection.
 			this.audio.pause();
 			this.audio.currentTime = 0;
-			for (let i = 0; i < this.leftOptions.length; i++) {
-			/*	if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
-					this.optionsBlock.nativeElement.children[0].children[i].classList = "options";
-				}*/
+			for (let i = 0; i < this.leftOptions.length; i++) {			
 				this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivAudio")
 			}
 			for (let i = 0; i < this.rightOptions.length; i++) {
-				/*if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
-					this.optionsBlock.nativeElement.children[2].children[i].classList = "options";
-				}*/
 				this.optionsBlock.nativeElement.children[2].children[i].classList.remove("disableDivAudio");
 			}
 		}
@@ -751,15 +732,16 @@ removeAssetsFromPopup(id:string){
 	checkforQVO(){
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
 			this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
-			this.appModel.handlePostVOActivity(true);
-			// if($('.options img:hover')){
-			// 	this.isOptionEnabled=false;
-			// }
-			this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+			this.appModel.handlePostVOActivity(true);			
+			// this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+			this.isOptionDisabled=true;
 			this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 			this.quesVORef.nativeElement.play();			
 			this.quesVORef.nativeElement.onended = () => {
-				this.optionsBlock.nativeElement.classList = "row mx-0";
+				// this.optionsBlock.nativeElement.classList = "row mx-0";
+				setTimeout(() => {
+					this.isOptionDisabled=false;
+				}, 1000);
 				this.instructionBar.nativeElement.classList ="instructionBase";
 				this.appModel.handlePostVOActivity(false);
 			}
@@ -818,23 +800,18 @@ removeAssetsFromPopup(id:string){
 			this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 			this.instructionVO.nativeElement.pause();
 			this.instructionVO.nativeElement.currentTime = 0;
-			// this.instructionDisable=false;
 			this.audio.onended = () => {
 				optionEnabled = false;
 				this.instructionBar.nativeElement.classList ="instructionBase";
 				for (let i = 0; i < this.leftOptions.length; i++) {
-					//if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
 						if (this.leftSelectedIdx != i) {
 							this.optionsBlock.nativeElement.children[0].children[i].classList.remove("disableDivAudio");
 						}
-					//}
 	
 				}
 				for (let i = 0; i < this.rightOptions.length; i++) {
-				//	if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
 						if (this.rightSelectedIdx != i) {
 							this.optionsBlock.nativeElement.children[2].children[i].classList.remove("disableDivAudio");
-					//	}
 					}
 				}
 			}
@@ -842,18 +819,14 @@ removeAssetsFromPopup(id:string){
 				if (side == "left" && i == idx) {
 					optionEnabled = true;
 				} else {
-					//if (this.optionsBlock.nativeElement.children[0].children[i].classList != "options disableDiv reduceOpacity") {
 						this.optionsBlock.nativeElement.children[0].children[i].classList.add("disableDivAudio");
-					//}
 				}
 			}
 			for (let i = 0; i < this.rightOptions.length; i++) {
 				if (side == "right" && idx == i ) {
 					optionEnabled = true;
 				} else {
-					//if (this.optionsBlock.nativeElement.children[2].children[i].classList != "options disableDiv reduceOpacity") {
 						this.optionsBlock.nativeElement.children[2].children[i].classList.add("disableDivAudio");
-					//}
 				}
 			}
 		}
@@ -861,64 +834,42 @@ removeAssetsFromPopup(id:string){
 
 	playOptionHover(opt, idx, side) {
 		this.appModel.notifyUserAction();
-		
-		if(this.timerSubscription && !this.timerSubscription.closed){
-			//this.timerSubscription.unsubscribe(); 
-			if(this.rightList=="pl" || this.rightList==undefined){
-				this.resetTimerForAnswer('right');
+			if(this.timerSubscription && !this.timerSubscription.closed){
+				if(this.rightList=="pl" || this.rightList==undefined){
+					this.resetTimerForAnswer('right');
+				}
+				if(this.leftList=="pl" || this.leftList==undefined){
+					this.resetTimerForAnswer('left');
+				}
 			}
-			if(this.leftList=="pl" || this.leftList==undefined){
-				this.resetTimerForAnswer('left');
-			}
-		}
-		if (opt && opt.imgsrc_audio && opt.imgsrc_audio.url) {
-			this.playSound(opt.imgsrc_audio, idx, side);
-		}
+			if (opt && opt.imgsrc_audio && opt.imgsrc_audio.url) {
+				this.playSound(opt.imgsrc_audio, idx, side);
+			}		
 	}
 
 	hoverRightOption(opt,idx) {
-		if(this.isOptionEnabled){
 			this.optionsBlock.nativeElement.children[2].children[idx].style.cursor = "pointer";
-			this.removeOptionAnimation(idx, "right");
-			this.playOptionHover(opt,idx, 'right');
-		}else{
-			return;
-		}
+			this.removeOptionAnimation(idx, "right");	
 		
 	}
 	hoverLeftOption(opt,idx) {
-		if(this.isOptionEnabled){
 			this.optionsBlock.nativeElement.children[0].children[idx].style.cursor = "pointer";
-			this.removeOptionAnimation(idx, "left");
-			this.playOptionHover(opt,idx, 'left');
-		}else{
-			return;
-		}
+			this.removeOptionAnimation(idx, "left");	
 		
 	}
 	houtLeftOption(idx) {	
-		if(this.isOptionEnabled){
 			this.optionsBlock.nativeElement.children[0].children[idx].classList.add("removeOptAnimation");		
 			setTimeout(() => {		
 				$(this.optionsBlock.nativeElement.children[0].children[idx]).removeClass('optionAnimate').removeClass('removeOptAnimation');
-			}, 200)
-		}else{
-			this.isOptionEnabled=true;
-			return;
-		}		
+			}, 200)	
 		
 	}
 	houtRightOption(idx) {
-		if(this.isOptionEnabled){
 			this.optionsBlock.nativeElement.children[2].children[idx].classList.add("removeOptAnimation");
 			setTimeout(() => {
 				$(this.optionsBlock.nativeElement.children[2].children[idx]).removeClass('optionAnimate').removeClass('removeOptAnimation');
 			}, 200)
-		}else{
-			this.isOptionEnabled=true;
-			return;
-		}
-		
+	
 	}
 
 	resetTimerForAnswer(flag:string) {
@@ -1025,12 +976,21 @@ removeAssetsFromPopup(id:string){
 					this.appModel.invokeTempSubject('showModal','manual');
 				},100)
 			}
+			else{
+				setTimeout(() => {
+					this.isOptionDisabled=false;
+				}, 1000);
+			}
+			
 		}
 
 		closeModal(){
 		//	this.appModel.notifyUserAction();
 			this.isShowAnswerDisplayed = true;
 			this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+			// setTimeout(() => {
+			// 	this.isOptionDisabled=false;
+			// }, 1000);
 			if(this.leftSelectedIdx>-1){
 				$(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomInAnimation').addClass('zoomOutAnimation');
 			}
