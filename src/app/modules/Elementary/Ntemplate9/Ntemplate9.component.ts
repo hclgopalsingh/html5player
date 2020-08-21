@@ -124,6 +124,7 @@ export class Ntemplate9Component implements OnInit {
   tj:any;
   instructionDisable:boolean=false;
   rightAnsTimeout:any;
+  puzzleBlockclicked:boolean=false;
 
   ngOnDestroy() {
     clearInterval(this.blinkTimeInterval);
@@ -155,6 +156,7 @@ ngAfterViewChecked() {
 
 
   onClickoption(opt, j) {
+    this.puzzleBlockclicked=true;
     this.instructionDisable=false;
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
     this.appModel.handlePostVOActivity(true);
@@ -230,6 +232,7 @@ ngAfterViewChecked() {
           this.feedbackVO.nativeElement.play();
           this.feedbackVO.nativeElement.onended = () => {
             console.log("audio end");
+            this.puzzleBlockclicked=false;
             this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
             this.appModel.handlePostVOActivity(false)
             this.checked = false;
@@ -248,6 +251,7 @@ ngAfterViewChecked() {
       });
     }
     else {
+      this.puzzleBlockclicked=false;
       $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
           this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -614,7 +618,9 @@ ngAfterViewChecked() {
   }
 
   hoverOptionOut(opt) {
-    opt.imgsrc=opt.imgsrc_original;
+    if(!this.puzzleBlockclicked) {
+       opt.imgsrc=opt.imgsrc_original;
+    }
   }
 
   sendFeedback(id: string, flag: string) {
