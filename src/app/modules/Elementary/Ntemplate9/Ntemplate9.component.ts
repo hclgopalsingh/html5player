@@ -124,6 +124,7 @@ export class Ntemplate9Component implements OnInit {
   tj:any;
   instructionDisable:boolean=false;
   rightAnsTimeout:any;
+  puzzleBlockclicked:boolean=false;
 
   ngOnDestroy() {
     clearInterval(this.blinkTimeInterval);
@@ -155,6 +156,7 @@ ngAfterViewChecked() {
 
 
   onClickoption(opt, j) {
+    this.puzzleBlockclicked=true;
     this.instructionDisable=false;
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
     this.appModel.handlePostVOActivity(true);
@@ -163,7 +165,7 @@ ngAfterViewChecked() {
         this.instruction.nativeElement.pause();}
       this.appModel.notifyUserAction();
       let i = this.index1;
-      this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1].id;
+      this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1+1].id;
       if (opt.id == this.indexOfBlock) {
         this.checked = true;
         if (this.noOfBlocks == 4) {
@@ -212,7 +214,7 @@ ngAfterViewChecked() {
   onPlacePuzzle(opt, i, j) {
     this.tempOpt = opt;
     this.tj = j
-    this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrcOriginalSize.url;
+    this.optionsBlock.nativeElement.children[j+1].src = this.optionObj[j].imgsrcOriginalSize.url;
     console.log("Puzzle placed");
     this.moveFrom = this.optionObj[this.index1].style_block;
     let left = this.moveFrom.left;
@@ -222,7 +224,7 @@ ngAfterViewChecked() {
     if (opt.id == this.indexOfBlock) {
       this.optionObj[this.index1].Matched = true;
       this.startCount=0;
-      $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
+      $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
           this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
@@ -230,6 +232,7 @@ ngAfterViewChecked() {
           this.feedbackVO.nativeElement.play();
           this.feedbackVO.nativeElement.onended = () => {
             console.log("audio end");
+            this.puzzleBlockclicked=false;
             this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
             this.appModel.handlePostVOActivity(false)
             this.checked = false;
@@ -244,11 +247,12 @@ ngAfterViewChecked() {
             this.blinkHolder();
           }
         }, 300);
-        this.optionsBlock.nativeElement.children[j].style.pointerEvents = "none";
+        this.optionsBlock.nativeElement.children[j+1].style.pointerEvents = "none";
       });
     }
     else {
-      $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
+      this.puzzleBlockclicked=false;
+      $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url) {
           this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
@@ -398,8 +402,8 @@ ngAfterViewChecked() {
           let top = this.moveFrom.top;
           let position = this.moveFrom.position;
           let width = this.moveFrom.width;
-          $(this.optionsBlock.nativeElement.children[j]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-            this.optionsBlock.nativeElement.children[j].src = this.optionObj[j].imgsrc.url;
+          $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
+            this.optionsBlock.nativeElement.children[j+1].src = this.optionObj[j].imgsrc.url;
             if (this.noOfBlocks == 4) {
               $("#puzzleBlock4").removeClass("disable_div");
             } else if (this.noOfBlocks == 9) {
@@ -498,7 +502,7 @@ ngAfterViewChecked() {
       } else {
         clearInterval(this.blinkTimeInterval);
         console.log(this.optionsBlock.nativeElement);
-        for (let i = 0; i < this.optionsBlock.nativeElement.children.length; i++) {
+        for (let i = 0; i < this.optionsBlock.nativeElement.children.length-1; i++) {
             if (this.optionObj[i] && this.optionObj[i].imgsrc_original) {
               this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
             } 
@@ -614,7 +618,9 @@ ngAfterViewChecked() {
   }
 
   hoverOptionOut(opt) {
-    opt.imgsrc=opt.imgsrc_original;
+    if(!this.puzzleBlockclicked) {
+       opt.imgsrc=opt.imgsrc_original;
+    }
   }
 
   sendFeedback(id: string, flag: string) {
