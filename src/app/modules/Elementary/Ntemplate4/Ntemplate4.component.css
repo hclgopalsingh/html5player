@@ -46,9 +46,9 @@ button:focus {
   justify-content: space-around;
   align-items: center;
   align-content: space-around;
-  width: 90%; /*40%*/
-  height: 86%;
-  margin-top: 4%;
+  width: 86%;
+  height: 83%;
+  margin-top: 5%;
   flex-wrap: wrap;
 }
 .matchHolder .optSelectedHidden img{
@@ -721,33 +721,35 @@ info modal modal
 }
 #modalTemp4 .modal-dialog {
   /* width: 30%; */
-  max-width: 80%;
-  height: auto;
+  max-width: 92%;
+  height: 93%;
 }
 
 #modalTemp4 .matchHolder{
-  width: 63%;
+  width: 49%;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 #modalTemp4 .matchHolder img{
-  width: 93%;
+  width: 99%;
+  max-width: 99%;
 }
 #modalTemp4 .matchHolder .optSelected {
   position: absolute;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   align-content: space-around;
-  width: 91%; /*40%*/
-  height: 87%;
-  margin-top: 8%;
+  width: 90%;
+  height: 58%;
+  margin-top: 5%;
   flex-wrap: wrap;
 }
 #modalTemp4 .matchHolder .optSelected img{
   width: 30%;/*100%*/
+  margin: 1.3%;
 }
 #modalTemp4 .modal-header{
 	padding: .5%;
@@ -761,7 +763,9 @@ info modal modal
   border-top-right-radius: 20px;
   background: #248446;
 }
-
+#modalTemp4 .modal-body{
+  padding: 0;
+}
 /* #modalTemp4 .close {
     width: 3.5%;
     height: auto;
@@ -786,9 +790,10 @@ info modal modal
   width: 92%;
 }
 #modalTemp4 .navigate {
-  position: relative;
+  position: absolute;
   width: 96%;
-  margin-top: 1%;
+  bottom: 4%;
+  /* margin-top: 1%; */
 }
 .navigate img {
   margin-left: 1.2%;
