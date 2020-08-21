@@ -23,8 +23,8 @@
             </div>
         </div>
     </div>
-    <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index" >
-        <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
+    <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}">
+        <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)" (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
     </div>
     <audio #quesVORef ></audio>
 </div>
@@ -142,9 +142,14 @@
 </div>
 
 <div class="videoMainContainer" *ngIf="isPlayVideo">
-  <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
+  <img src="assets/images/videoBg.png" class="img-fluid videoBg">
+  <div class="videoWrapper">
+    <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
+      <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
+    </video>
+  <!-- <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
     <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
-  </video>
+  </video> -->
   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()"/></div>
   <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="quesSkip" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>  
 </div>

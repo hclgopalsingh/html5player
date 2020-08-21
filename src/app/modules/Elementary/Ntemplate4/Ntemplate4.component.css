@@ -824,16 +824,29 @@ info modal modal
   pointer-events: none;
   opacity: 0.5;
 }
-.videoMainContainer{
+/* .videoMainContainer{
   width:100%;
   height:auto;
   position:relative;
   top:0;
   left:0;
   z-index: 101;
+} */
+.videoMainContainer{
+  width:100%;
 }
-
-.video_loader{
+.videoWrapper{
+  width: 99.9%;
+  height:100%;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+.videoMainContainer .videoBg{
+  opacity: 0;
+}
+/* .video_loader{
 	position: absolute;
     width: 100%;
     top: 0%;
@@ -841,8 +854,8 @@ info modal modal
 }
 .video_loader img{
 	width:100%;
-}
+} */
 
-.controlCursor{
+/* .controlCursor{
   cursor: default
-}
+} */
