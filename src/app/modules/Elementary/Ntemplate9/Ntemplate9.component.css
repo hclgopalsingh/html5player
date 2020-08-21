@@ -62,6 +62,33 @@ button:focus {
   width: 45%;
   margin-top: 3%;
 }
+.shadowBlock {
+  position: absolute;
+  box-shadow: 1vmin 1vmin #000;
+  border-radius: 3.7vmin;
+  border: solid 1px transparent;
+  opacity: .5;
+}
+#puzzleBlock4 .shadowBlock {
+  left: 6.5%;
+  top: 3%;
+  width: 41.6%;
+  height: 94%;
+  border-radius: 5.5vmin;
+}
+#puzzleBlock9 .shadowBlock {
+  left: 6.4%;
+  top: 2.7%;
+  width: 41.3%;
+  height: 93.5%;
+  border-radius: 4.5vmin;
+}
+#puzzleBlock12 .shadowBlock {
+  left: 3%;
+  top: 3%;
+  width: 54.6%;
+  height: 93.2%;
+}
 
 #optionsBlock12 img,
 #optionsBlock9 img,
