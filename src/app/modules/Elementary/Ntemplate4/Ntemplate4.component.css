@@ -720,7 +720,7 @@ info modal modal
   transform: translate(0,0);
 }
 #modalTemp4 .modal-dialog {
-  /* width: 30%; */
+  width: 92%;
   max-width: 92%;
   height: 93%;
 }
