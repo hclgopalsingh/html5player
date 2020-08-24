@@ -726,11 +726,14 @@ info modal modal
 }
 
 #modalTemp4 .matchHolder{
-  width: 49%;
+  width: 56%;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#modalTemp4 .partial_feedback .matchHolder{
+  width: 49%;
 }
 #modalTemp4 .matchHolder img{
   width: 99%;
