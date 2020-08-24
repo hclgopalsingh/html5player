@@ -98,7 +98,7 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center flex-wrap" [ngStyle]="feedbackAssets?.style_body">
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center w-100">
               <div class="matchHolder" *ngIf="category && category.correct && category.correct.length>0">
                 <img class="img-fluid" [src]="feedbackAssets?.rightAttempt_placeholder?.url">
                   <div class="optSelected" #correctCategory>

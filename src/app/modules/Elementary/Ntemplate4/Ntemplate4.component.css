@@ -726,7 +726,7 @@ info modal modal
 }
 
 #modalTemp4 .matchHolder{
-  width: 56%;
+  width: 52%;
   position: relative;
   display: flex;
   justify-content: center;
@@ -793,9 +793,8 @@ info modal modal
   width: 92%;
 }
 #modalTemp4 .navigate {
-  position: absolute;
   width: 96%;
-  bottom: 4%;
+  bottom: 3%;
   /* margin-top: 1%; */
 }
 .navigate img {
