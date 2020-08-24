@@ -768,6 +768,7 @@ info modal modal
 }
 #modalTemp4 .modal-body{
   padding: 0;
+  border-top:none !important;
 }
 /* #modalTemp4 .close {
     width: 3.5%;
