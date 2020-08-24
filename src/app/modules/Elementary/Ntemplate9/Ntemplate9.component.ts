@@ -124,11 +124,13 @@ export class Ntemplate9Component implements OnInit {
   tj:any;
   instructionDisable:boolean=false;
   rightAnsTimeout:any;
+  showAnssetTimeout:any;
   puzzleBlockclicked:boolean=false;
 
   ngOnDestroy() {
     clearInterval(this.blinkTimeInterval);
     clearInterval(this.rightAnsTimeout);
+    clearInterval(this.showAnssetTimeout);
     this.index1 = 0;
   }
 
@@ -267,6 +269,7 @@ ngAfterViewChecked() {
     }
     else {
       this.puzzleBlockclicked=false;
+      this.startCount=0;
       $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
         this.feedbackVO.nativeElement.src=undefined;
         if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url!="") {
@@ -336,9 +339,9 @@ ngAfterViewChecked() {
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
             this.checked = true;
-          setTimeout(() => {
+          this.showAnssetTimeout=setTimeout(() => {
             this.closeModal();
-          },2000);
+          },this.showAnsTimeout);
         }
         }
       } else if (mode == "auto") {
@@ -359,9 +362,9 @@ ngAfterViewChecked() {
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
             this.checked = true;
-            setTimeout(() => {
+            this.showAnssetTimeout=setTimeout(() => {
               this.closeModal();
-            }, 2000);
+            }, this.showAnsTimeout);
           }
         }
       }
@@ -427,8 +430,10 @@ ngAfterViewChecked() {
             } else if (this.noOfBlocks == 12) {
               $("#puzzleBlock12").removeClass("disable_div");
             }
-            this.appModel.handlePostVOActivity(false)
+            this.appModel.handlePostVOActivity(false);
             this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.startCount=1;
+            this.blinkHolder();
           });   
   }
 
@@ -518,13 +523,13 @@ ngAfterViewChecked() {
       } else {
         clearInterval(this.blinkTimeInterval);
         console.log(this.optionsBlock.nativeElement);
-        if (this.blockcount > 1) {
-          for (let i = 0; i < this.optionsBlock.nativeElement.children.length-1; i++) {
-            if (this.optionObj[i] && this.optionObj[i].imgsrc_original) {
-              this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
-            } 
-        }
-         }
+        // if (this.blockcount > 1) {
+        //   for (let i = 0; i < this.optionsBlock.nativeElement.children.length; i++) {
+        //     if (this.optionObj[i] && this.optionObj[i].imgsrc_original && this.optionObj[i]) {
+        //       this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+        //     } 
+        // }
+        //  }
       }
     }, 300);
   }
@@ -632,6 +637,7 @@ ngAfterViewChecked() {
   }
 
   hoveronOption(opt) {
+    this.appModel.notifyUserAction();
     opt.imgsrc=opt.imgsrc_hover;
   }
 
@@ -645,7 +651,7 @@ ngAfterViewChecked() {
     this.confirmModalRef.nativeElement.classList = "modal";
     if (flag == "yes") {
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-      setTimeout(() => {
+      this.showAnssetTimeout=setTimeout(() => {
         this.attemptType = "auto";
         this.rightanspopUpheader_img = false;
         this.showanspopUpheader_img = true;
@@ -670,6 +676,13 @@ ngAfterViewChecked() {
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
     this.startCount = 0;
+    //if (this.blockcount > 1) {
+        for (let i = 0; i < this.noOfBlocks; i++) {
+            if (this.optionObj[i] && this.optionObj[i].imgsrc_original && this.optionObj[i]) {
+              this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
+            } 
+        }
+    //}
     this.popupRef.nativeElement.classList = "modal";
     $("#instructionBar").css("opacity", "0.3");
     $(".bodyContent").css("opacity", "0.3");
