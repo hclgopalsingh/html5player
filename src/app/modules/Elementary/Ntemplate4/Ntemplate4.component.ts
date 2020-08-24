@@ -767,6 +767,7 @@ export class Ntemplate4 implements OnInit {
             }
         }else if(action=="replay"){
             this.quesSkip = true;
+            this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
             this.replayVideo();
         }else if(action=="resetActivity"){
             this.resetActivity();
