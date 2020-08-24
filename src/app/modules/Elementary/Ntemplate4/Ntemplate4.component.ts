@@ -747,7 +747,7 @@ export class Ntemplate4 implements OnInit {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.showAnswerClicked = true;
-            this.isRightWrong=true;
+            this.isRightWrong=true; 
             this.appModel.resetBlinkingTimer();
             this.getAnswer();
         } else if (action == "submitAnswer") {
@@ -966,7 +966,7 @@ export class Ntemplate4 implements OnInit {
                             this.disableScreen();
                             this.blinkOnLastQues();
                         }
-                    },2000)
+                    },this.showAnsTimeout)
                 }
 
             } else if (this.currentFeedbackPlaying == "categoryB") {
@@ -978,7 +978,7 @@ export class Ntemplate4 implements OnInit {
                         this.disableScreen();
                         this.blinkOnLastQues();
                     }
-                }, 2000)
+                }, this.showAnsTimeout)
             }
         }
     }
