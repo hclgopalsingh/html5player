@@ -88,7 +88,7 @@
   <!-- The Modal Template 3 -->
   <div class="modal" id="modalTemp4" #feedbackPopupRef>
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+      <div class="modal-content" [ngClass]="{'right_wrong':isRightWrong, 'partial_feedback':isPartial}">
 
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="feedbackAssets?.style_header" >

@@ -151,12 +151,8 @@ export class Ntemplate4 implements OnInit {
 	/*End: Theme Implementation(Template Changes)*/
     quesSkip:boolean = false;
     instructionDisable:boolean=false;
-    isCat1AllRight: boolean;
-    isCat2AllRight: boolean;
-    isCat1AllWrong: boolean;
-    isCat2Mix: boolean;
-    isCat2AllWrong: boolean;
-    isCat1Mix: boolean;
+    isRightWrong:boolean=true;
+    isPartial:boolean=false;
     isOptionDisabled:boolean=true;
     showAnsTimeout:number;
     @ViewChild('mainContainer') mainContainer: any;
@@ -503,23 +499,7 @@ export class Ntemplate4 implements OnInit {
                     this.isAllRight = true;                    
                 } else {
                     this.isWrongAttempted = true;
-                }
-
-                //For Feedback popup styling
-                // if (this.categoryA.correct.length == this.optionHolder.left_random_index){
-                //     this.isCat1AllRight=true;
-                // }else if(this.categoryA.correct.length == 0){
-                //     this.isCat1AllWrong=true;
-                // }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
-                //     this.isCat1Mix=true;
-                // }
-                // if (this.categoryB.correct.length == this.optionHolder.right_random_index){
-                //     this.isCat2AllRight=true;
-                // }else if(this.categoryA.correct.length == 0){
-                //     this.isCat2AllWrong=true;
-                // }else if(this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0){
-                //     this.isCat2Mix=true;
-                // }               
+                }                           
             }
         }, 500)
     }
@@ -767,6 +747,7 @@ export class Ntemplate4 implements OnInit {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.showAnswerClicked = true;
+            this.isRightWrong=true;
             this.appModel.resetBlinkingTimer();
             this.getAnswer();
         } else if (action == "submitAnswer") {
@@ -825,6 +806,8 @@ export class Ntemplate4 implements OnInit {
                 if (this.categoryA.correct.length == this.optionHolder.left_random_index.length){
                     this.feedbackAssets.style_header=  this.fetchedcontent.category_1.right_style_header;
                     this.feedbackAssets.style_body=  this.fetchedcontent.category_1.right_style_body;
+                    this.isRightWrong=true;
+                    this.isPartial=false;
                 }
             }else if(this.categoryB && this.categoryB.correct.length){
                 this.feedbackAssets = this.fetchedcontent.category_2;           
@@ -833,6 +816,8 @@ export class Ntemplate4 implements OnInit {
                 if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){
                     this.feedbackAssets.style_header=  this.fetchedcontent.category_2.right_style_header;
                     this.feedbackAssets.style_body=  this.fetchedcontent.category_2.right_style_body;
+                    this.isRightWrong=true;
+                    this.isPartial=false;
                 }
             }
             setTimeout(() => {
@@ -854,12 +839,18 @@ export class Ntemplate4 implements OnInit {
                     if (this.categoryA.correct.length == this.optionHolder.left_random_index.length){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.right_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.right_style_body;
+                        this.isRightWrong=true;
+                        this.isPartial=false;
                     }else if(this.categoryA.correct.length == 0){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.wrong_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.wrong_style_body;
+                        this.isRightWrong=true;
+                        this.isPartial=false;
                     }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_1.partial_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_1.partial_style_body;
+                        this.isRightWrong=false;
+                        this.isPartial=true;
                     }
                 }else if(this.categoryB && (this.categoryB.correct.length || this.categoryB.incorrect.length)){
                     this.feedbackAssets = this.fetchedcontent.category_2;
@@ -868,12 +859,18 @@ export class Ntemplate4 implements OnInit {
                     if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.right_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.right_style_body;
+                        this.isRightWrong=true;
+                        this.isPartial=false;
                     }else if(this.categoryB.correct.length == 0){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.wrong_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.wrong_style_body;
+                        this.isRightWrong=true;
+                        this.isPartial=false;
                     }else if(this.categoryB.correct.length > 0 && this.categoryA.incorrect.length > 0){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.partial_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.partial_style_body;
+                        this.isRightWrong=false;
+                        this.isPartial=true;
                     }
                 }
                 setTimeout(() => {
@@ -1156,21 +1153,26 @@ export class Ntemplate4 implements OnInit {
         // let fetchedData: any = this.appModel.content.contentData.data;
         if(this.showAnswerClicked){
             this.feedbackAssets = this.fetchedcontent.showans_2
+            this.isRightWrong=true;
+            this.isPartial=false;
         }
         else{
             this.feedbackAssets = this.fetchedcontent.category_2;            
             if (this.categoryB.correct.length == this.optionHolder.right_random_index.length){                                
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_2.right_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_2.right_style_body;
-                console.log("N1");
+                this.isRightWrong=true;
+                this.isPartial=false;
             }else if(this.categoryB.correct.length == 0){
-                console.log("N2");
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_2.wrong_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_2.wrong_style_body;
+                this.isRightWrong=true;
+                this.isPartial=false;
             }else if(this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0){
-                console.log("N3");
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_2.partial_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_2.partial_style_body;
+                this.isRightWrong=false;
+                this.isPartial=true;
             }
         }
         clearInterval(this.nextBtnInterval);
@@ -1197,6 +1199,8 @@ export class Ntemplate4 implements OnInit {
 
         if(this.showAnswerClicked){
             this.feedbackAssets = this.fetchedcontent.showans_1
+            this.isRightWrong=true;
+            this.isPartial=false;
         }
         else{
             this.feedbackAssets = this.fetchedcontent.category_1;
@@ -1204,17 +1208,20 @@ export class Ntemplate4 implements OnInit {
             if (this.categoryA.correct.length == this.optionHolder.left_random_index.length){
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_1.right_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_1.right_style_body;
-                console.log("P1");
+                this.isRightWrong=true;
+                this.isPartial=false;
                 
             }else if(this.categoryA.correct.length == 0){
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_1.wrong_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_1.wrong_style_body;
-                console.log("P2");
+                this.isRightWrong=true;
+                this.isPartial=false;
                 
             }else if(this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0){
                 this.feedbackAssets.style_header=  this.fetchedcontent.category_1.partial_style_header;
                 this.feedbackAssets.style_body=  this.fetchedcontent.category_1.partial_style_body;
-                console.log("P3");
+                this.isRightWrong=false;
+                this.isPartial=true;
                 
             }
         }
