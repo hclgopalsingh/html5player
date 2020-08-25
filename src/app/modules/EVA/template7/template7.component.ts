@@ -368,6 +368,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 							this.closeModal();
 							this.postWrongAns();
 						}, 10000000000);
+
 					}
 				}
 			}
@@ -706,6 +707,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			}
 		});
 		this.checkforDuplicates();
+
 	}
 
 	//to check for duplicate entered shabds
