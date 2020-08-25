@@ -801,7 +801,11 @@ export class Ntemplate13 implements OnInit {
 			// this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
 			this.narrator.nativeElement.play();
 			this.disableSection=true;
+			
 			this.narrator.nativeElement.onended = () => {
+				setTimeout(() => {
+					$("#optionsBlock").removeClass("disable_div");
+				}, 2000)
 				this.disableSection=false;
 				this.appModel.handlePostVOActivity(false);
 				if (this.quesObj.replayRequired) {
@@ -811,6 +815,7 @@ export class Ntemplate13 implements OnInit {
 				//enable ansBlock
 				this.optionBlock.nativeElement.className = "";
 			}
+			$("#optionsBlock").addClass("disable_div");
 		} else {
 			this.appModel.handlePostVOActivity(false);
 			this.appModel.enableReplayBtn(true);
