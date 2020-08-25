@@ -209,3 +209,16 @@ input:focus {
     right: 1%;
     width: 5%;
   }
+  .textNote {
+    position: absolute;
+    left: 34.7%;
+    top: 73%;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    font-family: Kruti Dev!important;
+    font-weight: normal;
+    font-size: 1vmax;
+}
