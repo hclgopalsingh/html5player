@@ -15,34 +15,6 @@ declare var $: any;
 })
 export class Ntemplate9Component implements OnInit {
 
-  private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService,private Sharedservice: SharedserviceService) {
-    this.appModel = appModel;
-    this.assetsPath = this.appModel.assetsfolderpath;
-    this.appModel.navShow = 2;
-    this.appModel.setLoader(true);
-    // if error occured during image loading loader wil stop after 5 seconds 
-    this.loaderTimer = setTimeout(() => {
-      this.appModel.setLoader(false);
-      //this.checkforQVO();
-    }, 5000);
-
-    this.appModel.notification.subscribe(
-      (data) => {
-        console.log('Component: constructor - data=', data);
-        switch (data) {
-          case PlayerConstants.CMS_PLAYER_CLOSE:
-            //console.log('VideoComponent: constructor - cmsPlayerClose');
-            this.close();
-            break;
-
-          default:
-            console.log('Component: constructor - default');
-            break;
-        }
-      }
-    );
-  }
 
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
@@ -127,184 +99,35 @@ export class Ntemplate9Component implements OnInit {
   showAnssetTimeout:any;
   puzzleBlockclicked:boolean=false;
 
-  ngOnDestroy() {
-    clearInterval(this.blinkTimeInterval);
-    clearInterval(this.rightAnsTimeout);
-    clearInterval(this.showAnssetTimeout);
-    this.index1 = 0;
-  }
+  /*Start-LifeCycle events*/
+    private appModel: ApplicationmodelService;
+  constructor(appModel: ApplicationmodelService,private Sharedservice: SharedserviceService) {
+    this.appModel = appModel;
+    this.assetsPath = this.appModel.assetsfolderpath;
+    this.appModel.navShow = 2;
+    this.appModel.setLoader(true);
+    // if error occured during image loading loader wil stop after 5 seconds 
+    this.loaderTimer = setTimeout(() => {
+      this.appModel.setLoader(false);
+      //this.checkforQVO();
+    }, 5000);
 
-  playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      console.log("play on Instruction");
-      this.appModel.notifyUserAction();
-      if (this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.play();
-        this.instructionDisable=true;
-        this.instruction.nativeElement.onended=() => {
-          this.instructionDisable=false;
+    this.appModel.notification.subscribe(
+      (data) => {
+        console.log('Component: constructor - data=', data);
+        switch (data) {
+          case PlayerConstants.CMS_PLAYER_CLOSE:
+            //console.log('VideoComponent: constructor - cmsPlayerClose');
+            this.close();
+            break;
+
+          default:
+            console.log('Component: constructor - default');
+            break;
         }
       }
-    }
-  }
-
-
-ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
-  }
-
-
-  onClickoption(opt, j) {
-    this.puzzleBlockclicked=true;
-    this.instructionDisable=false;
-    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-    this.appModel.handlePostVOActivity(true);
-      if (!this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();}
-      this.appModel.notifyUserAction();
-      let i = this.index1;
-      this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1+1].id;
-      if (opt.id == this.indexOfBlock) {
-        this.checked = true;
-        if (this.noOfBlocks == 4) {
-          $("#puzzleBlock4").addClass("disable_div");
-        } else if (this.noOfBlocks == 9) {
-          $("#puzzleBlock9").addClass("disable_div");
-        } else if (this.noOfBlocks == 12) {
-          $("#puzzleBlock12").addClass("disable_div");
-        }
-        clearInterval(this.blinkTimeInterval);
-        this.blinkTimeInterval = 0;
-        this.onPlacePuzzle(opt, i, j);
-        ++this.index2;
-        this.blockcount--;
-        if (this.blockcount < 1) {
-          this.startCount = 0;
-         this.rightAnsTimeout= setTimeout(() => {
-            this.attemptType = "manual";
-            this.rightanspopUpheader_img = true;
-            this.showanspopUpheader_img = false;
-            this.appModel.invokeTempSubject('showModal', 'manual');
-            $(".bodyContent").css("opacity", "0.3");
-            $("#instructionBar").css("opacity", "0.3");
-            $(".bodyContent").addClass("disable_div");
-            $(".instructionBase").addClass("disable_div");
-          }, 3200);
-          for (let i = 0; i < this.optionObj.length; i++) {
-            if (this.optionObj[i] && this.optionObj[i].Matched) {
-              this.optionObj[i].Matched = false;
-            }
-          }
-        }
-      } else {
-        if (this.noOfBlocks == 4) {
-          $("#puzzleBlock4").addClass("disable_div");
-        } else if (this.noOfBlocks == 9) {
-          $("#puzzleBlock9").addClass("disable_div");
-        } else if (this.noOfBlocks == 12) {
-          $("#puzzleBlock12").addClass("disable_div");
-        }
-        this.onPlacePuzzle(opt, i, j);
-      }
-  }
-
-  
-  onPlacePuzzle(opt, i, j) {
-    this.tempOpt = opt;
-    this.tj = j
-    this.optionsBlock.nativeElement.children[j+1].src = this.optionObj[j].imgsrcOriginalSize.url;
-    console.log("Puzzle placed");
-    this.moveFrom = this.optionObj[this.index1].style_block;
-    let left = this.moveFrom.left;
-    let top = this.moveFrom.top;
-    let position = this.moveFrom.position;
-    let width = this.moveFrom.width;
-    if (opt.id == this.indexOfBlock) {
-      this.optionObj[this.index1].Matched = true;
-      this.startCount=0;
-      $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-        this.feedbackVO.nativeElement.src=undefined;
-        if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url!="") {
-          this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-        } else {
-            this.puzzleBlockclicked=false;
-            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-            this.appModel.handlePostVOActivity(false)
-            this.checked = false;
-            if (this.noOfBlocks == 4) {
-              $("#puzzleBlock4").removeClass("disable_div");
-            } else if (this.noOfBlocks == 9) {
-              $("#puzzleBlock9").removeClass("disable_div");
-            } else if (this.noOfBlocks == 12) {
-              $("#puzzleBlock12").removeClass("disable_div");
-            }
-            this.startCount=1;
-            this.blinkHolder();
-        }
-        setTimeout(() => {
-          this.feedbackVO.nativeElement.play();
-          this.feedbackVO.nativeElement.onended = () => {
-            console.log("audio end");
-            this.puzzleBlockclicked=false;
-            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-            this.appModel.handlePostVOActivity(false)
-            this.checked = false;
-            if (this.noOfBlocks == 4) {
-              $("#puzzleBlock4").removeClass("disable_div");
-            } else if (this.noOfBlocks == 9) {
-              $("#puzzleBlock9").removeClass("disable_div");
-            } else if (this.noOfBlocks == 12) {
-              $("#puzzleBlock12").removeClass("disable_div");
-            }
-            this.startCount=1;
-            this.blinkHolder();
-          }
-        }, 300);
-        this.optionsBlock.nativeElement.children[j+1].style.pointerEvents = "none";
-      });
-    }
-    else {
-      this.puzzleBlockclicked=false;
-      this.startCount=0;
-      $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-        this.feedbackVO.nativeElement.src=undefined;
-        if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url!="") {
-          this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-        }
-          this.feedbackVO.nativeElement.play();
-        this.feedbackVO.nativeElement.onended = () => {
-          this.appModel.wrongAttemptAnimation();
-          console.log("wrong option chosen")
-          }
-      }); 
-    }
-  }
-
-
-  blinkOnLastQues() {
-    if (this.appModel.isLastSectionInCollection) {
-      this.appModel.blinkForLastQues(this.attemptType);
-      this.appModel.stopAllTimer();
-      if (!this.appModel.eventDone) {
-        if (this.isLastQuesAct) {
-          this.appModel.eventFired();
-          this.appModel.event = { 'action': 'segmentEnds' };
-        }
-        if (this.isLastQues) {
-          this.appModel.event = { 'action': 'end' };
-        }
-      }
-      console.log("Segment Ends");
-    } else {
-      this.appModel.moveNextQues(this.attemptType);
-    }
-  }
-
-
+    );
+  }  
   ngOnInit() {
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
@@ -413,6 +236,239 @@ ngAfterViewChecked() {
     this.appModel.handleController(this.controlHandler);
   }
 
+
+  ngOnDestroy() {
+    clearInterval(this.blinkTimeInterval);
+    clearInterval(this.rightAnsTimeout);
+    clearInterval(this.showAnssetTimeout);
+    this.index1 = 0;
+    for (let i = 0; i < this.optionObj.length; i++) {
+      if (this.optionObj[i] && this.optionObj[i].Matched) {
+        this.optionObj[i].Matched = false;
+      }
+    }
+  }
+
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
+/*End-LifeCycle events*/ 
+
+/*Start-Template click and hover events*/ 
+  playHoverInstruction() {
+    if (!this.narrator.nativeElement.paused) {
+      console.log("narrator/instruction voice still playing");
+    } else {
+      console.log("play on Instruction");
+      this.appModel.notifyUserAction();
+      if (this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.play();
+        this.instructionDisable=true;
+        this.instruction.nativeElement.onended=() => {
+          this.instructionDisable=false;
+        }
+      }
+    }
+  }
+
+  onClickoption(opt, j) {
+    this.puzzleBlockclicked=true;
+    this.instructionDisable=false;
+    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+    this.appModel.handlePostVOActivity(true);
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();}
+      this.appModel.notifyUserAction();
+      let i = this.index1;
+      this.indexOfBlock = this.optionsBlock.nativeElement.children[this.index1+1].id;
+      if (opt.id == this.indexOfBlock) {
+        this.checked = true;
+        if (this.noOfBlocks == 4) {
+          $("#puzzleBlock4").addClass("disable_div");
+        } else if (this.noOfBlocks == 9) {
+          $("#puzzleBlock9").addClass("disable_div");
+        } else if (this.noOfBlocks == 12) {
+          $("#puzzleBlock12").addClass("disable_div");
+        }
+        clearInterval(this.blinkTimeInterval);
+        this.blinkTimeInterval = 0;
+        this.onPlacePuzzle(opt, i, j);
+        ++this.index2;
+        this.blockcount--;
+        if (this.blockcount < 1) {
+          this.startCount = 0;
+         this.rightAnsTimeout= setTimeout(() => {
+            this.attemptType = "manual";
+            this.rightanspopUpheader_img = true;
+            this.showanspopUpheader_img = false;
+            this.appModel.invokeTempSubject('showModal', 'manual');
+            $(".bodyContent").css("opacity", "0.3");
+            $("#instructionBar").css("opacity", "0.3");
+            $(".bodyContent").addClass("disable_div");
+            $(".instructionBase").addClass("disable_div");
+          }, 3200);
+          for (let i = 0; i < this.optionObj.length; i++) {
+            if (this.optionObj[i] && this.optionObj[i].Matched) {
+              this.optionObj[i].Matched = false;
+            }
+          }
+        }
+      } else {
+        if (this.noOfBlocks == 4) {
+          $("#puzzleBlock4").addClass("disable_div");
+        } else if (this.noOfBlocks == 9) {
+          $("#puzzleBlock9").addClass("disable_div");
+        } else if (this.noOfBlocks == 12) {
+          $("#puzzleBlock12").addClass("disable_div");
+        }
+        this.onPlacePuzzle(opt, i, j);
+      }
+  }
+
+  hoverConfirm() {
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
+  }
+
+  houtConfirm() {
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
+  }
+
+  hoverDecline() {
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
+  }
+
+  houtDecline() {
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
+  }
+
+  hoverCloseConfirm() {
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
+  }
+  houtCloseConfirm() {
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
+  }
+
+  hoverClosePopup() {
+    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
+  }
+
+  houtClosePopup() {
+    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
+  }
+
+  hoveronOption(opt) {
+    this.appModel.notifyUserAction();
+    opt.imgsrc=opt.imgsrc_hover;
+  }
+
+  hoverOptionOut(opt) {
+    if(!this.puzzleBlockclicked) {
+       opt.imgsrc=opt.imgsrc_original;
+    }
+  }
+/*End-Template click and hover events*/ 
+
+
+
+
+  
+/*Start-Template Functions*/
+  
+  onPlacePuzzle(opt, i, j) {
+    this.tempOpt = opt;
+    this.tj = j
+    this.optionsBlock.nativeElement.children[j+1].src = this.optionObj[j].imgsrcOriginalSize.url;
+    console.log("Puzzle placed");
+    this.moveFrom = this.optionObj[this.index1].style_block;
+    let left = this.moveFrom.left;
+    let top = this.moveFrom.top;
+    let position = this.moveFrom.position;
+    let width = this.moveFrom.width;
+    if (opt.id == this.indexOfBlock) {
+      this.optionObj[this.index1].Matched = true;
+      this.startCount=0;
+      $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
+        this.feedbackVO.nativeElement.src=undefined;
+        if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url!="") {
+          this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        } else {
+            this.puzzleBlockclicked=false;
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.appModel.handlePostVOActivity(false)
+            this.checked = false;
+            if (this.noOfBlocks == 4) {
+              $("#puzzleBlock4").removeClass("disable_div");
+            } else if (this.noOfBlocks == 9) {
+              $("#puzzleBlock9").removeClass("disable_div");
+            } else if (this.noOfBlocks == 12) {
+              $("#puzzleBlock12").removeClass("disable_div");
+            }
+            this.startCount=1;
+            this.blinkHolder();
+        }
+        setTimeout(() => {
+          this.feedbackVO.nativeElement.play();
+          this.feedbackVO.nativeElement.onended = () => {
+            console.log("audio end");
+            this.puzzleBlockclicked=false;
+            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.appModel.handlePostVOActivity(false)
+            this.checked = false;
+            if (this.noOfBlocks == 4) {
+              $("#puzzleBlock4").removeClass("disable_div");
+            } else if (this.noOfBlocks == 9) {
+              $("#puzzleBlock9").removeClass("disable_div");
+            } else if (this.noOfBlocks == 12) {
+              $("#puzzleBlock12").removeClass("disable_div");
+            }
+            this.startCount=1;
+            this.blinkHolder();
+          }
+        }, 300);
+        this.optionsBlock.nativeElement.children[j+1].style.pointerEvents = "none";
+      });
+    }
+    else {
+      this.puzzleBlockclicked=false;
+      this.startCount=0;
+      $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
+        this.feedbackVO.nativeElement.src=undefined;
+        if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url!="") {
+          this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        }
+          this.feedbackVO.nativeElement.play();
+        this.feedbackVO.nativeElement.onended = () => {
+          this.appModel.wrongAttemptAnimation();
+          console.log("wrong option chosen")
+          }
+      }); 
+    }
+  }
+
+
+  blinkOnLastQues() {
+    if (this.appModel.isLastSectionInCollection) {
+      this.appModel.blinkForLastQues(this.attemptType);
+      this.appModel.stopAllTimer();
+      if (!this.appModel.eventDone) {
+        if (this.isLastQuesAct) {
+          this.appModel.eventFired();
+          this.appModel.event = { 'action': 'segmentEnds' };
+        }
+        if (this.isLastQues) {
+          this.appModel.event = { 'action': 'end' };
+        }
+      }
+      console.log("Segment Ends");
+    } else {
+      this.appModel.moveNextQues(this.attemptType);
+    }
+  }
+
+
   postWrongAttemplt(){
     let j = this.tj
     let opt = this.tempOpt;
@@ -442,15 +498,6 @@ ngAfterViewChecked() {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
     } else {
       this.appModel.getJson();      
-    }
-  }
-
-  ngOnDestory() {
-    clearInterval(this.blinkTimeInterval);
-    for (let i = 0; i < this.optionObj.length; i++) {
-      if (this.optionObj[i] && this.optionObj[i].Matched) {
-        this.optionObj[i].Matched = false;
-      }
     }
   }
 
@@ -605,47 +652,7 @@ ngAfterViewChecked() {
     }
   }
 
-  hoverConfirm() {
-    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
-  }
-
-  houtConfirm() {
-    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
-  }
-
-  hoverDecline() {
-    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
-  }
-
-  houtDecline() {
-    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
-  }
-
-  hoverCloseConfirm() {
-    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
-  }
-  houtCloseConfirm() {
-    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
-  }
-
-  hoverClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
-  }
-
-  houtClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
-  }
-
-  hoveronOption(opt) {
-    this.appModel.notifyUserAction();
-    opt.imgsrc=opt.imgsrc_hover;
-  }
-
-  hoverOptionOut(opt) {
-    if(!this.puzzleBlockclicked) {
-       opt.imgsrc=opt.imgsrc_original;
-    }
-  }
+  
 
   sendFeedback(id: string, flag: string) {
     this.confirmModalRef.nativeElement.classList = "modal";
@@ -695,7 +702,8 @@ ngAfterViewChecked() {
         $("#optionsBlock .options").removeClass("disable_div");
       }, 1000);
     }
-
   }
+/*End-Template Functions*/
 
 }
+
