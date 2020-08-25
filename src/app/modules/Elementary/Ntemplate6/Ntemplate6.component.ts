@@ -1966,6 +1966,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   checkAnswer(opt, id) {
+    console.log(opt,id);
     this.appModel.enableReplayBtn(false);
     this.appModel.enableNavBtn(true);
     // this.controlHandler.isTab = false;
@@ -2013,28 +2014,46 @@ export class Ntemplate6 implements OnInit {
     console.log("start Animation");
     if (option.position == "right") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else{
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
         }
       }
+    }
       this.Matra.nativeElement.children[this.index].classList.value = '';
     } else if (option.position == "left") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else{
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
           break;
         }
       }
+    }
       this.Matra.nativeElement.children[this.index + 1].classList.value = '';
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.Matra.nativeElement.children[this.index].classList.value = '';
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else{
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
         }
       }
+    }
     }
 
     this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
@@ -2060,7 +2079,7 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "bottom_spcialCase") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 4.9 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5.2 + "%";
     }
     else {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
@@ -2074,27 +2093,47 @@ export class Ntemplate6 implements OnInit {
       if (!this.flag) {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
       }
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else{
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
+      
     } else if (option.position == "left") {
       if (!this.flag) {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
       }
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else{
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
+      
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else{
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
     }
@@ -2122,7 +2161,7 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "bottom_spcialCase") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.20 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.4 + "%";
     }
     else {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
@@ -2139,7 +2178,8 @@ export class Ntemplate6 implements OnInit {
       this.appModel.notifyUserAction();
       this.clicked = true;
       document.getElementById("coverTop").style.display = "block";
-      document.getElementById("coverBtm").style.display = "none";
+      document.getElementById("coverBtm").style.display = "none"
+      console.log("id",id)
       this.index = id;
       this.Matra.nativeElement.children[id].classList.value = 'outline';
     }
@@ -2351,6 +2391,27 @@ export class Ntemplate6 implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
+  
+    hoverPlayPause(){
+    if(this.PlayPauseFlag)
+    {    
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+    }
+  }
+
+  leavePlayPause(){
+    if(this.PlayPauseFlag)
+    {   
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    }
+  }
+
   checkVideoLoaded() {
     if (!this.videoReplayd) {
       //console.log("default2");
@@ -2464,6 +2525,25 @@ export class Ntemplate6 implements OnInit {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
       //this.optionArr = fetchedData.optionsObj.optionID;
+
+     
+
+
+      // quesID.forEach(json => {
+      //   json.matra.forEach(matra => {
+      //     this.defaultLetterConfig.forEach(defjson => {
+      //       if (matra.Mid == defjson.id) {
+      //         defjson.letters.forEach(lttr => {
+      //           lttr.id.forEach(id => {
+      //             if (id == json.Lid) {
+      //               lttr.style = matra.style
+      //             }
+      //           });
+      //         });
+      //       }
+      //     });
+      //   });
+      // });
       for (let i = 0; i < this.optionArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (this.optionArr[i] == this.defaultLetterConfig[j].id) {
@@ -2476,20 +2556,51 @@ export class Ntemplate6 implements OnInit {
           }
         }
       }
+      console.log("this.optionObj",this.optionObj)
       //this.answerObj = this.fetchedcontent.AnswerObj;  
+      
       this.refQuesObj = this.fetchedcontent.refQuesObj;
-      this.QuesArr = this.refQuesObj.quesIdConfig;
-
-      for (let i = 0; i < this.QuesArr.length; i++) {
+      let tempArr = [];
+      this.refQuesObj.quesID.forEach(element => {
+        tempArr.push(element.Lid)
+      });
+      this.QuesArr = tempArr
+      //this.QuesArr = this.refQuesObj.quesIdConfig;
+      let quesID = this.refQuesObj.quesID
+      for (let i = 0; i < quesID.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
-          if (this.QuesArr[i] == this.defaultLetterConfig[j].id) {
+          if (quesID[i].Lid == this.defaultLetterConfig[j].id) {
+            if(quesID[i].location == "content" && quesID[i].url && quesID[i].url.length >0 ) 
+            {
+              this.defaultLetterConfig[j].location = "content";
+              this.defaultLetterConfig[j].url = quesID[i].url;
+            }
             this.refQuesArr.push(this.defaultLetterConfig[j]);
             break;
           }
         }
       }
+      console.log("this.refQuesArr",this.refQuesArr);
+      let dynamicMatraConfig = [
+        {
+          "Mid":"",
+          "letter_style":[
+            {
+              "Lid":"",
+              "style": { "left": "4" }
+            }
+          ]
+        }
+      ]
 
-      
+      quesID.forEach(element => {
+        
+      });
+
+
+
+
+
       this.optPosObj = this.fetchedcontent.optionInitPosObj;
       //this.refQuesArr = this.refQuesObj[0].refQuesArr; 
       this.optionInitPosArr = this.optPosObj[0].optionInitPosArr;
@@ -2805,6 +2916,7 @@ export class Ntemplate6 implements OnInit {
       }
     }
     if (action == "replay") {
+      this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
       this.appModel.navShow = 2;
       this.confirmReplayRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "modal";

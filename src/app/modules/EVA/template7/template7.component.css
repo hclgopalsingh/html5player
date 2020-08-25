@@ -32,7 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform .6s;
+    /* transition: transform .1s; */
 }
 
 .options div .subOpt {
@@ -127,7 +127,7 @@
 }
 
 .inputField{
-    width: 76%;
+    width: 77%;
     display: flex;
     justify-content: center;
     align-items: center;  
@@ -140,7 +140,7 @@
     border: none;
     font-family: Kruti Dev!important;
     font-weight: 500;
-    font-size: 2.5vmax;
+    font-size: 2.3vmax !important;
 }
 input:focus {
     outline: none;
@@ -209,3 +209,23 @@ input:focus {
     right: 1%;
     width: 5%;
   }
+.textNote {
+    position: absolute;
+    width: 86.7%;
+    left: 0;
+    top: 73%;
+    z-index: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    pointer-events: none;
+    font-family: Kruti Dev!important;
+    font-weight: bold;
+    font-size: 1.05vmax;
+    color: #f00;
+}
+.textNote span {
+    font-family: arial;
+    display: inline-block;
+    margin: 0 .4vmin;
+}

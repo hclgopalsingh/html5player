@@ -908,8 +908,11 @@ export class Ntemplate13 implements OnInit {
 		}, 50)
 		this.appModel.resetBlinkingTimer();
 		this.feedbackVoRef.nativeElement.onended = () => {
+			
 			this.disableSpeaker = false;
 			setTimeout(() => {
+				this.wrongOptAudio.nativeElement.pause();
+			    this.wrongOptAudio.nativeElement.currentTime = 0
 				this.removeEvents();
 				this.blinkOnLastQues();
 			}, this.showAnsTimeout);

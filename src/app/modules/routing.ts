@@ -30,7 +30,7 @@ import {Ntemplate4} from '../controller/Ntemplate4.component';
 import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
 import { Ntemplate6 } from '../modules/Elementary/Ntemplate6/Ntemplate6.component';
-import {Ntemplate7} from '../controller/Ntemplate7.component';
+import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component';
 import {Ntemplate17} from '../controller/Ntemplate17.component';
 import { Ntemplate24 } from '../controller/Ntemplate24.component';
 import { Ntemplate24_1 } from '../controller/Ntemplate24_1.component';

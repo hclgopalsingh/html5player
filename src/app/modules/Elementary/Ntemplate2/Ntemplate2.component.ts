@@ -202,6 +202,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			if(val=="uttarDikhayein"){
 				if(this.confirmModalRef && this.confirmModalRef.nativeElement){
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+					this.stopOptionHoverAudio();
 				}
 			}
 		})
@@ -969,6 +970,7 @@ removeAssetsFromPopup(id:string){
 
 		sendFeedback(id:string,flag:string) {
 			this.appModel.notifyUserAction();
+			// this.stopOptionHoverAudio();
 			this.confirmModalRef.nativeElement.classList="modal";
 			if(flag=="yes"){
 				setTimeout(() =>{
