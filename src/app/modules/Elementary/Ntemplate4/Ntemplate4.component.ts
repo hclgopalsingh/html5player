@@ -208,6 +208,15 @@ export class Ntemplate4 implements OnInit {
             }
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
+            if(this.audio && this.audio.play){ 
+                this.audio.pause;               
+                this.instructionBar.nativeElement.classList = "instructionBase";
+                for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
+                    if ($(this.mainContainer.nativeElement.children[i].children[0]).hasClass("disableDiv")) {
+                        $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
+                    }
+                }
+            }
             this.isOptionDisabled=true;
             if (val == "uttarDikhayein") {
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
