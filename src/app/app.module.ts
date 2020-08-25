@@ -37,7 +37,7 @@ import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
 import { Ntemplate2 } from './modules/Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate8 } from './controller/Ntemplate8.component';
-import { Ntemplate4 } from './controller/Ntemplate4.component';
+import { Ntemplate4 } from './modules/Elementary/Ntemplate4/Ntemplate4.component';
 import { Ntemplate23_1 } from './controller/Ntemplate23_1.component';
 import { Ntemplate18 } from './controller/Ntemplate18.component';
 import { Ntemplate18_1 } from './controller/Ntemplate18_1.component';
