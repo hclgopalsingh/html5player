@@ -39,9 +39,6 @@ import { Ntemplate2 } from './modules/Elementary/Ntemplate2/Ntemplate2.component
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate4 } from './modules/Elementary/Ntemplate4/Ntemplate4.component';
-import { Ntemplate9 } from './controller/Ntemplate9.component';
-import { Ntemplate6 } from './controller/Ntemplate6.component';
-import { Ntemplate7 } from './controller/Ntemplate7.component';
 import { Ntemplate5 } from './modules/Elementary/Ntemplate5/Ntemplate5.component';
 import { Ntemplate23_1 } from './controller/Ntemplate23_1.component';
 import { Ntemplate18 } from './controller/Ntemplate18.component';
@@ -67,9 +64,10 @@ import { Ntemplate15 } from './controller/Ntemplate15.component';
 import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 import { NtemplateMap } from './controller/NtemplateMap.component';
-import { Ntemplate1Component } from './modules/Elementary/ntemplate1/ntemplate1.component';
 import { EvaModule } from './modules/EVA/eva.module';
-
+import { ElementaryModule } from './modules/Elementary/elementary.module';
+import { Ntemplate1Component } from './modules/Elementary/Ntemplate1/Ntemplate1.component';
+import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.component';
 
 
 
@@ -106,9 +104,6 @@ import { EvaModule } from './modules/EVA/eva.module';
 		Ntemplate8,
 		Ntemplate3,
 		Ntemplate4,
-		Ntemplate9,
-		Ntemplate6,
-		Ntemplate7,
 		Ntemplate18,
 		Ntemplate17,
 		Ntemplate24,
@@ -132,7 +127,8 @@ import { EvaModule } from './modules/EVA/eva.module';
 		AnimationComponent,
 		Ntemplate17_1,
 		NtemplateMap,
-		Ntemplate1Component
+		Ntemplate1Component,
+		Ntemplate9Component
 	],
 	imports: [
 		BrowserModule,
@@ -143,7 +139,8 @@ import { EvaModule } from './modules/EVA/eva.module';
 		SignalrCustomModule.forRoot(),
 		NouisliderModule,
 		NgxPaginationModule,
-		EvaModule
+		EvaModule,
+		ElementaryModule
 	],
 	providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
 	bootstrap: [AppComponent]

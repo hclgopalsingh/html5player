@@ -18,9 +18,16 @@ import { DataService } from '../../model/eva/template8/data.service';
 import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspeaker.component';
 import { TemplateFourteenComponent } from './template14/template14.component';
 import { ConfirmationComponent } from '../commonmodules/confirmation/confirmation.component';
+import { TemplateSevenComponent } from './template7/template7.component';
+import { FormsModule } from '@angular/forms';
+
+
+import { Template5Component } from './template5/template5.component';
+import { EncodeUriPipe } from '../../common/encode_uri.pipe';
 @NgModule({
   imports: [
-    CommonModule,
+	CommonModule,
+	FormsModule,
     DragulaModule.forRoot()
   ],
   declarations: [
@@ -39,7 +46,10 @@ import { ConfirmationComponent } from '../commonmodules/confirmation/confirmatio
 		Template12ComponentEVA,
 		GlobalspeakerComponent,
 		TemplateFourteenComponent,
-		ConfirmationComponent
+		ConfirmationComponent,
+		TemplateSevenComponent,
+		Template5Component,
+		EncodeUriPipe
   ],
   providers: [DataService]
 })
