@@ -367,7 +367,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 						this.wrongTimer = setTimeout(() => {
 							this.closeModal();
 							this.postWrongAns();
-						}, 10000);
+						}, 10000000000);
 					}
 				}
 			}
@@ -705,7 +705,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				element.isRight = false
 			}
 		});
-		//this.checkforDuplicates();
+		this.checkforDuplicates();
 	}
 
 	//to check for duplicate entered shabds
