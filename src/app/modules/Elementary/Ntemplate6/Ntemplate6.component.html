@@ -35,6 +35,7 @@
       </ng-container>
     </div>
 
+    
     <div class="row mx-0" id="optionsBlock" #optionsClickable>
       <div class="my-auto quesImage">
         <div class="options" *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
@@ -47,6 +48,7 @@
       </div>
     </div>
     <audio #quesVORef (ended)="endedAudio()"></audio>
+
   </div>
 
   <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.url"></audio>
@@ -179,7 +181,7 @@
       (ended)="endedHandler()">
       <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
     </video>
-    <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()" />
+    <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" />
     </div>
     <div id="SkipBtn" *ngIf="skipButton"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()"
         (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
