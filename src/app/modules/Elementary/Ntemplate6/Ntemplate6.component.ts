@@ -1,23 +1,24 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { style } from '@angular/animations';
-import { PlayerConstants } from '../common/playerconstants';
-
+import { PlayerConstants } from '../../../common/playerconstants';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp6',
-  templateUrl: '../view/layout/Ntemplate6.component.html',
-  styleUrls: ['../view/css/Ntemplate6.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate6.component.html',
+  styleUrls: ['./Ntemplate6.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
 export class Ntemplate6 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -25,7 +26,6 @@ export class Ntemplate6 implements OnInit {
     // if error occured during image loading loader wil stop after 5 seconds 
     this.loaderTimer = setTimeout(() => {
       this.appModel.setLoader(false);
-      //this.appModel.handlePostVOActivity(false);
     }, 5000);
 
     this.appModel.notification.subscribe(
@@ -45,7 +45,6 @@ export class Ntemplate6 implements OnInit {
     );
   }
 
-
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
@@ -56,13 +55,13 @@ export class Ntemplate6 implements OnInit {
   @ViewChild('popupImage') popupImage: any;
   @ViewChild('rightFeedbackVO') rightFeedbackVO: any
   @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
-  @ViewChild('matra') Matra:any;
-  @ViewChild('options') Options:any;
-  @ViewChild('DuplicateOption') duplicateOption:any;
+  @ViewChild('matra') Matra: any;
+  @ViewChild('options') Options: any;
+  @ViewChild('DuplicateOption') duplicateOption: any;
   @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('answerModalRef') answerModalRef: any;
-  @ViewChild('WrongAnswerModalRef') wrongAnswerModalRef: any;  
+  @ViewChild('WrongAnswerModalRef') wrongAnswerModalRef: any;
   @ViewChild('matraPopUp') MatraPopUp: any;
   @ViewChild('mainVideo') mainVideo: any;
   @ViewChild('quesVORef') quesVORef: any;
@@ -75,21 +74,12 @@ export class Ntemplate6 implements OnInit {
   @ViewChild('PopUpDuplicateOption') popUpDuplicateOption: any;
   @ViewChild('optionsClickable') optionsClickable: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  
-  
-  
-  
-
-  
-
-
-
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
   commonAssets: any = "";
-  speaker:any;
-  optionBase:any;
+  speaker: any;
+  optionBase: any;
   optionslist: any = [];
   optionslist_main: any = "";
   myoption: any = [];
@@ -102,15 +92,14 @@ export class Ntemplate6 implements OnInit {
   showIntroScreen: boolean;
   refQuesObj: any;
   QuesArr: any;
-  optPosObj:any;
+  optPosObj: any;
   refQuesArr: any = [];
-  optionObj: any= [];
-  optionInitPosArr:any = [];
+  optionObj: any = [];
+  optionInitPosArr: any = [];
   isValid: boolean = false;
   isValidOption: boolean = true;
   isNotValid: boolean = true;
   isNotValidOption: boolean = true;
-
   helpAudio: any = "";
   correctOpt: any;
   idArray: any = [];
@@ -118,7 +107,6 @@ export class Ntemplate6 implements OnInit {
   isLastQues: boolean = false;
   isAutoplayOn: boolean;
   isLastQuesAct: boolean;
-
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
@@ -126,8 +114,8 @@ export class Ntemplate6 implements OnInit {
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
-  answerObj:any;
-  answerArr:any = [];
+  answerObj: any;
+  answerArr: any = [];
   optArr1: any;
   optArr2: any;
   optionCommonAssets: any;
@@ -137,89 +125,90 @@ export class Ntemplate6 implements OnInit {
   confirmPopupAssets: any;
   noOfRightAns: any;
   tempSubscription: Subscription;
-  i:any;
-  j:any;
-  matrasInitPosition:any;
-  matrasInitPositionXarr:any = [];
-  matrasInitPositionYarr:any = [];
-  OptionsPositions:any;
-  target:any;
-  optionElement:any;
-  optionElementRect:any;
-  optionElementPercentLeft:any;
-  optionElementPercentTop:any;
+  i: any;
+  j: any;
+  matrasInitPosition: any;
+  matrasInitPositionXarr: any = [];
+  matrasInitPositionYarr: any = [];
+  OptionsPositions: any;
+  target: any;
+  optionElement: any;
+  optionElementRect: any;
+  optionElementPercentLeft: any;
+  optionElementPercentTop: any;
 
-  duplicateOptionElement:any;
-  duplicateOptionElementRect:any;
+  duplicateOptionElement: any;
+  duplicateOptionElementRect: any;
 
-  matraElement:any;
-  matraElementRect:any;
+  matraElement: any;
+  matraElementRect: any;
 
-  PopupMatraElement:any;
-  PopupMatraElementRect:any;
+  PopupMatraElement: any;
+  PopupMatraElementRect: any;
 
-  duplicateElement:any;
-  duplicateElementRect:any;
+  duplicateElement: any;
+  duplicateElementRect: any;
 
-  OptionInitPositionXarr:any = [];
-  OptionInitPositionYarr:any = [];
-  matraNumber:number = 0;
-  currentOptionNumber:number = 0;
-  heightDuplicateOption:number = 0;
-  currentMatraNumber:number = 0;
+  OptionInitPositionXarr: any = [];
+  OptionInitPositionYarr: any = [];
+  matraNumber: number = 0;
+  currentOptionNumber: number = 0;
+  heightDuplicateOption: number = 0;
+  currentMatraNumber: number = 0;
+  hideVideoBg: boolean = false;
+  matraPercentLeft: any;
+  matraPercentTop: any;
 
-  matraPercentLeft:any;
-  matraPercentTop:any;
+  PopUpMatraPercentLeft: any;
+  PopUpMatraPercentTop: any;
 
-  PopUpMatraPercentLeft:any;
-  PopUpMatraPercentTop:any;
+  optionPercentTop: any;
 
-  optionPercentTop:any;
+  widthOfElement: any;
 
-  widthOfElement:any;
-
-  MatraLeft:number = 0;
-  matraCounter:number = 0;
+  MatraLeft: number = 0;
+  matraCounter: number = 0;
   controlHandler = {
-		isTab:true
-	 };
+    isSubmitRequired: false,
+    isReplayRequired: false
+  };
   categoryA: any = {
-        "correct": [],
-        "incorrect": []
-    };
-    categoryB: any = {
-        "correct": [],
-        "incorrect": []
-    };
-    isWrongAttempted: boolean = false;
-    isAllRight: boolean = false;
-    category: any;
-    options: any = [];
-    confirmAssets: any;
-    confirmReplayAssets:any;
-    optionElementId:string;
-    videoReplayd:boolean = false;
-    isPlayVideo:boolean = true;
-    isVideoLoaded:boolean = false;
-    questionObj: any;
-    selectableOpts: number;
-    randomArray: any;
-    maxRandomNo: number;
-    timerDelayActs:any;
-    optionHolder: any = [];
-    completeRandomArr: any = [];
-    moveTo: any;
-    moveFrom: any;
-    moveLeftTo: any;
-    movetop: any;
-    moveleft: any;
-    moveTopTo: any;
-    leftSelectedIdx: number = 0;
-    blinkSide: string = "";
-    startCount: number = 0;
-    rightSelectedIdx: number = 0;
-    currentOptionNumberjson:any;
-    currentMatraNumberjson: any;
+    "correct": [],
+    "incorrect": []
+  };
+  categoryB: any = {
+    "correct": [],
+    "incorrect": []
+  };
+  isWrongAttempted: boolean = false;
+  isAllRight: boolean = false;
+  category: any;
+  options: any = [];
+  confirmAssets: any;
+  confirmReplayAssets: any;
+  optionElementId: string;
+  videoReplayd: boolean = false;
+  isPlayVideo: boolean = true;
+  isVideoLoaded: boolean = false;
+  questionObj: any;
+  selectableOpts: number;
+  randomArray: any;
+  maxRandomNo: number;
+  timerDelayActs: any;
+  optionHolder: any = [];
+  completeRandomArr: any = [];
+  moveTo: any;
+  moveFrom: any;
+  moveLeftTo: any;
+  movetop: any;
+  moveleft: any;
+  moveTopTo: any;
+  leftSelectedIdx: number = 0;
+  blinkSide: string = "";
+  startCount: number = 0;
+  rightSelectedIdx: number = 0;
+  currentOptionNumberjson: any;
+  currentMatraNumberjson: any;
   optionArr: any = [];
   optionsAssets: any;
   index: any;
@@ -236,16 +225,24 @@ export class Ntemplate6 implements OnInit {
   wronganspopUpheader_img: boolean = false;
   showanspopUpheader_img: boolean = false;
   quesObj: any;
-  PlayPauseFlag:boolean = true;
-  skipFlag:boolean = true;
-  styleHeaderPopup:any;
-  styleBodyPopup:any;
-
+  PlayPauseFlag: boolean = true;
+  skipFlag: boolean = true;
+  styleHeaderPopup: any;
+  styleBodyPopup: any;
+  fetchedcontent: any;
+  functionalityType: any;
+  themePath: any;
+  showAnsTimeout: any;
+  closeDelayTime: any;
+  replayDefaultVideo: boolean = false;
+  skipButton: boolean = false;
+  replayClicked: boolean = false;
+  disableSection: boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
       url: "assets/images/letters/hindi/akshar/aa.png",
-      location:"assets",
+      location: "assets",
       style: ""
     },
     {
@@ -718,11 +715,11 @@ export class Ntemplate6 implements OnInit {
     },
 
     {
-       id: "M1",
+      id: "M1",
       url: "assets/images/letters/hindi/matra/aa.png",
-      imgsrc_audio: "option1.ogg",
+      imgsrc_audio: "assets/options/AA_matra.ogg",
       audio_location: "content",
-      position:"right",
+      position: "right",
       location: "assets",
       style: '',
       letters: [
@@ -739,7 +736,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M2",
       url: "assets/images/letters/hindi/matra/ai.png",
-      imgsrc_audio: "option2.ogg",
+      imgsrc_audio: "assets/options/AI_matra.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
@@ -845,7 +842,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M3",
       url: "assets/images/letters/hindi/matra/an.png",
-      imgsrc_audio: "option3.ogg",
+      imgsrc_audio: "assets/options/AN_matra.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
@@ -985,7 +982,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M6",
       url: "assets/images/letters/hindi/matra/i.png",
-      imgsrc_audio: "option1.ogg",
+      imgsrc_audio: "assets/options/I_matra.ogg",
       audio_location: "content",
       position: "left",
       location: "assets",
@@ -1127,7 +1124,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M8",
       url: "assets/images/letters/hindi/matra/o.png",
-      imgsrc_audio: "option3.ogg",
+      imgsrc_audio: "assets/options/O_matraa.ogg",
       audio_location: "content",
       position: "right",
       location: "assets",
@@ -1273,7 +1270,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M10",
       url: "assets/images/letters/hindi/matra/R_matraa_2.png",
-      imgsrc_audio: "option5.ogg",
+      imgsrc_audio: "assets/options/RR_matraa.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
@@ -1387,7 +1384,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M11",
       url: "assets/images/letters/hindi/matra/R_matraa_3.png",
-      imgsrc_audio: "option1.ogg",
+      imgsrc_audio: "assets/options/R_matraa.ogg",
       audio_location: "content",
       position: "bottom_spcialCase",
       location: "assets",
@@ -1527,7 +1524,7 @@ export class Ntemplate6 implements OnInit {
       position: "bottom",
       location: "assets",
       style: "",
-      letters: [         
+      letters: [
         {
           id: ["L3"],
           style: { "left": "1.2" }
@@ -1640,7 +1637,7 @@ export class Ntemplate6 implements OnInit {
     {
       id: "M13",
       url: "assets/images/letters/hindi/matra/u.png",
-      imgsrc_audio: "option3.ogg",
+      imgsrc_audio: "assets/options/U_Matra.ogg",
       audio_location: "content",
       position: "bottom",
       location: "assets",
@@ -1680,10 +1677,10 @@ export class Ntemplate6 implements OnInit {
         }
       ]
     },
-	{
+    {
       id: "M14",
       url: "assets/images/letters/hindi/matra/a.png",
-      imgsrc_audio: "option3.ogg",
+      imgsrc_audio: "assets/options/option3.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
@@ -1847,7 +1844,7 @@ export class Ntemplate6 implements OnInit {
       ]
     }
   ];
- 
+
 
   playHoverInstruction() {
     this.instruction.nativeElement.currentTime = 0;
@@ -1864,40 +1861,39 @@ export class Ntemplate6 implements OnInit {
           //document.getElementById("coverTop").style.display = "none";
         }
         $(".instructionBase").css("cursor", "pointer");
+      }
     }
   }
-}
 
-endedHandleronSkip() {    
-  this.isPlayVideo = false;   
-  this.appModel.navShow = 2;  
-  this.appModel.videoStraming(false);
-  this.appModel.notifyUserAction();   
-}
+  endedHandleronSkip() {
+    this.isPlayVideo = false;
+    this.appModel.navShow = 2;
+    this.appModel.videoStraming(false);
+    this.appModel.notifyUserAction();
+  }
 
 
-PlayPauseVideo(){
-if(this.PlayPauseFlag)
-{
-  this.mainVideo.nativeElement.pause();
-  this.quesObj.quesPlayPause = this.quesObj.quesPlay;
-  this.PlayPauseFlag = false;
-}
-else{
-  this.mainVideo.nativeElement.play();
-  this.quesObj.quesPlayPause = this.quesObj.quesPause;
-  this.PlayPauseFlag = true;
-}
+  PlayPauseVideo() {
+    if (this.PlayPauseFlag) {
+      this.mainVideo.nativeElement.pause();
+      this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+      this.PlayPauseFlag = false;
+    }
+    else {
+      this.mainVideo.nativeElement.play();
+      this.quesObj.quesPlayPause = this.quesObj.quesPause;
+      this.PlayPauseFlag = true;
+    }
 
-}
+  }
 
-hoverSkip(){
-// this.skipFlag = false;
-this.quesObj.quesSkip = this.quesObj.quesSkipHover;
-}
-houtSkip(){
-this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
-}
+  hoverSkip() {
+    // this.skipFlag = false;
+    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+  }
+  houtSkip() {
+    this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+  }
 
   onHoverOption(opt, i) {
     if (opt && opt != undefined) {
@@ -1907,16 +1903,16 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     }
   }
 
-  isPaused(){
+  isPaused() {
     for (let i = 0; i < this.optionArr.length; i++) {
-     if(!this.optionsClickable.nativeElement.children[0].children[i].children[2].paused){
-      return false;
-     }
+      if (!this.optionsClickable.nativeElement.children[0].children[i].children[2].paused) {
+        return false;
+      }
     }
     return true
   }
 
-  lastidx:any ;
+  lastidx: any;
 
   playHoverOption(opt, i) {
     this.appModel.notifyUserAction();
@@ -1924,11 +1920,9 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.instructionVO.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.pause();
     }
-    if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx!= i) {
-      for(let j = 0 ; j < this.optionArr.length ; j++)
-        {
-        if(!this.optionsClickable.nativeElement.children[0].children[j].children[2].paused)
-        {
+    if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx != i) {
+      for (let j = 0; j < this.optionArr.length; j++) {
+        if (!this.optionsClickable.nativeElement.children[0].children[j].children[2].paused) {
           this.optionsClickable.nativeElement.children[0].children[j].children[2].pause();
         }
       }
@@ -1938,7 +1932,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
       }
       this.optionAudio.nativeElement.load();
-      
+
       this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
       this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
       this.onHoverOption(opt, i);
@@ -1953,14 +1947,13 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
   optionHover(opt, i) {
-  this.playHoverOption(opt, i)  
-  
+    this.playHoverOption(opt, i)
+
   }
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
   }
-
 
   OptionZoomOutAnimation(opt, i) {
     if (!this.checked && this.quesVORef.nativeElement.paused) {
@@ -1971,11 +1964,12 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       }, 500)
     }
   }
- 
+
   checkAnswer(opt, id) {
+    console.log(opt,id);
     this.appModel.enableReplayBtn(false);
     this.appModel.enableNavBtn(true);
-    this.controlHandler.isTab = false;
+    // this.controlHandler.isTab = false;
     this.appModel.handleController(this.controlHandler);
     //$( "#navBlock" ).addClass("disableNavBtn")
     this.appModel.handlePostVOActivity(true);
@@ -2001,18 +1995,18 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
       this.flag = true;
       console.log("Answer is right");
-      this.styleHeaderPopup = this.confirmAssets.style_header;
-      this.styleBodyPopup = this.confirmAssets.style_body;
-       setTimeout(() => {
-         this.sendFeedback(undefined, 'yes', 'rightAnswer');
-       }, 2000);
+      this.styleHeaderPopup = this.feedbackObj.style_header;
+      this.styleBodyPopup = this.feedbackObj.style_body;
+      setTimeout(() => {
+        this.sendFeedback(undefined, 'yes', 'rightAnswer');
+      }, 2000);
     } else {
       console.log("Answer is wrong");
-      this.styleHeaderPopup = this.confirmAssets.wrong_style_header;
-      this.styleBodyPopup = this.confirmAssets.wrong_style_body;
-       setTimeout(() => { 
-         this.sendFeedback(undefined, 'yes', 'wrongAnswer');
-       }, 2000);
+      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+      setTimeout(() => {
+        this.sendFeedback(undefined, 'yes', 'wrongAnswer');
+      }, 2000);
     }
   }
 
@@ -2020,38 +2014,54 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     console.log("start Animation");
     if (option.position == "right") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else{
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
         }
       }
+    }
       this.Matra.nativeElement.children[this.index].classList.value = '';
     } else if (option.position == "left") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else{
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
           break;
         }
       }
+    }
       this.Matra.nativeElement.children[this.index + 1].classList.value = '';
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.Matra.nativeElement.children[this.index].classList.value = '';
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else{
       for (var i = 0; i < option.letters.length; i++) {
         if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
           this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
         }
       }
     }
-    
+    }
+
     this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
-      for(var i = 0; i<this.optionInitPosArr.length; i++)
-      {
-          if(i == id)
-          {
-             this.percentLeft = (this.optionInitPosArr[i].leftPos)+"%";
-             this.percentTop =  (this.optionInitPosArr[i].rightPos)+"%";
-          }
+    for (var i = 0; i < this.optionInitPosArr.length; i++) {
+      if (i == id) {
+        this.percentLeft = (this.optionInitPosArr[i].leftPos) + "%";
+        this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
+      }
     }
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 100;
@@ -2063,47 +2073,67 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[this.index].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width())*100 + "%";
+    this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width()) * 100 + "%";
     if (option.position == "bottom") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.5 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.2845 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5.2 + "%";
     }
-     else {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
+    else {
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
     }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop}, 1000);
+    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
   }
 
-  onClickAnimationManually(option, id,letterNumber) {
+  onClickAnimationManually(option, id, letterNumber) {
     console.log("start Animation");
     if (option.position == "right") {
-      if(!this.flag) {
-        this.Matra.nativeElement.children[letterNumber-1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if (!this.flag) {
+        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
       }
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesArr[letterNumber-1].id)) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else{
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
+      
     } else if (option.position == "left") {
-      if(!this.flag) {
+      if (!this.flag) {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
       }
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else{
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
+      
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      if(option.letterConfig && option.letterConfig.length >0)
+      {
+        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else{
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
     }
@@ -2123,7 +2153,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     if (option.position == "right") {
       this.moveTo = this.Matra.nativeElement.children[letterNumber].getBoundingClientRect();
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      this.moveTo = this.Matra.nativeElement.children[letterNumber-1].getBoundingClientRect();
+      this.moveTo = this.Matra.nativeElement.children[letterNumber - 1].getBoundingClientRect();
     }
     this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width()) * 100 + "%";
     if (option.position == "bottom") {
@@ -2131,7 +2161,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     } else if (option.position == "bottom_spcialCase") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.20 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.4 + "%";
     }
     else {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
@@ -2139,7 +2169,7 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 0);
   }
 
-  checkAnswerMatra(event,id) {
+  checkAnswerMatra(event, id) {
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0
@@ -2148,56 +2178,12 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       this.appModel.notifyUserAction();
       this.clicked = true;
       document.getElementById("coverTop").style.display = "block";
-      document.getElementById("coverBtm").style.display = "none";
+      document.getElementById("coverBtm").style.display = "none"
+      console.log("id",id)
       this.index = id;
       this.Matra.nativeElement.children[id].classList.value = 'outline';
     }
   }
-
-
-  //  MatraPopUpLoaded(i)
-  //{ 
-  //   if ( i % 3 == 0) {
-  //     this.MatraPopUp.nativeElement.children[i].style.display = "block";
-  //     if(this.currentOptionNumberjson == 0)
-  //     {
-  //        this.MatraPopUp.nativeElement.children[this.currentMatraNumberjson+2].style.display = "block";
-  //     }
-  //     if(this.currentOptionNumberjson == 3)
-  //     {
-  //       this.MatraPopUp.nativeElement.children[this.currentMatraNumberjson+1].style.display = "block";
-  //     }
-       
-  //   }
-  //   else{this.MatraPopUp.nativeElement.children[i].style.display = "none";}   
-  //}
-
-  //WrongMatraPopUpLoaded(i)
-  //{
-  //  if ( i % 3 == 0) {
-  //     this.wrongMatraPopUp.nativeElement.children[i].style.display = "block";       
-  //   }
-  //   else{
-  //     this.wrongMatraPopUp.nativeElement.children[i].style.display = "none";      
-  //    } 
-  //}
-
-//DuplicateOptionLoaded(i)
-//{
-// this.popUpDuplicateOption.nativeElement.children[i].style.display = "none";
-//}
-  
-
-  
-
-  //OptionLoaded(event, i)
-  //{
-
-  //  setTimeout(() => { 
-  //     this.duplicateOption.nativeElement.children[i].style.opacity = 0;           
-  //      }, 0); 
- 
-  //}
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -2214,35 +2200,52 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
       }
     } else {
       this.appModel.moveNextQues(this.attemptType);
-    }  
+    }
   }
 
   ngOnInit() {
     let that = this;
-        $( "#navBlock" ).click(function() {
-            if (!that.instructionVO.nativeElement.paused)
-            {
-              that.instructionVO.nativeElement.pause();
-              that.instructionVO.nativeElement.currentTime = 0;
-            }
-          });
+    $("#navBlock").click(function () {
+      if (!that.instructionVO.nativeElement.paused) {
+        that.instructionVO.nativeElement.pause();
+        that.instructionVO.nativeElement.currentTime = 0;
+      }
+    });
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
-        this.containgFolderPath = this.getBasePath();
-        this.setData();
-        this.appModel.functionone(this.templatevolume, this);//start end
+    this.containgFolderPath = this.getBasePath();
+
+    this.appModel.functionone(this.templatevolume, this);//start end
+
+
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+    this.checkquesTab();
+    this.appModel.globalJsonData.subscribe(data => {
+      this.showAnsTimeout = data.showAnsTimeout;
+      if (this.feedback.closeDelayTime) {
+        this.closeDelayTime = this.feedback.closeDelayTime
+      } else {
+        this.closeDelayTime = this.showAnsTimeout;
+      }
+    });
+
+    this.setData();
     this.appModel.getNotification().subscribe(mode => {
-            if (mode == "manual") {
-                console.log("manual mode ", mode);
-            } else if (mode == "auto") {
-              console.log("auto mode", mode);
-              this.attemptType = "";
-              this.styleHeaderPopup = this.confirmAssets.style_header;
-              this.styleBodyPopup = this.confirmAssets.style_body;
-              this.showFeedback('yes');
-            }
-        })
+      if (mode == "manual") {
+        console.log("manual mode ", mode);
+      } else if (mode == "auto") {
+        console.log("auto mode", mode);
+        this.attemptType = "";
+        this.styleHeaderPopup = this.feedbackObj.style_header;
+        this.styleBodyPopup = this.feedbackObj.style_body;
+        this.showFeedback('yes');
+      }
+    })
     this.appModel.getConfirmationPopup().subscribe((val) => {
 
       if (val == "uttarDikhayein") {
@@ -2289,17 +2292,21 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     });
     //$( "#navBlock" ).removeClass("disableNavBtn")
     this.appModel.enableNavBtn(false);
-    this.controlHandler.isTab = true;
+    //this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
   }
-
+  checkquesTab() {
+    if (this.fetchedcontent.commonassets.ques_control != undefined) {
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+      this.appModel.getJson();
+    }
+  }
   postWrongAttemplt() {
-    //this.resetAttempt();
-    this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.enableNavBtn(false);
-    $( "#navBlock" ).removeClass("disableNavBtn")
+    $("#navBlock").removeClass("disableNavBtn")
   }
 
   ngOnDestory() {
@@ -2309,289 +2316,364 @@ this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
 
 
 
- templatevolume(vol, obj) {
-        if (obj.quesVORef && obj.quesVORef.nativeElement) {
-            obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
-            obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        } 
-        if (obj.instructionVO && obj.instructionVO.nativeElement) {
-            obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
-            obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if (obj.audio) {
-            obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if(obj.mainVideo && obj.mainVideo.nativeElement){
-            this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
-        if(obj.Myspeaker && obj.Myspeaker.nativeElement){
-          this.Myspeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-        }
+  templatevolume(vol, obj) {
+    if (obj.quesVORef && obj.quesVORef.nativeElement) {
+      obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
-    replayVideo(){      
-        this.videoReplayd = true;
-        this.isPlayVideo = true;
-        this.appModel.stopAllTimer();
-        setTimeout(() =>{
-        this.mainVideo.nativeElement.play();
-        this.mainVideo.nativeElement.onended = () =>{
-            this.isPlayVideo = false;
-            console.log("video eneded in replay function");
-            this.appModel.startPreviousTimer();
-            this.appModel.notifyUserAction();
-        }
-        },500)
+    if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
+      obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
-      hoverReplayConfirm() {
-        this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_hover;
+    if (obj.instructionVO && obj.instructionVO.nativeElement) {
+      obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
-     houtReplayConfirm() {
-        this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
+    if (obj.feedbackAudio && obj.feedbackAudio.nativeElement) {
+      obj.feedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
-     hoverReplayDecline() {
-        this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_hover;
+    if (obj.audio) {
+      obj.audio.volume = obj.appModel.isMute ? 0 : vol;
     }
-
-     houtReplayDecline() {
-        this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_original;
+    if (obj.mainVideo && obj.mainVideo.nativeElement) {
+      this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-
-    hoverReplayCloseConfirm() {
-
+    if (obj.Myspeaker && obj.Myspeaker.nativeElement) {
+      this.Myspeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+  }
 
-    houtReplayCloseConfirm() {
+  replayVideo() {
 
+    this.replayClicked = true;
+    this.skipButton = true;
+    this.hideVideoBg = true;
+    this.videoReplayd = true;
+    this.isPlayVideo = true;
+    this.appModel.stopAllTimer();
+
+    setTimeout(() => {
+      this.mainVideo.nativeElement.play();
+      this.mainVideo.nativeElement.onended = () => {
+        this.appModel.setLoader(false);
+        this.isPlayVideo = false;
+        setTimeout(() => {
+          document.getElementById("coverTop").style.display = "none";
+        }, 1000);
+        this.hideVideoBg = true;
+
+        console.log("video eneded in replay function");
+        // this.appModel.startPreviousTimer();
+        this.appModel.videoStraming(false);
+        this.appModel.notifyUserAction();
+      }
+    }, 500)
+  }
+
+  hoverReplayConfirm() {
+    this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_hover;
+  }
+
+  houtReplayConfirm() {
+    this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
+  }
+
+  hoverReplayDecline() {
+    this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_hover;
+  }
+
+  houtReplayDecline() {
+    this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_original;
+  }
+
+  hoverReplayCloseConfirm() {
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
+  }
+
+  houtReplayCloseConfirm() {
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
+  }
+
+  
+    hoverPlayPause(){
+    if(this.PlayPauseFlag)
+    {    
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
     }
-
-      checkVideoLoaded(){
-        if (!this.videoReplayd) {
-            this.isVideoLoaded = true;
-            this.appModel.setLoader(false);
-            this.appModel.navShow = 1;
-            this.isPlayVideo = true;
-            this.appModel.isVideoPlayed = true;
-          }else{
-            this.isVideoLoaded = true;
-          }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
     }
+  }
+
+  leavePlayPause(){
+    if(this.PlayPauseFlag)
+    {   
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    }
+  }
+
+  checkVideoLoaded() {
+    if (!this.videoReplayd) {
+      //console.log("default2");
+      this.isVideoLoaded = true;
+      this.appModel.setLoader(false);
+      this.appModel.navShow = 1;
+      this.isPlayVideo = true;
+      this.appModel.isVideoPlayed = true;
+    } else {
+      this.isVideoLoaded = true;
+    }
+  }
 
   endedHandler() {
-        if (!this.videoReplayd) {
-            this.isPlayVideo = false;
-            this.appModel.navShow = 2;
-          this.appModel.enableReplayBtn(true);
-          this.appModel.handlePostVOActivity(false);
+    this.appModel.setLoader(true);
+    this.replayDefaultVideo = true;
+    if (!this.videoReplayd) {
+      this.isPlayVideo = false;
+      this.appModel.navShow = 2;
+      this.appModel.enableReplayBtn(true);
+      this.appModel.handlePostVOActivity(false);
 
-        }
     }
+  }
 
   close() {
     //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
- checkImgLoaded() {
-   if (!this.loadFlag) {
-     this.noOfImgsLoaded++;           
-     if (this.noOfImgsLoaded >= this.noOfImgs) {
-       this.appModel.setLoader(false);
-       this.loadFlag = true;
-       clearTimeout(this.loaderTimer);
-       this.checkforQVO();
-     }
-   } else {
-     this.checkforQVO();
-   }
+  checkImgLoaded() {
+    if (!this.loadFlag) {
+      this.noOfImgsLoaded++;
+      if (this.noOfImgsLoaded >= this.noOfImgs) {
+        this.appModel.setLoader(false);
+        this.loadFlag = true;
+        clearTimeout(this.loaderTimer);
+        this.checkforQVO();
+      }
+    } else {
+      this.checkforQVO();
     }
+  }
 
- playInstruction() {
-   this.appModel.notifyUserAction();
-        if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
-            this.Myspeaker.nativeElement.pause();
-            this.Myspeaker.nativeElement.currentTime = 0;
-          this.instructionVO.nativeElement.play();
-          // document.getElementById("coverTop").style.display = "block";
-          // document.getElementById("coverBtm").style.display = "block";
-          
-          this.instructionVO.nativeElement.onended = () => {
-            if (!this.clicked) {
-              document.getElementById("coverTop").style.display = "none";
-            }
-              if (this.clicked) {
-                document.getElementById("coverBtm").style.display = "none";
-              }
-              
-            }
-        }
-    }
-
-    playSpeaker(ev) {
-      this.appModel.notifyUserAction();
-      this.instructionVO.nativeElement.pause();
-      this.instructionVO.nativeElement.currentTime = 0;       
-      this.Myspeaker.nativeElement.play();
-      $('.speakerWave').addClass("dispFlex");
+  playInstruction() {
+    this.appModel.notifyUserAction();
+    if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
+      this.Myspeaker.nativeElement.pause();
+      this.Myspeaker.nativeElement.currentTime = 0;
+      this.instructionVO.nativeElement.play();
       document.getElementById("coverTop").style.display = "block";
       document.getElementById("coverBtm").style.display = "block";
-      $('.instructionBase').addClass('disable_div');
-      this.Myspeaker.nativeElement.onended = () => {
+      this.disableSection = true;
+
+      this.instructionVO.nativeElement.onended = () => {
+        this.disableSection = false;
         if (!this.clicked) {
           document.getElementById("coverTop").style.display = "none";
-        } 
+        }
         if (this.clicked) {
           document.getElementById("coverBtm").style.display = "none";
         }
-        $('.instructionBase').removeClass('disable_div');
-        $('.speakerWave').removeClass("dispFlex");
+
       }
-          
+    }
+  }
+
+  playSpeaker(ev) {
+    this.appModel.notifyUserAction();
+    this.instructionVO.nativeElement.pause();
+    this.instructionVO.nativeElement.currentTime = 0;
+    this.Myspeaker.nativeElement.play();
+    $('.speakerWave').addClass("dispFlex");
+    document.getElementById("coverTop").style.display = "block";
+    document.getElementById("coverBtm").style.display = "block";
+    $('.instructionBase').addClass('disable_div');
+    this.Myspeaker.nativeElement.onended = () => {
+      if (!this.clicked) {
+        document.getElementById("coverTop").style.display = "none";
+      }
+      if (this.clicked) {
+        document.getElementById("coverBtm").style.display = "none";
+      }
+      $('.instructionBase').removeClass('disable_div');
+      $('.speakerWave').removeClass("dispFlex");
     }
 
-    // endedSpeakerAudio()
-    // {
-    //   $('.speakerWave').removeClass("dispFlex"); 
-    // }
+  }
+
+  // endedSpeakerAudio()
+  // {
+  //   $('.speakerWave').removeClass("dispFlex"); 
+  // }
 
   setData() {
-  
+
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-     // this.speaker = fetchedData.commonassets.speaker.url;
-      this.optionBase = fetchedData.commonassets.optionBase.url;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      //this.subjectQuesControl.next(fetchedData.commonassets);
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      console.log(this.fetchedcontent);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.options = this.fetchedcontent.optionsObj;
+      // this.speaker = fetchedData.commonassets.speaker.url;
+      this.optionBase = this.fetchedcontent.commonassets.optionBase.url;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
-      this.optionsAssets = fetchedData.optionsObj;
+      this.optionsAssets = this.fetchedcontent.optionsObj;
       for (let j = 0; j < this.optionsAssets.length; j++) {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
       //this.optionArr = fetchedData.optionsObj.optionID;
+
+     
+
+
+      // quesID.forEach(json => {
+      //   json.matra.forEach(matra => {
+      //     this.defaultLetterConfig.forEach(defjson => {
+      //       if (matra.Mid == defjson.id) {
+      //         defjson.letters.forEach(lttr => {
+      //           lttr.id.forEach(id => {
+      //             if (id == json.Lid) {
+      //               lttr.style = matra.style
+      //             }
+      //           });
+      //         });
+      //       }
+      //     });
+      //   });
+      // });
       for (let i = 0; i < this.optionArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (this.optionArr[i] == this.defaultLetterConfig[j].id) {
-            this.optionObj.push(this.defaultLetterConfig[j]);
+            var defaultLetter = this.defaultLetterConfig[j];
+            var optionsAsset = this.optionsAssets[i];
+            var UpdatedArray = { ...defaultLetter, ...optionsAsset };
+            this.optionObj.push(UpdatedArray);
+            //  this.optionObj.push()
             break;
           }
         }
       }
-      this.answerObj = fetchedData.AnswerObj;  
-      this.refQuesObj = fetchedData.refQuesObj;
-      this.QuesArr = this.refQuesObj.quesIdConfig;
-      for (let i = 0; i < this.QuesArr.length; i++) {
+      console.log("this.optionObj",this.optionObj)
+      //this.answerObj = this.fetchedcontent.AnswerObj;  
+      
+      this.refQuesObj = this.fetchedcontent.refQuesObj;
+      let tempArr = [];
+      this.refQuesObj.quesID.forEach(element => {
+        tempArr.push(element.Lid)
+      });
+      this.QuesArr = tempArr
+      //this.QuesArr = this.refQuesObj.quesIdConfig;
+      let quesID = this.refQuesObj.quesID
+      for (let i = 0; i < quesID.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
-          if (this.QuesArr[i] == this.defaultLetterConfig[j].id) {
+          if (quesID[i].Lid == this.defaultLetterConfig[j].id) {
+            if(quesID[i].location == "content" && quesID[i].url && quesID[i].url.length >0 ) 
+            {
+              this.defaultLetterConfig[j].location = "content";
+              this.defaultLetterConfig[j].url = quesID[i].url;
+            }
             this.refQuesArr.push(this.defaultLetterConfig[j]);
             break;
           }
         }
       }
-      this.optPosObj =  fetchedData.optionInitPosObj;
+      console.log("this.refQuesArr",this.refQuesArr);
+      let dynamicMatraConfig = [
+        {
+          "Mid":"",
+          "letter_style":[
+            {
+              "Lid":"",
+              "style": { "left": "4" }
+            }
+          ]
+        }
+      ]
+
+      quesID.forEach(element => {
+        
+      });
+
+
+
+
+
+      this.optPosObj = this.fetchedcontent.optionInitPosObj;
       //this.refQuesArr = this.refQuesObj[0].refQuesArr; 
       this.optionInitPosArr = this.optPosObj[0].optionInitPosArr;
-     // this.optArr1 = this.optionObj[0].optionsArr;        
-      this.optionCommonAssets = fetchedData.option_common_assets;
+      // this.optArr1 = this.optionObj[0].optionsArr;        
+      this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
-      this.feedbackObj = fetchedData.feedback;
+      this.feedbackObj = this.fetchedcontent.feedback;
       this.currentOptionNumberjson = this.feedbackObj.correct_option_number;
       this.currentMatraNumberjson = this.feedbackObj.correct_matra_number;
       this.isValid = true;
       this.isNotValid = false;
       //this.popupAssets = fetchedData.feedback;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.confirmAssets = fetchedData.show_answer_confirm;
-      this.confirmReplayAssets = fetchedData.replay_confirm;
-       this.questionObj = fetchedData.quesObj;
-       this.quesObj = fetchedData.quesObj;
-        //this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
-         if(this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed){
-             this.isPlayVideo = true;
-             this.videoReplayd = false;
-         }else{
-            this.isPlayVideo = false;
-        }
-      //for(this.i = 0;this.i<this.answerObj[0].AnswerArr.length; this.i++)
-      //{
-      // this.answerArr.push(this.answerObj[0].AnswerArr[this.i].imgsrc.url);
-      //}     
-      //console.log("----->>>>>>"+this.answerArr);
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+      this.confirmReplayAssets = this.fetchedcontent.feedback.replay_confirm;
+      this.questionObj = this.fetchedcontent.quesObj;
+      this.quesObj = this.fetchedcontent.quesObj;
+      this.controlHandler = {
+        isSubmitRequired: this.quesObj.submitRequired,
+        isReplayRequired: this.quesObj.replayRequired
+      }
+
+
+      //this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
+      if (this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
+        this.isPlayVideo = true;
+
+        this.videoReplayd = false;
+      } else {
+        this.isPlayVideo = false;
+      }
+
+      if (this.fetchedcontent.commonassets.isFirstQues && !this.videoReplayd) {
+        this.replayDefaultVideo = false;
+      } else {
+        this.replayDefaultVideo = true;
+      }
     }
-}
+  }
 
-endedAudio(){
-document.getElementById("coverTop").style.display = "none";
-document.getElementById("coverBtm").style.display = "block"; 
-}
+  endedAudio() {
+    document.getElementById("coverTop").style.display = "none";
+    document.getElementById("coverBtm").style.display = "block";
+  }
 
-  checkforQVO() {  
-        this.isVideoLoaded = true;
-        if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-            this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
-          this.mainContainer.nativeElement.classList = "bodyContent disable_div";
-          this.instructionBar.nativeElement.classList = "instructionBase disable_div";
-            this.quesVORef.nativeElement.play();
-            this.appModel.enableReplayBtn(false);
-            this.appModel.enableSubmitBtn(false);
-            this.appModel.handlePostVOActivity(true);
-            this.quesVORef.nativeElement.onended = () => {
-                this.mainContainer.nativeElement.classList = "bodyContent";
-                this.instructionBar.nativeElement.classList = "instructionBase";
-                //this.startActivity();
-                this.appModel.handlePostVOActivity(false);
-                this.appModel.enableReplayBtn(true);
-            }
-        } else {
-        this.timerDelayActs = setTimeout(() =>{
-                //this.startActivity();
-                this.appModel.handlePostVOActivity(false);
-                this.appModel.enableReplayBtn(true);
-               
-            },1000)
-        }
+  checkforQVO() {
+    this.isVideoLoaded = true;
+    if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay && !this.replayClicked) {
+      this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.mainContainer.nativeElement.classList = "bodyContent disable_div";
+      this.instructionBar.nativeElement.classList = "instructionBase disable_div";
+
+      this.quesVORef.nativeElement.play();
+      this.appModel.enableReplayBtn(false);
+      this.appModel.enableSubmitBtn(false);
+      this.appModel.handlePostVOActivity(true);
+      this.quesVORef.nativeElement.onended = () => {
+        console.log('play');
+        this.mainContainer.nativeElement.classList = "bodyContent";
+        this.instructionBar.nativeElement.classList = "instructionBase";
+        //this.startActivity();
+        this.appModel.handlePostVOActivity(false);
+        this.appModel.enableReplayBtn(true);
+      }
+    } else {
+      this.timerDelayActs = setTimeout(() => {
+        //this.startActivity();
+        this.appModel.handlePostVOActivity(false);
+        this.appModel.enableReplayBtn(true);
+
+      }, 1000)
     }
-
-    //   startActivity() {
-    //   // this.getRandomIndxBlink(this.selectableOpts);
-    //}
-
-    /* getRandomIndxBlink(no) {
-        let randomIdx = Math.floor((Math.random() * no));
-        console.log("random index ", randomIdx);
-        if (this.optionHolder.left_random_index.includes(this.completeRandomArr[randomIdx])) {
-            this.completeRandomArr.splice(randomIdx, 1);
-            this.moveTo = this.mainContainer.nativeElement.children[0].children[0].children[1].children[this.leftSelectedIdx].getBoundingClientRect();
-            console.log(this.moveTo);
-            this.blinkSide = "left";
-            this.startCount = 1;
-           // this.blinkHolder();
-            this.selectableOpts--;
-
-        } else if (this.optionHolder.right_random_index.includes(this.completeRandomArr[randomIdx])) {
-            this.completeRandomArr.splice(randomIdx, 1);
-            this.moveTo = this.mainContainer.nativeElement.children[0].children[1].children[1].children[this.rightSelectedIdx].getBoundingClientRect();
-            console.log(this.moveTo);
-            this.blinkSide = "right";
-            this.startCount = 1;
-           // this.blinkHolder();
-            this.selectableOpts--;
-        }
-    }*/
+  }
 
   getBasePath() {
     if (this.appModel && this.appModel.content) {
@@ -2603,7 +2685,7 @@ document.getElementById("coverBtm").style.display = "block";
   }
 
   showhoverConfirm() {
-    this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
 
   houtConfirm() {
@@ -2611,7 +2693,7 @@ document.getElementById("coverBtm").style.display = "block";
   }
 
   showhoutConfirm() {
-    this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_original;
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
   }
 
   hoverDecline() {
@@ -2619,7 +2701,7 @@ document.getElementById("coverBtm").style.display = "block";
   }
 
   showhoverDecline() {
-    this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_hover;
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
   }
 
   houtDecline() {
@@ -2627,7 +2709,7 @@ document.getElementById("coverBtm").style.display = "block";
   }
 
   showhoutDecline() {
-    this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_original;
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
   }
 
   hoverCloseConfirm() {
@@ -2651,17 +2733,17 @@ document.getElementById("coverBtm").style.display = "block";
       //this.Matra.nativeElement.children[this.index].style.outline = '';
       //this.Matra.nativeElement.children[this.index].classList.value = "";
     }
-    
+
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
-      this.confirmReplayRef.nativeElement.classList="modal";
-      this.count=0;
+      this.confirmReplayRef.nativeElement.classList = "modal";
+      this.count = 0;
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
-      if(this.index!=undefined) {
-        this.Matra.nativeElement.children[this.index].classList.value="";
-      }     
+      if (this.index != undefined) {
+        this.Matra.nativeElement.children[this.index].classList.value = "";
+      }
       this.onClickAnimationManually(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson, this.currentOptionNumberjson);
-        // this.sendFeedback(this.AnswerModalRef, 'no','showAnswer');  
+      // this.sendFeedback(this.AnswerModalRef, 'no','showAnswer');  
       this.sendFeedback(this.currentMatraNumberjson, 'yes', 'showAnswer');
       //setTimeout(() => {
       //  this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
@@ -2706,20 +2788,20 @@ document.getElementById("coverBtm").style.display = "block";
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls"
       if (this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url) {
-        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-      //$( "#navBlock" ).removeClass("disableNavBtn")
-      this.appModel.enableNavBtn(false);
-      this.controlHandler.isTab = true;
-      this.appModel.handleController(this.controlHandler);
+        //$( "#navBlock" ).removeClass("disableNavBtn")
+        this.appModel.enableNavBtn(false);
+        // this.controlHandler.isTab = true;
+        this.appModel.handleController(this.controlHandler);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
           }
           //this.resetAttempt(opt);
-        }, 2000);
+        }, this.showAnsTimeout);
       }
     }
     if (action == "rightAnswer") {
@@ -2739,15 +2821,15 @@ document.getElementById("coverBtm").style.display = "block";
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
       }
-      
+
       if (this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url) {
-        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        $( "#navBlock" ).removeClass("disableNavBtn")
+        $("#navBlock").removeClass("disableNavBtn")
         this.appModel.enableNavBtn(false);
-        this.controlHandler.isTab = true;
+        //  this.controlHandler.isTab = true;
         this.appModel.handleController(this.controlHandler);
         this.appModel.handlePostVOActivity(false);
         setTimeout(() => {
@@ -2756,7 +2838,7 @@ document.getElementById("coverBtm").style.display = "block";
             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
-          if(this.duplicateOption.nativeElement && this.duplicateOption.nativeElement.children[id]){
+          if (this.duplicateOption.nativeElement && this.duplicateOption.nativeElement.children[id]) {
             this.duplicateOption.nativeElement.children[id].style.opacity = 0;
           }
           //console.log(this.attempt);
@@ -2765,23 +2847,23 @@ document.getElementById("coverBtm").style.display = "block";
           $(".instructionBar").css("opacity", "0.3");
           $(".bodyContent").addClass("disable_div");
           $(".instructionBase").addClass("disable_div");
-        }, 2000);
+        }, this.showAnsTimeout);
       }
     }
     if (action == "showAnswer") {
-      this.styleHeaderPopup = this.confirmAssets.style_header;
-      this.styleBodyPopup = this.confirmAssets.style_body;
+      this.styleHeaderPopup = this.feedbackObj.style_header;
+      this.styleBodyPopup = this.feedbackObj.style_body;
       this.flag = true;
       this.appModel.resetBlinkingTimer();
-      this.rightanspopUpheader_img = false;
+      this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
-      this.showanspopUpheader_img = true;
+      this.showanspopUpheader_img = false;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
       if (id != undefined) {
         this.attemptType = "";
-        this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 20 + "%";
+        this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 18.2 + "%";
         this.duplicateOption.nativeElement.children[id].style.zIndex = 1000;
-        this.duplicateOption.nativeElement.children[id].style.filter="";
+        this.duplicateOption.nativeElement.children[id].style.filter = "";
         this.duplicateOption.nativeElement.children[id].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
       } else {
         this.attemptType = "manual";
@@ -2789,9 +2871,9 @@ document.getElementById("coverBtm").style.display = "block";
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
       }
-      
+
       if (this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio && this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url) {
-        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.location == "content" ? this.containgFolderPath + "/" + this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].showAnswerfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -2801,7 +2883,7 @@ document.getElementById("coverBtm").style.display = "block";
             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
-          if(!this.flag) {
+          if (!this.flag) {
             this.duplicateOption.nativeElement.children[id].style.opacity = 0;
           }
           //console.log(this.attempt);
@@ -2810,7 +2892,7 @@ document.getElementById("coverBtm").style.display = "block";
           $(".instructionBar").css("opacity", "0.3");
           $(".bodyContent").addClass("disable_div");
           $(".instructionBase").addClass("disable_div");
-        }, 2000);
+        }, this.showAnsTimeout);
       }
     }
 
@@ -2834,11 +2916,12 @@ document.getElementById("coverBtm").style.display = "block";
       }
     }
     if (action == "replay") {
+      this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
       this.appModel.navShow = 2;
       this.confirmReplayRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "modal";
       this.replayVideo();
-        }
+    }
   }
 
   resetAttempt(opt) {
@@ -2871,7 +2954,7 @@ document.getElementById("coverBtm").style.display = "block";
     }
     else if (opt.position == "left") {
       //$(this.duplicateOption.nativeElement.children[this.currentOptionNumber]).animate({ left: "0%", top: "0%" }, 0);
-      this.Matra.nativeElement.children[this.currentOptionNumberjson-1].remove();
+      this.Matra.nativeElement.children[this.currentOptionNumberjson - 1].remove();
       //this.refQuesCopy.splice(rightMatraNumber, 1)
     } else if (opt.position == "top" || opt.position == "bottom" || opt.position == "bottom_spcialCase") {
       //this.refQuesCopy.splice(rightMatraNumber, 1)
@@ -2885,7 +2968,7 @@ document.getElementById("coverBtm").style.display = "block";
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
     this.appModel.enableNavBtn(false);
-    this.controlHandler.isTab = true;
+    //this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
@@ -2898,7 +2981,7 @@ document.getElementById("coverBtm").style.display = "block";
     //if (!this.flag) {
     //}
     if (this.flag) {
-      this.count=1;
+      this.count = 1;
       this.blinkOnLastQues();
       this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
       //this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
