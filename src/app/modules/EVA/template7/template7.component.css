@@ -209,16 +209,23 @@ input:focus {
     right: 1%;
     width: 5%;
   }
-  .textNote {
+.textNote {
     position: absolute;
-    left: 34.7%;
+    width: 86.7%;
+    left: 0;
     top: 73%;
     z-index: 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     pointer-events: none;
     font-family: Kruti Dev!important;
-    font-weight: normal;
-    font-size: 1vmax;
+    font-weight: bold;
+    font-size: 1.05vmax;
+    color: #f00;
+}
+.textNote span {
+    font-family: arial;
+    display: inline-block;
+    margin: 0 .4vmin;
 }
