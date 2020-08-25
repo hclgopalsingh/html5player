@@ -2079,7 +2079,7 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "bottom_spcialCase") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 4.9 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5.2 + "%";
     }
     else {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
@@ -2161,7 +2161,7 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "bottom_spcialCase") {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.20 + "%";
+      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.4 + "%";
     }
     else {
       this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
@@ -2389,6 +2389,27 @@ export class Ntemplate6 implements OnInit {
 
   houtReplayCloseConfirm() {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
+  }
+
+  
+    hoverPlayPause(){
+    if(this.PlayPauseFlag)
+    {    
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+    }
+  }
+
+  leavePlayPause(){
+    if(this.PlayPauseFlag)
+    {   
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    }
   }
 
   checkVideoLoaded() {
@@ -2895,6 +2916,7 @@ export class Ntemplate6 implements OnInit {
       }
     }
     if (action == "replay") {
+      this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
       this.appModel.navShow = 2;
       this.confirmReplayRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "modal";
