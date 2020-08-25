@@ -28,7 +28,7 @@ button:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 52%;
+    width: 55%;
 }
 .matchHolder{
   width: 100%;
@@ -38,7 +38,7 @@ button:focus {
   align-items: center;
 }
 .matchHolder img{
-  width: 92%;
+  width: 94%;
 }
 .matchHolder .optSelectedHidden {
   position: absolute;
@@ -46,9 +46,9 @@ button:focus {
   justify-content: space-around;
   align-items: center;
   align-content: space-around;
-  width: 90%; /*40%*/
-  height: 86%;
-  margin-top: 4%;
+  width: 86%;
+  height: 83%;
+  margin-top: 5%;
   flex-wrap: wrap;
 }
 .matchHolder .optSelectedHidden img{
@@ -57,18 +57,18 @@ button:focus {
 
 #playPauseBtn {
   position: absolute;
-  top: 85%;
-  right: 16%;
+  top: 86%;
+  right: .7%;
   cursor: pointer;
-  width: 1.5%;
+  width: 3.5%;
 }
-#playPauseBtn img {
+/* #playPauseBtn img {
   width: 200%;
   filter: drop-shadow(2px 4px 6px black);
   max-width: none;
-}
+} */
 
-#SkipBtn{
+/* #SkipBtn{
   position: absolute;
   top: 83.7%;
   right: -3.7%;
@@ -77,9 +77,24 @@ button:focus {
 }
 #SkipBtn img {
   max-width: 70%;
+} */
+
+#SkipBtn{
+  /*position: absolute;
+  top: 98%;
+  right: 18%;
+  cursor: pointer;
+  width: 1.5%;*/
+  position: absolute;
+  top: 86%;/*85%*/
+  right: 5%;/*16%*/
+  cursor: pointer;
+  width: 3.5%;/*1.5%*/
 }
 
-
+/* #SkipBtn img {
+  max-width: 70%;
+} */
 /* .optionsPath {
   position: absolute;
   width: 78%;
@@ -103,8 +118,11 @@ button:focus {
   cursor: pointer;
   width: 10.4%;
 }
+.option1{
+  top:1%;
+}
 .option2{
-  top:3%;
+  top:4%;
   left:62.6%;
 }
 .option3{
@@ -116,7 +134,7 @@ button:focus {
   left: 81%;
 }
 .option5{
-  top: 80%;
+  top: 79%;
   left: 70%;
 }
 .option6{
@@ -128,7 +146,7 @@ button:focus {
   left: 36%;
 }
 .option8{
-  top: 80%;
+  top: 79%;
   left: 19.5%;
 }
 .option9{
@@ -140,7 +158,7 @@ button:focus {
   left: 10%;
 }
 .option11{
-  top: 3%;
+  top: 4%;
   left: 27%;
 }
 .optionsBlock img{
@@ -317,34 +335,30 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
+/* .modal-title{
   margin-left: 1.5%;
   height: 80%;
-  /* width: 18%; */
-
-}
-.close {
+} */
+/* .close {
 	width: auto;
 	height: 75%;
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   cursor: pointer;
-  opacity: 1;
-}
+  opacity: 1 !important;
+} */
 @media (min-width: 1366px){
-	.close {
+	/* .close {
 		height: 95%;
     margin-right: .3%;
-	}
+	} */
 }
-.close:focus, .close:hover {
+/* .close:focus, .close:hover {
   color: #000;
   text-decoration: none;
   opacity: 1;
-}
+} */
 .modal-dialog{
 	/* width: 30%; */
 	max-width: 80%;
@@ -477,14 +491,14 @@ button:focus {
 
 .scaleInAnimation{
 	animation: scaleIn 0.5s linear;
-	transform: scale(1.2);
+	transform: scale(1.1);
 }
 @keyframes scaleIn{
 	0%{
 		transform: scale(1.0)
 	}
 	100%{
-   transform: scale(1.2)
+   transform: scale(1.1)
 	}
 }
 
@@ -496,7 +510,7 @@ button:focus {
 
 @keyframes scaleOut{
 	0%{
-		transform: scale(1.2)
+		transform: scale(1.1)
 	}
 	100%{
    transform: scale(1.0)
@@ -639,16 +653,15 @@ button:focus {
 	width: 85%;
 }
 
-#confirmModal .modal-title,
+/* #confirmModal .modal-title,
 #infoModalId .modal-title {
 	margin-left: 3%;
-}
+} */
 
-#confirmModal .close,
+/* #confirmModal .close,
 #infoModalId .close {
-	/* width: 5%; */
 	margin: 0 1.6% 0 auto;
-}
+} */
 
 #confirmModal .modal-footer,
 #infoModalId .modal-footer {
@@ -707,34 +720,39 @@ info modal modal
   transform: translate(0,0);
 }
 #modalTemp4 .modal-dialog {
-  /* width: 30%; */
-  max-width: 80%;
-  height: auto;
+  width: 92%;
+  max-width: 92%;
+  height: 93%;
 }
 
 #modalTemp4 .matchHolder{
-  width: 63%;
+  width: 52%;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+#modalTemp4 .partial_feedback .matchHolder{
+  width: 49%;
+}
 #modalTemp4 .matchHolder img{
-  width: 93%;
+  width: 99%;
+  max-width: 99%;
 }
 #modalTemp4 .matchHolder .optSelected {
   position: absolute;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   align-content: space-around;
-  width: 91%; /*40%*/
-  height: 87%;
-  margin-top: 4%;
+  width: 90%;
+  height: 58%;
+  margin-top: 5%;
   flex-wrap: wrap;
 }
 #modalTemp4 .matchHolder .optSelected img{
   width: 30%;/*100%*/
+  margin: 1.3%;
 }
 #modalTemp4 .modal-header{
 	padding: .5%;
@@ -748,16 +766,18 @@ info modal modal
   border-top-right-radius: 20px;
   background: #248446;
 }
-
-#modalTemp4 .close {
+#modalTemp4 .modal-body{
+  padding: 0;
+  border-top:none !important;
+}
+/* #modalTemp4 .close {
     width: 3.5%;
     height: auto;
-    /* height: 75%; */
     margin-right: .5%;
     margin-top: -.1%;
     -webkit-appearance: inherit !important;
     cursor: pointer;
-    opacity: 1;
+    opacity: 1 !important;
 }
 
 #modalTemp4 .close {
@@ -767,16 +787,16 @@ info modal modal
     line-height: 1;
     color: #000;
     text-shadow: 0 1px 0 #fff;
-}
+} */
 .navigate {
   position: absolute;
   bottom: 2%;
   width: 92%;
 }
 #modalTemp4 .navigate {
-  position: relative;
   width: 96%;
-  margin-top: 1%;
+  bottom: 3%;
+  /* margin-top: 1%; */
 }
 .navigate img {
   margin-left: 1.2%;
@@ -812,16 +832,29 @@ info modal modal
   pointer-events: none;
   opacity: 0.5;
 }
-.videoMainContainer{
+/* .videoMainContainer{
   width:100%;
   height:auto;
   position:relative;
   top:0;
   left:0;
   z-index: 101;
+} */
+.videoMainContainer{
+  width:100%;
 }
-
-.video_loader{
+.videoWrapper{
+  width: 99.9%;
+  height:100%;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+.videoMainContainer .videoBg{
+  opacity: 0;
+}
+/* .video_loader{
 	position: absolute;
     width: 100%;
     top: 0%;
@@ -829,8 +862,8 @@ info modal modal
 }
 .video_loader img{
 	width:100%;
-}
+} */
 
-.controlCursor{
+/* .controlCursor{
   cursor: default
-}
+} */
