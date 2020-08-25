@@ -39,7 +39,6 @@ import { Ntemplate2 } from './modules/Elementary/Ntemplate2/Ntemplate2.component
 import { Ntemplate8 } from './controller/Ntemplate8.component';
 import { Ntemplate3 } from './modules/Elementary/Ntemplate3/Ntemplate3.component';
 import { Ntemplate4 } from './controller/Ntemplate4.component';
-import { Ntemplate7 } from './controller/Ntemplate7.component';
 import { Ntemplate5 } from './modules/Elementary/Ntemplate5/Ntemplate5.component';
 import { Ntemplate23_1 } from './controller/Ntemplate23_1.component';
 import { Ntemplate18 } from './controller/Ntemplate18.component';
@@ -105,7 +104,6 @@ import { Ntemplate9Component } from './modules/Elementary/Ntemplate9/Ntemplate9.
 		Ntemplate8,
 		Ntemplate3,
 		Ntemplate4,
-		Ntemplate7,
 		Ntemplate18,
 		Ntemplate17,
 		Ntemplate24,

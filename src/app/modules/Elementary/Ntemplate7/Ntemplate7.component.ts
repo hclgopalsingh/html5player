@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild, HostListener, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
-import { ThemeConstants } from '../common/themeconstants';
-import { SharedserviceService } from '../services/sharedservice.service';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 
 
 declare var $: any;
 
 @Component({
     selector: 'ntemp7',
-    templateUrl: '../view/layout/Ntemplate7.component.html',
-    styleUrls: ['../view/css/Ntemplate7.component.css', '../view/css/bootstrap.min.css']
+    templateUrl: './Ntemplate7.component.html',
+    styleUrls: ['./Ntemplate7.component.css', '../../../view/css/bootstrap.min.css']
 
 })
 
@@ -103,6 +103,15 @@ export class Ntemplate7 implements OnInit {
     fetchedcontent: any;
     functionalityType: any;
     themePath: any;
+    feedbackObj:any;
+    styleHeaderPopup:any;
+    styleBodyPopup:any;
+    confirmPopupAssets:any;
+    controlHandler = {
+        isSubmitRequired: false,
+        isReplayRequired: false
+      };
+    showAnsTimeout: any;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -136,6 +145,9 @@ export class Ntemplate7 implements OnInit {
         this.functionalityType = this.appModel.content.contentLogic.functionalityType;
         this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
         this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+        this.appModel.globalJsonData.subscribe(data => {
+            this.showAnsTimeout = data.showAnsTimeout;
+        });
         this.checkquesTab();
         this.setData();
         this.appModel.getNotification().subscribe(mode => {
@@ -174,7 +186,7 @@ export class Ntemplate7 implements OnInit {
          this.appModel.postWrongAttempt.subscribe(() =>{
              this.postWrongAttemplt();
         })
-
+        this.appModel.handleController(this.controlHandler);
         this.appModel.resetBlinkingTimer();
     }
     checkquesTab() {
@@ -235,9 +247,13 @@ export class Ntemplate7 implements OnInit {
                 break;
             }
         }
+        this.feedbackObj = this.fetchedcontent.feedback;
+        this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+       // this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+        this.confirmReplayAssets = this.fetchedcontent.feedback.replay_confirm;
         this.noOfImgs = this.commonAssets.imgCount;
         this.infoPopupAssets = this.fetchedcontent.info_popup;
-        this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+       // this.confirmAssets = this.fetchedcontent.show_answer_confirm;
         this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
         this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
         this.isLastQues = this.appModel.isLastSection;
@@ -245,8 +261,12 @@ export class Ntemplate7 implements OnInit {
         if (this.isLastQuesAct || this.isLastQues) {
             this.appModel.setlastQuesNT();
         }
-        this.rightPopup = this.fetchedcontent.rightFeedback;
-        this.wrongPopup = this.fetchedcontent.wrongFeedback;
+        this.controlHandler = {
+            isSubmitRequired: this.fetchedcontent.quesObj.submitRequired,
+            isReplayRequired: this.fetchedcontent.quesObj.replayRequired
+          }
+       // this.rightPopup = this.fetchedcontent.rightFeedback;
+        //this.wrongPopup = this.fetchedcontent.wrongFeedback;
         /* if(this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed){
             this.isPlayVideo = true;
         }else{
@@ -371,26 +391,26 @@ export class Ntemplate7 implements OnInit {
     }
 
     hoverConfirm() {
-        this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
+        this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
     }
 
     houtConfirm() {
-        this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_original;
+        this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
     }
 
     hoverDecline() {
-        this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_hover;
+        this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
     }
 
     houtDecline() {
-        this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_original;
+        this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
     }
 
     hoverCloseConfirm() {
-        this.confirmAssets.close_btn = this.confirmAssets.close_btn_hover;
+        this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
     }
     houtCloseConfirm() {
-        this.confirmAssets.close_btn = this.confirmAssets.close_btn_original;
+        this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
     }
 
     hoverOK() {
@@ -483,41 +503,43 @@ export class Ntemplate7 implements OnInit {
                 this.isRightSelected = true;
                 this.attemptType = "manual";
                 setTimeout(() => {
-                    this.feedbackPopup = this.rightPopup;
+                    this.styleHeaderPopup = this.feedbackObj.style_header;
+                    this.styleBodyPopup = this.feedbackObj.style_body;
                     this.feedbackModalRef.nativeElement.classList = "displayPopup modal";
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
-                    this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+                    this.feedbackVoRef.nativeElement.src = this.commonAssets.rightfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
                             this.feedbackModalRef.nativeElement.classList = "modal";
                             this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
-                        }, 1000)
+                        }, this.showAnsTimeout)
                     }
                 }, 1000)
             } else {
                 this.isRightSelected = false;
                 //handle for wrong attempt
                 setTimeout(() => {
-                    this.feedbackPopup = this.wrongPopup;
+                    this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+                    this.styleBodyPopup = this.feedbackObj.wrong_style_body;
                     this.feedbackModalRef.nativeElement.classList = "displayPopup modal";
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
-                    this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+                    this.feedbackVoRef.nativeElement.src = this.commonAssets.wrongfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
                             this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
-                            /* this.feedbackModalRef.nativeElement.classList = "modal";
-                             $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).animate({ left: "35%", top:""});
+                             this.feedbackModalRef.nativeElement.classList = "modal";
+                            /* $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).animate({ left: "35%", top:""});
                              this.isOptionSelected = false;
                              this.optionSelected = -1;
                               //$(this.refQues.nativeElement.children[this.quesEmptyTxtIndx]).addClass('isInvisible');
                              setTimeout(() =>{
                                    $(this.optionRef.nativeElement.children[idx].children[1]).removeClass('hideit');
                              },50)*/
-                        }, 1000)
+                        }, this.showAnsTimeout)
                     }
                 }, 1000)
             }
@@ -670,10 +692,10 @@ export class Ntemplate7 implements OnInit {
         this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
         if(this.isShowans){
-            this.feedbackVoRef.nativeElement.src = this.feedbackPopup.showansSound.url + "?someRandomSeed=" + Math.random().toString(36)
+            this.feedbackVoRef.nativeElement.src = this.commonAssets.showansSound.url + "?someRandomSeed=" + Math.random().toString(36)
         }
         else{
-            this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+            this.feedbackVoRef.nativeElement.src = this.commonAssets.rightfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         this.feedbackVoRef.nativeElement.play();
         this.isRightSelected = true;
@@ -682,7 +704,7 @@ export class Ntemplate7 implements OnInit {
         this.feedbackVoRef.nativeElement.onended = () => {
             setTimeout(() => {
                 this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
-            }, 1000)
+            }, this.showAnsTimeout)
         }
     }
 
