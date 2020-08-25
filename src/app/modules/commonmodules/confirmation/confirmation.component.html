@@ -8,12 +8,12 @@
                 <div class="wrapper">
                   <div (click)="closePopup('yes')">
                     <img class="img-fluid" [src]="popupAssets?.yes_btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.yes_btn_base?.url : assetsfolderlocation + '/' + popupAssets?.yes_btn_base?.url"
-                    (click)="closePopup('yes');" title="करें">
+                    (click)="closePopup('yes');" title="हाँ">
                     <img class="img-fluid" (mousemove)="hoverYes()" (mouseleave)="houtYes()" [src]="popupAssets?.yesButton?.location=='content' ? contentgFolderPath + '/' + popupAssets?.yesButton?.url : assetsfolderlocation + '/' + popupAssets?.yesButton?.url">
                   </div>
                   <div (click)="closePopup('no')">
                     <img class="img-fluid" [src]="popupAssets?.no_btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.no_btn_base?.url : assetsfolderlocation + '/' + popupAssets?.no_btn_base?.url"
-                    (click)="closePopup('no');" title="करें">
+                    (click)="closePopup('no');" title="नहीं">
                     <img class="img-fluid" (mousemove)="hoverNo()" (mouseleave)="houtNo()" [src]="popupAssets?.noButton?.location=='content' ? contentgFolderPath + '/' + popupAssets?.noButton?.url : assetsfolderlocation + '/' + popupAssets?.noButton?.url">
                   </div>    
                 </div>

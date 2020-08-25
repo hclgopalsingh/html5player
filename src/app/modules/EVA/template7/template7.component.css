@@ -32,7 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform .6s;
+    /* transition: transform .1s; */
 }
 
 .options div .subOpt {
@@ -127,7 +127,7 @@
 }
 
 .inputField{
-    width: 76%;
+    width: 77%;
     display: flex;
     justify-content: center;
     align-items: center;  
@@ -140,7 +140,7 @@
     border: none;
     font-family: Kruti Dev!important;
     font-weight: 500;
-    font-size: 2.5vmax;
+    font-size: 2.3vmax !important;
 }
 input:focus {
     outline: none;
