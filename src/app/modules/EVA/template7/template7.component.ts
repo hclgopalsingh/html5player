@@ -367,7 +367,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 						this.wrongTimer = setTimeout(() => {
 							this.closeModal();
 							this.postWrongAns();
-						}, 10000000000);
+						}, 10000);
 
 					}
 				}
