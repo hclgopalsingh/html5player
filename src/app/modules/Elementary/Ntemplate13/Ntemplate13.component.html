@@ -92,7 +92,7 @@
 					<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 					 <img class="img-fluid questionImg" [src]="question.imgsrc.url">
 				</div>
-				<img [ngClass]="{'disable_div':disableSpeaker}" class="img-fluid speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.url"
+				<img [ngClass]="{'disable_div':disableSpeaker}" id="speakerpopup" class="img-fluid disable_div speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.url"
 					on-mouseenter="onWrongImgHoverOption(wrongImgOption,idx)" (load)="checkImgLoaded();">
 				<div class="speakerd"></div>
 				<!-- content -->
