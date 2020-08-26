@@ -212,8 +212,8 @@ input:focus {
 .textNote {
     position: absolute;
     width: 86.7%;
-    left: 0;
-    top: 73%;
+    left: -1%;
+    top: 67%;
     z-index: 0;
     display: flex;
     justify-content: flex-end;
@@ -222,10 +222,11 @@ input:focus {
     font-family: Kruti Dev!important;
     font-weight: bold;
     font-size: 1.05vmax;
-    color: #f00;
+    color: black;
 }
 .textNote span {
     font-family: arial;
     display: inline-block;
     margin: 0 .4vmin;
+    margin-top: -0.3%;
 }
