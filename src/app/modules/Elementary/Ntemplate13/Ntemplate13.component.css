@@ -333,7 +333,7 @@
     position: absolute;
     top: 10%;
     width: 100%;
-    text-align: center;
+    text-align: center; cursor: default;
   }
 
   #instructionBar .instructionBase {
