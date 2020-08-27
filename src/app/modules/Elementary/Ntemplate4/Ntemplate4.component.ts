@@ -255,6 +255,10 @@ export class Ntemplate4 implements OnInit {
         this.appModel.resetBlinkingTimer();
     }
 
+    ngAfterViewChecked() {
+        this.templatevolume(this.appModel.volumeValue, this);
+    }
+
     ngOnDestroy(){
         clearInterval(this.blinkTimeInterval);
         clearTimeout(this.timerDelayActs);
@@ -277,10 +281,125 @@ export class Ntemplate4 implements OnInit {
 	}
     /*End: Theme Implementation(Template Changes)*/
     
-    ngAfterViewChecked() {
-        this.templatevolume(this.appModel.volumeValue, this);
+    hoverConfirm() {
+        this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
     }
 
+    houtConfirm() {
+        this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_original;
+    }
+
+    hoverDecline() {
+        this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_hover;
+    }
+
+    houtDecline() {
+        this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_original;
+    }
+
+    hoverCloseConfirm() {
+        this.confirmAssets.close_btn = this.confirmAssets.close_btn_hover;
+    }
+    houtCloseConfirm() {
+        this.confirmAssets.close_btn = this.confirmAssets.close_btn_original;
+    }
+
+    hoverOK() {
+        this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
+    }
+
+    houtOK() {
+        this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+    }
+
+    hoverCloseOk() {
+        this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+    }
+    houtCloseOk() {
+        this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+    }
+
+    hoverReplayConfirm() {
+        this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_hover;
+    }
+
+    houtReplayConfirm() {
+        this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
+    }
+
+    hoverReplayDecline() {
+        this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_hover;
+    }
+
+    houtReplayDecline() {
+        this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_original;
+    }
+
+    hoverReplayCloseConfirm() {
+        this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_hover;
+    }
+    houtReplayCloseConfirm() {
+        this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_original;
+    }
+    hoverFeedbackClose() {
+        this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_hover;
+    }
+
+    houtFeedbackClose() {
+        this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_original;
+    }
+
+    hoverFeedbackNxt() {
+        this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_hover;
+    }
+    hoverFeedbackPre() {
+        this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_hover;
+    }
+    hleaveFeedbackNxt() {
+        this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
+    }
+    hleaveFeedbackPre() {
+        this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
+    }
+    hoverSubmitConfirm(){
+        this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_hover;
+    }
+    houtSubmitConfirm(){
+        this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_original;
+    }
+    hoverSubmitDecline(){
+        this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_hover;
+    }
+    houtSubmitDecline(){
+        this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_original;
+    }
+    
+    hoverPlayPause(){
+        if(this.PlayPauseFlag)
+        {    
+            this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+        }
+        else{
+            this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+        }
+    }
+    
+    leavePlayPause(){
+        if(this.PlayPauseFlag)
+        {   
+          this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+        }
+        else{
+          this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+        }
+    }
+    hoverSkip(){
+        // this.skipFlag = false;
+        this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+    }
+    houtSkip(){
+        this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+    }
     endedHandleronSkip() {    
         this.isPlayVideo = false;   
         this.appModel.navShow = 2;  
@@ -290,7 +409,6 @@ export class Ntemplate4 implements OnInit {
             this.isOptionDisabled=false;
         }, 1000); 
     }
-
     
     PlayPauseVideo(){
         if(this.PlayPauseFlag)
@@ -306,33 +424,55 @@ export class Ntemplate4 implements OnInit {
         }
         
       }
-      hoverPlayPause(){
-        if(this.PlayPauseFlag)
-        {    
-          this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+    optionHover(idx, opt) {
+        $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleInAnimation");
+        // this.playOptionHover(idx,opt);
+    }
+    playOptionHover(idx, opt) {
+        this.appModel.notifyUserAction();
+        if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
+            this.playSound(opt.mouse_over_audio, idx);
         }
-        else{
-          this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
-        }
-      }
-    
-      leavePlayPause(){
-        if(this.PlayPauseFlag)
-        {   
-          this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
-        }
-        else{
-          this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
-        }
-      }
-      hoverSkip(){
-        // this.skipFlag = false;
-        this.quesObj.quesSkip = this.quesObj.quesSkipHover;
-       }
-       houtSkip(){
-         this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
-       }
+    }
 
+    playSound(soundAssets, idx) {
+       if(this.audio && this.audio.paused){
+        // if (soundAssets.location == 'content') {
+        //     this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+        // } else {
+        //     this.audio.src = soundAssets.url;
+        // }
+        this.audio.src = soundAssets.url;
+        this.audio.load();
+        this.audio.play();
+        for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
+            if (i != idx + 1) {
+                $(this.mainContainer.nativeElement.children[i].children[0]).addClass("disableDiv");
+            }
+        }
+        this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+        this.instructionVO.nativeElement.pause();
+        this.instructionVO.nativeElement.currentTime = 0;
+        this.instructionDisable=false;
+        this.audio.onended = () => {
+            this.instructionBar.nativeElement.classList = "instructionBase";
+            for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
+                if (i != idx + 1) {
+                    $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
+                }
+            }
+
+        }
+       }
+    }
+    optionLeave(idx, opt) {
+        $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleOutAnimation");
+        setTimeout(() => {
+            $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleInAnimation");
+            $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleOutAnimation");
+        }, 500)
+
+    }
     setData() {
         this.timerFeedback = this.fetchedcontent.feedback_next_timer;
         console.log(this.fetchedcontent);
@@ -383,56 +523,6 @@ export class Ntemplate4 implements OnInit {
         if (this.appModel && this.appModel.content) {
             return this.appModel.content.id + '';
         }
-    }
-
-    optionHover(idx, opt) {
-        $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleInAnimation");
-        // this.playOptionHover(idx,opt);
-    }
-    playOptionHover(idx, opt) {
-        this.appModel.notifyUserAction();
-        if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
-            this.playSound(opt.mouse_over_audio, idx);
-        }
-    }
-
-    playSound(soundAssets, idx) {
-       if(this.audio && this.audio.paused){
-        // if (soundAssets.location == 'content') {
-        //     this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-        // } else {
-        //     this.audio.src = soundAssets.url;
-        // }
-        this.audio.src = soundAssets.url;
-        this.audio.load();
-        this.audio.play();
-        for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-            if (i != idx + 1) {
-                $(this.mainContainer.nativeElement.children[i].children[0]).addClass("disableDiv");
-            }
-        }
-        this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
-        this.instructionVO.nativeElement.pause();
-        this.instructionVO.nativeElement.currentTime = 0;
-        this.instructionDisable=false;
-        this.audio.onended = () => {
-            this.instructionBar.nativeElement.classList = "instructionBase";
-            for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-                if (i != idx + 1) {
-                    $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
-                }
-            }
-
-        }
-       }
-    }
-    optionLeave(idx, opt) {
-        $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleOutAnimation");
-        setTimeout(() => {
-            $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleInAnimation");
-            $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleOutAnimation");
-        }, 500)
-
     }
 
     submitAttempt(idx, opt) {
@@ -688,68 +778,7 @@ export class Ntemplate4 implements OnInit {
                 this.instructionDisable=false;
             }
         }
-    }
-
-    hoverConfirm() {
-        this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
-    }
-
-    houtConfirm() {
-        this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_original;
-    }
-
-    hoverDecline() {
-        this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_hover;
-    }
-
-    houtDecline() {
-        this.confirmAssets.decline_btn = this.confirmAssets.decline_btn_original;
-    }
-
-    hoverCloseConfirm() {
-        this.confirmAssets.close_btn = this.confirmAssets.close_btn_hover;
-    }
-    houtCloseConfirm() {
-        this.confirmAssets.close_btn = this.confirmAssets.close_btn_original;
-    }
-
-    hoverOK() {
-        this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
-    }
-
-    houtOK() {
-        this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
-    }
-
-    hoverCloseOk() {
-        this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
-    }
-    houtCloseOk() {
-        this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
-    }
-
-    hoverReplayConfirm() {
-        this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_hover;
-    }
-
-    houtReplayConfirm() {
-        this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
-    }
-
-    hoverReplayDecline() {
-        this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_hover;
-    }
-
-    houtReplayDecline() {
-        this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_original;
-    }
-
-    hoverReplayCloseConfirm() {
-        this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_hover;
-    }
-    houtReplayCloseConfirm() {
-        this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_original;
-    }
+    }    
 
     sendFeedback(ref, flag: string, action?: string) {
         this.appModel.notifyUserAction();
@@ -1113,40 +1142,7 @@ export class Ntemplate4 implements OnInit {
         }, 1000);
         this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
         this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
-    }
-
-    hoverFeedbackClose() {
-        this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_hover;
-    }
-
-    houtFeedbackClose() {
-        this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_original;
-    }
-
-    hoverFeedbackNxt() {
-        this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_hover;
-    }
-    hoverFeedbackPre() {
-        this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_hover;
-    }
-    hleaveFeedbackNxt() {
-        this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
-    }
-    hleaveFeedbackPre() {
-        this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
-    }
-    hoverSubmitConfirm(){
-        this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_hover;
-    }
-    houtSubmitConfirm(){
-        this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_original;
-    }
-    hoverSubmitDecline(){
-        this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_hover;
-    }
-    houtSubmitDecline(){
-        this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_original;
-    }
+    }   
 
     nextFeedback() {
         console.log("Next");
