@@ -296,6 +296,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (Type === "answerPopup") {
 			if (this.ifRightAns) {
 				this.blinkOnLastQues();
+				if (this.lastQuestionCheck) {
+					this.Sharedservice.setTimeOnLastQues(true);
+				  }
 			}
 			else {
 				this.postWrongAns();
@@ -391,6 +394,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (this.ifRightAns) {
 			this.Sharedservice.setShowAnsEnabled(true);
 			this.blinkOnLastQues();
+			if (this.lastQuestionCheck) {
+				this.Sharedservice.setTimeOnLastQues(true);
+			  }
 		}
 		else {
 			this.postWrongAns();
