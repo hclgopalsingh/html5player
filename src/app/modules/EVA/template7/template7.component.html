@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <app-globalspeaker class="speaker_block"></app-globalspeaker>
+            <app-globalspeaker (clickSpeaker)="onSpeakerClicked()" class="speaker_block"></app-globalspeaker>
  
         </div> 
         <div class="textNote">
@@ -106,6 +106,7 @@
     </div>
 
      <!-- Popup Modal Audios -->
+  <audio #repeatFeedback [src]="repeatSound?.path?.location=='content'? contentgFolderPath + '/' +  repeatSound?.path?.url : assetsfolderlocation +'/'+ repeatSound?.path?.url"></audio>
   <audio #partialFeedback [src]="partialPopup?.path?.location=='content'? contentgFolderPath + '/' +  partialPopup?.path?.url : assetsfolderlocation +'/'+ partialPopup?.path?.url"></audio>
   <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio>
   <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio>
