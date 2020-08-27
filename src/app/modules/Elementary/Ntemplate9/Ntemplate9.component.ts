@@ -16,27 +16,10 @@ declare var $: any;
 export class Ntemplate9Component implements OnInit {
 
 
-  @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
-  @ViewChild('optionAudio') optionAudio: any;
-  @ViewChild('maincontent') maincontent: any;
-  @ViewChild('confirmModalRef') confirmModalRef: any;
-  @ViewChild('submitModalRef') submitModalRef: any;
-  @ViewChild('infoModalRef') infoModalRef: any;
-  @ViewChild('modalRef') modalRef: any;
-  @ViewChild('mainmodalRef') mainmodalRef: any;
-  @ViewChild('popupRef') popupRef: any;
-  @ViewChild('popupBodyRef') popupBodyRef: any;
-  @ViewChild('popupImage') popupImage: any;
+  @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  @ViewChild('partialpopupRef') partialpopupRef: any;
-  @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
-  @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any;
-  @ViewChild('confirmReplayRef') confirmReplayRef: any;
-  @ViewChild('mainVideo') mainVideo: any;
-  @ViewChild('puzzleSection') puzzleSection: any;
-  @ViewChild('puzzleBlock') puzzleBlock: any;  
   @ViewChild('feedbackVO') feedbackVO: any;
 
 
@@ -95,9 +78,17 @@ export class Ntemplate9Component implements OnInit {
   tempOpt:any;
   tj:any;
   instructionDisable:boolean=false;
+  instructionOpacity:boolean=false;
   rightAnsTimeout:any;
   showAnssetTimeout:any;
   puzzleBlockclicked:boolean=false;
+  puzzleBlock4disabled:boolean=false;
+  puzzleBlock9disabled:boolean=false;
+  puzzleBlock12disabled:boolean=false;
+  bodyContentOpacity:boolean=false;
+  bodyContentDisable:boolean=false;
+  displayconfirmPopup:boolean=false;
+  displaymainPopup:boolean=false;
 
   /*Start-LifeCycle events*/
     private appModel: ApplicationmodelService;
@@ -151,9 +142,10 @@ export class Ntemplate9Component implements OnInit {
       if (mode == "manual") {
         //show modal for manual
         this.appModel.notifyUserAction();
-        if (this.popupRef && this.popupRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
-          this.popupRef.nativeElement.classList = "displayPopup modal";
+        //if (this.popupRef && this.popupRef.nativeElement) {
+          this.instructionDisable=true;
+          //this.popupRef.nativeElement.classList = "displayPopup modal";
+          this.displaymainPopup=true;
           if (this.attemptType=="manual" && this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
             this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           } else {
@@ -166,19 +158,21 @@ export class Ntemplate9Component implements OnInit {
             this.closeModal();
           },this.showAnsTimeout);
         }
-        }
+        //}
       } else if (mode == "auto") {
 
         //show modal of auto
         this.appModel.notifyUserAction();
-        if (this.popupRef && this.popupRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
+        //if (this.popupRef && this.popupRef.nativeElement) {
+          this.instructionDisable=true;
           this.checked = true;
           this.attemptType = "auto";
           this.rightanspopUpheader_img = false;
           this.showanspopUpheader_img = true;
-          this.confirmModalRef.nativeElement.classList="modal";
-          this.popupRef.nativeElement.classList = "displayPopup modal";
+          //this.confirmModalRef.nativeElement.classList="modal";
+          this.displayconfirmPopup=false;
+          //this.popupRef.nativeElement.classList = "displayPopup modal";
+          this.displaymainPopup=true;
           if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
             this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgshowAnsfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
           }
@@ -189,10 +183,9 @@ export class Ntemplate9Component implements OnInit {
               this.closeModal();
             }, this.showAnsTimeout);
           }
-        }
+        //}
       }
-    })
-
+    });
 
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
@@ -201,10 +194,11 @@ export class Ntemplate9Component implements OnInit {
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.currentTime = 0;
           this.instruction.nativeElement.pause();}
-        if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
-          this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-        }
+        //if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
+          this.instructionDisable=true;
+          this.displayconfirmPopup=true;
+          //this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+        //}
       }
     });
 
@@ -276,7 +270,7 @@ export class Ntemplate9Component implements OnInit {
   onClickoption(opt, j) {
     this.puzzleBlockclicked=true;
     this.instructionDisable=false;
-    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+    //this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
     this.appModel.handlePostVOActivity(true);
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -287,11 +281,11 @@ export class Ntemplate9Component implements OnInit {
       if (opt.id == this.indexOfBlock) {
         this.checked = true;
         if (this.noOfBlocks == 4) {
-          $("#puzzleBlock4").addClass("disable_div");
+          this.puzzleBlock4disabled=true;
         } else if (this.noOfBlocks == 9) {
-          $("#puzzleBlock9").addClass("disable_div");
+          this.puzzleBlock9disabled=true;
         } else if (this.noOfBlocks == 12) {
-          $("#puzzleBlock12").addClass("disable_div");
+          this.puzzleBlock12disabled=true;
         }
         clearInterval(this.blinkTimeInterval);
         this.blinkTimeInterval = 0;
@@ -304,11 +298,12 @@ export class Ntemplate9Component implements OnInit {
             this.attemptType = "manual";
             this.rightanspopUpheader_img = true;
             this.showanspopUpheader_img = false;
+            this.checked=true;
             this.appModel.invokeTempSubject('showModal', 'manual');
-            $(".bodyContent").css("opacity", "0.3");
-            $("#instructionBar").css("opacity", "0.3");
-            $(".bodyContent").addClass("disable_div");
-            $(".instructionBase").addClass("disable_div");
+            this.bodyContentOpacity=true;
+            this.instructionOpacity=true;
+            this.bodyContentDisable=true;
+            this.instructionDisable=true;
           }, 3200);
           for (let i = 0; i < this.optionObj.length; i++) {
             if (this.optionObj[i] && this.optionObj[i].Matched) {
@@ -318,11 +313,11 @@ export class Ntemplate9Component implements OnInit {
         }
       } else {
         if (this.noOfBlocks == 4) {
-          $("#puzzleBlock4").addClass("disable_div");
+          this.puzzleBlock4disabled=true;
         } else if (this.noOfBlocks == 9) {
-          $("#puzzleBlock9").addClass("disable_div");
+          this.puzzleBlock9disabled=true;
         } else if (this.noOfBlocks == 12) {
-          $("#puzzleBlock12").addClass("disable_div");
+          this.puzzleBlock12disabled=true;
         }
         this.onPlacePuzzle(opt, i, j);
       }
@@ -396,15 +391,15 @@ export class Ntemplate9Component implements OnInit {
           this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         } else {
             this.puzzleBlockclicked=false;
-            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            //this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
             this.appModel.handlePostVOActivity(false)
             this.checked = false;
             if (this.noOfBlocks == 4) {
-              $("#puzzleBlock4").removeClass("disable_div");
+              this.puzzleBlock4disabled=false;
             } else if (this.noOfBlocks == 9) {
-              $("#puzzleBlock9").removeClass("disable_div");
+              this.puzzleBlock9disabled=false;
             } else if (this.noOfBlocks == 12) {
-              $("#puzzleBlock12").removeClass("disable_div");
+              this.puzzleBlock12disabled=false;
             }
             this.startCount=1;
             this.blinkHolder();
@@ -414,15 +409,15 @@ export class Ntemplate9Component implements OnInit {
           this.feedbackVO.nativeElement.onended = () => {
             console.log("audio end");
             this.puzzleBlockclicked=false;
-            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            //this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
             this.appModel.handlePostVOActivity(false)
             this.checked = false;
             if (this.noOfBlocks == 4) {
-              $("#puzzleBlock4").removeClass("disable_div");
+              this.puzzleBlock4disabled=false;
             } else if (this.noOfBlocks == 9) {
-              $("#puzzleBlock9").removeClass("disable_div");
+              this.puzzleBlock9disabled=false;
             } else if (this.noOfBlocks == 12) {
-              $("#puzzleBlock12").removeClass("disable_div");
+              this.puzzleBlock12disabled=false;
             }
             this.startCount=1;
             this.blinkHolder();
@@ -480,14 +475,14 @@ export class Ntemplate9Component implements OnInit {
           $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
             this.optionsBlock.nativeElement.children[j+1].src = this.optionObj[j].imgsrc.url;
             if (this.noOfBlocks == 4) {
-              $("#puzzleBlock4").removeClass("disable_div");
+              this.puzzleBlock4disabled=false;
             } else if (this.noOfBlocks == 9) {
-              $("#puzzleBlock9").removeClass("disable_div");
+              this.puzzleBlock9disabled=false;
             } else if (this.noOfBlocks == 12) {
-              $("#puzzleBlock12").removeClass("disable_div");
+              this.puzzleBlock12disabled=false;
             }
             this.appModel.handlePostVOActivity(false);
-            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            //this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
             this.startCount=1;
             this.blinkHolder();
           });   
@@ -505,9 +500,6 @@ export class Ntemplate9Component implements OnInit {
   templatevolume(vol, obj) {
     if (obj.narrator && obj.narrator.nativeElement) {
       obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.optionAudio && obj.optionAudio.nativeElement) {
-      obj.optionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
       obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -542,12 +534,28 @@ export class Ntemplate9Component implements OnInit {
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.appModel.handlePostVOActivity(true);
-      this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
-      this.puzzleSection.nativeElement.classList = "bodyContent disable_div";
+      //this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
+      if (this.noOfBlocks == 4) {
+        this.puzzleBlock4disabled=true;
+      } else if (this.noOfBlocks == 9) {
+        this.puzzleBlock9disabled=true;
+      } else if (this.noOfBlocks == 12) {
+        this.puzzleBlock12disabled=true;
+      }
+      this.bodyContentDisable=true;
+      this.instructionDisable=true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-        this.puzzleSection.nativeElement.classList = "bodyContent";
-        this.optionsBlock.nativeElement.classList = "row mx-0";
+        this.instructionDisable=false;
+        this.bodyContentDisable=false;
+        //this.optionsBlock.nativeElement.classList = "row mx-0";
+        if (this.noOfBlocks == 4) {
+          this.puzzleBlock4disabled=false;
+        } else if (this.noOfBlocks == 9) {
+          this.puzzleBlock9disabled=false;
+        } else if (this.noOfBlocks == 12) {
+          this.puzzleBlock12disabled=false;
+        }
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
       }
@@ -569,7 +577,7 @@ export class Ntemplate9Component implements OnInit {
         this.blinkHolderImg(this.index1);
       } else {
         clearInterval(this.blinkTimeInterval);
-        console.log(this.optionsBlock.nativeElement);
+        //console.log(this.optionsBlock.nativeElement);
         // if (this.blockcount > 1) {
         //   for (let i = 0; i < this.optionsBlock.nativeElement.children.length; i++) {
         //     if (this.optionObj[i] && this.optionObj[i].imgsrc_original && this.optionObj[i]) {
@@ -655,9 +663,17 @@ export class Ntemplate9Component implements OnInit {
   
 
   sendFeedback(id: string, flag: string) {
-    this.confirmModalRef.nativeElement.classList = "modal";
+    //this.confirmModalRef.nativeElement.classList = "modal";
+    this.displayconfirmPopup=false;
     if (flag == "yes") {
-      this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+      //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+        if (this.noOfBlocks == 4) {
+          this.puzzleBlock4disabled=true;
+        } else if (this.noOfBlocks == 9) {
+          this.puzzleBlock9disabled=true;
+        } else if (this.noOfBlocks == 12) {
+          this.puzzleBlock12disabled=true;
+        }
       this.showAnssetTimeout=setTimeout(() => {
         this.attemptType = "auto";
         this.rightanspopUpheader_img = false;
@@ -666,14 +682,13 @@ export class Ntemplate9Component implements OnInit {
         this.appModel.resetBlinkingTimer();
       }, 100);
 
-      $("#instructionBar").addClass("disable_div");
-      $(".puzzleBlock").addClass("disable_div");
-      $(".bodyContent").css("opacity", "0.3");
-      $("#instructionBar").css("opacity", "0.3");
+      this.instructionDisable=true;
+      this.bodyContentOpacity=true;
+      this.instructionOpacity=true;
       this.checked = true;
     } else {
       this.appModel.notifyUserAction();
-      $("#instructionBar").removeClass("disable_div");
+      this.instructionDisable=false;
     }
   }
 
@@ -690,16 +705,23 @@ export class Ntemplate9Component implements OnInit {
             } 
         }
     //}
-    this.popupRef.nativeElement.classList = "modal";
-    $("#instructionBar").css("opacity", "0.3");
-    $(".bodyContent").css("opacity", "0.3");
-    $(".bodyContent").addClass("disable_div");
+    //this.popupRef.nativeElement.classList = "modal";
+    this.displaymainPopup=false;
+    this.instructionOpacity=true;
+    this.bodyContentOpacity=true;
+    this.bodyContentDisable=true;
     this.appModel.notifyUserAction();
       this.blinkOnLastQues();
     if (!this.checked) {
       setTimeout(() => {
-        $("#instructionBar").removeClass("disable_div");
-        $("#optionsBlock .options").removeClass("disable_div");
+        this.instructionDisable=false;
+        if (this.noOfBlocks == 4) {
+          this.puzzleBlock4disabled=false;
+        } else if (this.noOfBlocks == 9) {
+          this.puzzleBlock9disabled=false;
+        } else if (this.noOfBlocks == 12) {
+          this.puzzleBlock12disabled=false;
+        }
       }, 1000);
     }
   }
