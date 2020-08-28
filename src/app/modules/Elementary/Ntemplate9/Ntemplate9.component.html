@@ -3,24 +3,24 @@
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div #maincontent>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="top:9% !important;">
-    <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
+    <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable,'classOpacity':instructionOpacity}">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
     </div>
   </div>
-  <div class="bodyContent" #puzzleSection>
+  <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}" #puzzleSection>
     <!-- New Implementation -->
-    <div id="puzzleBlock4" #optionsBlock *ngIf="isBlock4">
+    <div id="puzzleBlock4" #optionsBlock *ngIf="isBlock4" [ngClass]="{'disable_div':puzzleBlock4disabled}">
       <div class="shadowBlock"></div>
       <img id={{opt.id}} class="img-fluid" *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block" (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)" (click)="onClickoption(opt,idx)">
       <audio #optionAudio></audio>
     </div>
-    <div id="puzzleBlock12" #optionsBlock *ngIf="isBlock12">
+    <div id="puzzleBlock12" #optionsBlock *ngIf="isBlock12" [ngClass]="{'disable_div':puzzleBlock12disabled}">
       <div class="shadowBlock"></div>
       <img id={{opt.id}} class="img-fluid" *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block" (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)" (click)="onClickoption(opt,idx)">
       <audio #optionAudio></audio>
     </div>
-    <div id="puzzleBlock9" #optionsBlock *ngIf="isBlock9">
+    <div id="puzzleBlock9" #optionsBlock *ngIf="isBlock9" [ngClass]="{'disable_div':puzzleBlock9disabled}">
       <div class="shadowBlock"></div>
       <img id={{opt.id}} class="img-fluid" *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block" (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)" (click)="onClickoption(opt,idx)">
       <audio #optionAudio></audio>
@@ -28,7 +28,7 @@
   </div>
   </div>
     <!-- The Confirmation Modal -->
-  <div class="modal" id="confirmModal" #confirmModalRef>
+  <div class="modal" id="confirmModal" #confirmModalRef [ngClass]="{'displayPopup':displayconfirmPopup}">
     <div class="modal-dialog">
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
@@ -36,7 +36,7 @@
           <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+        <div class="modal-body"  [ngStyle]="feedbackObj?.confirm_popup?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
           <div class="actionButtons">
             <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
@@ -48,7 +48,7 @@
     </div>
   </div>
   <!-- Modal -->
-  <div class="modal" id="modalTemp9" #popupRef>
+  <div class="modal" id="modalTemp9" [ngClass]="{'displayPopup':displaymainPopup}">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 

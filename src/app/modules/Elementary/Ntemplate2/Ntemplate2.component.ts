@@ -19,7 +19,7 @@ declare var $: any;
 })
 
 export class Ntemplate2 implements OnInit, OnDestroy {
-	private appModel: ApplicationmodelService;
+	private appModel: ApplicationmodelService;		
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
@@ -147,6 +147,13 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	instructionDisable:boolean=false;
 	isOptionDisabled:boolean=true;
 	// isOptionPlayed:boolean=false;
+	// feedbackAttempt: NodeJS.Timer;
+	wrongAnimTimeout: NodeJS.Timer;
+	correctAnimTimeout: NodeJS.Timer;
+	correctAnimTimeout2: NodeJS.Timer;
+	correctAnimTimeout3: NodeJS.Timer;
+	popTimeout: NodeJS.Timer;
+	showAnsTimer: NodeJS.Timer;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -242,6 +249,18 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		/*End: Theme Implementation(Template Changes)*/
 		this.audio.pause();
 		this.audio.currentTime = 0;
+		this.wrongFeedbackVO.nativeElement.pause();
+		this.wrongFeedbackVO.nativeElement.currentTime = 0;
+		this.rightFeedbackVO.nativeElement.pause();
+		this.rightFeedbackVO.nativeElement.currentTime = 0;
+		// clearTimeout(this.feedbackAttempt);
+		
+		clearTimeout(this.wrongAnimTimeout);
+		clearTimeout(this.correctAnimTimeout);
+		clearTimeout(this.correctAnimTimeout2);
+		clearTimeout(this.correctAnimTimeout3);
+		clearTimeout(this.popTimeout);
+		clearTimeout(this.showAnsTimer);
 	}
 
 	postWrongAttempt(){
@@ -427,16 +446,16 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 					this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 					this.noOfRightAns++;
 					this.removeAssetsFromPopup(opt.id+","+opt.matchingId);
-					setTimeout(() => {
+					this.correctAnimTimeout=setTimeout(() => {
 						this.checkForOtherVO();
 						this.rightFeedbackVO.nativeElement.src = this.feedback.right_ans_sound[this.rightSelectedIdx ].url;
 						this.stopOptionHoverAudio();
 						this.rightFeedbackVO.nativeElement.play();
 						this.rightFeedbackVO.nativeElement.onended = () => {
-							setTimeout(() => {
+							this.correctAnimTimeout2=setTimeout(() => {
 								$(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomInAnimation').addClass('zoomOutAnimation');
 								$(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomInAnimation').addClass('zoomOutAnimation');
-								setTimeout(() => {
+								this.correctAnimTimeout3=setTimeout(() => {
 									$(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomOutAnimation');
 								    $(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomOutAnimation');
 									this.appModel.notifyUserAction();
@@ -468,7 +487,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						}
 					}, 500)
 				} else {
-					setTimeout(() => {
+					this.wrongAnimTimeout=setTimeout(() => {
 						this.checkForOtherVO();
 						this.type = "right"
 						this.stopOptionHoverAudio();
@@ -477,13 +496,11 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						this.wrongFeedbackVO.nativeElement.onended = () => {							
 							// this.appModel.notifyUserAction();
 							$(".ansBtn").removeClass("disableBtn");	
-							// this.isOptionDisabled=false;							
 							setTimeout(() => {
 								this.isOptionDisabled=false;
-								console.log(this.isOptionDisabled);
 							}, 1000);
 							this.resetTimerForAnswer('right');
-							this.appModel.wrongAttemptAnimation();			
+							this.appModel.wrongAttemptAnimation();
 						}
 					}, 500)
 				}
@@ -558,17 +575,17 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 				if (this.leftMatchingIdx == opt.id) {
 					this.noOfRightAns++;
 					this.removeAssetsFromPopup(opt.matchingId+","+ opt.id);
-					setTimeout(() => {
+					this.correctAnimTimeout=setTimeout(() => {
 						this.checkForOtherVO();
 						this.rightFeedbackVO.nativeElement.src = this.feedback.single_right_ans[this.leftSelectedIdx ].url
 						this.stopOptionHoverAudio();
 						this.rightFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
 						this.rightFeedbackVO.nativeElement.onended = () => {
-							setTimeout(() => {
+							this.correctAnimTimeout2=setTimeout(() => {
 								$(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomInAnimation').addClass('zoomOutAnimation');
 								$(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomInAnimation').addClass('zoomOutAnimation');
-								setTimeout(() => {
+								this.correctAnimTimeout3=setTimeout(() => {
 								    $(this.optionsBlock.nativeElement.children[0].children[this.leftSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomOutAnimation');
 								    $(this.optionsBlock.nativeElement.children[2].children[this.rightSelectedIdx]).animate({ left: 0, top: 0 }, 500).removeClass('zoomOutAnimation');
 									this.appModel.notifyUserAction();
@@ -601,24 +618,20 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 						}
 					}, 500)
 				} else {
-					setTimeout(() => {
+					this.wrongAnimTimeout=setTimeout(() => {
 						this.type = "left"
 						this.checkForOtherVO();
 						console.log("i am in the wrong option selected block--------->")
 						this.stopOptionHoverAudio();
 						this.wrongFeedbackVO.nativeElement.play();
 						this.instructionBar.nativeElement.classList ="instructionBase disableDiv";
-						this.wrongFeedbackVO.nativeElement.onended = () => {
-							
+						this.wrongFeedbackVO.nativeElement.onended = () => {							
 							$(".ansBtn").removeClass("disableBtn");	
-							// this.isOptionDisabled=false;
 							setTimeout(() => {
 								this.isOptionDisabled=false;
-								console.log(this.isOptionDisabled);
-							}, 1000);
-							
+							}, 1000);							
 							this.resetTimerForAnswer('left');	
-							this.appModel.wrongAttemptAnimation();													
+							this.appModel.wrongAttemptAnimation();
 						}
 					}, 500)
 				}
@@ -671,7 +684,7 @@ removeAssetsFromPopup(id:string){
 		}
 	}
 
-	blinkOnLastQues(){
+	blinkOnLastQues(){	
 		if((this.appModel.isLastSectionInCollection && this.noOfRightAns== this.feedbackObj.noOfSubQues) || (this.appModel.isLastSectionInCollection && this.isShowAnswerDisplayed)){
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
@@ -690,9 +703,10 @@ removeAssetsFromPopup(id:string){
 			{
 				this.appModel.moveNextQues();
 			}
-			else { this.appModel.moveNextQues(this.attemptType);
-
-			this.disableScreen();}
+			else {				
+			this.appModel.moveNextQues(this.attemptType);
+			this.disableScreen();				 
+			}
 		}else{
 			this.instructionBar.nativeElement.classList ="instructionBase";
 		}
@@ -1008,7 +1022,7 @@ removeAssetsFromPopup(id:string){
 				this.feedbackPopupAudio.nativeElement.pause();
 				this.feedbackPopupAudio.nativeElement.currentTime = 0;
 			}
-			setTimeout(()=>{
+			this.popTimeout=setTimeout(()=>{
 				this.popupRef.nativeElement.classList = "modal";
 				this.attemptType = "nblink"
 				this.blinkOnLastQues();
@@ -1057,7 +1071,7 @@ removeAssetsFromPopup(id:string){
 					this.playFeedbackAudio(current);
 			}
 		}else{
-		setTimeout(()=>{
+		this.showAnsTimer=setTimeout(()=>{
 			this.closeModal();
 		},this.showAnsTimeout)
 		}

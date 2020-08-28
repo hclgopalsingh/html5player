@@ -12,9 +12,9 @@
 
     <div id="coverTop"></div>
     <div id="coverBtm"></div>
-    <div class="speaker">
+    <div class="speaker" [ngClass]="{'disable_div':disableSpeaker}">
       <img class="img-fluid" [src]="commonAssets?.speaker?.url" (click)="playSpeaker($event)">
-      <div class="speakerWave"></div>
+      <div class="speakerWave" [ngClass]="{'dispFlex':speakerWave}"></div>
     </div>
     <audio #Speaker [src]="commonAssets?.speaker_vo?.url"></audio>
 

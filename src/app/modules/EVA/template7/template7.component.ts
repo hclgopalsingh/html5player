@@ -734,6 +734,8 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	checkforDuplicates(item) {
 		console.log("item",item)
 		this.stopAllSounds();
+		this.autofocus = false;
+		document.getElementById(this.ansArray[this.activeId].id).blur();
 		let currentId = item.id ;
 		let currentValue = item.value;
 		for (let i = 0; i < this.ansArray.length; i++) {
@@ -748,12 +750,21 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		return true;
 	}
 
+	//things to do after repeated word is found
 	postRepeatStuff(item){
+		for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+		  }
 		this.repeatFeedback.nativeElement.play();
 		this.optionsBlock.nativeElement.classList = "disable_div";
 		this.repeatFeedback.nativeElement.onended = () => {
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+				document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+			  }
 			this.optionsBlock.nativeElement.classList = "";
 			item.value = "";
+			this.autofocus = true;
+			document.getElementById(this.ansArray[this.activeId].id).focus();
 			// this.videoonshowAnspopUp.nativeElement.play();
 		}
 
@@ -804,7 +815,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		  sessionStorage.setItem("tabsVisited", JSON.stringify(visitedTabsArr));
 		}
 	  }
-	  
+
 	  /** Function called on click of speaker **/
 	onSpeakerClicked() {
 		this.stopAllSounds();
