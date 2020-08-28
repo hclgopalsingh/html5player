@@ -43,7 +43,6 @@ import { Ntemplate18 } from './controller/Ntemplate18.component';
 import { Ntemplate18_1 } from './controller/Ntemplate18_1.component';
 import { Ntemplate19 } from './controller/Ntemplate19.component';
 import { Ntemplate24 } from './controller/Ntemplate24.component';
-import { Ntemplate17 } from './controller/Ntemplate17.component';
 import { Ntemplate21 } from './controller/Ntemplate21.component';
 import { Ntemplate24_1 } from './controller/Ntemplate24_1.component'
 import { Ntemplate20 } from './controller/Ntemplate20.component'
@@ -53,6 +52,7 @@ import { AnimationComponent } from './controller/animation.component'
 import { InactivityTimerComponent } from './controller/inactivity-timer-component'
 import { Ntemplate10 } from './modules/Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from './controller/Ntemplate11.component';
+import { Ntemplate17Component } from './modules/Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
 import { Ntemplate12 } from './controller/Ntemplate12.component';
 import { Ntemplate16 } from './controller/Ntemplate16.component';
@@ -99,7 +99,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		Ntemplate8,
 		Ntemplate4,
 		Ntemplate18,
-		Ntemplate17,
 		Ntemplate24,
 		Ntemplate18_1,
 		Ntemplate19,
@@ -118,6 +117,7 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		QuesController,
 		InactivityTimerComponent,
 		AnimationComponent,
+		Ntemplate17Component,
 		Ntemplate17_1,
 		NtemplateMap
 	],

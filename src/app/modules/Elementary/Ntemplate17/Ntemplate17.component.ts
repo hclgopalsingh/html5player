@@ -1,36 +1,33 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { timer } from 'rxjs/observable/timer';
 import { defer } from 'rxjs/observable/defer';
 import { interval } from 'rxjs/observable/interval';
+import 'jquery';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { InactivityTimerComponent } from '../../../controller/inactivity-timer-component';
+import { retry } from 'rxjs/operators/retry';
 
 import Keyboard from "simple-keyboard";
 import hindiLayout from "simple-keyboard-layouts/build/layouts/hindi";
 import englishLayout from "simple-keyboard-layouts/build/layouts/english";
-import { PlayerConstants } from '../common/playerconstants';
-
-import 'jquery';
-import { InactivityTimerComponent } from './inactivity-timer-component';
-import { retry } from 'rxjs/operators/retry';
-
 
 declare var $: any;
-
-
 
 
 @Component({
   selector: 'ntemp17',
   encapsulation: ViewEncapsulation.None,
-  templateUrl: '../view/layout/Ntemplate17.component.html',
-  styleUrls: ['../view/css/Ntemplate17.component.css', '../view/css/bootstrap.min.css', "../../../node_modules/simple-keyboard/build/css/index.css",],
-
+  templateUrl: './Ntemplate17.component.html',
+  styleUrls: ['./Ntemplate17.component.css','../../../view/css/bootstrap.min.css',"../../../../../node_modules/simple-keyboard/build/css/index.css"]
 })
+export class Ntemplate17Component implements OnInit {
 
-export class Ntemplate17 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService, public _InactivityTimerComponent: InactivityTimerComponent) {
+  constructor(appModel: ApplicationmodelService, public _InactivityTimerComponent: InactivityTimerComponent,private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 1;
@@ -205,7 +202,17 @@ export class Ntemplate17 implements OnInit {
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
   _playInstructionFlag: boolean = false;
-  disablebtnarrEng=['{tab}','{enter}','[',']','{','}','|','>','<','?','/','\\','{space}',"{shift}"]; 
+  disablebtnarrEng=['{tab}','{enter}','[',']','{','}','|','>','<','?','/','\\','{space}',"{shift}"];
+  /*Start: Theme Implementation(Template Changes)*/
+  controlHandler = {
+		isSubmitRequired:false,
+    isReplayRequired:false
+  };
+  themePath:any;
+  fetchedcontent:any;
+  functionalityType:any;
+  showAnsTimeout:number;
+  /*END: Theme Implementation(Template Changes)*/ 
 
 
 
@@ -340,7 +347,7 @@ export class Ntemplate17 implements OnInit {
   };
 
   playHoverInstruction() {
-    if (!this.instruction.nativeElement.paused!) {
+    if (!this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       console.log("play on Instruction");
@@ -435,7 +442,17 @@ export class Ntemplate17 implements OnInit {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
-
+        /*Start: Theme Implementation(Template Changes)*/
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
+    this.checkquesTab();
+    this.appModel.globalJsonData.subscribe(data=>{
+      this.showAnsTimeout = data.showAnsTimeout;
+    });
+    /*End: Theme Implementation(Template Changes)*/
     this.setData();
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -547,6 +564,14 @@ export class Ntemplate17 implements OnInit {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
+  checkquesTab() {
+    if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+      this.appModel.getJson();      
+    }
+  }
+
   checkImgLoaded() {
     if (!this.loadFlag) {
       this.noOfImgsLoaded++;
@@ -599,12 +624,12 @@ export class Ntemplate17 implements OnInit {
 
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      //console.log(fetchedData);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+     // this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
@@ -612,18 +637,24 @@ export class Ntemplate17 implements OnInit {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.feedbackObj = fetchedData.feedback;
-      this.confirmPopupAssets = fetchedData.feedback;
-      this.submitPopupAssets = fetchedData.submit_popup;
-      this.replayconfirmAssets = fetchedData.replay_confirm;
-      this.quesObj = fetchedData.quesObj;
-      this.addBtn = fetchedData.other_assets.addBtn;
-      this.refBase = fetchedData.other_assets.ref_base;
-      this.wordBox = fetchedData.other_assets.word_box;
-      this.testAssts = fetchedData.test_assets;
+      this.feedbackObj = this.fetchedcontent.feedback;
+      this.confirmPopupAssets = this.fetchedcontent.feedback;
+      this.submitPopupAssets = this.fetchedcontent.submit_popup;
+      this.replayconfirmAssets = this.fetchedcontent.replay_confirm;
+      this.quesObj = this.fetchedcontent.quesObj;
+      /*Start: Theme Implementation(Template Changes)*/
+        this.controlHandler={
+              isSubmitRequired:this.quesObj.submitRequired,
+              isReplayRequired:this.quesObj.replayRequired
+        }
+      /*End: Theme Implementation(Template Changes)*/
+      this.addBtn = this.fetchedcontent.other_assets.addBtn;
+      this.refBase = this.fetchedcontent.other_assets.ref_base;
+      this.wordBox = this.fetchedcontent.other_assets.word_box;
+      this.testAssts = this.fetchedcontent.test_assets;
       this.inputFieldText = this.commonAssets.inputFieldText.info;
       this.playMyVideo = this.quesObj.quesVideo.PlayVideo;
-      this.infoPopupAssets = fetchedData.info_popup;
+      this.infoPopupAssets = this.fetchedcontent.info_popup;
       this._questionAreaImage = this.commonAssets.questionArea[0].image;
       this._questionAreaVideo = this.commonAssets.questionArea[0].video;
       this._questionAreaText = this.commonAssets.questionArea[0].text.txt;
@@ -637,12 +668,12 @@ export class Ntemplate17 implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         this.layout = hindiLayout;
-        this.keyBoard1 = fetchedData.Keyboard;
-        this.rowIndex1 = fetchedData.Keyboard[0].row1;
-        this.rowIndex2 = fetchedData.Keyboard[0].row2;
-        this.rowIndex3 = fetchedData.Keyboard[0].row3;
-        this.btmRowIndex = fetchedData.Keyboard[0].btmRow;
-        this.numPadIndex = fetchedData.Keyboard[0].numPadArray;
+        this.keyBoard1 = this.fetchedcontent.Keyboard;
+        this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
+        this.rowIndex2 = this.fetchedcontent.Keyboard[0].row2;
+        this.rowIndex3 = this.fetchedcontent.Keyboard[0].row3;
+        this.btmRowIndex = this.fetchedcontent.Keyboard[0].btmRow;
+        this.numPadIndex = this.fetchedcontent.Keyboard[0].numPadArray;
         this.inputDivRef.nativeElement.children[0].classList.add("inputHindiDiv");
         this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
@@ -1493,9 +1524,5 @@ export class Ntemplate17 implements OnInit {
     $("#instructionBar").removeClass("disable_div");
     this.appModel.enableReplayBtn(true);
   }
+
 }
-
-
-
-
-

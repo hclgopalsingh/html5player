@@ -9,6 +9,7 @@ import { Ntemplate7 } from './Ntemplate7/Ntemplate7.component';
 import { Ntemplate13 } from './Ntemplate13/Ntemplate13.component';
 import { Ntemplate1Component } from './Ntemplate1/Ntemplate1.component';
 import { Ntemplate9Component } from './Ntemplate9/Ntemplate9.component';
+
  
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { Ntemplate9Component } from './Ntemplate9/Ntemplate9.component';
   Ntemplate7,
   Ntemplate13,
   Ntemplate1Component,
-	Ntemplate9Component,
+	Ntemplate9Component
   ],
   providers: []
 })

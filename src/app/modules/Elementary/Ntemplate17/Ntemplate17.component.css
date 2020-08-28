@@ -7,8 +7,9 @@ button:focus {
 
 @font-face {
   font-family: 'Kruti Dev 010';
-  src: url('../../../assets/fonts/Content/K010.ttf') format('truetype');
+  src: url('../../../../assets/fonts/Content/K010.ttf') format('truetype');
 }
+
 
 #navBlock .ansBtn{
   visibility: hidden;
@@ -322,10 +323,10 @@ button:focus {
   width: 7%;
 }
 
-#navBlock .nextBtn {
+/*#navBlock .nextBtn {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
-}
+}*/
 
 .optionAnimate {
   transform: scale(1.1);
