@@ -25,14 +25,14 @@
 			<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 			<img class="img-fluid questionImg" [src]="question.imgsrc?.url" (load)="checkImgLoaded();">
 		</div>
-		<div id="ansBlock" #optionBlock [style.width]="myoption?.length>3 ? '8%':'10%'">
+		<div id="ansBlock" class="disable_div" [ngClass]="{'disable_div':optionDisable}" #optionBlock [style.width]="myoption?.length>3 ? '8%':'10%'">
 			<div class="options" *ngFor="let opt of myoption;let idx = index">
 				<!--<img class="img-fluid option-img" src="{{opt.imgsrc}}" on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="checkAnswer(opt,idx)">-->
 				<img class="img-fluid" [src]="opt.imgsrc.url" (mouseenter)="entering(opt, ind)"
 					(mousemove)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt)"
 					(click)="checkAnswer(opt,idx)" (load)="checkImgLoaded();">
-				<div class="speaker"></div>
-				<audio [src]="opt?.sound?.url" id="{{idx}}"></audio>
+				<div #optionWave class="speaker"></div>
+				<audio #optionAudioElement [src]="opt?.sound?.url" id="{{idx}}"></audio>
 			</div>
 		</div>
 	</div>
@@ -92,7 +92,7 @@
 					<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 					 <img class="img-fluid questionImg" [src]="question.imgsrc.url">
 				</div>
-				<img [ngClass]="{'disable_div':disableSpeaker}" class="img-fluid speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.url"
+				<img [ngClass]="{'disable_div':disableSpeaker}" id="speakerpopup" class="img-fluid disable_div speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.url"
 					on-mouseenter="onWrongImgHoverOption(wrongImgOption,idx)" (load)="checkImgLoaded();">
 				<div class="speakerd"></div>
 				<!-- content -->
