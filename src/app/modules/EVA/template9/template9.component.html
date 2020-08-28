@@ -27,31 +27,15 @@
       <div class="queryBlock">
         <img class="img-fluid"
           [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
-          <div id="mainques" #quesRef (mousemove)="MouseOver($event)" (mouseout)="MouseOut($event)" (click)="onClick($event)" (dblclick)="ondblClick($event)">
+          <div id="mainques" #quesRef on-mousemove="MouseOver($event)" on-mouseout="MouseOut($event)" (click)="onClick($event)">
           </div>
-        <!-- <div [ngClass]="{'inputBlockParent':true,'divideBlock':quesObj?.tablet?.quesType==='divide'}">
-          <div id="inputBlock" *ngIf="quesObj?.tablet?.quesType!=='divide'; else divideBlock"
-            [ngClass]="[parentInputClass]">
-            <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
-              [ngClass]="{'rowClass':true, 'borderlineParent':quesTxt?.bottomLine}">
-              <ng-container *ngFor="let no of quesTxt?.rowValues;">
-                <div
-                  [ngClass]="{'font-style':true, 'highlightBox':no?.highlight, 'blinkBox':no?.blink, 'operator':no?.operator, 'placevalue':no?.placevalue}">
-                  <img [ngClass]="{'img-fluid':true, 'dark': true, 'onesPlaceOperator':no?.escape}"
-                    [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : no?.location=='assets' ? assetsPath + '/' +no?.url:''">
-                </div>
-              </ng-container>
-              <div class="border-line" *ngIf="quesTxt?.bottomLine"></div>
-            </div>
-          </div> -->
         </div>
-      <!-- </div> -->
 
-      <div class="keypadBlock">
+      <div [ngClass]="{'disableDiv':disableOptions,'keypadBlock':true}">
         <img class="img-fluid"
           [src]="myoption?.pencil?.image?.location=='content' ? containgFolderPath + '/' + myoption?.pencil?.image?.url : myoption?.pencil?.image?.location=='assets' ? assetsPath + '/' +myoption?.pencil?.image?.url:''"
           alt="">
-        <div class="optionContainer" #optionsContainer>
+        <div class="optionContainer" [ngClass]="[parentOptionsClass]" #optionsContainer>
           <div id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index"
             (click)="checkAnswer(option, idx)" on-mousemove="onHoverOptions(option)" on-mouseout="onHoveroutOptions(option)"
             on-mouseenter='playOptionHover(option,idx)'>
@@ -77,10 +61,10 @@
         <div class="modal-body d-flex align-items-center">
           <img class="img-fluid"
             [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-          <div class="queryBlock">
-            <img class="img-fluid"
-              [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
-            <div [ngClass]="{'inputBlockParent':true,'divideBlock':quesObj?.tablet?.quesType==='divide'}">
+          <div class="queryBlock" id="rightAnsPopup">
+            <!-- <img class="img-fluid"
+              [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''"> -->
+            <!-- <div [ngClass]="{'inputBlockParent':true,'divideBlock':quesObj?.tablet?.quesType==='divide'}">
               <div id="inputBlock" *ngIf="quesObj?.tablet?.quesType!=='divide'; else divideBlock"
                 [ngClass]="[parentInputClass]">
                 <div *ngFor="let quesTxt of quesObj?.tablet?.questionText;"
@@ -95,7 +79,7 @@
                   <div class="border-line" *ngIf="quesTxt?.bottomLine"></div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="rightWrongAns">
             <img class="img-fluid"

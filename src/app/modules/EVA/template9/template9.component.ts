@@ -1,72 +1,55 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
+import 'jquery';
+import { Subscription } from 'rxjs/Subscription';
+
+
+declare var $: any;
 
 @Component({
   selector: 'app-template9',
   templateUrl: './template9.component.html',
   styleUrls: ['./template9.component.css']
 })
-export class Template9Component implements OnInit {
+export class Template9Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
-  blink: boolean = false;
-  commonAssets: any = "";
+  commonAssets: any = '';
   rightPopup: any;
   wrongPopup: any;
   myoption: any = [];
-  feedback: any = "";
-  isLastQues: boolean = false;
+  feedback: any = '';
+  isLastQues = false;
   isAutoplayOn: boolean;
   isLastQuesAct: boolean;
   noOfImgs: number;
-  noOfImgsLoaded: number = 0;
-  containgFolderPath: string = "";
-  assetsPath: string = "";
-  loadFlag: boolean = false;
+  containgFolderPath = '';
+  assetsPath = '';
   quesObj: any;
-  confirmAssets: any;
-  feedbackAssets: any;
-  isPlayVideo: boolean;
-  videoReplayd: boolean = false;
-  attemptType: string = "";
-  attemptTypeClose: string = "";
-  correctOpt: any = '';
-  isVideoLoaded: boolean = false;
-  optionArr: any = [];
-  currentIdx: number = 0;
-  wrongCounter: number = 0;
+  attemptType = '';
+  isVideoLoaded = false;
+  wrongCounter = 0;
   instructiontext: string;
-  timernextseg: any = "";
   idArray: any = [];
   speaker: any;
   speakerVolume: any;
   tempSubscription: Subscription;
   correct_ans_index: any = [];
-  speakerTimer: any;
   showAnswerPopup: any;
   showAnswerVO: any;
-  ifRightAns: boolean = false;
+  ifRightAns = false;
   popupAssets: any;
   showAnswerSubscription: any;
-  answerImageBase: any;
-  answerImage: any;
-  answerImagelocation: any;
   popupIcon: any;
   popupIconLocation: any;
-  isPopupClosed: boolean = false;
   lastQuestionCheck: any;
-  popupclosedinRightWrongAns: boolean = false;
-  ifWrongAns: boolean = false;
+  popupclosedinRightWrongAns = false;
+  ifWrongAns = false;
   popupTime: any;
-  LastquestimeStart: boolean = false;
-  correctAnswerCounter: number = 0;
-  correctAnswersArray: any = [];
-  selectedAnswersArray: any = [];
-  correctAnswerObj: any = {};
-  correctAnswerCount: any = 0;
+  LastquestimeStart = false;
+  correctAnswerCounter = 0;
   clappingTimer: any;
   multiCorrectTimer: any;
   multiCorrectPopup: any;
@@ -78,14 +61,15 @@ export class Template9Component implements OnInit {
   videoonshowAnspopUp: any;
   showAnswerRef: any;
   showAnswerfeedback: any;
-  disableMainContent: boolean = true;
-  hightlightIndexes: any = {};
-  isOverlay: boolean = false;
-  resultDigitCount: number;
-  parentInputClass: any = "";
-  mainSvgfile: any = "";
-  runCounter: number = 1;
-  hoverIndex: any = "";
+  disableMainContent = true;
+  isOverlay = false;
+  parentOptionsClass: any = '';
+  mainSvgfile: any = '';
+  correctAnsArr: any = [];
+  questionIndex: any;
+  selectedId: any;
+  originalcolor = '';
+  disableOptions = true;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -96,12 +80,12 @@ export class Template9Component implements OnInit {
   @ViewChild('multiCorrectFeedback') multiCorrectFeedback: any;
   @ViewChild('quesRef') QuesRef: any;
 
-  constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+  constructor(private appModel: ApplicationmodelService, private route: ActivatedRoute, private Sharedservice: SharedserviceService) {
 
-    //subscribing common popup from shared service to get the updated event and values of speaker
+    // subscribing common popup from shared service to get the updated event and values of speaker
     this.Sharedservice.showAnsRef.subscribe(showansref => {
       this.showAnswerRef = showansref;
-    })
+    });
 
     this.Sharedservice.showAnswerfeedback.subscribe(showanswerfeedback => {
       this.showAnswerfeedback = showanswerfeedback;
@@ -110,7 +94,7 @@ export class Template9Component implements OnInit {
       this.videoonshowAnspopUp = videoonsAnspopUp;
     });
 
-    //subscribing speaker from shared service to get the updated object of speaker
+    // subscribing speaker from shared service to get the updated object of speaker
     this.Sharedservice.spriteElement.subscribe(imagesrc => {
       this.speaker = imagesrc;
     });
@@ -144,23 +128,23 @@ export class Template9Component implements OnInit {
   ngOnInit() {
     this.Sharedservice.setShowAnsEnabled(false);
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
-    this.attemptType = "";
+    this.attemptType = '';
     this.setTemplateType();
-    console.log("this.attemptType = " + this.attemptType);
+    console.log('this.attemptType = ' + this.attemptType);
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
     this.setData();
     this.appModel.getNotification().subscribe(mode => {
-      if (mode == "manual") {
-        console.log("manual mode ", mode);
+      if (mode === 'manual') {
+        console.log('manual mode ', mode);
 
-      } else if (mode == "auto") {
-        console.log("auto mode", mode);
-        this.attemptType = "uttarDikhayein";
+      } else if (mode === 'auto') {
+        console.log('auto mode', mode);
+        this.attemptType = 'uttarDikhayein';
       }
-    })
+    });
 
 
     this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
@@ -171,18 +155,18 @@ export class Template9Component implements OnInit {
       clearTimeout(this.clappingTimer);
 
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-        this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
-        this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+        this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location === 'content' ? this.containgFolderPath + '/' + this.showAnswerPopup.video.url : this.assetsPath + '/' + this.showAnswerPopup.video.url;
+        this.showAnswerRef.nativeElement.classList = 'modal d-flex align-items-center justify-content-center showit ansPopup dispFlex';
         if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
           this.videoonshowAnspopUp.nativeElement.play();
           this.videoonshowAnspopUp.nativeElement.onended = () => {
             this.showAnswerTimer = setTimeout(() => {
               this.closePopup('showanswer');
             }, 10000);
-          }
+          };
         }
       }
-    })
+    });
 
 
     this.appModel.nextBtnEvent().subscribe(() => {
@@ -193,121 +177,76 @@ export class Template9Component implements OnInit {
       if (this.appModel.isLastSection) {
         this.appModel.event = { 'action': 'end' };
       }
-    })
+    });
 
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
-      if (mode == "manual") {
-        //show modal for manual
+      if (mode === 'manual') {
+        // show modal for manual
         this.appModel.notifyUserAction();
         if (this.ansPopup && this.ansPopup.nativeElement) {
-          this.ansPopup.nativeElement.classList = "displayPopup modal";
+          this.ansPopup.nativeElement.classList = 'displayPopup modal';
         }
       }
-    })
+    });
 
     this.appModel.postWrongAttempt.subscribe(() => {
       this.appModel.notifyUserAction();
 
-    })
+    });
 
     this.getFileLoaded(this.mainSvgfile);
   }
 
-  getFileLoaded(filesData) {
-    filesData.forEach(fileData => {
-      fileData.url = fileData.location == "content"
-        ? this.containgFolderPath + "/" + fileData.url : this.assetsPath + "/" + fileData.url;
-        this.appModel.getFileString(fileData.url)
+  getFileLoaded(fileData) {
+    const fileUrl = fileData.location === 'content'
+      ? this.containgFolderPath + '/' + fileData.url : this.assetsPath + '/' + fileData.url;
+    this.appModel.getFileString(fileUrl)
       .subscribe((data) => {
-        var parser = new DOMParser();
-        var newNode = parser.parseFromString(data, "text/xml");
-        newNode.documentElement.style.position = "absolute";
-        newNode.documentElement.style.maxWidth = "100%";
-        newNode.documentElement.style.maxHeight = "100%";
-        document.getElementById("mainques").appendChild(newNode.documentElement);
+        const parser = new DOMParser();
+        const newNode = parser.parseFromString(data, 'text/xml');
+        newNode.documentElement.style.maxWidth = '100%';
+        newNode.documentElement.style.maxHeight = '100%';
+        document.getElementById('mainques').appendChild(newNode.documentElement);
       });
-    });
-    
-    // let loadImage = setInterval(() => {
-    //   if ($(this.QuesRef.nativeElement.children[0]).attr("id") == "mySvg") {
-    //     var svgElement = $("#quesImgId").children("svg").first();
-    //     svgElement.attr("width", "100%");
-    //     svgElement.attr("height", "100%");
-    //     svgElement.css("width", "auto");
-
-    //     if (this.quesAudio != undefined && this.quesAudio.url != "") {
-    //       this.narrator.nativeElement.src = this.quesAudio.location == "content" ? this.containgFolderPath + "/" + this.quesAudio.url : this.assetsPath + "/" + this.quesAudio.url;
-    //       this.narrator.nativeElement.load();
-    //       this.narrator.nativeElement.play();
-    //       this.QuesRef.nativeElement.style.opacity = 1;
-    //       this.QuesRef.nativeElement.style.pointerEvents = "none";
-    //       document.getElementById('instructionBar').style.pointerEvents = "none";
-    //       this.narrator.nativeElement.onended = () => {
-    //         this.appModel.handlePostVOActivity(false);
-    //         this.QuesRef.nativeElement.style.pointerEvents = "";
-    //         document.getElementById('instructionBar').style.pointerEvents = "";
-    //       }
-
-    //       //this.QuesRef.nativeElement.style.zIndex = 100;
-    //       this.appModel.handlePostVOActivity(true);
-    //       document.getElementById("mainCanvas").style.pointerEvents = "none";
-    //       if (!this.flag) {
-    //         this.initiallyStoreGroups();
-    //       }
-    //       //this.MyFormVar.nativeElement.style.opacity = 1;
-
-    //     } else {
-    //       this.QuesRef.nativeElement.style.opacity = 1;
-    //       this.appModel.handlePostVOActivity(false);
-    //       this.QuesRef.nativeElement.style.pointerEvents = "";
-    //       document.getElementById('instructionBar').style.pointerEvents = "";
-    //     }
-    //     console.log("AA gaya");
-    //     clearInterval(loadImage);
-    //   }
-    //   console.log("Nahin AAya");
-
-    // }, 100);
   }
 
   MouseOver(event) {
-    console.log("mouse in");
-    var id;
-    if(event.target.tagName == "svg" && event.target.children[2] && event.target.children[2].children[0] && event.target.children[2].children[0].children[0]) {
-      id = event.target.children[2].children[0].children[0].getAttribute('xlink:href');
-      // var id = event.target.getAttribute('xlink:href');
-    console.log("selectedid", id);
-    console.log("event.target",event.target);
-    let questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id == id);
-    console.log("questionIndex", questionIndex);
-
-    // if(questionIndex !== -1 && !this.quesObj.tablet.questionText[questionIndex]["hovered"]) {
-      if(questionIndex !== -1) {
-      // document.querySelector(id).children[0].setAttribute("fill","blue");
-      document.querySelector(id).setAttribute("fill", "#FFFF00");
-      // this.quesObj.tablet.questionText[questionIndex]["hovered"] = true;
-      this.hoverIndex = id;
+    const id = event.target.getAttribute('xlink:href');
+    const idFound = this.quesObj.tablet.questionText.find(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+    if (idFound && !idFound['selected']) {
+      if (this.originalcolor !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
+        $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+      }
+      this.questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+      this.originalcolor = $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].getAttribute('fill');
+      if (this.questionIndex !== -1) {
+        $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.mainSvgfile.hoverColor);
+      }
     }
-    }
-    
-    
-
   }
+
   MouseOut(event) {
-    console.log("mouse out");
-    // var id = event.target.getAttribute('xlink:href');
-    // console.log("mouseout id", id);
-    // let questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id == id || element.strokeId == id);
-    // console.log("mouseout questionIndex", questionIndex);
-    // if(questionIndex !== -1) {
-      // document.querySelector(id).children[0].setAttribute("fill","white");
-      // document.querySelector(this.hoverIndex).setAttribute("fill", "white");
-      // this.quesObj.tablet.questionText[this.hoverIndex-2]["hovered"] = false;
-    // }
-    
+    if (this.questionIndex !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
+      $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+    }
   }
+
   onClick(event) {
-    
+    const id = event.target.getAttribute('xlink:href');
+    const questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+    if (questionIndex !== -1) {
+      this.quesObj.tablet.questionText.forEach((ques, index) => {
+        if (!ques['answered']) {
+          $(this.QuesRef.nativeElement.children[0].children[index + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', 'white');
+        }
+        this.quesObj.tablet.questionText[index]['selected'] = false;
+      });
+      $(this.QuesRef.nativeElement.children[0].children[questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', '#e6e8fa');
+      this.quesObj.tablet.questionText[questionIndex]['selected'] = true;
+      this.selectedIndex = questionIndex;
+      this.selectedId = id;
+      this.disableOptions = false;
+    }
   }
 
   ngOnDestroy() {
@@ -319,27 +258,12 @@ export class Template9Component implements OnInit {
   }
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
-    // if(this.runCounter ==1) {
-    //   for (let i=0; i<this.QuesRef.nativeElement.children[0].children.length;i++) {
-    //     if(i > 7) {
-    //       this.QuesRef.nativeElement.children[0].children[i].style.display="none";
-    //     }
-    //   }
-    //   for (let i=0; i<this.QuesRef.nativeElement.children[0].children.length;i++) {
-    //     if(i>1 && i<8) {
-    //       document.querySelector(this.QuesRef.nativeElement.children[0].children[i].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill","white");
-    //     }
-    //   }
-    // }
-    // this.runCounter++;
-    
-    
   }
 
   /****Set data for the Template****/
   setData() {
     this.appModel.notifyUserAction();
-    let fetchedData: any = this.appModel.content.contentData.data;
+    const fetchedData: any = this.appModel.content.contentData.data;
     this.instructiontext = fetchedData.instructiontext;
     this.myoption = JSON.parse(JSON.stringify(fetchedData.options));
     this.commonAssets = fetchedData.commonassets;
@@ -361,40 +285,20 @@ export class Template9Component implements OnInit {
     this.isLastQues = this.appModel.isLastSection;
     this.isLastQuesAct = this.appModel.isLastSectionInCollection;
     this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-    // this.quesObj.tablet.questionText.forEach(row => {
-    //   row.rowValues.forEach(digit => {
-    //     if (digit.correctValue != undefined) {
-    //       this.correctAnswerCount++;
-    //       this.hightlightIndexes[digit.blinkIndex] = { "rowId": row.rowid, "id": digit.id, "correctValue": digit.correctValue };   //object having details of all empty slots to be filled with answer
-    //     }
-    //   });
-    // });
-    // //logic to set different width based on last row length
-    // this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-2].rowValues.length;
-    // if (this.quesObj.tablet.quesType === "add" || this.quesObj.tablet.quesType === "subt") {
-    //   if(this.resultDigitCount === 5) {
-    //     this.parentInputClass = "input_digits-5";
-    //   }
-    //   else if(this.resultDigitCount === 4) {
-    //     this.parentInputClass = "input_digits-4";
-    //   }
-    //   else if(this.resultDigitCount === 3) {
-    //     this.parentInputClass = "input_digits-3";
-    //   }
-    //   else if(this.resultDigitCount === 2) {
-    //     this.parentInputClass = "input_digits-2";
-    //   }
-    //   else if(this.resultDigitCount === 1) {
-    //     this.parentInputClass = "input_digits-1";
-    //   }
-    // }
+
+    // parent class for pencil based on number of options
+    if (this.myoption.optionsArr.length === 6) {
+      this.parentOptionsClass = 'pencil_option_6';
+    } else if (this.myoption.optionsArr.length === 5) {
+      this.parentOptionsClass = 'pencil_option_5';
+    }
   }
 
   /******Set template type for EVA******/
   setTemplateType(): void {
-    this.ActivatedRoute.data.subscribe(data => {
+    this.route.data.subscribe(data => {
       this.Sharedservice.sendData(data);
-    })
+    });
   }
 
   /******* Volume control for all VO  *******/
@@ -428,14 +332,14 @@ export class Template9Component implements OnInit {
     }
   }
 
-  /****Get base path****/
+   /****Get base path****/
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
     }
   }
 
-  /****** sets clapping timer ********/
+   /****** sets clapping timer ********/
   setClappingTimer(feedback, popupRef?) {
     this.stopAllSounds();
     this.clapSound.nativeElement.play();
@@ -443,85 +347,166 @@ export class Template9Component implements OnInit {
       this.clapSound.nativeElement.pause();
       this.clapSound.nativeElement.currentTime = 0;
       if (popupRef) {
-        popupRef.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+        popupRef.className = 'modal d-flex align-items-center justify-content-center showit ansPopup dispFlex';
       }
       feedback.nativeElement.play();
     }, 2000);
   }
 
-  /****** Show right answer popup on all correct answer selection ********/
+   /****** Show right answer popup on all correct answer selection ********/
   showRightAnswerPopup() {
     if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
-      let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
+      // let svgElement = document.getElementById("mainques").children[0] as HTMLElement;
+      const svgElement = this.QuesRef.nativeElement.children[0];
+      // document.getElementById("rightAnsPopup").appendChild(document.getElementById("mainques"));
+      const rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
+      document.getElementById('rightAnsPopup').appendChild(svgElement);
       this.setClappingTimer(this.multiCorrectFeedback, rightAnswerPopup);
     }
     this.multiCorrectFeedback.nativeElement.onended = () => {
       this.disableMainContent = true;
-      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+      for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
+        document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
       }
       this.rightTimer = setTimeout(() => {
-        this.closePopup('answerPopup');
+        // this.closePopup('answerPopup');
       }, 10000);
-    }
+    };
   }
 
-  /****Check answer on option click*****/
+   /****Check answer on option click*****/
   checkAnswer(option, index) {
-    this.selectedIndex = index;
-    option.image = option.image_original;//Reset Hover image to normal
-    this.disableMainContent = true;//Disable the mainContent when option is selected
-    for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-      document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+    // this.selectedIndex = index;
+    option.image_bg = option.image_bg_original; // Reset Hover image to normal
+    this.disableOptions = true;
+    this.disableCursorOnSVG();
+    this.disableMainContent = true; // Disable the mainContent when option is selected
+    for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
+      document.getElementsByClassName('ansBtn')[i].classList.add('disableDiv');
     }
     this.stopAllSounds();
-    this.enableAllOptions();
-    let highLightDigitObj = this.getHighLightDigitDetails();
-    let blinkingDigitRef = this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1];
-    if (option.id === blinkingDigitRef["correctValue"]) {
-      blinkingDigitRef["highlight"] = false;
-      blinkingDigitRef["blink"] = false;
+    // this.enableAllOptions();
+    if (option.id === this.quesObj.tablet.questionText[this.selectedIndex].correctAnsId) {
       this.correctAnswerCounter++;
+      option['selected'] = true;
+      this.correctAnsArr.push(option.id);
+      this.quesObj.tablet.questionText[this.selectedIndex]['answered'] = true;
+      // this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1]
+      $(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', option.image_bg_color);
+      this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].style.pointerEvents = 'none';
+      // $(this.selectedId)[0].setAttribute("fill", option.image_bg_color);
+      option.image_bg = option.image_bg_disabled;  // show disabled background image
+      option.image = option.image_disabled;  // show disabled background image
+      this.optionsContainer.nativeElement.children[index].classList.add('disableDiv');  // disable option on correct answer
       this.appModel.stopAllTimer();
-      blinkingDigitRef.value = option.id;
       this.ifRightAns = true;
       this.popupIcon = this.popupAssets.right_icon.url;
       this.popupIconLocation = this.popupAssets.right_icon.location;
 
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
-        if (this.correctAnswerCounter === this.correctAnswerCount) {
+        if (this.correctAnswerCounter === this.quesObj.tablet.questionText.length) {
           this.showRightAnswerPopup();
-        }
-        else {
+        } else {
           this.setClappingTimer(this.rightFeedback);
           this.rightFeedback.nativeElement.onended = () => {
-            this.setBlink(); // set blinking on updated blinking digit index
-            this.disableMainContent = false; //Enable main content
-            for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-              document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+            this.disableMainContent = false; // Enable main content
+            this.enableCursorOnSVG();
+            for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
+              document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
             }
-          }
+          };
         }
       }
-    }
-    else {
+    } else {
       this.ifWrongAns = true;
-      //play wrong feed back audio
+      // play wrong feed back audio
       this.wrongCounter += 1;
       if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
         this.wrongFeedback.nativeElement.play();
       }
 
       this.wrongFeedback.nativeElement.onended = () => {
-        this.disableMainContent = false; //Enable main content
-        for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {    //Enable Show Ans button
-          document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+        this.disableMainContent = false; // Enable main content
+        $(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+        this.quesObj.tablet.questionText[this.selectedIndex]['selected'] = false;
+        this.enableCursorOnSVG();
+        this.shuffleOptions();
+        for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {    // Enable Show Ans button
+          document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
         }
-        if (this.wrongCounter >= 3 && this.ifWrongAns) {
-          this.Sharedservice.setShowAnsEnabled(true);
-        }
+      };
+    }
+  }
+
+  shuffleOptions() {
+    this.idArray = [];
+    const filteredArray = this.myoption.optionsArr.filter(arr => !arr['selected']);
+    for (const i of filteredArray) {
+      this.idArray.push(i.image_bg_color);
+    }
+    this.doRandomize(filteredArray);
+    // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
+    if (this.wrongCounter >= 3 && this.ifWrongAns) {
+      this.Sharedservice.setShowAnsEnabled(true);
+    }
+  }
+
+  /****Randomize option on wrong selection*****/
+  doRandomize(array) {
+
+    let currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      const option1 = array[currentIndex].image;
+      const img_hover1 = array[currentIndex].image_hover;
+      const img_disabled1 = array[currentIndex].image_disabled;
+      const img_original1 = array[currentIndex].image_original;
+      const img_id1 = array[currentIndex].id;
+
+      const option2 = array[randomIndex].image;
+      const img_hover2 = array[randomIndex].image_hover;
+      const img_disabled2 = array[randomIndex].image_disabled;
+      const img_original2 = array[randomIndex].image_original;
+      const img_id2 = array[randomIndex].id;
+
+      // And swap it with the current element.
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+
+      array[currentIndex].image = option1;
+      array[currentIndex].image_hover = img_hover1;
+      array[currentIndex].image_disabled = img_disabled1;
+      array[currentIndex].image_original = img_original1;
+      array[currentIndex].id = img_id1;
+
+      array[randomIndex].image = option2;
+      array[randomIndex].image_hover = img_hover2;
+      array[randomIndex].image_disabled = img_disabled2;
+      array[randomIndex].image_original = img_original2;
+      array[randomIndex].id = img_id2;
+
+    }
+    const flag = this.arraysIdentical(array, this.idArray);
+    if (flag) {
+      this.doRandomize(array);
+    }
+  }
+
+  /*****Check if array is identical******/
+  arraysIdentical(a, b) {
+    let i = a.length;
+    while (i--) {
+      if (a[i].image_bg_color === b[i]) {
+        return true;
       }
     }
+    return false;
   }
 
   close() {
@@ -534,8 +519,8 @@ export class Template9Component implements OnInit {
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
 
-    this.showAnswerRef.nativeElement.classList = "modal";
-    this.ansPopup.nativeElement.classList = "modal";
+    this.showAnswerRef.nativeElement.classList = 'modal';
+    this.ansPopup.nativeElement.classList = 'modal';
 
     this.wrongFeedback.nativeElement.pause();
     this.wrongFeedback.nativeElement.currentTime = 0;
@@ -552,10 +537,10 @@ export class Template9Component implements OnInit {
     this.multiCorrectFeedback.nativeElement.pause();
     this.multiCorrectFeedback.nativeElement.currentTime = 0;
 
-    if (Type === "answerPopup") {
+    if (Type === 'answerPopup') {
       this.popupclosedinRightWrongAns = true;
-      for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
-        document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+      for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
+        document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
       }
       if (this.ifRightAns) {
         this.Sharedservice.setShowAnsEnabled(true);
@@ -563,14 +548,13 @@ export class Template9Component implements OnInit {
         this.blinkOnLastQues();
         if (!this.lastQuestionCheck) {
           this.popupTime = setTimeout(() => {
-          }, 10000)
+          }, 10000);
         } else if (this.lastQuestionCheck) {
           this.Sharedservice.setTimeOnLastQues(true);
         }
       }
-    }
-    else if (Type === 'showanswer') {
-      if (this.correctAnswerCounter === this.correctAnswerCount) {
+    } else if (Type === 'showanswer') {
+      if (this.correctAnswerCounter === this.quesObj.tablet.questionText.length) {
         this.blinkOnLastQues();
       }
     }
@@ -596,44 +580,49 @@ export class Template9Component implements OnInit {
         }
       }
     } else {
-      this.appModel.moveNextQues("");
+      this.appModel.moveNextQues('');
     }
   }
 
   ngAfterViewInit() {
     this.appModel.setLoader(false);
     this.checkforQVO();
-    
+
   }
 
   /**Disable all clickables until instruction VO ends**/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      this.instruction.nativeElement.src = this.quesObj.quesInstruction.location == "content"
-        ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url : this.assetsPath + "/" + this.quesObj.quesInstruction.url
+      this.instruction.nativeElement.src = this.quesObj.quesInstruction.location === 'content'
+        ? this.containgFolderPath + '/' + this.quesObj.quesInstruction.url : this.assetsPath + '/' + this.quesObj.quesInstruction.url;
       this.appModel.handlePostVOActivity(true);
       this.disableMainContent = true;
       this.instruction.nativeElement.play();
       this.instruction.nativeElement.onended = () => {
         this.appModel.handlePostVOActivity(false);
         this.disableMainContent = false;
-        // this.setBlink();
-      }
+        this.enableCursorOnSVG();
+      };
     } else {
       this.appModel.handlePostVOActivity(false);
     }
   }
 
-  /****** gets row and digit id of next blinking position ********/
-  getHighLightDigitDetails() {
-    return { "rowId": this.hightlightIndexes[this.correctAnswerCounter].rowId, "digitId": this.hightlightIndexes[this.correctAnswerCounter].id };
+  enableCursorOnSVG() {
+    for (let i = 1; i < this.QuesRef.nativeElement.children[0].children.length; i++) {
+      if (this.quesObj.tablet.questionText[i - 1] && !this.quesObj.tablet.questionText[i - 1]['answered']) {
+        this.QuesRef.nativeElement.children[0].children[i].style.pointerEvents = 'fill';
+        this.QuesRef.nativeElement.children[0].children[i].style.cursor = 'pointer';
+      }
+    }
   }
 
-  /****** sets blinking on digit ********/
-  setBlink() {
-    let highLightDigitObj = this.getHighLightDigitDetails();
-    this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
-    
+  disableCursorOnSVG() {
+    for (let i = 1; i < this.QuesRef.nativeElement.children[0].children.length; i++) {
+      if (this.quesObj.tablet.questionText[i - 1] && !this.quesObj.tablet.questionText[i - 1]['answered']) {
+        this.QuesRef.nativeElement.children[0].children[i].style.pointerEvents = 'none';
+      }
+    }
   }
 
   /******On Hover option ********/
@@ -644,7 +633,9 @@ export class Template9Component implements OnInit {
 
   /******Hover out option ********/
   onHoveroutOptions(option) {
-    option.image_bg = option.image_bg_original;
+    if (!option.selected) {
+      option.image_bg = option.image_bg_original;
+    }
   }
 
   /****** Option Hover VO  *******/
@@ -656,7 +647,7 @@ export class Template9Component implements OnInit {
   /***** Play sound on option roll over *******/
   playSound(soundAssets, idx) {
     if (this.audio && this.audio.paused) {
-      if (soundAssets.location == 'content') {
+      if (soundAssets.location === 'content') {
         this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
       } else {
         this.audio.src = soundAssets.url;
@@ -664,13 +655,13 @@ export class Template9Component implements OnInit {
       this.audio.load();
       this.audio.play();
       for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-        if (i != idx) {
-          this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+        if (i !== idx) {
+          this.optionsContainer.nativeElement.children[i].classList.add('disableDiv');
         }
       }
       this.audio.onended = () => {
         this.enableAllOptions();
-      }
+      };
     }
   }
 
@@ -687,14 +678,14 @@ export class Template9Component implements OnInit {
   /***** Enable all options and speaker on audio end *******/
   enableAllOptions() {
     for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")) {
-        this.optionsContainer.nativeElement.children[i].classList.remove("disableDiv");
+      if (this.optionsContainer.nativeElement.children[i].classList.contains('disableDiv')) {
+        this.optionsContainer.nativeElement.children[i].classList.remove('disableDiv');
       }
     }
   }
 
   /** Function to stop all sounds **/
-  stopAllSounds(clicked?) {
+  stopAllSounds() {
     this.audio.pause();
     this.audio.currentTime = 0;
 
@@ -713,12 +704,12 @@ export class Template9Component implements OnInit {
 
   /** Function to pause the speaker **/
   pauseSpeaker() {
-    let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+    const speakerEle = document.getElementsByClassName('speakerBtn')[0].children[2] as HTMLAudioElement;
     if (!speakerEle.paused) {
       speakerEle.pause();
       speakerEle.currentTime = 0;
       document.getElementById('waveAnimation').style.display = 'none';
-      (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+      (document.getElementById('spkrBtn') as HTMLElement).style.pointerEvents = '';
       this.speaker.imgsrc = this.speaker.imgorigional;
     }
   }
@@ -728,5 +719,5 @@ export class Template9Component implements OnInit {
     this.stopAllSounds();
     this.enableAllOptions();
   }
-
 }
+
