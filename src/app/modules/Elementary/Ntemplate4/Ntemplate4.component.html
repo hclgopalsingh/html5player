@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}">
-        <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)" (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
+        <img class="img-fluid pos_rel" [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos}}" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)" (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
     </div>
     <audio #quesVORef ></audio>
 </div>

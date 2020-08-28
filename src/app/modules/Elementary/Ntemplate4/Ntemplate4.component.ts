@@ -6,14 +6,37 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import 'jquery';
-import { defer } from 'rxjs/observable/defer';
-import { interval } from 'rxjs/observable/interval';
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition,
+  } from '@angular/animations';
 
 
 declare var $: any;
 
 @Component({
     selector: 'ntemp4',
+    animations: [
+        trigger('openClose', [
+          state('open', style({
+            left:0,
+            top:0
+          })),
+          state('closed', style({
+            left: '{{leftPos}}',
+            top: '{{topPos}}' 
+        }), {params: {leftPos: 0, topPos: 0}}), 
+          transition('open => closed', [
+            animate('0.5s')
+          ]),
+          transition('closed => open', [
+            animate('0.5s')
+          ]),
+        ]),
+      ],
     templateUrl: './Ntemplate4.component.html',
     styleUrls: ['./Ntemplate4.component.css', '../../../view/css/bootstrap.min.css']
 
@@ -370,6 +393,11 @@ export class Ntemplate4 implements OnInit {
             this.randomArray[i] = i;
         }
         this.quesObj = this.fetchedcontent.quesObj;
+        for (let i = 0; i < this.options.length; i++) {
+            this.options[i].isOpen = true;
+            this.options[i].leftPos = "0px";
+            this.options[i].topPos = "0px";
+        }
         /*Start: Theme Implementation(Template Changes)*/
         this.controlHandler={
             isShowAns:true,
@@ -449,7 +477,11 @@ export class Ntemplate4 implements OnInit {
         this.selectedOptList.push(copyOpt);
         console.log(this.selectedOptList);
         $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor")
-        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14)) }, 500).addClass("shrink_it");
+        // $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14)) }, 500).addClass("shrink_it");
+        opt.isOpen=false;
+        opt.leftPos=this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16)+"px";
+        opt.topPos=this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14)+"px";
+        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).addClass("shrink_it");
         this.startCount = 0;
         setTimeout(() => {
             this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
@@ -876,7 +908,7 @@ export class Ntemplate4 implements OnInit {
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.wrong_style_body;
                         this.isRightWrong=true;
                         this.isPartial=false;
-                    }else if(this.categoryB.correct.length > 0 && this.categoryA.incorrect.length > 0){
+                    }else if(this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0){
                         this.feedbackAssets.style_header=  this.fetchedcontent.category_2.partial_style_header;
                         this.feedbackAssets.style_body=  this.fetchedcontent.category_2.partial_style_body;
                         this.isRightWrong=false;
@@ -1016,7 +1048,9 @@ export class Ntemplate4 implements OnInit {
     disableScreen() {
         if(!this.showAnswerClicked){
             for (let i = 0; i < this.selectedOptList.length; i++) {
-                $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+                // $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+                this.options[this.selectedOptList[i].idx].isOpen=true;
+                $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).removeClass("shrink_it");
             }
         }
     
@@ -1072,7 +1106,9 @@ export class Ntemplate4 implements OnInit {
         this.isWrongAttempted = false;
         this.isAllRight = false;
         for (let i = 0; i < this.selectedOptList.length; i++) {
-            $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+            // $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
+            this.options[this.selectedOptList[i].idx].isOpen=true;
+            $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).removeClass("shrink_it");
         }
         for (let i = 0; i < this.options.length; i++) {
             $(this.mainContainer.nativeElement.children[i + 1]).removeClass('greyOut');
