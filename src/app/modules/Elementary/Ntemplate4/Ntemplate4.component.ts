@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild, HostListener, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { timer } from 'rxjs/observable/timer';
+import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
-import 'jquery';
+// import 'jquery';
 import {
     trigger,
     state,
@@ -15,7 +14,7 @@ import {
   } from '@angular/animations';
 
 
-declare var $: any;
+// declare var $: any;
 
 @Component({
     selector: 'ntemp4',
@@ -198,14 +197,14 @@ export class Ntemplate4 implements OnInit {
 			this.appModel.event = { 'action': 'segmentBegins' };
         }
         let that = this;
-        $( "#navBlock" ).click(function() {
-            if (!that.instructionVO.nativeElement.paused)
-            {
-              that.instructionVO.nativeElement.pause();
-              that.instructionVO.nativeElement.currentTime = 0;
-              this.instructionDisable=false;
-            }
-          });
+        // $( "#navBlock" ).click(function() {
+        //     if (!that.instructionVO.nativeElement.paused)
+        //     {
+        //       that.instructionVO.nativeElement.pause();
+        //       that.instructionVO.nativeElement.currentTime = 0;
+        //       this.instructionDisable=false;
+        //     }
+        //   });
 
         this.containgFolderPath = this.getBasePath();
         /*Start: Theme Implementation(Template Changes)*/
@@ -235,8 +234,11 @@ export class Ntemplate4 implements OnInit {
                 this.audio.pause;               
                 this.instructionBar.nativeElement.classList = "instructionBase";
                 for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-                    if ($(this.mainContainer.nativeElement.children[i].children[0]).hasClass("disableDiv")) {
-                        $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
+                    // if ($(this.mainContainer.nativeElement.children[i].children[0]).hasClass("disableDiv")) {
+                    //     $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
+                    // }
+                    if (this.mainContainer.nativeElement.children[i].children[0] && this.mainContainer.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
+                        this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
                     }
                 }
             }
@@ -414,8 +416,8 @@ export class Ntemplate4 implements OnInit {
     }
 
     optionHover(idx, opt) {
-        $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleInAnimation");
-        // this.playOptionHover(idx,opt);
+        // $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleInAnimation");
+        this.mainContainer.nativeElement.children[1 + idx].children[0].classList.add("scaleInAnimation");
     }
     playOptionHover(idx, opt) {
         this.appModel.notifyUserAction();
@@ -425,18 +427,14 @@ export class Ntemplate4 implements OnInit {
     }
 
     playSound(soundAssets, idx) {
-       if(this.audio && this.audio.paused){
-        // if (soundAssets.location == 'content') {
-        //     this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-        // } else {
-        //     this.audio.src = soundAssets.url;
-        // }
+       if(this.audio && this.audio.paused){        
         this.audio.src = soundAssets.url;
         this.audio.load();
         this.audio.play();
         for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-            if (i != idx + 1) {
-                $(this.mainContainer.nativeElement.children[i].children[0]).addClass("disableDiv");
+            if (i != idx + 1 && this.mainContainer.nativeElement.children[i].children[0]) {
+                // $(this.mainContainer.nativeElement.children[i].children[0]).addClass("disableDiv");
+                this.mainContainer.nativeElement.children[i].children[0].classList.add("disableDiv");
             }
         }
         this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
@@ -446,8 +444,9 @@ export class Ntemplate4 implements OnInit {
         this.audio.onended = () => {
             this.instructionBar.nativeElement.classList = "instructionBase";
             for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-                if (i != idx + 1) {
-                    $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
+                if (i != idx + 1 && this.mainContainer.nativeElement.children[i].children[0]) {
+                    // $(this.mainContainer.nativeElement.children[i].children[0]).removeClass("disableDiv");
+                    this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
                 }
             }
 
@@ -455,10 +454,15 @@ export class Ntemplate4 implements OnInit {
        }
     }
     optionLeave(idx, opt) {
-        $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleOutAnimation");
+        // $(this.mainContainer.nativeElement.children[1 + idx].children[0]).addClass("scaleOutAnimation");
+        // setTimeout(() => {
+        //     $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleInAnimation");
+        //     $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleOutAnimation");
+        // }, 500)
+        this.mainContainer.nativeElement.children[1 + idx].children[0].classList.add("scaleOutAnimation");
         setTimeout(() => {
-            $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleInAnimation");
-            $(this.mainContainer.nativeElement.children[1 + idx].children[0]).removeClass("scaleOutAnimation");
+            this.mainContainer.nativeElement.children[1 + idx].children[0].classList.remove("scaleInAnimation");
+            this.mainContainer.nativeElement.children[1 + idx].children[0].classList.remove("scaleOutAnimation");
         }, 500)
 
     }
@@ -476,12 +480,14 @@ export class Ntemplate4 implements OnInit {
         let copyOpt: any = JSON.parse(JSON.stringify(this.selectedOpt));
         this.selectedOptList.push(copyOpt);
         console.log(this.selectedOptList);
-        $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor")
+        // $(this.mainContainer.nativeElement.children[idx + 1]).addClass("controlCursor");
+        this.mainContainer.nativeElement.children[idx + 1].classList.add("controlCursor");
         // $(this.mainContainer.nativeElement.children[idx + 1].children[0]).animate({ left: (this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16)), top: (this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14)) }, 500).addClass("shrink_it");
         opt.isOpen=false;
         opt.leftPos=this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16)+"px";
         opt.topPos=this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14)+"px";
-        $(this.mainContainer.nativeElement.children[idx + 1].children[0]).addClass("shrink_it");
+        // $(this.mainContainer.nativeElement.children[idx + 1].children[0]).addClass("shrink_it");
+        this.mainContainer.nativeElement.children[idx + 1].children[0].classList.add("shrink_it");
         this.startCount = 0;
         setTimeout(() => {
             this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
@@ -532,7 +538,8 @@ export class Ntemplate4 implements OnInit {
                         }
                     }
                     if (!optFound) {
-                        $(this.mainContainer.nativeElement.children[i + 1]).addClass('greyOut');
+                        // $(this.mainContainer.nativeElement.children[i + 1]).addClass('greyOut');
+                        this.mainContainer.nativeElement.children[i + 1].classList.add('greyOut');
                     }
                 }
 
@@ -826,8 +833,8 @@ export class Ntemplate4 implements OnInit {
             this.appModel.videoStraming(false);
             this.appModel.enableReplayBtn(true);
             setTimeout(() => {
-                $("#instructionBar").removeClass("disable_div");
-                $("#optionsBlock .options").removeClass("disable_div");
+                // $("#instructionBar").removeClass("disable_div");
+                // $("#optionsBlock .options").removeClass("disable_div");
                 this.isOptionDisabled=false;
             }, 1000);
         }
@@ -1050,17 +1057,21 @@ export class Ntemplate4 implements OnInit {
             for (let i = 0; i < this.selectedOptList.length; i++) {
                 // $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
                 this.options[this.selectedOptList[i].idx].isOpen=true;
-                $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).removeClass("shrink_it");
+                // $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).removeClass("shrink_it");
+                this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0].classList.remove("shrink_it");
             }
         }
     
+        // for (let i = 0; i < this.options.length; i++) {
+        //     $(this.mainContainer.nativeElement.children[i + 1]).addClass('greyOut');
+        // }
+        // $( this.instructionBar.nativeElement).addClass('greyOut');
+        // $(this.mainContainer.nativeElement.children[0]).addClass('greyOut');
         for (let i = 0; i < this.options.length; i++) {
-            $(this.mainContainer.nativeElement.children[i + 1]).addClass('greyOut');
+            this.mainContainer.nativeElement.children[i + 1].classList.add('greyOut');
         }
-        $( this.instructionBar.nativeElement).addClass('greyOut');
-        $(this.mainContainer.nativeElement.children[0]).addClass('greyOut');
-
-        //$(this.mainContainer.nativeElement).addClass("greyOut");
+        this.instructionBar.nativeElement.classList.add('greyOut');
+        this.mainContainer.nativeElement.children[0].classList.add('greyOut');
         clearInterval(this.blinkTimeInterval);
         this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
         this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
@@ -1108,11 +1119,16 @@ export class Ntemplate4 implements OnInit {
         for (let i = 0; i < this.selectedOptList.length; i++) {
             // $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).animate({ left: (0), top: (0) }, 500).removeClass("shrink_it");
             this.options[this.selectedOptList[i].idx].isOpen=true;
-            $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).removeClass("shrink_it");
+            // $(this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0]).removeClass("shrink_it");
+            this.mainContainer.nativeElement.children[this.selectedOptList[i].idx + 1].children[0].classList.remove("shrink_it");
         }
+        // for (let i = 0; i < this.options.length; i++) {
+        //     $(this.mainContainer.nativeElement.children[i + 1]).removeClass('greyOut');
+        //     $(this.mainContainer.nativeElement.children[i + 1]).removeClass('controlCursor');
+        // }
         for (let i = 0; i < this.options.length; i++) {
-            $(this.mainContainer.nativeElement.children[i + 1]).removeClass('greyOut');
-            $(this.mainContainer.nativeElement.children[i + 1]).removeClass('controlCursor');
+            this.mainContainer.nativeElement.children[i + 1].classList.remove('greyOut');
+            this.mainContainer.nativeElement.children[i + 1].classList.remove('controlCursor');
         }
         this.selectedOptList.splice(0, this.selectedOptList.length);
         this.leftSelectedIdx = 0;
