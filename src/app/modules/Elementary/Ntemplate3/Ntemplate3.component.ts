@@ -142,6 +142,7 @@ export class Ntemplate3 implements OnInit {
     isReplayRequired:false
   };
   themePath:any;
+  InstructionVo:boolean=false;
   fetchedcontent:any;
   functionalityType:any;
   bgSubscription: Subscription;
@@ -161,7 +162,14 @@ export class Ntemplate3 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        $(".instructionBase img").css("cursor", "pointer");
+      //  this.disableSection=true;
+        this.InstructionVo = true;
+       // $(".instructionBase").css("cursor", "default");
+        this.instruction.nativeElement.onended = () => {
+        //  this.disableSection=false;
+          this.InstructionVo = false;
+       // $(".instructionBase").css("cursor", "pointer");
+        }
       }
       if (!this.optionAudio.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -182,6 +190,7 @@ export class Ntemplate3 implements OnInit {
 
 
   playHoverOption(opt, i, j) {
+    this.InstructionVo = false;
     this.appModel.notifyUserAction();
     if(opt.imgsrc_audio.url != "" || opt.imgsrc_audio.location != "") {
         
@@ -380,6 +389,7 @@ export class Ntemplate3 implements OnInit {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
+        this.InstructionVo = false;
         if (!this.instruction.nativeElement.paused)
         {
           this.instruction.nativeElement.pause();
@@ -392,6 +402,7 @@ export class Ntemplate3 implements OnInit {
         }
       }
       if (action == "submitAnswer") {
+        this.InstructionVo = false;
         if (!this.instruction.nativeElement.paused)
             {
               this.instruction.nativeElement.pause();
@@ -402,6 +413,7 @@ export class Ntemplate3 implements OnInit {
         }
       }
       if (action == "replayVideo") {
+        this.InstructionVo = false;
         if (!this.instruction.nativeElement.paused)
             {
               this.instruction.nativeElement.pause();
