@@ -495,10 +495,12 @@ export class Ntemplate5 implements OnInit {
 			this.appModel.handlePostVOActivity(true);
 			this.narrator.nativeElement.play();
       this.disableSection=true;
+      this.InstructionVo = true;
 			this.narrator.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
               setTimeout(() => {
                this.disableSection=false;
+               this.InstructionVo = false;
                }, 1000);
              
 			}
