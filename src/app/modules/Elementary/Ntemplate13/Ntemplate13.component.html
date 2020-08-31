@@ -87,7 +87,7 @@
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body d-flex align-items-center" [ngStyle]="styleBodyPopup">
+			<div class="modal-body d-flex flex-wrap align-content-center" [ngStyle]="styleBodyPopup">
 				<div class="d-flex align-items-center justify-content-center ansImage">
 					<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 					 <img class="img-fluid questionImg" [src]="question.imgsrc.url">
@@ -96,6 +96,10 @@
 					on-mouseenter="onWrongImgHoverOption(wrongImgOption,idx)" (load)="checkImgLoaded();">
 				<div class="speakerd"></div>
 				<!-- content -->
+				<div class="closepopup_btn">
+					<img class="img-fluid" [src]="commonAssets?.ok_btn?.url" (mousemove)="hoverOk()"
+					(mouseleave)="houtOk()" (click)="closePopup()" />
+				</div>
 			</div>
 		</div>
 	</div>
