@@ -28,7 +28,7 @@
 		<div id="ansBlock" class="disable_div" [ngClass]="{'disable_div':optionDisable}" #optionBlock [style.width]="myoption?.length>3 ? '8%':'10%'">
 			<div class="options" *ngFor="let opt of myoption;let idx = index">
 				<!--<img class="img-fluid option-img" src="{{opt.imgsrc}}" on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="checkAnswer(opt,idx)">-->
-				<img class="img-fluid" [src]="opt.imgsrc.url" (mouseenter)="entering(opt, ind)"
+				<img class="img-fluid" [src]="opt.imgsrc.url" (mouseenter)="entering(opt, idx)"
 					(mousemove)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt)"
 					(click)="checkAnswer(opt,idx)" (load)="checkImgLoaded();">
 				<div #optionWave class="speaker"></div>
