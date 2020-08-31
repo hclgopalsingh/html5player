@@ -3,11 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
-import 'jquery';
 import { Subscription } from 'rxjs/Subscription';
-
-
-declare var $: any;
 
 @Component({
   selector: 'app-template9',
@@ -220,13 +216,13 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     if (idFound) {
       if (!idFound['selected']) {
         if (this.originalcolor !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
-          $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+          document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.originalcolor);
         }
         this.questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
-        this.originalcolor = $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].getAttribute('fill');
+        this.originalcolor = document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).getAttribute('fill');
         if (this.questionIndex !== -1) {
           this.pauseSpeaker();
-          $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.mainSvgfile.hoverColor);
+          document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.mainSvgfile.hoverColor);
         }
       } else {
         this.pauseSpeaker();
@@ -238,7 +234,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   /****** On mouse out SVG image ********/
   MouseOut(event) {
     if (this.questionIndex !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
-      $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+      document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.originalcolor);
     }
   }
 
@@ -249,11 +245,11 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     if (questionIndex !== -1) {
       this.quesObj.tablet.questionText.forEach((ques, index) => {
         if (!ques['answered']) {
-          $(this.QuesRef.nativeElement.children[0].children[index + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', 'white');
+          document.querySelector(this.QuesRef.nativeElement.children[0].children[index + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', 'white');
         }
         this.quesObj.tablet.questionText[index]['selected'] = false;
       });
-      $(this.QuesRef.nativeElement.children[0].children[questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', '#e6e8fa');
+      document.querySelector(this.QuesRef.nativeElement.children[0].children[questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', '#e6e8fa');
       this.quesObj.tablet.questionText[questionIndex]['selected'] = true;
       this.selectedIndex = questionIndex;
       this.selectedId = id;
@@ -497,7 +493,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
       option['selected'] = true;
       this.correctAnsArr.push(option.id);
       this.quesObj.tablet.questionText[this.selectedIndex]['answered'] = true;
-      $(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', option.image_bg_color);
+      document.querySelector(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', option.image_bg_color);
       this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].style.pointerEvents = 'none';
       option.image_bg = option.image_bg_disabled;  // show disabled background image
       option.image = option.image_disabled;  // show disabled background image
@@ -532,7 +528,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
 
       this.wrongFeedback.nativeElement.onended = () => {
         this.disableMainContent = false; // Enable main content
-        $(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+        document.querySelector(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.originalcolor);
         this.quesObj.tablet.questionText[this.selectedIndex]['selected'] = false;
         this.enableCursorOnSVG();
         this.shuffleOptions();
