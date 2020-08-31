@@ -106,8 +106,13 @@
 
 .modal .queryBlock {
     left: 22.8%;
-    top: 8%;
     width: 52%;
+    position: absolute;
+    top: 5.1%;
+    display: flex;
+    justify-content: center;
+    height: 75.5%;
+    align-items: center;
 }
 .rightWrongAns{
 	bottom: 9%;

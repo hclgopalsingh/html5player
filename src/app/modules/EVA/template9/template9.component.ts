@@ -193,44 +193,56 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
       this.appModel.notifyUserAction();
 
     });
-
     this.getFileLoaded(this.mainSvgfile);
   }
 
-  getFileLoaded(fileData) {
-    const fileUrl = fileData.location === 'content'
-      ? this.containgFolderPath + '/' + fileData.url : this.assetsPath + '/' + fileData.url;
-    this.appModel.getFileString(fileUrl)
-      .subscribe((data) => {
-        const parser = new DOMParser();
-        const newNode = parser.parseFromString(data, 'text/xml');
-        newNode.documentElement.style.maxWidth = '100%';
-        newNode.documentElement.style.maxHeight = '100%';
-        document.getElementById('mainques').appendChild(newNode.documentElement);
-      });
+  ngAfterViewInit() {
+    this.appModel.setLoader(false);
+    this.checkforQVO();
   }
 
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
+  ngOnDestroy() {
+    this.showAnswerSubscription.unsubscribe();
+    clearTimeout(this.clappingTimer);
+    clearTimeout(this.rightTimer);
+    clearTimeout(this.multiCorrectTimer);
+    this.audio.pause();
+  }
+
+  /****** On hover SVG image ********/
   MouseOver(event) {
     const id = event.target.getAttribute('xlink:href');
     const idFound = this.quesObj.tablet.questionText.find(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
-    if (idFound && !idFound['selected']) {
-      if (this.originalcolor !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
-        $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+    if (idFound) {
+      if (!idFound['selected']) {
+        if (this.originalcolor !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
+          $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
+        }
+        this.questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+        this.originalcolor = $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].getAttribute('fill');
+        if (this.questionIndex !== -1) {
+          this.pauseSpeaker();
+          $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.mainSvgfile.hoverColor);
+        }
+      } else {
+        this.pauseSpeaker();
       }
-      this.questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
-      this.originalcolor = $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].getAttribute('fill');
-      if (this.questionIndex !== -1) {
-        $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.mainSvgfile.hoverColor);
-      }
+
     }
   }
 
+  /****** On mouse out SVG image ********/
   MouseOut(event) {
     if (this.questionIndex !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
       $(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', this.originalcolor);
     }
   }
 
+  /****** On click SVG image ********/
   onClick(event) {
     const id = event.target.getAttribute('xlink:href');
     const questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
@@ -249,15 +261,112 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
   }
 
-  ngOnDestroy() {
-    this.showAnswerSubscription.unsubscribe();
-    clearTimeout(this.clappingTimer);
-    clearTimeout(this.rightTimer);
-    clearTimeout(this.multiCorrectTimer);
-    this.audio.pause();
+  /******On Hover option ********/
+  onHoverOptions(option) {
+    this.pauseSpeaker();
+    option.image_bg = option.image_bg_hover;
   }
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
+
+  /******Hover out option ********/
+  onHoveroutOptions(option) {
+    if (!option.selected) {
+      option.image_bg = option.image_bg_original;
+    }
+  }
+
+  /****** Option Hover VO  *******/
+  playOptionHover(option, index) {
+    if (option && option.audio && option.audio.url && !option.selected) {
+      this.playSound(option.audio, index);
+    }
+  }
+  /***** Play sound on option roll over *******/
+  playSound(soundAssets, idx) {
+    if (this.audio && this.audio.paused) {
+      if (soundAssets.location === 'content') {
+        this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+      } else {
+        this.audio.src = soundAssets.url;
+      }
+      this.audio.load();
+      this.audio.play();
+      for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
+        if (i !== idx) {
+          this.optionsContainer.nativeElement.children[i].classList.add('disableDiv');
+        }
+      }
+      this.audio.onended = () => {
+        this.enableAllOptions();
+      };
+    }
+  }
+
+  /******On Hover close popup******/
+  hoverClosePopup() {
+    this.popupAssets.close_button = this.popupAssets.close_button_hover;
+  }
+
+  /******Hover out close popup******/
+  houtClosePopup() {
+    this.popupAssets.close_button = this.popupAssets.close_button_origional;
+  }
+
+  /***** Enable all options and speaker on audio end *******/
+  enableAllOptions() {
+    for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
+      if (this.optionsContainer.nativeElement.children[i].classList.contains('disableDiv') && !this.myoption.optionsArr[i]["selected"]) {
+        this.optionsContainer.nativeElement.children[i].classList.remove('disableDiv');
+      }
+    }
+  }
+
+  /** Function to stop all sounds **/
+  stopAllSounds() {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+
+    this.speakerVolume.nativeElement.pause();
+    this.speakerVolume.nativeElement.currentTime = 0;
+
+    this.wrongFeedback.nativeElement.pause();
+    this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.rightFeedback.nativeElement.pause();
+    this.rightFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+  }
+
+  /** Function to pause the speaker **/
+  pauseSpeaker() {
+    const speakerEle = document.getElementsByClassName('speakerBtn')[0].children[2] as HTMLAudioElement;
+    if (!speakerEle.paused) {
+      speakerEle.pause();
+      speakerEle.currentTime = 0;
+      document.getElementById('waveAnimation').style.display = 'none';
+      (document.getElementById('spkrBtn') as HTMLElement).style.pointerEvents = '';
+      this.speaker.imgsrc = this.speaker.imgorigional;
+    }
+  }
+
+  /** Function called on click of speaker **/
+  onSpeakerClicked() {
+    this.stopAllSounds();
+    this.enableAllOptions();
+  }
+
+  getFileLoaded(fileData) {
+    const fileUrl = fileData.location === 'content'
+      ? this.containgFolderPath + '/' + fileData.url : this.assetsPath + '/' + fileData.url;
+    this.appModel.getFileString(fileUrl)
+      .subscribe((data) => {
+        const parser = new DOMParser();
+        const newNode = parser.parseFromString(data, 'text/xml');
+        newNode.documentElement.style.maxWidth = '100%';
+        newNode.documentElement.style.maxHeight = '100%';
+        document.getElementById('mainques').appendChild(newNode.documentElement);
+      });
   }
 
   /****Set data for the Template****/
@@ -332,14 +441,14 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
   }
 
-   /****Get base path****/
+  /****Get base path****/
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
     }
   }
 
-   /****** sets clapping timer ********/
+  /****** sets clapping timer ********/
   setClappingTimer(feedback, popupRef?) {
     this.stopAllSounds();
     this.clapSound.nativeElement.play();
@@ -353,12 +462,10 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }, 2000);
   }
 
-   /****** Show right answer popup on all correct answer selection ********/
+  /****** Show right answer popup on all correct answer selection ********/
   showRightAnswerPopup() {
     if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
-      // let svgElement = document.getElementById("mainques").children[0] as HTMLElement;
-      const svgElement = this.QuesRef.nativeElement.children[0];
-      // document.getElementById("rightAnsPopup").appendChild(document.getElementById("mainques"));
+      const svgElement = this.QuesRef.nativeElement.children[0].cloneNode(true);
       const rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
       document.getElementById('rightAnsPopup').appendChild(svgElement);
       this.setClappingTimer(this.multiCorrectFeedback, rightAnswerPopup);
@@ -369,32 +476,29 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
         document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
       }
       this.rightTimer = setTimeout(() => {
-        // this.closePopup('answerPopup');
+        this.closePopup('answerPopup');
       }, 10000);
     };
   }
 
-   /****Check answer on option click*****/
+  /**** Check answer on option click *****/
   checkAnswer(option, index) {
-    // this.selectedIndex = index;
     option.image_bg = option.image_bg_original; // Reset Hover image to normal
     this.disableOptions = true;
     this.disableCursorOnSVG();
+    this.enableAllOptions();
     this.disableMainContent = true; // Disable the mainContent when option is selected
     for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
       document.getElementsByClassName('ansBtn')[i].classList.add('disableDiv');
     }
     this.stopAllSounds();
-    // this.enableAllOptions();
     if (option.id === this.quesObj.tablet.questionText[this.selectedIndex].correctAnsId) {
       this.correctAnswerCounter++;
       option['selected'] = true;
       this.correctAnsArr.push(option.id);
       this.quesObj.tablet.questionText[this.selectedIndex]['answered'] = true;
-      // this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1]
       $(this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].children[0].children[0].getAttribute('xlink:href'))[0].setAttribute('fill', option.image_bg_color);
       this.QuesRef.nativeElement.children[0].children[this.selectedIndex + 1].style.pointerEvents = 'none';
-      // $(this.selectedId)[0].setAttribute("fill", option.image_bg_color);
       option.image_bg = option.image_bg_disabled;  // show disabled background image
       option.image = option.image_disabled;  // show disabled background image
       this.optionsContainer.nativeElement.children[index].classList.add('disableDiv');  // disable option on correct answer
@@ -405,6 +509,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
 
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
         if (this.correctAnswerCounter === this.quesObj.tablet.questionText.length) {
+          this.appModel.storeVisitedTabs();
           this.showRightAnswerPopup();
         } else {
           this.setClappingTimer(this.rightFeedback);
@@ -584,13 +689,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
   }
 
-  ngAfterViewInit() {
-    this.appModel.setLoader(false);
-    this.checkforQVO();
-
-  }
-
-  /**Disable all clickables until instruction VO ends**/
+  /** Disable all clickables until instruction VO ends **/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.instruction.nativeElement.src = this.quesObj.quesInstruction.location === 'content'
@@ -608,6 +707,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
   }
 
+  /** Enable cursor on SVG image **/
   enableCursorOnSVG() {
     for (let i = 1; i < this.QuesRef.nativeElement.children[0].children.length; i++) {
       if (this.quesObj.tablet.questionText[i - 1] && !this.quesObj.tablet.questionText[i - 1]['answered']) {
@@ -617,107 +717,13 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
   }
 
+  /** Disable cursor on SVG image **/
   disableCursorOnSVG() {
     for (let i = 1; i < this.QuesRef.nativeElement.children[0].children.length; i++) {
       if (this.quesObj.tablet.questionText[i - 1] && !this.quesObj.tablet.questionText[i - 1]['answered']) {
         this.QuesRef.nativeElement.children[0].children[i].style.pointerEvents = 'none';
       }
     }
-  }
-
-  /******On Hover option ********/
-  onHoverOptions(option) {
-    // this.pauseSpeaker();
-    option.image_bg = option.image_bg_hover;
-  }
-
-  /******Hover out option ********/
-  onHoveroutOptions(option) {
-    if (!option.selected) {
-      option.image_bg = option.image_bg_original;
-    }
-  }
-
-  /****** Option Hover VO  *******/
-  playOptionHover(option, index) {
-    if (option && option.audio && option.audio.url && !option.selected) {
-      this.playSound(option.audio, index);
-    }
-  }
-  /***** Play sound on option roll over *******/
-  playSound(soundAssets, idx) {
-    if (this.audio && this.audio.paused) {
-      if (soundAssets.location === 'content') {
-        this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-      } else {
-        this.audio.src = soundAssets.url;
-      }
-      this.audio.load();
-      this.audio.play();
-      for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-        if (i !== idx) {
-          this.optionsContainer.nativeElement.children[i].classList.add('disableDiv');
-        }
-      }
-      this.audio.onended = () => {
-        this.enableAllOptions();
-      };
-    }
-  }
-
-  /******On Hover close popup******/
-  hoverClosePopup() {
-    this.popupAssets.close_button = this.popupAssets.close_button_hover;
-  }
-
-  /******Hover out close popup******/
-  houtClosePopup() {
-    this.popupAssets.close_button = this.popupAssets.close_button_origional;
-  }
-
-  /***** Enable all options and speaker on audio end *******/
-  enableAllOptions() {
-    for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-      if (this.optionsContainer.nativeElement.children[i].classList.contains('disableDiv')) {
-        this.optionsContainer.nativeElement.children[i].classList.remove('disableDiv');
-      }
-    }
-  }
-
-  /** Function to stop all sounds **/
-  stopAllSounds() {
-    this.audio.pause();
-    this.audio.currentTime = 0;
-
-    this.speakerVolume.nativeElement.pause();
-    this.speakerVolume.nativeElement.currentTime = 0;
-
-    this.wrongFeedback.nativeElement.pause();
-    this.wrongFeedback.nativeElement.currentTime = 0;
-
-    this.rightFeedback.nativeElement.pause();
-    this.rightFeedback.nativeElement.currentTime = 0;
-
-    this.clapSound.nativeElement.pause();
-    this.clapSound.nativeElement.currentTime = 0;
-  }
-
-  /** Function to pause the speaker **/
-  pauseSpeaker() {
-    const speakerEle = document.getElementsByClassName('speakerBtn')[0].children[2] as HTMLAudioElement;
-    if (!speakerEle.paused) {
-      speakerEle.pause();
-      speakerEle.currentTime = 0;
-      document.getElementById('waveAnimation').style.display = 'none';
-      (document.getElementById('spkrBtn') as HTMLElement).style.pointerEvents = '';
-      this.speaker.imgsrc = this.speaker.imgorigional;
-    }
-  }
-
-  /** Function called on click of speaker **/
-  onSpeakerClicked() {
-    this.stopAllSounds();
-    this.enableAllOptions();
   }
 }
 
