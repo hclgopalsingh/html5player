@@ -201,6 +201,7 @@ export class Ntemplate13 implements OnInit {
 			for (let option = 0; option < this.myoption.length; option++) {
 				if (option == index) {
 					this.optionBlock.nativeElement.children[option].className = "options";
+					this.optionBlock.nativeElement.children[option].children[0].style.cursor = "pointer";
 				} else {
 					this.optionBlock.nativeElement.children[option].className = " disable_div options";
 				}
@@ -230,7 +231,7 @@ export class Ntemplate13 implements OnInit {
 	playHoverInstruction() {
 		this.disableSection = true;
 		this.appModel.notifyUserAction();
-		if (!this.narrator.nativeElement.paused!) {
+		if (!this.narrator.nativeElement.paused) {
 			console.log("narrator/instruction voice still playing");
 		} else {
 			console.log("play on Instruction");
@@ -276,7 +277,6 @@ export class Ntemplate13 implements OnInit {
 			$("#instructionBar").css("opacity", "0.3");
 			//   this.checked = true;
 		} else {
-
 			console.log("closing modal")
 			this.popUpClosed = true;
 			//close modal
@@ -411,18 +411,25 @@ export class Ntemplate13 implements OnInit {
 
 	postWrongAttemplt() {
 		//wrong-right ans
-		this.optionBlock.nativeElement.children[0].className = "options animation-shake";
-		this.optionBlock.nativeElement.children[1].className = "options animation-shake";
-		this.optionBlock.nativeElement.children[2].className = "options animation-shake";
+		this.optionBlock.nativeElement.children[0].className = "options animation-shake disable_div";
+		this.optionBlock.nativeElement.children[1].className = "options animation-shake disable_div";
+		this.optionBlock.nativeElement.children[2].className = "options animation-shake disable_div";
 		this.doRandomize(this.myoption);
 		$('#ansBlock').addClass = "disable_div";
 
 		setTimeout(() => {
+			this.optionBlock.nativeElement.children[0].className = "options disable_div";
+			this.optionBlock.nativeElement.children[1].className = "options disable_div";
+			this.optionBlock.nativeElement.children[2].className = "options disable_div";
+			//this.optionDisable = false;
+		}, 1000);
+		setTimeout(() => {
+			this.optionBlock.nativeElement.className="";
 			this.optionBlock.nativeElement.children[0].className = "options";
 			this.optionBlock.nativeElement.children[1].className = "options";
 			this.optionBlock.nativeElement.children[2].className = "options";
-			this.optionDisable = false;
-		}, 1000)
+			//this.optionDisable = false;
+		}, 1300);
 		this.appModel.startPreviousTimer();
 		this.appModel.notifyUserAction();
 		//shake options
@@ -652,8 +659,7 @@ export class Ntemplate13 implements OnInit {
 
 			this.feedbackVoRef.nativeElement.onended = () => {
 				this.disableSpeaker = false;
-				setTimeout(() => {
-
+                setTimeout(() => {
 					if (this.wrongOptAudioPlaying) {
 						console.log("still playing");
 						this.wrongOptAudio.nativeElement.onended = () => {
@@ -662,6 +668,7 @@ export class Ntemplate13 implements OnInit {
 							if (!this.popUpClosed) {
 								this.removeEvents();
 								this.appModel.wrongAttemptAnimation();
+								this.optionDisable=false;
 								this.idArray = [];
 								for (let i of this.myoption) {
 									this.idArray.push(i.id);
@@ -690,9 +697,7 @@ export class Ntemplate13 implements OnInit {
 								this.idArray.push(i.id);
 							}
 							//this.doRandomize(this.myoption);
-							setTimeout(() => {
-								//this.optionBlock.nativeElement.className = "";
-							}, 200)
+
 							for (let i in this.myoption) {
 								this.optionBlock.nativeElement.children[i].children[1].className = "speaker";
 							}
@@ -704,10 +709,12 @@ export class Ntemplate13 implements OnInit {
 						$("#speakerpopup").addClass("disable_div");
 
 					}
-				}, this.closeDelayTime)
+				}, this.closeDelayTime);
 			}
 		}
 	}
+
+
 
 	// previous function
 	previous() {
@@ -921,7 +928,6 @@ export class Ntemplate13 implements OnInit {
 				this.wrongOptAudioPlaying = false;
 				$(".speakerd").removeClass("dispFlex");
 				console.log("Start 2 - " + this.wrongOptAudioPlaying);
-
 			}
 		}
 	}
