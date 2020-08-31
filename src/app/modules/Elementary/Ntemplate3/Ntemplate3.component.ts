@@ -461,6 +461,8 @@ export class Ntemplate3 implements OnInit {
     if(this.bgSubscription!=undefined){
       this.bgSubscription.unsubscribe();
     }
+    this.narrator.nativeElement.pause();
+		this.narrator.nativeElement.currentTime = 0;
     /*End: Theme Implementation(Template Changes)*/
   }
 
