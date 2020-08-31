@@ -137,7 +137,7 @@ export class Ntemplate17Component implements OnInit {
   replayconfirmAssets: any;
   tempSubscription: Subscription;
   quesObj: any;
-  isPlayVideo: boolean = true;
+  isPlayVideo: boolean = false;
   videoReplayd: boolean = false;
   addBtn: any;
   refBase: any;
@@ -546,6 +546,9 @@ export class Ntemplate17Component implements OnInit {
       }, 200)
     }
     this.appModel.resetBlinkingTimer();
+    /*Start: Theme Implementation(Template Changes)*/
+    this.appModel.handleController(this.controlHandler);
+    /*End: Theme Implementation(Template Changes)*/
   }
 
   ngOnDestroy() {
@@ -584,10 +587,11 @@ export class Ntemplate17Component implements OnInit {
         this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
         this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
         // this.videoStartTimer = setTimeout(() => {
-        this.mainVideo.nativeElement.play();
+        //this.mainVideo.nativeElement.play();
         // this.appModel.enableSubmitBtn(false);
-        this.mainVideo.nativeElement.onended = () => {
+        //this.mainVideo.nativeElement.onended = () => {
           this.isQuesTypeVideo = false;
+          this.appModel.navShow=2;
           setTimeout(() => {
             this.isPlayVideo = false;
             if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
@@ -616,7 +620,7 @@ export class Ntemplate17Component implements OnInit {
             }
             //this.startActivity();
           }, 200)
-        }
+        //}
         // }, 500);
       }
     }
@@ -1437,7 +1441,6 @@ export class Ntemplate17Component implements OnInit {
       this.instruction.nativeElement.play();
 	  this.quesContainer.nativeElement.style.pointerEvents="none";
       this.instruction.nativeElement.onended = () => {
-		this.quesContainer.nativeElement.style.pointerEvents="";
         this.checkinputnull();
       }
     }
@@ -1451,7 +1454,6 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.handlePostVOActivity(true);
     this.appModel.enableReplayBtn(this.playMyVideo);
     this.inputDivRef.nativeElement.classList = "inputDiv";
-    this.instructionBar.nativeElement.classList = "instructionBase";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
     if (this.QuestionVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
@@ -1471,8 +1473,15 @@ export class Ntemplate17Component implements OnInit {
     }
     if (this.QuestionAudio != undefined) {
       this._setQuestionAudio = this._questionAreaAudio;
-      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-      this.QuestionAudio.nativeElement.play();
+      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      setTimeout(() => {
+        this.QuestionAudio.nativeElement.play();
+        this.QuestionAudio.nativeElement.onended=() => {
+          this.blinkTextBox();
+          this.instructionBar.nativeElement.classList = "instructionBase";
+          this.quesContainer.nativeElement.style.pointerEvents="";
+        }
+      },  this.quesObj.timegap);
     }
 
     if (this.QuestionVideo != undefined && this.videoReplayd == false && this._playInstructionFlag == false) {
@@ -1483,7 +1492,7 @@ export class Ntemplate17Component implements OnInit {
     //this.blinkOnLastQues();
     this.appModel.handlePostVOActivity(false);
     if (this.inputVal == "" && this._questionAreaVideoFlag != true && !this.videoReplayd) {
-      this.blinkTextBox();
+      //this.blinkTextBox();
     }
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);

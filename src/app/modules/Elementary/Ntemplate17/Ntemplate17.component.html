@@ -268,19 +268,19 @@
 			<div class="modal-content" #modalRef>
 				<div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
 					<img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
-					<img class="close" [src]="replayconfirmAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + replayconfirmAssets?.close_btn?.url : assetsPath + '/' + replayconfirmAssets?.close_btn?.url"
+					<img class="close" [src]="replayconfirmAssets?.close_btn?.url"
 					 (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
 				</div>
 				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
 					<div class="msgImage">
-						<img class="img-fluid h-100" [src]="replayconfirmAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + replayconfirmAssets?.confirm_text?.url : assetsPath + '/' + replayconfirmAssets?.confirm_text?.url">
+						<img class="img-fluid h-100" [src]="replayconfirmAssets?.confirm_text?.url">
 					</div>
 					<div class="actionButtons">
 						<button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');" (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()">
-							<img class="img-fluid" [src]="replayconfirmAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + replayconfirmAssets?.confirm_btn?.url : assetsPath + '/' + replayconfirmAssets?.confirm_btn?.url">
+							<img class="img-fluid" [src]="replayconfirmAssets?.confirm_btn?.url">
 						</button>
 						<button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()" (mouseleave)="houtonReplayDecline()">
-							<img class="img-fluid" [src]="replayconfirmAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + replayconfirmAssets?.decline_btn?.url : assetsPath + '/' + replayconfirmAssets?.decline_btn?.url">
+							<img class="img-fluid" [src]="replayconfirmAssets?.decline_btn?.url">
 						</button>
 					</div>
 				</div>
@@ -296,19 +296,19 @@
 			<div class="modal-content" #modalRef>
 				<div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
 					<!-- <h4 class="modal-title">Modal Heading</h4> -->
-					<img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.headerTxt_img?.url : assetsPath + '/' + infoPopupAssets?.headerTxt_img?.url">
+					<img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.url">
 					<!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-					<img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url"
+					<img class="close" [src]="infoPopupAssets?.close_btn?.url"
 					 (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverCloseOk()" (mouseleave)="houtCloseOk()">
 				</div>
 
 				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
 					<div class="msgImage">
-						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url">
+						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url">
 					</div>
 					<div class="actionButtons">
 						<button type="button" (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverOK()" (mouseleave)="houtOK()">
-							<img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url">
+							<img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url">
 						</button>
 					</div>
 				</div>
@@ -321,16 +321,16 @@
 </div>
 <div class="videoMainContainer" *ngIf="isPlayVideo">
 	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
-	 poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
-		<source [src]="quesObj?.quesVideo?.location=='content' ? containgFolderPath + '/' + quesObj?.quesVideo?.urlOgv : assetsPath + '/' + quesObj?.quesVideo?.urlOgv"
+	 poster="assets/images/videoPoster.svg"  (ended)="endedHandler()">
+		<source [src]="quesObj?.quesVideo?.urlOgv"
 		 type="{{videoType}}">
 	</video>
 	<div id="playPauseBtn">
-		<img class="img-fluid" [src]="quesObj?.quesPlayPause?.location=='content' ? containgFolderPath + '/' + quesObj?.quesPlayPause?.url : assetsPath + '/' + quesObj?.quesPlayPause?.url"
+		<img class="img-fluid" [src]="quesObj?.quesPlayPause?.url"
 		 (click)="PlayPauseVideo()" />
 	</div>
 	<div id="SkipBtn">
-		<img class="img-fluid" [src]="quesObj?.quesSkip?.location=='content' ? containgFolderPath + '/' + quesObj?.quesSkip?.urlOgv : assetsPath + '/' + quesObj?.quesSkip?.urlOgv"
+		<img class="img-fluid" [src]="quesObj?.quesSkip?.url"
 		 (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" />
 	</div>
 </div>
