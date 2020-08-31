@@ -27,9 +27,9 @@
 	position: relative;
 	margin-bottom:20%;
 }
-#ansBlock .options img{
+/*#ansBlock .options img{
 	cursor:pointer;
-}
+}*/
 #optionsBlock #optimage0,
 #optionsBlock #optimage1,
 #optionsBlock #optimage2,
@@ -228,7 +228,7 @@
 .questionImg{
     position: absolute;
     top: 0%;
-	left: 0%;
+	left: 0!important;
 }
 .modal .questionImg{
     top: auto;
@@ -335,6 +335,9 @@
     width: 100%;
     text-align: center; cursor: default;
   }
+  .closepopup_btn{text-align: center; clear:both; width: 100%; margin-top:2%;}
+  .closepopup_btn img{width: 10.4%; cursor: pointer;
+    max-width: 10.4%;}
 
   #instructionBar .instructionBase {
     width: 60%;
@@ -819,7 +822,7 @@
   -webkit-animation: play 1.2s steps(4) infinite;
   animation: play 1.2s steps(4) infinite;
   position: absolute;
-  top: 28%;
+  top: 20%;
   left: 76%;
   display: none;
   pointer-events: none;
