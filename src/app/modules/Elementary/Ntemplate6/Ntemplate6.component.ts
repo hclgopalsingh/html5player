@@ -33,7 +33,6 @@ export class Ntemplate6 implements OnInit {
         console.log('Component: constructor - data=', data);
         switch (data) {
           case PlayerConstants.CMS_PLAYER_CLOSE:
-            //console.log('VideoComponent: constructor - cmsPlayerClose');
             this.close();
             break;
 
@@ -74,6 +73,7 @@ export class Ntemplate6 implements OnInit {
   @ViewChild('PopUpDuplicateOption') popUpDuplicateOption: any;
   @ViewChild('optionsClickable') optionsClickable: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+  @ViewChild('mainOuterContainer') mainOuterContainer:any
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -1846,6 +1846,8 @@ export class Ntemplate6 implements OnInit {
   ];
 
   disableSpeaker:boolean = false;
+  windowWidth:number = window.innerWidth;
+  mainContainerWidth:number;
   speakerWave:boolean = false;
   coverTop:boolean=true;
   coverBottom:boolean=true;
@@ -1956,6 +1958,7 @@ export class Ntemplate6 implements OnInit {
     this.templatevolume(this.appModel.volumeValue, this);
   }
 
+
   OptionZoomOutAnimation(opt, i) {
     if (!this.checked && this.quesVORef.nativeElement.paused) {
       $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).addClass("scaleOutAnimation");
@@ -2016,12 +2019,12 @@ export class Ntemplate6 implements OnInit {
     if (option.position == "right") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
       if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
       else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
           }
         }
       }
@@ -2029,12 +2032,12 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
       if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
       else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
@@ -2043,12 +2046,12 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.Matra.nativeElement.children[this.index].classList.value = '';
       if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
       else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
           }
         }
       }
@@ -2071,16 +2074,16 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[this.index].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width()) * 100 + "%";
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.5 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.5 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5.2 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5.2 + "%";
     }
     else {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
     }
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
   }
@@ -2092,12 +2095,12 @@ export class Ntemplate6 implements OnInit {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
       }
       if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
       }
       else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
@@ -2108,12 +2111,12 @@ export class Ntemplate6 implements OnInit {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
       }
       if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
       }
       else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
@@ -2121,12 +2124,12 @@ export class Ntemplate6 implements OnInit {
 
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
       }
       else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
@@ -2150,16 +2153,16 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[letterNumber - 1].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width()) * 100 + "%";
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 1 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.4 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.4 + "%";
     }
     else {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     }
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 0);
   }
@@ -2199,7 +2202,8 @@ export class Ntemplate6 implements OnInit {
   }
 
   ngOnInit() {
-    let that = this;
+    
+     let that = this;
     $("#navBlock").click(function () {
       if (!that.instructionVO.nativeElement.paused) {
         that.instructionVO.nativeElement.pause();
@@ -2292,6 +2296,8 @@ export class Ntemplate6 implements OnInit {
     //this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
+
+    
   }
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
@@ -2521,6 +2527,7 @@ export class Ntemplate6 implements OnInit {
       for (let j = 0; j < this.optionsAssets.length; j++) {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
+      
   
       for (let i = 0; i < this.optionArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
@@ -2625,6 +2632,8 @@ export class Ntemplate6 implements OnInit {
 
   checkforQVO() {
     this.isVideoLoaded = true;
+    this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
+      //alert(this.mainContainerWidth);
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay && !this.replayClicked) {
       this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.mainContainer.nativeElement.classList = "bodyContent disable_div";
