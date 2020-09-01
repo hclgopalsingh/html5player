@@ -18,7 +18,6 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   myoption: any = [];
   feedback: any = '';
   isLastQues = false;
-  isAutoplayOn: boolean;
   isLastQuesAct: boolean;
   noOfImgs: number;
   containgFolderPath = '';
@@ -189,7 +188,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
       this.appModel.notifyUserAction();
 
     });
-    this.getFileLoaded(this.mainSvgfile);
+    this.getSVGLoaded(this.mainSvgfile);
   }
 
   ngAfterViewInit() {
@@ -210,7 +209,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   /****** On hover SVG image ********/
-  MouseOver(event) {
+  mouseOverSVG(event) {
     const id = event.target.getAttribute('xlink:href');
     const idFound = this.quesObj.tablet.questionText.find(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
     if (idFound) {
@@ -232,14 +231,14 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   /****** On mouse out SVG image ********/
-  MouseOut(event) {
+  mouseOutSVG(event) {
     if (this.questionIndex !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
       document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.originalcolor);
     }
   }
 
   /****** On click SVG image ********/
-  onClick(event) {
+  onSVGClick(event) {
     const id = event.target.getAttribute('xlink:href');
     const questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
     if (questionIndex !== -1) {
@@ -352,7 +351,8 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     this.enableAllOptions();
   }
 
-  getFileLoaded(fileData) {
+  /**** Load SVG image ****/
+  getSVGLoaded(fileData) {
     const fileUrl = fileData.location === 'content'
       ? this.containgFolderPath + '/' + fileData.url : this.assetsPath + '/' + fileData.url;
     this.appModel.getFileString(fileUrl)
@@ -361,11 +361,11 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
         const newNode = parser.parseFromString(data, 'text/xml');
         newNode.documentElement.style.maxWidth = '100%';
         newNode.documentElement.style.maxHeight = '100%';
-        document.getElementById('mainques').appendChild(newNode.documentElement);
+        document.getElementById('svgContainer').appendChild(newNode.documentElement);
       });
   }
 
-  /****Set data for the Template****/
+  /**** Set data for the Template ****/
   setData() {
     this.appModel.notifyUserAction();
     const fetchedData: any = this.appModel.content.contentData.data;
@@ -422,9 +422,6 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
     if (obj.clapSound && obj.clapSound.nativeElement) {
       obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.showAnswerfeedback && obj.showAnswerfeedback.nativeElement) {
-      obj.showAnswerfeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.audio) {
       obj.audio.volume = obj.appModel.isMute ? 0 : vol;
@@ -546,7 +543,6 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
       this.idArray.push(i.image_bg_color);
     }
     this.doRandomize(filteredArray);
-    // this.disableSpeaker.nativeElement.classList.remove("disableDiv");
     if (this.wrongCounter >= 3 && this.ifWrongAns) {
       this.Sharedservice.setShowAnsEnabled(true);
     }

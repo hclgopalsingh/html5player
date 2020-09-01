@@ -1,4 +1,4 @@
-#mainques {
+#svgContainer {
     position: absolute;
     top: 5.1%;
     display: flex;
@@ -113,6 +113,16 @@
     justify-content: center;
     height: 75.5%;
     align-items: center;
+}
+.modal .queryBlock div#rightAnsPopup {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 82%;
+    height: 81.2%;
+    top: 9%;
+    left: 7.5%;
 }
 .rightWrongAns{
 	bottom: 9%;

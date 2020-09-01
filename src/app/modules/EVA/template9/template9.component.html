@@ -27,8 +27,8 @@
       <div class="queryBlock">
         <img class="img-fluid"
           [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
-        <div id="mainques" #quesRef on-mousemove="MouseOver($event)" on-mouseout="MouseOut($event)"
-          (click)="onClick($event)">
+        <div id="svgContainer" #quesRef on-mousemove="mouseOverSVG($event)" on-mouseout="mouseOutSVG($event)"
+          (click)="onSVGClick($event)">
         </div>
       </div>
 
@@ -60,7 +60,10 @@
         <div class="modal-body d-flex align-items-center">
           <img class="img-fluid"
             [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-          <div class="queryBlock" id="rightAnsPopup">
+          <div class="queryBlock">
+            <img class="img-fluid"
+          [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+          <div id="rightAnsPopup"></div>
           </div>
           <div class="rightWrongAns">
             <img class="img-fluid"
