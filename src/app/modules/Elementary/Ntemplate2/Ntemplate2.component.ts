@@ -254,7 +254,8 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.rightFeedbackVO.nativeElement.pause();
 		this.rightFeedbackVO.nativeElement.currentTime = 0;
 		// clearTimeout(this.feedbackAttempt);
-		
+		this.quesVORef.nativeElement.pause();
+		this.quesVORef.nativeElement.currentTime=0;
 		clearTimeout(this.wrongAnimTimeout);
 		clearTimeout(this.correctAnimTimeout);
 		clearTimeout(this.correctAnimTimeout2);
