@@ -344,7 +344,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 						this.rightFeedback.nativeElement.onended = () => {
 							this.rightTimer = setTimeout(() => {
 								this.closeModal();
-							}, 10000000);
+							}, 10000);
 						}
 					}, 2000);
 				}
