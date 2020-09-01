@@ -382,7 +382,7 @@ export class Template5Component implements OnInit {
         this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_border;
         flag = true;
       }
-    }, 300);
+    }, 400);
     this.feedbackPopupAudio.nativeElement.onended = () => {
       highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
       this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_original;
@@ -407,6 +407,7 @@ export class Template5Component implements OnInit {
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
+    this.enableAllOptions();
     this.stopAllSounds();
     if (currentIndexArr[this.selectedLetterCount] == option.id) {
       option["selected"] = true;
