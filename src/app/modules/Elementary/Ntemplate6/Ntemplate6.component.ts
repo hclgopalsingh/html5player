@@ -44,36 +44,26 @@ export class Ntemplate6 implements OnInit {
     );
   }
 
-  @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   @ViewChild('optionAudio') optionAudio: any;
-  @ViewChild('maincontent') maincontent: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
-  @ViewChild('popupRef') popupRef: any;
-  @ViewChild('popupImage') popupImage: any;
-  @ViewChild('rightFeedbackVO') rightFeedbackVO: any
-  @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
+
   @ViewChild('matra') Matra: any;
   @ViewChild('options') Options: any;
   @ViewChild('DuplicateOption') duplicateOption: any;
   @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('answerModalRef') answerModalRef: any;
-  @ViewChild('WrongAnswerModalRef') wrongAnswerModalRef: any;
-  @ViewChild('matraPopUp') MatraPopUp: any;
   @ViewChild('mainVideo') mainVideo: any;
   @ViewChild('quesVORef') quesVORef: any;
   @ViewChild('mainContainer') mainContainer: any;
   @ViewChild('instructionBar') instructionBar: any;
   @ViewChild('instructionVO') instructionVO: any;
   @ViewChild('Speaker') Myspeaker: any;
-  @ViewChild('WrongMatraPopUp') wrongMatraPopUp: any;
-  //@ViewChild('DuplicateOption') duplicateOption: any;
-  @ViewChild('PopUpDuplicateOption') popUpDuplicateOption: any;
   @ViewChild('optionsClickable') optionsClickable: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  @ViewChild('mainOuterContainer') mainOuterContainer:any
+  @ViewChild('mainOuterContainer') mainOuterContainer: any
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -1845,12 +1835,14 @@ export class Ntemplate6 implements OnInit {
     }
   ];
 
-  disableSpeaker:boolean = false;
-  windowWidth:number = window.innerWidth;
-  mainContainerWidth:number;
-  speakerWave:boolean = false;
-  coverTop:boolean=true;
-  coverBottom:boolean=true;
+  disableSpeaker: boolean = false;
+  windowWidth: number = window.innerWidth;
+  mainContainerWidth: number;
+  speakerWave: boolean = false;
+  coverTop: boolean = true;
+  coverBottom: boolean = true;
+  InstructionVo: boolean = false;
+  bodyContentDisable: boolean = false;
 
   playHoverInstruction() {
     this.instruction.nativeElement.currentTime = 0;
@@ -1858,14 +1850,12 @@ export class Ntemplate6 implements OnInit {
       console.log("narrator/instruction voice still playing");
     } else {
       console.log("play on Instruction");
-      //this.instruction.nativeElement.load();
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
         this.instruction.nativeElement.onended = () => {
           //document.getElementById("coverTop").style.display = "none";
         }
-        ////$(".instructionBase").css("cursor", "pointer");
       }
     }
   }
@@ -1876,8 +1866,6 @@ export class Ntemplate6 implements OnInit {
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
   }
-
-
   PlayPauseVideo() {
     if (this.PlayPauseFlag) {
       this.mainVideo.nativeElement.pause();
@@ -1891,18 +1879,17 @@ export class Ntemplate6 implements OnInit {
     }
 
   }
-
   hoverSkip() {
-   this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
   }
   houtSkip() {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
-
   onHoverOption(opt, i) {
     if (opt && opt != undefined) {
       if (this.instructionVO.nativeElement.paused) {
-        $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).addClass("scaleInAnimation");
+        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList('img-fluid scaleInAnimation');
+        //this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList
       }
     }
   }
@@ -1930,7 +1917,7 @@ export class Ntemplate6 implements OnInit {
           this.optionsClickable.nativeElement.children[0].children[j].children[2].pause();
         }
       }
-      $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).addClass("scaleInAnimation");
+      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleInAnimation');
       this.lastidx = i;
       if (opt.imgsrc_audio && opt.audio_location == "content") {
         this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
@@ -1961,10 +1948,10 @@ export class Ntemplate6 implements OnInit {
 
   OptionZoomOutAnimation(opt, i) {
     if (!this.checked && this.quesVORef.nativeElement.paused) {
-      $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).addClass("scaleOutAnimation");
+      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleOutAnimation');
       setTimeout(() => {
-        $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).removeClass("scaleInAnimation");
-        $(this.optionsClickable.nativeElement.children[0].children[i].children[0]).removeClass("scaleOutAnimation");
+        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleInAnimation');
+        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleInAnimation');
       }, 500)
     }
   }
@@ -1976,9 +1963,7 @@ export class Ntemplate6 implements OnInit {
     this.appModel.handleController(this.controlHandler);
     this.appModel.handlePostVOActivity(true);
     this.count = 0;
-    ////$(".instructionBase").addClass('disable_div');
-    this.disableSection=true;
-    ////$('.speaker').addClass('disable_div');
+    this.disableSection = true;
     this.disableSpeaker = true;
     this.optionsClickable.nativeElement.classList = "row mx-0 disable_div"
     console.log("option clicked");
@@ -2074,7 +2059,7 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[this.index].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / (this.mainContainerWidth /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.5 + "%";
     } else if (option.position == "bottom_spcialCase") {
@@ -2153,7 +2138,7 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[letterNumber - 1].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / (this.mainContainerWidth /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     } else if (option.position == "bottom_spcialCase") {
@@ -2175,8 +2160,8 @@ export class Ntemplate6 implements OnInit {
     if (!event.id.includes("M")) {
       this.appModel.notifyUserAction();
       this.clicked = true;
-      document.getElementById("coverTop").style.display = "block";
-      document.getElementById("coverBtm").style.display = "none"
+      this.coverTop = true;
+      this.coverBottom = false;
       console.log("id", id)
       this.index = id;
       this.Matra.nativeElement.children[id].classList.value = 'outline';
@@ -2202,21 +2187,13 @@ export class Ntemplate6 implements OnInit {
   }
 
   ngOnInit() {
-    
-     let that = this;
-    $("#navBlock").click(function () {
-      if (!that.instructionVO.nativeElement.paused) {
-        that.instructionVO.nativeElement.pause();
-        that.instructionVO.nativeElement.currentTime = 0;
-      }
-    });
+    let that = this;
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
 
-    this.appModel.functionone(this.templatevolume, this);//start end
-
+    this.appModel.functionone(this.templatevolume, this);
 
     let fetchedData: any = this.appModel.content.contentData.data;
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
@@ -2248,28 +2225,29 @@ export class Ntemplate6 implements OnInit {
     this.appModel.getConfirmationPopup().subscribe((val) => {
 
       if (val == "uttarDikhayein") {
+        this.InstructionVo = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           if (this.Myspeaker && this.Myspeaker.nativeElement) {
             this.Myspeaker.nativeElement.pause();
             this.Myspeaker.nativeElement.currentTime = 0;
-            ////$('.speakerWave').removeClass("dispFlex");
             this.speakerWave = false;
           }
           if (this.instructionVO && this.instructionVO.nativeElement) {
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
-            ////$('.speaker').removeClass('disable_div');
             this.disableSpeaker = false;
           }
           this.appModel.notifyUserAction();
         }
       } else if (val == "submitAnswer") {
+        this.InstructionVo = true;
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
           this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
         }
       } else if (val == "replayVideo") {
+        this.InstructionVo = true;
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
@@ -2291,13 +2269,11 @@ export class Ntemplate6 implements OnInit {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
-    //$( "#navBlock" ).removeClass("disableNavBtn")
     this.appModel.enableNavBtn(false);
-    //this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
 
-    
+
   }
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
@@ -2309,15 +2285,12 @@ export class Ntemplate6 implements OnInit {
   postWrongAttemplt() {
     this.appModel.handleController(this.controlHandler);
     this.appModel.enableNavBtn(false);
-    $("#navBlock").removeClass("disableNavBtn")
   }
 
-  ngOnDestory() {
+  ngOnDestroy() {
     this.refQuesArr = [];
     this.QuesArr = [];
   }
-
-
 
   templatevolume(vol, obj) {
     if (obj.quesVORef && obj.quesVORef.nativeElement) {
@@ -2358,12 +2331,12 @@ export class Ntemplate6 implements OnInit {
         this.appModel.setLoader(false);
         this.isPlayVideo = false;
         setTimeout(() => {
-          document.getElementById("coverTop").style.display = "none";
+          this.coverTop = false;
+
         }, 1000);
         this.hideVideoBg = true;
 
         console.log("video eneded in replay function");
-        // this.appModel.startPreviousTimer();
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
       }
@@ -2415,7 +2388,6 @@ export class Ntemplate6 implements OnInit {
 
   checkVideoLoaded() {
     if (!this.videoReplayd) {
-      //console.log("default2");
       this.isVideoLoaded = true;
       this.appModel.setLoader(false);
       this.appModel.navShow = 1;
@@ -2436,25 +2408,34 @@ export class Ntemplate6 implements OnInit {
       this.appModel.handlePostVOActivity(false);
 
     }
+    setTimeout(() => {
+      this.appModel.setLoader(false);
+      this.checkforQVO();
+    }, 0)
   }
 
   close() {
-    //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
   checkImgLoaded() {
-    if (!this.loadFlag) {
-      this.noOfImgsLoaded++;
-      if (this.noOfImgsLoaded >= this.noOfImgs) {
-        this.appModel.setLoader(false);
-        this.loadFlag = true;
-        clearTimeout(this.loaderTimer);
-        this.checkforQVO();
-      }
-    } else {
-      this.checkforQVO();
-    }
+    /* if (!this.loadFlag) {
+       this.noOfImgsLoaded++;
+       if (this.noOfImgsLoaded >= this.noOfImgs) {
+         this.appModel.setLoader(false);
+         this.loadFlag = true;
+         clearTimeout(this.loaderTimer);
+         this.checkforQVO();
+       }
+     } else {
+       this.checkforQVO();
+     }*/
+  }
+  ngAfterViewInit() {
+    //   alert('ngAfterViewInit');
+    this.appModel.setLoader(false);
+    this.checkforQVO();
+
   }
 
   playInstruction() {
@@ -2463,17 +2444,19 @@ export class Ntemplate6 implements OnInit {
       this.Myspeaker.nativeElement.pause();
       this.Myspeaker.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.play();
-      document.getElementById("coverTop").style.display = "block";
-      document.getElementById("coverBtm").style.display = "block";
+      this.InstructionVo = false;
+      this.coverTop = true;
+      this.coverBottom = true;
       this.disableSection = true;
 
       this.instructionVO.nativeElement.onended = () => {
         this.disableSection = false;
+        this.InstructionVo = true;
         if (!this.clicked) {
-          document.getElementById("coverTop").style.display = "none";
+          this.coverTop = false;
         }
         if (this.clicked) {
-          document.getElementById("coverBtm").style.display = "none";
+          this.coverBottom = false;
         }
 
       }
@@ -2481,43 +2464,37 @@ export class Ntemplate6 implements OnInit {
   }
 
   playSpeaker(ev) {
+    this.InstructionVo = true;
     this.appModel.notifyUserAction();
     this.instructionVO.nativeElement.pause();
     this.instructionVO.nativeElement.currentTime = 0;
     this.Myspeaker.nativeElement.play();
-    ////$('.speakerWave').addClass("dispFlex");
     this.speakerWave = true;
-    document.getElementById("coverTop").style.display = "block";
-    document.getElementById("coverBtm").style.display = "block";
-    $('.instructionBase').addClass('disable_div');
+    this.coverTop = true;
+    this.coverBottom = true;
+    this.disableSection = true;
+    this.InstructionVo = false;
     this.Myspeaker.nativeElement.onended = () => {
       if (!this.clicked) {
-        document.getElementById("coverTop").style.display = "none";
+        this.coverTop = false;
       }
       if (this.clicked) {
-        document.getElementById("coverBtm").style.display = "none";
+        this.coverBottom = false;
       }
-      $('.instructionBase').removeClass('disable_div');
-      ////$('.speakerWave').removeClass("dispFlex");
+      this.InstructionVo = true;
       this.speakerWave = false;
+      this.disableSection = false;
     }
 
   }
 
-  // endedSpeakerAudio()
-  // {
-  //   $('.speakerWave').removeClass("dispFlex"); 
-  // }
-
   setData() {
 
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      //let fetchedData: any = this.appModel.content.contentData.data;
       console.log(this.fetchedcontent);
       this.feedback = this.fetchedcontent.feedback;
       this.commonAssets = this.fetchedcontent.commonassets;
       this.options = this.fetchedcontent.optionsObj;
-      // this.speaker = fetchedData.commonassets.speaker.url;
       this.optionBase = this.fetchedcontent.commonassets.optionBase.url;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
@@ -2527,8 +2504,8 @@ export class Ntemplate6 implements OnInit {
       for (let j = 0; j < this.optionsAssets.length; j++) {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
-      
-  
+
+
       for (let i = 0; i < this.optionArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (this.optionArr[i] == this.defaultLetterConfig[j].id) {
@@ -2536,21 +2513,17 @@ export class Ntemplate6 implements OnInit {
             var optionsAsset = this.optionsAssets[i];
             var UpdatedArray = { ...defaultLetter, ...optionsAsset };
             this.optionObj.push(UpdatedArray);
-            //  this.optionObj.push()
             break;
           }
         }
       }
       console.log("this.optionObj", this.optionObj)
-      //this.answerObj = this.fetchedcontent.AnswerObj;  
-
       this.refQuesObj = this.fetchedcontent.refQuesObj;
       let tempArr = [];
       this.refQuesObj.quesID.forEach(element => {
         tempArr.push(element.Lid)
       });
       this.QuesArr = tempArr
-      //this.QuesArr = this.refQuesObj.quesIdConfig;
       let quesID = this.refQuesObj.quesID
       for (let i = 0; i < quesID.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
@@ -2586,9 +2559,7 @@ export class Ntemplate6 implements OnInit {
 
 
       this.optPosObj = this.fetchedcontent.optionInitPosObj;
-      //this.refQuesArr = this.refQuesObj[0].refQuesArr; 
       this.optionInitPosArr = this.optPosObj[0].optionInitPosArr;
-      // this.optArr1 = this.optionObj[0].optionsArr;        
       this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
       this.feedbackObj = this.fetchedcontent.feedback;
@@ -2596,7 +2567,6 @@ export class Ntemplate6 implements OnInit {
       this.currentMatraNumberjson = this.feedbackObj.correct_matra_number;
       this.isValid = true;
       this.isNotValid = false;
-      //this.popupAssets = fetchedData.feedback;
       this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
       this.confirmAssets = this.fetchedcontent.show_answer_confirm;
       this.confirmReplayAssets = this.fetchedcontent.feedback.replay_confirm;
@@ -2608,7 +2578,6 @@ export class Ntemplate6 implements OnInit {
       }
 
 
-      //this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
       if (this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
         this.isPlayVideo = true;
 
@@ -2626,38 +2595,35 @@ export class Ntemplate6 implements OnInit {
   }
 
   endedAudio() {
-    document.getElementById("coverTop").style.display = "none";
-    document.getElementById("coverBtm").style.display = "block";
+    this.coverTop = false;
+    this.coverBottom = true;
   }
 
   checkforQVO() {
     this.isVideoLoaded = true;
     this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
-      //alert(this.mainContainerWidth);
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay && !this.replayClicked) {
       this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
-      this.mainContainer.nativeElement.classList = "bodyContent disable_div";
-      //// this.instructionBar.nativeElement.classList = "instructionBase disable_div";
+      //this.mainContainer.nativeElement.classList = "bodyContent disable_div";
+      this.bodyContentDisable = true;
       this.disableSection = true;
 
       this.quesVORef.nativeElement.play();
-      
+
       this.appModel.enableReplayBtn(false);
       this.appModel.enableSubmitBtn(false);
       this.appModel.handlePostVOActivity(true);
       this.quesVORef.nativeElement.onended = () => {
-
+        this.InstructionVo = true;
         console.log('play');
-        this.mainContainer.nativeElement.classList = "bodyContent";
-        ////this.instructionBar.nativeElement.classList = "instructionBase";
+        //this.mainContainer.nativeElement.classList = "bodyContent";
+        this.bodyContentDisable = false;
         this.disableSection = false;
-        //this.startActivity();
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
       }
     } else {
       this.timerDelayActs = setTimeout(() => {
-        //this.startActivity();
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
 
@@ -2733,20 +2699,16 @@ export class Ntemplate6 implements OnInit {
         this.Matra.nativeElement.children[this.index].classList.value = "";
       }
       this.onClickAnimationManually(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson, this.currentOptionNumberjson);
-      // this.sendFeedback(this.AnswerModalRef, 'no','showAnswer');  
       this.sendFeedback(this.currentMatraNumberjson, 'yes', 'showAnswer');
-      //setTimeout(() => {
-      //  this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
-      //}, 3750);
     }
     if (flag == "no") {
       if (!this.clicked) {
-        document.getElementById("coverTop").style.display = "none";
-        document.getElementById("coverBtm").style.display = "block";
+        this.coverTop = false;
+        this.coverBottom = true;
       }
       else {
-        document.getElementById("coverTop").style.display = "block";
-        document.getElementById("coverBtm").style.display = "none";
+        this.coverTop = true;
+        this.coverBottom = false;
       }
       this.appModel.notifyUserAction();
       this.confirmModalRef.nativeElement.classList = "modal";
@@ -2756,16 +2718,15 @@ export class Ntemplate6 implements OnInit {
   sendFeedback(id, flag: string, action?: string) {
     this.count = 0;
     if (!this.clicked) {
-      document.getElementById("coverTop").style.display = "none";
-      document.getElementById("coverBtm").style.display = "block";
+      this.coverTop = false;
+      this.coverBottom = true;
     }
     else {
-      document.getElementById("coverTop").style.display = "block";
-      document.getElementById("coverBtm").style.display = "none";
+      this.coverTop = true;
+      this.coverBottom = false;
     }
     this.appModel.notifyUserAction();
-    //this.answerModalRef.nativeElement.classList = "displayPopup modal";
-    $(".bodyContent").css("opacity", "1.0");
+    this.mainContainer.nativeElement.style.opacity = "1.0";
     if (id != undefined) {
       this.currentOptionNumber = id;
     }
@@ -2782,15 +2743,12 @@ export class Ntemplate6 implements OnInit {
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        //$( "#navBlock" ).removeClass("disableNavBtn")
         this.appModel.enableNavBtn(false);
-        // this.controlHandler.isTab = true;
         this.appModel.handleController(this.controlHandler);
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
           }
-          //this.resetAttempt(opt);
         }, this.showAnsTimeout);
       }
     }
@@ -2817,9 +2775,7 @@ export class Ntemplate6 implements OnInit {
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        $("#navBlock").removeClass("disableNavBtn")
         this.appModel.enableNavBtn(false);
-        //  this.controlHandler.isTab = true;
         this.appModel.handleController(this.controlHandler);
         this.appModel.handlePostVOActivity(false);
         setTimeout(() => {
@@ -2831,12 +2787,10 @@ export class Ntemplate6 implements OnInit {
           if (this.duplicateOption.nativeElement && this.duplicateOption.nativeElement.children[id]) {
             this.duplicateOption.nativeElement.children[id].style.opacity = 0;
           }
-          //console.log(this.attempt);
-          //this.answerModalRef.nativeElement.classList = "modal";
-          $(".bodyContent").css("opacity", "0.3");
-          $(".instructionBar").css("opacity", "0.3");
-          $(".bodyContent").addClass("disable_div");
-          $(".instructionBase").addClass("disable_div");
+          (document.querySelector('.bodyContent') as HTMLElement).style.opacity = '0.3';
+          (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
+          this.bodyContentDisable = true;
+          this.InstructionVo = true;
         }, this.showAnsTimeout);
       }
     }
@@ -2876,12 +2830,10 @@ export class Ntemplate6 implements OnInit {
           if (!this.flag) {
             this.duplicateOption.nativeElement.children[id].style.opacity = 0;
           }
-          //console.log(this.attempt);
-          //this.answerModalRef.nativeElement.classList = "modal";
-          $(".bodyContent").css("opacity", "0.3");
-          $(".instructionBar").css("opacity", "0.3");
-          $(".bodyContent").addClass("disable_div");
-          $(".instructionBase").addClass("disable_div");
+          this.mainContainer.nativeElement.style.opacity = "0.3";
+          (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
+          this.bodyContentDisable = true;
+          this.InstructionVo = true;
         }, this.showAnsTimeout);
       }
     }
@@ -2899,10 +2851,10 @@ export class Ntemplate6 implements OnInit {
 
       id.classList = "modal";
       if (this.flag) {
-        $(".bodyContent").css("opacity", "0.3");
-        $(".instructionBar").css("opacity", "0.3");
-        $(".bodyContent").addClass("disable_div");
-        $(".instructionBase").addClass("disable_div");
+        this.mainContainer.nativeElement.style.opacity = "0.3";
+        (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
+        this.bodyContentDisable = true;
+        this.InstructionVo = true;
       }
     }
     if (action == "replay") {
@@ -2943,11 +2895,8 @@ export class Ntemplate6 implements OnInit {
       this.Matra.nativeElement.children[this.currentOptionNumberjson].remove();
     }
     else if (opt.position == "left") {
-      //$(this.duplicateOption.nativeElement.children[this.currentOptionNumber]).animate({ left: "0%", top: "0%" }, 0);
       this.Matra.nativeElement.children[this.currentOptionNumberjson - 1].remove();
-      //this.refQuesCopy.splice(rightMatraNumber, 1)
     } else if (opt.position == "top" || opt.position == "bottom" || opt.position == "bottom_spcialCase") {
-      //this.refQuesCopy.splice(rightMatraNumber, 1)
       this.duplicateOption.nativeElement.children[rightMatraNumber].style.opacity = 0;
     }
   }
@@ -2958,34 +2907,30 @@ export class Ntemplate6 implements OnInit {
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
     this.appModel.enableNavBtn(false);
-    //this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
-    ////$('.speaker').removeClass('disable_div');
     this.disableSpeaker = false;
     this.optionsClickable.nativeElement.classList = "row mx-0"
     this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.zIndex = 1000;
     this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.top) - 20 + "%";
     this.Matra.nativeElement.classList.value = "refQues";
     this.answerModalRef.nativeElement.classList = "modal";
-    //if (!this.flag) {
-    //}
+
     if (this.flag) {
       this.count = 1;
       this.blinkOnLastQues();
       this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
-      //this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
-      $(".bodyContent").css("opacity", "0.3");
-      $(".instructionBar").css("opacity", "0.3");
-      $(".bodyContent").addClass("disable_div");
-      $(".instructionBase").addClass("disable_div");
+      this.mainContainer.nativeElement.style.opacity = "0.3";
+      (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
+      this.bodyContentDisable = true;
+      this.InstructionVo = true;
       this.appModel.enableReplayBtn(false);
     } else {
       this.clicked = false;
       this.appModel.wrongAttemptAnimation();
-      document.getElementById("coverTop").style.display = "none";
-      document.getElementById("coverBtm").style.display = "block";
+      this.coverTop = false;
+      this.coverBottom = true;
       this.appModel.enableReplayBtn(true);
       this.appModel.handlePostVOActivity(false);
 
@@ -3008,10 +2953,11 @@ export class Ntemplate6 implements OnInit {
     if (this.flag) {
       this.blinkOnLastQues();
       this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
-      $(".bodyContent").css("opacity", "0.3");
-      $(".instructionBar").css("opacity", "0.3");
-      $(".bodyContent").addClass("disable_div");
-      $(".instructionBase").addClass("disable_div");
+      this.mainContainer.nativeElement.style.opacity = "0.3";
+      (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
+
+      this.bodyContentDisable = true;
+      this.InstructionVo = true;
     } else {
       this.resetAttempt(this.optionObj[this.currentOptionNumber]);
     }
