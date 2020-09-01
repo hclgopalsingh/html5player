@@ -122,15 +122,16 @@ button:focus {
 
 .duplicateOption{
   position: absolute;
-  top: 3.05%;
-  height: 46%;
+  /* top: 3.05%;
+  height: 46%; */
+  height: 100%;
   width: 100%;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
-.refQuesPopUp + .duplicateOption {
+/* .refQuesPopUp + .duplicateOption {
   top: 23.098%;
-}
+} */
 
 .opacityCls {
   opacity:0;
@@ -147,9 +148,13 @@ button:focus {
 
 .duplicateOption img {
   z-index: 1;
-  height: 78%;/*35.9%;*/
+  /* height: 78%; */
+  height: 36%;
   width: auto;
-  top: auto !important;
+  /* top: auto !important; */
+}
+.refQuesPopUp + .duplicateOption img {
+  height: 35.8%;
 }
 
 .duplicateOptionBlack {

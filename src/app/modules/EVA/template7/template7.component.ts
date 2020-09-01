@@ -545,6 +545,10 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 
+		if (obj.partialFeedback && obj.partialFeedback.nativeElement) {
+			obj.partialFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+
 		if (obj.repeatFeedback && obj.repeatFeedback.nativeElement) {
 			obj.repeatFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
