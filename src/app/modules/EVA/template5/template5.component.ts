@@ -370,7 +370,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
     let feedbackAudio = this.feedback.right_ans_popup[current].rightfeedback_audio;
     this.feedbackPopupAudio.nativeElement.src = feedbackAudio.location == "content" ? this.containgFolderPath + "/" + feedbackAudio.url : this.assetsPath + "/" + feedbackAudio.url;
     this.feedbackPopupAudio.nativeElement.play();
-    let flag = true;
+    let flag = false;
     this.blinkInterval = setInterval(() => {
       if (flag) {
         highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
@@ -382,7 +382,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
         this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_border;
         flag = true;
       }
-    }, 400);
+    }, 450);
     this.feedbackPopupAudio.nativeElement.onended = () => {
       highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
       this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_original;
@@ -452,7 +452,9 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
               this.multiCorrectTimer = setTimeout(() => {
                 let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
                 rightAnswerPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                this.playrightFeedbackAudioPopup(0);
+                setTimeout(() => {
+                  this.playrightFeedbackAudioPopup(0);
+                }, 2000);
               }, 2000);
             }
             else {
