@@ -217,6 +217,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	//on clicking refresh buttons
 	refreshClicked(item, i) {
+		this.stopAllSounds();
 		item.value = "";
 		this.disableOption = false
 		this.autofocus = true;
@@ -225,6 +226,8 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	//on clicking the lock button
 	lockClicked(item, i) {
+		
+		this.stopAllSounds();
 		if(this.checkforDuplicates(item)){
 		item.locked = true;
 		item.disabled = true;
@@ -561,6 +564,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	//**Function to stop all sounds */
 	stopAllSounds(clickStatus?) {
+		this.enableAllOptions();
 		this.audio.pause();
 		this.audio.currentTime = 0;
 
