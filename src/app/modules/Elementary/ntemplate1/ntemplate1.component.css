@@ -719,12 +719,12 @@ html [type=button] {
 }
 
 #modalPartialOptions .modal-body {
- padding: 5%;
+ padding: 3%;
 }
 
 #modalPartialOptions  #instructionBar {
     position: absolute;
-    top: 2%;
+    top: 4%;
     width: 100%;
     text-align: center;
 }
@@ -771,10 +771,10 @@ html [type=button] {
   background: #9a9a9a;
 }
 
-  #modalPartialOptions .subHead img {
-    max-width: 6%;
-    padding: .4%;
-  }
+#modalPartialOptions .subHead img {
+  max-width: 6%;
+  padding: .4%;
+}
 
 #modalPartialOptions .subContent {
   width: 100%;
@@ -791,6 +791,7 @@ html [type=button] {
 
 #modalPartialOptions .optionsBlock {
   padding: 0 1%;
+  margin-top: 4.5%;
 }
 
   #modalPartialOptions .optionsBlock .options {
