@@ -169,11 +169,11 @@ private appModel: ApplicationmodelService;
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        $(".instructionBase").addClass("disable_div");
+        //$(".instructionBase").addClass("disable_div");
         this.instructionDisable=true;
         this.instruction.nativeElement.onended=() => {
           this.instructionDisable=false;
-          $(".instructionBase").removeClass("disable_div");
+          //$(".instructionBase").removeClass("disable_div");
         }
         //$(".instructionBase img").css("cursor", "pointer");
       }
@@ -332,7 +332,8 @@ private appModel: ApplicationmodelService;
         this.noOfWrongAnsClicked++;
         this.wrongansArray.push(opt);
       }
-      this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
+      //this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
+      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.pointerEvents="none";
       this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
       this.appModel.notifyUserAction();
     }
@@ -486,7 +487,9 @@ private appModel: ApplicationmodelService;
 		})
 
     this.appModel.postWrongAttempt.subscribe(() => {
-      this.postWrongAttemplt();
+      if(this.appModel.feedbackType=="fullyIncorrect" || this.appModel.feedbackType=="partialIncorrect") {
+        this.postWrongAttemplt();
+      }
     });
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
@@ -794,6 +797,7 @@ private appModel: ApplicationmodelService;
     }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
+      this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
         this.disable=false;
       }, 1000);
@@ -804,6 +808,7 @@ private appModel: ApplicationmodelService;
     }
     if (flag == "yes") {
       if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
+        this.appModel.feedbackType="fullyCorrect";
         $("#optionsBlock .options").css("pointer-events", "none");
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
@@ -813,6 +818,7 @@ private appModel: ApplicationmodelService;
         }, 100);
       }
       if ((this.noOfRightAnsClicked < this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
+        this.appModel.feedbackType="partialCorrect";
         console.log(this.noOfRightAnsClicked);
         console.log(this.noOfWrongAnsClicked);
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
@@ -822,6 +828,7 @@ private appModel: ApplicationmodelService;
         this.appModel.notifyUserAction();
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
+        this.appModel.feedbackType="fullyIncorrect";
         $("#optionsBlock .options").css("pointer-events", "none");
         this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
         this.styleBodyPopup = this.feedbackObj.wrong_style_body;
@@ -830,6 +837,7 @@ private appModel: ApplicationmodelService;
         }, 100);
       }
       if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
+        this.appModel.feedbackType="partialIncorrect";
         let maxOptinpartialPopup=Math.max(this.noOfRightAnsClicked,this.noOfWrongAnsClicked);
         if(maxOptinpartialPopup>=6) {
           this.partialpopupRef.nativeElement.children[0].classList.add("sixplus");
@@ -1143,6 +1151,11 @@ houtSkip(){
     this.AnsObj = [];
     $(".bodyContent").removeClass("disable_div");
     this.partialpopupRef.nativeElement.children[0].classList.remove("sixplus");
+      for(let i=0;i<this.optionsBlock.nativeElement.children.length;i++) {
+      for(let j=0;j<this.optionsBlock.nativeElement.children[i].children.length;j++) {
+      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.pointerEvents="";
+      }
+    }
   }
   playFeedbackAudio(i, j, flag) {
     if (this.popupBodyRef.nativeElement.children[0].children[i] != undefined && !flag) {

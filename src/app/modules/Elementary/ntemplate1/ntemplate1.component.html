@@ -133,6 +133,12 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.partial_style_body">
+          <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+            <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
+              <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
+              <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+            </div>
+          </div>
           <ng-container *ngIf="this.partialpopupRequired">
             <div class="row mx-0 optionsBlock" #partialpopupBodyRef>
               <div class="my-auto quesImage">

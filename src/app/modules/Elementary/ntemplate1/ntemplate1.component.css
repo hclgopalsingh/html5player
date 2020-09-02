@@ -715,8 +715,26 @@ html [type=button] {
 
 /*Partial Pop-up Default*/
 #modalPartialOptions .modal-dialog {
-  max-width: 80%;/*87%*/
+  max-width: 85%;/*87%*/
 }
+
+#modalPartialOptions .modal-body {
+ padding: 5%;
+}
+
+#modalPartialOptions  #instructionBar {
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    text-align: center;
+}
+
+#modalPartialOptions #instructionBar .instructionBase {
+    width: 66%;
+    position: relative;
+    cursor: pointer;
+}
+
 /*Partial Pop-up for 6+ options*/
 #modalPartialOptions .modal-dialog.sixplus {
   max-width: 92%;
