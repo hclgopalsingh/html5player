@@ -2,12 +2,12 @@
   <audio #narrator [src]="quesObj?.quesInstruction?.url"></audio>
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-    <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
+    <div class="instructionBase" [ngClass]="{'classOpacity':instructionOpacity}" [ngStyle]="{'cursor': !instructionDisable ? 'pointer' : 'default' }">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
     </div>
   </div>
-  <div class="bodyContent" [ngClass]="{'disable_div':disable}">
+  <div class="bodyContent" [ngClass]="{'disable_div':disable,'classOpacity':bodyContentOpacity}">
     <div class="refQues" [ngClass]="{'disable_div':!clickableImg}" (click)="replayaudio_video()">
       <img  class="img-fluid" [src]="quesObj?.quesImgBG?.url" (load)="checkImgLoaded();" >
       <img  class="img-fluid refQuesImg" [src]="quesObj?.quesImg?.url" (load)="checkImgLoaded();">
@@ -28,9 +28,9 @@
     </div>
   </div>
   <!-- The Confirmation Modal -->
-  <div class="modal" id="confirmModal" #confirmModalRef>
+  <div class="modal" id="confirmModal" [ngClass]="{'displayPopup':displayconfirmPopup}" >
     <div class="modal-dialog">
-      <div class="modal-content" #modalRef>
+      <div class="modal-content" >
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
@@ -47,9 +47,9 @@
     </div>
   </div>
   <!-- The onSubmit Modal -->
-  <div class="modal" id="confirmModal" #submitModalRef>
+  <div class="modal" id="confirmModal" [ngClass]="{'displayPopup':displaysubmitconfirmPopup}">
     <div class="modal-dialog">
-      <div class="modal-content" #modalRef>
+      <div class="modal-content" >
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="submitPopupAssets?.style_header">
           <img class="modal-title" [src]="submitPopupAssets?.headerTxt_img?.url">
           <img class="close" [src]="submitPopupAssets?.close_btn?.url" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoversubmitCloseConfirm()" (mouseleave)="houtsubmitCloseConfirm()">
@@ -65,9 +65,9 @@
     </div>
   </div>
   <!-- The infoPopup Modal -->
-  <div class="modal" id="confirmModal" #infoModalRef>
+  <div class="modal" id="confirmModal" [ngClass]="{'displayPopup':displayinfoconfirmPopup}">
     <div class="modal-dialog">
-      <div class="modal-content" #modalRef>
+      <div class="modal-content" >
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
           <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
           <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
