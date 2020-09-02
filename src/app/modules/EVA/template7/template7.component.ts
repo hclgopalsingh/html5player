@@ -344,7 +344,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 						this.rightFeedback.nativeElement.onended = () => {
 							this.rightTimer = setTimeout(() => {
 								this.closeModal();
-							}, 10000);
+							}, 10000000);
 						}
 					}, 2000);
 				}
@@ -543,6 +543,10 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
 			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+
+		if (obj.partialFeedback && obj.partialFeedback.nativeElement) {
+			obj.partialFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 
 		if (obj.repeatFeedback && obj.repeatFeedback.nativeElement) {

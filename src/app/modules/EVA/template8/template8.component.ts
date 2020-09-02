@@ -396,7 +396,7 @@ export class Template8Component implements OnInit {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     //option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
-
+                    this.appModel.storeVisitedTabs();
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();
                         this.clapSound.nativeElement.currentTime = 0;

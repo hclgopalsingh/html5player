@@ -80,8 +80,8 @@
                                     <input type="text" class= "in-pop" [(ngModel)]= item.value (blur)= "focusAuto()" onkeydown="return false">
                                 </div>
                                 <div class="rightWrongBlock disableBtn" >
-                                    <img *ngIf="item.isRight" class="img-fluid" [src]="popupAssets?.right_icon?.location=='content' ? containgFolderPath +'/'+ popupAssets?.right_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.right_icon?.url"/>
-                                    <img *ngIf="!item.isRight" class="img-fluid" [src]="popupAssets?.wrong_icon?.location=='content' ? containgFolderPath +'/'+ popupAssets?.wrong_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.wrong_icon?.url"/>
+                                    <img *ngIf="item.isRight" class="img-fluid" [src]="popupAssets?.right_icon?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.right_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.right_icon?.url"/>
+                                    <img *ngIf="!item.isRight" class="img-fluid" [src]="popupAssets?.wrong_icon?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.wrong_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.wrong_icon?.url"/>
                                 </div>
                             </div>
                         </div>
