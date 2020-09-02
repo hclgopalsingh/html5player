@@ -72,6 +72,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
   selectedLetterCount: number = 0;
   rightAnsBackground: any;
   blinkInterval: any;
+  feedbackAudioDelay: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -208,6 +209,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.clappingTimer);
     clearTimeout(this.rightTimer);
     clearTimeout(this.multiCorrectTimer);
+    clearTimeout(this.feedbackAudioDelay);
     this.stopAllSounds();
   }
 
@@ -452,7 +454,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
               this.multiCorrectTimer = setTimeout(() => {
                 let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
                 rightAnswerPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                setTimeout(() => {
+                this.feedbackAudioDelay =setTimeout(() => {
                   this.playrightFeedbackAudioPopup(0);
                 }, 2000);
               }, 2000);
@@ -527,6 +529,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
     clearTimeout(this.multiCorrectTimer);
+    clearTimeout(this.feedbackAudioDelay);
     if (this.blinkInterval) {
       clearInterval(this.blinkInterval);
       this.blinkInterval = undefined;
