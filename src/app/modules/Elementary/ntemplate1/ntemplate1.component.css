@@ -701,7 +701,18 @@ button:focus {
 #modalTemp5 .optionsBlock .options {
   width: 25%; /*100%*/
 }
+#modalTemp5  #instructionBarFeedback {
+  position: absolute;
+  top: 4%;
+  width: 100%;
+  text-align: center;
+}
 
+#modalTemp5 #instructionBarFeedback .instructionBase {
+  width: 66%;
+  position: relative;
+  cursor: pointer;
+}
 .close:focus, .close:hover {
   /*color: #000;
   text-decoration: none;
@@ -722,14 +733,14 @@ html [type=button] {
  padding: 3%;
 }
 
-#modalPartialOptions  #instructionBar {
+#modalPartialOptions  #instructionBarPartial {
     position: absolute;
     top: 4%;
     width: 100%;
     text-align: center;
 }
 
-#modalPartialOptions #instructionBar .instructionBase {
+#modalPartialOptions #instructionBarPartial .instructionBase {
     width: 66%;
     position: relative;
     cursor: pointer;
