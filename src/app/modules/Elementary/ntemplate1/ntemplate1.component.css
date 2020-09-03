@@ -720,13 +720,15 @@ html [type=button] {
 
 #modalPartialOptions .modal-body {
  padding: 3%;
+ flex-wrap: wrap;
 }
 
 #modalPartialOptions  #instructionBar {
-    position: absolute;
-    top: 4%;
-    width: 100%;
-    text-align: center;
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
 }
 
 #modalPartialOptions #instructionBar .instructionBase {
@@ -791,7 +793,6 @@ html [type=button] {
 
 #modalPartialOptions .optionsBlock {
   padding: 0 1%;
-  margin-top: 4.5%;
 }
 
   #modalPartialOptions .optionsBlock .options {
