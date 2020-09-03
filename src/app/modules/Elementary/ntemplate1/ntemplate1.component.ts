@@ -836,6 +836,7 @@ private appModel: ApplicationmodelService;
     if (flag == "yes") {
       if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
         this.appModel.feedbackType="fullyCorrect";
+        this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src=this.feedbackObj.rightAnswerpopupTxt.url; 
         //$("#optionsBlock .options").css("pointer-events", "none");
         this.disableDiv=true;
         this.styleHeaderPopup = this.feedbackObj.style_header;
@@ -858,6 +859,7 @@ private appModel: ApplicationmodelService;
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
         this.appModel.feedbackType="fullyIncorrect";
+        this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src=this.feedbackObj.wrongAnswerpopupTxt.url;  
         //$("#optionsBlock .options").css("pointer-events", "none");
         this.disableDiv=true;
         this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
@@ -1327,6 +1329,7 @@ houtSkip(){
       }
       this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
+      this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;  
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
       }, 100);
