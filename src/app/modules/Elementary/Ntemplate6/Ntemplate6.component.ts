@@ -1843,348 +1843,7 @@ export class Ntemplate6 implements OnInit {
   coverBottom: boolean = true;
   InstructionVo: boolean = false;
   bodyContentDisable: boolean = false;
-
-  playHoverInstruction() {
-    this.instruction.nativeElement.currentTime = 0;
-    if (!this.narrator.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      console.log("play on Instruction");
-      if (this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.play();
-        this.instruction.nativeElement.onended = () => {
-          //document.getElementById("coverTop").style.display = "none";
-        }
-      }
-    }
-  }
-
-  endedHandleronSkip() {
-    this.isPlayVideo = false;
-    this.appModel.navShow = 2;
-    this.appModel.videoStraming(false);
-    this.appModel.notifyUserAction();
-  }
-  PlayPauseVideo() {
-    if (this.PlayPauseFlag) {
-      this.mainVideo.nativeElement.pause();
-      this.quesObj.quesPlayPause = this.quesObj.quesPlay;
-      this.PlayPauseFlag = false;
-    }
-    else {
-      this.mainVideo.nativeElement.play();
-      this.quesObj.quesPlayPause = this.quesObj.quesPause;
-      this.PlayPauseFlag = true;
-    }
-
-  }
-  hoverSkip() {
-    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
-  }
-  houtSkip() {
-    this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
-  }
-  onHoverOption(opt, i) {
-    if (opt && opt != undefined) {
-      if (this.instructionVO.nativeElement.paused) {
-        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList('img-fluid scaleInAnimation');
-        //this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList
-      }
-    }
-  }
-
-  isPaused() {
-    for (let i = 0; i < this.optionArr.length; i++) {
-      if (!this.optionsClickable.nativeElement.children[0].children[i].children[2].paused) {
-        return false;
-      }
-    }
-    return true
-  }
-
   lastidx: any;
-
-  playHoverOption(opt, i) {
-    this.appModel.notifyUserAction();
-    if (!this.instructionVO.nativeElement.paused) {
-      this.instructionVO.nativeElement.currentTime = 0;
-      this.instructionVO.nativeElement.pause();
-    }
-    if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx != i) {
-      for (let j = 0; j < this.optionArr.length; j++) {
-        if (!this.optionsClickable.nativeElement.children[0].children[j].children[2].paused) {
-          this.optionsClickable.nativeElement.children[0].children[j].children[2].pause();
-        }
-      }
-      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleInAnimation');
-      this.lastidx = i;
-      if (opt.imgsrc_audio && opt.audio_location == "content") {
-        this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
-      }
-      this.optionAudio.nativeElement.load();
-
-      this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
-      this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
-      this.onHoverOption(opt, i);
-    }
-  }
-
-  onHoverOptionOut(opt, i) {
-    if (opt && opt != undefined) {
-      this.OptionZoomOutAnimation(opt, i);
-    }
-    this.lastidx = undefined;
-  }
-
-  optionHover(opt, i) {
-    this.playHoverOption(opt, i)
-  }
-
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
-  }
-
-
-  OptionZoomOutAnimation(opt, i) {
-    if (!this.checked && this.quesVORef.nativeElement.paused) {
-      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleOutAnimation');
-      setTimeout(() => {
-        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleInAnimation');
-        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('img-fluid scaleInAnimation');
-      }, 500)
-    }
-  }
-
-  checkAnswer(opt, id) {
-    console.log(opt, id);
-    this.appModel.enableReplayBtn(false);
-    this.appModel.enableNavBtn(true);
-    this.appModel.handleController(this.controlHandler);
-    this.appModel.handlePostVOActivity(true);
-    this.count = 0;
-    this.disableSection = true;
-    this.disableSpeaker = true;
-    this.optionsClickable.nativeElement.classList = "row mx-0 disable_div"
-    console.log("option clicked");
-    this.currentOptionNumber = id;
-    this.appModel.notifyUserAction();
-    this.moveFrom = this.optionsClickable.nativeElement.children[0].children[id].children[1].getBoundingClientRect();
-    if (opt.position == "right") {
-      this.refQuesCopy = this.QuesArr.slice();
-      this.refQuesCopy.splice(this.index + 1, 0, opt.id);
-    }
-    if (opt.position == "left" || opt.position == "top" || opt.position == "bottom" || opt.position == "bottom_spcialCase") {
-      this.refQuesCopy = this.QuesArr.slice();
-      this.refQuesCopy.splice(this.index, 0, opt.id);
-    }
-
-    this.onClickAnimation(opt, id);
-
-    if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
-      this.flag = true;
-      console.log("Answer is right");
-      this.styleHeaderPopup = this.feedbackObj.style_header;
-      this.styleBodyPopup = this.feedbackObj.style_body;
-      setTimeout(() => {
-        this.sendFeedback(undefined, 'yes', 'rightAnswer');
-      }, 2000);
-    } else {
-      console.log("Answer is wrong");
-      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
-      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
-      setTimeout(() => {
-        this.sendFeedback(undefined, 'yes', 'wrongAnswer');
-      }, 2000);
-    }
-  }
-
-  onClickAnimation(option, id) {
-    console.log("start Animation");
-    if (option.position == "right") {
-      this.Matra.nativeElement.children[this.index].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
-      if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
-      }
-      else {
-        for (var i = 0; i < option.letters.length; i++) {
-          if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
-            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
-          }
-        }
-      }
-      this.Matra.nativeElement.children[this.index].classList.value = '';
-    } else if (option.position == "left") {
-      this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
-      if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
-      }
-      else {
-        for (var i = 0; i < option.letters.length; i++) {
-          if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
-            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
-            break;
-          }
-        }
-      }
-      this.Matra.nativeElement.children[this.index + 1].classList.value = '';
-    } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      this.Matra.nativeElement.children[this.index].classList.value = '';
-      if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
-      }
-      else {
-        for (var i = 0; i < option.letters.length; i++) {
-          if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
-            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
-          }
-        }
-      }
-    }
-
-    this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
-    for (var i = 0; i < this.optionInitPosArr.length; i++) {
-      if (i == id) {
-        this.percentLeft = (this.optionInitPosArr[i].leftPos) + "%";
-        this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
-      }
-    }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 100;
-    this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
-    this.duplicateOption.nativeElement.children[id].style.opacity = 1;
-    this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
-    if (option.position == "right") {
-      this.moveTo = this.Matra.nativeElement.children[this.index + 1].getBoundingClientRect();
-    } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      this.moveTo = this.Matra.nativeElement.children[this.index].getBoundingClientRect();
-    }
-    this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
-    if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.5 + "%";
-    } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
-    } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5.2 + "%";
-    }
-    else {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
-    }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
-  }
-
-  onClickAnimationManually(option, id, letterNumber) {
-    console.log("start Animation");
-    if (option.position == "right") {
-      if (!this.flag) {
-        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
-      }
-      if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
-      }
-      else {
-        for (var i = 0; i < option.letters.length; i++) {
-          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
-            break;
-          }
-        }
-      }
-
-    } else if (option.position == "left") {
-      if (!this.flag) {
-        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
-      }
-      if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
-      }
-      else {
-        for (var i = 0; i < option.letters.length; i++) {
-          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
-            break;
-          }
-        }
-      }
-
-    } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      if (option.letterConfig && option.letterConfig.length > 0) {
-        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
-      }
-      else {
-        for (var i = 0; i < option.letters.length; i++) {
-          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
-            break;
-          }
-        }
-      }
-    }
-
-    this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
-    for (var i = 0; i < this.optionInitPosArr.length; i++) {
-      if (i == id) {
-        this.percentLeft = (this.optionInitPosArr[i].leftPos) + "%";
-        this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
-      }
-    }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
-    this.duplicateOption.nativeElement.children[id].style.zIndex = 1;
-    this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
-    this.duplicateOption.nativeElement.children[id].style.opacity = 1;
-    this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
-    if (option.position == "right") {
-      this.moveTo = this.Matra.nativeElement.children[letterNumber].getBoundingClientRect();
-    } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      this.moveTo = this.Matra.nativeElement.children[letterNumber - 1].getBoundingClientRect();
-    }
-    this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
-    if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
-    } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 1 + "%";
-    } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.4 + "%";
-    }
-    else {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
-    }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 0);
-  }
-
-  checkAnswerMatra(event, id) {
-    if (!this.instructionVO.nativeElement.paused) {
-      this.instructionVO.nativeElement.pause();
-      this.instructionVO.nativeElement.currentTime = 0
-    }
-    if (!event.id.includes("M")) {
-      this.appModel.notifyUserAction();
-      this.clicked = true;
-      this.coverTop = true;
-      this.coverBottom = false;
-      console.log("id", id)
-      this.index = id;
-      this.Matra.nativeElement.children[id].classList.value = 'outline';
-    }
-  }
-
-  blinkOnLastQues() {
-    if (this.appModel.isLastSectionInCollection) {
-      this.appModel.blinkForLastQues(this.attemptType);
-      this.appModel.stopAllTimer();
-      if (!this.appModel.eventDone) {
-        if (this.isLastQuesAct) {
-          this.appModel.eventFired();
-          this.appModel.event = { 'action': 'segmentEnds' };
-        }
-        if (this.isLastQues) {
-          this.appModel.event = { 'action': 'end' };
-        }
-      }
-    } else {
-      this.appModel.moveNextQues(this.attemptType);
-    }
-  }
 
   ngOnInit() {
     let that = this;
@@ -2275,6 +1934,357 @@ export class Ntemplate6 implements OnInit {
 
 
   }
+
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
+  ngOnDestroy() {
+    this.refQuesArr = [];
+    this.QuesArr = [];
+  }
+
+  ngAfterViewInit() {
+    //   alert('ngAfterViewInit');
+    //this.appModel.setLoader(false);
+    //this.checkforQVO();
+
+  }
+
+  playHoverInstruction() {
+    this.instruction.nativeElement.currentTime = 0;
+    if (!this.narrator.nativeElement.paused) {
+      console.log("narrator/instruction voice still playing");
+    } else {
+      console.log("play on Instruction");
+      if (this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.play();
+        this.instruction.nativeElement.onended = () => {
+          //document.getElementById("coverTop").style.display = "none";
+        }
+      }
+    }
+  }
+
+  endedHandleronSkip() {
+    this.isPlayVideo = false;
+    this.appModel.navShow = 2;
+    this.appModel.videoStraming(false);
+    this.appModel.notifyUserAction();
+    this.coverTop = false;
+  }
+  PlayPauseVideo() {
+    if (this.PlayPauseFlag) {
+      this.mainVideo.nativeElement.pause();
+      this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+      this.PlayPauseFlag = false;
+    }
+    else {
+      this.mainVideo.nativeElement.play();
+      this.quesObj.quesPlayPause = this.quesObj.quesPause;
+      this.PlayPauseFlag = true;
+    }
+
+  }
+  hoverSkip() {
+    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+  }
+  houtSkip() {
+    this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+  }
+  onHoverOption(opt, i) {
+    if (opt && opt != undefined) {
+      if (this.instructionVO.nativeElement.paused) {
+        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('scaleInAnimation');
+        //this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList
+      }
+    }
+  }
+
+  isPaused() {
+    for (let i = 0; i < this.optionArr.length; i++) {
+      if (!this.optionsClickable.nativeElement.children[0].children[i].children[2].paused) {
+        return false;
+      }
+    }
+    return true
+  }
+
+  playHoverOption(opt, i) {
+    this.appModel.notifyUserAction();
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.instructionVO.nativeElement.pause();
+    }
+    if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx != i) {
+      for (let j = 0; j < this.optionArr.length; j++) {
+        if (!this.optionsClickable.nativeElement.children[0].children[j].children[2].paused) {
+          this.optionsClickable.nativeElement.children[0].children[j].children[2].pause();
+        }
+      }
+      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('scaleInAnimation');
+      this.lastidx = i;
+      if (opt.imgsrc_audio && opt.audio_location == "content") {
+        this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
+      }
+      this.optionAudio.nativeElement.load();
+
+      this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
+      this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
+      this.onHoverOption(opt, i);
+    }
+  }
+
+  onHoverOptionOut(opt, i) {
+    if (opt && opt != undefined) {
+      this.OptionZoomOutAnimation(opt, i);
+    }
+    this.lastidx = undefined;
+  }
+  optionHover(opt, i) {
+    this.playHoverOption(opt, i)
+  }
+
+  OptionZoomOutAnimation(opt, i) {
+    if (!this.checked && this.quesVORef.nativeElement.paused) {
+      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('scaleOutAnimation');
+      setTimeout(() => {
+        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.remove('scaleOutAnimation');
+        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.remove('scaleInAnimation');
+      }, 500)
+    }
+  }
+  checkAnswer(opt, id) {
+    console.log(opt, id);
+    this.appModel.enableReplayBtn(false);
+    this.appModel.enableNavBtn(true);
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.handlePostVOActivity(true);
+    this.count = 0;
+    this.disableSection = true;
+    this.disableSpeaker = true;
+    this.optionsClickable.nativeElement.classList = "row mx-0 disable_div"
+    console.log("option clicked");
+    this.currentOptionNumber = id;
+    this.appModel.notifyUserAction();
+    this.moveFrom = this.optionsClickable.nativeElement.children[0].children[id].children[1].getBoundingClientRect();
+    if (opt.position == "right") {
+      this.refQuesCopy = this.QuesArr.slice();
+      this.refQuesCopy.splice(this.index + 1, 0, opt.id);
+    }
+    if (opt.position == "left" || opt.position == "top" || opt.position == "bottom" || opt.position == "bottom_spcialCase") {
+      this.refQuesCopy = this.QuesArr.slice();
+      this.refQuesCopy.splice(this.index, 0, opt.id);
+    }
+
+    this.onClickAnimation(opt, id);
+
+    if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
+      this.flag = true;
+      console.log("Answer is right");
+      this.styleHeaderPopup = this.feedbackObj.style_header;
+      this.styleBodyPopup = this.feedbackObj.style_body;
+      setTimeout(() => {
+        this.sendFeedback(undefined, 'yes', 'rightAnswer');
+      }, 2000);
+    } else {
+      console.log("Answer is wrong");
+      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+      setTimeout(() => {
+        this.sendFeedback(undefined, 'yes', 'wrongAnswer');
+      }, 2000);
+    }
+  }
+  onClickAnimation(option, id) {
+    this.windowWidth = window.innerWidth;
+    this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
+    console.log("start Animation");
+    if (option.position == "right") {
+      this.Matra.nativeElement.children[this.index].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+          }
+        }
+      }
+      this.Matra.nativeElement.children[this.index].classList.value = '';
+    } else if (option.position == "left") {
+      this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
+        }
+      }
+      this.Matra.nativeElement.children[this.index + 1].classList.value = '';
+    } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
+      this.Matra.nativeElement.children[this.index].classList.value = '';
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      }
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+          }
+        }
+      }
+    }
+
+    this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
+    for (var i = 0; i < this.optionInitPosArr.length; i++) {
+      if (i == id) {
+        this.percentLeft = (this.optionInitPosArr[i].leftPos) + "%";
+        this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
+      }
+    }
+    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
+    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 100;
+    this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
+    this.duplicateOption.nativeElement.children[id].style.opacity = 1;
+    this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
+    if (option.position == "right") {
+      this.moveTo = this.Matra.nativeElement.children[this.index + 1].getBoundingClientRect();
+    } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
+      this.moveTo = this.Matra.nativeElement.children[this.index].getBoundingClientRect();
+    }
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
+    if (option.position == "bottom") {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.5 + "%";
+    } else if (option.position == "bottom_spcialCase") {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
+    } else if (option.position == "left" || option.position == "right") {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5.2 + "%";
+    }
+    else {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
+    }
+    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
+  }
+
+  onClickAnimationManually(option, id, letterNumber) {
+    this.windowWidth = window.innerWidth;
+    this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
+    console.log("start Animation");
+    if (option.position == "right") {
+      if (!this.flag) {
+        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
+      }
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
+        }
+      }
+
+    } else if (option.position == "left") {
+      if (!this.flag) {
+        this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
+      }
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
+        }
+      }
+
+    } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      }
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
+        }
+      }
+    }
+
+    this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
+    for (var i = 0; i < this.optionInitPosArr.length; i++) {
+      if (i == id) {
+        this.percentLeft = (this.optionInitPosArr[i].leftPos) + "%";
+        this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
+      }
+    }
+    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
+    this.duplicateOption.nativeElement.children[id].style.zIndex = 1;
+    this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
+    this.duplicateOption.nativeElement.children[id].style.opacity = 1;
+    this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
+    if (option.position == "right") {
+      this.moveTo = this.Matra.nativeElement.children[letterNumber].getBoundingClientRect();
+    } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
+      this.moveTo = this.Matra.nativeElement.children[letterNumber - 1].getBoundingClientRect();
+    }
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
+    if (option.position == "bottom") {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
+    } else if (option.position == "bottom_spcialCase") {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 1 + "%";
+    } else if (option.position == "left" || option.position == "right") {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.4 + "%";
+    }
+    else {
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
+    }
+    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 0);
+  }
+  checkAnswerMatra(event, id) {
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0
+    }
+    if (!event.id.includes("M")) {
+      this.appModel.notifyUserAction();
+      this.clicked = true;
+      this.coverTop = true;
+      this.coverBottom = false;
+      console.log("id", id)
+      this.index = id;
+      this.Matra.nativeElement.children[id].classList.value = 'outline';
+    }
+  }
+  blinkOnLastQues() {
+    if (this.appModel.isLastSectionInCollection) {
+      this.appModel.blinkForLastQues(this.attemptType);
+      this.appModel.stopAllTimer();
+      if (!this.appModel.eventDone) {
+        if (this.isLastQuesAct) {
+          this.appModel.eventFired();
+          this.appModel.event = { 'action': 'segmentEnds' };
+        }
+        if (this.isLastQues) {
+          this.appModel.event = { 'action': 'end' };
+        }
+      }
+    } else {
+      this.appModel.moveNextQues(this.attemptType);
+    }
+  }
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -2285,11 +2295,6 @@ export class Ntemplate6 implements OnInit {
   postWrongAttemplt() {
     this.appModel.handleController(this.controlHandler);
     this.appModel.enableNavBtn(false);
-  }
-
-  ngOnDestroy() {
-    this.refQuesArr = [];
-    this.QuesArr = [];
   }
 
   templatevolume(vol, obj) {
@@ -2342,7 +2347,6 @@ export class Ntemplate6 implements OnInit {
       }
     }, 500)
   }
-
   hoverReplayConfirm() {
     this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_hover;
   }
@@ -2367,7 +2371,6 @@ export class Ntemplate6 implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
-
   hoverPlayPause() {
     if (this.PlayPauseFlag) {
       this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
@@ -2376,7 +2379,6 @@ export class Ntemplate6 implements OnInit {
       this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
     }
   }
-
   leavePlayPause() {
     if (this.PlayPauseFlag) {
       this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
@@ -2408,10 +2410,10 @@ export class Ntemplate6 implements OnInit {
       this.appModel.handlePostVOActivity(false);
 
     }
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.appModel.setLoader(false);
       this.checkforQVO();
-    }, 0)
+    }, 0)*/
   }
 
   close() {
@@ -2419,24 +2421,19 @@ export class Ntemplate6 implements OnInit {
   }
 
   checkImgLoaded() {
-    /* if (!this.loadFlag) {
-       this.noOfImgsLoaded++;
-       if (this.noOfImgsLoaded >= this.noOfImgs) {
-         this.appModel.setLoader(false);
-         this.loadFlag = true;
-         clearTimeout(this.loaderTimer);
-         this.checkforQVO();
-       }
-     } else {
-       this.checkforQVO();
-     }*/
+    if (!this.loadFlag) {
+      this.noOfImgsLoaded++;
+      if (this.noOfImgsLoaded >= this.noOfImgs) {
+        this.appModel.setLoader(false);
+        this.loadFlag = true;
+        clearTimeout(this.loaderTimer);
+        this.checkforQVO();
+      }
+    } else {
+      this.checkforQVO();
+    }
   }
-  ngAfterViewInit() {
-    //   alert('ngAfterViewInit');
-    this.appModel.setLoader(false);
-    this.checkforQVO();
 
-  }
 
   playInstruction() {
     this.appModel.notifyUserAction();
@@ -2487,7 +2484,6 @@ export class Ntemplate6 implements OnInit {
     }
 
   }
-
   setData() {
 
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
@@ -2593,7 +2589,6 @@ export class Ntemplate6 implements OnInit {
       }
     }
   }
-
   endedAudio() {
     this.coverTop = false;
     this.coverBottom = true;
@@ -2643,7 +2638,6 @@ export class Ntemplate6 implements OnInit {
   showhoverConfirm() {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
-
   houtConfirm() {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
   }
