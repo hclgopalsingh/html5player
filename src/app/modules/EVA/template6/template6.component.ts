@@ -789,6 +789,7 @@ export class Template6Component extends Base implements OnInit {
 				if (this.categoryA.correct.length == 3 && this.categoryB.correct.length == 3) {
 					this.optionsBlock.nativeElement.classList = "bodyContent disableDiv";
 					this.showCelebrations();
+					this.appModel.storeVisitedTabs();
 				}
 			}
 		}

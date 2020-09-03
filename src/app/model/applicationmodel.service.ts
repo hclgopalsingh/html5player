@@ -1019,6 +1019,8 @@ export class ApplicationmodelService {
       return "partialIncorrectAnimationAssets";
     }else if(this.feedbackType=="partialCorrect") {
       return "partialCorrectAnimationAssets";
+    } else {
+      return "wrongAnimationAssets";
     }
   }
 

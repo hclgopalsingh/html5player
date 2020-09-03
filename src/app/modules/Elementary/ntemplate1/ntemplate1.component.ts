@@ -48,15 +48,8 @@ private appModel: ApplicationmodelService;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   @ViewChild('optionAudio') optionAudio: any;
-  @ViewChild('maincontent') maincontent: any;
-  @ViewChild('confirmModalRef') confirmModalRef: any;
-  @ViewChild('submitModalRef') submitModalRef: any;
-  @ViewChild('infoModalRef') infoModalRef: any;
-  @ViewChild('modalRef') modalRef: any;
-  @ViewChild('mainmodalRef') mainmodalRef: any;
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('popupBodyRef') popupBodyRef: any;
-  @ViewChild('popupImage') popupImage: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('partialpopupRef') partialpopupRef: any;
   @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
@@ -133,6 +126,7 @@ private appModel: ApplicationmodelService;
   functionalityType:any;
   videoPlaytimer:any;
   audioPlaytimer:any;
+  showAnsTimer:any;
   clickableImg:boolean;
   displayWave:boolean;
   disable:boolean=false;
@@ -141,6 +135,11 @@ private appModel: ApplicationmodelService;
   i:number;
   j:number;
   disableDiv:boolean = false;
+  instructionOpacity:boolean=false;
+  bodyContentOpacity:boolean=false;
+  displayconfirmPopup:boolean=false;
+  displaysubmitconfirmPopup:boolean=false;
+  displayinfoconfirmPopup:boolean=false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -168,7 +167,9 @@ private appModel: ApplicationmodelService;
       console.log("play on Instruction");
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.play();
+        if(!this.instructionOpacity) {
+          this.instruction.nativeElement.play();
+        }
         //$(".instructionBase").addClass("disable_div");
         this.instructionDisable=true;
         this.instruction.nativeElement.onended=() => {
@@ -200,6 +201,7 @@ private appModel: ApplicationmodelService;
   }
 
   playHoverOption(opt, i, j) {
+    this.instructionDisable=false;
     this.i=i;
     this.j=j;
     this.appModel.notifyUserAction();
@@ -334,7 +336,7 @@ private appModel: ApplicationmodelService;
       }
       //this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.pointerEvents="none";
-      this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
+      this.optionsBlock.nativeElement.children[i].children[j].style.opacity = "0.3";
       this.appModel.notifyUserAction();
     }
   }
@@ -360,6 +362,13 @@ private appModel: ApplicationmodelService;
   ngOnDestroy() {
    clearTimeout(this.videoPlaytimer); 
    clearTimeout(this.audioPlaytimer);
+   clearTimeout(this.showAnsTimer);
+   if(this.quesObj.quesType == "imagewithAudio") {
+     this.questionAudio.nativeElement.pause();
+     this.questionAudio.nativeElement.currentTime=0;
+   }
+    this.narrator.nativeElement.pause();
+    this.narrator.nativeElement.currentTime=0; 
   }
 
 
@@ -383,7 +392,8 @@ private appModel: ApplicationmodelService;
         //show modal for manual
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
+          //$("#instructionBar").addClass("disable_div");
+          this.instructionDisable=true;
           this.popupRef.nativeElement.classList = "displayPopup modal";
           this.appModel.resetBlinkingTimer();
           this.setFeedbackAudio();
@@ -395,12 +405,16 @@ private appModel: ApplicationmodelService;
         this.styleBodyPopup = this.feedbackObj.style_body;
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
+          //$("#instructionBar").addClass("disable_div");
+          this.instructionDisable=true;
           this.checked = true;
           this.popupRef.nativeElement.classList = "displayPopup modal";
-          this.confirmModalRef.nativeElement.classList = "modal";
-          this.submitModalRef.nativeElement.classList = "modal";
-          this.infoModalRef.nativeElement.classList="modal";
+          //this.confirmModalRef.nativeElement.classList = "modal";
+          this.displayconfirmPopup=false;
+          //this.submitModalRef.nativeElement.classList = "modal";
+          this.displaysubmitconfirmPopup=false;
+          //this.infoModalRef.nativeElement.classList="modal";
+          this.displayinfoconfirmPopup=false;
           this.noOfRightAnsClicked = 0;
           this.noOfWrongAnsClicked = 0;
           this.attemptType = "auto";
@@ -440,13 +454,18 @@ private appModel: ApplicationmodelService;
           this.questionAudio.nativeElement.pause();
           this.questionAudio.nativeElement.currentTime = 0;
           this.displayWave=false;
-          $(".bodyContent").removeClass("disable_div");
-          $(".instructionBase").removeClass("disable_div"); 
+          this.disable=false;
+          //$(".bodyContent").removeClass("disable_div");
+          this.instructionDisable=false;
+          //$(".instructionBase").removeClass("disable_div"); 
         }
-        if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
-          this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-        }
+        //if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
+          //$("#instructionBar").addClass("disable_div");
+          this.instructionDisable=true;
+          this.disableDiv=true;
+          //this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.displayconfirmPopup=true;
+        //}
       }
       if (action == "submitAnswer") {
         if (!this.instruction.nativeElement.paused)
@@ -460,10 +479,13 @@ private appModel: ApplicationmodelService;
           this.questionAudio.nativeElement.pause();
           this.questionAudio.nativeElement.currentTime = 0;
           this.displayWave=false;
-          $(".bodyContent").removeClass("disable_div");
-          $(".instructionBase").removeClass("disable_div"); 
+          //$(".bodyContent").removeClass("disable_div");
+          this.disable=false;
+          //$(".instructionBase").removeClass("disable_div");
+          this.instructionDisable=false; 
         }
-        this.submitModalRef.nativeElement.classList = "displayPopup modal";
+        //this.submitModalRef.nativeElement.classList = "displayPopup modal";
+        this.displaysubmitconfirmPopup=true;
       }
     })
 
@@ -589,10 +611,12 @@ private appModel: ApplicationmodelService;
                   this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
                         setTimeout(() => {
                           this.disable=false;
+                          this.instructionDisable=false;
                         }, 1000);
                   this.appModel.videoStraming(false);
                   this.appModel.handlePostVOActivity(false);
-                  $(".instructionBase").removeClass("disable_div");
+                  //$(".instructionBase").removeClass("disable_div");
+                  this.instructionDisable=false;
                    }
                   }, this.quesObj.timegap);
             } else if(this.quesObj.quesType == "imagewithAudio") {
@@ -606,7 +630,8 @@ private appModel: ApplicationmodelService;
                       this.disable=false;
                     }, 1000);  
                     this.appModel.handlePostVOActivity(false);
-                    $(".instructionBase").removeClass("disable_div"); 
+                    //$(".instructionBase").removeClass("disable_div");
+                    this.instructionDisable=false; 
                   }
                   }, this.quesObj.timegap);
             }
@@ -793,10 +818,12 @@ private appModel: ApplicationmodelService;
     this.count = 0;
     this.attemptType = "manual";
     if (id == "submit-modal-id") {
-      this.submitModalRef.nativeElement.classList = "modal";
+      //this.submitModalRef.nativeElement.classList = "modal";
+      this.displaysubmitconfirmPopup=false;
     }
     if (id == "info-modal-id") {
-      this.infoModalRef.nativeElement.classList = "modal";
+      //this.infoModalRef.nativeElement.classList = "modal";
+      this.displayinfoconfirmPopup=false;
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
         this.disable=false;
@@ -809,7 +836,8 @@ private appModel: ApplicationmodelService;
     if (flag == "yes") {
       if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
         this.appModel.feedbackType="fullyCorrect";
-        $("#optionsBlock .options").css("pointer-events", "none");
+        //$("#optionsBlock .options").css("pointer-events", "none");
+        this.disableDiv=true;
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
         setTimeout(() => {
@@ -821,7 +849,8 @@ private appModel: ApplicationmodelService;
         this.appModel.feedbackType="partialCorrect";
         console.log(this.noOfRightAnsClicked);
         console.log(this.noOfWrongAnsClicked);
-        this.infoModalRef.nativeElement.classList = "displayPopup modal";
+        //this.infoModalRef.nativeElement.classList = "displayPopup modal";
+        this.displayinfoconfirmPopup=true;
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
         this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         this.feedbackInfoAudio.nativeElement.play();
@@ -829,7 +858,8 @@ private appModel: ApplicationmodelService;
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
         this.appModel.feedbackType="fullyIncorrect";
-        $("#optionsBlock .options").css("pointer-events", "none");
+        //$("#optionsBlock .options").css("pointer-events", "none");
+        this.disableDiv=true;
         this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
         this.styleBodyPopup = this.feedbackObj.wrong_style_body;
         setTimeout(() => {
@@ -850,7 +880,8 @@ private appModel: ApplicationmodelService;
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
         setTimeout(() => {
-          $("#instructionBar").addClass("disable_div");
+          //$("#instructionBar").addClass("disable_div");
+          this.instructionDisable=true;
           this.partialpopupRef.nativeElement.classList = "displayPopup modal";
           this.setFeedbackAudio();
         }, 100);
@@ -869,7 +900,8 @@ private appModel: ApplicationmodelService;
       setTimeout(() => {
         this.disable=false;
       }, 1000);
-      this.submitModalRef.nativeElement.classList = "modal";
+      //this.submitModalRef.nativeElement.classList = "modal";
+      this.displaysubmitconfirmPopup=false;
       if(this.commonAssets.noofOptions == 4) {
        this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour"; 
       } else {
@@ -880,7 +912,8 @@ private appModel: ApplicationmodelService;
   }
 
   endedHandleronSkip() {    
-    $(".bodyContent")[0].classList.value="bodyContent";
+    //$(".bodyContent")[0].classList.value="bodyContent";
+    this.disable=false;
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
     if(this.videoReplayd) {
           this.isQuesTypeVideo=false;   
@@ -891,9 +924,11 @@ private appModel: ApplicationmodelService;
           this.instruction.nativeElement.play();
           this.instruction.nativeElement.onended=() => {
           
-          $("#optionsBlock .options").css("pointer-events", "unset");
-          $("#optionsBlock .options").removeClass("disable_div");
-          $(".instructionBase").removeClass("disable_div");   
+          //$("#optionsBlock .options").css("pointer-events", "unset");
+          //$("#optionsBlock .options").removeClass("disable_div");
+          this.disableDiv=false;
+          //$(".instructionBase").removeClass("disable_div");
+          this.instructionDisable=false;   
           this.appModel.navShow = 2;  
           this.appModel.videoStraming(false);
           this.appModel.notifyUserAction();
@@ -947,11 +982,15 @@ houtSkip(){
         this.playFeedbackAudio(0, undefined, false);
       }, 100);
       this.appModel.enableSubmitBtn(false);
-      $("#optionsBlock .options").css("opacity", "unset");
-      $(".bodyContent").css("opacity", "0.3");
-      $(".bodyContent").css("pointer-events", "none");
-      $("#instructionBar").css("pointer-events", "none");
-      $("#instructionBar").css("opacity", "0.3");
+      //$("#optionsBlock .options").css("opacity", "unset");
+      //$(".bodyContent").css("opacity", "0.3");
+      this.bodyContentOpacity=true;
+      //$(".bodyContent").css("pointer-events", "none");
+      this.disable=true;
+      //$("#instructionBar").css("pointer-events", "none");
+      this.instructionDisable=true;
+      //$("#instructionBar").css("opacity", "0.3");
+      this.instructionOpacity=true;
     }
     if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
       this.rightanspopUpheader_img = false;
@@ -972,8 +1011,10 @@ houtSkip(){
         this.playFeedbackAudio(0, undefined, false);
       }, 100);
       this.appModel.enableSubmitBtn(false);
-      $("#optionsBlock .options").css("opacity", "unset");
-      $("#optionsBlock .options").removeClass("disable_div");
+      //$("#optionsBlock .options").css("opacity", "unset");
+      this.bodyContentOpacity=false;
+      //$("#optionsBlock .options").removeClass("disable_div");
+      this.disableDiv=false;
     }
     if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked == 0) {
       console.log(this.rightAnspopupAssets);
@@ -995,11 +1036,15 @@ houtSkip(){
         this.playrightFeedbackAudioPopup(0);
       }, 100);
       this.appModel.enableSubmitBtn(false);
-      $("#optionsBlock .options").css("opacity", "unset");
-      $(".bodyContent").css("opacity", "0.3");
-      $(".bodyContent").css("pointer-events", "none");
-      $("#instructionBar").css("pointer-events", "none");
-      $("#instructionBar").css("opacity", "0.3");
+      //$("#optionsBlock .options").css("opacity", "unset");
+      //$(".bodyContent").css("opacity", "0.3");
+      this.bodyContentOpacity=true;
+      //$(".bodyContent").css("pointer-events", "none");
+      this.disableDiv=true;
+      //$("#instructionBar").css("pointer-events", "none");
+      //$("#instructionBar").css("opacity", "0.3");
+      this.instructionDisable=true;
+      this.instructionOpacity=true;
     }
     if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
       this.partialpopupRequired = true;
@@ -1010,8 +1055,10 @@ houtSkip(){
         this.playrightFeedbackAudioforPartialPopup(0);
       }, 100);
       this.appModel.enableSubmitBtn(false);
-      $("#optionsBlock .options").css("opacity", "unset");
-      $("#optionsBlock .options").removeClass("disable_div");
+      //$("#optionsBlock .options").css("opacity", "unset");
+      this.bodyContentOpacity=false;
+      //$("#optionsBlock .options").removeClass("disable_div");
+      this.disableDiv
       if(this.commonAssets.noofOptions == 4) {
        this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour"; 
       } else {
@@ -1055,7 +1102,7 @@ houtSkip(){
           this.playrightFeedbackAudioPopup(current);
         }
       } else {
-        setTimeout(() => {
+        this.showAnsTimer=setTimeout(() => {
           this.closeModal();
           this.blinkOnLastQues();
           this.appModel.moveNextQues();
@@ -1149,11 +1196,13 @@ houtSkip(){
     this.wrongansArray2 = [];
     this.ansArray1 = [];
     this.AnsObj = [];
-    $(".bodyContent").removeClass("disable_div");
+    //$(".bodyContent").removeClass("disable_div");
+    this.disable=false;
     this.partialpopupRef.nativeElement.children[0].classList.remove("sixplus");
       for(let i=0;i<this.optionsBlock.nativeElement.children.length;i++) {
       for(let j=0;j<this.optionsBlock.nativeElement.children[i].children.length;j++) {
       this.optionsBlock.nativeElement.children[i].children[j].children[0].style.pointerEvents="";
+      this.optionsBlock.nativeElement.children[i].children[j].style.opacity="1";
       }
     }
   }
@@ -1185,8 +1234,9 @@ houtSkip(){
         }
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-        $("#optionsBlock").removeClass("disableDiv");
-        $("#optionsBlock .options").css("pointer-events", "unset");
+        //$("#optionsBlock").removeClass("disableDiv");
+        this.disableDiv=false;
+        //$("#optionsBlock .options").css("pointer-events", "unset");
         if (this.ansArray1.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate optionsWidth";
           this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.ansArray1[i].imgwrongfeedback_audio.url;
@@ -1211,7 +1261,8 @@ houtSkip(){
       if (j == undefined) {
         j = 0;
       }
-      $("#optionsBlock").removeClass("disableDiv");
+      //$("#optionsBlock").removeClass("disableDiv");
+      this.disableDiv=false;
       if (this.popupBodyRef.nativeElement.children[1].children[j] != undefined && flag) {
         this.popupBodyRef.nativeElement.children[1].children[j].classList.value += " optionAnimate";
         if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
@@ -1250,7 +1301,9 @@ houtSkip(){
           if (!this.checked) {
             this.attemptType = "";
           }
-          this.blinkOnLastQues();
+          if(this.checked) {
+            this.blinkOnLastQues();
+          }
         }
         if (this.count == 0) {
           this.closeModal();
@@ -1260,7 +1313,8 @@ houtSkip(){
   }
   sendFeedback(id: string, flag: string) {
     this.attemptType = "auto";
-    this.confirmModalRef.nativeElement.classList = "modal";
+    //this.confirmModalRef.nativeElement.classList = "modal";
+    this.displayconfirmPopup=false;
     if(flag != "no") {
       this.noOfRightAnsClicked = 0;
       this.noOfWrongAnsClicked = 0;
@@ -1277,16 +1331,21 @@ houtSkip(){
         this.appModel.invokeTempSubject('showModal', 'manual');
       }, 100);
 
-      $("#instructionBar").addClass("disable_div");
-      $("#optionsBlock .options").css("opacity", "0.3");
-      $("#instructionBar").css("opacity", "0.3");
+      //$("#instructionBar").addClass("disable_div");
+      this.instructionDisable=true;
+      //$("#optionsBlock .options").css("opacity", "0.3");
+      this.bodyContentOpacity=true;
+      //$("#instructionBar").css("opacity", "0.3");
+      this.instructionOpacity=true;
       this.checked = true;
     } else {
       setTimeout(() => {
         this.disable=false;
+        this.disableDiv=false;
       }, 1000);
       this.appModel.notifyUserAction();
-      $("#instructionBar").removeClass("disable_div");
+      //$("#instructionBar").removeClass("disable_div");
+      this.instructionDisable=false;
     }
   }
 
@@ -1303,8 +1362,10 @@ houtSkip(){
       this.appModel.videoStraming(false);
       this.appModel.handlePostVOActivity(false);
       setTimeout(() => {
-        $("#instructionBar").removeClass("disable_div");
-        $("#optionsBlock .options").removeClass("disable_div");
+        //$("#instructionBar").removeClass("disable_div");
+        this.instructionDisable=false;
+        this.disableDiv=false;
+        //$("#optionsBlock .options").removeClass("disable_div");
       }, 1000);
     }
   }
@@ -1313,7 +1374,9 @@ houtSkip(){
     this.videoReplayd = true;
     this.isQuesTypeVideo = true; 
     setTimeout(() => {
-      $("#playPauseBtn")[0].children[0].src =  this.quesObj.quesPause.url;
+      //$("#playPauseBtn")[0].children[0].src =  this.quesObj.quesPause.url;
+      let playPauseBtn: HTMLImageElement= document.getElementById("playPauseBtn").children[0] as HTMLImageElement;
+      playPauseBtn.src=this.quesObj.quesPause.url;
       this.disable=true;
        this.mainVideo.nativeElement.parentElement.style.visibility="visible";
       this.mainVideo.nativeElement.play();
@@ -1345,7 +1408,8 @@ houtSkip(){
     }
     this.popupRef.nativeElement.classList = "modal";
     this.partialpopupRef.nativeElement.classList = "modal";
-    this.infoModalRef.nativeElement.classList = "modal";
+    //this.infoModalRef.nativeElement.classList = "modal";
+    this.displayinfoconfirmPopup=false;
     if (!this.checked) {
       this.appModel.wrongAttemptAnimation();
     }
@@ -1355,13 +1419,16 @@ houtSkip(){
     this.appModel.notifyUserAction();
 
     if (this.checked) {
+      this.disable=true;
       this.blinkOnLastQues();
     }
 
     if (!this.checked) {
       setTimeout(() => {
-        $("#instructionBar").removeClass("disable_div");
-        $("#optionsBlock .options").removeClass("disable_div");
+        //$("#instructionBar").removeClass("disable_div");
+        //$("#optionsBlock .options").removeClass("disable_div");
+        this.instructionDisable=false;
+        this.disableDiv=false;
       }, 4000);
       
     }
