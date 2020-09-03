@@ -533,7 +533,6 @@ button:focus {
     width: 40%!important;
     height: auto!important;
   }
-
 #confirmModal .close {
   margin: 0 1.6% 0 auto;
   width: 5%!important;
@@ -598,7 +597,10 @@ button:focus {
   min-width: 58.5%;
   max-width: 80%;
   height: auto;
+}
 
+#modalTemp5 .modal-body {
+  padding: 3%;
 }
 
 .modal-content {
@@ -635,7 +637,6 @@ button:focus {
   height: 2.12vmax;
   width: auto;
 }
-
 .close {
   width: auto;
   height: 2.12vmax;
@@ -701,7 +702,18 @@ button:focus {
 #modalTemp5 .optionsBlock .options {
   width: 25%; /*100%*/
 }
+#modalTemp5  #instructionBarFeedback {
+  position: absolute;
+  top: 4%;
+  width: 100%;
+  text-align: center;
+}
 
+#modalTemp5 #instructionBarFeedback .instructionBase {
+  width: 66%;
+  position: relative;
+  cursor: pointer;
+}
 .close:focus, .close:hover {
   /*color: #000;
   text-decoration: none;
@@ -717,6 +729,26 @@ html [type=button] {
 #modalPartialOptions .modal-dialog {
   max-width: 80%;/*87%*/
 }
+
+#modalPartialOptions .modal-body {
+ padding: 3%;
+ flex-wrap: wrap;
+}
+
+#modalPartialOptions  #instructionBarPartial {
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+}
+
+#modalPartialOptions #instructionBarPartial .instructionBase {
+    width: 66%;
+    position: relative;
+    cursor: pointer;
+}
+
 /*Partial Pop-up for 6+ options*/
 #modalPartialOptions .modal-dialog.sixplus {
   max-width: 92%;
@@ -753,10 +785,10 @@ html [type=button] {
   background: #9a9a9a;
 }
 
-  #modalPartialOptions .subHead img {
-    max-width: 6%;
-    padding: .4%;
-  }
+#modalPartialOptions .subHead img {
+  max-width: 6%;
+  padding: .4%;
+}
 
 #modalPartialOptions .subContent {
   width: 100%;
@@ -793,12 +825,10 @@ html [type=button] {
   0% {
     opacity: 0;
   }
-
   100% {
     opacity: 1;
   }
 }
-
 .fadeOut {
   animation-name: fadeOut;
   animation-duration: 1s;
@@ -899,4 +929,8 @@ html [type=button] {
 	100%{
 		opacity: 0;
 	}
+} 
+
+.classOpacity {
+  opacity: 0.3;
 } 

@@ -392,6 +392,7 @@ export class Template2Component implements OnInit {
   }
 
   showCelebrations() {
+    this.appModel.storeVisitedTabs();
     let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement;
     this.celebrationTimer = setTimeout(() => {
       if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
