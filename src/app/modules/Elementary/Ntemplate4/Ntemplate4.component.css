@@ -64,12 +64,12 @@ button:focus {
 .matchHolder .optSelectedHidden {
   position: absolute;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  align-content: space-around;
+  align-content: space-evenly;
   width: 86%;
   height: 83%;
-  margin-top: 5%;
+  margin-top: 3.5%; /*For Chrome display value should be 5% */
   flex-wrap: wrap;
 }
 
