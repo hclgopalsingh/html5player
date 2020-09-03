@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
@@ -11,7 +11,7 @@ import { EncodeUriPipe } from '../../../common/encode_uri.pipe';
   templateUrl: './template5.component.html',
   styleUrls: ['./template5.component.css']
 })
-export class Template5Component implements OnInit {
+export class Template5Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
   blink: boolean = false;
   commonAssets: any = "";
@@ -220,7 +220,7 @@ export class Template5Component implements OnInit {
   /******Hover out option ********/
   onHoveroutOptions(option) {
     if (option.selected) {
-      option.image_bg == this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
+      option.image_bg = this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
     }
     else {
       option.image_bg = option.image_bg_original;
@@ -382,7 +382,7 @@ export class Template5Component implements OnInit {
         this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_border;
         flag = true;
       }
-    }, 300);
+    }, 400);
     this.feedbackPopupAudio.nativeElement.onended = () => {
       highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
       this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_original;
@@ -407,6 +407,7 @@ export class Template5Component implements OnInit {
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
+    this.enableAllOptions();
     this.stopAllSounds();
     if (currentIndexArr[this.selectedLetterCount] == option.id) {
       option["selected"] = true;

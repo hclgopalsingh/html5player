@@ -282,6 +282,7 @@ export class Template3Component extends Base implements OnInit {
 			setTimeout(() => {
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
+					this.appModel.storeVisitedTabs();
 					this.clapTimer=	setTimeout(() => {
 						this.clapSound.nativeElement.pause();
 						this.clapSound.nativeElement.currentTime = 0;

@@ -33,7 +33,6 @@ export class Ntemplate6 implements OnInit {
         console.log('Component: constructor - data=', data);
         switch (data) {
           case PlayerConstants.CMS_PLAYER_CLOSE:
-            //console.log('VideoComponent: constructor - cmsPlayerClose');
             this.close();
             break;
 
@@ -74,6 +73,7 @@ export class Ntemplate6 implements OnInit {
   @ViewChild('PopUpDuplicateOption') popUpDuplicateOption: any;
   @ViewChild('optionsClickable') optionsClickable: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+  @ViewChild('mainOuterContainer') mainOuterContainer:any
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -1845,6 +1845,12 @@ export class Ntemplate6 implements OnInit {
     }
   ];
 
+  disableSpeaker:boolean = false;
+  windowWidth:number = window.innerWidth;
+  mainContainerWidth:number;
+  speakerWave:boolean = false;
+  coverTop:boolean=true;
+  coverBottom:boolean=true;
 
   playHoverInstruction() {
     this.instruction.nativeElement.currentTime = 0;
@@ -1856,11 +1862,10 @@ export class Ntemplate6 implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        //document.getElementById("coverTop").style.display = "block";
         this.instruction.nativeElement.onended = () => {
           //document.getElementById("coverTop").style.display = "none";
         }
-        $(".instructionBase").css("cursor", "pointer");
+        ////$(".instructionBase").css("cursor", "pointer");
       }
     }
   }
@@ -1888,8 +1893,7 @@ export class Ntemplate6 implements OnInit {
   }
 
   hoverSkip() {
-    // this.skipFlag = false;
-    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+   this.quesObj.quesSkip = this.quesObj.quesSkipHover;
   }
   houtSkip() {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
@@ -1948,12 +1952,12 @@ export class Ntemplate6 implements OnInit {
 
   optionHover(opt, i) {
     this.playHoverOption(opt, i)
-
   }
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
   }
+
 
   OptionZoomOutAnimation(opt, i) {
     if (!this.checked && this.quesVORef.nativeElement.paused) {
@@ -1966,16 +1970,16 @@ export class Ntemplate6 implements OnInit {
   }
 
   checkAnswer(opt, id) {
-    console.log(opt,id);
+    console.log(opt, id);
     this.appModel.enableReplayBtn(false);
     this.appModel.enableNavBtn(true);
-    // this.controlHandler.isTab = false;
     this.appModel.handleController(this.controlHandler);
-    //$( "#navBlock" ).addClass("disableNavBtn")
     this.appModel.handlePostVOActivity(true);
     this.count = 0;
-    $(".instructionBase").addClass('disable_div');
-    $('.speaker').addClass('disable_div');
+    ////$(".instructionBase").addClass('disable_div');
+    this.disableSection=true;
+    ////$('.speaker').addClass('disable_div');
+    this.disableSpeaker = true;
     this.optionsClickable.nativeElement.classList = "row mx-0 disable_div"
     console.log("option clicked");
     this.currentOptionNumber = id;
@@ -2014,46 +2018,43 @@ export class Ntemplate6 implements OnInit {
     console.log("start Animation");
     if (option.position == "right") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
-      if(option.letterConfig && option.letterConfig.length >0)
-      {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
-      else{
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesCopy[this.index])) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+          }
         }
       }
-    }
       this.Matra.nativeElement.children[this.index].classList.value = '';
     } else if (option.position == "left") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
-      if(option.letterConfig && option.letterConfig.length >0)
-      {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
-      else{
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
-          break;
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+            break;
+          }
         }
       }
-    }
       this.Matra.nativeElement.children[this.index + 1].classList.value = '';
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.Matra.nativeElement.children[this.index].classList.value = '';
-      if(option.letterConfig && option.letterConfig.length >0)
-      {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
-      else{
-      for (var i = 0; i < option.letters.length; i++) {
-        if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
-          this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+      else {
+        for (var i = 0; i < option.letters.length; i++) {
+          if (option.letters[i].id.includes(this.refQuesCopy[this.index + 1])) {
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
+          }
         }
       }
-    }
     }
 
     this.duplicateOptionElementRect = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
@@ -2073,16 +2074,16 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[this.index].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width()) * 100 + "%";
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.5 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.5 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5.2 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5.2 + "%";
     }
     else {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 5 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
     }
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
   }
@@ -2093,45 +2094,42 @@ export class Ntemplate6 implements OnInit {
       if (!this.flag) {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("afterend", "<img style='opacity:0;height:78%;width:4%'></img>");
       }
-      if(option.letterConfig && option.letterConfig.length >0)
-      {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
       }
-      else{
+      else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
       }
-      
+
     } else if (option.position == "left") {
       if (!this.flag) {
         this.Matra.nativeElement.children[letterNumber - 1].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%;'></img>");
       }
-      if(option.letterConfig && option.letterConfig.length >0)
-      {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
       }
-      else{
+      else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
       }
-      
+
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      if(option.letterConfig && option.letterConfig.length >0)
-      {
-        this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
+      if (option.letterConfig && option.letterConfig.length > 0) {
+        this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[letterNumber - 1].style["left"]);
       }
-      else{
+      else {
         for (var i = 0; i < option.letters.length; i++) {
           if (option.letters[i].id.includes(this.refQuesArr[letterNumber - 1].id)) {
-            this.left = ((($(window).width() - $("#container").width()) / $(window).width()) / 7) + parseFloat(option.letters[i].style["left"]);
+            this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letters[i].style["left"]);
             break;
           }
         }
@@ -2155,16 +2153,16 @@ export class Ntemplate6 implements OnInit {
     } else if (option.position == "left" || option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
       this.moveTo = this.Matra.nativeElement.children[letterNumber - 1].getBoundingClientRect();
     }
-    this.moveleft = (this.moveTo.left / ($("#container").width() /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - ((($(window).width() - $("#container").width()) / 2) / $("#container").width()) * 100 + "%";
+    this.moveleft = (this.moveTo.left / (this.mainContainerWidth /* ($(window).width() - $("#container").width())*/) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 1 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 1 + "%";
     } else if (option.position == "left" || option.position == "right") {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3.4 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.4 + "%";
     }
     else {
-      this.movetop = (this.moveTo.top / $("#container").width() * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     }
     $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 0);
   }
@@ -2179,7 +2177,7 @@ export class Ntemplate6 implements OnInit {
       this.clicked = true;
       document.getElementById("coverTop").style.display = "block";
       document.getElementById("coverBtm").style.display = "none"
-      console.log("id",id)
+      console.log("id", id)
       this.index = id;
       this.Matra.nativeElement.children[id].classList.value = 'outline';
     }
@@ -2204,7 +2202,8 @@ export class Ntemplate6 implements OnInit {
   }
 
   ngOnInit() {
-    let that = this;
+    
+     let that = this;
     $("#navBlock").click(function () {
       if (!that.instructionVO.nativeElement.paused) {
         that.instructionVO.nativeElement.pause();
@@ -2254,12 +2253,14 @@ export class Ntemplate6 implements OnInit {
           if (this.Myspeaker && this.Myspeaker.nativeElement) {
             this.Myspeaker.nativeElement.pause();
             this.Myspeaker.nativeElement.currentTime = 0;
-            $('.speakerWave').removeClass("dispFlex");
+            ////$('.speakerWave').removeClass("dispFlex");
+            this.speakerWave = false;
           }
           if (this.instructionVO && this.instructionVO.nativeElement) {
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
-            $('.speaker').removeClass('disable_div');
+            ////$('.speaker').removeClass('disable_div');
+            this.disableSpeaker = false;
           }
           this.appModel.notifyUserAction();
         }
@@ -2295,6 +2296,8 @@ export class Ntemplate6 implements OnInit {
     //this.controlHandler.isTab = true;
     this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
+
+    
   }
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
@@ -2391,24 +2394,22 @@ export class Ntemplate6 implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
-  
-    hoverPlayPause(){
-    if(this.PlayPauseFlag)
-    {    
-      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
+
+  hoverPlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
     }
-    else{
-      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
     }
   }
 
-  leavePlayPause(){
-    if(this.PlayPauseFlag)
-    {   
-      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+  leavePlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
     }
-    else{
-      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
     }
   }
 
@@ -2484,7 +2485,8 @@ export class Ntemplate6 implements OnInit {
     this.instructionVO.nativeElement.pause();
     this.instructionVO.nativeElement.currentTime = 0;
     this.Myspeaker.nativeElement.play();
-    $('.speakerWave').addClass("dispFlex");
+    ////$('.speakerWave').addClass("dispFlex");
+    this.speakerWave = true;
     document.getElementById("coverTop").style.display = "block";
     document.getElementById("coverBtm").style.display = "block";
     $('.instructionBase').addClass('disable_div');
@@ -2496,7 +2498,8 @@ export class Ntemplate6 implements OnInit {
         document.getElementById("coverBtm").style.display = "none";
       }
       $('.instructionBase').removeClass('disable_div');
-      $('.speakerWave').removeClass("dispFlex");
+      ////$('.speakerWave').removeClass("dispFlex");
+      this.speakerWave = false;
     }
 
   }
@@ -2524,26 +2527,8 @@ export class Ntemplate6 implements OnInit {
       for (let j = 0; j < this.optionsAssets.length; j++) {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
-      //this.optionArr = fetchedData.optionsObj.optionID;
-
-     
-
-
-      // quesID.forEach(json => {
-      //   json.matra.forEach(matra => {
-      //     this.defaultLetterConfig.forEach(defjson => {
-      //       if (matra.Mid == defjson.id) {
-      //         defjson.letters.forEach(lttr => {
-      //           lttr.id.forEach(id => {
-      //             if (id == json.Lid) {
-      //               lttr.style = matra.style
-      //             }
-      //           });
-      //         });
-      //       }
-      //     });
-      //   });
-      // });
+      
+  
       for (let i = 0; i < this.optionArr.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (this.optionArr[i] == this.defaultLetterConfig[j].id) {
@@ -2556,9 +2541,9 @@ export class Ntemplate6 implements OnInit {
           }
         }
       }
-      console.log("this.optionObj",this.optionObj)
+      console.log("this.optionObj", this.optionObj)
       //this.answerObj = this.fetchedcontent.AnswerObj;  
-      
+
       this.refQuesObj = this.fetchedcontent.refQuesObj;
       let tempArr = [];
       this.refQuesObj.quesID.forEach(element => {
@@ -2570,8 +2555,7 @@ export class Ntemplate6 implements OnInit {
       for (let i = 0; i < quesID.length; i++) {
         for (let j = 0; j < this.defaultLetterConfig.length; j++) {
           if (quesID[i].Lid == this.defaultLetterConfig[j].id) {
-            if(quesID[i].location == "content" && quesID[i].url && quesID[i].url.length >0 ) 
-            {
+            if (quesID[i].location == "content" && quesID[i].url && quesID[i].url.length > 0) {
               this.defaultLetterConfig[j].location = "content";
               this.defaultLetterConfig[j].url = quesID[i].url;
             }
@@ -2580,13 +2564,13 @@ export class Ntemplate6 implements OnInit {
           }
         }
       }
-      console.log("this.refQuesArr",this.refQuesArr);
+      console.log("this.refQuesArr", this.refQuesArr);
       let dynamicMatraConfig = [
         {
-          "Mid":"",
-          "letter_style":[
+          "Mid": "",
+          "letter_style": [
             {
-              "Lid":"",
+              "Lid": "",
               "style": { "left": "4" }
             }
           ]
@@ -2594,7 +2578,7 @@ export class Ntemplate6 implements OnInit {
       ]
 
       quesID.forEach(element => {
-        
+
       });
 
 
@@ -2648,19 +2632,25 @@ export class Ntemplate6 implements OnInit {
 
   checkforQVO() {
     this.isVideoLoaded = true;
+    this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
+      //alert(this.mainContainerWidth);
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay && !this.replayClicked) {
       this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.mainContainer.nativeElement.classList = "bodyContent disable_div";
-      this.instructionBar.nativeElement.classList = "instructionBase disable_div";
+      //// this.instructionBar.nativeElement.classList = "instructionBase disable_div";
+      this.disableSection = true;
 
       this.quesVORef.nativeElement.play();
+      
       this.appModel.enableReplayBtn(false);
       this.appModel.enableSubmitBtn(false);
       this.appModel.handlePostVOActivity(true);
       this.quesVORef.nativeElement.onended = () => {
+
         console.log('play');
         this.mainContainer.nativeElement.classList = "bodyContent";
-        this.instructionBar.nativeElement.classList = "instructionBase";
+        ////this.instructionBar.nativeElement.classList = "instructionBase";
+        this.disableSection = false;
         //this.startActivity();
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
@@ -2972,7 +2962,8 @@ export class Ntemplate6 implements OnInit {
     this.appModel.handleController(this.controlHandler);
     this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
-    $('.speaker').removeClass('disable_div');
+    ////$('.speaker').removeClass('disable_div');
+    this.disableSpeaker = false;
     this.optionsClickable.nativeElement.classList = "row mx-0"
     this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.zIndex = 1000;
     this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.top) - 20 + "%";

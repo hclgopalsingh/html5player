@@ -681,6 +681,7 @@ export class Template1Component implements OnInit {
                 
                  if (this.rightFeedback && this.rightFeedback.nativeElement) {
                      this.clapSound.nativeElement.play();
+                     this.appModel.storeVisitedTabs();
                      this.clapTimer=setTimeout(() => {
                         this.clapSound.nativeElement.pause();     
                         this.clapSound.nativeElement.currentTime = 0;
@@ -775,6 +776,7 @@ export class Template1Component implements OnInit {
                 this.ifRightAns = true;
                 this.rightSelectTimer=setTimeout(()=>{                    
                     if (this.rightFeedback && this.rightFeedback.nativeElement) {
+                        this.appModel.storeVisitedTabs();
                         this.clapSound.nativeElement.play();
                         this.clapTimer=setTimeout(() => {
                            this.clapSound.nativeElement.pause();     
