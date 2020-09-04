@@ -1,20 +1,19 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy,AfterViewChecked,EventEmitter, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 
 @Component({
   selector: 'app-template14',
   templateUrl: './template14.component.html',
-  styleUrls: ['./template14.component.css'],
+  styleUrls: ['./template14.component.scss'],
   encapsulation: ViewEncapsulation.None
 
 })
-export class TemplateFourteenComponent implements OnInit {
-  private appModel: ApplicationmodelService;
+export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChecked, AfterViewInit  {
 
-  constructor(appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+  constructor(private  appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -143,7 +142,9 @@ export class TemplateFourteenComponent implements OnInit {
   showAnswerVO: any;
   lastQuestionCheck: any;
   clappingTimer: any;
-
+  ifYearAnsCorrect =true;
+  ifMonthAnsCorrect =true;  
+  previousItemeventArr = []
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
@@ -157,6 +158,54 @@ export class TemplateFourteenComponent implements OnInit {
     //   console.log("submit clicked")
     //   that.stopAllSounds()
     // }
+  }
+
+  ngOnInit() {
+    this.setTemplateType();
+    this.setData();
+    // this.sprite.nativeElement.style = "display:none";
+    this.Sharedservice.setSubmitAnsEnabled(false);
+    this.Sharedservice.setShowAnsEnabled(false);
+    this.Sharedservice.setLastQuesAageyBadheStatus(false);
+    if (this.appModel.isNewCollection) {
+      this.appModel.event = { 'action': 'segmentBegins' };
+    }
+    this.containgFolderPath = this.getBasePath();
+    this.stopAllSounds()
+    
+    this.appModel.getConfirmationPopup().subscribe((val) => {
+      if (val == "uttarDikhayein") {
+        this.appModel.stopAllTimer();
+        this.stopAllSounds()
+        if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+          this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
+          this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+          if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+            this.videoonshowAnspopUp.nativeElement.play();
+            this.videoonshowAnspopUp.nativeElement.onended = () => {
+              this.showAnswerTimer = setTimeout(() => {
+                this.closePopup('showAnswer');
+              }, 10000);
+            }
+          }
+        }
+
+      } 
+    })
+
+    this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
+      console.log(data,"changed")
+      this.stopAllSounds()
+    })
+
+    this.appModel.nextBtnEvent().subscribe(() => {
+      if (this.appModel.isLastSectionInCollection) {
+        this.appModel.event = { 'action': 'segmentEnds' };
+      }
+      if (this.appModel.isLastSection) {
+        this.appModel.event = { 'action': 'exit' };
+      }
+    });
   }
 
   templatevolume(vol, obj) {
@@ -213,54 +262,7 @@ export class TemplateFourteenComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.setTemplateType();
-    this.setData();
-    // this.sprite.nativeElement.style = "display:none";
-    this.Sharedservice.setSubmitAnsEnabled(false);
-    this.Sharedservice.setShowAnsEnabled(false);
-    this.Sharedservice.setLastQuesAageyBadheStatus(false);
-    if (this.appModel.isNewCollection) {
-      this.appModel.event = { 'action': 'segmentBegins' };
-    }
-    this.containgFolderPath = this.getBasePath();
-    this.stopAllSounds()
-    
-    this.appModel.getConfirmationPopup().subscribe((val) => {
-      if (val == "uttarDikhayein") {
-        this.appModel.stopAllTimer();
-        this.stopAllSounds()
-        if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-          this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
-          this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-          if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
-            this.videoonshowAnspopUp.nativeElement.play();
-            this.videoonshowAnspopUp.nativeElement.onended = () => {
-              this.showAnswerTimer = setTimeout(() => {
-                this.closePopup('showAnswer');
-              }, 10000);
-            }
-          }
-        }
-
-      } 
-    })
-
-    this.Sharedservice.getsetShowHideConfirmation().subscribe((data) => {
-      console.log(data,"changed")
-      this.stopAllSounds()
-    })
-
-    this.appModel.nextBtnEvent().subscribe(() => {
-      if (this.appModel.isLastSectionInCollection) {
-        this.appModel.event = { 'action': 'segmentEnds' };
-      }
-      if (this.appModel.isLastSection) {
-        this.appModel.event = { 'action': 'exit' };
-      }
-    });
-  }
-
+ 
   //to reset things after a wrong answer
   postWrongAttemplt() {
     this.Sharedservice.setSubmitAnsEnabled(false);
@@ -476,7 +478,6 @@ export class TemplateFourteenComponent implements OnInit {
   }
 
 
-  previousItemeventArr = []
   //on clicking various components of calendar
   onClickCalender(item, flag) {
     this.stopAllSounds();
@@ -509,8 +510,9 @@ export class TemplateFourteenComponent implements OnInit {
         this.selectedDaysId.length = 0;
         for (let i = this.startIndex; i >= 0; i--) {
           this.monthDates.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;
-          if (this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i])
+          if (this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i]){
             this.monthDates.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
+          }
         }
         let indexofMonth = this.monthsArr.findIndex((index) => index.id == item.id);
 
@@ -1030,8 +1032,7 @@ export class TemplateFourteenComponent implements OnInit {
 
   }
 
-  ifYearAnsCorrect =true;
-  ifMonthAnsCorrect =true;
+  
   CheckAnswer() {
     this.ifYearAnsCorrect =true;
     this.ifMonthAnsCorrect =true;
@@ -1085,8 +1086,8 @@ export class TemplateFourteenComponent implements OnInit {
       
       let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
       let that = this
-      RightMonthArray.forEach(function (element1, i) {
-        that.monthsArr.forEach(function (item, ind) {
+      RightMonthArray.forEach((element1, i)=> {
+        that.monthsArr.forEach((item, ind) => {
           if (item.id == element1) {
             RightMonthArray[i] = ind
           }
@@ -1221,8 +1222,8 @@ export class TemplateFourteenComponent implements OnInit {
   onSubmitResult() {
     let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
     let that = this
-    RightMonthArray.forEach(function (element1, i) {
-      that.monthsArr.forEach(function (item, ind) {
+    RightMonthArray.forEach((element1, i)=>  {
+      that.monthsArr.forEach((item, ind)=>  {
         if (item.id == element1) {
           RightMonthArray[i] = ind
         }
@@ -1230,8 +1231,8 @@ export class TemplateFourteenComponent implements OnInit {
     });
 
     let rightWeekDayArray = JSON.parse(JSON.stringify(this.feedback.right_weekDay))
-    rightWeekDayArray.forEach(function (element1, i) {
-      that.ArrweekDays.forEach(function (item, ind) {
+    rightWeekDayArray.forEach((element1, i)=> {
+      that.ArrweekDays.forEach((item, ind)=> {
         if (item.id == element1) {
           rightWeekDayArray[i] = ind
         }
@@ -1240,8 +1241,8 @@ export class TemplateFourteenComponent implements OnInit {
     console.log("rightWeekDayArray", rightWeekDayArray)
 
     let selectedWeekDayArray = JSON.parse(JSON.stringify(this.selectedDaysId))
-    selectedWeekDayArray.forEach(function (element1, i) {
-      that.ArrweekDays.forEach(function (item, ind) {
+    selectedWeekDayArray.forEach((element1, i) => {
+      that.ArrweekDays.forEach((item, ind) => {
         if (item.id == element1) {
           selectedWeekDayArray[i] = ind
         }

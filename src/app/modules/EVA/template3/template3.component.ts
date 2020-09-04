@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Base } from '../../../controller/base';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked } from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+// import { Base } from '../../../controller/base';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,12 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
 	selector: 'app-template3',
 	templateUrl: './template3.component.html',
-	styleUrls: ['./template3.component.css']
+	styleUrls: ['./template3.component.scss']
 })
-export class Template3Component extends Base implements OnInit {
+export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked {
 
 	constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-		super();
+		// super();
 		//subscribing common popup from shared service to get the updated event and values of speaker
         this.Sharedservice.showAnsRef.subscribe(showansref => {
             this.showAnswerRef = showansref;
@@ -282,7 +282,6 @@ export class Template3Component extends Base implements OnInit {
 			setTimeout(() => {
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
-					this.appModel.storeVisitedTabs();
 					this.clapTimer=	setTimeout(() => {
 						this.clapSound.nativeElement.pause();
 						this.clapSound.nativeElement.currentTime = 0;

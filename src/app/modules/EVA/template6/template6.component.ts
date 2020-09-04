@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Base } from '../../../controller/base';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked } from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+// import { Base } from '../../../controller/base';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { DragulaService } from "ng2-dragula";
@@ -12,12 +12,11 @@ declare var $: any;
 @Component({
 	selector: 'app-template6',
 	templateUrl: './template6.component.html',
-	styleUrls: ['./template6.component.css']
+	styleUrls: ['./template6.component.scss']
 })
-export class Template6Component extends Base implements OnInit {
+export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 
 	constructor(private dragulaService: DragulaService, private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-		super();
 		//subscribing common popup from shared service to get the updated event and values of speaker
 		this.Sharedservice.showAnsRef.subscribe(showansref => {
 			this.showAnswerRef = showansref;
@@ -37,10 +36,10 @@ export class Template6Component extends Base implements OnInit {
 					this.optionRef.nativeElement.children[i].classList.add("disable_div");
 				}
 			}
-			
+
 		});
 		this.dragEndSubscription = dragulaService.dragend().subscribe((dragEndValue: any) => {
-		
+
 			for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
 				this.optionRef.nativeElement.children[i].classList.remove("disable_div");
 			}
@@ -48,9 +47,9 @@ export class Template6Component extends Base implements OnInit {
 		this.dropSubscription = dragulaService.drop().subscribe((value: any) => {
 			if (value.source == value.target || value.source.parentElement.className == value.target.parentElement.className) {
 				dragulaService.find('second-bag2').drake.cancel(true);
-			
+
 			} else {
-				
+
 				this.imageChange = setTimeout(() => {
 					this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
 					this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
@@ -195,7 +194,7 @@ export class Template6Component extends Base implements OnInit {
 	dragSubscription: any;
 	dragEndSubscription: any;
 	dropSubscription: any;
-	drag:boolean= false;
+	drag: boolean = false;
 	blinkCategory: any;
 	isdrop = false;
 	optionHolderValue: any;
@@ -203,7 +202,7 @@ export class Template6Component extends Base implements OnInit {
 	rightBlinkTimer: any;
 	showAnswerTimer: any;
 	videoonshowAnspopUp: any;
-  showAnswerfeedback: any;
+	showAnswerfeedback: any;
 	imageChange: any
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
@@ -264,31 +263,31 @@ export class Template6Component extends Base implements OnInit {
 	// }
 
 	// onHoveroutOptions(option, index) {
-	
+
 	// 	this.myoption[index].imgsrc = this.myoption[index].image_original;
 	// }
 
-	
+
 	onHoverOptions(option, index) {
-		if(!this.drag){
-		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-		if (!speakerEle.paused) {
-			speakerEle.pause();
-			speakerEle.currentTime = 0;
-			this.sprite.nativeElement.style = "display:none";
-			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-			this.speakerPlayed = false;
-			this.speaker.imgsrc = this.speaker.imgorigional;
+		if (!this.drag) {
+			let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+			if (!speakerEle.paused) {
+				speakerEle.pause();
+				speakerEle.currentTime = 0;
+				this.sprite.nativeElement.style = "display:none";
+				(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+				this.speakerPlayed = false;
+				this.speaker.imgsrc = this.speaker.imgorigional;
+			}
+			this.myoption[index].imgsrc = this.myoption[index].imgsrc_hover;
 		}
-		this.myoption[index].imgsrc = this.myoption[index].imgsrc_hover;
-	}
 	}
 
 	onHoveroutOptions(option, index) {
-		if(!this.drag){
+		if (!this.drag) {
 			this.myoption[index].imgsrc = this.myoption[index].image_original;
 		}
-		
+
 	}
 	onHoverSpeaker() {
 		if (!this.videoPlayed) {
@@ -558,7 +557,7 @@ export class Template6Component extends Base implements OnInit {
 		}
 	}
 	getRandomIndxBlink(no, prevRandomId?) {
-	console.log('numner:', no, 'prevrandom:', prevRandomId);
+		console.log('numner:', no, 'prevrandom:', prevRandomId);
 
 		this.randomIdx = prevRandomId !== undefined ? prevRandomId : Math.floor((Math.random() * no));
 		clearInterval(this.blinkTimeInterval);
@@ -850,7 +849,7 @@ export class Template6Component extends Base implements OnInit {
 			this.popupclosedinRightWrongAns = true;
 			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 				document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
-			  }
+			}
 			if (this.ifRightAns) {
 				this.Sharedservice.setShowAnsEnabled(true);
 				this.overlay.nativeElement.classList.value = "fadeContainer";
@@ -883,12 +882,12 @@ export class Template6Component extends Base implements OnInit {
 
 	/****** Option Hover VO  *******/
 	playOptionHover(option, index) {
-		if(!this.drag){
+		if (!this.drag) {
 			if (option && option.audio && option.audio.url) {
 				this.playSound(option.audio, index);
 			}
 		}
-	
+
 	}
 
 	/***** Play sound on option roll over *******/

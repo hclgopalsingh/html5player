@@ -1,22 +1,22 @@
 
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewChecked} from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subscription } from 'rxjs';
-import { DataService } from '../../../model/eva/template8/data.service';
-import { Constants } from '../../../model/eva/template8/constants';
-import { QuestionBlockVO } from '../../../model/eva/template8/questionblockVO';
-import { AssetVO } from '../../../model/eva/template8/assetVO';
+import { DataService } from '../../../common/services/eva/template8/data.service';
+import { Constants } from '../../../common/services/eva/template8/constants';
+import { QuestionBlockVO } from '../../../common/services/eva/template8/questionblockVO';
+import { AssetVO } from '../../../common/services/eva/template8/assetVO';
 
 
 @Component({
     selector: 'app-template8',
     templateUrl: './template8.component.html',
-    styleUrls: ['./template8.component.css']
+    styleUrls: ['./template8.component.scss']
 })
-export class Template8Component implements OnInit {
+export class Template8Component implements OnInit ,OnDestroy,AfterViewChecked {
     blink: boolean = false;
     commonAssets: any = "";
     ques: any = "";
@@ -396,7 +396,7 @@ export class Template8Component implements OnInit {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     //option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
-                    this.appModel.storeVisitedTabs();
+
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();
                         this.clapSound.nativeElement.currentTime = 0;

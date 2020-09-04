@@ -11,17 +11,15 @@ import { Template6Component } from './template6/template6.component';
 import { Template2Component } from './template2/template2.component';
 import { Template4Component } from './template4/template4.component';
 import { TemplateTenComponent } from './template10/template10.component';
-import { ShowanswerComponent } from '../commonmodules/showanswer/showanswer.component';
-import { Template11Componenteva } from './template11/template11.component';
-import { Template12ComponentEVA } from './template12/template12.component';
-import { DataService } from '../../model/eva/template8/data.service';
-import { GlobalspeakerComponent } from '../commonmodules/globalspeaker/globalspeaker.component';
+import { ShowanswerComponent } from '../Global/showanswer/showanswer.component';
+import { Template11Component } from './template11/template11.component';
+import { Template12Component } from './template12/template12.component';
+import { DataService } from '../../common/services/eva/template8/data.service';
+import { GlobalspeakerComponent } from '../Global/globalspeaker/globalspeaker.component';
 import { TemplateFourteenComponent } from './template14/template14.component';
-import { ConfirmationComponent } from '../commonmodules/confirmation/confirmation.component';
+import { ConfirmationComponent } from '../Global/confirmation/confirmation.component';
 import { TemplateSevenComponent } from './template7/template7.component';
 import { FormsModule } from '@angular/forms';
-
-
 import { Template5Component } from './template5/template5.component';
 import { EncodeUriPipe } from '../../common/encode_uri.pipe';
 @NgModule({
@@ -42,8 +40,8 @@ import { EncodeUriPipe } from '../../common/encode_uri.pipe';
 		Template4Component,
 		TemplateTenComponent,
 		ShowanswerComponent,
-		Template11Componenteva,
-		Template12ComponentEVA,
+		Template11Component,
+		Template12Component,
 		GlobalspeakerComponent,
 		TemplateFourteenComponent,
 		ConfirmationComponent,

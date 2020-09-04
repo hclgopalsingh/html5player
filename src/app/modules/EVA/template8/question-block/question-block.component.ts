@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { QuestionBlockVO } from '../../../../model/eva/template8/questionblockVO';
-import { Constants } from '../../../../model/eva/template8/constants';
+import { QuestionBlockVO } from '../../../../common/services/eva/template8/questionblockVO';
+import { Constants } from '../../../../common/services/eva/template8/constants';
 
 
 @Component({
@@ -9,8 +9,8 @@ import { Constants } from '../../../../model/eva/template8/constants';
   styleUrls: ['./question-block.component.css']
 })
 export class QuestionBlockComponent implements OnInit {
-  selectedOptionURL: String = "";
-  selectedOptionBlinkURL: String = "";
+  selectedOptionURL: string = "";
+  selectedOptionBlinkURL: string = "";
   option: any;
   _data: QuestionBlockVO = new QuestionBlockVO();
 
@@ -35,7 +35,7 @@ export class QuestionBlockComponent implements OnInit {
   @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;
   @ViewChild('questionBase') questionBase: any;
   @ViewChild('questionStatement') questionStatement: any;
-  @Output() load = new EventEmitter();
+  @Output() loader = new EventEmitter();
 
   constructor() {
 
@@ -125,7 +125,7 @@ export class QuestionBlockComponent implements OnInit {
   }
 
   checkImgLoaded() {
-    this.load.emit();
+    this.loader.emit();
   }
 
   reset() {
