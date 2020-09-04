@@ -667,27 +667,13 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
 
-    this.showAnswerRef.nativeElement.classList = "modal";
-    this.ansPopup.nativeElement.classList = "modal";
-
-    this.wrongFeedback.nativeElement.pause();
-    this.wrongFeedback.nativeElement.currentTime = 0;
-
-    this.clapSound.nativeElement.pause();
-    this.clapSound.nativeElement.currentTime = 0;
-
-    this.rightFeedback.nativeElement.pause();
-    this.rightFeedback.nativeElement.currentTime = 0;
-
-    this.videoonshowAnspopUp.nativeElement.pause();
-    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
-
-    this.multiCorrectFeedback.nativeElement.pause();
-    this.multiCorrectFeedback.nativeElement.currentTime = 0;
-
-    this.wrongFeedbackOnAkshar.nativeElement.pause();
-    this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
-
+    if (this.showAnswerRef) {
+      this.showAnswerRef.nativeElement.classList = "modal";
+    }
+    if(this.ansPopup) {
+      this.ansPopup.nativeElement.classList = "modal";
+    }
+    this.stopAllSounds();
     this.refQuesWord.nativeElement.classList.remove("disableDiv");
 
     if (Type === "answerPopup") {
@@ -829,24 +815,38 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
 
   /** Function to stop all sounds **/
   stopAllSounds(clicked?) {
-    this.audio.pause();
-    this.audio.currentTime = 0;
-
-    this.myAudiospeaker.nativeElement.pause();
-    this.myAudiospeaker.nativeElement.currentTime = 0;
-
-    this.wrongFeedback.nativeElement.pause();
-    this.wrongFeedback.nativeElement.currentTime = 0;
-
-    this.rightFeedback.nativeElement.pause();
-    this.rightFeedback.nativeElement.currentTime = 0;
-
-    this.clapSound.nativeElement.pause();
-    this.clapSound.nativeElement.currentTime = 0;
-
-    this.wrongFeedbackOnAkshar.nativeElement.pause();
-    this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
-
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    }
+    if (this.myAudiospeaker) {
+      this.myAudiospeaker.nativeElement.pause();
+      this.myAudiospeaker.nativeElement.currentTime = 0;
+    }
+    if (this.wrongFeedback) {
+      this.wrongFeedback.nativeElement.pause();
+      this.wrongFeedback.nativeElement.currentTime = 0;
+    }
+    if (this.rightFeedback) {
+      this.rightFeedback.nativeElement.pause();
+      this.rightFeedback.nativeElement.currentTime = 0;
+    }
+    if (this.clapSound) {
+      this.clapSound.nativeElement.pause();
+      this.clapSound.nativeElement.currentTime = 0;
+    }
+    if (this.wrongFeedbackOnAkshar) {
+      this.wrongFeedbackOnAkshar.nativeElement.pause();
+      this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
+    }
+    if (this.videoonshowAnspopUp) {
+      this.videoonshowAnspopUp.nativeElement.pause();
+      this.videoonshowAnspopUp.nativeElement.currentTime = 0;
+    }
+    if (this.multiCorrectFeedback) {
+      this.multiCorrectFeedback.nativeElement.pause();
+      this.multiCorrectFeedback.nativeElement.currentTime = 0;
+    }
     if (clicked) {
       this.enableAllOptions();
     }

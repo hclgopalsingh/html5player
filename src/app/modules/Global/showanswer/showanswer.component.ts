@@ -16,8 +16,8 @@ export class ShowanswerComponent implements OnInit {
   popupAssets: any;
 
 
-  @ViewChild('showAnswerRef') showAnswerRef: any;
-  @ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
+  @ViewChild('showAnswerRef', {static: true}) showAnswerRef: any;
+  @ViewChild('videoonshowAnspopUp', {static: true}) videoonshowAnspopUp: any;
   @Output("closePopupChild") closePopupChild: EventEmitter<any> = new EventEmitter();
 
   get basePath(): any {
