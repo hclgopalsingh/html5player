@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy ,AfterViewInit} from '@angular/core';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './template10.component.html',
   styleUrls: ['./template10.component.scss']
 })
-export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy,AfterViewInit {
   blink: boolean = false;
   commonAssets: any = "";
   rightPopup: any;
@@ -136,17 +136,22 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     this.appModel.navShow = 2;
   }
 
-  ngOnInit() {
-    this.sprite.nativeElement.style = "display:none";
-    this.Sharedservice.setShowAnsEnabled(false);
-    this.Sharedservice.setLastQuesAageyBadheStatus(false);
+  ngAfterViewInit(){
+    this.sprite.nativeElement.style = "display:none";  
     this.optionsContainer.nativeElement.classList.add("disableDiv");
-    this.attemptType = "";
-    this.setTemplateType();
-    console.log("this.attemptType = " + this.attemptType);
+
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
+  }
+
+  ngOnInit() {
+    this.Sharedservice.setShowAnsEnabled(false);
+    this.Sharedservice.setLastQuesAageyBadheStatus(false);
+    this.attemptType = "";
+    this.setTemplateType();
+    console.log("this.attemptType = " + this.attemptType);
+   
     this.containgFolderPath = this.getBasePath();
     this.setData();
     this.questionObj.letters.forEach(question => {
