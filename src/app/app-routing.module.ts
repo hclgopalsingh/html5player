@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NTitleComponent} from './modules/Global/ntitle/ntitle.component';
 import { ContainerComponent} from './modules/Global/container/container.component';
-import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
-import { TemplateFourteenComponent } from './modules/EVA/template14/template14.component';
+// import { TemplateTenComponent } from './modules/EVA/template10/template10.component';
+// import { TemplateFourteenComponent } from './modules/EVA/template14/template14.component';
 
 export const APP_ROUTES: Routes = [ 
   {path: '', component: ContainerComponent, children: [
