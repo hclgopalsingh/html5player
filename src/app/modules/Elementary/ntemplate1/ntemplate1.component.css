@@ -709,6 +709,7 @@ button:focus {
   width: 100%;
   text-align: center;
   margin-bottom: .9%;
+  display: none;
 }
 
 #modalTemp5 #instructionBarFeedback .instructionBase {
@@ -743,6 +744,7 @@ html [type=button] {
   width: 100%;
   text-align: center;
   margin-bottom: .9%;
+  display: none;
 }
 
 #modalPartialOptions #instructionBarPartial .instructionBase {

@@ -98,8 +98,8 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
-          <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBarFeedback">
-            <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
+          <div  class="flex-row justify-content-around instructionBar" id="instructionBarFeedback" [ngClass]="{'dispFlex':popupTxtRequired}">
+            <div class="instructionBase">
               <img class="img-fluid" [src]="feedbackObj?.rightAnswerpopupTxt?.url" />
             </div>
           </div>
@@ -138,8 +138,8 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.partial_style_body">
-          <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBarPartial">
-            <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
+          <div  class="flex-row justify-content-around instructionBar" id="instructionBarPartial" [ngClass]="{'dispFlex':partialpopupTxtRequired}">
+            <div class="instructionBase">
               <img class="img-fluid" [src]="feedbackObj?.partialIncorrAnswerpopupTxt?.url"  />
             </div>
           </div>

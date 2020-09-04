@@ -140,6 +140,8 @@ private appModel: ApplicationmodelService;
   displayconfirmPopup:boolean=false;
   displaysubmitconfirmPopup:boolean=false;
   displayinfoconfirmPopup:boolean=false;
+  popupTxtRequired:boolean=false;
+  partialpopupTxtRequired:boolean=false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -555,6 +557,9 @@ private appModel: ApplicationmodelService;
     if (obj.questionAudio && obj.questionAudio.nativeElement) {
       obj.questionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    for(let i=0;i<obj.popupBodyRef.nativeElement.children[0].children.length;i++) {
+        obj.popupBodyRef.nativeElement.children[0].children[i].children[1].volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   close() {
@@ -836,6 +841,7 @@ private appModel: ApplicationmodelService;
     if (flag == "yes") {
       if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
         this.appModel.feedbackType="fullyCorrect";
+        this.popupTxtRequired=this.feedbackObj.rightAnswerpopupTxt.required;
         this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src=this.feedbackObj.rightAnswerpopupTxt.url; 
         //$("#optionsBlock .options").css("pointer-events", "none");
         this.disableDiv=true;
@@ -859,6 +865,7 @@ private appModel: ApplicationmodelService;
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
         this.appModel.feedbackType="fullyIncorrect";
+        this.popupTxtRequired=this.feedbackObj.wrongAnswerpopupTxt.required;
         this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src=this.feedbackObj.wrongAnswerpopupTxt.url;  
         //$("#optionsBlock .options").css("pointer-events", "none");
         this.disableDiv=true;
@@ -870,6 +877,7 @@ private appModel: ApplicationmodelService;
       }
       if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
         this.appModel.feedbackType="partialIncorrect";
+        this.partialpopupTxtRequired=this.feedbackObj.partialIncorrAnswerpopupTxt.required;
         let maxOptinpartialPopup=Math.max(this.noOfRightAnsClicked,this.noOfWrongAnsClicked);
         if(maxOptinpartialPopup>=6) {
           this.partialpopupRef.nativeElement.children[0].classList.add("sixplus");
@@ -1328,7 +1336,8 @@ houtSkip(){
        this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
       }
       this.styleHeaderPopup = this.feedbackObj.style_header;
-        this.styleBodyPopup = this.feedbackObj.style_body;
+      this.styleBodyPopup = this.feedbackObj.style_body;
+      this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
       this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;  
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
@@ -1423,6 +1432,12 @@ houtSkip(){
 
     if (this.checked) {
       this.disable=true;
+      for(let i=0;i<this.optionsBlock.nativeElement.children.length;i++) {
+        for(let j=0;j<this.optionsBlock.nativeElement.children[i].children.length;j++) {
+        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.pointerEvents="";
+        this.optionsBlock.nativeElement.children[i].children[j].style.opacity="1";
+        }
+    }
       this.blinkOnLastQues();
     }
 
