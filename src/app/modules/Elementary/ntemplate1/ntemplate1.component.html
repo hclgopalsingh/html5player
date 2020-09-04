@@ -100,8 +100,7 @@
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
           <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBarFeedback">
             <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
-              <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
-              <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+              <img class="img-fluid" [src]="feedbackObj?.rightAnswerpopupTxt?.url" />
             </div>
           </div>
           <div class="row mx-0 optionsBlock" #popupBodyRef>
@@ -141,8 +140,7 @@
         <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.partial_style_body">
           <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBarPartial">
             <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
-              <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
-              <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+              <img class="img-fluid" [src]="feedbackObj?.partialIncorrAnswerpopupTxt?.url"  />
             </div>
           </div>
           <ng-container *ngIf="this.partialpopupRequired">
