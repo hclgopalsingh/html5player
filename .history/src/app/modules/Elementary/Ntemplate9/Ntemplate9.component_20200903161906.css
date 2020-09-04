@@ -1,7 +1,6 @@
 button:focus {
   outline: 0 !important;
 }
-
 .hideit {
   display: none !important;
 }
@@ -14,9 +13,7 @@ button:focus {
   display: flex !important;
 }
 
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   box-sizing: border-box;
 }
 
@@ -25,28 +22,26 @@ button:focus {
   padding: 0;
 }
 
-#container #bgImage img {
-  width: 100%;
-}
+  #container #bgImage img {
+    width: 100%;
+  }
 
 .bodyContent {
   position: absolute;
-  top: 18%;
-  /*18%;*/
+  top: 18%; /*18%;*/
   width: 100%;
   left: 0;
-  height: 69%;
-  /*67%;*/
+  height: 69%; /*67%;*/
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.bodyContent .refQues {
-  width: 35%;
-  text-align: center;
-  position: relative;
-}
+  .bodyContent .refQues {
+    width: 35%;
+    text-align: center;
+    position: relative;
+  }
 
 #container #optionsBlock12,
 #container #optionsBlock9,
@@ -67,7 +62,6 @@ button:focus {
   width: 45%;
   margin-top: 3%;
 }
-
 .shadowBlock {
   position: absolute;
   box-shadow: 1vmin 1vmin #000;
@@ -75,7 +69,6 @@ button:focus {
   border: solid 1px transparent;
   opacity: .5;
 }
-
 #puzzleBlock4 .shadowBlock {
   left: 6.5%;
   top: 3%;
@@ -83,7 +76,6 @@ button:focus {
   height: 94%;
   border-radius: 5.5vmin;
 }
-
 #puzzleBlock9 .shadowBlock {
   left: 6.4%;
   top: 2.7%;
@@ -91,7 +83,6 @@ button:focus {
   height: 93.5%;
   border-radius: 4.5vmin;
 }
-
 #puzzleBlock12 .shadowBlock {
   left: 3%;
   top: 3%;
@@ -149,14 +140,12 @@ button:focus {
 }
 
 #optionsBlock12 .quesImage:nth-child(2) .options:nth-child(1) {
-  top: -30%;
-  /*-27.3%;*/
+  top: -30%; /*-27.3%;*/
 }
 
 #optionsBlock12 .quesImage:nth-child(2) .options:nth-child(2) {
   left: 19.1%;
-  top: -6%;
-  /*-2.5%;*/
+  top: -6%; /*-2.5%;*/
   width: 35.7%;
 }
 
@@ -172,14 +161,12 @@ button:focus {
 }
 
 #optionsBlock12 .quesImage:nth-child(3) .options:nth-child(1) {
-  top: -12.5%;
-  /*-5.5%;*/
+  top: -12.5%; /*-5.5%;*/
 }
 
 #optionsBlock12 .quesImage:nth-child(3) .options:nth-child(2) {
   left: 19.3%;
-  top: -39%;
-  /*-33.3%;*/
+  top: -39%; /*-33.3%;*/
   width: 35.3%;
 }
 
@@ -252,8 +239,7 @@ button:focus {
 }
 
 .modal .optionsBlock .options {
-  width: 91%;
-  /*69%;*/
+  width: 91%;/*69%;*/
 }
 
 .modal .optionsBlock {
@@ -280,17 +266,16 @@ button:focus {
 
 #container #navBlock {
   position: absolute;
-  bottom: 6%;
-  /*0*/
+  bottom: 6%; /*0*/
   left: 0%;
   width: 100%;
 }
 
-#container #navBlock .navBase {
-  position: relative;
-  width: auto;
-  margin-right: .7%;
-}
+  #container #navBlock .navBase {
+    position: relative;
+    width: auto;
+    margin-right: .7%;
+  }
 
 #container .quesBlock {
   position: absolute;
@@ -302,7 +287,6 @@ button:focus {
   justify-content: center;
   /* align-items: center; */
 }
-
 /*#puzzleBlock12 .zoomInAnimation {
   animation: zoomIn 0.5s linear;
   transform: scale(var(--scaleValue, 2.4));
@@ -313,7 +297,7 @@ button:focus {
   transform: scale(var(--scaleValue, 2.2));
 }*/
 
-/*.zoomInAnimation {
+ /*.zoomInAnimation {
   animation: zoomIn 0.5s linear;
   transform: scale(var(--scaleValue, 1.2));
 }*/
@@ -335,12 +319,10 @@ button:focus {
   0% {
     transform: scale(var(--scaleValue, 1.2));
   }
-
   100% {
     transform: scale(1.0);
   }
 }
-
 .quesTab {
   width: 20%;
   display: inline-flex;
@@ -348,9 +330,9 @@ button:focus {
   position: relative;
 }
 
-.quesTab img {
-  vertical-align: text-bottom;
-}
+  .quesTab img {
+    vertical-align: text-bottom;
+  }
 
 #container #navBlock .prevBtn,
 #container #navBlock .nextBtn,
@@ -386,9 +368,7 @@ button:focus {
   margin: 0 -1px;
 }
 
-.tabLeft,
-.tabRight,
-.tabBody {
+.tabLeft, .tabRight, .tabBody {
   width: auto;
   height: 100%;
 }
@@ -396,14 +376,13 @@ button:focus {
 .quesnum {
   position: absolute;
   width: 1vmin;
-  height: auto;
-  /*43%;*/
+  height: auto; /*43%;*/
   left: 48%;
   top: 30%;
 }
 
 .animation-shake {
-  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
@@ -411,25 +390,19 @@ button:focus {
 }
 
 @keyframes shake {
-
-  10%,
-  90% {
+  10%, 90% {
     transform: translate3d(-1px, 0, 0);
   }
 
-  20%,
-  80% {
+  20%, 80% {
     transform: translate3d(2px, 0, 0);
   }
 
-  30%,
-  50%,
-  70% {
+  30%, 50%, 70% {
     transform: translate3d(-4px, 0, 0);
   }
 
-  40%,
-  60% {
+  40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
 }
@@ -455,8 +428,7 @@ button:focus {
 }
 
 .instructionBar .instructionBase {
-  width: 60% !important;
-  /*86%;*/
+  width: 60% !important; /*86%;*/
   position: relative;
   cursor: pointer;
 }
@@ -466,24 +438,22 @@ button:focus {
   top: 0%;
   left: 0;
 }
-
 /* Modal */
 .modal {
   position: absolute !important;
   width: 100%;
   z-index: 100 !important;
-  height: 94%;
-  /*93.6%*/
+  height: 94%;/*93.6%*/
   justify-content: center;
   align-items: center;
   padding-left: 0px;
 }
 
-.modal.show {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-}
+  .modal.show {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
 
 
 
@@ -494,8 +464,7 @@ button:focus {
   }*/
 }
 
-.close:focus,
-.close:hover {
+.close:focus, .close:hover {
   color: #000;
   text-decoration: none;
   opacity: 1;
@@ -546,8 +515,7 @@ button:focus {
 }
 
 .modal-body img {
-  max-width: 100%;
-  /*94%*/
+  max-width: 100%; /*94%*/
 }
 
 .modalBodyContent {
@@ -585,17 +553,17 @@ button:focus {
   padding-top: 2%;
 }
 
-.puzzleBlock img {
-  position: relative;
-  max-width: 24%;
-  cursor: pointer;
-}
+  .puzzleBlock img {
+    position: relative;
+    max-width: 24%;
+    cursor: pointer;
+  }
 
-/*.puzzleBlock div img:nth-child(2) {
+  /*.puzzleBlock div img:nth-child(2) {
     max-width: 28%
   }*/
 
-/*.puzzleBlock div img:nth-child(4) {
+  /*.puzzleBlock div img:nth-child(4) {
     max-width: 24%
   }*/
 
@@ -603,16 +571,16 @@ button:focus {
   top: 30%;
 }
 
-#puzzleBlock9 div,
-#puzzleBlock4 div {
-  justify-content: space-evenly;
-}
+  #puzzleBlock9 div,
+  #puzzleBlock4 div {
+    justify-content: space-evenly;
+  }
 
-/*#puzzleBlock9 img {
+  /*#puzzleBlock9 img {
     max-width: 25%;
   }*/
 
-/*#puzzleBlock9 div img:nth-child(2),
+  /*#puzzleBlock9 div img:nth-child(2),
   #puzzleBlock9 div img:nth-child(3) {
     max-width: 22.8%;
   }*/
@@ -712,25 +680,22 @@ button:focus {
 }*/
 
 #confirmModal {
-  /* display: flex;*/
-  background: rgba(0, 0, 0, .85);
+	/* display: flex;*/
+	background:rgba(0,0,0,.85);
 }
-
 #confirmModal .modal-dialog {
   width: 50% !important;
-  max-width: 100%;
-  height: 36%;
-  display: flex;
+	max-width: 100%;
+	height: 36%;
+	display: flex;
   justify-content: center;
 }
-
 #confirmModal .modal-content {
   /* height: auto; */
   min-width: auto;
   min-height: auto;
   background-color: transparent;
 }
-
 #confirmModal .modal-body {
   padding: 0;
   margin: 0;
@@ -740,55 +705,43 @@ button:focus {
   align-content: flex-end;
   flex: auto !important;
 }
-
 #confirmModal .modal-body .msgImage {
-  display: block;
-  /*flex*/
-  text-align: center;
-  /*justify-content: center;*/
+  display: block;/*flex*/
+  text-align: center;/*justify-content: center;*/
 }
-
-#confirmModal .modal-body .actionButtons {
+#confirmModal .modal-body .actionButtons{
   text-align: center;
   margin: 3% 0 2%;
   width: 100%;
 }
-
 #confirmModal .modal-body .msgImage img {
-  max-width: 100%;
+	max-width: 100%;
   height: auto !important;
 }
-
 #confirmModal .modal-body .actionButtons button {
-  border: none;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  width: 18%;
+	border:none;
+	background: transparent;
+	padding:0;
+	margin:0;
+	width: 18%;
 }
-
 button:focus {
-  outline: none;
+    outline: none;
 }
-
 #confirmModal .modal-body .actionButtons img {
-  width: 80%;
+	width: 80%;
 }
-
 #confirmModal .modal-header {
-  top: 0;
+	top:0;
 }
-
 #confirmModal .bodyText {
   position: absolute;
   top: 30%;
   width: 100%;
 }
-
 #confirmModal .bodyText img {
   width: 85%;
 }
-
 /*#confirmModal .modal-title {
   margin-left: 3%;
   font-size: auto;
@@ -823,9 +776,8 @@ button:focus {
 
 /* Modal */
 #modalTemp9 {
-  background: rgba(0, 0, 0, .85);
+  background: rgba(0,0,0,.85);
 }
-
 @keyframes fadeOut {
   0% {
     opacity: 0;
