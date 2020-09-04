@@ -331,6 +331,12 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
 
     this.clapSound.nativeElement.pause();
     this.clapSound.nativeElement.currentTime = 0;
+
+    this.videoonshowAnspopUp.nativeElement.pause();
+    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
+
+    this.multiCorrectFeedback.nativeElement.pause();
+    this.multiCorrectFeedback.nativeElement.currentTime = 0;
   }
 
   /** Function to pause the speaker **/
@@ -465,9 +471,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     }
     this.multiCorrectFeedback.nativeElement.onended = () => {
       this.disableMainContent = true;
-      for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
-        document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
-      }
+      this.Sharedservice.setShowAnsClickDisabled(false);
       this.rightTimer = setTimeout(() => {
         this.closePopup('answerPopup');
       }, 10000);
@@ -481,9 +485,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     this.disableCursorOnSVG();
     this.enableAllOptions();
     this.disableMainContent = true; // Disable the mainContent when option is selected
-    for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
-      document.getElementsByClassName('ansBtn')[i].classList.add('disableDiv');
-    }
+    this.Sharedservice.setShowAnsClickDisabled(true);
     this.stopAllSounds();
     if (option.id === this.quesObj.tablet.questionText[this.selectedIndex].correctAnsId) {
       this.correctAnswerCounter++;
@@ -509,9 +511,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
           this.rightFeedback.nativeElement.onended = () => {
             this.disableMainContent = false; // Enable main content
             this.enableCursorOnSVG();
-            for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
-              document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
-            }
+            this.Sharedservice.setShowAnsClickDisabled(false);
           };
         }
       }
@@ -529,9 +529,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
         this.quesObj.tablet.questionText[this.selectedIndex]['selected'] = false;
         this.enableCursorOnSVG();
         this.shuffleOptions();
-        for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {    // Enable Show Ans button
-          document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
-        }
+        this.Sharedservice.setShowAnsClickDisabled(false);
       };
     }
   }
@@ -618,27 +616,10 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
 
     this.showAnswerRef.nativeElement.classList = 'modal';
     this.ansPopup.nativeElement.classList = 'modal';
-
-    this.wrongFeedback.nativeElement.pause();
-    this.wrongFeedback.nativeElement.currentTime = 0;
-
-    this.clapSound.nativeElement.pause();
-    this.clapSound.nativeElement.currentTime = 0;
-
-    this.rightFeedback.nativeElement.pause();
-    this.rightFeedback.nativeElement.currentTime = 0;
-
-    this.videoonshowAnspopUp.nativeElement.pause();
-    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
-
-    this.multiCorrectFeedback.nativeElement.pause();
-    this.multiCorrectFeedback.nativeElement.currentTime = 0;
+    this.stopAllSounds();
 
     if (Type === 'answerPopup') {
       this.popupclosedinRightWrongAns = true;
-      for (let i = 0; i < document.getElementsByClassName('ansBtn').length; i++) {
-        document.getElementsByClassName('ansBtn')[i].classList.remove('disableDiv');
-      }
       if (this.ifRightAns) {
         this.Sharedservice.setShowAnsEnabled(true);
         this.isOverlay = true;
