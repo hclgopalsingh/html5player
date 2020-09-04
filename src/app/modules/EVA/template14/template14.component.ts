@@ -153,6 +153,9 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
   ngAfterViewInit(){
     this.appModel.setLoader(false);
     this.checkforQVO();
+    if (this.appModel.isNewCollection) {
+      this.appModel.event = { 'action': 'segmentBegins' };
+    }
     // let that = this;
     // document.getElementById('submitAns').onclick = function(){
     //   console.log("submit clicked")
@@ -167,9 +170,9 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
     this.Sharedservice.setSubmitAnsEnabled(false);
     this.Sharedservice.setShowAnsEnabled(false);
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
-    if (this.appModel.isNewCollection) {
-      this.appModel.event = { 'action': 'segmentBegins' };
-    }
+    // if (this.appModel.isNewCollection) {
+    //   this.appModel.event = { 'action': 'segmentBegins' };
+    // }
     this.containgFolderPath = this.getBasePath();
     this.stopAllSounds()
     

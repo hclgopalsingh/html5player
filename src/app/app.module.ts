@@ -19,10 +19,7 @@ import { SharedserviceService } from './common/services/sharedservice.service';
 import { CommonloaderService } from './common/services/commonloader.service';
 import { DataloaderService } from './common/services/dataloader.service';
 import { HttphandlerService } from './common/services/httphandler.service';
-
-
 import { EvaModule } from './modules/EVA/eva.module';
-import { ContainerComponentComponent } from './src/app/modules/Global/container-component/container-component.component';
 import { ContainerComponent } from './modules/Global/container/container.component';
 
 @NgModule({
@@ -34,7 +31,6 @@ import { ContainerComponent } from './modules/Global/container/container.compone
     ControlsComponent,
     QuesControllerComponent,
     NTitleComponent,
-    ContainerComponentComponent,
     ContainerComponent
   ],
   imports: [
@@ -49,7 +45,6 @@ import { ContainerComponent } from './modules/Global/container/container.compone
 		EvaModule,
   ],
   providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
-
   bootstrap: [AppComponent]
 })
 export class AppModule { 

@@ -35,13 +35,20 @@ export class GlobalspeakerComponent implements OnInit {
 			this.speaker = JSON.parse(JSON.stringify(fetchedData.speaker));
 		}
 	}
+
+	AfterViewInit(){
+		this.sprite.nativeElement.style = "display:none";
+	}
+
 	ngOnInit() {
 		this.contentgFolderPath = this.basePath;
 		this.setData();
-		this.sprite.nativeElement.style = "display:none";
+	
 		this.Sharedservice.speakerVol.next(this.speakerVolume);
 		this.Sharedservice.spriteElement.next(this.sprite);
 	}
+
+
 	onHoverSpeaker() {
 
 		this.speaker.imgsrc = this.speaker.imghover;

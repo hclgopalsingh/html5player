@@ -1,6 +1,6 @@
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
-import { Component, OnInit, ViewEncapsulation, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, HostListener,AfterViewInit } from '@angular/core';
 
 declare var Slider: any;
 
@@ -10,7 +10,7 @@ declare var Slider: any;
   styleUrls: ['controls.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ControlsComponent implements OnInit {
+export class ControlsComponent implements OnInit ,AfterViewInit{
 
   public appModel: ApplicationmodelService;
 
@@ -47,6 +47,7 @@ export class ControlsComponent implements OnInit {
 
   }
 
+ 
   ngOnInit() {
     let autoPlayTimer = setInterval(() => {
       if (this.autoPlayOnOffContainer && this.autoPlayOnOffContainer.nativeElement
@@ -74,17 +75,26 @@ export class ControlsComponent implements OnInit {
         }
       }
     }, 100)
-
-    this.appModel.getAutoPlay().subscribe((flag) => {
-      if (flag) {
-        this.autoPlayOnOffContainer.nativeElement.classList = "col-sm-1 hideAutoplay";
-      } else {
-        this.autoPlayOnOffContainer.nativeElement.classList = "col-sm-1";
-      }
-    })
+// MOVING THIS CODE TO AFTERVIEWINIT AS ANGULAR9 IS THROWING ERROR FOR NATIVEELEMENT
+    // this.appModel.getAutoPlay().subscribe((flag) => {
+    //   if (flag) {
+    //     this.autoPlayOnOffContainer.nativeElement.classList = "col-sm-1 hideAutoplay";
+    //   } else {
+    //     this.autoPlayOnOffContainer.nativeElement.classList = "col-sm-1";
+    //   }
+    // })
   }
 
-
+ 
+  ngAfterViewInit(){
+      this.appModel.getAutoPlay().subscribe((flag) => {
+    if (flag) {
+      this.autoPlayOnOffContainer.nativeElement.classList = "col-sm-1 hideAutoplay";
+    } else {
+      this.autoPlayOnOffContainer.nativeElement.classList = "col-sm-1";
+    }
+    })
+  }
   loadedHandler(event) {
     this.duration = event.currentTarget.duration;
     this.appModel.event = { 'action': 'segmentBegins' };
