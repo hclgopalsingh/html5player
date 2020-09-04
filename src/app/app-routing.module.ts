@@ -8,12 +8,7 @@ import { TemplateFourteenComponent } from './modules/EVA/template14/template14.c
 export const APP_ROUTES: Routes = [ 
   {path: '', component: ContainerComponent, children: [
     { path: 'ntitle', component: NTitleComponent, runGuardsAndResolvers: 'always' },
-    { path: 'ntitleext', component: NTitleComponent, runGuardsAndResolvers: 'always' }, 
-     { path: 'evatemp10', component: TemplateTenComponent, runGuardsAndResolvers: 'always' },  
-     { path: 'evatemp14', component: TemplateFourteenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp14ext', component: TemplateFourteenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
-    
-      
+    { path: 'ntitleext', component: NTitleComponent, runGuardsAndResolvers: 'always' },
     { path: 'EVA', loadChildren: () => import(`./modules/EVA/eva.module`).then(m => m.EvaModule) },  
   ]}
  ];

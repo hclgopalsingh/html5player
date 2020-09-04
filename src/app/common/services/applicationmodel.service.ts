@@ -153,10 +153,10 @@ export class ApplicationmodelService {
       ['/evatemp2', '/evatemp2ext', 0],
       ['/evatemp4', '/evatemp4ext', 0],
       ['/evatemp6', '/evatemp6ext', 0],
-      ['evatemp10', 'evatemp10ext', 0],
+      ['/evatemp10', '/evatemp10ext', 0],
       ['/evatemp11', '/evatemp11ext', 0],
       ['/evatemp12', '/evatemp12ext', 0],
-      ['/EVA/evatemp14', '/EVA/evatemp14ext', 0],
+      ['/evatemp14', '/evatemp14ext', 0],
       ['/evatemp5', '/evatemp5ext', 0],
       ['/evatemp7', '/evatemp7ext', 0]
     ];

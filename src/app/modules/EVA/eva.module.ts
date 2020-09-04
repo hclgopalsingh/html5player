@@ -22,10 +22,12 @@ import { TemplateSevenComponent } from './template7/template7.component';
 import { FormsModule } from '@angular/forms';
 import { Template5Component } from './template5/template5.component';
 import { EncodeUriPipe } from '../../common/encode_uri.pipe';
+import { EvaRoutingModule } from './eva-routing.module';
 @NgModule({
   imports: [
 	CommonModule,
 	FormsModule,
+	EvaRoutingModule,
     DragulaModule.forRoot()
   ],
   declarations: [
