@@ -1,0 +1,135 @@
+#container {
+	#optionsBlock {
+		position: absolute;
+		top: 12%;
+		width: 100%;
+		height: 71.3%;
+		left: 0%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.speakerBtn {
+		width: 7%;
+		height: 12%;
+		position: absolute;
+		top: 69.2%;
+		right: 1.8%;
+	}
+}
+.options {
+	width: 15%;
+	position: absolute;
+	z-index: 1;
+	left: 10.5%;
+	top: 0.1%;
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	justify-content: center;
+	align-content: space-around;
+	img {
+		margin: 5.9% 0;
+		width: 100%;
+		cursor: pointer;
+	}
+	div {
+		position: relative;
+		width: 100%;
+		transition: transform .6s;
+		.subOpt {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+	.playBtn {
+		position: absolute;
+		right: 7%;
+		bottom: 7%;
+		max-width: 16%;
+	}
+}
+.stageVideo {
+	position: absolute;
+	width: 51%;
+	right: 9.6%;
+	top: 1.7%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	img {
+		max-width: 100%;
+		width: 100%;
+	}
+}
+#mainVideo {
+	width: 97%;
+	height: auto;
+	border: solid 1px red;
+	position: absolute;
+	left: .9%;
+	top: 1.1%;
+	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
+}
+.speakerBtn {
+	img {
+		cursor: pointer;
+	}
+}
+.disable_div {
+	pointer-events: none;
+}
+.disableBtn {
+	opacity: 0.5;
+	pointer-events: none;
+}
+.filler {
+	position: absolute;
+	width: 35% !important;
+}
+#modalTemp17 {
+	.stageVideo {
+		position: absolute;
+		width: 48%;
+		right: 27%;
+		top: 8.7%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+}
+#showAnswer {
+	.stageVideo {
+		position: absolute;
+		width: 48%;
+		right: 27%;
+		top: 17%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+}
+.rightWrongAns {
+	position: absolute;
+	bottom: 8.5%;
+	width: 97.4%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

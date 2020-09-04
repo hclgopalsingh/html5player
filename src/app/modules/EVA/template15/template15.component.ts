@@ -1,19 +1,16 @@
-
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewChildren } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewChildren,AfterViewChecked } from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subscription } from 'rxjs';
-
-
 
 @Component({
     selector: 'app-template15',
     templateUrl: './template15.component.html',
-    styleUrls: ['./template15.component.css']
+    styleUrls: ['./template15.component.scss']
 })
-export class Template15Component implements OnInit {
+export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked {
     blink: boolean = false;
     commonAssets: any = "";
     rightPopup: any;
@@ -328,7 +325,6 @@ export class Template15Component implements OnInit {
             setTimeout(() => {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     option.image = option.image_hover;
-                    this.appModel.storeVisitedTabs();
                     this.clapSound.nativeElement.play();
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();

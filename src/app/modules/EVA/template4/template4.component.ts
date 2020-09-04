@@ -1,18 +1,18 @@
 
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation,AfterViewChecked } from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-template4',
     templateUrl: './template4.component.html',
-    styleUrls: ['./template4.component.css'],
+    styleUrls: ['./template4.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class Template4Component implements OnInit {
+export class Template4Component implements OnInit ,OnDestroy,AfterViewChecked {
    
     blink: boolean = false;
     commonAssets: any = "";

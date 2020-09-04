@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy ,AfterViewChecked, AfterViewInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { EncodeUriPipe } from '../../../common/encode_uri.pipe';
 
 @Component({
   selector: 'app-template5',
   templateUrl: './template5.component.html',
-  styleUrls: ['./template5.component.css']
+  styleUrls: ['./template5.component.scss']
 })
-export class Template5Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
+export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, AfterViewInit{
   blink: boolean = false;
   commonAssets: any = "";
   myoption: any = [];

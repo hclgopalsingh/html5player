@@ -10,7 +10,7 @@ export class InstructionBarComponent implements OnInit {
   @Input() contentPath: string;
   @Input() data:any;
   @Input() instructiontext:string="";
-  @Output() load = new EventEmitter();
+  @Output() loader = new EventEmitter<any>();
 
   constructor() { }
 
@@ -18,7 +18,7 @@ export class InstructionBarComponent implements OnInit {
   }
 
   checkImgLoaded() {
-    this.load.emit();
+    this.loader.emit();
   }
 
 }

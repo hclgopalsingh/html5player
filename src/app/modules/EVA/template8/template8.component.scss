@@ -1,0 +1,139 @@
+/* @keyframes scaleit {
+	0% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+} */
+#container {
+	#optionsBlock {
+		position: absolute;
+		top: 62.5%;
+		width: 100%;
+		left: 0%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.speakerBtn {
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		top: auto;
+		right: 2%;
+	}
+	.speakerBlock {
+		top: 0;
+		height: 100%;
+	}
+}
+.options {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	div {
+		width: 17.5%;
+		margin: 0 2.2%;
+		position: relative;
+		transition: transform .2s;
+		&:hover {
+			transform: scale(1.1);
+		}
+		.subOpt {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	}
+	img {
+		cursor: pointer;
+	}
+}
+.speakerBtn {
+	img {
+		width: 9%;
+		cursor: pointer;
+	}
+}
+.questionBlock {
+	position: absolute;
+	top: auto;
+	width: 74%;
+	height: 100%;
+	left: 13%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.questionBlockPopup {
+	position: relative;
+	left: 0;
+	top: 0;
+	width: 73%;
+	min-height: 64%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#refQuesBlock {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50%;
+	top: 11%;
+	width: 100%;
+	flex-wrap: wrap;
+	align-content: center;
+}
+.modal {
+	#refQuesBlock {
+		position: absolute;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		align-content: center;
+		justify-content: center;
+		height: 70%;
+		top: 5%;
+	}
+	#refQuesBlockShowAnswer {
+		position: absolute;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		align-content: center;
+		justify-content: center;
+		width: 97.4%;
+		height: 90%;
+		top: 5%;
+	}
+}
+.selectedAns {
+	width: 100%;
+	margin-top: 1.7%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	top: auto;
+	height: 20%;
+	img {
+		&:nth-child(2) {
+			position: absolute;
+		}
+		max-width: 14%;
+	}
+}
+#refQuesBlockShowAnswer {
+	.selectedAns {
+		width: 100%;
+		margin-top: 1.7%;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		top: auto;
+		height: 15.5%;
+	}
+}

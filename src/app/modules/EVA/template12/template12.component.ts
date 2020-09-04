@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked,AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 
 @Component({
   selector: 'app-template12',
   templateUrl: './template12.component.html',
-  styleUrls: ['./template12.component.css']
+  styleUrls: ['./template12.component.scss']
 })
-export class Template12ComponentEVA implements OnInit {
+export class Template12Component implements OnInit ,OnDestroy,AfterViewChecked,AfterViewInit  {
 
   blink: boolean = false;
   commonAssets: any = "";
@@ -92,7 +92,7 @@ export class Template12ComponentEVA implements OnInit {
   @ViewChild('clapSound') clapSound: any;
   @ViewChild('multiCorrectFeedback') multiCorrectFeedback: any;
 
-  constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+  constructor(private appModel: ApplicationmodelService, private activatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 
     //subscribing common popup from shared service to get the updated event and values of speaker
     this.Sharedservice.showAnsRef.subscribe(showansref => {
@@ -251,21 +251,17 @@ export class Template12ComponentEVA implements OnInit {
       });
     });
     //logic to set different width based on last row length
-    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-2].rowValues.length;
+    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length - 2].rowValues.length;
     if (this.quesObj.tablet.quesType === "add" || this.quesObj.tablet.quesType === "subt") {
-      if(this.resultDigitCount === 5) {
+      if (this.resultDigitCount === 5) {
         this.parentInputClass = "input_digits-5";
-      }
-      else if(this.resultDigitCount === 4) {
+      } else if (this.resultDigitCount === 4) {
         this.parentInputClass = "input_digits-4";
-      }
-      else if(this.resultDigitCount === 3) {
+      } else if (this.resultDigitCount === 3) {
         this.parentInputClass = "input_digits-3";
-      }
-      else if(this.resultDigitCount === 2) {
+      } else if (this.resultDigitCount === 2) {
         this.parentInputClass = "input_digits-2";
-      }
-      else if(this.resultDigitCount === 1) {
+      } else if (this.resultDigitCount === 1) {
         this.parentInputClass = "input_digits-1";
       }
     }
@@ -273,7 +269,7 @@ export class Template12ComponentEVA implements OnInit {
 
   /******Set template type for EVA******/
   setTemplateType(): void {
-    this.ActivatedRoute.data.subscribe(data => {
+    this.activatedRoute.data.subscribe(data => {
       this.Sharedservice.sendData(data);
     })
   }
@@ -513,7 +509,7 @@ export class Template12ComponentEVA implements OnInit {
   setBlink() {
     let highLightDigitObj = this.getHighLightDigitDetails();
     this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
-    
+
   }
 
   /******On Hover option ********/

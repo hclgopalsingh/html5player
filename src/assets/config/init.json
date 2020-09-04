@@ -3,7 +3,7 @@
 	"environment": {
 		"standalone": {
 			"enabled": true,
-			"data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8088/contentEVA-6/\"}]}"
+      "data": "{\"homePath\": \"home\",\"forwardEnabled\": true,\"playerPreview\": false,\"sessionId\":\"kdfjddfk43243kjfkj\",\"videoType\":\"video/mp4\",\"files\":[{\"startAt\": 0,\"segmentId\": 2985,\"file\": \"http://localhost:8088/contentEVA-10/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8088/contentEVA-12/\"},{\"startAt\": 0,\"segmentId\": 2985,\"isCompleted\": false,\"file\": \"http://localhost:8088/content16/\"}]}"
 		},
 		
 		"lms": {

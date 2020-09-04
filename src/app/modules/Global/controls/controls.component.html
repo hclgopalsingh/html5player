@@ -1,0 +1,30 @@
+<div id="controlsContainer" class="fadeInAnimation"><!-- 1.6% 0; -->
+    <div id="playPauseContainer" class="col-sm-1" style="margin: 0; position: relative; display: grid; align-items: center; justify-items: center; text-align: center; width:5.33%; padding:0 3px;">
+    </div>
+    <div id="sliderContainer" class="col-sm-8"
+        style="margin:0; display: grid; align-items: center; justify-items: center; text-align:center; width:66.66%; padding:0 3px;">
+    </div>
+    <div id="timeContainer" class="col-sm-1"
+        style="margin:0; display: grid; align-items: center; justify-items: center; text-align:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; font-size:13px; color:#fff; font-size: 1vw; padding:0 3px;">
+    </div>
+
+    <div id="autoPlayOnOffContainer" #autoPlayOnOffContainer class="col-sm-1"
+        style="margin:0; display: initial; align-items: center; justify-items: center; text-align:center; width:11.33%; padding:2px 3px;">
+        <label for="onoff" style="color:#ff9900; position:relative; top:2px; font-size: .9em;" (click)="updateAutoplay()">Autoplay On</label>
+        <input type="checkbox" id="onoff" value="on" style="position:relative; margin:0% 0 0 7%; top:4px;" (click)="updateAutoplay()">
+    </div>
+    <div id="volumeContainer" class="col-sm-1" #volumeContainer
+        style="margin:0 0 0 .4rem; display: grid; align-items: center; text-align:center; width:auto; position:relative; padding:0 3px;">
+        <img style="max-width: 100%;" src="{{volumeBtn}}" (click)="volumeIconClicked($event)">
+        <div id = "MuteVarTemp"  #MuteVarTemp [ngStyle]="{'visibility': displayVolume ? 'visible' : 'hidden'}" class="" style="margin:0; display: initial; align-items: center; text-align:center; position:absolute; top:-145%; width: auto; left:0%;">
+            <input type="checkbox" style="position:relative; margin:0 0 0 7%; bottom:-7px;" (click)="UpdateMute()">
+            <label style="color:#ff9900; position:relative; top:0; font-size: .9em; margin-bottom:0;">Mute</label>
+        </div>
+        <input class="volumeslider" type="range" #volumeBar id="volume-bar" min="0" max="1" step="0.1" value="{{appModel.volumeValue}}"
+            (change)="updateVolume($event)" [ngStyle]="{'visibility': displayVolume ? 'visible' : 'hidden'}" style="-webkit-appearance: none; margin: 0; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -o-transform: rotate(-90deg); -ms-transform: rotate(-90deg); transform: rotate(-90deg); position: absolute; top: -260%; left:-27%; width: 6rem !important; height:5px; background-color:rgba(192,192,192,192) !important; outline:none;"/>
+        <!--&#128266; top: -293%;-->
+    </div>
+    <!--<div id="closeContainer" class="col-sm-1" (click)="close($event)"
+        style="background: #ddd; margin: 0; display: grid; align-items: center; justify-items: center; text-align: center;">
+    X</div>-->
+</div>

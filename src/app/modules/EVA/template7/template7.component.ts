@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Base } from '../../../controller/base';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { Component, OnInit, ViewChild, OnDestroy ,AfterViewChecked,AfterViewInit} from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
+
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'app-template7',
 	templateUrl: './template7.component.html',
-	styleUrls: ['./template7.component.css']
+	styleUrls: ['./template7.component.scss']
 })
-export class TemplateSevenComponent extends Base implements OnInit {
+
+export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestroy,AfterViewInit  {
 
 	constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-		super();
+	
 		//subscribing common popup from shared service to get the updated event and values of speaker
 		this.Sharedservice.showAnsRef.subscribe(showansref => {
 			this.showAnswerRef = showansref;
@@ -66,7 +67,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	isLastQuesAct: boolean;
 	noOfImgs: number;
 	common_assets: any = "";
-	contentgFolderPath: string = "";
+	contentFolderPath: string = "";
 	videoPlayed = false;
 	speakerPlayed = false;
 	instructiontext: string;
@@ -99,7 +100,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		this.Sharedservice.setLastQuesAageyBadheStatus(true);
 		this.attemptType = "";
 		this.setTemplateType();
-		this.contentgFolderPath = this.basePath;
+		this.contentFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 		//subscribing speaker from shared service to get the updated object of speaker
 		this.Sharedservice.spriteElement.subscribe(imagesrc => {
@@ -138,7 +139,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				this.appModel.stopAllTimer();
 				this.stopAllSounds()
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
 						this.videoonshowAnspopUp.nativeElement.play();
@@ -280,7 +281,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	playSound(soundAssets, idx) {
 		if (this.audio && this.audio.paused) {
 			if (soundAssets.location == 'content') {
-				this.audio.src = this.contentgFolderPath + '/' + soundAssets.url;
+				this.audio.src = this.contentFolderPath + '/' + soundAssets.url;
 			} else {
 				this.audio.src = soundAssets.url;
 			}

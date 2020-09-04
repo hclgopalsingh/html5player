@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-template10',
   templateUrl: './template10.component.html',
-  styleUrls: ['./template10.component.css']
+  styleUrls: ['./template10.component.scss']
 })
-export class TemplateTenComponent implements OnInit {
+export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy {
   blink: boolean = false;
   commonAssets: any = "";
   rightPopup: any;
@@ -96,7 +96,7 @@ export class TemplateTenComponent implements OnInit {
   @ViewChild('refQuesWord') refQuesWord: any;
   @ViewChild('optionsContainer') optionsContainer: any;
 
-  constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+  constructor(private appModel: ApplicationmodelService, private activatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 
     //subscribing common popup from shared service to get the updated event and values of speaker
     this.Sharedservice.showAnsRef.subscribe(showansref => {
@@ -113,7 +113,7 @@ export class TemplateTenComponent implements OnInit {
     if (!this.appModel.isVideoPlayed) {
       this.isVideoLoaded = false;
     } else {
-      this.appModel.setLoader(true);
+      // this.appModel.setLoader(true);
       // if error occured during image loading loader wil stop after 5 seconds 
       this.loaderTimer = setTimeout(() => {
         this.appModel.setLoader(false);
@@ -187,7 +187,7 @@ export class TemplateTenComponent implements OnInit {
       this.optionsContainer.nativeElement.classList.add("disableDiv");
       this.refQuesWord.nativeElement.children[this.selectedIndex].classList.remove("blinkOn");
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-      let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+      const speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
       if (!speakerEle.paused) {
         speakerEle.pause();
         speakerEle.currentTime = 0;
@@ -257,7 +257,7 @@ export class TemplateTenComponent implements OnInit {
   /****Set data for the Template****/
   setData() {
     this.appModel.notifyUserAction();
-    let fetchedData: any = this.appModel.content.contentData.data;
+    const fetchedData: any = this.appModel.content.contentData.data;
     this.instructiontext = fetchedData.instructiontext;
     this.myoption = JSON.parse(JSON.stringify(fetchedData.options));
     this.commonAssets = fetchedData.commonassets;
@@ -288,7 +288,7 @@ export class TemplateTenComponent implements OnInit {
 
   /******Set template type for EVA******/
   setTemplateType(): void {
-    this.ActivatedRoute.data.subscribe(data => {
+    this.activatedRoute.data.subscribe(data => {
       this.Sharedservice.sendData(data);
     })
   }
@@ -357,8 +357,7 @@ export class TemplateTenComponent implements OnInit {
           (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
           this.checkSpeakerVoice(speaker);
         }, 10)
-      }
-      else {
+      } else {
         if (this.myAudiospeaker && this.myAudiospeaker.nativeElement) {
           this.myAudiospeaker.nativeElement.pause();
         }
@@ -418,7 +417,7 @@ export class TemplateTenComponent implements OnInit {
   /****** Show right answer popup after all all correct matra selection  ********/
   showRightAnswerPopup() {
     if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
-      let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
+      const rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
       this.setClappingTimer(this.multiCorrectFeedback, rightAnswerPopup);
     }
     this.multiCorrectFeedback.nativeElement.onended = () => {
@@ -434,13 +433,11 @@ export class TemplateTenComponent implements OnInit {
   }
 
   handleMarginOnAksharToggle(matraArrIndex, id, marginValue) {
-    if(matraArrIndex.indexOf(id) > -1) {
+    if (matraArrIndex.indexOf(id) > -1) {
       this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id)]].style["margin"] = "0";
-    }
-    else if (matraArrIndex.indexOf(id-1) > -1) {
-      this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id-1)]].style["margin"] = "0";
-    }
-    else {
+    } else if (matraArrIndex.indexOf(id - 1) > -1) {
+      this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id - 1)]].style["margin"] = "0";
+    } else {
       matraArrIndex.forEach(index => {
         this.refQuesWord.nativeElement.children[index].style["margin-right"] = marginValue;
       });
@@ -449,16 +446,15 @@ export class TemplateTenComponent implements OnInit {
 
   checkAkshar(letter, id) {
     //reset Akshar selection
-    let ooMatraArrIndex = [];
-    let angMatraArrIndex = [];
+    const ooMatraArrIndex = [];
+    const angMatraArrIndex = [];
     for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
       if (this.refQuesWord.nativeElement.children[i].classList.contains("blinkOn")) {
         this.refQuesWord.nativeElement.children[i].classList.remove("blinkOn");
       }
-      if(this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "oo") {
+      if (this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "oo") {
         ooMatraArrIndex.push(i);
-      }
-      else if (this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "ang") {
+      } else if (this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "ang") {
         angMatraArrIndex.push(i);
       }
     }
@@ -491,28 +487,26 @@ export class TemplateTenComponent implements OnInit {
           }
         }
       });
-    }
-    else {
+    } else {
       this.correctAnswerObj = letter;
       this.optionsContainer.nativeElement.classList.remove("disableDiv");
     }
   }
 
   addMatraMargin() {
-      for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
-        let matraValue = this.refQuesWord.nativeElement.children[i].getAttribute("matra");
-        if(matraValue === "oo") {
+    for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
+      const matraValue = this.refQuesWord.nativeElement.children[i].getAttribute("matra");
+      if (matraValue === "oo") {
         this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-2%";
-        }
-        else if (matraValue === "ang" && this.questionObj.letters[i].matraadded &&  this.questionObj.letters[i].matraadded.length === 1) {
-          this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-3%";
-        }
-      } 
+      } else if (matraValue === "ang" && this.questionObj.letters[i].matraadded && this.questionObj.letters[i].matraadded.length === 1) {
+        this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-3%";
+      }
+    }
   }
   /****Check answer on option click*****/
   checkAnswer(option, index) {
-    let selectedOption = this.optionsContainer.nativeElement.children[index];
-    let selectedAkshar = this.questionObj.letters[this.selectedIndex];
+    const selectedOption = this.optionsContainer.nativeElement.children[index];
+    const selectedAkshar = this.questionObj.letters[this.selectedIndex];
     // if selected option is empty
     if (selectedOption && !selectedOption.children[1]) {
       return;
@@ -522,12 +516,11 @@ export class TemplateTenComponent implements OnInit {
     }
     this.stopAllSounds("clicked");
     if (option.matravalue === "oo") {
-      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra","oo");
+      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra", "oo");
+    } else if (option.matravalue === "ang") {
+      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra", "ang");
     }
-    else if(option.matravalue === "ang") {
-      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra","ang");
-    }
-    let matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
+    const matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
     if (this.correctAnswerObj.correct_index.indexOf(option.id) > -1 && matraIndex < 0) {
       this.correctAnswerCounter++;
       this.appModel.stopAllTimer();
@@ -538,8 +531,7 @@ export class TemplateTenComponent implements OnInit {
       if (selectedAkshar.matra_selected === 0) {
         selectedAkshar.url = selectedAkshar.correct_ans.correct_ans_obj[option.matravalue] && selectedAkshar.correct_ans.correct_ans_obj[option.matravalue].url;
         selectedAkshar.matra_selected++;
-      }
-      else {
+      } else {
         this.refQuesWord.nativeElement.children[this.selectedIndex].style["margin-right"] = "0%";
         selectedAkshar.url = selectedAkshar.correct_ans.url;
       }
@@ -561,9 +553,7 @@ export class TemplateTenComponent implements OnInit {
         if (this.rightFeedback && this.rightFeedback.nativeElement) {
           if (this.correctAnswerCounter === this.correctAnswerCount) {
             this.showRightAnswerPopup();
-            this.appModel.storeVisitedTabs();
-          }
-          else {
+          } else {
             this.setClappingTimer(this.rightFeedback);
             this.rightFeedback.nativeElement.onended = () => {
               this.refQuesWord.nativeElement.classList.remove("disableDiv");
@@ -575,8 +565,7 @@ export class TemplateTenComponent implements OnInit {
           }
         }
       })
-    }
-    else {
+    } else {
       this.ifWrongAns = true;
       option.optBg = option.optBg_original;
       this.refQuesWord.nativeElement.classList.add("disableDiv");
@@ -618,19 +607,19 @@ export class TemplateTenComponent implements OnInit {
 
   /****Randomize option on wrong selection*****/
   doRandomize(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-      var optionBg1 = array[currentIndex].optBg;
-      var img_hover1 = array[currentIndex].optBg_hover;
-      var text1copy = array[currentIndex].optBg_original;
+      const optionBg1 = array[currentIndex].optBg;
+      const img_hover1 = array[currentIndex].optBg_hover;
+      const text1copy = array[currentIndex].optBg_original;
 
-      var optionBg2 = array[randomIndex].optBg;
-      var img_hover2 = array[randomIndex].optBg_hover;
-      var text2copy = array[randomIndex].optBg_original;
+      const optionBg2 = array[randomIndex].optBg;
+      const img_hover2 = array[randomIndex].optBg_hover;
+      const text2copy = array[randomIndex].optBg_original;
 
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
@@ -646,7 +635,7 @@ export class TemplateTenComponent implements OnInit {
       array[randomIndex].optBg_original = text2copy;
 
     }
-    var flag = this.arraysIdentical(array, this.idArray);
+    const flag = this.arraysIdentical(array, this.idArray);
     if (flag) {
       this.doRandomize(array);
     }
@@ -654,7 +643,7 @@ export class TemplateTenComponent implements OnInit {
 
   /*****Check if array is identical******/
   arraysIdentical(a, b) {
-    var i = a.length;
+    let i = a.length;
     while (i--) {
       if (a[i].id == b[i]) {
         return true;
@@ -712,8 +701,7 @@ export class TemplateTenComponent implements OnInit {
           this.Sharedservice.setTimeOnLastQues(true);
         }
       }
-    }
-    else if (Type === 'showAnswer') {
+    } else if (Type === 'showAnswer') {
       if (this.correctAnswerCounter === this.correctAnswerCount) {
         this.blinkOnLastQues();
       }
@@ -806,12 +794,12 @@ export class TemplateTenComponent implements OnInit {
       this.audio.play();
       for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
         if (i != idx) {
-            this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+          this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
         }
-    }
-    this.audio.onended = () => {
+      }
+      this.audio.onended = () => {
         this.enableAllOptions();
-    }
+      }
     }
   }
 
@@ -828,7 +816,7 @@ export class TemplateTenComponent implements OnInit {
   /***** Enable all options and speaker on audio end *******/
   enableAllOptions() {
     for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")  && !this.myoption[i].selected) {
+      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv") && !this.myoption[i].selected) {
         this.optionsContainer.nativeElement.children[i].classList.remove("disableDiv");
       }
     }
@@ -854,13 +842,13 @@ export class TemplateTenComponent implements OnInit {
     this.wrongFeedbackOnAkshar.nativeElement.pause();
     this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
 
-    if(clicked) {
+    if (clicked) {
       this.enableAllOptions();
     }
   }
 
   getChromeVersion(): any {
-    let appVersion = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+    const appVersion = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
     return appVersion && appVersion.split('.')[0];
   }
 

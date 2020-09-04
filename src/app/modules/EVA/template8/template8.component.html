@@ -34,8 +34,7 @@
                         (click)="playSpeaker(audioEl,speaker)" on-mousemove="onHoverSpeaker(speaker)"
                         (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
                     <div class="waveAnimation" #sprite>
-                        <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?
-                             + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
+                        <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
                         <img class="img-fluid"
                             [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
                         <img class="img-fluid"

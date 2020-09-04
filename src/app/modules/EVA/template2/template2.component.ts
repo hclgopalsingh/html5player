@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,OnDestroy ,AfterViewChecked} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 
 @Component({
   selector: 'app-template2',
   templateUrl: './template2.component.html',
-  styleUrls: ['./template2.component.css']
+  styleUrls: ['./template2.component.scss']
 })
-export class Template2Component implements OnInit {
+export class Template2Component implements  OnInit ,OnDestroy,AfterViewChecked {
   blink: boolean = false;
   commonAssets: any = "";
   rightPopup: any;
