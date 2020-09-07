@@ -2,15 +2,40 @@ import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { style } from '@angular/animations';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp6',
+  animations: [
+    trigger('openClose', [
+        state('open', style({
+          'left': '{{leftPos}}',
+          'top': '{{topPos}}'
+        }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+        state('closed', style({
+            'left': '{{leftPos}}',
+            'top': '{{topPos}}'
+
+        }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+        transition('open => closed', [
+            animate('.5s')
+        ]),
+        transition('closed => open', [
+            animate('.5s')
+        ]),
+    ]),
+],
   templateUrl: './Ntemplate6.component.html',
   styleUrls: ['./Ntemplate6.component.css', '../../../view/css/bootstrap.min.css'],
 
@@ -228,6 +253,7 @@ export class Ntemplate6 implements OnInit {
   skipButton: boolean = false;
   replayClicked: boolean = false;
   disableSection: boolean = false;
+  
   defaultLetterConfig = [
     {
       id: "L1",
@@ -1940,6 +1966,8 @@ export class Ntemplate6 implements OnInit {
   }
 
   ngOnDestroy() {
+    this.quesVORef.nativeElement.pause();
+		this.quesVORef.nativeElement.currentTime = 0;
     this.refQuesArr = [];
     this.QuesArr = [];
   }
@@ -1973,6 +2001,7 @@ export class Ntemplate6 implements OnInit {
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
     this.coverTop = false;
+    this.coverBottom = true;
   }
   PlayPauseVideo() {
     if (this.PlayPauseFlag) {
@@ -1996,7 +2025,7 @@ export class Ntemplate6 implements OnInit {
   onHoverOption(opt, i) {
     if (opt && opt != undefined) {
       if (this.instructionVO.nativeElement.paused) {
-        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('scaleInAnimation');
+        this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
         //this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList
       }
     }
@@ -2017,13 +2046,18 @@ export class Ntemplate6 implements OnInit {
       this.instructionVO.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.pause();
     }
+    ////this.optionsClickable.nativeElement.children[0].children[i]
+    this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
+
     if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx != i) {
       for (let j = 0; j < this.optionArr.length; j++) {
+        this.optionsClickable.nativeElement.children[0].children[j].classList.add('disable_div');
         if (!this.optionsClickable.nativeElement.children[0].children[j].children[2].paused) {
           this.optionsClickable.nativeElement.children[0].children[j].children[2].pause();
         }
       }
-      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('scaleInAnimation');
+      this.optionsClickable.nativeElement.children[0].children[i].classList.remove('disable_div');
+      this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
       this.lastidx = i;
       if (opt.imgsrc_audio && opt.audio_location == "content") {
         this.optionsClickable.nativeElement.children[0].children[i].children[2].src = this.containgFolderPath + "/" + opt.imgsrc_audio;
@@ -2031,7 +2065,17 @@ export class Ntemplate6 implements OnInit {
       this.optionAudio.nativeElement.load();
 
       this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
+
       this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
+
+      this.optionsClickable.nativeElement.children[0].children[i].children[2].onended = () => {
+        for (let j = 0; j < this.optionArr.length; j++) {
+          this.optionsClickable.nativeElement.children[0].children[j].classList.remove('disable_div');   
+        }
+      }
+
+      
+
       this.onHoverOption(opt, i);
     }
   }
@@ -2041,6 +2085,7 @@ export class Ntemplate6 implements OnInit {
       this.OptionZoomOutAnimation(opt, i);
     }
     this.lastidx = undefined;
+   
   }
   optionHover(opt, i) {
     this.playHoverOption(opt, i)
@@ -2048,14 +2093,19 @@ export class Ntemplate6 implements OnInit {
 
   OptionZoomOutAnimation(opt, i) {
     if (!this.checked && this.quesVORef.nativeElement.paused) {
-      this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.add('scaleOutAnimation');
+      this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleOutAnimation');
       setTimeout(() => {
-        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.remove('scaleOutAnimation');
-        this.optionsClickable.nativeElement.children[0].children[i].children[0].classList.remove('scaleInAnimation');
+        this.optionsClickable.nativeElement.children[0].children[i].classList.remove('scaleOutAnimation');
+        this.optionsClickable.nativeElement.children[0].children[i].classList.remove('scaleInAnimation');
       }, 500)
     }
   }
   checkAnswer(opt, id) {
+    for (let i = 0; i < this.options.length; i++) {
+      this.options[i].isOpen = false;
+      this.options[i].leftPos = "0";
+      this.options[i].topPos = "0";
+  }
     console.log(opt, id);
     this.appModel.enableReplayBtn(false);
     this.appModel.enableNavBtn(true);
@@ -2149,10 +2199,13 @@ export class Ntemplate6 implements OnInit {
         this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
       }
     }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
+    
+    option.leftPos = this.percentLeft;
+    option.topPos = this.percentTop;
+    option.isOpen = true;
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 100;
     this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
-    this.duplicateOption.nativeElement.children[id].style.opacity = 1;
+    
     this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
     if (option.position == "right") {
       this.moveTo = this.Matra.nativeElement.children[this.index + 1].getBoundingClientRect();
@@ -2161,7 +2214,9 @@ export class Ntemplate6 implements OnInit {
     }
     this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.5 + "%";
+      
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5.5 + "%";
+
     } else if (option.position == "bottom_spcialCase") {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
     } else if (option.position == "left" || option.position == "right") {
@@ -2170,8 +2225,15 @@ export class Ntemplate6 implements OnInit {
     else {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5 + "%";
     }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 1000);
-  }
+
+    setTimeout(() => {
+      this.duplicateOption.nativeElement.children[id].style.opacity = 1;
+      option.leftPos = this.moveleft;
+      option.topPos = this.movetop;
+      option.isOpen = false;
+    }, 400)
+   
+    }
 
   onClickAnimationManually(option, id, letterNumber) {
     this.windowWidth = window.innerWidth;
@@ -2230,7 +2292,8 @@ export class Ntemplate6 implements OnInit {
         this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
       }
     }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.percentLeft, top: this.percentTop }, 0);
+    this.duplicateOption.nativeElement.children[id].style.top = this.percentTop;
+    this.duplicateOption.nativeElement.children[id].style.top = this.percentLeft;
     this.duplicateOption.nativeElement.children[id].style.zIndex = 1;
     this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
     this.duplicateOption.nativeElement.children[id].style.opacity = 1;
@@ -2242,16 +2305,17 @@ export class Ntemplate6 implements OnInit {
     }
     this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 4 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 1 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.2 + "%";
     } else if (option.position == "left" || option.position == "right") {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.4 + "%";
     }
     else {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     }
-    $(this.duplicateOption.nativeElement.children[id]).animate({ left: this.moveleft, top: this.movetop }, 0);
+   this.duplicateOption.nativeElement.children[id].style.left = this.moveleft;
+   this.duplicateOption.nativeElement.children[id].style.top = this.movetop;
   }
   checkAnswerMatra(event, id) {
     if (!this.instructionVO.nativeElement.paused) {
@@ -2344,6 +2408,8 @@ export class Ntemplate6 implements OnInit {
         console.log("video eneded in replay function");
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
+        this.coverBottom = true;
+
       }
     }, 500)
   }
@@ -2513,6 +2579,7 @@ export class Ntemplate6 implements OnInit {
           }
         }
       }
+    
       console.log("this.optionObj", this.optionObj)
       this.refQuesObj = this.fetchedcontent.refQuesObj;
       let tempArr = [];
@@ -2549,10 +2616,6 @@ export class Ntemplate6 implements OnInit {
       quesID.forEach(element => {
 
       });
-
-
-
-
 
       this.optPosObj = this.fetchedcontent.optionInitPosObj;
       this.optionInitPosArr = this.optPosObj[0].optionInitPosArr;
@@ -2865,7 +2928,8 @@ export class Ntemplate6 implements OnInit {
     this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
-    $(this.duplicateOption.nativeElement.children[this.currentOptionNumber]).animate({ left: "0%", top: "0%" }, 0);
+    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.left = "0%";
+    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = "0%";
     if (opt.position == "right") {
       this.refQuesCopy.splice(this.index + 1, 1)
       this.Matra.nativeElement.children[this.index + 1].remove();
@@ -2884,7 +2948,8 @@ export class Ntemplate6 implements OnInit {
     this.optionsClickable.nativeElement.children[0].children[rightMatraNumber].children[1].style.opacity = 1;
     this.duplicateOption.nativeElement.children[rightMatraNumber].style.opacity = 0;
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
-    $(this.duplicateOption.nativeElement.children[rightMatraNumber]).animate({ left: "0%", top: "0%" }, 0);
+    this.duplicateOption.nativeElement.children[rightMatraNumber].style.left = "0%";
+    this.duplicateOption.nativeElement.children[rightMatraNumber].style.top = "0%";
     if (opt.position == "right") {
       this.Matra.nativeElement.children[this.currentOptionNumberjson].remove();
     }
@@ -2917,6 +2982,7 @@ export class Ntemplate6 implements OnInit {
       this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
       this.mainContainer.nativeElement.style.opacity = "0.3";
       (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
+      this.disableSection = true;
       this.bodyContentDisable = true;
       this.InstructionVo = true;
       this.appModel.enableReplayBtn(false);
@@ -2928,7 +2994,7 @@ export class Ntemplate6 implements OnInit {
       this.appModel.enableReplayBtn(true);
       this.appModel.handlePostVOActivity(false);
 
-      $('.instructionBase').removeClass("disable_div");
+      this.disableSection = false;
       this.resetAttempt(this.optionObj[this.currentOptionNumber]);
     }
   }
