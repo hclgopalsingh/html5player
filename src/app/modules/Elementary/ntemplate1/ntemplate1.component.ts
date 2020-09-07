@@ -438,14 +438,14 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
         if (this.optionsBlock.nativeElement.children[2] != undefined) {
           this.optionsBlock.nativeElement.children[2].style.pointerEvents = "none";
         }
-      } else if(i == 1) {
+      }else if(i == 1) {
         if (this.optionsBlock.nativeElement.children[0] != undefined) {
           this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
         }
         if (this.optionsBlock.nativeElement.children[2] != undefined) {
           this.optionsBlock.nativeElement.children[2].style.pointerEvents = "none";
         }
-      } else {
+      }else {
         if (this.optionsBlock.nativeElement.children[0] != undefined) {
           this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
         }
@@ -466,14 +466,14 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
           if (this.optionsBlock.nativeElement.children[2] != undefined) {
             this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
           }
-        } else if(i==1) {
+        }else if(i==1) {
           if (this.optionsBlock.nativeElement.children[0] != undefined) {
             this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
           }
           if (this.optionsBlock.nativeElement.children[2] != undefined) {
             this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
           }
-        } else {
+        }else {
           if (this.optionsBlock.nativeElement.children[0] != undefined) {
             this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
           }
@@ -624,7 +624,7 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
       this.displaysubmitconfirmPopup=false;
       if(this.commonAssets.noofOptions == 4) {
        this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour"; 
-      } else {
+      }else {
        this.optionsBlock.nativeElement.classList = "row mx-0";
       }
       this.appModel.notifyUserAction();
@@ -681,8 +681,7 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
     if(this.PlayPauseFlag)
     {    
       this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;     
-    }
-    else{
+    }else{
       this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;    
     }
   }
@@ -691,8 +690,7 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
     if(this.PlayPauseFlag)
     {   
       this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
-    }
-    else{
+    }else{
       this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
     }
   }
@@ -759,7 +757,7 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
         }
           if(this.commonAssets.noofOptions == 4) {
           this.optionsBlock.nativeElement.classList = "row mx-0 disable_div optionswithFour"; 
-          } else {
+          }else {
           this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
           }
         this.styleHeaderPopup = this.feedbackObj.style_header;
@@ -770,7 +768,7 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
           this.setFeedbackAudio();
         }, 100);
       }
-    } else {
+    }else {
       this.appModel.notifyUserAction();
       this.disableDiv = true;
       setTimeout(() => {
@@ -787,7 +785,7 @@ export class Ntemplate1Component implements OnInit,OnDestroy {
           this.appModel.navShow = 2;
           this.appModel.notifyUserAction();
           this.appModel.handlePostVOActivity(false);
-    } else{
+    }else{
           this.instruction.nativeElement.play();
           this.instruction.nativeElement.onended=() => {
           this.disableDiv=false;
@@ -806,8 +804,7 @@ PlayPauseVideo(){
     this.mainVideo.nativeElement.pause();
     this.quesObj.quesPlayPause = this.quesObj.quesPlay;
     this.PlayPauseFlag = false;
-  }
-  else{
+  }else{
     this.mainVideo.nativeElement.play();
     this.quesObj.quesPlayPause = this.quesObj.quesPause;
     this.PlayPauseFlag = true;
@@ -857,7 +854,7 @@ onHoverOption(opt, i, j) {
           this.appModel.event = { 'action': 'end' };
         }
       }
-    } else {
+    }else {
       this.appModel.moveNextQues(this.attemptType);
     }
   }
@@ -869,7 +866,7 @@ onHoverOption(opt, i, j) {
   checkquesTab() {
     if(this.fetchedcontent.commonassets.ques_control!=undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
-    } else {
+    }else {
       this.appModel.getJson();      
     }
   }
@@ -931,7 +928,7 @@ onHoverOption(opt, i, j) {
                   this.instructionDisable=false;
                    }
                   }, this.quesObj.timegap);
-            } else if(this.quesObj.quesType == "imagewithAudio") {
+            }else if(this.quesObj.quesType == "imagewithAudio") {
                    this.audioPlaytimer=setTimeout(() => {
                     this.displayWave=true;
                     this.disable=true; 
@@ -945,8 +942,7 @@ onHoverOption(opt, i, j) {
                     this.instructionDisable=false; 
                   }
                   }, this.quesObj.timegap);
-            }
-            else {
+            }else {
                   this.appModel.handlePostVOActivity(false);
                         setTimeout(() => {
                           this.disable=false;
@@ -978,7 +974,7 @@ onHoverOption(opt, i, j) {
             this.narrator.nativeElement.onended = () => {
             this.checkforVideoorAudioQuestion();
         }
-        } else {
+        }else {
             this.checkforVideoorAudioQuestion();
         }
   }
@@ -1008,8 +1004,7 @@ onHoverOption(opt, i, j) {
       if(this.quesObj.quesType == "image") {
         this.isQuesTypeImage=true;
         this.clickableImg=false;
-      } 
-      else if(this.quesObj.quesType == "imagewithAudio") {
+      }else if(this.quesObj.quesType == "imagewithAudio") {
         this.clickableImg=true;
       } 
       /*Start: Theme Implementation(Template Changes)*/
@@ -1042,7 +1037,7 @@ onHoverOption(opt, i, j) {
         this.rightansArray2 = this.rightansArray.slice(4, this.rightansArray.length);
         this.AnsObj = [this.rightansArray1, this.rightansArray2];
         this.Array2required = true;
-      } else {
+      }else {
         this.ansArray1 = this.rightansArray.slice(0, this.rightansArray.length);
         this.Array2required = false;
       }
@@ -1066,7 +1061,7 @@ onHoverOption(opt, i, j) {
         this.wrongansArray2 = this.wrongansArray.slice(4, this.wrongansArray.length);
         this.AnsObj = [this.wrongansArray1, this.wrongansArray2]
         this.Array2required = true;
-      } else {
+      }else {
         this.ansArray1 = this.wrongansArray.slice(0, this.wrongansArray.length);
         this.Array2required = false;
       }
@@ -1089,7 +1084,7 @@ onHoverOption(opt, i, j) {
         this.rightansArray2 = this.rightAnspopupAssets.slice(4, this.rightAnspopupAssets.length);
         this.AnsObj = [this.rightansArray1, this.rightansArray2]
         this.Array2required = true;
-      } else {
+      }else {
         this.ansArray1 = this.rightAnspopupAssets.slice(0, this.rightAnspopupAssets.length);
         this.Array2required = false;
       }
@@ -1116,7 +1111,7 @@ onHoverOption(opt, i, j) {
       this.disableDiv
       if(this.commonAssets.noofOptions == 4) {
        this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour"; 
-      } else {
+      }else {
        this.optionsBlock.nativeElement.classList = "row mx-0";
       }
     }
@@ -1138,10 +1133,10 @@ onHoverOption(opt, i, j) {
           ++current;
           this.playrightFeedbackAudioPopup(current);
         }
-      } else {
+      }else {
         this.playrightFeedbackAudioPopupforSecondrow(0);
       }
-    } else {
+    }else {
       if (this.ansArray1[i] && this.ansArray1[i].imgrightfeedback_audio) {
         this.feedbackAudio = this.ansArray1[i].imgrightfeedback_audio;
         this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -1156,7 +1151,7 @@ onHoverOption(opt, i, j) {
           ++current;
           this.playrightFeedbackAudioPopup(current);
         }
-      } else {
+      }else {
         this.showAnsTimer=setTimeout(() => {
           this.closeModal();
           this.blinkOnLastQues();
@@ -1183,7 +1178,7 @@ onHoverOption(opt, i, j) {
         ++current;
         this.playrightFeedbackAudioPopupforSecondrow(current);
       }
-    } else {
+    }else {
       setTimeout(() => {
         this.closeModal();
         this.blinkOnLastQues();
@@ -1208,7 +1203,7 @@ onHoverOption(opt, i, j) {
         ++current;
         this.playrightFeedbackAudioforPartialPopup(current);
       }
-    } else {
+    }else {
       setTimeout(() => {
         this.playwrongFeedbackAudioforPartialPopup(0);
       }, 1000);
@@ -1231,7 +1226,7 @@ onHoverOption(opt, i, j) {
         ++current;
         this.playwrongFeedbackAudioforPartialPopup(current);
       }
-    } else {
+    }else {
       setTimeout(() => {
         if (this.count == 0) {
           this.closeModal();
@@ -1307,8 +1302,7 @@ onHoverOption(opt, i, j) {
           this.playFeedbackAudio(i, undefined, false);
         }
       }
-    }
-    else if (this.noOfRightAnsClicked > 4 || this.noOfWrongAnsClicked > 4) {
+    }else if (this.noOfRightAnsClicked > 4 || this.noOfWrongAnsClicked > 4) {
       flag = true;
       if (j == undefined) {
         j = 0;
@@ -1338,7 +1332,7 @@ onHoverOption(opt, i, j) {
             this.playFeedbackAudio(j, j, true);
           }
         }
-      } else {
+      }else {
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
@@ -1346,7 +1340,7 @@ onHoverOption(opt, i, j) {
         }, 2000);
       }
 
-    } else {
+    }else {
       setTimeout(() => {
         if (!(this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0)) {
           if (!this.checked) {
@@ -1372,7 +1366,7 @@ onHoverOption(opt, i, j) {
       if (action == "replay") {
         this.replayVideo();
       }
-    } else if (flag == "no") {
+    }else if (flag == "no") {
       this.appModel.videoStraming(false);
       this.appModel.handlePostVOActivity(false);
       setTimeout(() => {
