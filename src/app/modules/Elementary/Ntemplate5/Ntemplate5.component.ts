@@ -119,7 +119,7 @@ export class Ntemplate5 implements OnInit {
   themePath:any;
    fetchedcontent:any;
    functionalityType:any;
-   InstructionVo:boolean=true;
+   InstructionVo:boolean=false;
    showAnsTimeout:number;
    disableSection:boolean = false;
 
@@ -131,10 +131,15 @@ export class Ntemplate5 implements OnInit {
       console.log("play on Instruction");
       //this.instruction.nativeElement.load();
       if (this.instruction.nativeElement.paused && this.quesObj.quesInstruction.url!="") {
-        this.InstructionVo = true;
+        
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        $(".instructionBase img").css("cursor", "pointer");
+        this.InstructionVo = true;
+        
+        this.instruction.nativeElement.onended = () => {
+          //  this.disableSection=false;
+            this.InstructionVo = false;
+           }
       }else{
         this.InstructionVo = false;
       }
@@ -158,6 +163,7 @@ export class Ntemplate5 implements OnInit {
   }
 
   playHoverOption(opt, i, j) {
+    this.InstructionVo = false;
     this.appModel.notifyUserAction();
     if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
       this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url;
@@ -398,6 +404,7 @@ export class Ntemplate5 implements OnInit {
             {
               this.instruction.nativeElement.pause();
               this.instruction.nativeElement.currentTime = 0;
+              this.InstructionVo = false;
             }
         $("#instructionBar").addClass("disable_div");
         this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -488,10 +495,12 @@ export class Ntemplate5 implements OnInit {
 			this.appModel.handlePostVOActivity(true);
 			this.narrator.nativeElement.play();
       this.disableSection=true;
+      this.InstructionVo = true;
 			this.narrator.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
               setTimeout(() => {
                this.disableSection=false;
+               this.InstructionVo = false;
                }, 1000);
              
 			}
@@ -594,17 +603,18 @@ export class Ntemplate5 implements OnInit {
         setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
+            this.appModel.moveNextQues();
           }
         }, this.showAnsTimeout);
         //this.blinkOnLastQues();
         setTimeout(() => {
            this.closeModal();
+           this.appModel.moveNextQues();
          }, this.showAnsTimeout);
         
         this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
         $("#instructionBar").addClass("disable_div");
         this.appModel.notifyUserAction();
-        this.appModel.moveNextQues();
       }
     } else {
       this.appModel.notifyUserAction();
@@ -620,6 +630,8 @@ export class Ntemplate5 implements OnInit {
     if(this.bgSubscription!=undefined){
       this.bgSubscription.unsubscribe();
     }
+    this.narrator.nativeElement.pause();
+		this.narrator.nativeElement.currentTime = 0;
   }
 
   closeModal() {  

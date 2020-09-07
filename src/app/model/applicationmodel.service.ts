@@ -74,6 +74,7 @@ export class ApplicationmodelService {
   templatedata:any;
   themePath:any;
   nextSectionTimer: any;
+  feedbackType:string="";
  
 
 
@@ -148,7 +149,9 @@ export class ApplicationmodelService {
       ['/evatemp10', '/evatemp10ext', 0],
       ['/evatemp11', '/evatemp11ext', 0],
       ['/evatemp12', '/evatemp12ext', 0],
-      ['/evatemp14', '/evatemp14ext', 0]
+      ['/evatemp14', '/evatemp14ext', 0],
+      ['/evatemp5', '/evatemp5ext', 0],
+      ['/evatemp7', '/evatemp7ext', 0]
     ];
     this.externalCommunication = externalCommunication;
     this.dataLoader = dataLoader;
@@ -453,6 +456,9 @@ export class ApplicationmodelService {
       this.eventDone = false;
     }
     if (this.EVA && this.nextSectionTimer) {
+      if (sessionStorage.getItem("tabsVisited")) {
+        sessionStorage.removeItem("tabsVisited");
+      }
       clearTimeout(this.nextSectionTimer);
       this.nextSectionTimer = undefined;
     }
@@ -481,7 +487,7 @@ export class ApplicationmodelService {
     this.updateConfig(functionalityType);
 
     
-    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51 || functionalityType == 52 || functionalityType == 53 || functionalityType == 54 || functionalityType == 55) {
+    if (functionalityType == 17 || functionalityType == 18 || functionalityType == 19 || functionalityType == 20 || functionalityType == 21 || functionalityType == 22 || functionalityType == 24 || functionalityType == 25 || functionalityType == 26 || functionalityType == 27 || functionalityType == 28 || functionalityType == 29 || functionalityType == 30 || functionalityType == 31 || functionalityType == 32 || functionalityType == 33 || functionalityType == 34 || functionalityType == 35 || functionalityType == 36 || functionalityType == 37 || functionalityType == 38 || functionalityType == 39 || functionalityType == 40 || functionalityType == 41 || functionalityType == 42 || functionalityType == 43 || functionalityType == 44 || functionalityType == 45 || functionalityType == 46 || functionalityType == 47 || functionalityType == 48 || functionalityType == 49 || functionalityType == 50 || functionalityType == 51 || functionalityType == 52 || functionalityType == 53 || functionalityType == 54 || functionalityType == 55 || functionalityType == 56 || functionalityType == 57) {
       this.setQuestionNo();
       let fetchdata=this.content.contentData.data;
       this.templatedata = JSON.parse(JSON.stringify(fetchdata));
@@ -1006,6 +1012,18 @@ export class ApplicationmodelService {
     return this._animationAssets.asObservable();
   }
 
+  animationType() {
+    if(this.feedbackType=="fullyIncorrect") {
+      return "wrongAnimationAssets";
+    }else if(this.feedbackType=="partialIncorrect") {
+      return "partialIncorrectAnimationAssets";
+    }else if(this.feedbackType=="partialCorrect") {
+      return "partialCorrectAnimationAssets";
+    } else {
+      return "wrongAnimationAssets";
+    }
+  }
+
   wrongAttemptAnimation() {
     let data = this.content.contentData.data;
     let assets = {
@@ -1013,23 +1031,24 @@ export class ApplicationmodelService {
       audio: "",
       timer: ""
     };
-    if(data['commonassets'].wrongAnimationAssets!=undefined) {
-     if (data['commonassets'].wrongAnimationAssets && ((data['commonassets'].wrongAnimationAssets.img && data['commonassets'].wrongAnimationAssets.img.url) || data['commonassets'].wrongAnimationAssets.timeout)) {
+    const animationAssets=this.animationType();
+    if(data['commonassets'][animationAssets]!=undefined) {
+     if (data['commonassets'][animationAssets] && ((data['commonassets'][animationAssets].img && data['commonassets'][animationAssets].img.url) || data['commonassets'][animationAssets].timeout)) {
         // let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
         // let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
         // let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
-        this.Sharedservice.imagePath(this.templatedata.commonassets.wrongAnimationAssets, this.content.id, this.themePath, undefined);
-        assets.animationImg = this.templatedata.commonassets.wrongAnimationAssets.img.url;
-        assets.audio = this.templatedata.commonassets.wrongAnimationAssets.audio.url;
-        assets.timer = this.templatedata.commonassets.wrongAnimationAssets.timeout;
+        this.Sharedservice.imagePath(this.templatedata.commonassets[animationAssets], this.content.id, this.themePath, undefined);
+        assets.animationImg = this.templatedata.commonassets[animationAssets].img.url;
+        assets.audio = this.templatedata.commonassets[animationAssets].audio.url;
+        assets.timer = this.templatedata.commonassets[animationAssets].timeout;
         this._wrongAttemptAnimation.next(assets);
       } else {
         this._wrongAttemptAnimation.next(undefined);
       }
     } else {
-        assets.animationImg = this.templatedata.commonassets.ques_control.wrongAnimationAssets.img.url;
-        assets.audio = this.templatedata.commonassets.ques_control.wrongAnimationAssets.audio.url;
-        assets.timer = this.templatedata.commonassets.ques_control.wrongAnimationAssets.timeout;
+        assets.animationImg = this.templatedata.commonassets.ques_control[animationAssets].img.url;
+        assets.audio = this.templatedata.commonassets.ques_control[animationAssets].audio.url;
+        assets.timer = this.templatedata.commonassets.ques_control[animationAssets].timeout;
         this._wrongAttemptAnimation.next(assets);
     }
   }
@@ -1122,7 +1141,10 @@ export class ApplicationmodelService {
       this.currentSection--;
       return;
     }
-     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
+     else if(this.currentActive <= this.initValues.files.length - 1) {   // If segment is not last in the activity
+      if (sessionStorage.getItem("tabsVisited")) {
+        sessionStorage.removeItem("tabsVisited");
+      }
       this.load(this.initValues.files[this.currentActive]);
       // this.nextCollectionCounterEVA = 0;
       console.log('ApplicationmodelService: nextCollection - currentActive=',
@@ -1178,6 +1200,24 @@ export class ApplicationmodelService {
   setActiveBG(val) {
     this._avtiveBG.next(val);
   }
+
+  storeVisitedTabs() {
+    
+		if (sessionStorage.getItem("tabsVisited")) {
+		  let visitedArr = JSON.parse(sessionStorage.getItem("tabsVisited"));
+		  if (visitedArr.indexOf(this.templatedata['commonassets'].ques_control.quesTabs.quesID) < 0) {   //If question is not already answered
+			visitedArr.push(this.templatedata['commonassets'].ques_control.quesTabs.quesID);
+			sessionStorage.setItem("tabsVisited", JSON.stringify(visitedArr));
+		  }
+		}
+		else {
+		  let visitedTabsArr = [this.templatedata['commonassets'].ques_control.quesTabs.quesID];
+		  sessionStorage.setItem("tabsVisited", JSON.stringify(visitedTabsArr));
+		}
+	  }
+
+
+
 }
 
 

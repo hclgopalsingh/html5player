@@ -7,7 +7,7 @@
 	<div id="bgImage"><img [src]="quesInfo?.background?.url" (load)="checkImgLoaded();" /></div>
 
 
-	<div class="d-flex flex-row justify-content-around instructionBar speakerPopUp" id="instructionBar">
+	<div class="d-flex flex-row justify-content-around instructionBar speakerPopUp" id="instructionBar" [ngClass]="{'disable_div':disableSection}">
 		<div class="instructionBase" >
 			<img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
 				(load)="checkImgLoaded();" />
@@ -25,14 +25,14 @@
 			<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 			<img class="img-fluid questionImg" [src]="question.imgsrc?.url" (load)="checkImgLoaded();">
 		</div>
-		<div id="ansBlock" #optionBlock [style.width]="myoption?.length>3 ? '8%':'10%'">
+		<div id="ansBlock" class="disable_div" [ngClass]="{'disable_div':optionDisable}" #optionBlock [style.width]="myoption?.length>3 ? '8%':'10%'">
 			<div class="options" *ngFor="let opt of myoption;let idx = index">
 				<!--<img class="img-fluid option-img" src="{{opt.imgsrc}}" on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="checkAnswer(opt,idx)">-->
-				<img class="img-fluid" [src]="opt.imgsrc.url" (mouseenter)="entering(opt, ind)"
+				<img class="img-fluid" [src]="opt.imgsrc.url" (mouseenter)="entering(opt, idx)"
 					(mousemove)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt)"
 					(click)="checkAnswer(opt,idx)" (load)="checkImgLoaded();">
-				<div class="speaker"></div>
-				<audio [src]="opt?.sound?.url"></audio>
+				<div #optionWave class="speaker"></div>
+				<audio #optionAudioElement [src]="opt?.sound?.url" id="{{idx}}"></audio>
 			</div>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 				<!-- <h4 class="modal-title">Modal Heading</h4> -->
 				<img class="modal-title" [src]="feedbackObj.confirm_popup.headerTxt_img.url">
 				<!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-				<img class="close" [src]="confirmPopupAssets?.close_btn?.url"
+				<img class="close" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()" [src]="confirmPopupAssets?.close_btn?.url"
 					(click)="sendFeedback('confirm-modal-id','no');" 
 					>
 			</div>
@@ -55,12 +55,13 @@
 			<div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
 				<div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
 				<div class="actionButtons">
-					<button type="button" (click)="sendFeedback('confirm-modal-id','yes');"  
+					<button type="button" (mousemove)="showhoverConfirm()"
+					(mouseleave)="showhoutConfirm()" (click)="sendFeedback('confirm-modal-id','yes');"  
 						 ><img class="img-fluid"
-							[src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
+							[src]="confirmPopupAssets?.confirm_btn?.url"></button>
 					<button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
 						(mouseleave)="houtDecline()"><img class="img-fluid"
-							[src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+							[src]="confirmPopupAssets?.decline_btn?.url"></button>
 				</div>
 			</div>
 
@@ -81,20 +82,24 @@
 				<img *ngIf="wronganspopUpheader_img" class="modal-title"
 					[src]="feedbackObj.wrongAnswerheaderTxt_img.url">
 				<img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj.showAnswerheaderTxt_img.url">
-				<img class="close" [src]="feedbackObj.popup_commmon_imgs.close_btn.url"
+				<img class="close" [src]="confirmPopupAssets?.close_btn?.url" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()"
 					(click)="sendFeedback(feedbackModalRef,'no','feedbackClosed');" >
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body d-flex align-items-center" [ngStyle]="styleBodyPopup">
+			<div class="modal-body d-flex flex-wrap align-content-center" [ngStyle]="styleBodyPopup">
 				<div class="d-flex align-items-center justify-content-center ansImage">
 					<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 					 <img class="img-fluid questionImg" [src]="question.imgsrc.url">
 				</div>
-				<img [ngClass]="{'disable_div':disableSpeaker}" class="img-fluid speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.url"
+				<img [ngClass]="{'disable_div':disableSpeaker}" id="speakerpopup" class="img-fluid disable_div speakerImage speakerPopUp" [src]="wrongImgOption?.imgsrc?.url"
 					on-mouseenter="onWrongImgHoverOption(wrongImgOption,idx)" (load)="checkImgLoaded();">
 				<div class="speakerd"></div>
 				<!-- content -->
+				<div class="closepopup_btn">
+					<img class="img-fluid" [src]="commonAssets?.ok_btn?.url" (mousemove)="hoverOk()"
+					(mouseleave)="houtOk()" (click)="closePopup()" />
+				</div>
 			</div>
 		</div>
 	</div>

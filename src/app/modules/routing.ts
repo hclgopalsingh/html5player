@@ -24,13 +24,13 @@ import { Ntemplate18 } from '../controller/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../modules/Elementary/Ntemplate8/Ntemplate8.component';
 import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
-import { Ntemplate1Component } from '../modules/Elementary/ntemplate1/ntemplate1.component';
-import {Ntemplate4} from '../controller/Ntemplate4.component';
+import {Ntemplate4} from '../modules/Elementary/Ntemplate4/Ntemplate4.component';
+import { Ntemplate1Component } from '../modules/Elementary/Ntemplate1/Ntemplate1.component';
+import { Ntemplate9Component } from '../modules/Elementary/Ntemplate9/Ntemplate9.component';
 import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
-import { Ntemplate6 } from '../controller/Ntemplate6.component';
-import { Ntemplate9 } from '../controller/Ntemplate9.component';
-import {Ntemplate7} from '../controller/Ntemplate7.component';
+import { Ntemplate6 } from '../modules/Elementary/Ntemplate6/Ntemplate6.component';
+import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component';
 import {Ntemplate17} from '../controller/Ntemplate17.component';
 import { Ntemplate24 } from '../controller/Ntemplate24.component';
 import { Ntemplate24_1 } from '../controller/Ntemplate24_1.component';
@@ -62,6 +62,8 @@ import { TemplateTenComponent } from './EVA/template10/template10.component';
 import { TemplateFourteenComponent } from '../modules/EVA/template14/template14.component';
 import { Template11Componenteva } from '../modules/EVA/template11/template11.component';
 import { Template12ComponentEVA } from './EVA/template12/template12.component';
+import { TemplateSevenComponent } from './EVA/template7/template7.component';
+import { Template5Component } from './EVA/template5/template5.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -112,8 +114,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp2ext', component: Ntemplate2, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp8', component: Ntemplate8, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp8ext', component: Ntemplate8, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp9', component: Ntemplate9, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp9ext', component: Ntemplate9, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp9', component: Ntemplate9Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp9ext', component: Ntemplate9Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp3', component: Ntemplate3, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp3ext', component: Ntemplate3, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp1', component: Ntemplate1Component, runGuardsAndResolvers: 'always' },
@@ -181,7 +183,11 @@ export const APP_ROUTES: Routes = [
 			{ path: 'evatemp11', component: Template11Componenteva, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp12', component: Template12ComponentEVA, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp12ext', component: Template12ComponentEVA, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
+			{ path: 'evatemp12ext', component: Template12ComponentEVA, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp7', component: TemplateSevenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp7ext', component: TemplateSevenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp5', component: Template5Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp5ext', component: Template5Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
 			
 		]
 	}
