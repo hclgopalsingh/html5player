@@ -1,26 +1,28 @@
 import { Component, OnInit, ViewChild, HostListener,OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { mapTo, reduce, take, tap, filter, map, share, withLatestFrom } from 'rxjs/operators'
 import { timer } from 'rxjs/observable/timer';
-import { PlayerConstants } from '../common/playerconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
 import 'jquery';
 import { defer } from 'rxjs/observable/defer';
 import { interval } from 'rxjs/observable/interval';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 
 
 declare var $: any;
 
 @Component({
 	selector: 'ntemp18',
-	templateUrl: '../view/layout/Ntemplate8.component.html',
-	styleUrls: ['../view/css/Ntemplate8.component.css', '../view/css/bootstrap.min.css']
+	templateUrl: './Ntemplate8.component.html',
+	styleUrls: ['./Ntemplate8.component.css', '../../../view/css/bootstrap.min.css']
 
 })
 
 export class Ntemplate8 implements OnInit {
 	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService) {
+	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
 		this.appModel.navShow = 2;
@@ -146,18 +148,24 @@ export class Ntemplate8 implements OnInit {
 		isShowAns:false,
 		isPrev:false,
 		isNext:false,
-		isTab:false
+		isTab:false,
+		isSubmitRequired:true,
+    	isReplayRequired:true
 	 };
 	quesIndx:number;
 	liveScore:any;
 	liveScoreObjCopy:any;
 	feedbackSoFor:any;
-	/*feedbackNxt:any;
-	feedbackPre:any;*/
 	feedbackAssts:any;
 	currentFeedback:number = 0;
 	teamObj:any;
 	actsTimeout:boolean = false;
+	/*Start: Theme Implementation(Template Changes)*/	
+	themePath:any;
+	fetchedcontent:any;
+	functionalityType:any;
+	bgSubscription: Subscription;
+	/*End: Theme Implementation(Template Changes)*/
 
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('teamUpRef') teamUpRef: any;
@@ -186,6 +194,14 @@ export class Ntemplate8 implements OnInit {
 			this.appModel.event = { 'action': 'segmentBegins' };
 		}
 		this.containgFolderPath = this.getBasePath();
+		/*Start: Theme Implementation(Template Changes)*/
+		let fetchedData: any = this.appModel.content.contentData.data;
+		this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+		this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+		this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+		this.checkquesTab();
+		/*End: Theme Implementation(Template Changes)*/
 		this.setData();
 		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
@@ -199,17 +215,17 @@ export class Ntemplate8 implements OnInit {
 			}
 		})
 		this.appModel.getConfirmationPopup().subscribe((val) =>{
-			let fetchedData: any = this.appModel.content.contentData.data;
-			this.replayConfirm = fetchedData.replay_confirm;
-			this.submitAnswerConfirm = fetchedData.submit_confirm;
+			// let fetchedData: any = this.appModel.content.contentData.data;
+			this.replayConfirm = this.fetchedcontent.replay_confirm;
+			this.submitAnswerConfirm = this.fetchedcontent.submit_confirm;
 			if(val=="submitAnswer"){
-				this.confirmAssets = fetchedData.submit_confirm;
+				this.confirmAssets = this.fetchedcontent.submit_confirm;
 				if(this.confirmSubmitRef && this.confirmSubmitRef.nativeElement){
 					this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
 				}
 			}else if(val=="replayVideo"){
 				this.appModel.videoStraming(true);
-				this.confirmAssets = fetchedData.replay_confirm;
+				this.confirmAssets = this.fetchedcontent.replay_confirm;
 				if(this.confirmReplayRef && this.confirmReplayRef.nativeElement){
 					this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
 				}
@@ -235,8 +251,21 @@ export class Ntemplate8 implements OnInit {
 		this.appModel.handleController(this.controlHandler);
 		this.appModel.enableSubmitBtn(false);
 		this.appModel.enableReplayBtn(false);
+		/*Start: Theme Implementation(Template Changes)*/
+		if(this.bgSubscription!=undefined){
+			this.bgSubscription.unsubscribe();
+		  }
+		/*End: Theme Implementation(Template Changes)*/
 	}
-
+	/*Start: Theme Implementation(Template Changes)*/
+	checkquesTab() {
+		if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+		this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+		} else {
+		this.appModel.getJson();      
+		}
+	}
+	/*End: Theme Implementation(Template Changes)*/
 	templatevolume(vol, obj) {
 		if (obj.quesVORef && obj.quesVORef.nativeElement) {
 			obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -257,10 +286,10 @@ export class Ntemplate8 implements OnInit {
 
 	setData() {
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-			let fetchedData: any = this.appModel.content.contentData.data;
-			this.feedback = fetchedData.feedback;
-			this.commonAssets = fetchedData.commonassets;
-			this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
+			// let fetchedData: any = this.appModel.content.contentData.data;
+			this.feedback = this.fetchedcontent.feedback;
+			this.commonAssets = this.fetchedcontent.commonassets;
+			// this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
 			this.noOfImgs = this.commonAssets.imgCount;
 			this.isFirstQues = this.commonAssets.isFirstQues;
 			this.isLastQues = this.appModel.isLastSection;
@@ -268,59 +297,49 @@ export class Ntemplate8 implements OnInit {
 			if(this.isLastQuesAct || this.isLastQues){
 				this.appModel.setlastQuesNT();
 		}
-			this.popupAssets = fetchedData.feedback.imgList;
+			this.popupAssets = this.fetchedcontent.feedback.imgList;
 			this.popupAssetsToShow = Object.assign([], this.popupAssets);
-			this.questionObj = fetchedData.quesObj;
+			this.questionObj = this.fetchedcontent.quesObj;
 			this.timeLimitGiven = this.questionObj.timeLimit*60;
 			this.renderTime(0,this.timeLimitGiven*1000);
 			this.quesIndx = this.questionObj.quesIdx;
 			this.feedbackAnswer.ques = this.feedback.ques_img;
-			/*this.feedbackNxt = JSON.parse(JSON.stringify(this.feedback.feedback_nav));
-			this.feedbackPre = JSON.parse(JSON.stringify(this.feedback.feedback_nav));*/
+			
 			if(this.questionObj.isVideo){
-				//this.teamUpRef.nativeElement.classList="teamUp d-flex flex-row disableDiv";
-				//this.teamDownRef.nativeElement.classList="teamDown d-flex flex-row disableDiv";
-				//this.teamLeftRef.nativeElement.classList="teamLeft disableDiv";
-				//this.teamRightRef.nativeElement.classList="teamRight disableDiv";
 			}
 			this.videoType = this.appModel.getVideoType();
-			this.teamCommonAssets = fetchedData.teams.common_assets;
-			this.teamObj = fetchedData.teams;
-			//console.log(this.teamCommonAssets.color_timer[0].url);
-			if(fetchedData.teams && fetchedData.teams.teamUp){
-				this.teamUp = fetchedData.teams.teamUp;
+			this.teamCommonAssets = this.fetchedcontent.teams.common_assets;
+			this.teamObj = this.fetchedcontent.teams;
+			if(this.fetchedcontent.teams && this.fetchedcontent.teams.teamUp){
+				this.teamUp = this.fetchedcontent.teams.teamUp;
 				this.totalRightAttempts.push(0);
 				this.noOfTeams++;
-				//this.getCorrectfeedback('teamUp');
 				this.checkLiveScore('teamUp');
 				this.teamScore.teamUp = 0;
 			}
-			if(fetchedData.teams && fetchedData.teams.teamDown){
-				this.teamDown = fetchedData.teams.teamDown;
+			if(this.fetchedcontent.teams && this.fetchedcontent.teams.teamDown){
+				this.teamDown = this.fetchedcontent.teams.teamDown;
 				this.totalRightAttempts.push(0);
 				this.noOfTeams++;
-				//this.getCorrectfeedback('teamDown');
 				this.checkLiveScore('teamDown');
 				this.teamScore.teamDown = 0;
 			}
-			if(fetchedData.teams && fetchedData.teams.teamLeft){
-				this.teamLeft = fetchedData.teams.teamLeft;
+			if(this.fetchedcontent.teams && this.fetchedcontent.teams.teamLeft){
+				this.teamLeft = this.fetchedcontent.teams.teamLeft;
 				this.totalRightAttempts.push(0);
 				this.noOfTeams++;
-				//this.getCorrectfeedback('teamLeft');
 				this.checkLiveScore('teamLeft');
 				this.teamScore.teamLeft = 0;
 			}
-			if(fetchedData.teams && fetchedData.teams.teamRight){
-				this.teamRight = fetchedData.teams.teamRight;
+			if(this.fetchedcontent.teams && this.fetchedcontent.teams.teamRight){
+				this.teamRight = this.fetchedcontent.teams.teamRight;
 				this.totalRightAttempts.push(0);
 				this.noOfTeams++;
 				this.teamScore.teamRight = 0;
-			//	this.getCorrectfeedback('teamRight');
 				this.checkLiveScore('teamRight');
 			}
-			this.otherAssets = fetchedData.otherAssets;
-			this.scoreCardAssets = fetchedData.popupAssets;
+			this.otherAssets = this.fetchedcontent.otherAssets;
+			this.scoreCardAssets = this.fetchedcontent.popupAssets;
 			if(this.quesIndx>0){
 				this.liveScoreObj = this.appModel.getLiveScoreObj();
 				this.liveScoreObjCopy = JSON.parse(JSON.stringify(this.liveScoreObj));
@@ -332,19 +351,18 @@ export class Ntemplate8 implements OnInit {
 		}
 	}
 	checkLiveScore(teamSide){
-		let fetchedData: any = JSON.parse(JSON.stringify(this.appModel.content.contentData.data));
+		// let fetchedData: any = JSON.parse(JSON.stringify(this.appModel.content.contentData.data));
 		if(this.quesIndx==0 && teamSide=="teamUp"){
-			//this.liveScoreObj.teamUpLiveScore =   Object.assign([], fetchedData.live_score[this.questionObj.noOfQues]);
-			this.liveScoreObj.teamUpLiveScore = JSON.parse(JSON.stringify(fetchedData.live_score[this.questionObj.noOfQues]));
+			this.liveScoreObj.teamUpLiveScore = JSON.parse(JSON.stringify(this.fetchedcontent.live_score[this.questionObj.noOfQues]));
 		}
 		if(this.quesIndx==0 && teamSide=="teamDown"){
-			this.liveScoreObj.teamDownLiveScore = JSON.parse(JSON.stringify(fetchedData.live_score[this.questionObj.noOfQues]));
+			this.liveScoreObj.teamDownLiveScore = JSON.parse(JSON.stringify(this.fetchedcontent.live_score[this.questionObj.noOfQues]));
 		}
 		if(this.quesIndx==0 && teamSide=="teamLeft"){
-			this.liveScoreObj.teamLeftLiveScore = JSON.parse(JSON.stringify(fetchedData.live_score[this.questionObj.noOfQues]));
+			this.liveScoreObj.teamLeftLiveScore = JSON.parse(JSON.stringify(this.fetchedcontent.live_score[this.questionObj.noOfQues]));
 		}
 		if(this.quesIndx==0 && teamSide=="teamRight"){
-			this.liveScoreObj.teamRightLiveScore = JSON.parse(JSON.stringify(fetchedData.live_score[this.questionObj.noOfQues]));
+			this.liveScoreObj.teamRightLiveScore = JSON.parse(JSON.stringify(this.fetchedcontent.live_score[this.questionObj.noOfQues]));
 		}
 		if(this.quesIndx==0){
 			this.appModel.setLiveScore(this.liveScoreObj);
@@ -516,11 +534,13 @@ export class Ntemplate8 implements OnInit {
 					}
 				}
 			}
-			if (soundAssets.location == 'content') {
-				this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-			} else {
-				this.audio.src = soundAssets.url;
-			}
+			// if (soundAssets.location == 'content') {
+			// 	this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+			// } else {
+				
+			// 	this.audio.src = soundAssets.url;
+			// }
+			this.audio.src = soundAssets.url;
 			this.audio.load();
 			this.audio.play();
 			//for(let i= 0;i<teamRef.nativeElement)
@@ -633,16 +653,16 @@ export class Ntemplate8 implements OnInit {
 		setTimerGrade(){
 			if(this.currentMinute>=1){
 				if(this.teamUp.isStillActive){
-					this.teamUpGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].location=="content" ? this.containgFolderPath+ "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url :this.assetsPath + "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url;
+					this.teamUpGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
 				}
 				if(this.teamDown.isStillActive){
-					this.teamDownGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].location=="content" ? this.containgFolderPath+ "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url :this.assetsPath + "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url;
+					this.teamDownGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
 				}
 				if(this.teamLeft.isStillActive){
-					this.teamLeftGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].location=="content" ? this.containgFolderPath+ "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url :this.assetsPath + "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url;	
+					this.teamLeftGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;	
 				}
 				if(this.teamRight.isStillActive){
-					this.teamRightGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].location=="content" ? this.containgFolderPath+ "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url :this.assetsPath + "/" + this.teamCommonAssets.color_timer[this.currentMinute-1].url;
+					this.teamRightGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
 				}
 			}
 		}
@@ -847,7 +867,7 @@ export class Ntemplate8 implements OnInit {
 
 		passQuestion(teamName,ref){
 			this.appModel.enableReplayBtn(false);
-			ref.src = this.otherAssets.pass_btn_red.location=="content" ? this.containgFolderPath+ "/" + this.otherAssets.pass_btn_red.url:this.assetsPath + "/" + this.otherAssets.pass_btn_red.url;
+			ref.src = this.otherAssets.pass_btn_red.url;
 			ref.classList.add("disableDiv");
 			if(teamName=="teamup"){
 				this.teamUp.isStillActive = false;
@@ -959,19 +979,19 @@ export class Ntemplate8 implements OnInit {
 				}
 			}
 			if(this.feedback && this.feedback.ques_feedback && this.feedback.ques_feedback.ques_img){
-				this.feedback.ques_feedback.ques_img = this.feedback.ques_feedback.ques_img.location=="content" ? this.containgFolderPath + "/" + this.feedback.ques_feedback.ques_img.url : this.assetsPath + "/" + this.feedback.ques_feedback.ques_img.url;
+				this.feedback.ques_feedback.ques_img = this.feedback.ques_feedback.ques_img.url;
 			}
 			if(this.feedback && this.feedback.feedback_base){
-				this.feedback.feedback_base = this.feedback.feedback_base.location=="content" ? this.containgFolderPath + "/" + this.feedback.feedback_base.url : this.assetsPath + "/" + this.feedback.feedback_base.url;
+				this.feedback.feedback_base =this.feedback.feedback_base.url;
 			}
 			if(this.feedback && this.feedback.ques_feedback && this.feedback.ques_feedback.correct_options){
 				for(let i=0; i< this.feedback.ques_feedback.correct_options.length;i++){
 					if(this.feedback.ques_feedback.correct_options[i].name){
 						let teamName = this.feedback.ques_feedback.correct_options[i].name;
-						this.feedback.ques_feedback.correct_options[i].name = this.teamObj[teamName].teamName.location=="content" ? this.containgFolderPath + "/" + this.teamObj[teamName].teamName.url : this.assetsPath + "/" +  this.teamObj[teamName].teamName.url;
+						this.feedback.ques_feedback.correct_options[i].name =this.teamObj[teamName].teamName.url;
 					}
 					 if(this.feedback.ques_feedback.correct_options[i].correct_opt){
-						this.feedback.ques_feedback.correct_options[i].correct_opt = this.feedback.ques_feedback.correct_options[i].correct_opt.location=="content" ? this.containgFolderPath + "/" + this.feedback.ques_feedback.correct_options[i].correct_opt.url : this.assetsPath + "/" + this.feedback.ques_feedback.correct_options[i].correct_opt.url;
+						this.feedback.ques_feedback.correct_options[i].correct_opt =this.feedback.ques_feedback.correct_options[i].correct_opt.url;
 					}
 				}
 			}
@@ -1068,17 +1088,17 @@ export class Ntemplate8 implements OnInit {
 			this.appModel.enableSubmitBtn(false);
 		}
 		hoverPass(ref){
-			ref.src = this.otherAssets.pass_btn_hover.location=="content" ? this.containgFolderPath+ "/" + this.otherAssets.pass_btn_hover.url:this.assetsPath + "/" + this.otherAssets.pass_btn_hover.url;
+			ref.src =this.otherAssets.pass_btn_hover.url;
 		}
 		houtPass(ref,team){
 			if(team=="teamUp" && this.teamUp && this.teamUp.isStillActive){
-				ref.src = this.otherAssets.pass_btn_original.location=="content" ? this.containgFolderPath+ "/" + this.otherAssets.pass_btn_original.url:this.assetsPath + "/" + this.otherAssets.pass_btn_original.url;
+				ref.src =this.otherAssets.pass_btn_original.url;
 			}else if(team=="teamDown" && this.teamDown && this.teamDown.isStillActive){
-				ref.src = this.otherAssets.pass_btn_original.location=="content" ? this.containgFolderPath+ "/" + this.otherAssets.pass_btn_original.url:this.assetsPath + "/" + this.otherAssets.pass_btn_original.url;
+				ref.src = this.otherAssets.pass_btn_original.url;
 			}else if(team=="teamLeft" && this.teamLeft && this.teamLeft.isStillActive){
-				ref.src = this.otherAssets.pass_btn_original.location=="content" ? this.containgFolderPath+ "/" + this.otherAssets.pass_btn_original.url:this.assetsPath + "/" + this.otherAssets.pass_btn_original.url;
+				ref.src = this.otherAssets.pass_btn_original.url;
 			}else if(team=="teamRight" && this.teamRight && this.teamRight.isStillActive){
-				ref.src = this.otherAssets.pass_btn_original.location=="content" ? this.containgFolderPath+ "/" + this.otherAssets.pass_btn_original.url:this.assetsPath + "/" + this.otherAssets.pass_btn_original.url;
+				ref.src = this.otherAssets.pass_btn_original.url;
 			}
 		}
 
