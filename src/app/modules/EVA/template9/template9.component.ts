@@ -65,6 +65,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   selectedId: any;
   originalcolor = '';
   disableOptions = true;
+  rightAnsVODelay: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -205,6 +206,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.clappingTimer);
     clearTimeout(this.rightTimer);
     clearTimeout(this.multiCorrectTimer);
+    clearTimeout(this.rightAnsVODelay);
     this.audio.pause();
   }
 
@@ -456,8 +458,13 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
       this.clapSound.nativeElement.currentTime = 0;
       if (popupRef) {
         popupRef.className = 'modal d-flex align-items-center justify-content-center showit ansPopup dispFlex';
+        this.rightAnsVODelay = setTimeout(() => {
+          feedback.nativeElement.play();
+        }, 1000);
       }
-      feedback.nativeElement.play();
+      else {
+        feedback.nativeElement.play();
+      }
     }, 2000);
   }
 
@@ -613,6 +620,8 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.rightTimer);
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
+    clearTimeout(this.multiCorrectTimer);
+    clearTimeout(this.rightAnsVODelay);
 
     this.showAnswerRef.nativeElement.classList = 'modal';
     this.ansPopup.nativeElement.classList = 'modal';
