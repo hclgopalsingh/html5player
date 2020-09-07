@@ -303,9 +303,7 @@ button:focus {
 	left:0;
 }
 
-.instructionBase img {
-  cursor: pointer;
-}
+ 
 /* Modal */
 .modal{
 	position: absolute;
@@ -458,13 +456,7 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
-  margin-left: 1.5%;
-  height: 80%;
-  /*width: 18%;*/
-}
+
  
  
 .modal-content{
@@ -589,9 +581,9 @@ button:focus {
 #confirmModal .bodyText img {
   width: 85%;
 }
-#confirmModal .modal-title {
+/*#confirmModal .modal-title {
   margin-left: 3%;
-}
+}*/
  
 #confirmModal .modal-footer {
   display: flex;
