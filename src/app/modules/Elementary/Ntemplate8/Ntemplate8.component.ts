@@ -1,17 +1,17 @@
-import { Component, OnInit, ViewChild, HostListener,OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { mapTo, reduce, take, tap, filter, map, share, withLatestFrom } from 'rxjs/operators'
 import { timer } from 'rxjs/observable/timer';
 import { PlayerConstants } from '../../../common/playerconstants';
-import 'jquery';
+// import 'jquery';
 import { defer } from 'rxjs/observable/defer';
 import { interval } from 'rxjs/observable/interval';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
 
-declare var $: any;
+// declare var $: any;
 
 @Component({
 	selector: 'ntemp18',
@@ -20,7 +20,7 @@ declare var $: any;
 
 })
 
-export class Ntemplate8 implements OnInit {
+export class Ntemplate8 implements OnInit,OnDestroy {
 	private appModel: ApplicationmodelService;
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
@@ -54,9 +54,6 @@ export class Ntemplate8 implements OnInit {
 	blink: boolean = false;
 	currentIdx = 0;
 	commonAssets: any = "";
-	optionslist: any = [];
-	optionslist_main: any = "";
-	myoption: any = [];
 	question: any = "";
 	feedback: any = "";
 	isLastActivity: any = "";
@@ -70,7 +67,6 @@ export class Ntemplate8 implements OnInit {
 	isLastQues: boolean = false;
 	isAutoplayOn: boolean;
 	isLastQuesAct: boolean;
-
 	noOfImgs: number;
 	noOfImgsLoaded: number = 0;
 	loaderTimer: any;
@@ -166,24 +162,26 @@ export class Ntemplate8 implements OnInit {
 	functionalityType:any;
 	bgSubscription: Subscription;
 	/*End: Theme Implementation(Template Changes)*/
-
+	// confirmSubmitFlag: boolean = false;
+	// confirmReplayFlag: boolean = false;
+	// scoreBoardFlag: boolean = false;
+	// feedbackModalFlag: boolean = false;
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('teamUpRef') teamUpRef: any;
 	@ViewChild('teamDownRef') teamDownRef: any;
 	@ViewChild('teamLeftRef') teamLeftRef: any;
 	@ViewChild('teamRightRef') teamRightRef: any;
-	@ViewChild('teamUpGrade') teamUpGrade: any;
-	@ViewChild('teamDownGrade') teamDownGrade: any;
-	@ViewChild('teamLeftGrade') teamLeftGrade: any;
-	@ViewChild('teamRightGrade') teamRightGrade: any;
 	@ViewChild('quesVORef') quesVORef:any;
 	@ViewChild('mainContainer') mainContainer:any;
-	@ViewChild('confirmModalRef') confirmModalRef:any;
 	@ViewChild('confirmSubmitRef') confirmSubmitRef:any;
 	@ViewChild('confirmReplayRef') confirmReplayRef:any;
 	@ViewChild('scoreBoardModal') scoreBoardModal:any;
 	@ViewChild('feedbackModal') feedbackModal:any;
-
+	// @ViewChild('teamUpGrade') teamUpGrade: any;
+	// @ViewChild('teamDownGrade') teamDownGrade: any;
+	// @ViewChild('teamLeftGrade') teamLeftGrade: any;
+	// @ViewChild('teamRightGrade') teamRightGrade: any;	
+	// @ViewChild('confirmModalRef') confirmModalRef:any;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue, this);
@@ -223,6 +221,7 @@ export class Ntemplate8 implements OnInit {
 				if(this.confirmSubmitRef && this.confirmSubmitRef.nativeElement){
 					this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
 				}
+				// this.confirmSubmitFlag=true;
 			}else if(val=="replayVideo"){
 				this.appModel.videoStraming(true);
 				this.confirmAssets = this.fetchedcontent.replay_confirm;
@@ -246,7 +245,7 @@ export class Ntemplate8 implements OnInit {
 	ngOnDestroy(){
 		this.controlHandler.isNext = true;
 		this.controlHandler.isPrev = true;
-		this.controlHandler.isShowAns = true;
+		this.controlHandler.isShowAns = false;
 		this.controlHandler.isTab = true;
 		this.appModel.handleController(this.controlHandler);
 		this.appModel.enableSubmitBtn(false);
@@ -472,13 +471,16 @@ export class Ntemplate8 implements OnInit {
 			let selectedIdx = -1;
 			if(team=="teamUp"){
 				if(this.teamDownRef && this.teamDownRef.nativeElement && this.teamDownRef.nativeElement.children[0]){
-					$(this.teamDownRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamDownRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamDownRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeftRef.nativeElement.children[0]){
-					$(this.teamLeftRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamLeftRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamLeftRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.teamRightRef && this.teamRightRef.nativeElement && this.teamRightRef.nativeElement.children[0]){
-					$(this.teamRightRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamRightRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamRightRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.topSelectedIdx>-1){
 					selectedIdx = this.topSelectedIdx;
@@ -486,28 +488,34 @@ export class Ntemplate8 implements OnInit {
 			
 			}else if(team=="teamDown"){
 				if(this.teamUpRef && this.teamUpRef.nativeElement && this.teamUpRef.nativeElement.children[0]){
-					$(this.teamUpRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamUpRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamUpRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				
 				if(this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeftRef.nativeElement.children[0]){
-					$(this.teamLeftRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamLeftRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamLeftRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				
 				if(this.teamRightRef && this.teamRightRef.nativeElement && this.teamRightRef.nativeElement.children[0]){
-					$(this.teamRightRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamRightRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamRightRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.bottomSelectedIdx>-1){
 					selectedIdx = this.bottomSelectedIdx;
 				}
 			}else if(team=="teamLeft"){
 				if(this.teamUpRef && this.teamUpRef.nativeElement && this.teamUpRef.nativeElement.children[0]){
-					$(this.teamUpRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamUpRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamUpRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.teamDownRef && this.teamDownRef.nativeElement && this.teamDownRef.nativeElement.children[0]){
-					$(this.teamDownRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamDownRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamDownRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.teamRightRef && this.teamRightRef.nativeElement && this.teamRightRef.nativeElement.children[0]){
-					$(this.teamRightRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamRightRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamRightRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.leftSelectedIdx>-1){
 					selectedIdx = this.leftSelectedIdx;
@@ -515,13 +523,16 @@ export class Ntemplate8 implements OnInit {
 			}
 			else if(team=="teamRight"){
 				if(this.teamUpRef && this.teamUpRef.nativeElement && this.teamUpRef.nativeElement.children[0]){
-					$(this.teamUpRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamUpRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamUpRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.teamDownRef && this.teamDownRef.nativeElement && this.teamDownRef.nativeElement.children[0]){
-					$(this.teamDownRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamDownRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamDownRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeftRef.nativeElement.children[0]){
-					$(this.teamLeftRef.nativeElement.children[0]).addClass("disableDiv");
+					// $(this.teamLeftRef.nativeElement.children[0]).addClass("disableDiv");
+					this.teamLeftRef.nativeElement.children[0].classList.add("disableDiv");
 				}
 				if(this.rightSelectedIdx>-1){
 					selectedIdx = this.rightSelectedIdx;
@@ -650,22 +661,22 @@ export class Ntemplate8 implements OnInit {
 			opt.opt_normal = opt.opt_original;
 		}
 
-		setTimerGrade(){
-			if(this.currentMinute>=1){
-				if(this.teamUp.isStillActive){
-					this.teamUpGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
-				}
-				if(this.teamDown.isStillActive){
-					this.teamDownGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
-				}
-				if(this.teamLeft.isStillActive){
-					this.teamLeftGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;	
-				}
-				if(this.teamRight.isStillActive){
-					this.teamRightGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
-				}
-			}
-		}
+		// setTimerGrade(){
+		// 	if(this.currentMinute>=1){
+		// 		if(this.teamUp.isStillActive){
+		// 			this.teamUpGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
+		// 		}
+		// 		if(this.teamDown.isStillActive){
+		// 			this.teamDownGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
+		// 		}
+		// 		if(this.teamLeft.isStillActive){
+		// 			this.teamLeftGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;	
+		// 		}
+		// 		if(this.teamRight.isStillActive){
+		// 			this.teamRightGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
+		// 		}
+		// 	}
+		// }
 
 		hoverConfirm(){
 			this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;

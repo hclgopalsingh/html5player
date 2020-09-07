@@ -31,7 +31,6 @@
             [src]="teamCommonAssets?.teamBg?.url">
           <img class="img-fluid teamName"
             [src]="teamUp?.teamName?.url">
-          <!-- <img class="img-fluid gradeCircle" #teamUpGrade > -->
           <img class="img-fluid gradeCircle" *ngFor="let score of liveScoreObjCopy?.teamUpLiveScore"
             [src]="score?.live_no?.url">
 
@@ -101,7 +100,6 @@
               [src]="teamCommonAssets?.teamBg?.url">
             <img class="img-fluid teamName"
               [src]="teamRight?.teamName?.url">
-            <!-- <img class="img-fluid gradeCircle" #teamRightGrade > -->
             <img class="img-fluid gradeCircle" *ngFor="let score of liveScoreObjCopy?.teamRightLiveScore"
               [src]="score?.live_no?.url">
           </div>
