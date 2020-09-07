@@ -2305,9 +2305,9 @@ export class Ntemplate6 implements OnInit {
     }
     this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 4 + "%";
     } else if (option.position == "bottom_spcialCase") {
-      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 1 + "%";
+      this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.2 + "%";
     } else if (option.position == "left" || option.position == "right") {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3.4 + "%";
     }
