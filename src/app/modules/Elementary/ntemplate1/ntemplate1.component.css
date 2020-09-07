@@ -595,12 +595,13 @@ button:focus {
 #modalTemp5 .modal-dialog {
   /* width: 60%; */
   min-width: 58.5%;
-  max-width: 80%;
+  max-width: 58.5%;/*80%;*/
   height: auto;
 }
 
 #modalTemp5 .modal-body {
   padding: 3%;
+  flex-wrap: wrap;
 }
 
 .modal-content {
@@ -703,14 +704,16 @@ button:focus {
   width: 25%; /*100%*/
 }
 #modalTemp5  #instructionBarFeedback {
-  position: absolute;
-  top: 4%;
+  position: relative;
+  top: 0;
   width: 100%;
   text-align: center;
+  margin-bottom: .9%;
+  display: none;
 }
 
 #modalTemp5 #instructionBarFeedback .instructionBase {
-  width: 66%;
+  width: 100%;
   position: relative;
   cursor: pointer;
 }
@@ -732,17 +735,20 @@ html [type=button] {
 
 #modalPartialOptions .modal-body {
  padding: 3%;
+ flex-wrap: wrap;
 }
 
 #modalPartialOptions  #instructionBarPartial {
-    position: absolute;
-    top: 4%;
-    width: 100%;
-    text-align: center;
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+  display: none;
 }
 
 #modalPartialOptions #instructionBarPartial .instructionBase {
-    width: 66%;
+    width: 100%;
     position: relative;
     cursor: pointer;
 }
@@ -803,7 +809,6 @@ html [type=button] {
 
 #modalPartialOptions .optionsBlock {
   padding: 0 1%;
-  margin-top: 4.5%;
 }
 
   #modalPartialOptions .optionsBlock .options {
