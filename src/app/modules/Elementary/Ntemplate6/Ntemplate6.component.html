@@ -30,8 +30,9 @@
 
     <div class="duplicateOption" #DuplicateOption>
       <ng-container *ngFor="let duplicateOption of optionObj;let idxd = index">
-        <img id="duplicate{{idxd}}" class="img-fluid duplicateOptionImg opacityCls duplicateOptionBlack"
+        <img id="duplicate{{idxd}}" [@openClose]="{value: duplicateOption.isOpen ? 'open' : 'closed', params: {leftPos: duplicateOption.leftPos , topPos: duplicateOption.topPos}}" class="img-fluid duplicateOptionImg opacityCls duplicateOptionBlack"
           [src]="duplicateOption?.url">
+          
       </ng-container>
     </div>
 
