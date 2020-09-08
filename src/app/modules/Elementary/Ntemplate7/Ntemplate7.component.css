@@ -41,7 +41,7 @@ button:focus {
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
-	top: -13%;
+	top: -2%;
 	left: -8%;
 	display:none;
 	pointer-events: none;
@@ -350,6 +350,9 @@ button:focus {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: #248446;
+}
+.disable_div {
+  pointer-events: none;
 }
 .modal-body {
 	padding:2%;
