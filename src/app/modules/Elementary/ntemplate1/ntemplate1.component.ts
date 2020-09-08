@@ -170,6 +170,8 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       } else if (mode == "auto") {
 
         //show modal of auto
+        this.popupTxtRequired = this.feedbackObj.showAnswerpopupTxt.required;
+        this.popupRef.nativeElement.children[0].children[0].children[1].children[0].children[0].children[0].src = this.feedbackObj.showAnswerpopupTxt.url;
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
         this.appModel.notifyUserAction();
@@ -341,7 +343,9 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
     }
     if (this.quesObj.quesType == "video") {
       this.replayVideo();
+      this.appModel.stopAllTimer();
     } else {
+      this.appModel.notifyUserAction();
       if (this.i != undefined && this.j != undefined) {
         if (!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
           this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].pause();
@@ -609,6 +613,14 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
 
   houtOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+  }
+
+  hoverinfopopupCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+  }
+
+  houtinfopopupCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
   }
 
   dontshowFeedback(id: string, flag: string) {
@@ -1379,6 +1391,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       this.mainVideo.nativeElement.parentElement.style.visibility = "visible";
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
+        this.appModel.notifyUserAction();
         setTimeout(() => {
           this.disable = false;
         }, 1000);
