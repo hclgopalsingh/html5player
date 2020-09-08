@@ -13,7 +13,7 @@
     <div id="coverTop" [ngStyle]="{'display': coverTop ? 'block' : 'none' }"></div>
     <div id="coverBtm" [ngStyle]="{'display': coverBottom ? 'block' : 'none' }"></div>
     <div class="speaker" [ngClass]="{'disable_div':disableSpeaker}">
-      <img class="img-fluid" [src]="commonAssets?.speaker?.url" (click)="playSpeaker($event)">
+      <img class="img-fluid" [src]="commonAssets?.speaker?.url" [ngStyle]="{'cursor': speakerPointer ? 'default' : 'pointer' }" (click)="playSpeaker($event)">
       <div class="speakerWave" [ngClass]="{'dispFlex':speakerWave}"></div>
     </div>
     <audio #Speaker [src]="commonAssets?.speaker_vo?.url"></audio>

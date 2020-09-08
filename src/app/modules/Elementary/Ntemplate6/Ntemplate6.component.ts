@@ -253,6 +253,7 @@ export class Ntemplate6 implements OnInit {
   skipButton: boolean = false;
   replayClicked: boolean = false;
   disableSection: boolean = false;
+  speakerPointer:boolean = false;
   
   defaultLetterConfig = [
     {
@@ -878,7 +879,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L12", "L49"],
-          style: { "left": "3.1" }
+          style: { "left": "3.8" }
         },
         {
           id: ["L14"],
@@ -2127,7 +2128,7 @@ export class Ntemplate6 implements OnInit {
       this.refQuesCopy = this.QuesArr.slice();
       this.refQuesCopy.splice(this.index, 0, opt.id);
     }
-
+    console.log("animation 11");
     this.onClickAnimation(opt, id);
 
     if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
@@ -2511,10 +2512,19 @@ export class Ntemplate6 implements OnInit {
       this.coverTop = true;
       this.coverBottom = true;
       this.disableSection = true;
-
+      ////this.disableSpeaker = true;
+      ////this.speakerPointer = true;
+      this.bodyContentDisable = true;
       this.instructionVO.nativeElement.onended = () => {
         this.disableSection = false;
         this.InstructionVo = true;
+
+        setTimeout(() => {
+          this.bodyContentDisable = false;
+        }, 2000);
+
+       
+        
         if (!this.clicked) {
           this.coverTop = false;
         }
@@ -2540,9 +2550,11 @@ export class Ntemplate6 implements OnInit {
     this.Myspeaker.nativeElement.onended = () => {
       if (!this.clicked) {
         this.coverTop = false;
+        
       }
       if (this.clicked) {
-        this.coverBottom = false;
+        this.coverBottom = true;
+        this.coverTop = false;
       }
       this.InstructionVo = true;
       this.speakerWave = false;
@@ -2665,17 +2677,22 @@ export class Ntemplate6 implements OnInit {
       //this.mainContainer.nativeElement.classList = "bodyContent disable_div";
       this.bodyContentDisable = true;
       this.disableSection = true;
-
+      this.disableSpeaker = true;
+      this.bodyContentDisable = true;
       this.quesVORef.nativeElement.play();
 
       this.appModel.enableReplayBtn(false);
       this.appModel.enableSubmitBtn(false);
       this.appModel.handlePostVOActivity(true);
       this.quesVORef.nativeElement.onended = () => {
+         
+        this.disableSpeaker = false;
         this.InstructionVo = true;
         console.log('play');
         //this.mainContainer.nativeElement.classList = "bodyContent";
-        this.bodyContentDisable = false;
+        setTimeout(() => {
+          this.bodyContentDisable = false;
+        }, 1000);
         this.disableSection = false;
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
