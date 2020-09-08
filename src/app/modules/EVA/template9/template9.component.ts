@@ -51,7 +51,6 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   rightTimer: any;
   audio = new Audio();
   selectedIndex: any;
-  rightAnswerPopup: any;
   showAnswerTimer: any;
   videoonshowAnspopUp: any;
   showAnswerRef: any;
@@ -392,7 +391,6 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
     this.multiCorrectPopup = this.feedback.all_correct_sound;
     this.showAnswerVO = this.feedback.show_ans_sound;
     this.showAnswerPopup = this.feedback.show_ans_popup;
-    this.rightAnswerPopup = this.feedback.right_ans_popup;
     this.lastQuestionCheck = this.commonAssets.ques_control.isLastQues;
     this.commonAssets.ques_control.blinkingStatus = false;
     this.isLastQues = this.appModel.isLastSection;
