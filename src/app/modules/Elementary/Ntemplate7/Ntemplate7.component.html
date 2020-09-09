@@ -20,7 +20,7 @@
         <audio #quesVORef></audio>
         <div class="row mx-0" id="optionsBlock" [ngClass]="{'disable_div':disableOption}">
             <div class="my-auto quesImage" #optionRef id="optionTestId">
-                <div class="options" *ngFor="let opt of optionObj.opts;let idx = index" (click)="selectOpt(opt,idx)" (mousemove)="optionHover(idx,opt)" (mouseleave)="optionLeave(idx,opt)"  (mouseenter)="playOptionHover(idx,opt)">
+                <div class="options "  *ngFor="let opt of optionObj.opts;let idx = index" (click)="selectOpt(opt,idx)" (mousemove)="optionHover(idx,opt)" (mouseleave)="optionLeave(idx,opt)"  (mouseenter)="playOptionHover(idx,opt)">
                   <!-- <img class="img-fluid" [src]="optionObj?.optBg?.url"
                         (load)="checkImgLoaded();">--> 
                         <img id="idx{{idxX}}" class="img-fluid" [src]="opt?.baseImg?.url">

@@ -120,6 +120,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
   bodyContentDisable: boolean = false;
   displayconfirmPopup: boolean = false;
   displaymainPopup: boolean = false;
+  disableremovalTimer:any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -155,6 +156,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     }
     this.containgFolderPath = this.getBasePath();
     clearInterval(this.blinkTimeInterval);
+    clearInterval(this.disableremovalTimer);
     this.startCount = 0;
     /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
@@ -178,7 +180,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.displaymainPopup = true;
         if (this.attemptType == "manual" && this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
           this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-        } else {
+        }else {
           this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgshowAnsfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         this.feedbackPopupAudio.nativeElement.play();
@@ -189,7 +191,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
           }, this.showAnsTimeout);
         }
         //}
-      } else if (mode == "auto") {
+      }else if (mode == "auto") {
 
         //show modal of auto
         this.appModel.notifyUserAction();
@@ -267,6 +269,10 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     clearInterval(this.rightAnsTimeout);
     clearInterval(this.showAnssetTimeout);
     this.index1 = 0;
+    if(this.narrator.nativeElement!=undefined){
+      this.narrator.nativeElement.pause();
+      this.narrator.nativeElement.currentTime=0;
+    }
     for (let i = 0; i < this.optionObj.length; i++) {
       if (this.optionObj[i] && this.optionObj[i].Matched) {
         this.optionObj[i].Matched = false;
@@ -284,7 +290,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
-    } else {
+    }else {
       console.log("play on Instruction");
       this.appModel.notifyUserAction();
       if (this.instruction.nativeElement.paused) {
@@ -314,9 +320,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       this.checked = true;
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
-      } else if (this.noOfBlocks == 9) {
+      }else if (this.noOfBlocks == 9) {
         this.puzzleBlock9disabled = true;
-      } else if (this.noOfBlocks == 12) {
+      }else if (this.noOfBlocks == 12) {
         this.puzzleBlock12disabled = true;
       }
       clearInterval(this.blinkTimeInterval);
@@ -343,12 +349,12 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
           }
         }
       }
-    } else {
+    }else {
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
-      } else if (this.noOfBlocks == 9) {
+      }else if (this.noOfBlocks == 9) {
         this.puzzleBlock9disabled = true;
-      } else if (this.noOfBlocks == 12) {
+      }else if (this.noOfBlocks == 12) {
         this.puzzleBlock12disabled = true;
       }
       this.onPlacePuzzle(opt, i, j);
@@ -409,15 +415,15 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.feedbackVO.nativeElement.src = undefined;
         if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url != "") {
           this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-        } else {
+        }else {
           this.puzzleBlockclicked = false;
           this.appModel.handlePostVOActivity(false)
           this.checked = false;
           if (this.noOfBlocks == 4) {
             this.puzzleBlock4disabled = false;
-          } else if (this.noOfBlocks == 9) {
+          }else if (this.noOfBlocks == 9) {
             this.puzzleBlock9disabled = false;
-          } else if (this.noOfBlocks == 12) {
+          }else if (this.noOfBlocks == 12) {
             this.puzzleBlock12disabled = false;
           }
           this.startCount = 1;
@@ -430,19 +436,21 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
             this.puzzleBlockclicked = false;
             this.appModel.handlePostVOActivity(false)
             this.checked = false;
-            if (this.noOfBlocks == 4) {
-              this.puzzleBlock4disabled = false;
-            } else if (this.noOfBlocks == 9) {
-              this.puzzleBlock9disabled = false;
-            } else if (this.noOfBlocks == 12) {
-              this.puzzleBlock12disabled = false;
-            }
             this.startCount = 1;
             this.blinkHolder();
+            this.disableremovalTimer=setTimeout(()=> {
+              if (this.noOfBlocks == 4) {
+                this.puzzleBlock4disabled = false;
+              }else if (this.noOfBlocks == 9) {
+                this.puzzleBlock9disabled = false;
+              }else if (this.noOfBlocks == 12) {
+                this.puzzleBlock12disabled = false;
+              }
+            }, 500);
           }
         }, 300);
         this.optionsBlock.nativeElement.children[j + 1].style.pointerEvents = "none";
-      } else {
+      }else {
         this.feedbackVO.nativeElement.src = undefined;
         if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url != "") {
           this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -455,18 +463,18 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       }
 
 
-    } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
+    }else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
       this.optionsBlock.nativeElement.children[j + 1].src = this.optionObj[j].imgsrc.url;
-      if (this.noOfBlocks == 4) {
-        this.puzzleBlock4disabled = false;
-      } else if (this.noOfBlocks == 9) {
-        this.puzzleBlock9disabled = false;
-      } else if (this.noOfBlocks == 12) {
-        this.puzzleBlock12disabled = false;
-      }
       this.appModel.handlePostVOActivity(false);
       this.startCount = 1;
       this.blinkHolder();
+      if (this.noOfBlocks == 4) {
+        this.puzzleBlock4disabled = false;
+      }else if (this.noOfBlocks == 9) {
+        this.puzzleBlock9disabled = false;
+      }else if (this.noOfBlocks == 12) {
+        this.puzzleBlock12disabled = false;
+      }
     }
   }
 
@@ -527,8 +535,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       // }, 300);
       // this.optionsBlock.nativeElement.children[j+1].style.pointerEvents = "none";        
       // });
-    }
-    else {
+    }else {
       this.puzzleBlockclicked = false;
       this.startCount = 0;
       opt.isOpen = false;
@@ -565,7 +572,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         }
       }
       console.log("Segment Ends");
-    } else {
+    }else {
       this.appModel.moveNextQues(this.attemptType);
     }
   }
@@ -602,7 +609,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
-    } else {
+    }else {
       this.appModel.getJson();
     }
   }
@@ -648,9 +655,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       //this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
-      } else if (this.noOfBlocks == 9) {
+      }else if (this.noOfBlocks == 9) {
         this.puzzleBlock9disabled = true;
-      } else if (this.noOfBlocks == 12) {
+      }else if (this.noOfBlocks == 12) {
         this.puzzleBlock12disabled = true;
       }
       this.bodyContentDisable = true;
@@ -662,15 +669,15 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         //this.optionsBlock.nativeElement.classList = "row mx-0";
         if (this.noOfBlocks == 4) {
           this.puzzleBlock4disabled = false;
-        } else if (this.noOfBlocks == 9) {
+        }else if (this.noOfBlocks == 9) {
           this.puzzleBlock9disabled = false;
-        } else if (this.noOfBlocks == 12) {
+        }else if (this.noOfBlocks == 12) {
           this.puzzleBlock12disabled = false;
         }
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
       }
-    } else {
+    }else {
       this.startActivity();
       this.appModel.handlePostVOActivity(false);
     }
@@ -686,7 +693,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     this.blinkTimeInterval = setInterval(() => {
       if (this.startCount == 1) {
         this.blinkHolderImg(this.index1);
-      } else {
+      }else {
         clearInterval(this.blinkTimeInterval);
         //console.log(this.optionsBlock.nativeElement);
         // if (this.blockcount > 1) {
@@ -705,13 +712,13 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       if (this.blinkFlag) {
         this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_blink;
         this.blinkFlag = false;
-      } else {
+      }else {
         if (this.optionObj[i].imgsrc_original != undefined) {
           this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
         }
         this.blinkFlag = true;
       }
-    } else {
+    }else {
       ++this.index1;
       this.blinkHolderImg(this.index1);
     }
@@ -752,11 +759,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.isBlock12 = true;
         this.isBlock9 = false;
         this.isBlock4 = false;
-      } else if (this.noOfBlocks == 9) {
+      }else if (this.noOfBlocks == 9) {
         this.isBlock12 = false;
         this.isBlock9 = true;
         this.isBlock4 = false;
-      } else if (this.noOfBlocks == 4) {
+      }else if (this.noOfBlocks == 4) {
         this.isBlock12 = false;
         this.isBlock9 = false;
         this.isBlock4 = true;
@@ -787,9 +794,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
-      } else if (this.noOfBlocks == 9) {
+      }else if (this.noOfBlocks == 9) {
         this.puzzleBlock9disabled = true;
-      } else if (this.noOfBlocks == 12) {
+      }else if (this.noOfBlocks == 12) {
         this.puzzleBlock12disabled = true;
       }
       this.showAnssetTimeout = setTimeout(() => {
@@ -804,7 +811,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       this.bodyContentOpacity = true;
       this.instructionOpacity = true;
       this.checked = true;
-    } else {
+    }else {
       this.appModel.notifyUserAction();
       this.instructionDisable = false;
     }
@@ -835,15 +842,14 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.instructionDisable = false;
         if (this.noOfBlocks == 4) {
           this.puzzleBlock4disabled = false;
-        } else if (this.noOfBlocks == 9) {
+        }else if (this.noOfBlocks == 9) {
           this.puzzleBlock9disabled = false;
-        } else if (this.noOfBlocks == 12) {
+        }else if (this.noOfBlocks == 12) {
           this.puzzleBlock12disabled = false;
         }
       }, 1000);
     }
   }
   /*End-Template Functions*/
-
 }
 
