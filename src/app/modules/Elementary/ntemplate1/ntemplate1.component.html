@@ -85,7 +85,7 @@
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
           <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
           <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
-            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+            (mousemove)="hoverinfopopupCloseConfirm()" (mouseleave)="houtinfopopupCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
