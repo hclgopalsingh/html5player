@@ -254,6 +254,7 @@ export class Ntemplate6 implements OnInit {
   replayClicked: boolean = false;
   disableSection: boolean = false;
   speakerPointer:boolean = false;
+  optionDisable:boolean = false;
   
   defaultLetterConfig = [
     {
@@ -875,7 +876,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L10", "L18", "L22", "L24", "L35", "L55"],
-          style: { "left": "2.7" }
+          style: { "left": "3.2" }
         },
         {
           id: ["L12", "L49"],
@@ -883,35 +884,35 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L14"],
-          style: { "left": "3.9" }
+          style: { "left": "4" }
         },
         {
           id: ["L16", "L32"],
-          style: { "left": "3.8" }
+          style: { "left": "4.5" }
         },
         {
           id: ["L20", "L45"],
-          style: { "left": "3.5" }
-        },
-        {
-          id: ["L26"],
-          style: { "left": "4.2" }
-        },
-        {
-          id: ["L28", "L41"],
-          style: { "left": "2.4" }
-        },
-        {
-          id: ["L30", "L51", "L74", "L75"],
-          style: { "left": "3.2" }
-        },
-        {
-          id: ["L33", "L39", "L62"],
           style: { "left": "4.3" }
         },
         {
+          id: ["L26"],
+          style: { "left": "3.5" }
+        },
+        {
+          id: ["L28", "L41"],
+          style: { "left": "3" }
+        },
+        {
+          id: ["L30", "L51", "L74", "L75"],
+          style: { "left": "3.9" }
+        },
+        {
+          id: ["L33", "L39", "L62"],
+          style: { "left": "5.2" }
+        },
+        {
           id: ["L36", "L56"],
-          style: { "left": "2.2" }
+          style: { "left": "2.5" }
         },
         {
           id: ["L38"],
@@ -919,42 +920,42 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L43"],
-          style: { "left": "5.4" }
+          style: { "left": "6.6" }
         },
         {
           id: ["L47", "L60"],
-          style: { "left": "4.4" }
+          style: { "left": "5.2" }
         },
         {
           id: ["L64"],
-          style: { "left": "2.5" }
+          style: { "left": "3" }
         },
         {
           id: ["L66", "L68"],
-          style: { "left": "2.9" }
+          style: { "left": "3.5" }
         },
         {
           id: ["L70"],
-          style: { "left": "3.6" }
+          style: { "left": "4.4" }
         },
         {
           id: ["L72"],
-          style: { "left": "3.7" }
+          style: { "left": "4.4" }
         },
         {
           id: ["L77"],
-          style: { "left": "2.8" }
+          style: { "left": "3.3" }
         },
         {
           id: ["L79"],
-          style: { "left": "3.4" }
+          style: { "left": "4" }
         },
         {
           id: ["L2", "L4", "L5", "L6", "L7", "L8", "L9", "L11", "L13", "L15", "L17",
             "L19", "L21", "L23", "L25", "L27", "L29", "L31", "L34", "L37", "L40",
             "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L57", "L58",
             "L59", "L61", "L63", "L65", "L67", "L69", "L71", "L73", "L76", "L78"],
-          style: { "left": "0" }
+          style: { "left": "4" }
         }
       ]
     },
@@ -1046,7 +1047,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L18", "L22", "L24"],
-          style: { "left": "2.1" }
+          style: { "left": "2.5" }
         },
         {
           id: ["L20"],
@@ -1058,7 +1059,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L28", "L41"],
-          style: { "left": "0.9" }
+          style: { "left": "2" }
         },
         {
           id: ["L30", "L51"],
@@ -1070,7 +1071,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L33"],
-          style: { "left": "3.2" }
+          style: { "left": "3.5" }
         },
 
         {
@@ -1079,7 +1080,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L38", "L39", "L62"],
-          style: { "left": "3.3" }
+          style: { "left": "3.6" }
         },
         {
           id: ["L43"],
@@ -1134,7 +1135,7 @@ export class Ntemplate6 implements OnInit {
             "L19", "L21", "L23", "L25", "L27", "L29", "L31", "L34", "L37", "L40",
             "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L57", "L58",
             "L59", "L61", "L63", "L65", "L67", "L69", "L71", "L73", "L76", "L78"],
-          style: { "left": "0" }
+          style: { "left": "2.3" }
         }
       ]
     },
@@ -2782,8 +2783,11 @@ export class Ntemplate6 implements OnInit {
       }
       else {
         this.coverTop = true;
-        this.coverBottom = false;
+        this.coverBottom = true;
       }
+      setTimeout(() => {
+        this.coverBottom = false;
+      }, 1000);
       this.appModel.notifyUserAction();
       this.confirmModalRef.nativeElement.classList = "modal";
     }
@@ -2922,7 +2926,13 @@ export class Ntemplate6 implements OnInit {
         //this.Matra.nativeElement.children[this.index].style.outline = '';
         //this.Matra.nativeElement.children[this.index].classList.value = "";
       }
-
+      this.coverBottom = true;
+      this.optionDisable = true;
+    
+      setTimeout(() => {
+        this.coverBottom = false;
+        this.optionDisable = false;
+      }, 1000);
       id.classList = "modal";
       if (this.flag) {
         this.mainContainer.nativeElement.style.opacity = "0.3";
