@@ -13,7 +13,7 @@
     <div id="coverTop" [ngStyle]="{'display': coverTop ? 'block' : 'none' }"></div>
     <div id="coverBtm" [ngStyle]="{'display': coverBottom ? 'block' : 'none' }"></div>
     <div class="speaker" [ngClass]="{'disable_div':disableSpeaker}">
-      <img class="img-fluid" [src]="commonAssets?.speaker?.url" (click)="playSpeaker($event)">
+      <img class="img-fluid" [src]="commonAssets?.speaker?.url" [ngStyle]="{'cursor': speakerPointer ? 'default' : 'pointer' }" (click)="playSpeaker($event)">
       <div class="speakerWave" [ngClass]="{'dispFlex':speakerWave}"></div>
     </div>
     <audio #Speaker [src]="commonAssets?.speaker_vo?.url"></audio>
@@ -37,9 +37,9 @@
     </div>
 
     
-    <div class="row mx-0" id="optionsBlock" #optionsClickable>
+    <div class="row mx-0" id="optionsBlock" #optionsClickable [ngClass]="{'disable_div':optionDisable}">
       <div class="my-auto quesImage">
-        <div class="options" *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
+        <div class="options"  *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
           (mouseenter)="playHoverOption(option,idxX)" (mousemove)="optionHover(option,idxX)"
           (mouseleave)="onHoverOptionOut(option,idxX)">
           <img id="idx{{idxX}}" class="img-fluid" [src]="option?.baseImg?.url">

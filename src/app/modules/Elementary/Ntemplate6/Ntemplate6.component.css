@@ -196,11 +196,12 @@ button:focus {
 
 .refQuesPopUp {
   position: relative;
-  top: 19.8%;
+  top: 20%;
   background: transparent !important;
-  border: solid 2px transparent !important;
+  border: solid 0px transparent !important;
   z-index: 110;
   pointer-events: none;
+  
 }
 
 #modalTemp6 {
