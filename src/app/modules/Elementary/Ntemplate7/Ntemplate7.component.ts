@@ -287,10 +287,17 @@ export class Ntemplate7 implements OnInit {
     optionHover(idx, opt) {
         ////$(this.optionRef.nativeElement.children[idx].children[0]).addClass("scaleInAnimation");
         this.optionRef.nativeElement.children[idx].children[0].classList.add('scaleInAnimation');
+        ////this.optionRef.nativeElement.children[0].children[j].classList.add('disable_div');
+        for (let j = 0; j < this.optionObj.opts.length; j++) {
+            this.optionRef.nativeElement.children[j].classList.add('disable_div');             
+          }
+          this.optionRef.nativeElement.children[idx].classList.remove('disable_div');
+             
 
     }
 
     optionLeave(idx, opt) {
+        
         ////$(this.optionRef.nativeElement.children[idx].children[0]).addClass("scaleOutAnimation");
         this.optionRef.nativeElement.children[idx].children[0].classList.add('scaleOutAnimation');
         setTimeout(() => {
@@ -300,6 +307,11 @@ export class Ntemplate7 implements OnInit {
             this.optionRef.nativeElement.children[idx].children[0].classList.remove('scaleInAnimation');
             this.optionRef.nativeElement.children[idx].children[0].classList.remove('scaleOutAnimation');
         }, 500)
+
+        for (let j = 0; j < this.optionObj.opts.length; j++) {
+            this.optionRef.nativeElement.children[j].classList.remove('disable_div');             
+          }
+
     }
 
     playOptionHover(idx, opt) {
@@ -341,6 +353,7 @@ export class Ntemplate7 implements OnInit {
                         this.optionRef.nativeElement.children[i].classList.remove('disableDiv');
                     }
                 }
+               
                 ////this.instructionBar.nativeElement.classList = "instructionBase";
                 ////this.speakerRef.nativeElement.classList = "speaker";
             }
@@ -470,6 +483,8 @@ export class Ntemplate7 implements OnInit {
         this.appModel.notifyUserAction();
         ref.classList = "modal";
         if (action == "showAnswer") {
+            this.styleHeaderPopup = this.feedbackObj.style_header;
+            this.styleBodyPopup = this.feedbackObj.style_body;
             this.isShowans = true;
             this.appModel.resetBlinkingTimer();
             this.getAnswer();
