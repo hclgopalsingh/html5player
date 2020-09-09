@@ -249,7 +249,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
         }
         this.quesObj.tablet.questionText[index]['selected'] = false;
       });
-      document.querySelector(this.QuesRef.nativeElement.children[0].children[questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', '#e6e8fa');
+      document.querySelector(this.QuesRef.nativeElement.children[0].children[questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.mainSvgfile.hoverColor);
       this.quesObj.tablet.questionText[questionIndex]['selected'] = true;
       this.selectedIndex = questionIndex;
       this.selectedId = id;
