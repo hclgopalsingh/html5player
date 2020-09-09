@@ -37,9 +37,9 @@
     </div>
 
     
-    <div class="row mx-0" id="optionsBlock" #optionsClickable>
+    <div class="row mx-0" id="optionsBlock" #optionsClickable [ngClass]="{'disable_div':optionDisable}">
       <div class="my-auto quesImage">
-        <div class="options" *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
+        <div class="options"  *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
           (mouseenter)="playHoverOption(option,idxX)" (mousemove)="optionHover(option,idxX)"
           (mouseleave)="onHoverOptionOut(option,idxX)">
           <img id="idx{{idxX}}" class="img-fluid" [src]="option?.baseImg?.url">
