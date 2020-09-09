@@ -1233,7 +1233,7 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L39", "L79"],
-          style: { "left": "2.7" }
+          style: { "left": "3.7" }
         },
         {
           id: ["L43"],
@@ -1296,31 +1296,31 @@ export class Ntemplate6 implements OnInit {
       letters: [
         {
           id: ["L1"],
-          style: { "left": "6.1" }
+          style: { "left": "6.8" }
         },
         {
           id: ["L3"],
-          style: { "left": "3.6" }
+          style: { "left": "4" }
         },
         {
           id: ["L10", "L18", "L22", "L24", "L35"],
-          style: { "left": "2.1" }
+          style: { "left": "2.3" }
         },
         {
           id: ["L12"],
-          style: { "left": "2.5" }
+          style: { "left": "2.7" }
         },
         {
           id: ["L14", "L16"],
-          style: { "left": "3.3" }
+          style: { "left": "3.5" }
         },
         {
           id: ["L20", "L32", "L45"],
-          style: { "left": "3.0" }
+          style: { "left": "3.2" }
         },
         {
           id: ["L26"],
-          style: { "left": "3.7" }
+          style: { "left": "3.8" }
         },
         {
           id: ["L28", "L41"],
@@ -1328,11 +1328,11 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L30", "L51", "L74"],
-          style: { "left": "2.7" }
+          style: { "left": "2.9" }
         },
         {
           id: ["L33", "L39", "L62"],
-          style: { "left": "3.8" }
+          style: { "left": "4" }
         },
         {
           id: ["L36", "L56"],
@@ -1340,11 +1340,11 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L38"],
-          style: { "left": "4.3" }
+          style: { "left": "4.6" }
         },
         {
           id: ["L43"],
-          style: { "left": "4.9" }
+          style: { "left": "5.3" }
         },
         {
           id: ["L47", "L60"],
@@ -1352,11 +1352,11 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L49"],
-          style: { "left": "2.6" }
+          style: { "left": "2.8" }
         },
         {
           id: ["L55"],
-          style: { "left": "2.2" }
+          style: { "left": "2.4" }
         },
         {
           id: ["L56"],
@@ -1364,27 +1364,27 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L64"],
-          style: { "left": "2.0" }
+          style: { "left": "2.2" }
         },
         {
           id: ["L66", "L75"],
-          style: { "left": "2.4" }
+          style: { "left": "2.6" }
         },
         {
           id: ["L68"],
-          style: { "left": "2.1" }
+          style: { "left": "2.3" }
         },
         {
           id: ["L70"],
-          style: { "left": "3.1" }
+          style: { "left": "3.3" }
         },
         {
           id: ["L72"],
-          style: { "left": "3.2" }
+          style: { "left": "3.4" }
         },
         {
           id: ["L77"],
-          style: { "left": "2.3" }
+          style: { "left": "2.5" }
         },
         {
           id: ["L79"],
@@ -1395,7 +1395,7 @@ export class Ntemplate6 implements OnInit {
             "L19", "L21", "L23", "L25", "L27", "L29", "L31", "L34", "L37", "L40",
             "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L57", "L58",
             "L59", "L61", "L63", "L65", "L67", "L69", "L71", "L73", "L76", "L78"],
-          style: { "left": "0" }
+          style: { "left": "3.8" }
         }
       ]
     },
@@ -1410,11 +1410,11 @@ export class Ntemplate6 implements OnInit {
       letters: [
         {
           id: ["L1"],
-          style: { "left": "2.4" }
+          style: { "left": "2.9" }
         },
         {
           id: ["L3"],
-          style: { "left": "1.9" }
+          style: { "left": "2.4" }
         },
         {
           id: ["L20"],
@@ -1426,43 +1426,43 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L10", "L18"],
-          style: { "left": "0.9" }
+          style: { "left": "1.1" }
         },
         {
           id: ["L12"],
-          style: { "left": "1.3" }
-        },
-        {
-          id: ["L14"],
-          style: { "left": "2.1" }
-        },
-        {
-          id: ["L18", "L22", "L68"],
-          style: { "left": "-0.1" }
-        },
-        {
-          id: ["L24"],
-          style: { "left": "1.2" }
-        },
-        {
-          id: ["L26"],
-          style: { "left": "2.5" }
-        },
-        {
-          id: ["L28", "L41"],
-          style: { "left": "0.7" }
-        },
-        {
-          id: ["L30", "L51"],
           style: { "left": "1.5" }
         },
         {
+          id: ["L14"],
+          style: { "left": "2.5" }
+        },
+        {
+          id: ["L18", "L22", "L68"],
+          style: { "left": "0.1" }
+        },
+        {
+          id: ["L24"],
+          style: { "left": "1.4" }
+        },
+        {
+          id: ["L26"],
+          style: { "left": "2.9" }
+        },
+        {
+          id: ["L28", "L41"],
+          style: { "left": "0.8" }
+        },
+        {
+          id: ["L30", "L51"],
+          style: { "left": "1.7" }
+        },
+        {
           id: ["L32", "L45"],
-          style: { "left": "1.8" }
+          style: { "left": "2" }
         },
         {
           id: ["L33", "L39", "L47"],
-          style: { "left": "2.7" }
+          style: { "left": "3" }
         },
         {
           id: ["L35", "L56"],
@@ -1474,31 +1474,31 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L38"],
-          style: { "left": "3.1" }
+          style: { "left": "3.3" }
         },
         {
           id: ["L43"],
-          style: { "left": "3.7" }
+          style: { "left": "4.3" }
         },
         {
           id: ["L49"],
-          style: { "left": "1.4" }
+          style: { "left": "1.6" }
         },
         {
           id: ["L55"],
-          style: { "left": "1.0" }
+          style: { "left": "1.1" }
         },
         {
           id: ["L60"],
-          style: { "left": "2.7" }
+          style: { "left": "3.2" }
         },
         {
           id: ["L62"],
-          style: { "left": "2.6" }
+          style: { "left": "2.9" }
         },
         {
           id: ["L64"],
-          style: { "left": "0.8" }
+          style: { "left": "1" }
         },
         {
           id: ["L66"],
@@ -1506,23 +1506,23 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L70", "L72"],
-          style: { "left": "2.0" }
+          style: { "left": "2.2" }
         },
         {
           id: ["L74"],
-          style: { "left": "1.5" }
+          style: { "left": "1.8" }
         },
         {
           id: ["L75"],
-          style: { "left": "1.2" }
+          style: { "left": "1.4" }
         },
         {
           id: ["L77"],
-          style: { "left": "1.1" }
+          style: { "left": "1.3" }
         },
         {
           id: ["L79"],
-          style: { "left": "1.7" }
+          style: { "left": "1.9" }
         },
         {
           id: ["L2", "L4", "L5", "L6", "L7", "L8", "L9", "L11", "L13", "L15", "L17",
@@ -1706,7 +1706,7 @@ export class Ntemplate6 implements OnInit {
       letters: [
         {
           id: ["L3", "L4"],
-          style: { "left": "1.5" }
+          style: { "left": "2.2" }
         },
         {
           id: ["L9", "L11", "L23", "L54", "L63", "L76"],
@@ -1718,51 +1718,51 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L2", "L5", "L10", "L13", "L25", "L27", "L28", "L31", "L36", "L37", "L40", "L41", "L42", "L44", "L46", "L48", "L50", "L53", "L56", "L57", "L59", "L61", "L69", "L71", "L73", "L78"],
-          style: { "left": "0" }
+          style: { "left": "0.4" }
         },
         {
           id: ["L34", "L35", "L55", "L64", "L77"],
-          style: { "left": "0.3" }
-        },
-        {
-          id: ["L12", "L17", "L18", "L21", "L22", "L24", "L49", "L65", "L66", "L67", "L68", "L75"],
           style: { "left": "0.5" }
         },
         {
+          id: ["L12", "L17", "L18", "L21", "L22", "L24", "L49", "L65", "L66", "L67", "L68", "L75"],
+          style: { "left": "0.9" }
+        },
+        {
           id: ["L30", "L51", "L58", "L74", "L79"],
-          style: { "left": ".8" }
+          style: { "left": "1.2" }
         },
         {
           id: ["L6", "L7", "L8", "L32", "L45"],
-          style: { "left": "1" }
+          style: { "left": "1.4" }
         },
         {
           id: ["L14", "L15", "L16", "L19", "L20", "L70", "L72",],
-          style: { "left": "1.3" }
-        },
-        {
-          id: ["L26", "L39", "L52"],
-          style: { "left": "1.5" }
-        },
-        {
-          id: ["L62"],
           style: { "left": "1.8" }
         },
         {
+          id: ["L26", "L39", "L52"],
+          style: { "left": "2.3" }
+        },
+        {
+          id: ["L62"],
+          style: { "left": "2.4" }
+        },
+        {
           id: ["L47"],
-          style: { "left": "1.9" }
+          style: { "left": "2.4" }
         },
         {
           id: ["L33", "L38", "L60"],
-          style: { "left": "2" }
+          style: { "left": "2.7" }
         },
         {
           id: ["L43"],
-          style: { "left": "3" }
+          style: { "left": "3.7" }
         },
         {
           id: ["L1"],
-          style: { "left": "4.4" }
+          style: { "left": "5.1" }
         }
       ]
     },
@@ -1777,7 +1777,7 @@ export class Ntemplate6 implements OnInit {
       letters: [
         {
           id: ["L1", "L3", "L4", "L26", "L39", "L52", "L62"],
-          style: { "left": "2.7" }
+          style: { "left": "3.3" }
         },
         {
           id: ["L29"],
@@ -1793,11 +1793,11 @@ export class Ntemplate6 implements OnInit {
         },
         {
           id: ["L27", "L28", "L65", "L66", "L67", "L68"],
-          style: { "left": "0.8" }
+          style: { "left": "1.2" }
         },
         {
           id: ["L14", "L37", "L40", "L41", "L42", "L46", "L75"],
-          style: { "left": "1" }
+          style: { "left": "1.5" }
         },
         {
           id: ["L10", "L21", "L22", "L55", "L64",],
