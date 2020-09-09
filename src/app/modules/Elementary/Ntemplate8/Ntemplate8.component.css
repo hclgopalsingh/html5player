@@ -229,12 +229,9 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
+/* .modal-title{
   margin-left: 1.5%;
   height: 80%;
-
 }
 .close {
 	width: auto;
@@ -255,9 +252,8 @@ button:focus {
   color: #000;
   text-decoration: none;
   opacity: 1;
-}
+} */
 .modal-dialog{
-	/* width: 30%; */
 	max-width: 80%;
 	height: auto;/*100%;*/
 }
@@ -268,9 +264,9 @@ button:focus {
 	min-width: 540px;/*640px;*/
   min-height: 300px;/*198px;*/
 }
-.modal-header{
+/* .modal-header{
 	padding: .5%;
-	height: 7vmin;/*56px;*/
+	height: 7vmin;
   position: relative;
   top: 0;
   width: 100%;
@@ -279,7 +275,7 @@ button:focus {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: #248446;
-}
+} */
 .modal-body {
 	padding:2%;
 	background: #afdec0;
@@ -432,9 +428,9 @@ button:focus {
 #confirmModal .modal-body .actionButtons img {
 	width: 80%;
 }
-#confirmModal .modal-header {
+/* #confirmModal .modal-header {
 	top:0;
-}
+} */
 #confirmModal .bodyText {
   position: absolute;
   top: 30%;
@@ -443,14 +439,13 @@ button:focus {
 #confirmModal .bodyText img {
   width: 85%;
 }
-#confirmModal .modal-title {
+/* #confirmModal .modal-title {
   margin-left: 3%;
   font-size: auto;
 }
 #confirmModal .close {
-  /* width: 5%; */
   margin: -.1% 1.6% 0 auto	;
-}
+} */
 #confirmModal .modal-footer {
   display: flex;
   align-items: center;
@@ -493,18 +488,12 @@ button:focus {
   align-items: center;
 }
 
-#modalTemp8 .modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
+#modalTemp8 .modal-title{	
   margin-left: 1.5%;
-  /* height: 80%; */
   width: 25.5vmin;
 }
 #modalTemp8 .closeScoreBoard {
-	width: 4%;/*4.5vmin*/
-	/* height: 75%; */
-  /* margin-right: .5%;
-	margin-top: -.1%; */
+	width: 4%;
   -webkit-appearance: inherit !important;
   cursor: pointer;
   opacity: 1;
@@ -537,9 +526,9 @@ button:focus {
   min-height: 300px; */
 }
 
-.modal-header{
+/* .modal-header{
 	padding: .5% !important;
-}
+} */
 #modalTemp8 .modal-body{
 	padding:2%;
 	background: #2B3B52;
@@ -643,7 +632,7 @@ button:focus {
   right: .7%;
   top: 2%;
   position: absolute;
-  height: 7%;
+  height: 7% !important;
 }
 #modalfeedback .modal-content {
   min-height: 289px;

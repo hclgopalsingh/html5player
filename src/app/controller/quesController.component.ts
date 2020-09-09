@@ -474,6 +474,13 @@ export class QuesController implements OnInit {
     this.disableTabs = controlObj.isTab;
     this.disableSubmit = controlObj.isSubmitRequired;
     this.disableReplay = controlObj.isReplayRequired;
+    // debugger;
+    if(controlObj.ReplaybtnFromContent && this.quesCtrl && this.quesCtrl.replay_btn){      
+      this.quesCtrl.replay_btn=controlObj.replay_btn;
+      this.quesCtrl.replay_btn_hover=controlObj.replay_btn_hover;
+      this.quesCtrl.replay_btn_original=controlObj.replay_btn_original;
+    }
+    
 
   }
   ngOnDestroy() {
