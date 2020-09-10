@@ -909,7 +909,28 @@ info modal modal
   padding: 0;
   border-top: none !important;
 }
+#modalTemp4 #instructionBarFeedback {
+  position: relative;
+  top: 5%;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+  /* display: none; */
+}
 
+#modalTemp4 #instructionBarFeedback .instructionBase {
+  width: 100%;
+  position: relative;
+  /* cursor: pointer; */
+}
+#modalTemp4 .actionButtons button {
+  border: none;
+  background: transparent;
+  outline: none;
+}
+#modalTemp4 .actionButtons button img{
+  max-width: 80%;
+}
 /* #modalTemp4 .close {
     width: 3.5%;
     height: auto;

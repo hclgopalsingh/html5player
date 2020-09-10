@@ -109,11 +109,17 @@
           <img class="modal-title" [src]="feedbackAssets?.headerTxt_img?.url">
           <img class="close" [src]="feedbackAssets?.close_btn?.url"
             (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackClose()"
-            (mouseleave)="houtFeedbackClose()">
+            (mouseleave)="houtFeedbackClose()">            
         </div>
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center flex-wrap" [ngStyle]="feedbackAssets?.style_body">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            [ngClass]="{'dispFlex':popupTxtRequired}">
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="commonAssets?.instruction_img?.url" />
+            </div>
+          </div>
           <div class="d-flex justify-content-center w-100">
             <div class="matchHolder" *ngIf="category && category.correct && category.correct.length>0">
               <img class="img-fluid" [src]="feedbackAssets?.rightAttempt_placeholder?.url">
@@ -138,6 +144,10 @@
               [ngClass]="{'disableBtn': currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
               (mouseleave)="hleaveFeedbackNxt()">
+            <div class="actionButtons">
+              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverOK()"
+                (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url"></button>
+            </div>
           </div>
         </div>
 
@@ -158,7 +168,7 @@
             <button type="button" (click)="sendFeedback(confirmReplayRef,'yes','replay');"
               (mousemove)="hoverReplayConfirm()" (mouseleave)="houtReplayConfirm()"><img class="img-fluid"
                 [src]="confirmReplayAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverReplayDecline()"
+            <button type="button" (click)="sendFeedback(confirmReplayRef,'no','cancelReplay');" (mousemove)="hoverReplayDecline()"
               (mouseleave)="houtReplayDecline()"><img class="img-fluid"
                 [src]="confirmReplayAssets?.decline_btn?.url"></button>
           </div>
