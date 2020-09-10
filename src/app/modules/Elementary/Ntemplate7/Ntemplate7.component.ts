@@ -4,12 +4,37 @@ import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
-
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition,
+  } from '@angular/animations';
 
 declare var $: any;
 
 @Component({
     selector: 'ntemp7',
+    animations: [
+        trigger('openClose', [
+            state('open', style({
+                'left': '{{leftPos}}',
+                'top': '{{topPos}}'
+            }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+            state('closed', style({
+                'left': '{{leftPos}}',
+                'top': '{{topPos}}'
+    
+            }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+            transition('open => closed', [
+                animate('.5s')
+            ]),
+            transition('closed => open', [
+                animate('.5s')
+            ]),
+        ]),
+    ],
     templateUrl: './Ntemplate7.component.html',
     styleUrls: ['./Ntemplate7.component.css', '../../../view/css/bootstrap.min.css']
 
@@ -21,6 +46,7 @@ export class Ntemplate7 implements OnInit {
         this.appModel = appModel;
         if (!this.appModel.isVideoPlayed) {
             this.isVideoLoaded = false;
+            this.appModel.setLoader(true);
         } else {
             this.appModel.setLoader(true);
             // if error occured during image loading loader wil stop after 5 seconds 
@@ -115,6 +141,7 @@ export class Ntemplate7 implements OnInit {
     InstructionVo: boolean = false;
     disableSection:boolean = false;
     disableOption:boolean = false;
+    disableSpeaker:boolean = false;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -216,10 +243,12 @@ export class Ntemplate7 implements OnInit {
         if (!this.loadFlag) {
             this.noOfImgsLoaded++;
             if (this.noOfImgsLoaded >= this.noOfImgs) {
+
                 this.appModel.setLoader(false);
                 this.loadFlag = true;
                 clearTimeout(this.loaderTimer);
                 this.checkforQVO();
+                
             }
         }
     }
@@ -337,7 +366,7 @@ export class Ntemplate7 implements OnInit {
                 }
             }
             ////this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
-            this.disableSection = true;
+            this.disableSpeaker = true;
             ////this.speakerRef.nativeElement.classList = "speaker disableDiv";
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
@@ -346,7 +375,7 @@ export class Ntemplate7 implements OnInit {
             this.speakerRef.nativeElement.children[1].style.display = "none";
             this.audio.onended = () => {
                 ////this.instructionBar.nativeElement.classList = "instructionBase";
-                this.disableSection = false;
+                this.disableSpeaker = false;
                 for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
                     if (i != idx) {
                         ////$(this.optionRef.nativeElement.children[i]).removeClass("disableDiv");
@@ -375,6 +404,8 @@ export class Ntemplate7 implements OnInit {
             this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
             this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
             this.quesVORef.nativeElement.play();
+            this.disableSpeaker = true;
+            this.disableOption = true;
             this.appModel.enableReplayBtn(false);
             this.appModel.enableSubmitBtn(false);
             this.appModel.handlePostVOActivity(true);
@@ -387,7 +418,12 @@ export class Ntemplate7 implements OnInit {
                 this.appModel.enableReplayBtn(true);
                 setTimeout(() => {
                     this.isBlankImgLoaded = true;
-                }, 0)
+                }, 0);
+                setTimeout(() => {
+                    this.disableOption = false;
+                    this.disableSpeaker = false;
+                }, 1000);
+                
             }
         } else {
             this.appModel.handlePostVOActivity(false);
@@ -481,6 +517,12 @@ export class Ntemplate7 implements OnInit {
 
     sendFeedback(ref, flag: string, action?: string) {
         this.appModel.notifyUserAction();
+        if(flag == 'no'){
+            this.disableOption = true;
+            setTimeout(() => {
+                this.disableOption = false;
+            }, 1000);
+        }
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.styleHeaderPopup = this.feedbackObj.style_header;
@@ -510,6 +552,11 @@ export class Ntemplate7 implements OnInit {
     }
 
     selectOpt(opt, idx) {
+        for (let i = 0; i < this.optionObj.opts.length; i++) {
+            this.optionObj.opts[i].isOpen = false;
+            this.optionObj.opts[i].leftPos = "";
+            this.optionObj.opts[i].topPos = "";
+        }
         this.appModel.enableReplayBtn(false);
         //disable click
         this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
@@ -519,17 +566,30 @@ export class Ntemplate7 implements OnInit {
         if (this.optionRef && this.optionRef.nativeElement && this.optionRef.nativeElement.children[this.optionSelected].children[1]) {
             this.boundingClientFrom = this.optionRef.nativeElement.children[this.optionSelected].children[1].getBoundingClientRect();
             this.boundingClientTo = this.refQues.nativeElement.children[this.quesEmptyTxtIndx].getBoundingClientRect();
-            $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).animate({ left: (this.boundingClientTo.left + this.boundingClientTo.width / 2 - this.boundingClientFrom.left), top: (this.boundingClientTo.top - this.boundingClientFrom.top) }, 500);
+            opt.isOpen = true;
+            opt.leftPos = "0px";
+            opt.topPos = "0px";
+            ////$(this.optionRef.nativeElement.children[this.optionSelected].children[1]).animate({ left: (this.boundingClientTo.left + this.boundingClientTo.width / 2 - this.boundingClientFrom.left), top: (this.boundingClientTo.top - this.boundingClientFrom.top) }, 500);
             setTimeout(() => {
-                $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).addClass('invisible');
+                opt.isOpen = false;
+                opt.leftPos = "472.625px";
+                opt.topPos = "-226.125px";
+
+                 
                 /*  this.quesObjCopy.questionText[this.quesEmptyTxtIndx].url = opt.url;
                     this.quesObjCopy.questionText[this.quesEmptyTxtIndx].location = opt.location;*/
                 this.emptyOpt = this.quesObjCopy.questionText[this.quesEmptyTxtIndx];
                 this.quesObjCopy.questionText[this.quesEmptyTxtIndx] = opt;
                 this.isOptionSelected = true;
-            }, 450)
+            }, 500)
+            setTimeout(() => {
+                
 
-            if (opt && opt.isCorrect) {
+                $(this.optionRef.nativeElement.children[this.optionSelected].children[1]).addClass('invisible');
+                
+            }, 500)
+
+           /* if (opt && opt.isCorrect) {
                 // handle for correct attempt
                 this.isRightSelected = true;
                 this.attemptType = "manual";
@@ -567,7 +627,7 @@ export class Ntemplate7 implements OnInit {
                         }, this.showAnsTimeout)
                     }
                 }, 1000)
-            }
+            }*/
         }
     }
 
@@ -711,7 +771,9 @@ export class Ntemplate7 implements OnInit {
         }
         this.quesObjCopy.questionText[this.quesEmptyTxtIndx].url = correctOpt.url;
         this.quesObjCopy.questionText[this.quesEmptyTxtIndx].location = correctOpt.location;
-        this.feedbackPopup = this.rightPopup;
+        //this.feedbackPopup = this.rightPopup;
+        this.styleHeaderPopup = this.feedbackObj.style_header;
+        this.styleBodyPopup = this.feedbackObj.style_body;
         this.feedbackModalRef.nativeElement.classList = "displayPopup modal";
         this.confirmModalRef.nativeElement.classList = "modal";
         //this.confirmReplayRef.nativeElement.classList="modal";
