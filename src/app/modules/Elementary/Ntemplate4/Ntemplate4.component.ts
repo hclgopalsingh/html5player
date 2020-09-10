@@ -278,8 +278,10 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngOnDestroy() {
-        this.quesVORef.nativeElement.pause();
-        this.quesVORef.nativeElement.currentTime=0;
+        if(this.quesVORef.nativeElement && this.quesVORef.nativeElement.play){
+            this.quesVORef.nativeElement.pause();
+            this.quesVORef.nativeElement.currentTime=0;
+        }        
         clearInterval(this.blinkTimeInterval);
         clearTimeout(this.timerDelayActs);
         clearTimeout(this.nextFeedbackTimer);
