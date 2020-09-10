@@ -109,7 +109,7 @@
           <img class="modal-title" [src]="feedbackAssets?.headerTxt_img?.url">
           <img class="close" [src]="feedbackAssets?.close_btn?.url"
             (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackClose()"
-            (mouseleave)="houtFeedbackClose()">
+            (mouseleave)="houtFeedbackClose()">            
         </div>
 
         <!-- Modal body -->
@@ -144,6 +144,10 @@
               [ngClass]="{'disableBtn': currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
               (mouseleave)="hleaveFeedbackNxt()">
+            <div class="actionButtons">
+              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverOK()"
+                (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url"></button>
+            </div>
           </div>
         </div>
 

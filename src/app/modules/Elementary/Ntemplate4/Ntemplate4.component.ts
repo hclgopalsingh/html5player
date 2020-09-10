@@ -121,6 +121,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         "incorrect": []
     };
     infoPopupAssets: any;
+    commonfeedbackAssets:any;
     confirmAssets: any;
     confirmSubmitAssets: any;
     confirmReplayAssets: any;
@@ -378,6 +379,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.noOfImgs = this.commonAssets.imgCount;
         this.infoPopupAssets = this.fetchedcontent.info_popup;
         this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+        this.commonfeedbackAssets=this.fetchedcontent.feedback;
         this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
         this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
         this.isLastQues = this.appModel.isLastSection;
