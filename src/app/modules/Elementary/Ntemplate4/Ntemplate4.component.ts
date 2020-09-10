@@ -801,9 +801,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             this.quesSkip = true;
             this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
             this.replayVideo();
-        } else if (action == "resetActivity") {
-            this.resetActivity();
-        } else if (action == "partialFeedback") {
+        } else if (action == "partialFeedback") {            
             if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement && !this.partialFeedbackRef.nativeElement.paused) {
                 this.partialFeedbackRef.nativeElement.pause();
                 this.partialFeedbackRef.nativeElement.currentTime = 0;
@@ -811,11 +809,13 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
-        } else if (action == "resume") {
-
-        } else if (flag == "no") {
+        }else if (action == "cancelReplay") {
             this.appModel.videoStraming(false);
             this.appModel.enableReplayBtn(true);
+            setTimeout(() => {               
+                this.isOptionDisabled = false;
+            }, 1000);
+        }else if (flag == "no") {            
             setTimeout(() => {               
                 this.isOptionDisabled = false;
             }, 1000);
@@ -827,6 +827,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.attemptType = "manual";
         // let fetchedData: any = this.appModel.content.contentData.data;
         if (this.isAllRight) {
+            /*Set Feedback Type for animation*/
+            this.appModel.feedbackType = "fullyIncorrect";
+            /*Set Feedback Type for animation Complete*/
             clearInterval(this.blinkTimeInterval);
             this.appModel.stopAllTimer();
             console.log("show both category A and category B modal for all right");
@@ -860,6 +863,13 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }, 0)
         } else {
             if (this.isWrongAttempted) {
+
+                /*Set Feedback Type for animation*/
+                this.appModel.feedbackType = "partialIncorrect";
+                if(this.categoryA.correct.length==0 && this.categoryB.correct.length==0){
+                    this.appModel.feedbackType = "wrong";
+                }/*Set Feedback Type for animation Complete*/
+
                 clearInterval(this.blinkTimeInterval);
                 this.appModel.stopAllTimer();
                 console.log("show category A and category B modal for both right and wrong");
@@ -904,6 +914,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                         this.isPartial = true;
                     }
                 }
+                
                 setTimeout(() => {
                     this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
                     setTimeout(() => {
@@ -911,7 +922,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     }, 0)
                 }, 0)
             } else {
-                this.infoModalRef.nativeElement.classList = "modal displayPopup";
+                this.appModel.feedbackType = "partialCorrect";
+                this.infoModalRef.nativeElement.classList = "modal displayPopup";                
                 if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement) {
                     this.partialFeedbackRef.nativeElement.play();
                 }
