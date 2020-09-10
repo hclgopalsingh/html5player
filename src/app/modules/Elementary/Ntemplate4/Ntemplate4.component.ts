@@ -172,6 +172,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     isOptionDisabled: boolean = true;
     showAnsTimeout: number;
     zIndexvalue:number=1;
+    isShowOk:boolean=false;
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('confirmModalRef') confirmModalRef: any;
     @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
@@ -221,6 +222,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             } else if (mode == "auto") {
                 console.log("auto mode", mode);
                 this.showAnswerClicked = true;
+                this.isShowOk=false;
                 this.getAnswer();
                 //showAnswerclicked
             }
@@ -781,6 +783,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         ref.classList = "modal";
         if (action == "showAnswer") {
             this.showAnswerClicked = true;
+            this.isShowOk=false;
             this.isRightWrong = true;
             this.appModel.resetBlinkingTimer();
             this.getAnswer();
@@ -1200,11 +1203,13 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.currentFeedbackPlaying = "categoryB";
         this.category = JSON.parse(JSON.stringify(this.categoryB));
         if (this.showAnswerClicked) {
+            this.isShowOk=false;
             this.feedbackAssets = this.fetchedcontent.showans_2
             this.isRightWrong = true;
             this.isPartial = false;
         }
         else {
+            this.isShowOk=true;
             this.feedbackAssets = this.fetchedcontent.category_2;
             if (this.categoryB.correct.length == this.optionHolder.right_random_index.length) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
@@ -1232,6 +1237,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     prevFeedback() {
+        this.isShowOk=false;
         clearTimeout(this.closeFeedbackmodalTimer);
         if (this.feedbackAudio && this.feedbackAudio.nativeElement && !this.feedbackAudio.nativeElement.paused) {
             this.feedbackAudio.nativeElement.pause();
@@ -1246,11 +1252,10 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         if (this.showAnswerClicked) {
             this.feedbackAssets = this.fetchedcontent.showans_1
             this.isRightWrong = true;
-            this.isPartial = false;
+            this.isPartial = false;            
         }
         else {
             this.feedbackAssets = this.fetchedcontent.category_1;
-
             if (this.categoryA.correct.length == this.optionHolder.left_random_index.length) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;

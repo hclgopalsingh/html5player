@@ -144,7 +144,7 @@
               [ngClass]="{'disableBtn': currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
               (mouseleave)="hleaveFeedbackNxt()">
-            <div class="actionButtons">
+            <div style="visibility: hidden;" [ngClass]="{'actionButtons':true, 'd-none':showAnswerClicked ,'d-show': isShowOk || currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}">
               <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverOK()"
                 (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url"></button>
             </div>

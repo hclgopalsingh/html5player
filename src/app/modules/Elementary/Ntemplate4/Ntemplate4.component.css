@@ -1040,3 +1040,9 @@ info modal modal
 /* .controlCursor{
   cursor: default
 } */
+.d-show{
+  visibility: visible !important;
+}
+.d-none{
+  display: none !important;
+}
