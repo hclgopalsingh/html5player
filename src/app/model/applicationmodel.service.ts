@@ -74,6 +74,7 @@ export class ApplicationmodelService {
   templatedata:any;
   themePath:any;
   nextSectionTimer: any;
+  feedbackType:string="";
  
 
 
@@ -1011,6 +1012,18 @@ export class ApplicationmodelService {
     return this._animationAssets.asObservable();
   }
 
+  animationType() {
+    if(this.feedbackType=="fullyIncorrect") {
+      return "wrongAnimationAssets";
+    }else if(this.feedbackType=="partialIncorrect") {
+      return "partialIncorrectAnimationAssets";
+    }else if(this.feedbackType=="partialCorrect") {
+      return "partialCorrectAnimationAssets";
+    } else {
+      return "wrongAnimationAssets";
+    }
+  }
+
   wrongAttemptAnimation() {
     let data = this.content.contentData.data;
     let assets = {
@@ -1018,23 +1031,24 @@ export class ApplicationmodelService {
       audio: "",
       timer: ""
     };
-    if(data['commonassets'].wrongAnimationAssets!=undefined) {
-     if (data['commonassets'].wrongAnimationAssets && ((data['commonassets'].wrongAnimationAssets.img && data['commonassets'].wrongAnimationAssets.img.url) || data['commonassets'].wrongAnimationAssets.timeout)) {
+    const animationAssets=this.animationType();
+    if(data['commonassets'][animationAssets]!=undefined) {
+     if (data['commonassets'][animationAssets] && ((data['commonassets'][animationAssets].img && data['commonassets'][animationAssets].img.url) || data['commonassets'][animationAssets].timeout)) {
         // let pathPre = data['commonassets'].wrongAnimationAssts.location == "content" ? this.content.id : ".";
         // let animationImg = data['commonassets'].wrongAnimationAssts.img && data['commonassets'].wrongAnimationAssts.img.url ? data['commonassets'].wrongAnimationAssts.img.url : "";
         // let audio = data['commonassets'].wrongAnimationAssts.audio && data['commonassets'].wrongAnimationAssts.audio.url ? data['commonassets'].wrongAnimationAssts.audio.url : "";
-        this.Sharedservice.imagePath(this.templatedata.commonassets.wrongAnimationAssets, this.content.id, this.themePath, undefined);
-        assets.animationImg = this.templatedata.commonassets.wrongAnimationAssets.img.url;
-        assets.audio = this.templatedata.commonassets.wrongAnimationAssets.audio.url;
-        assets.timer = this.templatedata.commonassets.wrongAnimationAssets.timeout;
+        this.Sharedservice.imagePath(this.templatedata.commonassets[animationAssets], this.content.id, this.themePath, undefined);
+        assets.animationImg = this.templatedata.commonassets[animationAssets].img.url;
+        assets.audio = this.templatedata.commonassets[animationAssets].audio.url;
+        assets.timer = this.templatedata.commonassets[animationAssets].timeout;
         this._wrongAttemptAnimation.next(assets);
       } else {
         this._wrongAttemptAnimation.next(undefined);
       }
     } else {
-        assets.animationImg = this.templatedata.commonassets.ques_control.wrongAnimationAssets.img.url;
-        assets.audio = this.templatedata.commonassets.ques_control.wrongAnimationAssets.audio.url;
-        assets.timer = this.templatedata.commonassets.ques_control.wrongAnimationAssets.timeout;
+        assets.animationImg = this.templatedata.commonassets.ques_control[animationAssets].img.url;
+        assets.audio = this.templatedata.commonassets.ques_control[animationAssets].audio.url;
+        assets.timer = this.templatedata.commonassets.ques_control[animationAssets].timeout;
         this._wrongAttemptAnimation.next(assets);
     }
   }
@@ -1127,7 +1141,7 @@ export class ApplicationmodelService {
       this.currentSection--;
       return;
     }
-     else if(this.currentActive < this.initValues.files.length - 1) {   // If segment is not last in the activity
+     else if(this.currentActive <= this.initValues.files.length - 1) {   // If segment is not last in the activity
       if (sessionStorage.getItem("tabsVisited")) {
         sessionStorage.removeItem("tabsVisited");
       }

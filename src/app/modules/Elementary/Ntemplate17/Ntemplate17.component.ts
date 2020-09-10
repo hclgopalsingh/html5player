@@ -212,8 +212,8 @@ export class Ntemplate17Component implements OnInit {
   fetchedcontent:any;
   functionalityType:any;
   showAnsTimeout:number;
-  videoPlaytimer:number;
   /*END: Theme Implementation(Template Changes)*/ 
+  videoPlaytimer:number;
   instructionDisable:boolean;
 
 
@@ -1519,6 +1519,7 @@ export class Ntemplate17Component implements OnInit {
       this.appModel.enableSubmitBtn(true);
     }
   }
+
 
     hoverPlayPause(){
     if(this.PlayPauseFlag)

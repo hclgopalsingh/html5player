@@ -1,20 +1,20 @@
-<div class="container-fluid temp14 ele" id="container" *ngIf="!isPlayVideo">
+<div class="container-fluid temp14 ele" #mainOuterContainer id="container" *ngIf="!isPlayVideo">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar">
-    <div class="instructionBase" #instructionBar [ngClass]="{'disable_div':disableSection}">
+    <div class="instructionBase" [ngStyle]="{'cursor': InstructionVo ? 'pointer' : 'default' }" #instructionBar [ngClass]="{'disable_div':disableSection}">
       <img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url"
         (load)="checkImgLoaded();" />
     </div>
     <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
   </div>
 
-  <div class="bodyContent" #mainContainer>
+  <div class="bodyContent" #mainContainer [ngClass]="{'disable_div':bodyContentDisable}">
 
-    <div id="coverTop"></div>
-    <div id="coverBtm"></div>
-    <div class="speaker">
-      <img class="img-fluid" [src]="commonAssets?.speaker?.url" (click)="playSpeaker($event)">
-      <div class="speakerWave"></div>
+    <div id="coverTop" [ngStyle]="{'display': coverTop ? 'block' : 'none' }"></div>
+    <div id="coverBtm" [ngStyle]="{'display': coverBottom ? 'block' : 'none' }"></div>
+    <div class="speaker" [ngClass]="{'disable_div':disableSpeaker}">
+      <img class="img-fluid" [src]="commonAssets?.speaker?.url" [ngStyle]="{'cursor': speakerPointer ? 'default' : 'pointer' }" (click)="playSpeaker($event)">
+      <div class="speakerWave" [ngClass]="{'dispFlex':speakerWave}"></div>
     </div>
     <audio #Speaker [src]="commonAssets?.speaker_vo?.url"></audio>
 
@@ -30,15 +30,16 @@
 
     <div class="duplicateOption" #DuplicateOption>
       <ng-container *ngFor="let duplicateOption of optionObj;let idxd = index">
-        <img id="duplicate{{idxd}}" class="img-fluid duplicateOptionImg opacityCls duplicateOptionBlack"
+        <img id="duplicate{{idxd}}" [@openClose]="{value: duplicateOption.isOpen ? 'open' : 'closed', params: {leftPos: duplicateOption.leftPos , topPos: duplicateOption.topPos}}" class="img-fluid duplicateOptionImg opacityCls duplicateOptionBlack"
           [src]="duplicateOption?.url">
+          
       </ng-container>
     </div>
 
     
-    <div class="row mx-0" id="optionsBlock" #optionsClickable>
+    <div class="row mx-0" id="optionsBlock" #optionsClickable [ngClass]="{'disable_div':optionDisable}">
       <div class="my-auto quesImage">
-        <div class="options" *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
+        <div class="options"  *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
           (mouseenter)="playHoverOption(option,idxX)" (mousemove)="optionHover(option,idxX)"
           (mouseleave)="onHoverOptionOut(option,idxX)">
           <img id="idx{{idxX}}" class="img-fluid" [src]="option?.baseImg?.url">

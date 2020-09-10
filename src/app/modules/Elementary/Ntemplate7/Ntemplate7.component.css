@@ -41,7 +41,7 @@ button:focus {
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
-	top: -13%;
+	top: -2%;
 	left: -8%;
 	display:none;
 	pointer-events: none;
@@ -303,9 +303,7 @@ button:focus {
 	left:0;
 }
 
-.instructionBase img {
-  cursor: pointer;
-}
+ 
 /* Modal */
 .modal{
 	position: absolute;
@@ -352,6 +350,9 @@ button:focus {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: #248446;
+}
+.disable_div {
+  pointer-events: none;
 }
 .modal-body {
 	padding:2%;
@@ -458,13 +459,7 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
-  margin-left: 1.5%;
-  height: 80%;
-  /*width: 18%;*/
-}
+
  
  
 .modal-content{
@@ -589,9 +584,9 @@ button:focus {
 #confirmModal .bodyText img {
   width: 85%;
 }
-#confirmModal .modal-title {
+/*#confirmModal .modal-title {
   margin-left: 3%;
-}
+}*/
  
 #confirmModal .modal-footer {
   display: flex;

@@ -634,6 +634,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             }
             this.clapSound.nativeElement.onended = () =>{                    
                 if(this.rowsfilled==10){  // If last block then open Popup
+                    this.appModel.storeVisitedTabs();
                     this.quesObj.questionText[this.quesBoxId].highlight=false;
                     this.quesObj.questionText[this.quesBoxId].blinkBox=false;
                     let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           

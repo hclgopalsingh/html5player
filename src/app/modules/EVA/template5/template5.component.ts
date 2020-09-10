@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
@@ -11,7 +11,7 @@ import { EncodeUriPipe } from '../../../common/encode_uri.pipe';
   templateUrl: './template5.component.html',
   styleUrls: ['./template5.component.css']
 })
-export class Template5Component implements OnInit {
+export class Template5Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
   blink: boolean = false;
   commonAssets: any = "";
@@ -72,6 +72,7 @@ export class Template5Component implements OnInit {
   selectedLetterCount: number = 0;
   rightAnsBackground: any;
   blinkInterval: any;
+  feedbackAudioDelay: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -208,6 +209,7 @@ export class Template5Component implements OnInit {
     clearTimeout(this.clappingTimer);
     clearTimeout(this.rightTimer);
     clearTimeout(this.multiCorrectTimer);
+    clearTimeout(this.feedbackAudioDelay);
     this.stopAllSounds();
   }
 
@@ -220,7 +222,7 @@ export class Template5Component implements OnInit {
   /******Hover out option ********/
   onHoveroutOptions(option) {
     if (option.selected) {
-      option.image_bg == this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
+      option.image_bg = this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
     }
     else {
       option.image_bg = option.image_bg_original;
@@ -370,7 +372,7 @@ export class Template5Component implements OnInit {
     let feedbackAudio = this.feedback.right_ans_popup[current].rightfeedback_audio;
     this.feedbackPopupAudio.nativeElement.src = feedbackAudio.location == "content" ? this.containgFolderPath + "/" + feedbackAudio.url : this.assetsPath + "/" + feedbackAudio.url;
     this.feedbackPopupAudio.nativeElement.play();
-    let flag = true;
+    let flag = false;
     this.blinkInterval = setInterval(() => {
       if (flag) {
         highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
@@ -382,7 +384,7 @@ export class Template5Component implements OnInit {
         this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_border;
         flag = true;
       }
-    }, 300);
+    }, 450);
     this.feedbackPopupAudio.nativeElement.onended = () => {
       highlightedOption.highlightWord.highlightWord_bg = highlightedOption.highlightWord.highlightWord_bg_original;
       this.quesObj.questionText[current].quesBackground.bg_image = this.quesObj.questionText[current].quesBackground.bg_image_original;
@@ -407,6 +409,7 @@ export class Template5Component implements OnInit {
     for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
       document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
     }
+    this.enableAllOptions();
     this.stopAllSounds();
     if (currentIndexArr[this.selectedLetterCount] == option.id) {
       option["selected"] = true;
@@ -451,7 +454,9 @@ export class Template5Component implements OnInit {
               this.multiCorrectTimer = setTimeout(() => {
                 let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
                 rightAnswerPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                this.playrightFeedbackAudioPopup(0);
+                this.feedbackAudioDelay =setTimeout(() => {
+                  this.playrightFeedbackAudioPopup(0);
+                }, 2000);
               }, 2000);
             }
             else {
@@ -524,6 +529,7 @@ export class Template5Component implements OnInit {
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
     clearTimeout(this.multiCorrectTimer);
+    clearTimeout(this.feedbackAudioDelay);
     if (this.blinkInterval) {
       clearInterval(this.blinkInterval);
       this.blinkInterval = undefined;

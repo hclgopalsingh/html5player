@@ -965,6 +965,7 @@ export class TemplateFourteenComponent implements OnInit {
       this.CheckAnswer();
       setTimeout(() => {
         if (this.isRight) {
+          this.appModel.storeVisitedTabs();
           if (this.rightFeedback && this.rightFeedback.nativeElement) {
             this.clapSound.nativeElement.play();
             for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {

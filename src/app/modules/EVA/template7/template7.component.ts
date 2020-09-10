@@ -37,6 +37,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	@ViewChild('titleNavBtn') titleNavBtn: any;
 	@ViewChild('titleAudio') titleAudio: any;
 	@ViewChild('clapSound') clapSound: any;
+	@ViewChild('repeatFeedback') repeatFeedback: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
 	@ViewChild('showAnswerfeedback') showAnswerfeedback: any;
 	@ViewChild('showAnswerRef') showAnswerRef: any;
@@ -77,6 +78,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 	rightPopup: any;
 	wrongPopup: any;
 	partialPopup: any;
+	repeatSound: any;
 	wrongTimer: any;
 	showAnswerPopup: any;
 	rightTimer: any;
@@ -215,6 +217,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	//on clicking refresh buttons
 	refreshClicked(item, i) {
+		this.stopAllSounds();
 		item.value = "";
 		this.disableOption = false
 		this.autofocus = true;
@@ -223,6 +226,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	//on clicking the lock button
 	lockClicked(item, i) {
+		
+		this.stopAllSounds();
+		if(this.checkforDuplicates(item)){
 		item.locked = true;
 		item.disabled = true;
 		let DoneCounter = 0;
@@ -242,6 +248,7 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			document.getElementById(this.ansArray[this.activeId].id).blur();
 			this.Sharedservice.setSubmitAnsEnabled(true)
 		}
+	}
 	}
 
 	//for automatic focus
@@ -296,6 +303,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (Type === "answerPopup") {
 			if (this.ifRightAns) {
 				this.blinkOnLastQues();
+				if (this.lastQuestionCheck) {
+					this.Sharedservice.setTimeOnLastQues(true);
+				  }
 			}
 			else {
 				this.postWrongAns();
@@ -391,6 +401,9 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (this.ifRightAns) {
 			this.Sharedservice.setShowAnsEnabled(true);
 			this.blinkOnLastQues();
+			if (this.lastQuestionCheck) {
+				this.Sharedservice.setTimeOnLastQues(true);
+			  }
 		}
 		else {
 			this.postWrongAns();
@@ -416,7 +429,8 @@ export class TemplateSevenComponent extends Base implements OnInit {
 			this.popupAssets = fetchedData.feedback.popupassets;
 			this.rightPopup = this.feedback.right_ans_sound;
 			this.wrongPopup = this.feedback.wrong_ans_sound;
-			this.partialPopup = this.feedback.partial_ans_sound
+			this.partialPopup = this.feedback.partial_ans_sound;
+			this.repeatSound = this.feedback.repeat_ans_sound;
 			this.showAnswerPopup = this.feedback.show_ans_popup;
 			this.noOfImgs = fetchedData.imgCount;
 			this.isLastQues = this.appModel.isLastSection;
@@ -533,6 +547,15 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
 			obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+
+		if (obj.partialFeedback && obj.partialFeedback.nativeElement) {
+			obj.partialFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+
+		if (obj.repeatFeedback && obj.repeatFeedback.nativeElement) {
+			obj.repeatFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+
 		if (obj.audio) {
 			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
 		}
@@ -541,8 +564,12 @@ export class TemplateSevenComponent extends Base implements OnInit {
 
 	//**Function to stop all sounds */
 	stopAllSounds(clickStatus?) {
+		this.enableAllOptions();
 		this.audio.pause();
 		this.audio.currentTime = 0;
+
+		this.repeatFeedback.nativeElement.pause();
+		this.repeatFeedback.nativeElement.currentTime = 0;
 
 		this.wrongFeedback.nativeElement.pause();
 		this.wrongFeedback.nativeElement.currentTime = 0;
@@ -706,24 +733,49 @@ export class TemplateSevenComponent extends Base implements OnInit {
 				element.isRight = false
 			}
 		});
-		this.checkforDuplicates();
+		//this.checkforDuplicates();
 
 	}
 
 	//to check for duplicate entered shabds
 	//todo check with regex
-	checkforDuplicates() {
+	checkforDuplicates(item) {
+		console.log("item",item)
+		this.stopAllSounds();
+		this.autofocus = false;
+		document.getElementById(this.ansArray[this.activeId].id).blur();
+		let currentId = item.id ;
+		let currentValue = item.value;
 		for (let i = 0; i < this.ansArray.length; i++) {
-			let element1 = this.ansArray[i].value;
-			if (i) {
-				for (let j = 0; j < i; j++) {
-					let element2 = this.ansArray[j].value;
-					if (element1 == element2) {
-						this.ansArray[i].isRight = false;
-					}
+			if(currentId != this.ansArray[i].id){
+				if(this.ansArray[i].value == currentValue){
+					console.log("duplicate value found yayy!")
+						this.postRepeatStuff(item)
+						return false
 				}
-			}
+			}	
 		}
+		return true;
+	}
+
+	//things to do after repeated word is found
+	postRepeatStuff(item){
+		for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+			document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
+		  }
+		this.repeatFeedback.nativeElement.play();
+		this.optionsBlock.nativeElement.classList = "disable_div";
+		this.repeatFeedback.nativeElement.onended = () => {
+			for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
+				document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
+			  }
+			this.optionsBlock.nativeElement.classList = "";
+			item.value = "";
+			this.autofocus = true;
+			document.getElementById(this.ansArray[this.activeId].id).focus();
+			// this.videoonshowAnspopUp.nativeElement.play();
+		}
+
 	}
 
 	//things to do after wrong ans
@@ -772,4 +824,8 @@ export class TemplateSevenComponent extends Base implements OnInit {
 		}
 	  }
 
+	  /** Function called on click of speaker **/
+	onSpeakerClicked() {
+		this.stopAllSounds();
+	}
 }

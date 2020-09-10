@@ -259,5 +259,27 @@
 		},
 		"timeout": 5000
 	},
+	"partialIncorrectAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/Partially_Incorrect_answr.gif",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/shake.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
+	"partialCorrectAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/Look_for_more_animation.webp",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/clap.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
 	"showAnsTimeout": 5000
 }

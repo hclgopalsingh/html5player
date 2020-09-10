@@ -561,6 +561,7 @@ export class TemplateTenComponent implements OnInit {
         if (this.rightFeedback && this.rightFeedback.nativeElement) {
           if (this.correctAnswerCounter === this.correctAnswerCount) {
             this.showRightAnswerPopup();
+            this.appModel.storeVisitedTabs();
           }
           else {
             this.setClappingTimer(this.rightFeedback);
