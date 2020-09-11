@@ -273,6 +273,7 @@ export class Ntemplate17_1 implements OnInit {
     setTimeout(() => {
       if (this.quesObj.lang == 'hindi') {
         //this.test();
+        this.inputDivRef.nativeElement.children[0].value = this.inputVal;
       }
     }, 200)
   };
@@ -488,32 +489,30 @@ export class Ntemplate17_1 implements OnInit {
         // this.videoStartTimer = setTimeout(() => {
         //Need to make it comment for prod, Red flag
         // this.mainVideo.nativeElement.muted = true;
-        this.mainVideo.nativeElement.play();
-        this.appModel.enableSubmitBtn(false);
-        this.mainVideo.nativeElement.onended = () => {
+       
           this.isQuesTypeVideo = false;
           setTimeout(() => {
             this.isPlayVideo = false;
-            if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
-              this.quesVORef.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "? someRandomSeed=" + Math.random().toString(36);
-              this.quesVORef.nativeElement.play();
-              this.quesVORef.nativeElement.onended = () => {
-                this.appModel.handlePostVOActivity(true);
-                this.appModel.enableReplayBtn(true);
-                this.inputDivRef.nativeElement.classList = "inputDiv";
-                this.instructionBar.nativeElement.classList = "instructionBase";
-                this.blinkTextBox();
-              }
-            } else {
+            // if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
+            //   this.quesVORef.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "? someRandomSeed=" + Math.random().toString(36);
+            //   this.quesVORef.nativeElement.play();
+            //   this.quesVORef.nativeElement.onended = () => {
+            //     this.appModel.handlePostVOActivity(true);
+            //     this.appModel.enableReplayBtn(true);
+            //     this.inputDivRef.nativeElement.classList = "inputDiv";
+            //     this.instructionBar.nativeElement.classList = "instructionBase";
+            //     this.blinkTextBox();
+            //   }
+            // } else {
               this.appModel.handlePostVOActivity(true);
               this.appModel.enableReplayBtn(true);
               this.inputDivRef.nativeElement.classList = "inputDiv";
               this.instructionBar.nativeElement.classList = "instructionBase";
               this.blinkTextBox();
-            }
+            //}
             //this.startActivity();
           }, 200)
-        }
+        //}
         // }, 500);
       }
     }
@@ -697,7 +696,15 @@ export class Ntemplate17_1 implements OnInit {
       this.keyboard = new Keyboard({
         onChange: input => this.onChange(input),
         onKeyPress: button => this.onKeyPress(button),
-        layout: this.layout
+        layout: hindiLayout,
+        display:{
+          '{bksp}': 'backspace',
+          '{enter}': 'enter',
+          '{shift}': 'Switch',
+          '{lock}': 'Lock',
+          '{tab}': 'Tab',
+          '{space}': 'Space',
+        }
       });
     }
     this.appModel.enableReplayBtn(false);
