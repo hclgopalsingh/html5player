@@ -2150,6 +2150,9 @@ export class Ntemplate6 implements OnInit {
     }
   }
   onClickAnimation(option, id) {
+    
+    ////$('#duplicate'+id).removeClass('topauto');
+    this.duplicateOption.nativeElement.children[id].classList.remove('topauto');
     this.windowWidth = window.innerWidth;
     this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
     console.log("start Animation");
@@ -2198,7 +2201,7 @@ export class Ntemplate6 implements OnInit {
     for (var i = 0; i < this.optionInitPosArr.length; i++) {
       if (i == id) {
         this.percentLeft = (this.optionInitPosArr[i].leftPos) + "%";
-        this.percentTop = (this.optionInitPosArr[i].rightPos) + "%";
+        this.percentTop = (parseInt(this.optionInitPosArr[i].rightPos) + 56) + "%";
       }
     }
     
@@ -2232,6 +2235,22 @@ export class Ntemplate6 implements OnInit {
       this.duplicateOption.nativeElement.children[id].style.opacity = 1;
       option.leftPos = this.moveleft;
       option.topPos = this.movetop;
+      setTimeout(() => {
+        this.duplicateOption.nativeElement.children[id].style.opacity = 1;
+        option.leftPos = this.moveleft;
+        option.topPos = this.movetop;
+        setTimeout(() => {
+          //this.duplicateOption.nativeElement.children[id].style.top = "auto";
+          ////$('#duplicate'+id).addClass('topauto');
+          this.duplicateOption.nativeElement.children[id].classList.add('topauto');
+       // this.duplicateOption.nativeElement.children[id].style.top = "auto!important";
+      // $(this.duplicateOption.nativeElement.children[id]).css("top", "auto");
+      console.log("aaaa" + this.duplicateOption.nativeElement.children[id].style.top);
+      }, 200)
+        //option.topPos = "auto!important";
+        option.isOpen = false;
+      }, 300)
+      //option.topPos = "auto!important";
       option.isOpen = false;
     }, 400)
    
@@ -2794,6 +2813,9 @@ export class Ntemplate6 implements OnInit {
   }
 
   sendFeedback(id, flag: string, action?: string) {
+    //var a = $('.myMatra').height();
+    ////$('.duplicateOptionImg ').height($('.myMatra').height());
+    ////$('.refQuesPopUp img').height($('.duplicateOptionImg').height());
     this.count = 0;
     if (!this.clicked) {
       this.coverTop = false;
@@ -2812,7 +2834,10 @@ export class Ntemplate6 implements OnInit {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
+      $('.duplicateOptionImg ').addClass('topauto');
+      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
+
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) + 20 + "%";
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls"
@@ -2831,6 +2856,8 @@ export class Ntemplate6 implements OnInit {
       }
     }
     if (action == "rightAnswer") {
+      ////$('.duplicateOptionImg ').addClass('topauto');
+      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
       this.flag = true;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
@@ -2881,6 +2908,9 @@ export class Ntemplate6 implements OnInit {
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
+      ////$('.duplicateOptionImg ').addClass('topauto');
+      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
+
       if (id != undefined) {
         this.attemptType = "";
         this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 18.2 + "%";
@@ -2919,6 +2949,8 @@ export class Ntemplate6 implements OnInit {
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
+      ////$('.duplicateOptionImg ').addClass('topauto');
+      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
     }
     if (flag == "no") {
       this.appModel.notifyUserAction();
