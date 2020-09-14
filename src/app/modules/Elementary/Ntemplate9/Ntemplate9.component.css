@@ -860,4 +860,5 @@ button:focus {
 #modalTemp9 #instructionBarFeedback .instructionBase {
   width: 100% !important;
   position: relative;
+  cursor: default;
 }

@@ -415,7 +415,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         this.puzzleBlockclicked = false;
         this.appModel.handlePostVOActivity(false)
         this.checked = false;
+        if (this.blockcount > 0){
         this.instructionDisable=false;
+        }
         this.disableremovalTimer=setTimeout(()=> {
         if (this.noOfBlocks == 4) {
           this.puzzleBlock4disabled = false;
@@ -437,7 +439,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
           this.checked = false;
           this.startCount = 1;
           this.blinkHolder();
+          if (this.blockcount > 0){
           this.instructionDisable=false;
+          }
           this.disableremovalTimer=setTimeout(()=> {
             if (this.noOfBlocks == 4) {
               this.puzzleBlock4disabled = false;
@@ -730,6 +734,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
   sendFeedback(id: string, flag: string) {
     this.displayconfirmPopup = false;
     if (flag == "yes") {
+      this.manualClickedonCrossbtn=false;
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
       }else if (this.noOfBlocks == 9) {
