@@ -281,7 +281,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngOnDestroy() {
-        if(this.quesVORef.nativeElement && this.quesVORef.nativeElement.play){
+        if(this.quesVORef && this.quesVORef.nativeElement && this.quesVORef.nativeElement.play){
             this.quesVORef.nativeElement.pause();
             this.quesVORef.nativeElement.currentTime=0;
         }        
@@ -312,11 +312,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.navShow = 2;
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
-        if(this.isPlayVideo){
-            setTimeout(() => {
-                this.isOptionDisabled = false;
-            }, 1000);
-        }
+        setTimeout(() => {
+            this.isOptionDisabled = false;
+        }, 1000);
         
     }
 
@@ -748,6 +746,14 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
     }
 
+    hoverFeedbackOK() {
+        this.infoPopupAssets.ok_btn = this.feedbackAssets.ok_btn_hover;
+    }
+
+    houtFeedbackOK() {
+        this.infoPopupAssets.ok_btn = this.feedbackAssets.ok_btn_original;
+    }
+
     hoverCloseOk() {
         this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
     }
@@ -781,9 +787,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     sendFeedback(ref, flag: string, action?: string) {
         this.appModel.notifyUserAction();
         ref.classList = "modal";
+        this.isShowOk=false;
         if (action == "showAnswer") {
-            this.showAnswerClicked = true;
-            this.isShowOk=false;
+            this.showAnswerClicked = true;            
             this.isRightWrong = true;
             this.appModel.resetBlinkingTimer();
             this.getAnswer();
@@ -814,6 +820,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
+            this.appModel.wrongAttemptAnimation();
         }else if (action == "cancelReplay") {
             this.appModel.videoStraming(false);
             this.appModel.enableReplayBtn(true);
@@ -845,6 +852,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 if (this.categoryA.correct.length == this.optionHolder.left_random_index.length) {
                     this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                     this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
+                    this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
                     this.isRightWrong = true;
                     this.isPartial = false;
                 }
@@ -855,6 +863,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 if (this.categoryB.correct.length == this.optionHolder.right_random_index.length) {
                     this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
                     this.feedbackAssets.style_body = this.fetchedcontent.category_2.right_style_body;
+                    this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.right_style_title;
                     this.isRightWrong = true;
                     this.isPartial = false;
                 }
@@ -885,16 +894,19 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     if (this.categoryA.correct.length == this.optionHolder.left_random_index.length) {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
+                        this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
                         this.isRightWrong = true;
                         this.isPartial = false;
                     } else if (this.categoryA.correct.length == 0) {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_1.wrong_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_1.wrong_style_body;
+                        this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.wrong_style_title;
                         this.isRightWrong = true;
                         this.isPartial = false;
-                    } else if (this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0) {
+                    } else {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_1.partial_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_1.partial_style_body;
+                        this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.partial_style_title;
                         this.isRightWrong = false;
                         this.isPartial = true;
                     }
@@ -905,16 +917,19 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     if (this.categoryB.correct.length == this.optionHolder.right_random_index.length) {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_2.right_style_body;
+                        this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.right_style_title;
                         this.isRightWrong = true;
                         this.isPartial = false;
                     } else if (this.categoryB.correct.length == 0) {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_2.wrong_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_2.wrong_style_body;
+                        this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.wrong_style_title;
                         this.isRightWrong = true;
                         this.isPartial = false;
-                    } else if (this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0) {
+                    } else {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_2.partial_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_2.partial_style_body;
+                        this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.partial_style_title;
                         this.isRightWrong = false;
                         this.isPartial = true;
                     }
@@ -1214,16 +1229,19 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             if (this.categoryB.correct.length == this.optionHolder.right_random_index.length) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_2.right_style_body;
+                this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.right_style_title;
                 this.isRightWrong = true;
                 this.isPartial = false;
             } else if (this.categoryB.correct.length == 0) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.wrong_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_2.wrong_style_body;
+                this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.wrong_style_title;
                 this.isRightWrong = true;
                 this.isPartial = false;
-            } else if (this.categoryB.correct.length > 0 && this.categoryB.incorrect.length > 0) {
+            } else {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.partial_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_2.partial_style_body;
+                this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.partial_style_title;
                 this.isRightWrong = false;
                 this.isPartial = true;
             }
@@ -1259,18 +1277,21 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             if (this.categoryA.correct.length == this.optionHolder.left_random_index.length) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
+                this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
                 this.isRightWrong = true;
                 this.isPartial = false;
 
             } else if (this.categoryA.correct.length == 0) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.wrong_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.wrong_style_body;
+                this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.wrong_style_title;
                 this.isRightWrong = true;
                 this.isPartial = false;
 
-            } else if (this.categoryA.correct.length > 0 && this.categoryA.incorrect.length > 0) {
+            } else {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.partial_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.partial_style_body;
+                this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.partial_style_title;
                 this.isRightWrong = false;
                 this.isPartial = true;
 

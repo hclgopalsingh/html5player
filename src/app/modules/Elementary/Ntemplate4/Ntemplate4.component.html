@@ -117,10 +117,10 @@
           <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
             [ngClass]="{'dispFlex':popupTxtRequired}">
             <div class="instructionBase">
-              <img class="img-fluid" [src]="commonAssets?.instruction_img?.url" />
+              <img class="img-fluid" [src]="feedbackAssets?.popTitleTxt_img?.url" />
             </div>
           </div>
-          <div class="d-flex justify-content-center w-100">
+          <div class="d-flex justify-content-center elementBlock">
             <div class="matchHolder" *ngIf="category && category.correct && category.correct.length>0">
               <img class="img-fluid" [src]="feedbackAssets?.rightAttempt_placeholder?.url">
               <div class="optSelected" #correctCategory>
@@ -136,6 +136,10 @@
             <audio #feedbackAudio></audio>
           </div>
           <div class="d-flex align-items-center justify-content-end navigate">
+            <div style="visibility: hidden;" [ngClass]="{'actionButtons':true, 'd-none':showAnswerClicked ,'d-show': isShowOk || currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}">
+              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackOK()"
+                (mouseleave)="houtFeedbackOK()"><img class="img-fluid" [src]="feedbackAssets?.ok_btn?.url"></button>
+            </div>
             <img class="img-fluid back"
               [ngClass]="{'disableBtn': currentFeedbackPlaying=='categoryA' || (categoryA?.correct.length ==0 && categoryA?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
@@ -144,10 +148,7 @@
               [ngClass]="{'disableBtn': currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
               (mouseleave)="hleaveFeedbackNxt()">
-            <div style="visibility: hidden;" [ngClass]="{'actionButtons':true, 'd-none':showAnswerClicked ,'d-show': isShowOk || currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}">
-              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverOK()"
-                (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url"></button>
-            </div>
+            
           </div>
         </div>
 

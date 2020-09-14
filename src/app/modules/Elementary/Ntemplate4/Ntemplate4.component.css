@@ -949,6 +949,15 @@ info modal modal
     color: #000;
     text-shadow: 0 1px 0 #fff;
 } */
+#modalTemp4 .navigate .actionButtons {
+  width: 11%;
+}
+#modalTemp4 .elementBlock{
+  width: 94%;
+  position: absolute;
+  top: 20%;
+}
+
 .navigate {
   position: absolute;
   bottom: 2%;
