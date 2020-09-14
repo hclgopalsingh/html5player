@@ -196,6 +196,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
         //show modal of auto
         this.appModel.notifyUserAction();
+        this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
+        this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
         this.instructionDisable = true;
         this.checked = true;
         this.attemptType = "auto";
