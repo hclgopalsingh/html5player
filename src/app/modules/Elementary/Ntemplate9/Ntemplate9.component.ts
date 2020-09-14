@@ -50,6 +50,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('feedbackVO') feedbackVO: any;
+  @ViewChild('instructionBarFeedback') instructionBarFeedback: any;
 
 
 
@@ -115,10 +116,13 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
   puzzleBlock9disabled: boolean = false;
   puzzleBlock12disabled: boolean = false;
   bodyContentOpacity: boolean = false;
-  bodyContentDisable: boolean = false;
+  bodyContentDisable: boolean = true;
   displayconfirmPopup: boolean = false;
   displaymainPopup: boolean = false;
   disableremovalTimer:any;
+  initialDisableTimer:any;
+  popupTxtRequired:boolean=false;
+  manualClickedonCrossbtn:boolean=false
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -182,7 +186,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         this.feedbackPopupAudio.nativeElement.onended = () => {
           this.checked = true;
           this.showAnssetTimeout = setTimeout(() => {
+            if(!this.manualClickedonCrossbtn) {
             this.closeModal();
+            }
           }, this.showAnsTimeout);
         }
         //}
@@ -256,6 +262,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
     clearInterval(this.blinkTimeInterval);
     clearInterval(this.rightAnsTimeout);
     clearInterval(this.showAnssetTimeout);
+    clearInterval(this.initialDisableTimer);
     this.index1 = 0;
     if(this.narrator.nativeElement!=undefined){
       this.narrator.nativeElement.pause();
@@ -294,7 +301,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
   onClickoption(opt, j) {
     this.puzzleBlockclicked = true;
-    this.instructionDisable = false;
+    this.instructionDisable = true;
     this.appModel.handlePostVOActivity(true);
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
@@ -320,6 +327,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
       if (this.blockcount < 1) {
         this.startCount = 0;
         this.rightAnsTimeout = setTimeout(() => {
+          this.popupTxtRequired=this.feedbackObj.rightAnswerpopupTxt.required;
           this.attemptType = "manual";
           this.rightanspopUpheader_img = true;
           this.showanspopUpheader_img = false;
@@ -381,12 +389,20 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
   hoveronOption(opt) {
     this.appModel.notifyUserAction();
+    //if(this.a) {
     opt.imgsrc = opt.imgsrc_hover;
+    let currentEle:HTMLElement=event.currentTarget as HTMLElement;
+    currentEle.style.cursor="pointer";
+    //this.a=true;
+    //}else{
+    //this.a=true;
+    //}
   }
 
   hoverOptionOut(opt) {
     if (!this.puzzleBlockclicked) {
       opt.imgsrc = opt.imgsrc_original;
+      //this.a=false;
     }
   }
   onAnimationEvent(event: AnimationEvent, opt, j) {
@@ -399,6 +415,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         this.puzzleBlockclicked = false;
         this.appModel.handlePostVOActivity(false)
         this.checked = false;
+        this.instructionDisable=false;
+        this.disableremovalTimer=setTimeout(()=> {
         if (this.noOfBlocks == 4) {
           this.puzzleBlock4disabled = false;
         }else if (this.noOfBlocks == 9) {
@@ -406,6 +424,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         }else if (this.noOfBlocks == 12) {
           this.puzzleBlock12disabled = false;
         }
+        }, 650);
         this.startCount = 1;
         this.blinkHolder();
       }
@@ -418,6 +437,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
           this.checked = false;
           this.startCount = 1;
           this.blinkHolder();
+          this.instructionDisable=false;
           this.disableremovalTimer=setTimeout(()=> {
             if (this.noOfBlocks == 4) {
               this.puzzleBlock4disabled = false;
@@ -426,7 +446,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
             }else if (this.noOfBlocks == 12) {
               this.puzzleBlock12disabled = false;
             }
-          }, 500);
+          }, 650);
         }
       }, 300);
       this.optionsBlock.nativeElement.children[j + 1].style.pointerEvents = "none";
@@ -448,6 +468,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
     this.appModel.handlePostVOActivity(false);
     this.startCount = 1;
     this.blinkHolder();
+    this.instructionDisable=false;
     if (this.noOfBlocks == 4) {
       this.puzzleBlock4disabled = false;
     }else if (this.noOfBlocks == 9) {
@@ -585,10 +606,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
       }else if (this.noOfBlocks == 12) {
         this.puzzleBlock12disabled = true;
       }
-      this.bodyContentDisable = true;
+      //this.bodyContentDisable = true;
       this.instructionDisable = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
+        this.initialDisableTimer=setTimeout(()=>{
         this.instructionDisable = false;
         this.bodyContentDisable = false;
         if (this.noOfBlocks == 4) {
@@ -599,7 +621,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
           this.puzzleBlock12disabled = false;
         }
         this.startActivity();
-        this.appModel.handlePostVOActivity(false);
+        this.appModel.handlePostVOActivity(false);      
+        }, 1000)
       }
     }else {
       this.startActivity();
@@ -715,6 +738,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         this.puzzleBlock12disabled = true;
       }
       this.showAnssetTimeout = setTimeout(() => {
+        this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
+        this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
         this.attemptType = "auto";
         this.rightanspopUpheader_img = false;
         this.showanspopUpheader_img = true;
@@ -734,6 +759,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
 /******Popup close functionality *******/
   closeModal() {
+    this.manualClickedonCrossbtn=true;
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;

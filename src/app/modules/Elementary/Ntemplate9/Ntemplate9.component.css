@@ -270,7 +270,7 @@ button:focus {
 }
 
 .quesImage {
-  width: 100%;
+  width: 88%;
   position: relative;
   text-align: center;
   display: flex;
@@ -536,13 +536,15 @@ button:focus {
   content: none;
 }*/
 
-.modal-body {
-  /* padding:2%; */
+/*.modal-body {
   background: #afdec0;
   border: solid .7vmin #85d222;
-  /* border-top: none!important; */
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+}*/
+
+#modalTemp9 .modal-body {
+  flex-wrap: wrap;
 }
 
 .modal-body img {
@@ -844,4 +846,18 @@ button:focus {
 
 .classOpacity {
   opacity: 0.3;
+}
+
+#modalTemp9 #instructionBarFeedback {
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+  display: none;
+}
+
+#modalTemp9 #instructionBarFeedback .instructionBase {
+  width: 100% !important;
+  position: relative;
 }
