@@ -2151,8 +2151,7 @@ export class Ntemplate6 implements OnInit {
   }
   onClickAnimation(option, id) {
     
-    ////$('#duplicate'+id).removeClass('topauto');
-    this.duplicateOption.nativeElement.children[id].classList.remove('topauto');
+    $('#duplicate'+id).removeClass('topauto');
     this.windowWidth = window.innerWidth;
     this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
     console.log("start Animation");
@@ -2835,7 +2834,6 @@ export class Ntemplate6 implements OnInit {
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
       $('.duplicateOptionImg ').addClass('topauto');
-      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
 
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) + 20 + "%";
@@ -2856,8 +2854,7 @@ export class Ntemplate6 implements OnInit {
       }
     }
     if (action == "rightAnswer") {
-      ////$('.duplicateOptionImg ').addClass('topauto');
-      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
+      $('.duplicateOptionImg ').addClass('topauto');
       this.flag = true;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
@@ -2908,8 +2905,7 @@ export class Ntemplate6 implements OnInit {
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
       this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
-      ////$('.duplicateOptionImg ').addClass('topauto');
-      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
+      $('.duplicateOptionImg ').addClass('topauto');
 
       if (id != undefined) {
         this.attemptType = "";
@@ -2949,8 +2945,7 @@ export class Ntemplate6 implements OnInit {
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
-      ////$('.duplicateOptionImg ').addClass('topauto');
-      this.duplicateOption.nativeElement.children[0].classList.add('topauto');
+      $('.duplicateOptionImg ').addClass('topauto');
     }
     if (flag == "no") {
       this.appModel.notifyUserAction();
