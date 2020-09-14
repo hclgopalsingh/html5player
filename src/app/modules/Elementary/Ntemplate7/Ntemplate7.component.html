@@ -8,7 +8,7 @@
     </div>
     <!-- class="options animation-shake" -->
     <div class="bodyContent" #mainContainer>
-        <div class="speaker" #speakerRef [ngClass]="{'disable_div':disableSection}">
+        <div class="speaker" #speakerRef [ngClass]="{'disable_div':disableSpeaker}">
             <img class="img-fluid" (click)="playQVo()" [src]="quesObjCopy?.speaker?.url" (load)="checkImgLoaded();" />
             <div class="speakerWave"></div>
             <audio #speakerAudioRef [src]="quesObjCopy?.questionVo?.url"></audio>
@@ -24,8 +24,9 @@
                   <!-- <img class="img-fluid" [src]="optionObj?.optBg?.url"
                         (load)="checkImgLoaded();">--> 
                         <img id="idx{{idxX}}" class="img-fluid" [src]="opt?.baseImg?.url">
-                    <img class="img-fluid optItem" [src]="opt?.url"
+                    <img class="img-fluid optItem" [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos}}" [src]="opt?.url"
                         (load)="checkImgLoaded();">
+                        
                 </div>
             </div>
         </div>
@@ -42,10 +43,16 @@
                 </div>
     
                 <!-- Modal body -->
-                <div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
+                <div class="modal-body d-flex flex-wrap justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
+
+                    <div class="instructionBase" [ngStyle]="{'display': AnswerpopupTxt ? 'block' : 'none' }">
+                        <img class="img-fluid" [src]="feedbackObj?.rightAnswerpopupTxt?.url" />
+                    </div>
                     <div class="refQues">
-                            <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText;let idx = index"><img [ngClass]="{'correct':(idx==quesEmptyTxtIndx && isRightSelected), 'dark':idx!=quesEmptyTxtIndx, 'engTxtMargin': quesObjCopy?.isEnglish}" [src]="quesTxt?.url" (load)="checkImgLoaded();"></ng-container>
-                            </div>
+                        <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText;let idx = index">
+                            <img [ngClass]="{'correct':(idx==quesEmptyTxtIndx && isRightSelected), 'dark':idx!=quesEmptyTxtIndx, 'engTxtMargin': quesObjCopy?.isEnglish}" [src]="quesTxt?.url" (load)="checkImgLoaded();">
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
