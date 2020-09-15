@@ -135,20 +135,20 @@
             </div>
             <audio #feedbackAudio></audio>
           </div>
-          <div class="d-flex align-items-center justify-content-end navigate">
-            <div style="visibility: hidden;" [ngClass]="{'actionButtons':true, 'd-none':showAnswerClicked ,'d-show': isShowOk || currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}">
-              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackOK()"
-                (mouseleave)="houtFeedbackOK()"><img class="img-fluid" [src]="feedbackAssets?.ok_btn?.url"></button>
-            </div>
+          <div class="d-flex align-items-center justify-content-end navigate">            
             <img class="img-fluid back"
               [ngClass]="{'disableBtn': currentFeedbackPlaying=='categoryA' || (categoryA?.correct.length ==0 && categoryA?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
               (mouseleave)="hleaveFeedbackPre()">
             <img class="img-fluid forward"
-              [ngClass]="{'disableBtn': currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
+              [ngClass]="{'disableBtn': (showAnswerClicked && currentFeedbackPlaying =='categoryB') || (showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0),
+                          'd-none': (!showAnswerClicked && currentFeedbackPlaying =='categoryB') || (!showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
               (mouseleave)="hleaveFeedbackNxt()">
-            
+            <div style="display: none;" [ngClass]="{'actionButtons':true ,'d-show': (!showAnswerClicked && currentFeedbackPlaying =='categoryB') || (!showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}">
+              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackOK()"
+                (mouseleave)="houtFeedbackOK()"><img class="img-fluid" [src]="feedbackAssets?.ok_btn?.url"></button>
+            </div>
           </div>
         </div>
 

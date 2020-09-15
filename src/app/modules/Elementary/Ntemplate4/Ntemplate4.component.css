@@ -929,7 +929,7 @@ info modal modal
   outline: none;
 }
 #modalTemp4 .actionButtons button img{
-  max-width: 80%;
+  max-width: 100%;
 }
 /* #modalTemp4 .close {
     width: 3.5%;
@@ -950,7 +950,9 @@ info modal modal
     text-shadow: 0 1px 0 #fff;
 } */
 #modalTemp4 .navigate .actionButtons {
-  width: 11%;
+  max-width: 5.8%;
+  margin: 0;
+  margin-left: 0.4%;
 }
 #modalTemp4 .elementBlock{
   width: 94%;
@@ -1050,7 +1052,7 @@ info modal modal
   cursor: default
 } */
 .d-show{
-  visibility: visible !important;
+  display: block !important;
 }
 .d-none{
   display: none !important;
