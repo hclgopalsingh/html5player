@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild,AfterViewChecked, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
-import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
@@ -14,7 +13,6 @@ import {
   AnimationEvent
 } from '@angular/animations';
 
-declare var $: any;
 
 @Component({
   selector: 'app-ntemplate9',
@@ -44,7 +42,7 @@ declare var $: any;
   templateUrl: './Ntemplate9.component.html',
   styleUrls: ['./Ntemplate9.component.css', '../../../view/css/bootstrap.min.css']
 })
-export class Ntemplate9Component implements OnInit, OnDestroy {
+export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
 
   @ViewChild('narrator') narrator: any;
@@ -52,6 +50,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('feedbackVO') feedbackVO: any;
+  @ViewChild('instructionBarFeedback') instructionBarFeedback: any;
 
 
 
@@ -117,10 +116,13 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
   puzzleBlock9disabled: boolean = false;
   puzzleBlock12disabled: boolean = false;
   bodyContentOpacity: boolean = false;
-  bodyContentDisable: boolean = false;
+  bodyContentDisable: boolean = true;
   displayconfirmPopup: boolean = false;
   displaymainPopup: boolean = false;
   disableremovalTimer:any;
+  initialDisableTimer:any;
+  popupTxtRequired:boolean=false;
+  manualClickedonCrossbtn:boolean=false
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -139,7 +141,6 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         console.log('Component: constructor - data=', data);
         switch (data) {
           case PlayerConstants.CMS_PLAYER_CLOSE:
-            //console.log('VideoComponent: constructor - cmsPlayerClose');
             this.close();
             break;
 
@@ -174,9 +175,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       if (mode == "manual") {
         //show modal for manual
         this.appModel.notifyUserAction();
-        //if (this.popupRef && this.popupRef.nativeElement) {
         this.instructionDisable = true;
-        //this.popupRef.nativeElement.classList = "displayPopup modal";
         this.displaymainPopup = true;
         if (this.attemptType == "manual" && this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
           this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -187,7 +186,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.feedbackPopupAudio.nativeElement.onended = () => {
           this.checked = true;
           this.showAnssetTimeout = setTimeout(() => {
+            if(!this.manualClickedonCrossbtn) {
             this.closeModal();
+            }
           }, this.showAnsTimeout);
         }
         //}
@@ -195,15 +196,14 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
 
         //show modal of auto
         this.appModel.notifyUserAction();
-        //if (this.popupRef && this.popupRef.nativeElement) {
+        this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
+        this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
         this.instructionDisable = true;
         this.checked = true;
         this.attemptType = "auto";
         this.rightanspopUpheader_img = false;
         this.showanspopUpheader_img = true;
-        //this.confirmModalRef.nativeElement.classList="modal";
         this.displayconfirmPopup = false;
-        //this.popupRef.nativeElement.classList = "displayPopup modal";
         this.displaymainPopup = true;
         if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
           this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgshowAnsfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
@@ -215,7 +215,6 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
             this.closeModal();
           }, this.showAnsTimeout);
         }
-        //}
       }
     });
 
@@ -227,11 +226,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
           this.instruction.nativeElement.currentTime = 0;
           this.instruction.nativeElement.pause();
         }
-        //if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
         this.instructionDisable = true;
         this.displayconfirmPopup = true;
-        //this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-        //}
       }
     });
 
@@ -268,6 +264,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     clearInterval(this.blinkTimeInterval);
     clearInterval(this.rightAnsTimeout);
     clearInterval(this.showAnssetTimeout);
+    clearInterval(this.initialDisableTimer);
     this.index1 = 0;
     if(this.narrator.nativeElement!=undefined){
       this.narrator.nativeElement.pause();
@@ -306,8 +303,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
 
   onClickoption(opt, j) {
     this.puzzleBlockclicked = true;
-    this.instructionDisable = false;
-    //this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+    this.instructionDisable = true;
     this.appModel.handlePostVOActivity(true);
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
@@ -333,6 +329,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       if (this.blockcount < 1) {
         this.startCount = 0;
         this.rightAnsTimeout = setTimeout(() => {
+          this.popupTxtRequired=this.feedbackObj.rightAnswerpopupTxt.required;
           this.attemptType = "manual";
           this.rightanspopUpheader_img = true;
           this.showanspopUpheader_img = false;
@@ -394,14 +391,99 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
 
   hoveronOption(opt) {
     this.appModel.notifyUserAction();
+    //if(this.a) {
     opt.imgsrc = opt.imgsrc_hover;
+    let currentEle:HTMLElement=event.currentTarget as HTMLElement;
+    currentEle.style.cursor="pointer";
+    //this.a=true;
+    //}else{
+    //this.a=true;
+    //}
   }
 
   hoverOptionOut(opt) {
     if (!this.puzzleBlockclicked) {
       opt.imgsrc = opt.imgsrc_original;
+      //this.a=false;
     }
   }
+  onAnimationEvent(event: AnimationEvent, opt, j) {
+  if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
+    if (opt.id == this.indexOfBlock) {
+      this.feedbackVO.nativeElement.src = undefined;
+      if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url != "") {
+        this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+      }else {
+        this.puzzleBlockclicked = false;
+        this.appModel.handlePostVOActivity(false)
+        this.checked = false;
+        if (this.blockcount > 0){
+        this.instructionDisable=false;
+        }
+        this.disableremovalTimer=setTimeout(()=> {
+        if (this.noOfBlocks == 4) {
+          this.puzzleBlock4disabled = false;
+        }else if (this.noOfBlocks == 9) {
+          this.puzzleBlock9disabled = false;
+        }else if (this.noOfBlocks == 12) {
+          this.puzzleBlock12disabled = false;
+        }
+        }, 650);
+        this.startCount = 1;
+        this.blinkHolder();
+      }
+      setTimeout(() => {
+        this.feedbackVO.nativeElement.play();
+        this.feedbackVO.nativeElement.onended = () => {
+          console.log("audio end");
+          this.puzzleBlockclicked = false;
+          this.appModel.handlePostVOActivity(false)
+          this.checked = false;
+          this.startCount = 1;
+          this.blinkHolder();
+          if (this.blockcount > 0){
+          this.instructionDisable=false;
+          }
+          this.disableremovalTimer=setTimeout(()=> {
+            if (this.noOfBlocks == 4) {
+              this.puzzleBlock4disabled = false;
+            }else if (this.noOfBlocks == 9) {
+              this.puzzleBlock9disabled = false;
+            }else if (this.noOfBlocks == 12) {
+              this.puzzleBlock12disabled = false;
+            }
+          }, 650);
+        }
+      }, 300);
+      this.optionsBlock.nativeElement.children[j + 1].style.pointerEvents = "none";
+    }else {
+      this.feedbackVO.nativeElement.src = undefined;
+      if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url != "") {
+        this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+      }
+      this.feedbackVO.nativeElement.play();
+      this.feedbackVO.nativeElement.onended = () => {
+        this.appModel.wrongAttemptAnimation();
+        console.log("wrong option chosen")
+      }
+    }
+
+
+  }else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
+    this.optionsBlock.nativeElement.children[j + 1].src = this.optionObj[j].imgsrc.url;
+    this.appModel.handlePostVOActivity(false);
+    this.startCount = 1;
+    this.blinkHolder();
+    this.instructionDisable=false;
+    if (this.noOfBlocks == 4) {
+      this.puzzleBlock4disabled = false;
+    }else if (this.noOfBlocks == 9) {
+      this.puzzleBlock9disabled = false;
+    }else if (this.noOfBlocks == 12) {
+      this.puzzleBlock12disabled = false;
+    }
+  }
+}
   /*End-Template click and hover events*/
 
 
@@ -409,76 +491,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
 
 
   /*Start-Template Functions*/
-  onAnimationEvent(event: AnimationEvent, opt, j) {
-    if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
-      if (opt.id == this.indexOfBlock) {
-        this.feedbackVO.nativeElement.src = undefined;
-        if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url != "") {
-          this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-        }else {
-          this.puzzleBlockclicked = false;
-          this.appModel.handlePostVOActivity(false)
-          this.checked = false;
-          if (this.noOfBlocks == 4) {
-            this.puzzleBlock4disabled = false;
-          }else if (this.noOfBlocks == 9) {
-            this.puzzleBlock9disabled = false;
-          }else if (this.noOfBlocks == 12) {
-            this.puzzleBlock12disabled = false;
-          }
-          this.startCount = 1;
-          this.blinkHolder();
-        }
-        setTimeout(() => {
-          this.feedbackVO.nativeElement.play();
-          this.feedbackVO.nativeElement.onended = () => {
-            console.log("audio end");
-            this.puzzleBlockclicked = false;
-            this.appModel.handlePostVOActivity(false)
-            this.checked = false;
-            this.startCount = 1;
-            this.blinkHolder();
-            this.disableremovalTimer=setTimeout(()=> {
-              if (this.noOfBlocks == 4) {
-                this.puzzleBlock4disabled = false;
-              }else if (this.noOfBlocks == 9) {
-                this.puzzleBlock9disabled = false;
-              }else if (this.noOfBlocks == 12) {
-                this.puzzleBlock12disabled = false;
-              }
-            }, 500);
-          }
-        }, 300);
-        this.optionsBlock.nativeElement.children[j + 1].style.pointerEvents = "none";
-      }else {
-        this.feedbackVO.nativeElement.src = undefined;
-        if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url != "") {
-          this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-        }
-        this.feedbackVO.nativeElement.play();
-        this.feedbackVO.nativeElement.onended = () => {
-          this.appModel.wrongAttemptAnimation();
-          console.log("wrong option chosen")
-        }
-      }
-
-
-    }else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
-      this.optionsBlock.nativeElement.children[j + 1].src = this.optionObj[j].imgsrc.url;
-      this.appModel.handlePostVOActivity(false);
-      this.startCount = 1;
-      this.blinkHolder();
-      if (this.noOfBlocks == 4) {
-        this.puzzleBlock4disabled = false;
-      }else if (this.noOfBlocks == 9) {
-        this.puzzleBlock9disabled = false;
-      }else if (this.noOfBlocks == 12) {
-        this.puzzleBlock12disabled = false;
-      }
-    }
-  }
-
-
+  /******Puzzle Placement from options block to empty block *******/
   onPlacePuzzle(opt, i, j) {
     this.tempOpt = opt;
     this.tj = j
@@ -497,44 +510,6 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       opt.topPos = top;
       opt.optPos = position;
       opt.optWidth = width;
-      // $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-      // this.feedbackVO.nativeElement.src=undefined;
-      // if (opt.imgrightfeedback_audio && opt.imgrightfeedback_audio.url!="") {
-      //   this.feedbackVO.nativeElement.src = opt.imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-      // } else {
-      //     this.puzzleBlockclicked=false;
-      //     this.appModel.handlePostVOActivity(false)
-      //     this.checked = false;
-      //     if (this.noOfBlocks == 4) {
-      //       this.puzzleBlock4disabled=false;
-      //     } else if (this.noOfBlocks == 9) {
-      //       this.puzzleBlock9disabled=false;
-      //     } else if (this.noOfBlocks == 12) {
-      //       this.puzzleBlock12disabled=false;
-      //     }
-      //     this.startCount=1;
-      //     this.blinkHolder();
-      // }
-      // setTimeout(() => {
-      //   this.feedbackVO.nativeElement.play();
-      //   this.feedbackVO.nativeElement.onended = () => {
-      //     console.log("audio end");
-      //     this.puzzleBlockclicked=false;
-      //     this.appModel.handlePostVOActivity(false)
-      //     this.checked = false;
-      //     if (this.noOfBlocks == 4) {
-      //       this.puzzleBlock4disabled=false;
-      //     } else if (this.noOfBlocks == 9) {
-      //       this.puzzleBlock9disabled=false;
-      //     } else if (this.noOfBlocks == 12) {
-      //       this.puzzleBlock12disabled=false;
-      //     }
-      //     this.startCount=1;
-      //     this.blinkHolder();
-      //   }
-      // }, 300);
-      // this.optionsBlock.nativeElement.children[j+1].style.pointerEvents = "none";        
-      // });
     }else {
       this.puzzleBlockclicked = false;
       this.startCount = 0;
@@ -542,22 +517,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       opt.leftPos = left;
       opt.topPos = top;
       opt.optPos = position;
-      opt.optWidth = width;
-      // $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-      // this.feedbackVO.nativeElement.src=undefined;
-      // if (opt.imgwrongfeedback_audio && opt.imgwrongfeedback_audio.url!="") {
-      //   this.feedbackVO.nativeElement.src = opt.imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
-      // }
-      //   this.feedbackVO.nativeElement.play();
-      //   this.feedbackVO.nativeElement.onended = () => {
-      //   this.appModel.wrongAttemptAnimation();
-      //   console.log("wrong option chosen")
-      // }        
-      // }); 
+      opt.optWidth = width; 
     }
   }
 
-
+  /******Blinking of next Button *******/
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
@@ -577,7 +541,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     }
   }
 
-
+/******Wrong or Partial Incorrect post anmination functionality *******/
   postWrongAttemplt() {
     let j = this.tj
     let opt = this.tempOpt;
@@ -590,22 +554,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     opt.leftPos = left;
     opt.topPos = top;
     opt.optPos = position;
-    opt.optWidth = width;
-    // $(this.optionsBlock.nativeElement.children[j+1]).animate({ left: left, top: top, position: position, width: width }, 800, () => {
-    // this.optionsBlock.nativeElement.children[j+1].src = this.optionObj[j].imgsrc.url;
-    // if (this.noOfBlocks == 4) {
-    //   this.puzzleBlock4disabled=false;
-    // } else if (this.noOfBlocks == 9) {
-    //   this.puzzleBlock9disabled=false;
-    // } else if (this.noOfBlocks == 12) {
-    //   this.puzzleBlock12disabled=false;
-    // }
-    // this.appModel.handlePostVOActivity(false);
-    // this.startCount=1;
-    // this.blinkHolder();            
-    // });   
+    opt.optWidth = width;  
   }
-
+  /******Checking of existance of quesTab in content JSON *******/
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -614,7 +565,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     }
   }
 
-
+  /******Mute Functionality handle *******/
   templatevolume(vol, obj) {
     if (obj.narrator && obj.narrator.nativeElement) {
       obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -631,10 +582,12 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
 
   }
 
+  /******close event call *******/
   close() {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
+/******loading of Templates *******/
   checkImgLoaded() {
     if (!this.loadFlag) {
       this.noOfImgsLoaded++;
@@ -648,11 +601,10 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       }
     }
   }
-
+/******Question Auto Instruction check as per content JSON *******/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.appModel.handlePostVOActivity(true);
-      //this.optionsBlock.nativeElement.classList = "row mx-0 disableDiv";
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
       }else if (this.noOfBlocks == 9) {
@@ -660,13 +612,13 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       }else if (this.noOfBlocks == 12) {
         this.puzzleBlock12disabled = true;
       }
-      this.bodyContentDisable = true;
+      //this.bodyContentDisable = true;
       this.instructionDisable = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
+        this.initialDisableTimer=setTimeout(()=>{
         this.instructionDisable = false;
         this.bodyContentDisable = false;
-        //this.optionsBlock.nativeElement.classList = "row mx-0";
         if (this.noOfBlocks == 4) {
           this.puzzleBlock4disabled = false;
         }else if (this.noOfBlocks == 9) {
@@ -675,7 +627,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
           this.puzzleBlock12disabled = false;
         }
         this.startActivity();
-        this.appModel.handlePostVOActivity(false);
+        this.appModel.handlePostVOActivity(false);      
+        }, 1000)
       }
     }else {
       this.startActivity();
@@ -683,11 +636,13 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     }
   }
 
+/******After completion of Auto Instruction Activity start functionality *******/
   startActivity() {
     this.startCount = 1;
     this.blinkHolder();
   }
 
+/******Blinking of Empty blocks *******/
   blinkHolder() {
     this.blinkFlag = true;
     this.blinkTimeInterval = setInterval(() => {
@@ -695,18 +650,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.blinkHolderImg(this.index1);
       }else {
         clearInterval(this.blinkTimeInterval);
-        //console.log(this.optionsBlock.nativeElement);
-        // if (this.blockcount > 1) {
-        //   for (let i = 0; i < this.optionsBlock.nativeElement.children.length; i++) {
-        //     if (this.optionObj[i] && this.optionObj[i].imgsrc_original && this.optionObj[i]) {
-        //       this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
-        //     } 
-        // }
-        //  }
       }
     }, 300);
   }
 
+/******Image blinking of Empty block *******/
   blinkHolderImg(i) {
     if (this.optionObj[i] && this.optionObj[i].imgsrc_blink && !this.optionObj[i].Matched) {
       if (this.blinkFlag) {
@@ -722,12 +670,10 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
       ++this.index1;
       this.blinkHolderImg(this.index1);
     }
-
-
   }
 
+/******Data set from content JSON *******/
   setData() {
-
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.commonAssets = this.fetchedcontent.commonassets;
       this.noOfImgs = this.commonAssets.imgCount;
@@ -776,9 +722,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.optionObj[i].optWidth = this.optionObj[i].style_block.width;
       }
     }
-
   }
 
+/******content folder path set *******/
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
@@ -786,12 +732,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
   }
 
 
-
+/******Show Answer Functionality after click on Yes *******/
   sendFeedback(id: string, flag: string) {
-    //this.confirmModalRef.nativeElement.classList = "modal";
     this.displayconfirmPopup = false;
     if (flag == "yes") {
-      //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
+      this.manualClickedonCrossbtn=false;
       if (this.noOfBlocks == 4) {
         this.puzzleBlock4disabled = true;
       }else if (this.noOfBlocks == 9) {
@@ -800,6 +745,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
         this.puzzleBlock12disabled = true;
       }
       this.showAnssetTimeout = setTimeout(() => {
+        this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
+        this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
         this.attemptType = "auto";
         this.rightanspopUpheader_img = false;
         this.showanspopUpheader_img = true;
@@ -817,20 +764,19 @@ export class Ntemplate9Component implements OnInit, OnDestroy {
     }
   }
 
+/******Popup close functionality *******/
   closeModal() {
+    this.manualClickedonCrossbtn=true;
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
     this.startCount = 0;
-    //if (this.blockcount > 1) {
     for (let i = 0; i < this.noOfBlocks; i++) {
       if (this.optionObj[i] && this.optionObj[i].imgsrc_original && this.optionObj[i]) {
         this.optionObj[i].imgsrc = this.optionObj[i].imgsrc_original;
       }
     }
-    //}
-    //this.popupRef.nativeElement.classList = "modal";
     this.displaymainPopup = false;
     this.instructionOpacity = true;
     this.bodyContentOpacity = true;

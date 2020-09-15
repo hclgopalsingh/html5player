@@ -1,33 +1,33 @@
-.opacityZero{
+.eva14 .opacityZero{
     opacity:0;
     pointer-events: none !important;
   }
-  .hideit{display:none !important;}
-  .showit{display:block !important;}
-  .dispFlex{display:flex !important;}
-  button:focus {outline: none !important;}
-  #container{
+  .eva14 .hideit{display:none !important;}
+  .eva14 .showit{display:block !important;}
+  .eva14 .dispFlex{display:flex !important;}
+  .eva14 button:focus {outline: none !important;}
+  .eva14#container{
       position: relative;
       padding:0;
   }
-  #container #bgImage img {
+  .eva14#container #bgImage img {
       width: 100%;
   }
-  #container #optionsBlock {
+  .eva14#container #optionsBlock {
     position: absolute;
     top: 14.5%;
     width: 96%;
     left: 2%;
     height: 65%;
   }
-  #optionsBlock .leftBlock {
+  .eva14 #optionsBlock .leftBlock {
     position: absolute;
     left: 0;
     top: 0;
     width:12.37%;
     height: 100%;
   }
-  #optionsBlock .topBlock {
+  .eva14 #optionsBlock .topBlock {
     position: absolute;
     right: 0;
     top: 0;
@@ -35,22 +35,22 @@
     left: 14%;
     height: 9.8%;
   }
-  #optionsBlock .rightBlock {
+  .eva14 #optionsBlock .rightBlock {
     position: absolute;
       right: 0;
     top: 11.5%;
     width: 85.9%;
   }
-  .rightBlock .weekDays {
+  .eva14 .rightBlock .weekDays {
     position: absolute;
       width: 100%;
       top: 1.7%;/*7.7%*/
       left: 0.6%;
   }
-  #optionsBlock .rightBlock .weekDays .blockContent {
+  .eva14 #optionsBlock .rightBlock .weekDays .blockContent {
       display: block !important;
   }
-  #optionsBlock .blockContent {
+  .eva14 #optionsBlock .blockContent {
     position: absolute;
     top: 0;
       width: 100%;
@@ -60,62 +60,58 @@
     justify-content: center;
     align-content: center;
   }
-  #optionsBlock .blockContent img {
+  .eva14 #optionsBlock .blockContent img {
        max-width: 91%;
       cursor: pointer;
   }
-  .leftBlock .blockContent img {
+  .eva14 .leftBlock .blockContent img {
        margin: 0;
   }
-  .leftBlock .blockContent img.monthName {
+  .eva14 .leftBlock .blockContent img.monthName {
     position: absolute;
 }
-/* #optionsBlock .leftBlock .blockContent {
-      flex-direction: column;
-    text-align: -webkit-center;
-  } */
- #optionsBlock .leftBlock .blockContent div {
+  .eva14 #optionsBlock .leftBlock .blockContent div {
     display: flex; 
     justify-content: center; 
     align-items: center;
  }
-  .topBlock .blockContent img,
-  .weekDays .blockContent img {
+ .eva14 .topBlock .blockContent img,
+ .eva14 .weekDays .blockContent img {
       margin: 0 .43%;
       max-width: 13.4% !important;
   }
-.topBlock .blockContent img.yearBase{
+  .eva14 .topBlock .blockContent img.yearBase{
   max-width: 94% !important;
   margin: 0;
 }
-.topBlock .blockContent img.yearLabel{
+.eva14 .topBlock .blockContent img.yearLabel{
   position: absolute;
   margin: 0;
 }
-#optionsBlock .topBlock .blockContent {
+.eva14 #optionsBlock .topBlock .blockContent {
     align-items: center;
     flex-wrap: nowrap;
 }
-#optionsBlock .topBlock .blockContent div{
+.eva14 #optionsBlock .topBlock .blockContent div{
   display: flex; 
   justify-content: center; 
   align-items: center;
 }
-.monthDates {
+.eva14 .monthDates {
   position: absolute;
   top: 13%;
   width: 100%;
 }
-#optionsBlock .monthDates .blockContent {
+.eva14 #optionsBlock .monthDates .blockContent {
   align-content: flex-start !important;
   justify-content: flex-start !important;
   display: flex;/*inline-table*/
 }
-.monthDates .blockContent img {
+.eva14 .monthDates .blockContent img {
   margin: -0.5% 1.89%;
   max-width: 90.5% !important;/*10.5% !important*/
 }
-.monthDates .blockContent img[src=''] {
+.eva14 .monthDates .blockContent img[src=''] {
     visibility: hidden;
     width: 10.5%;
 }
@@ -127,7 +123,7 @@
       <span>1</span>
   </div>
   */
-  .monthDates .blockContent div {
+  .eva14 .monthDates .blockContent div {
     display: flex;
     width: 13%;
     margin: 0.27% .64%;
@@ -135,103 +131,101 @@
     align-items: center;
     position: relative;
   }
-  .monthDates .blockContent div span {
+  .eva14 .monthDates .blockContent div span {
     position: absolute;
-    /* line-height: 7%; */
     font-size: 2.5vmax;
     font-weight: bold;
     font-family: Kruti Dev!important;
     top: -6.5%;
     }
-  .modal .monthDates{
+  .eva14 .modal .monthDates{
     top: 13.8%;
   }
-  .modal .monthDates .blockContent div span {
+  .eva14 .modal .monthDates .blockContent div span {
     font-size: 2vmax;
   }
-  .modal #optionsBlock .rightBlock .weekDays .blockContent{
+  .eva14 .modal #optionsBlock .rightBlock .weekDays .blockContent{
     display: flex !important;
     flex-wrap: nowrap;
     height: auto;
     width: 98.5%;
     justify-content: space-between;
   }
-  .modal .weekDays .blockContent div{
+  .eva14 .modal .weekDays .blockContent div{
     width: 14%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .modal .weekDays .blockContent .day{
+  .eva14 .modal .weekDays .blockContent .day{
     position: absolute;
   }
-  .modal .weekDays .blockContent img {
+  .eva14 .modal .weekDays .blockContent img {
       margin: 0;
       max-width: 100% !important;
   }
 
   /************************************#########$$$$$$$$$$$#########*************************************/
-  #hoverques, #clickques {
+  .eva14 #hoverques, .eva14 #clickques {
   position: absolute;
   }
   
-  #optionsBlock>img{
+  .eva14 #optionsBlock>img{
       position:relative;
-    /* cursor:pointer; */
-      max-width: 100%;/*85%;*/
+      max-width: 100%;
   }
-  #optionsBlock .refTxt{
+  .eva14 #optionsBlock .refTxt{
     position: absolute;
     bottom: 0%;
       left:0%;
       z-index:2;
   }
-  #container #navBlock {
+  .eva14#container #navBlock {
     position: absolute;
     bottom: 0;
     left: 0%;
     width: 100%;
   }
-  #container #navBlock .navBase{
+  .eva14#container #navBlock .navBase{
     position: relative;
     margin:auto;
     width: 64%;
   }
-  #container #navBlock .prevBtn,
-  #container #navBlock .nextBtn,
-  #container #navBlock .ansBtn,
-  #container #navBlock .quesBlock{
+  .eva14#container #navBlock .prevBtn,
+  .eva14#container #navBlock .nextBtn,
+  .eva14#container #navBlock .ansBtn,
+  .eva14#container #navBlock .quesBlock{
       position: absolute;
     top: 17%;
   }
-  #container #navBlock .prevBtn,
-  #container #navBlock .nextBtn,
-  #container #navBlock .ansBtn,
-  #container #navBlock .quesBlock img{
+  .eva14#container #navBlock .prevBtn,
+  .eva14#container #navBlock .nextBtn,
+  .eva14#container #navBlock .ansBtn,
+  .eva14#container #navBlock .quesBlock img{
       cursor:pointer;
   }
-  #container #navBlock .prevBtn{
+  .eva14#container #navBlock .prevBtn{
       left: 3.2%;
   }
-  #container #navBlock .ansBtn{
+  .eva14#container #navBlock .ansBtn{
     left: 22.8%;
     width: 15.2%;
   }
-  #container #navBlock .quesBlock{
+  .eva14#container #navBlock .quesBlock{
       left: 38.1%;
     width: 39%;
   }
-  #container #navBlock .nextBtn{
+  .eva14#container #navBlock .nextBtn{
     right: 3.3%;
   }
-  #navBlock .prevBtn, #navBlock .nextBtn{
+  .eva14 #navBlock .prevBtn, .eva14 #navBlock .nextBtn{
       width:19.6%;
   }
-  #navBlock .prevBtn img, #navBlock .nextBtn img{
+  .eva14 #navBlock .prevBtn img, .eva14 #navBlock .nextBtn img{
       cursor:pointer;
   }
-  .animation-shake {
+  .eva14 .animation-shake {
       animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
       transform: translate3d(0, 0, 0);
       backface-visibility: hidden;
@@ -255,7 +249,7 @@
       transform: translate3d(4px, 0, 0);
     }
   }
-  #correctAns{
+  .eva14 #correctAns{
       position:absolute;
       left:0;
       top:0;
@@ -271,18 +265,18 @@
     background-size: contain;
       animation: scaleit 0.2s ease-in;
   }
-  .rightAnsBg{
+  .eva14 .rightAnsBg{
       animation: scaleit 0.2s ease-in;
   }
-  .disable-state {
+  .eva14 .disable-state {
     opacity: 0.5;
     pointer-events: none;
   }
   
-  .selected-state {
+  .eva14 .selected-state {
     pointer-events: none;
   }
-  #correctAns img{
+  .eva14 #correctAns img{
       position:absolute;
       width:70%;
   }
@@ -301,15 +295,15 @@
           opacity:1;
         }
   }
-  #container #navBlock .prevBtn:hover,
-  #container #navBlock .nextBtn:hover {
+  .eva14#container #navBlock .prevBtn:hover,
+  .eva14#container #navBlock .nextBtn:hover {
     -webkit-animation-name: moveLeft; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: .3s; /* Safari 4.0 - 8.0 */
     animation-name: moveLeft;
     animation-duration: .3s;
     animation-iteration-count:infinite;
   }
-  #container #navBlock .nextBtn:hover {
+  .eva14#container #navBlock .nextBtn:hover {
     -webkit-animation-name: moveRight; /* Safari 4.0 - 8.0 */
     animation-name: moveRight;
   }
@@ -321,33 +315,33 @@
     0%   {right:3.3%;}
     100% {right:2%;}
   }
-  #burst{
+  .eva14 #burst{
       position:absolute;
       z-index:101;
       width:100%;
       height:100%;
   }
   
-  #container .speakerBlock{
+  .eva14#container .speakerBlock{
     width: 6%;
       top: 75%;
       right: .5%;
       padding: 0;
       z-index: 1;
   }
-  .speakerBlock .speakerBtn{
+  .eva14 .speakerBlock .speakerBtn{
       width: 100% !important;
   }
 
-  .disable_div {
+  .eva14 .disable_div {
       pointer-events: none;
     }
   
-   .options .desc {
+    .eva14 .options .desc {
       position: relative;
   }
   
-  .speaker_block{
+  .eva14 .speaker_block{
     position: absolute;
     right: 0;
     top: 86%;
@@ -362,8 +356,8 @@
     transform: scale(1.5);
   }*/
   
-  .right,
-  .wrong{
+  .eva14 .right,
+  .eva14 .wrong{
       width:20%;
       position: absolute !important;
       z-index: 3;
@@ -372,31 +366,23 @@
       display: none;
   }
   
-  /* #mySvg defs path:hover {
-    stroke: #FFFFCC !important;
-    stroke-width:2px;
-    stroke-linejoin: round;
-    fill: #FFFFCC !important;
-    cursor: pointer;
-  } */
-  
   /* Modal classes */
-  #customModal {
+  .eva14 #customModal {
     display: block !important;
   
   }
-  #customModal .optionsBlock {
+  .eva14 #customModal .optionsBlock {
     width: 44%;
   }
-  #customModal .modal-body {
+  .eva14 #customModal .modal-body {
     height: 91%;
     padding: 0 15px;
   }
-  #customModal .options {
+  .eva14 #customModal .options {
     position: relative;
     margin: .7% 0;
   }
-  #customModal .options div {
+  .eva14 #customModal .options div {
     position: absolute;
     top: 0;
     width: 100%;
@@ -405,11 +391,11 @@
     justify-content: center;
     align-items: center;
   }
-  #customModal .options div img {
+  .eva14 #customModal .options div img {
     width: 48%;
   }
   
-  #modalTemp22 .modal-body .actionButtons {
+  .eva14 #modalTemp22 .modal-body .actionButtons {
       text-align: center;
     position: absolute;
     bottom: 0;
@@ -417,7 +403,7 @@
     width: 55%;
   }
   
-  .actionButtonOk {
+  .eva14 .actionButtonOk {
       text-align: center;
     position: absolute;
     bottom: 0;
@@ -425,21 +411,21 @@
     width: 8%;
   }
   
-  .actionButtonOk button {
+  .eva14 .actionButtonOk button {
     background: transparent;
     border: transparent;
     padding: 0;
   }
   
   
-  #modalTemp22 .modal-body .actionButtons img {
+  .eva14 #modalTemp22 .modal-body .actionButtons img {
       max-width: 80%;
   }
   
   
   /*confirm modal*/
   
-  .confirm_modal_content {
+  .eva14 .confirm_modal_content {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -453,74 +439,72 @@
     box-shadow: none;
   }
   
-  #confirmModal {
-    /* display: flex;*/
+  .eva14 #confirmModal {
     background: rgba(0,0,0,.85);
   }
-  #confirmModal .modal-dialog {
+  .eva14 #confirmModal .modal-dialog {
     width: 50% !important;
       max-width: 100%;
       height: 36%;
       display: flex;
     justify-content: center;
   }
-  #confirmModal .modal-content {
+  .eva14 #confirmModal .modal-content {
     height: auto;
     min-width: auto;
     min-height: auto;
   }
-  #confirmModal .modal-body {
+  .eva14 #confirmModal .modal-body {
     padding: 0;
     margin: 0;
       flex: 0 !important;
-      /* flex-wrap: wrap; */
   }
-  #confirmModal .modal-body .msgImage {
+  .eva14 #confirmModal .modal-body .msgImage {
       display: flex;
     justify-content: center;
     align-items: center;
     margin: 3% 0;
   }
-  #confirmModal .modal-body .actionButtons{
+  .eva14 #confirmModal .modal-body .actionButtons{
       text-align: center;
       margin-bottom: 2%;
   }
-  #confirmModal .modal-body .msgImage img {
+  .eva14 #confirmModal .modal-body .msgImage img {
     width: 100% !important;
     max-width: 100% !important;
   }
-  #confirmModal .modal-body .actionButtons button {
+  .eva14 #confirmModal .modal-body .actionButtons button {
       border:none;
       background: transparent;
       padding:0;
       margin:0;
       width: 20%;
   }
-  button:focus {
+  .eva14 button:focus {
       outline: none;
   }
-  #confirmModal .modal-body .actionButtons img {
+  .eva14 #confirmModal .modal-body .actionButtons img {
       width: 100%;
   }
-  #confirmModal .modal-header {
+  .eva14 #confirmModal .modal-header {
       top:0;
   }
-  #confirmModal .bodyText {
+  .eva14 #confirmModal .bodyText {
     position: absolute;
     top: 30%;
     width: 100%;
   }
-  #confirmModal .bodyText img {
+  .eva14 #confirmModal .bodyText img {
     width: 85%;
   }
-  #confirmModal .modal-title {
+  .eva14 #confirmModal .modal-title {
     margin-left: 3%;
   }
-  #confirmModal .close {
+  .eva14 #confirmModal .close {
     /* width: 5%; */
     margin: 0 1.6% 0 auto;
   }
-  #confirmModal .modal-footer {
+  .eva14 #confirmModal .modal-footer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -530,20 +514,20 @@
     width: 100%;
     bottom: 16%;
   }
-  #confirmModal .modal-footer button {
+  .eva14 #confirmModal .modal-footer button {
     width: 13%;
     border: none;
     background: transparent;
   }
-  #confirmModal .popupModelBody {
+  .eva14 #confirmModal .popupModelBody {
     padding: 0;
   }
-  .displayPopup {
+  .eva14 .displayPopup {
     display: -webkit-box !important;
     /* transition: all 2s ease-in-out;
     transform: scale(1.2); */
   }
-  .modal {
+  .eva14 .modal {
     position: absolute !important;
     width: 100%;
     height: 94.2%;
@@ -553,49 +537,47 @@
     align-items: center;
     padding-left: 0px;
   }
-  .modal.show {
+  .eva14 .modal.show {
     display: -webkit-box !important;
   }
-  .modal-dialog {
+  .eva14 .modal-dialog {
     max-width: 80%;
     width: 43% !important;
     height: auto;
   }
-  #modalTemp22 {
+  .eva14 #modalTemp22 {
     background: rgba(0,0,0,.85);
   }
-  #modalTemp22 .modal-dialog {
+  .eva14 #modalTemp22 .modal-dialog {
     width: 84% !important;
-    /*96%;*/
     max-width: 100%;
-    /* height: 95%; */
   }
-  .modal-content {
+  .eva14 .modal-content {
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
     height: 100%;
-    min-width: 450px; /*640px;*/
-    min-height: 350px; /*198px;*/
+    min-width: 450px;
+    min-height: 350px;
   }
   
-  .modal-header {
+  .eva14 .modal-header {
     padding: .5% !important;
-    height: 7vmin; /*56px;*/
+    height: 7vmin;
     position: relative;
     top: -12.8%;
     width: 100%;
     border-bottom: none !important;
     margin-bottom: -1px;
   }
-  #modalTemp22 .modal-header {
+  .eva14 #modalTemp22 .modal-header {
     top: 0;
   }
-  .modal-title {
+  .eva14 .modal-title {
       margin-left: 1.5%;
       height: 80%;
   }
-  .close {
+  .eva14 .close {
       width: auto;
       height: 75%;
     margin-right: 0%;
@@ -610,86 +592,75 @@
       margin-right: .3%;
       }
   }
-  #modalTemp22 .modal-header .close {
+  .eva14 #modalTemp22 .modal-header .close {
     margin-left:auto;
   }
-  .modal-body {
+  .eva14 .modal-body {
     padding: 2%;
     border-top: none;
       flex:auto !important;
   }
   
-  .modal-body img {
+  .eva14 .modal-body img {
     max-width: 77%;
   }
   
-  .adjustment{
+  .eva14 .adjustment{
     max-width: 100% !important;
     padding-top:8%
   }
   
-  #modalTemp22 .modal-body {
+  .eva14 #modalTemp22 .modal-body {
     -webkit-box-flex: 0 !important;
     -ms-flex: none !important;
     flex: none !important;
     padding: 0% !important;
     height: 96.1%;}
   
-  .modal-body img {
+    .eva14 .modal-body img {
     max-width: 100%;
-    /* width: 100%; */
   }
   
-  #modalTemp22 #optionsBlock {
+  .eva14 #modalTemp22 #optionsBlock {
     left: 4%;
     top: 10%;
     pointer-events: none;
   }
   
-  .modal #optionsBlock .leftBlock {
+  .eva14 .modal #optionsBlock .leftBlock {
     width: 11.98%;
   }
 
-  .modal #optionsBlock .topBlock {
+  .eva14 .modal #optionsBlock .topBlock {
     width: 79.5%;
     left: 12%;
   }
 
-  #modalTemp22 #optionsBlock .leftBlock .blockContent img {
+  .eva14 #modalTemp22 #optionsBlock .leftBlock .blockContent img {
     width: 92%;
   }
   
-  .modal #optionsBlock .rightBlock {
+  .eva14 .modal #optionsBlock .rightBlock {
     top: 13.7%;
     left: 12.4%;
     width: 79.2%;
   }
   
-  .modalBodyContent {
+  .eva14 .modalBodyContent {
     background: #afdec0;
     margin: -1px;
   }
   
-  .modal .quesImage {
+  .eva14 .modal .quesImage {
     align-self: center;
     margin: 1% auto !important;
   }
-  
-  #modalTemp22 .quesImage {
-    /* height: 100%; */
-  }
-  
-    .close:focus, .close:hover {
-      /*color: #000;
-    text-decoration: none;
-    opacity: 1;*/
-    }
   
   html [type=button] {
     -webkit-appearance: none;
   }
   
-  .scaleInAnimation {
+  .eva14 .scaleInAnimation {
     animation: scaleIn 0.5s linear;
     transform: scale(1.2);
   }
@@ -705,7 +676,7 @@
   }
   
   
-  .scaleOutAnimation {
+  .eva14 .scaleOutAnimation {
     animation: scaleOut 0.5s linear;
     transform: scale(1.0);
   }
@@ -720,7 +691,7 @@
     }
   }
   
-  nav {
+  .eva14 nav {
       position: absolute;
       bottom: 0;
       margin: auto;
@@ -728,22 +699,19 @@
       justify-content: center;
       width: 100%;
   }
-  .rightWrongAns {
+  .eva14 .rightWrongAns {
     bottom: 10%;
   }
-  .rightWrongAns img {
+  .eva14 .rightWrongAns img {
     width: 6%;
 }
-  /* .btn-secondary.focus, .btn-secondary:focus {
-    box-shadow: none !important;
-  } */
   
-  #showAnswer .modal-content{
+  .eva14 #showAnswer .modal-content{
     height: 20%;
     min-width: 200%;
     margin-left: -51%;
   }
 
-  .pointing{
+  .eva14 .pointing{
     cursor: pointer;
   }
