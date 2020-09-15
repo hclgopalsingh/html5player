@@ -42,19 +42,95 @@ button:focus {
   align-items: center;
 }
 
+.bodyContent .element0.matchHolderLeft,
+.bodyContent .element1.matchHolderLeft,
+.bodyContent .element2.matchHolderLeft,
+.bodyContent .element3.matchHolderLeft,
+.bodyContent .element4.matchHolderLeft,
+.bodyContent .element5.matchHolderLeft,
+.bodyContent .element6.matchHolderLeft,
+.bodyContent .element7.matchHolderLeft,
+.bodyContent .element8.matchHolderLeft,
+.bodyContent .element0.matchHolderRight,
+.bodyContent .element1.matchHolderRight,
+.bodyContent .element2.matchHolderRight,
+.bodyContent .element3.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element5.matchHolderRight,
+.bodyContent .element6.matchHolderRight,
+.bodyContent .element7.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  position: absolute;
+  left: 24.8%;
+  top: 33%;
+  width: 7%;
+}
+.bodyContent .element0.matchHolderRight,
+.bodyContent .element1.matchHolderRight,
+.bodyContent .element2.matchHolderRight,
+.bodyContent .element3.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element5.matchHolderRight,
+.bodyContent .element6.matchHolderRight,
+.bodyContent .element7.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  left: 52.3%;
+}
+.bodyContent .element1.matchHolderLeft,
+.bodyContent .element4.matchHolderLeft,
+.bodyContent .element7.matchHolderLeft{
+  left: 32.8%;
+}
+.bodyContent .element2.matchHolderLeft,
+.bodyContent .element5.matchHolderLeft,
+.bodyContent .element8.matchHolderLeft{
+  left: 40.8%;
+}
+.bodyContent .element3.matchHolderLeft,
+.bodyContent .element4.matchHolderLeft,
+.bodyContent .element5.matchHolderLeft,
+.bodyContent .element3.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element5.matchHolderRight{
+  top: 46.5%;
+}
+.bodyContent .element6.matchHolderLeft,
+.bodyContent .element7.matchHolderLeft,
+.bodyContent .element8.matchHolderLeft,
+.bodyContent .element6.matchHolderRight,
+.bodyContent .element7.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  top: 60%;
+}
+.bodyContent .element1.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element7.matchHolderRight{
+  left: 60.3%;
+}
+.bodyContent .element2.matchHolderRight,
+.bodyContent .element5.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  left: 68.3%;
+}
+
+
 .bodyContent .matchBlock {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 55%;
+  position: absolute;
 }
 
 .matchHolder {
-  width: 100%;
-  position: relative;
+  width: 50%;/*100%*/
+  position: absolute;/*relative*/
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.matchHolder:last-child {
+  right: 0;  
 }
 
 .matchHolder img {

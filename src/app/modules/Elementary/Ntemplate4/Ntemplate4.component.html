@@ -10,17 +10,21 @@
     <div class="matchBlock">
       <div class="matchHolder">
         <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">
-        <div class="optSelectedHidden">
-          <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div>
       </div>
       <div class="matchHolder">
         <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
-        <div class="optSelectedHidden">
+        <!-- <div class="optSelectedHidden">
           <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div>
+        </div> -->
       </div>
     </div>
+    <div class='element{{idx}} matchHolderLeft' *ngFor="let option of dummyImgs;let idx=index">
+      <img class="img-fluid" [src]="option?.imgsrc?.url">
+    </div>
+    <div class='element{{idx}} matchHolderRight' *ngFor="let option of dummyImgs;let idx=index">
+      <img class="img-fluid" [src]="option?.imgsrc?.url">
+    </div>
+
     <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index"
       [ngClass]="{'disableDiv':isOptionDisabled}">
       <img class="img-fluid pos_rel"
