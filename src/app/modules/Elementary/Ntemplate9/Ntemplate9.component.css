@@ -270,7 +270,7 @@ button:focus {
 }
 
 .quesImage {
-  width: 88%;
+  width: 79%;
   position: relative;
   text-align: center;
   display: flex;
@@ -857,8 +857,21 @@ button:focus {
   display: none;
 }
 
-#modalTemp9 #instructionBarFeedback .instructionBase {
+.modal .instructionBase {
+  width: 100% !important;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  cursor: default;
+}
+
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
+}
+
+/*#modalTemp9 #instructionBarFeedback .instructionBase {
   width: 100% !important;
   position: relative;
   cursor: default;
-}
+}*/
