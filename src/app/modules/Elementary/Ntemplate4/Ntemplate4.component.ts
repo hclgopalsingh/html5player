@@ -254,6 +254,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
+            this.appModel.notifyUserAction();            
             if (this.audio && this.audio.play) {
                 this.audio.pause;
                 this.instructionBar.nativeElement.classList = "instructionBase";
@@ -262,9 +263,15 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                         this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
                     }
                 }
-            }
+            }            
+            /*Disable Blink*/
+            clearInterval(this.blinkTimeInterval);
+            this.blinkTimeInterval=0;
+            this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+            this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
             this.isOptionDisabled = true;
             if (val == "uttarDikhayein") {
+                clearTimeout(this.showAnsTimeout);
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.confirmModalRef.nativeElement.classList = "displayPopup modal";
                     this.appModel.notifyUserAction();
@@ -343,7 +350,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
             this.isOptionDisabled = false;
         }, 1000);
-
+        if (this.selectableOpts > 0) {
+            this.getRandomIndxBlink(this.selectableOpts);
+        }
     }
 
 
@@ -855,16 +864,25 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.isOptionDisabled = false;
             }, 1000);
             this.appModel.wrongAttemptAnimation();
+            if (this.selectableOpts > 0) {
+                this.getRandomIndxBlink(this.selectableOpts);
+            }
         } else if (action == "cancelReplay") {
             this.appModel.videoStraming(false);
             this.appModel.enableReplayBtn(true);
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
+            if (this.selectableOpts > 0) {
+                this.getRandomIndxBlink(this.selectableOpts);
+            }
         } else if (flag == "no") {
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
+            if (this.selectableOpts > 0) {
+                this.getRandomIndxBlink(this.selectableOpts);
+            } 
         }
 
     }
