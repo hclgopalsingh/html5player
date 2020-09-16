@@ -41,15 +41,18 @@ button:focus {
   justify-content: space-around;
   align-items: center;
 }
+
 .bodyContent .matchHolderLeft,
-.bodyContent .matchHolderRight{
+.bodyContent .matchHolderRight {
   position: absolute;
   width: 7%;
 }
+
 .bodyContent .matchHolderLeft img,
-.bodyContent .matchHolderRight img{
+.bodyContent .matchHolderRight img {
   visibility: hidden;
 }
+
 /* .bodyContent .element0.matchHolderLeft,
 .bodyContent .element1.matchHolderLeft,
 .bodyContent .element2.matchHolderLeft,
@@ -131,14 +134,17 @@ button:focus {
 }
 
 .matchHolder {
-  width: 50%;/*100%*/
-  position: absolute;/*relative*/
+  width: 50%;
+  /*100%*/
+  position: absolute;
+  /*relative*/
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .matchHolder:last-child {
-  right: 0;  
+  right: 0;
 }
 
 .matchHolder img {
@@ -153,7 +159,8 @@ button:focus {
   align-content: space-evenly;
   width: 86%;
   height: 83%;
-  margin-top: 3.5%; /*For Chrome display value should be 5% */
+  margin-top: 3.5%;
+  /*For Chrome display value should be 5% */
   flex-wrap: wrap;
 }
 
@@ -994,6 +1001,7 @@ info modal modal
   padding: 0;
   border-top: none !important;
 }
+
 #modalTemp4 #instructionBarFeedback {
   position: relative;
   top: 5%;
@@ -1008,14 +1016,17 @@ info modal modal
   position: relative;
   /* cursor: pointer; */
 }
+
 #modalTemp4 .actionButtons button {
   border: none;
   background: transparent;
   outline: none;
 }
-#modalTemp4 .actionButtons button img{
+
+#modalTemp4 .actionButtons button img {
   max-width: 100%;
 }
+
 /* #modalTemp4 .close {
     width: 3.5%;
     height: auto;
@@ -1034,12 +1045,11 @@ info modal modal
     color: #000;
     text-shadow: 0 1px 0 #fff;
 } */
-#modalTemp4 .navigate .actionButtons {
-  max-width: 5.8%;
-  margin: 0;
-  margin-left: 0.4%;
-}
-#modalTemp4 .elementBlock{
+/* #modalTemp4 .navigate .actionButtons {
+  max-width: 5.5%;
+  margin-left: 1.2%;
+} */
+#modalTemp4 .elementBlock {
   width: 94%;
   position: absolute;
   top: 20%;
@@ -1133,12 +1143,14 @@ info modal modal
 	width:100%;
 } */
 
-.controlCursor{
+.controlCursor {
   cursor: default
 }
-.d-show{
+
+.d-show {
   display: block !important;
 }
-.d-none{
+
+.d-none {
   display: none !important;
 }
