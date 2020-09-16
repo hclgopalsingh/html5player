@@ -6,10 +6,13 @@
     </div>
     <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
   </div>
-  <div class="bodyContent" #mainContainer>
+  <div class="bodyContent" #mainContainer>    
     <div class="matchBlock">
       <div class="matchHolder">
         <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">
+        <!-- <div class="optSelectedHidden">
+          <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
+        </div> -->
       </div>
       <div class="matchHolder">
         <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
@@ -18,20 +21,24 @@
         </div> -->
       </div>
     </div>
-    <div class='element{{idx}} matchHolderLeft' *ngFor="let option of dummyImgs;let idx=index">
-      <img class="img-fluid" [src]="option?.imgsrc?.url">
+    <div #placeholderRefLeft>
+      <div class='element{{idx}} matchHolderLeft' *ngFor="let option of dummyImgs;let idx=index">
+        <img class="img-fluid" [src]="option?.imgsrc?.url">
+      </div>
     </div>
-    <div class='element{{idx}} matchHolderRight' *ngFor="let option of dummyImgs;let idx=index">
-      <img class="img-fluid" [src]="option?.imgsrc?.url">
-    </div>
-
-    <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index"
-      [ngClass]="{'disableDiv':isOptionDisabled}">
-      <img class="img-fluid pos_rel"
-        [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos}}"
-        [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)" (mousemove)="optionHover(idx,option)"
-        (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
-    </div>
+    <div #placeholderRefRight>
+      <div class='element{{idx}} matchHolderRight' *ngFor="let option of dummyImgs;let idx=index">
+        <img class="img-fluid" [src]="option?.imgsrc?.url">
+      </div> 
+    </div>    
+    <div #optionRef>
+      <div class="{{option?.imgsrc?.style_class}}" 
+      [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos, posWidth:option.posWidth}}"
+      *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}" #optionRef>
+        <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)" (mousemove)="optionHover(idx,option)"
+          (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
+      </div>
+    </div>     
     <audio #quesVORef></audio>
   </div>
   <!-- The infoPopup Modal -->
