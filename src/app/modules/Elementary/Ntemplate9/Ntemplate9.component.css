@@ -256,9 +256,9 @@ button:focus {
   /*69%;*/
 }
 
-.modal .optionsBlock {
+/* .modal .optionsBlock {
   margin: 2% 0;
-}
+} */
 
 #modalPartialOptions .optionsBlock {
   margin: 0;
@@ -545,6 +545,7 @@ button:focus {
 
 #modalTemp9 .modal-body {
   flex-wrap: wrap;
+  align-content: space-around;
 }
 
 .modal-body img {
