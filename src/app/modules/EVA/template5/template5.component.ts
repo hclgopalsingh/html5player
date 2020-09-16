@@ -221,11 +221,12 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
 
   /******Hover out option ********/
   onHoveroutOptions(option) {
-    if (option.selected) {
+    if (option.selected && (this.selectedLetterCount !== this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length)) {
       option.image_bg = this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
-    }
-    else {
-      option.image_bg = option.image_bg_original;
+    } else {
+      if (this.selectedLetterCount !== this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length) {
+        option.image_bg = option.image_bg_original;
+      }
     }
   }
 
@@ -298,9 +299,11 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
     this.feedback.correct_ans.forEach(obj => {
       if (obj.correct_index[1] - obj.correct_index[0] == 1) {
         this.myoption_right_ans.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_horizontal";
+        this.myoption.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_horizontal";
       }
       else {
         this.myoption_right_ans.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_vertical";
+        this.myoption.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_vertical";
       }
     });
   }
@@ -418,8 +421,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
         this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"] = option.image_bg_selected;
         option.image_bg = option.image_bg_selected;
         this.rightAnsBackground = option.image_bg_original;
-      }
-      else {
+      } else {
         option.image_bg = this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
         this.myoption_right_ans.optionsArr[index]["image_bg"] = this.rightAnsBackground;
       }
@@ -444,17 +446,19 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
           }
         });
       }
+      if (this.selectedLetterCount == currentIndexArr.length) {
+        this.applyBackgroundOnWord(currentIndexArr);
+      }
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
         this.setClappingTimer(this.rightFeedback);
         this.rightFeedback.nativeElement.onended = () => {
           if (this.selectedLetterCount == currentIndexArr.length) {  // if all correct letters/matra of a word are selected
             if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1) {  //if all correct words are filled
               this.storeVisitedTabs();
-
               this.multiCorrectTimer = setTimeout(() => {
                 let rightAnswerPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement;
                 rightAnswerPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-                this.feedbackAudioDelay =setTimeout(() => {
+                this.feedbackAudioDelay = setTimeout(() => {
                   this.playrightFeedbackAudioPopup(0);
                 }, 2000);
               }, 2000);
@@ -502,6 +506,17 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
         }
       }
     }
+  }
+
+  /**** Place background behind correct word on complete selection of all akshars of a word *****/
+  applyBackgroundOnWord(currentIndexArr) {
+    currentIndexArr.forEach(ele => {
+      this.myoption.optionsArr[ele - 1].image_bg = this.rightAnsBackground;
+    });
+    this.myoption.optionsArr[currentIndexArr[0] - 1]["isBackground"] = true;
+    const backgroundURLStyle = this.myoption.optionsArr[currentIndexArr[0] - 1].highlightWord.highlightWord_bg.location == 'content' ? this.containgFolderPath + '/' + this.myoption.optionsArr[currentIndexArr[0] - 1].highlightWord.highlightWord_bg.url : this.assetsPath + '/' + this.myoption.optionsArr[currentIndexArr[0] - 1].highlightWord.highlightWord_bg.url;
+    this.optionsContainer.nativeElement.children[currentIndexArr[0] - 1].style.background = "url('" + backgroundURLStyle + "')";
+    this.optionsContainer.nativeElement.children[currentIndexArr[0] - 1].style.visibility = 'hidden';
   }
 
   /**** Store question id on sessionStorage *****/

@@ -77,10 +77,21 @@
     75%  {opacity: 0.75;}
     100% {opacity: 1;}
 }
+#autoPlayOnOffContainer {
+    width: 9.2% !important;
+    padding: 0 !important;
+    position: absolute;
+    right: 9%;
+}
+@media (min-width: 576px){
+    .col-sm-1 {
+        flex: none;
+    }
+}
 #volumeContainer{
-	position:absolute !important;
-	right:3%;
-	cursor:pointer;
+    position:absolute !important;
+    right:2.5%;/*3%;*/
+    cursor:pointer;
 }
 div#MuteVarTemp::after {
     content: '';
