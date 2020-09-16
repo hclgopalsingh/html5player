@@ -2244,7 +2244,7 @@ export class Ntemplate6 implements OnInit {
           this.duplicateOption.nativeElement.children[id].classList.add('topauto');
        // this.duplicateOption.nativeElement.children[id].style.top = "auto!important";
       // $(this.duplicateOption.nativeElement.children[id]).css("top", "auto");
-      console.log("aaaa" + this.duplicateOption.nativeElement.children[id].style.top);
+      console.log(this.duplicateOption.nativeElement.children[id].style.top);
       }, 200)
         //option.topPos = "auto!important";
         option.isOpen = false;
