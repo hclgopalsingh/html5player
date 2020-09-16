@@ -97,37 +97,3 @@
         </div>
     </div>
 </div>
-<!--
-<div class="modal" id="feedbackModal" #feedbackModalRef>
-    <div class="modal-dialog">
-        <div class="modal-content" #modalRef>
-            <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackPopup?.style_header">
-                <img class="modal-title" [src]="feedbackPopup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackPopup?.headerTxt_img?.url : assetsPath + '/' + feedbackPopup?.headerTxt_img?.url">
-                <img class="close" [src]="feedbackPopup?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackPopup?.close_btn?.url : assetsPath + '/' + feedbackPopup?.close_btn?.url"
-                    (click)="sendFeedback(feedbackModalRef,'no','feedbackClosed');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
-            </div>
-
-            <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmAssets?.style_body">
-                <div class="feedbackTxt" #WrongMatraPopUp>
-                    <div *ngFor="let quesTxt of quesObjCopy?.questionText"><img class="" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : assetsPath + '/' +quesTxt?.url"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <audio #feedbackVoRef></audio>
-</div>
--->
-<!-- The Modal Template 7 -->
-
-<!--
-<div class="videoMainContainer" *ngIf="isPlayVideo">
-    <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
-        poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
-        <source [src]="questionObj?.quesVideo?.location=='content' ? containgFolderPath + '/' + questionObj?.quesVideo?.urlOgv : assetsPath + '/' + questionObj?.quesVideo?.urlOgv"
-            type="{{videoType}}">
-    </video>
-    <div class="video_loader" *ngIf="!isVideoLoaded">
-        <img src="assets/images/loaderVideo.gif">
-    </div>
-</div>
--->
