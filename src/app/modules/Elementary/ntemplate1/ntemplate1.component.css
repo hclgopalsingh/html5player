@@ -747,10 +747,16 @@ button:focus {
   display: none;
 }
 
-#modalTemp5 #instructionBarFeedback .instructionBase {
+.modal .instructionBase {
   width: 100%;
   position: relative;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
 }
 
 /*.close:focus, .close:hover {
@@ -782,12 +788,6 @@ html [type=button] {
   text-align: center;
   margin-bottom: .9%;
   display: none;
-}
-
-#modalPartialOptions #instructionBarPartial .instructionBase {
-  width: 100%;
-  position: relative;
-  cursor: pointer;
 }
 
 /*Partial Pop-up for 6+ options*/
