@@ -220,6 +220,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
+      this.optionObj[this.index1].imgsrc=this.optionObj[this.index1].imgsrc_original;
+      this.startCount=0;
+      clearTimeout(this.showAnssetTimeout);
       if (action == "uttarDikhayein") {
         this.instructionDisable = false;
         if (!this.instruction.nativeElement.paused) {
@@ -760,7 +763,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
       this.checked = true;
     }else {
       this.appModel.notifyUserAction();
+      if(!this.checked){
+      this.startCount=1;
+      this.blinkHolder();
       this.instructionDisable = false;
+      }
     }
   }
 

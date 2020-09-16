@@ -750,7 +750,6 @@ button:focus {
 .modal .instructionBase {
   width: 100%;
   position: relative;
-  cursor: pointer;
   display: flex;
   justify-content: center;
 }
@@ -950,7 +949,7 @@ html [type=button] {
 
 
 .videoMainContainer {
-  width: 99.9%;
+  width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
