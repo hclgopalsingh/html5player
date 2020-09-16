@@ -84,6 +84,20 @@ button:focus {
   align-content: center;
   /* margin: 6vmin 13vmin; */
 }
+
+.modal .instructionBase {
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
+}
+
+
 .refQues img{
   height: 78%;
   display: flex;
