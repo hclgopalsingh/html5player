@@ -89,7 +89,8 @@ button:focus {
   position: relative;
 }
 #container .rowMid .colMid {
-  background: #c2c2c2;
+  /* background: #c2c2c2; */
+  background-image: radial-gradient(#0074E2, #004589);
 	border: solid 1px #000;
 	border-radius: 33px;/*19vmin;*/
   width:76%;
@@ -117,14 +118,19 @@ button:focus {
   }
 }
 .colMid .durationTime{
-  background: #9a9a9a;
+  /* background: #9a9a9a;
 	border: solid 1px #000;
-	border-radius: 50px;/*19vmin;*/
+	border-radius: 50px; */
   padding: 0 2.7%;
   position: absolute;
   right: .25%;
   top: .4%;
   font-size: 3.5vmin;
+}
+.colMid .durationTime div{
+  position: absolute;
+  top: 2%;
+  left: 28.5%;
 }
 .quesImg {
   display: flex;

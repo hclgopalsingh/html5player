@@ -64,7 +64,10 @@
           </div>
         </div>
         <div class="colMid h-100">
-          <div class="durationTime">{{displayTimer}}</div>
+          <div class="durationTime">            
+            <img class="img-fluid" [src]="questionObj?.quesImg?.timeBg?.url">
+            <div>{{displayTimer}}</div>
+          </div>
           <div class="quesImg" *ngIf="!isPlayVideo">
             <img class="img-fluid"
               [src]="questionObj?.quesImg?.imgsrc?.url">
@@ -262,11 +265,11 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          <!-- <div class="d-flex flex-row justify-content-around instructionBarFeedback">
+          <div class="d-flex flex-row justify-content-around instructionBar">
             <div class="instructionBase">
               <img class="img-fluid" [src]="feedbackAssts?.ques_feedback?.ques_img">
             </div>
-          </div> -->
+          </div>
           <div class="teamNames">
             <div class="teamDetails" *ngFor="let quesFeedback of feedbackAssts?.ques_feedback?.correct_options">
               <div>
