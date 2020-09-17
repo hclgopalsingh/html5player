@@ -210,6 +210,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       }
       this.disable = true;
       if (action == "uttarDikhayein") {
+        clearTimeout(this.showAnsTimer);
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
@@ -341,12 +342,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       this.instruction.nativeElement.pause();
       this.instructionDisable = false;
     }
-    if (this.quesObj.quesType == "video") {
-      this.replayVideo();
-      this.appModel.stopAllTimer();
-    } else {
-      this.appModel.notifyUserAction();
-      if (this.i != undefined && this.j != undefined) {
+    if (this.i != undefined && this.j != undefined) {
         if (!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
           this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].pause();
           this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].currentTime = 0;
@@ -362,9 +358,13 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
           if (this.optionsBlock.nativeElement.children[2] != undefined) {
             this.optionsBlock.nativeElement.children[2].style.pointerEvents = "";
           }
-
-        }
-      }
+       }
+    }
+    if (this.quesObj.quesType == "video") {
+      this.replayVideo();
+      this.appModel.stopAllTimer();
+    } else {
+      this.appModel.notifyUserAction();
       this.displayWave = true;
       this.questionAudio.nativeElement.play();
       this.questionAudio.nativeElement.onended = () => {
@@ -527,12 +527,14 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       this.instructionOpacity = true;
       this.checked = true;
     } else {
+      this.appModel.notifyUserAction();
+      if(!this.checked){
       setTimeout(() => {
         this.disable = false;
         this.disableDiv = false;
       }, 1000);
-      this.appModel.notifyUserAction();
       this.instructionDisable = false;
+      }
     }
   }
 
@@ -730,7 +732,6 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
         this.styleBodyPopup = this.feedbackObj.style_body;
         setTimeout(() => {
           this.appModel.invokeTempSubject('showModal', 'manual');
-          this.appModel.resetBlinkingTimer();
         }, 100);
       }
       if ((this.noOfRightAnsClicked < this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
@@ -804,7 +805,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
     }
   }
   PlayPauseVideo() {
-    this.appModel.notifyUserAction();
+    //this.appModel.notifyUserAction();
     if (this.PlayPauseFlag) {
       this.mainVideo.nativeElement.pause();
       this.quesObj.quesPlayPause = this.quesObj.quesPlay;
@@ -902,8 +903,15 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
     if (obj.questionAudio && obj.questionAudio.nativeElement) {
       obj.questionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if(obj.popupBodyRef.nativeElement && obj.popupBodyRef.nativeElement.children[0]){
     for (let i = 0; i < obj.popupBodyRef.nativeElement.children[0].children.length; i++) {
       obj.popupBodyRef.nativeElement.children[0].children[i].children[1].volume = obj.appModel.isMute ? 0 : vol;
+    }
+    }
+    if(obj.popupBodyRef.nativeElement && obj.popupBodyRef.nativeElement.children[1]){
+    for (let i = 0; i < obj.popupBodyRef.nativeElement.children[0].children.length; i++) {
+      obj.popupBodyRef.nativeElement.children[1].children[i].children[1].volume = obj.appModel.isMute ? 0 : vol;
+    }
     }
   }
 

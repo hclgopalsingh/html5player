@@ -518,7 +518,7 @@ export class Template3Component extends Base implements OnInit {
 						this.videoonshowAnspopUp.nativeElement.play();
 						this.videoonshowAnspopUp.nativeElement.onended = () => {
 							this.showAnswerTimer =  setTimeout(() => {
-								this.closePopup('showAnswer');
+								this.closePopup('showanswer');
 							}, 10000);
 						// this.videoonshowAnspopUp.nativeElement.play();
 					}
