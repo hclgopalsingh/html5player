@@ -42,6 +42,7 @@ export class QuesController implements OnInit {
   disableTabs: boolean = true;
   EVA: boolean = false;
   EnableShowAnswer: boolean = false;
+  showAnsState:string = '';
   EnableSubmitAnswer: boolean = false;
   Template: any;
   EVAQid: any;
@@ -134,9 +135,16 @@ export class QuesController implements OnInit {
         if (this.EnableShowAnswer === true) {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
+          this.showAnsState = 'active';
         } else {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
           this.UttarDikhayeinTooltip = "";
+          this.showAnsState = 'inActive';
+        }
+      });
+      this.Sharedservice.getShowAnsClickDisabled().subscribe(data => {
+        if(this.showAnsState === 'active') {
+          this.EnableShowAnswer = !data.data;
         }
       });
       if (this.EVA) {

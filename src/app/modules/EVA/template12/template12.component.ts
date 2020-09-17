@@ -371,6 +371,7 @@ export class Template12ComponentEVA implements OnInit {
 
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
         if (this.correctAnswerCounter === this.correctAnswerCount) {
+          this.appModel.storeVisitedTabs();
           this.showRightAnswerPopup();
         }
         else {

@@ -31,7 +31,7 @@ import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component'
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
 import { Ntemplate6 } from '../modules/Elementary/Ntemplate6/Ntemplate6.component';
 import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component';
-import {Ntemplate17} from '../controller/Ntemplate17.component';
+import { Ntemplate17Component } from './Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate24 } from '../controller/Ntemplate24.component';
 import { Ntemplate24_1 } from '../controller/Ntemplate24_1.component';
 import { Ntemplate19 } from '../controller/Ntemplate19.component';
@@ -64,6 +64,7 @@ import { Template11Componenteva } from '../modules/EVA/template11/template11.com
 import { Template12ComponentEVA } from './EVA/template12/template12.component';
 import { TemplateSevenComponent } from './EVA/template7/template7.component';
 import { Template5Component } from './EVA/template5/template5.component';
+import { Template9Component } from './EVA/template9/template9.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -126,8 +127,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp6ext', component: Ntemplate6, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp7', component: Ntemplate7, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp7ext', component: Ntemplate7, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp17', component: Ntemplate17, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp17ext', component: Ntemplate17, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp17', component: Ntemplate17Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp17ext', component: Ntemplate17Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp24', component: Ntemplate24, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp24ext', component: Ntemplate24, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp18', component: Ntemplate18, runGuardsAndResolvers: 'always' },
@@ -187,7 +188,9 @@ export const APP_ROUTES: Routes = [
 			{ path: 'evatemp7', component: TemplateSevenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp7ext', component: TemplateSevenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp5', component: Template5Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp5ext', component: Template5Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
+			{ path: 'evatemp5ext', component: Template5Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp9', component: Template9Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp9ext', component: Template9Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
 			
 		]
 	}
