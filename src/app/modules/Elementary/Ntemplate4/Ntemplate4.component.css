@@ -42,19 +42,109 @@ button:focus {
   align-items: center;
 }
 
+.bodyContent .matchHolderLeft,
+.bodyContent .matchHolderRight {
+  position: absolute;
+  width: 7%;
+}
+
+.bodyContent .matchHolderLeft img,
+.bodyContent .matchHolderRight img {
+  visibility: hidden;
+}
+
+/* .bodyContent .element0.matchHolderLeft,
+.bodyContent .element1.matchHolderLeft,
+.bodyContent .element2.matchHolderLeft,
+.bodyContent .element3.matchHolderLeft,
+.bodyContent .element4.matchHolderLeft,
+.bodyContent .element5.matchHolderLeft,
+.bodyContent .element6.matchHolderLeft,
+.bodyContent .element7.matchHolderLeft,
+.bodyContent .element8.matchHolderLeft,
+.bodyContent .element0.matchHolderRight,
+.bodyContent .element1.matchHolderRight,
+.bodyContent .element2.matchHolderRight,
+.bodyContent .element3.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element5.matchHolderRight,
+.bodyContent .element6.matchHolderRight,
+.bodyContent .element7.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  position: absolute;
+  left: 24.8%;
+  top: 33%;
+  width: 7%;
+}
+.bodyContent .element0.matchHolderRight,
+.bodyContent .element1.matchHolderRight,
+.bodyContent .element2.matchHolderRight,
+.bodyContent .element3.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element5.matchHolderRight,
+.bodyContent .element6.matchHolderRight,
+.bodyContent .element7.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  left: 52.3%;
+}
+.bodyContent .element1.matchHolderLeft,
+.bodyContent .element4.matchHolderLeft,
+.bodyContent .element7.matchHolderLeft{
+  left: 32.8%;
+}
+.bodyContent .element2.matchHolderLeft,
+.bodyContent .element5.matchHolderLeft,
+.bodyContent .element8.matchHolderLeft{
+  left: 40.8%;
+}
+.bodyContent .element3.matchHolderLeft,
+.bodyContent .element4.matchHolderLeft,
+.bodyContent .element5.matchHolderLeft,
+.bodyContent .element3.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element5.matchHolderRight{
+  top: 46.5%;
+}
+.bodyContent .element6.matchHolderLeft,
+.bodyContent .element7.matchHolderLeft,
+.bodyContent .element8.matchHolderLeft,
+.bodyContent .element6.matchHolderRight,
+.bodyContent .element7.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  top: 60%;
+}
+.bodyContent .element1.matchHolderRight,
+.bodyContent .element4.matchHolderRight,
+.bodyContent .element7.matchHolderRight{
+  left: 60.3%;
+}
+.bodyContent .element2.matchHolderRight,
+.bodyContent .element5.matchHolderRight,
+.bodyContent .element8.matchHolderRight{
+  left: 68.3%;
+} */
+
+
 .bodyContent .matchBlock {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 55%;
+  position: absolute;
 }
 
 .matchHolder {
-  width: 100%;
-  position: relative;
+  width: 50%;
+  /*100%*/
+  position: absolute;
+  /*relative*/
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.matchHolder:last-child {
+  right: 0;
 }
 
 .matchHolder img {
@@ -69,7 +159,8 @@ button:focus {
   align-content: space-evenly;
   width: 86%;
   height: 83%;
-  margin-top: 3.5%; /*For Chrome display value should be 5% */
+  margin-top: 3.5%;
+  /*For Chrome display value should be 5% */
   flex-wrap: wrap;
 }
 
@@ -148,6 +239,7 @@ button:focus {
 
 .option1 {
   top: 1%;
+  left: 45%;
 }
 
 .option2 {
@@ -910,6 +1002,31 @@ info modal modal
   border-top: none !important;
 }
 
+#modalTemp4 #instructionBarFeedback {
+  position: relative;
+  top: 5%;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+  /* display: none; */
+}
+
+#modalTemp4 #instructionBarFeedback .instructionBase {
+  width: 100%;
+  position: relative;
+  /* cursor: pointer; */
+}
+
+#modalTemp4 .actionButtons button {
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+#modalTemp4 .actionButtons button img {
+  max-width: 100%;
+}
+
 /* #modalTemp4 .close {
     width: 3.5%;
     height: auto;
@@ -928,6 +1045,16 @@ info modal modal
     color: #000;
     text-shadow: 0 1px 0 #fff;
 } */
+/* #modalTemp4 .navigate .actionButtons {
+  max-width: 5.5%;
+  margin-left: 1.2%;
+} */
+#modalTemp4 .elementBlock {
+  width: 94%;
+  position: absolute;
+  top: 20%;
+}
+
 .navigate {
   position: absolute;
   bottom: 2%;
@@ -1016,6 +1143,14 @@ info modal modal
 	width:100%;
 } */
 
-/* .controlCursor{
+.controlCursor {
   cursor: default
-} */
+}
+
+.d-show {
+  display: block !important;
+}
+
+.d-none {
+  display: none !important;
+}

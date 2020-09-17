@@ -1,8 +1,9 @@
 <div class="container-fluid ele" id="container" *ngIf="!isPlayVideo">
-  <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();"/></div>
+  <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar">
     <div class="instructionBase" #instructionBar [ngClass]="{'disableDiv':instructionDisable}">
-      <img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url" (load)="checkImgLoaded();"/>
+      <img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url"
+        (load)="checkImgLoaded();" />
     </div>
     <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
   </div>
@@ -10,23 +11,35 @@
     <div class="matchBlock">
       <div class="matchHolder">
         <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">
-        <div class="optSelectedHidden">
+        <!-- <div class="optSelectedHidden">
           <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div>
+        </div> -->
       </div>
       <div class="matchHolder">
         <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
-        <div class="optSelectedHidden">
+        <!-- <div class="optSelectedHidden">
           <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div>
+        </div> -->
       </div>
     </div>
-    <div class="{{option?.imgsrc?.style_class}}" *ngFor="let option of options;let idx = index"
-      [ngClass]="{'disableDiv':isOptionDisabled}">
-      <img class="img-fluid pos_rel"
-        [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos}}"
-        [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)" (mousemove)="optionHover(idx,option)"
-        (mouseleave)="optionLeave(idx,option)" (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
+    <div #placeholderRefLeft>
+      <div class='element{{idx}} matchHolderLeft' *ngFor="let option of dummyImgs;let idx=index">
+        <img class="img-fluid" [src]="option?.imgsrc?.url">
+      </div>
+    </div>
+    <div #placeholderRefRight>
+      <div class='element{{idx}} matchHolderRight' *ngFor="let option of dummyImgs;let idx=index">
+        <img class="img-fluid" [src]="option?.imgsrc?.url">
+      </div>
+    </div>
+    <div #optionRef>
+      <div class="{{option?.imgsrc?.style_class}}"
+        [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos, posWidth:option.posWidth}}"
+        *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}" #optionRef>
+        <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)"
+          (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)"
+          (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
+      </div>
     </div>
     <audio #quesVORef></audio>
   </div>
@@ -114,7 +127,13 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center flex-wrap" [ngStyle]="feedbackAssets?.style_body">
-          <div class="d-flex justify-content-center w-100">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            [ngClass]="{'dispFlex':popupTxtRequired}">
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="feedbackAssets?.popTitleTxt_img?.url" />
+            </div>
+          </div>
+          <div class="d-flex justify-content-center elementBlock">
             <div class="matchHolder" *ngIf="category && category.correct && category.correct.length>0">
               <img class="img-fluid" [src]="feedbackAssets?.rightAttempt_placeholder?.url">
               <div class="optSelected" #correctCategory>
@@ -135,9 +154,18 @@
               [src]="feedbackAssets?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
               (mouseleave)="hleaveFeedbackPre()">
             <img class="img-fluid forward"
-              [ngClass]="{'disableBtn': currentFeedbackPlaying =='categoryB' || (categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
+              [ngClass]="{'disableBtn': (showAnswerClicked && currentFeedbackPlaying =='categoryB') || (showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0),
+                          'd-none': (!showAnswerClicked && currentFeedbackPlaying =='categoryB') || (!showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
               [src]="feedbackAssets?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
               (mouseleave)="hleaveFeedbackNxt()">
+            <img class="img-fluid" style="display: none;"
+              [ngClass]="{'d-show': (!showAnswerClicked && currentFeedbackPlaying =='categoryB') || (!showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}"
+              [src]="feedbackAssets?.ok_btn?.url" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');"
+              (mousemove)="hoverFeedbackOK()" (mouseleave)="houtFeedbackOK()">
+            <!-- <div style="display: none;" [ngClass]="{'actionButtons':true ,'d-show': (!showAnswerClicked && currentFeedbackPlaying =='categoryB') || (!showAnswerClicked && categoryB?.correct.length ==0 && categoryB?.incorrect.length==0)}">
+              <button type="button" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackOK()"
+                (mouseleave)="houtFeedbackOK()"><img class="img-fluid" [src]="feedbackAssets?.ok_btn?.url"></button>
+            </div> -->
           </div>
         </div>
 
@@ -158,8 +186,8 @@
             <button type="button" (click)="sendFeedback(confirmReplayRef,'yes','replay');"
               (mousemove)="hoverReplayConfirm()" (mouseleave)="houtReplayConfirm()"><img class="img-fluid"
                 [src]="confirmReplayAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverReplayDecline()"
-              (mouseleave)="houtReplayDecline()"><img class="img-fluid"
+            <button type="button" (click)="sendFeedback(confirmReplayRef,'no','cancelReplay');"
+              (mousemove)="hoverReplayDecline()" (mouseleave)="houtReplayDecline()"><img class="img-fluid"
                 [src]="confirmReplayAssets?.decline_btn?.url"></button>
           </div>
         </div>
@@ -175,7 +203,7 @@
       (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
       (ended)="endedHandler()">
       <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
-    </video>    
+    </video>
     <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
         (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
     <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="quesSkip"

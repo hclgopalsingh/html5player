@@ -36,7 +36,7 @@ export class NTitleComponent implements OnInit {
 	fetchedcontent: any;
 	themePath:any;
 	functionalityType:any;
-
+	elemCloseTitleScreen:boolean=false;
 
 	// private appModel: ApplicationmodelService;
 	constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -74,11 +74,19 @@ export class NTitleComponent implements OnInit {
 	}
 
 	closeTitleScreen() {
-		this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeOutAnimation";
-		setTimeout(() => {
-			this.next();
-		}, 200)
-
+		this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeOutAnimation";		
+		if (this.quesInfo.templateType == undefined || this.quesInfo.templateType != 'EVA') {			
+			if(this.elemCloseTitleScreen!=true){
+				this.elemCloseTitleScreen=true;
+				setTimeout(() => {
+					this.next();
+				}, 200)
+			}
+		}else{
+			setTimeout(() => {
+				this.next();
+			}, 200)
+		}
 	}
 	// previous function
 	previous() {

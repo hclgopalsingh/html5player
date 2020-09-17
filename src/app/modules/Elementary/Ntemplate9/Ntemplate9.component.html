@@ -18,7 +18,7 @@
           [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos , optPos: opt.optPos, optWidth: opt.optWidth}}"
           (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,opt,idx)"
           *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block"
-          (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
+          (load)="checkImgLoaded();" (mousemove)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
           (click)="onClickoption(opt,idx)">
         <audio #optionAudio></audio>
       </div>
@@ -28,7 +28,7 @@
           [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos , optPos: opt.optPos, optWidth: opt.optWidth}}"
           (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,opt,idx)"
           *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block"
-          (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
+          (load)="checkImgLoaded();" (mousemove)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
           (click)="onClickoption(opt,idx)">
         <audio #optionAudio></audio>
       </div>
@@ -38,7 +38,7 @@
           [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos , optPos: opt.optPos, optWidth: opt.optWidth}}"
           (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,opt,idx)"
           *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block"
-          (load)="checkImgLoaded();" (mouseenter)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
+          (load)="checkImgLoaded();" (mousemove)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
           (click)="onClickoption(opt,idx)">
         <audio #optionAudio></audio>
       </div>
@@ -82,6 +82,12 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
+           <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            #instructionBarFeedback [ngClass]="{'dispFlex':popupTxtRequired}">
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="feedbackObj?.rightAnswerpopupTxt?.url" />
+            </div>
+           </div>
           <div class="row mx-0 optionsBlock">
             <div class="my-auto quesImage">
               <div class="options">
