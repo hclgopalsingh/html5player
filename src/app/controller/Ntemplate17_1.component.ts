@@ -704,7 +704,15 @@ export class Ntemplate17_1 implements OnInit {
           '{lock}': 'Lock',
           '{tab}': 'Tab',
           '{space}': 'Space',
-        }
+        },
+        buttonTheme:
+        [
+          {
+            class: "hg-red",
+            buttons: "ब ह ग द"
+          }
+        ],
+
       });
     }
     this.appModel.enableReplayBtn(false);

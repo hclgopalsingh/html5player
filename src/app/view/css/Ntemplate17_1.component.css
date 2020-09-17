@@ -1114,3 +1114,8 @@ button:focus {
 .modal .optionsList div{
   position: relative;
 }
+
+.simple-keyboard.hg-layout-default .hg-button.hg-red {
+  background: rgb(255, 0, 0, 0.7) !important;
+  color: white;
+}
