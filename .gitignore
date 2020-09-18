@@ -4,3 +4,4 @@ package-lock.json
 .src/assets/config/init.json
 .vs/
 .vs/slnx.sqlite
+.history
