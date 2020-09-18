@@ -265,10 +265,10 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 }
             }            
             /*Disable Blink*/
-            clearInterval(this.blinkTimeInterval);
-            this.blinkTimeInterval=0;
-            this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-            this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+            // clearInterval(this.blinkTimeInterval);
+            // this.blinkTimeInterval=0;
+            // this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+            // this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
             this.isOptionDisabled = true;
             if (val == "uttarDikhayein") {
                 clearTimeout(this.showAnsTimeout);
@@ -350,9 +350,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
             this.isOptionDisabled = false;
         }, 1000);
-        if (this.selectableOpts > 0) {
-            this.getRandomIndxBlink(this.selectableOpts);
-        }
+        // if (this.selectableOpts > 0) {
+        //     this.getRandomIndxBlink(this.selectableOpts);
+        // }
     }
 
 
@@ -864,25 +864,26 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.isOptionDisabled = false;
             }, 1000);
             this.appModel.wrongAttemptAnimation();
-            if (this.selectableOpts > 0) {
-                this.getRandomIndxBlink(this.selectableOpts);
-            }
+            // if (this.selectableOpts > 0) {
+            //     this.getRandomIndxBlink(this.selectableOpts);
+            // }
         } else if (action == "cancelReplay") {
             this.appModel.videoStraming(false);
             this.appModel.enableReplayBtn(true);
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
-            if (this.selectableOpts > 0) {
-                this.getRandomIndxBlink(this.selectableOpts);
-            }
+            // if (this.selectableOpts > 0) {
+            //     this.getRandomIndxBlink(this.selectableOpts);
+            // }
         } else if (flag == "no") {
+            console.log(this.selectableOpts);
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
-            if (this.selectableOpts > 0) {
-                this.getRandomIndxBlink(this.selectableOpts);
-            } 
+            // if (this.selectableOpts > 0) {
+            //     this.getRandomIndxBlink(this.selectableOpts);
+            // } 
         }
 
     }
@@ -890,10 +891,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     checkResponseType() {
         this.attemptType = "manual";
         // let fetchedData: any = this.appModel.content.contentData.data;
-        if (this.isAllRight) {
-            /*Set Feedback Type for animation*/
-            this.appModel.feedbackType = "fullyIncorrect";
-            /*Set Feedback Type for animation Complete*/
+        if (this.isAllRight) {            
             clearInterval(this.blinkTimeInterval);
             this.appModel.stopAllTimer();
             console.log("show both category A and category B modal for all right");
@@ -929,11 +927,11 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }, 0)
         } else {
             if (this.isWrongAttempted) {
-
+                
                 /*Set Feedback Type for animation*/
                 this.appModel.feedbackType = "partialIncorrect";
                 if (this.categoryA.correct.length == 0 && this.categoryB.correct.length == 0) {
-                    this.appModel.feedbackType = "wrong";
+                    this.appModel.feedbackType = "fullyIncorrect";
                 }/*Set Feedback Type for animation Complete*/
 
                 clearInterval(this.blinkTimeInterval);
