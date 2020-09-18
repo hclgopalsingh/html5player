@@ -695,19 +695,19 @@ button:focus {
   height: 6%;
   /* border: solid .1vmax #000; */
   border-radius: 50%;
-  background: #ccc;
+  /* background: #ccc; */
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   right: 9.1%;
-  bottom: 7%;
+  bottom: 7.4%;
   z-index: 100;
   cursor: pointer;
 }
-.videoClose:hover{
+/* .videoClose:hover{
   background: #fff;
-}
+} */
 /* .videoClose div{
   width: 35%;
   height: 35%;

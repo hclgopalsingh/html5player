@@ -2,7 +2,7 @@
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)= "endedHandleronSkip()">
     <div>
-      <img style= "width: 102%;" [src]= "otherAssets?.video_stop?.url"
+      <img style= "width: 100%;" [src]= "otherAssets?.video_stop?.url"
       (mousemove)="hoverstopVideo()" (mouseleave)="houtstopVideo()"/>
     </div>
   </div>
@@ -211,6 +211,11 @@
 
         <!-- Modal body -->
         <div class="modal-body" [ngStyle]="scoreCardAssets?.style_body">
+          <div class="d-flex flex-row justify-content-around instructionBarScoreboard">
+            <div class="instructionBaseScoreboard">
+              <img class="img-fluid" [src]="scoreCardAssets?.title_img?.url">
+            </div>
+          </div>
           <div class="dataBlock">
             <div class="itemData">
               &nbsp;
