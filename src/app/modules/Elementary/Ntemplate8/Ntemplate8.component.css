@@ -713,3 +713,6 @@ button:focus {
   height: 35%;
   background: #f00;
 } */
+.d-show{
+  display: block !important;
+}

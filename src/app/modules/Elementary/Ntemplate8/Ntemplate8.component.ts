@@ -21,7 +21,7 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 })
 
 export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
-	private appModel: ApplicationmodelService;
+	private appModel: ApplicationmodelService;		
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
@@ -165,6 +165,9 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	fetchedcontent: any;
 	functionalityType: any;
 	bgSubscription: Subscription;
+	scoreboardCloseTimer: any;
+	feedbackNextTimer: any;
+	feedback_close_timer: any;
 	/*End: Theme Implementation(Template Changes)*/
 	// confirmSubmitFlag: boolean = false;
 	// confirmReplayFlag: boolean = false;
@@ -1053,6 +1056,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.feedbackSoFor = this.appModel.feedbackArray;
 				console.log(this.feedbackSoFor);
 			}, 500)
+			/* Auto close feedback modal */
+			this.scoreboardCloseTimer=this.scoreCardAssets.scoreboardCloseTimer;
+			setTimeout(()=>{
+				if(this.scoreBoardModal.nativeElement.classList == "modal displayPopup")
+				this.closeScoreBoard();
+			},this.scoreboardCloseTimer*60*1000)
 		} else {
 			this.appModel.nextSection();
 		}
@@ -1067,11 +1076,15 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	closeScoreBoard() {
+		
 		this.scoreBoardModal.nativeElement.classList = "modal";
 		this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
 		setTimeout(() => {
 			this.feedbackModal.nativeElement.classList = "modal displayPopup";
+			/* Auto next in feedback modal */
+			this.startNextTimer();
 		}, 500)
+		
 	}
 
 	endedHandleronSkip() {
@@ -1087,19 +1100,53 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	/*	openFeedbackPopup(){
 			this.checkNextActivities();
 		}*/
-
+	startNextTimer(){
+		clearTimeout(this.feedbackNextTimer);
+		clearTimeout(this.feedback_close_timer);
+		console.log(this.currentFeedback);
+		/* Auto next in feedback modal */
+		if (this.currentFeedback < this.feedbackSoFor.length - 1){
+			this.feedbackNextTimer=this.feedback.feedback_next_timer;
+			setTimeout(()=>{
+				if(this.feedbackModal.nativeElement.classList == "modal displayPopup"){
+					this.nextFeedback();
+				}				
+			},this.feedbackNextTimer*60*1000)
+		}
+		
+		
+	}
 	nextFeedback() {
+		clearTimeout(this.feedbackNextTimer);
+		clearTimeout(this.feedback_close_timer);
 		this.currentFeedback++;
 		if (this.currentFeedback < this.feedbackSoFor.length) {
 			this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
+			/* Auto next in feedback modal */
+			this.startNextTimer();
+			
+		}else {
+			/* Auto close in feedback modal */
+			this.feedback_close_timer=this.feedback.feedback_close_timer;
+			setTimeout(()=>{
+				if(this.feedbackModal.nativeElement.classList == "modal displayPopup"){
+					this.closeFeedbackModal();
+				}
+			},this.feedback_close_timer*60*1000)
 		}
+		
 	}
-
+	
 	prevFeedback() {
+		clearTimeout(this.feedbackNextTimer);
+		clearTimeout(this.feedback_close_timer);
 		this.currentFeedback--;
 		if (this.currentFeedback < this.feedbackSoFor.length - 1) {
 			this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
+			/* Auto next in feedback modal */
+			this.startNextTimer();
 		}
+		
 	}
 
 	checkNextActivities() {
@@ -1132,7 +1179,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	hleaveFeedbackPre() {
 		this.feedback.feedback_back_btn = this.feedback.feedback_back_btn_original;
 	}
-
+	hoverOkbtn() {
+		this.feedback.ok_btn = this.feedback.ok_btn_hover;
+	}
+	hleaveOkbtn() {
+		this.feedback.ok_btn = this.feedback.ok_btn_original;
+	}
 	closeFeedbackModal() {
 		this.feedbackModal.nativeElement.classList = "modal";
 		this.controlHandler.isNext = true;

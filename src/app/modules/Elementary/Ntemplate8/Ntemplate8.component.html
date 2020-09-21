@@ -291,9 +291,12 @@
             <img class="img-fluid back" [ngClass]="{'disableBtn': currentFeedback==0}"
               [src]="feedback?.feedback_back_btn?.url"
               (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()" (mouseleave)="hleaveFeedbackPre()">
-            <img class="img-fluid forward" [ngClass]="{'disableBtn': currentFeedback +1 == feedbackSoFor?.length}"
+            <img class="img-fluid forward" [ngClass]="{'d-none': currentFeedback +1 == feedbackSoFor?.length}"
               [src]="feedback?.feedback_next_btn?.url"
               (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()" (mouseleave)="hleaveFeedbackNxt()">
+            <img style="display: none;" class="img-fluid okbtn" [ngClass]="{'d-show': currentFeedback +1 == feedbackSoFor?.length}"
+              [src]="feedback?.ok_btn?.url"
+              (click)="closeFeedbackModal()" (mousemove)="hoverOkbtn()" (mouseleave)="hleaveOkbtn()">
           </div>
         </div>
       </div>
