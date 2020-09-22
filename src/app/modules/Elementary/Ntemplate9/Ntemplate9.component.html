@@ -1,0 +1,104 @@
+<div class="container-fluid ele temp14" id="container">
+  <audio #narrator [src]="quesObj?.quesInstruction?.url"></audio>
+  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div #maincontent>
+    <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="top:9% !important;">
+      <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable,'classOpacity':instructionOpacity}">
+        <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
+          (load)="checkImgLoaded();" />
+        <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+      </div>
+    </div>
+    <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}"
+      #puzzleSection>
+      <!-- New Implementation -->
+      <div id="puzzleBlock4" #optionsBlock *ngIf="isBlock4" [ngClass]="{'disable_div':puzzleBlock4disabled}">
+        <div class="shadowBlock"></div>
+        <img id={{opt.id}} class="img-fluid"
+          [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos , optPos: opt.optPos, optWidth: opt.optWidth}}"
+          (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,opt,idx)"
+          *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block"
+          (load)="checkImgLoaded();" (mousemove)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
+          (click)="onClickoption(opt,idx)">
+        <audio #optionAudio></audio>
+      </div>
+      <div id="puzzleBlock12" #optionsBlock *ngIf="isBlock12" [ngClass]="{'disable_div':puzzleBlock12disabled}">
+        <div class="shadowBlock"></div>
+        <img id={{opt.id}} class="img-fluid"
+          [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos , optPos: opt.optPos, optWidth: opt.optWidth}}"
+          (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,opt,idx)"
+          *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block"
+          (load)="checkImgLoaded();" (mousemove)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
+          (click)="onClickoption(opt,idx)">
+        <audio #optionAudio></audio>
+      </div>
+      <div id="puzzleBlock9" #optionsBlock *ngIf="isBlock9" [ngClass]="{'disable_div':puzzleBlock9disabled}">
+        <div class="shadowBlock"></div>
+        <img id={{opt.id}} class="img-fluid"
+          [@openClose]="{value: opt.isOpen ? 'open' : 'closed', params: {leftPos: opt.leftPos , topPos: opt.topPos , optPos: opt.optPos, optWidth: opt.optWidth}}"
+          (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,opt,idx)"
+          *ngFor="let opt of optionObj;let idx = index" [src]="opt?.imgsrc?.url" [ngStyle]="opt?.style_block"
+          (load)="checkImgLoaded();" (mousemove)="hoveronOption(opt)" (mouseleave)="hoverOptionOut(opt)"
+          (click)="onClickoption(opt,idx)">
+        <audio #optionAudio></audio>
+      </div>
+    </div>
+  </div>
+  <!-- The Confirmation Modal -->
+  <div class="modal" id="confirmModal" #confirmModalRef [ngClass]="{'displayPopup':displayconfirmPopup}">
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
+          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+
+        <div class="modal-body" [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()"
+              (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal" id="modalTemp9" [ngClass]="{'displayPopup':displaymainPopup}">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header" [ngStyle]="feedbackObj?.style_header">
+          <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
+          <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
+          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button"
+            (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
+           <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            #instructionBarFeedback [ngClass]="{'dispFlex':popupTxtRequired}">
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="feedbackObj?.rightAnswerpopupTxt?.url" />
+            </div>
+           </div>
+          <div class="row mx-0 optionsBlock">
+            <div class="my-auto quesImage">
+              <div class="options">
+                <img class="img-fluid" [src]="rightAnspopupAssets?.imgsrc?.url">
+                <audio #feedbackPopupAudio></audio>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <audio #feedbackVO></audio>
+</div>

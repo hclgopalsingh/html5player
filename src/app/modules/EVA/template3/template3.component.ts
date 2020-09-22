@@ -282,6 +282,7 @@ export class Template3Component extends Base implements OnInit {
 			setTimeout(() => {
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
+					this.appModel.storeVisitedTabs();
 					this.clapTimer=	setTimeout(() => {
 						this.clapSound.nativeElement.pause();
 						this.clapSound.nativeElement.currentTime = 0;
@@ -517,7 +518,7 @@ export class Template3Component extends Base implements OnInit {
 						this.videoonshowAnspopUp.nativeElement.play();
 						this.videoonshowAnspopUp.nativeElement.onended = () => {
 							this.showAnswerTimer =  setTimeout(() => {
-								this.closePopup('showAnswer');
+								this.closePopup('showanswer');
 							}, 10000);
 						// this.videoonshowAnspopUp.nativeElement.play();
 					}

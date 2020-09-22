@@ -1,0 +1,717 @@
+.eva14 .opacityZero{
+    opacity:0;
+    pointer-events: none !important;
+  }
+  .eva14 .hideit{display:none !important;}
+  .eva14 .showit{display:block !important;}
+  .eva14 .dispFlex{display:flex !important;}
+  .eva14 button:focus {outline: none !important;}
+  .eva14#container{
+      position: relative;
+      padding:0;
+  }
+  .eva14#container #bgImage img {
+      width: 100%;
+  }
+  .eva14#container #optionsBlock {
+    position: absolute;
+    top: 14.5%;
+    width: 96%;
+    left: 2%;
+    height: 65%;
+  }
+  .eva14 #optionsBlock .leftBlock {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width:12.37%;
+    height: 100%;
+  }
+  .eva14 #optionsBlock .topBlock {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 85.5%;
+    left: 14%;
+    height: 9.8%;
+  }
+  .eva14 #optionsBlock .rightBlock {
+    position: absolute;
+      right: 0;
+    top: 11.5%;
+    width: 85.9%;
+  }
+  .eva14 .rightBlock .weekDays {
+    position: absolute;
+      width: 100%;
+      top: 1.7%;/*7.7%*/
+      left: 0.6%;
+  }
+  .eva14 #optionsBlock .rightBlock .weekDays .blockContent {
+      display: block !important;
+  }
+  .eva14 #optionsBlock .blockContent {
+    position: absolute;
+    top: 0;
+      width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+  }
+  .eva14 #optionsBlock .blockContent img {
+       max-width: 91%;
+      cursor: pointer;
+  }
+  .eva14 .leftBlock .blockContent img {
+       margin: 0;
+  }
+  .eva14 .leftBlock .blockContent img.monthName {
+    position: absolute;
+}
+  .eva14 #optionsBlock .leftBlock .blockContent div {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+ }
+ .eva14 .topBlock .blockContent img,
+ .eva14 .weekDays .blockContent img {
+      margin: 0 .43%;
+      max-width: 13.4% !important;
+  }
+  .eva14 .topBlock .blockContent img.yearBase{
+  max-width: 94% !important;
+  margin: 0;
+}
+.eva14 .topBlock .blockContent img.yearLabel{
+  position: absolute;
+  margin: 0;
+}
+.eva14 #optionsBlock .topBlock .blockContent {
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.eva14 #optionsBlock .topBlock .blockContent div{
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+.eva14 .monthDates {
+  position: absolute;
+  top: 13%;
+  width: 100%;
+}
+.eva14 #optionsBlock .monthDates .blockContent {
+  align-content: flex-start !important;
+  justify-content: flex-start !important;
+  display: flex;/*inline-table*/
+}
+.eva14 .monthDates .blockContent img {
+  margin: -0.5% 1.89%;
+  max-width: 90.5% !important;/*10.5% !important*/
+}
+.eva14 .monthDates .blockContent img[src=''] {
+    visibility: hidden;
+    width: 10.5%;
+}
+  
+  /* use below classes to pass value as 'Text' */
+  /*
+  <div>
+      <img class="img-fluid" src="../../assets/images/Template-22/English/Images English/Days/DaysBlankBox.png">
+      <span>1</span>
+  </div>
+  */
+  .eva14 .monthDates .blockContent div {
+    display: flex;
+    width: 13%;
+    margin: 0.27% .64%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .eva14 .monthDates .blockContent div span {
+    position: absolute;
+    font-size: 2.5vmax;
+    font-weight: bold;
+    font-family: Kruti Dev!important;
+    top: -6.5%;
+    }
+  .eva14 .modal .monthDates{
+    top: 13.8%;
+  }
+  .eva14 .modal .monthDates .blockContent div span {
+    font-size: 2vmax;
+  }
+  .eva14 .modal #optionsBlock .rightBlock .weekDays .blockContent{
+    display: flex !important;
+    flex-wrap: nowrap;
+    height: auto;
+    width: 98.5%;
+    justify-content: space-between;
+  }
+  .eva14 .modal .weekDays .blockContent div{
+    width: 14%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .eva14 .modal .weekDays .blockContent .day{
+    position: absolute;
+  }
+  .eva14 .modal .weekDays .blockContent img {
+      margin: 0;
+      max-width: 100% !important;
+  }
+
+  /************************************#########$$$$$$$$$$$#########*************************************/
+  .eva14 #hoverques, .eva14 #clickques {
+  position: absolute;
+  }
+  
+  .eva14 #optionsBlock>img{
+      position:relative;
+      max-width: 100%;
+  }
+  .eva14 #optionsBlock .refTxt{
+    position: absolute;
+    bottom: 0%;
+      left:0%;
+      z-index:2;
+  }
+  .eva14#container #navBlock {
+    position: absolute;
+    bottom: 0;
+    left: 0%;
+    width: 100%;
+  }
+  .eva14#container #navBlock .navBase{
+    position: relative;
+    margin:auto;
+    width: 64%;
+  }
+  .eva14#container #navBlock .prevBtn,
+  .eva14#container #navBlock .nextBtn,
+  .eva14#container #navBlock .ansBtn,
+  .eva14#container #navBlock .quesBlock{
+      position: absolute;
+    top: 17%;
+  }
+  .eva14#container #navBlock .prevBtn,
+  .eva14#container #navBlock .nextBtn,
+  .eva14#container #navBlock .ansBtn,
+  .eva14#container #navBlock .quesBlock img{
+      cursor:pointer;
+  }
+  .eva14#container #navBlock .prevBtn{
+      left: 3.2%;
+  }
+  .eva14#container #navBlock .ansBtn{
+    left: 22.8%;
+    width: 15.2%;
+  }
+  .eva14#container #navBlock .quesBlock{
+      left: 38.1%;
+    width: 39%;
+  }
+  .eva14#container #navBlock .nextBtn{
+    right: 3.3%;
+  }
+  .eva14 #navBlock .prevBtn, .eva14 #navBlock .nextBtn{
+      width:19.6%;
+  }
+  .eva14 #navBlock .prevBtn img, .eva14 #navBlock .nextBtn img{
+      cursor:pointer;
+  }
+  .eva14 .animation-shake {
+      animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+      animation-iteration-count: infinite;
+  }
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+  
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+  .eva14 #correctAns{
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      background:#000;
+      z-index:100;
+      display:flex;
+    align-items:center;
+    /*
+      background: url(../images/popup.svg) no-repeat center center;
+    */
+    background-size: contain;
+      animation: scaleit 0.2s ease-in;
+  }
+  .eva14 .rightAnsBg{
+      animation: scaleit 0.2s ease-in;
+  }
+  .eva14 .disable-state {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  .eva14 .selected-state {
+    pointer-events: none;
+  }
+  .eva14 #correctAns img{
+      position:absolute;
+      width:70%;
+  }
+ 
+  @keyframes scaleit {
+      0% {
+          transform: scale(.9);
+          opacity:.0;
+      }
+      90% {
+          transform: scale(1.1);
+          opacity:.7;
+        }
+      100% {
+          transform: scale(1);
+          opacity:1;
+        }
+  }
+  .eva14#container #navBlock .prevBtn:hover,
+  .eva14#container #navBlock .nextBtn:hover {
+    -webkit-animation-name: moveLeft; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: .3s; /* Safari 4.0 - 8.0 */
+    animation-name: moveLeft;
+    animation-duration: .3s;
+    animation-iteration-count:infinite;
+  }
+  .eva14#container #navBlock .nextBtn:hover {
+    -webkit-animation-name: moveRight; /* Safari 4.0 - 8.0 */
+    animation-name: moveRight;
+  }
+  @keyframes moveLeft {
+    0%   {left:3.2%;}
+    100% {left:2%;}
+  }
+  @keyframes moveRight {
+    0%   {right:3.3%;}
+    100% {right:2%;}
+  }
+  .eva14 #burst{
+      position:absolute;
+      z-index:101;
+      width:100%;
+      height:100%;
+  }
+  
+  .eva14#container .speakerBlock{
+    width: 6%;
+      top: 75%;
+      right: .5%;
+      padding: 0;
+      z-index: 1;
+  }
+  .eva14 .speakerBlock .speakerBtn{
+      width: 100% !important;
+  }
+
+  .eva14 .disable_div {
+      pointer-events: none;
+    }
+  
+    .eva14 .options .desc {
+      position: relative;
+  }
+  
+  .eva14 .speaker_block{
+    position: absolute;
+    right: 0;
+    top: 86%;
+    right: 1%;
+    width: 5%;
+  }
+  
+
+  /*.options:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+  }*/
+  
+  .eva14 .right,
+  .eva14 .wrong{
+      width:20%;
+      position: absolute !important;
+      z-index: 3;
+      left:40%;
+      bottom: -70%;
+      display: none;
+  }
+  
+  /* Modal classes */
+  .eva14 #customModal {
+    display: block !important;
+  
+  }
+  .eva14 #customModal .optionsBlock {
+    width: 44%;
+  }
+  .eva14 #customModal .modal-body {
+    height: 91%;
+    padding: 0 15px;
+  }
+  .eva14 #customModal .options {
+    position: relative;
+    margin: .7% 0;
+  }
+  .eva14 #customModal .options div {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .eva14 #customModal .options div img {
+    width: 48%;
+  }
+  
+  .eva14 #modalTemp22 .modal-body .actionButtons {
+      text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 1.5%;
+    width: 55%;
+  }
+  
+  .eva14 .actionButtonOk {
+      text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 1.5%;
+    width: 8%;
+  }
+  
+  .eva14 .actionButtonOk button {
+    background: transparent;
+    border: transparent;
+    padding: 0;
+  }
+  
+  
+  .eva14 #modalTemp22 .modal-body .actionButtons img {
+      max-width: 80%;
+  }
+  
+  
+  /*confirm modal*/
+  
+  .eva14 .confirm_modal_content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    background-clip: padding-box;
+    border: none;
+    border-radius: 0;
+    outline: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+  }
+  
+  .eva14 #confirmModal {
+    background: rgba(0,0,0,.85);
+  }
+  .eva14 #confirmModal .modal-dialog {
+    width: 50% !important;
+      max-width: 100%;
+      height: 36%;
+      display: flex;
+    justify-content: center;
+  }
+  .eva14 #confirmModal .modal-content {
+    height: auto;
+    min-width: auto;
+    min-height: auto;
+  }
+  .eva14 #confirmModal .modal-body {
+    padding: 0;
+    margin: 0;
+      flex: 0 !important;
+  }
+  .eva14 #confirmModal .modal-body .msgImage {
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3% 0;
+  }
+  .eva14 #confirmModal .modal-body .actionButtons{
+      text-align: center;
+      margin-bottom: 2%;
+  }
+  .eva14 #confirmModal .modal-body .msgImage img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .eva14 #confirmModal .modal-body .actionButtons button {
+      border:none;
+      background: transparent;
+      padding:0;
+      margin:0;
+      width: 20%;
+  }
+  .eva14 button:focus {
+      outline: none;
+  }
+  .eva14 #confirmModal .modal-body .actionButtons img {
+      width: 100%;
+  }
+  .eva14 #confirmModal .modal-header {
+      top:0;
+  }
+  .eva14 #confirmModal .bodyText {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+  }
+  .eva14 #confirmModal .bodyText img {
+    width: 85%;
+  }
+  .eva14 #confirmModal .modal-title {
+    margin-left: 3%;
+  }
+  .eva14 #confirmModal .close {
+    /* width: 5%; */
+    margin: 0 1.6% 0 auto;
+  }
+  .eva14 #confirmModal .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-top: none;
+    position: absolute;
+    width: 100%;
+    bottom: 16%;
+  }
+  .eva14 #confirmModal .modal-footer button {
+    width: 13%;
+    border: none;
+    background: transparent;
+  }
+  .eva14 #confirmModal .popupModelBody {
+    padding: 0;
+  }
+  .eva14 .displayPopup {
+    display: -webkit-box !important;
+    /* transition: all 2s ease-in-out;
+    transform: scale(1.2); */
+  }
+  .eva14 .modal {
+    position: absolute !important;
+    width: 100%;
+    height: 94.2%;
+      z-index: 100 !important;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+  }
+  .eva14 .modal.show {
+    display: -webkit-box !important;
+  }
+  .eva14 .modal-dialog {
+    max-width: 80%;
+    width: 43% !important;
+    height: auto;
+  }
+  .eva14 #modalTemp22 {
+    background: rgba(0,0,0,.85);
+  }
+  .eva14 #modalTemp22 .modal-dialog {
+    width: 84% !important;
+    max-width: 100%;
+  }
+  .eva14 .modal-content {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    height: 100%;
+    min-width: 450px;
+    min-height: 350px;
+  }
+  
+  .eva14 .modal-header {
+    padding: .5% !important;
+    height: 7vmin;
+    position: relative;
+    top: -12.8%;
+    width: 100%;
+    border-bottom: none !important;
+    margin-bottom: -1px;
+  }
+  .eva14 #modalTemp22 .modal-header {
+    top: 0;
+  }
+  .eva14 .modal-title {
+      margin-left: 1.5%;
+      height: 80%;
+  }
+  .eva14 .close {
+      width: auto;
+      height: 75%;
+    margin-right: 0%;
+      margin-top: -.1%;
+    -webkit-appearance: inherit !important;
+    cursor: pointer;
+    opacity: 1;
+  }
+  @media (min-width: 1366px){
+      .close {
+          height: 95%;
+      margin-right: .3%;
+      }
+  }
+  .eva14 #modalTemp22 .modal-header .close {
+    margin-left:auto;
+  }
+  .eva14 .modal-body {
+    padding: 2%;
+    border-top: none;
+      flex:auto !important;
+  }
+  
+  .eva14 .modal-body img {
+    max-width: 77%;
+  }
+  
+  .eva14 .adjustment{
+    max-width: 100% !important;
+    padding-top:8%
+  }
+  
+  .eva14 #modalTemp22 .modal-body {
+    -webkit-box-flex: 0 !important;
+    -ms-flex: none !important;
+    flex: none !important;
+    padding: 0% !important;
+    height: 96.1%;}
+  
+    .eva14 .modal-body img {
+    max-width: 100%;
+  }
+  
+  .eva14 #modalTemp22 #optionsBlock {
+    left: 4%;
+    top: 10%;
+    pointer-events: none;
+  }
+  
+  .eva14 .modal #optionsBlock .leftBlock {
+    width: 11.98%;
+  }
+
+  .eva14 .modal #optionsBlock .topBlock {
+    width: 79.5%;
+    left: 12%;
+  }
+
+  .eva14 #modalTemp22 #optionsBlock .leftBlock .blockContent img {
+    width: 92%;
+  }
+  
+  .eva14 .modal #optionsBlock .rightBlock {
+    top: 13.7%;
+    left: 12.4%;
+    width: 79.2%;
+  }
+  
+  .eva14 .modalBodyContent {
+    background: #afdec0;
+    margin: -1px;
+  }
+  
+  .eva14 .modal .quesImage {
+    align-self: center;
+    margin: 1% auto !important;
+  }
+  
+  html [type=button] {
+    -webkit-appearance: none;
+  }
+  
+  .eva14 .scaleInAnimation {
+    animation: scaleIn 0.5s linear;
+    transform: scale(1.2);
+  }
+  
+  @keyframes scaleIn {
+    0% {
+      transform: scale(1.0)
+    }
+  
+    100% {
+      transform: scale(1.2)
+    }
+  }
+  
+  
+  .eva14 .scaleOutAnimation {
+    animation: scaleOut 0.5s linear;
+    transform: scale(1.0);
+  }
+  
+  @keyframes scaleOut {
+    0% {
+      transform: scale(1.2)
+    }
+  
+    100% {
+      transform: scale(1.0)
+    }
+  }
+  
+  .eva14 nav {
+      position: absolute;
+      bottom: 0;
+      margin: auto;
+      display: flex !important;
+      justify-content: center;
+      width: 100%;
+  }
+  .eva14 .rightWrongAns {
+    bottom: 10%;
+  }
+  .eva14 .rightWrongAns img {
+    width: 6%;
+}
+  
+  .eva14 #showAnswer .modal-content{
+    height: 20%;
+    min-width: 200%;
+    margin-left: -51%;
+  }
+
+  .eva14 .pointing{
+    cursor: pointer;
+  }

@@ -19,19 +19,19 @@ import { Template14Component } from '../controller/template14.component';
 import { Template16Component } from '../controller/template16.component';
 import { TemplatethirteenComponent } from '../controller/templatethirteen.component';
 import {Template12Component} from '../controller/template12.component';
-import {Ntemplate2} from '../controller/Ntemplate2.component';
+import {Ntemplate2} from './Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate18 } from '../controller/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
-import {Ntemplate8} from '../controller/Ntemplate8.component';
-import { Ntemplate3 } from '../controller/Ntemplate3.component';
-import { Ntemplate1 } from '../controller/Ntemplate1.component';
-import {Ntemplate4} from '../controller/Ntemplate4.component';
-import {Ntemplate5} from '../controller/Ntemplate5.component';
+import {Ntemplate8} from '../modules/Elementary/Ntemplate8/Ntemplate8.component';
+import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
+import {Ntemplate4} from '../modules/Elementary/Ntemplate4/Ntemplate4.component';
+import { Ntemplate1Component } from '../modules/Elementary/Ntemplate1/Ntemplate1.component';
+import { Ntemplate9Component } from '../modules/Elementary/Ntemplate9/Ntemplate9.component';
+import {Ntemplate5} from '../modules/Elementary/Ntemplate5/Ntemplate5.component';
 import {Ntemplate23_1} from '../controller/Ntemplate23_1.component';
-import { Ntemplate6 } from '../controller/Ntemplate6.component';
-import { Ntemplate9 } from '../controller/Ntemplate9.component';
-import {Ntemplate7} from '../controller/Ntemplate7.component';
-import {Ntemplate17} from '../controller/Ntemplate17.component';
+import { Ntemplate6 } from '../modules/Elementary/Ntemplate6/Ntemplate6.component';
+import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component';
+import { Ntemplate17Component } from './Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate24 } from '../controller/Ntemplate24.component';
 import { Ntemplate24_1 } from '../controller/Ntemplate24_1.component';
 import { Ntemplate19 } from '../controller/Ntemplate19.component';
@@ -40,9 +40,9 @@ import { NTitleComponent} from '../controller/NTitle.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Phase3T01V01 } from '../controller/phase3/template01/variant01.component';
-import { Ntemplate13 } from '../controller/Ntemplate13.component';
+import { Ntemplate13 } from '../modules/Elementary/Ntemplate13/Ntemplate13.component';
 import { Ntemplate20 } from '../controller/Ntemplate20.component';
-import { Ntemplate10 } from '../controller/Ntemplate10.component';
+import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from '../controller/Ntemplate11.component';
 import { Ntemplate12 } from '../controller/Ntemplate12.component';
 import { Ntemplate16 } from '../controller/Ntemplate16.component';
@@ -59,7 +59,12 @@ import { Template6Component } from '../modules/EVA/template6/template6.component
 import { Template2Component } from './EVA/template2/template2.component';
 import { Template4Component } from './EVA/template4/template4.component';
 import { TemplateTenComponent } from './EVA/template10/template10.component';
+import { TemplateFourteenComponent } from '../modules/EVA/template14/template14.component';
 import { Template11Componenteva } from '../modules/EVA/template11/template11.component';
+import { Template12ComponentEVA } from './EVA/template12/template12.component';
+import { TemplateSevenComponent } from './EVA/template7/template7.component';
+import { Template5Component } from './EVA/template5/template5.component';
+import { Template9Component } from './EVA/template9/template9.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -110,20 +115,20 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp2ext', component: Ntemplate2, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp8', component: Ntemplate8, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp8ext', component: Ntemplate8, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp9', component: Ntemplate9, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp9ext', component: Ntemplate9, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp9', component: Ntemplate9Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp9ext', component: Ntemplate9Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp3', component: Ntemplate3, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp3ext', component: Ntemplate3, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp1', component: Ntemplate1, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp1ext', component: Ntemplate1, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp1', component: Ntemplate1Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp1ext', component: Ntemplate1Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp4', component: Ntemplate4, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp4ext', component: Ntemplate4, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp6', component: Ntemplate6, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp6ext', component: Ntemplate6, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp7', component: Ntemplate7, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp7ext', component: Ntemplate7, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp17', component: Ntemplate17, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp17ext', component: Ntemplate17, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp17', component: Ntemplate17Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp17ext', component: Ntemplate17Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp24', component: Ntemplate24, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp24ext', component: Ntemplate24, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp18', component: Ntemplate18, runGuardsAndResolvers: 'always' },
@@ -174,8 +179,18 @@ export const APP_ROUTES: Routes = [
 			{ path: 'evatemp4ext', component: Template4Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp10', component: TemplateTenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp10ext', component: TemplateTenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp14', component: TemplateFourteenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp14ext', component: TemplateFourteenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
 			{ path: 'evatemp11', component: Template11Componenteva, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
-			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
+			{ path: 'evatemp11ext', component: Template11Componenteva, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp12', component: Template12ComponentEVA, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp12ext', component: Template12ComponentEVA, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp7', component: TemplateSevenComponent, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp7ext', component: TemplateSevenComponent, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp5', component: Template5Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp5ext', component: Template5Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp9', component: Template9Component, runGuardsAndResolvers: 'always' , data :{ TemplateType:'EVA'}},
+			{ path: 'evatemp9ext', component: Template9Component, runGuardsAndResolvers: 'always', data :{ TemplateType:'EVA'}}
 			
 		]
 	}
