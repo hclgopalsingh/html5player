@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div id="spkrBtn" class="speakerBtn">
-                    <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker()" (mouseleave)="onHoveroutSpeaker()" (click)="playSpeaker()" (load)="checkImgLoaded();" title="स्पीकर"/>
+                    <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" (load)="checkImgLoaded();" title="स्पीकर"/>
                     <div class="waveAnimation" #sprite>
                         <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
                         <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?contentgFolderPath + '/' +speaker?.wave2.url: assetsfolderlocation + '/'+ speaker?.wave2.url">
@@ -71,7 +71,7 @@
                         <img class="img-fluid section_title" [src]="optionHolder?.leftHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.leftHolderTitle?.url : assetsPath + '/' +optionHolder?.leftHolderTitle?.url" >
                         <div class="optSelectedHidden">
                            <img *ngFor="let option of leftAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
-                           <img class="rightIcon" [src]="popupAssets?.right_icon?.location=='content' ? contentgFolderPath + '/' + popupAssets?.right_icon?.url : assetsfolderlocation + '/' + popupAssets?.right_icon?.url"  >
+                           <img class="rightIcon" [src]="popupassets?.right_icon?.location=='content' ? contentgFolderPath + '/' + popupassets?.right_icon?.url : assetsfolderlocation + '/' + popupAssets?.right_icon?.url"  >
                          </div>
                     </div>
                      <div class="showanswerSpacer">&nbsp;</div>
@@ -80,7 +80,7 @@
                         <img class="img-fluid section_title" [src]="optionHolder?.rightHolderTitle?.location=='content' ? contentgFolderPath + '/' + optionHolder?.rightHolderTitle?.url : assetsPath + '/' +optionHolder?.rightHolderTitle?.url" >
                         <div class="optSelectedHidden">
                             <img *ngFor="let option of rightAnswerImage"   class="img-fluid" [src]="option?.ansImage?.location =='content' ? contentgFolderPath + '/' + option?.ansImage?.url : assetsfolderlocation +'/'+option?.ansImage?.url">
-                            <img class="rightIcon" [src]="popupAssets?.right_icon?.location=='content' ? contentgFolderPath + '/' + popupAssets?.right_icon?.url : assetsfolderlocation + '/' + popupAssets?.right_icon?.url"  >
+                            <img class="rightIcon" [src]="popupassets?.right_icon?.location=='content' ? contentgFolderPath + '/' + popupassets?.right_icon?.url : assetsfolderlocation + '/' + popupAssets?.right_icon?.url"  >
                          </div>
                     </div>
                 </div>

@@ -648,7 +648,6 @@ export class Template4Component implements OnInit {
                     this.clapSound.nativeElement.onended = () =>{                    
                         
                         if(this.quesBoxId.id==this.lastBlock){  // If last block then open Popup
-                            this.appModel.storeVisitedTabs();
                             let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
                             ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
                             if(!this.popupclosedinRightWrongAns) {

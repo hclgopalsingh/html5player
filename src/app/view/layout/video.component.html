@@ -46,7 +46,7 @@
 				<audio #quesRepeat [src]="assets[assetsOnVideo?.sound]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.sound]?.url : assetsPath + '/' + assets[assetsOnVideo?.sound]?.url"></audio>
 			</div>
 			<div  [ngStyle]="displaySpecial ? assetsOnVideo?.style_zaariRakhaey : {'display': !displaySpecial  ? 'none' : 'block'}"
-			 [ngClass]="{'fadeInAnimation' : displaySpecial==true, 'fadeOutAnimation disableSpeaker': fadeOutFlag==true, 'next-Btn-default': displaySpecial && !assetsOnVideo?.style_zaariRakhaey}">
+			 [ngClass]="{'fadeInAnimation' : displaySpecial==true, 'fadeOutAnimation disableSpeaker': fadeOutFlag==true}">
 				<!--<button (click)="resumeSpecial($event)">Zaari Rakhein</button>-->
 				<img style="max-width: 100%; cursor:pointer;" [src]="assets[assetsOnVideo?.button]?.location=='content' ? containgFolderPath + '/' + assets[assetsOnVideo?.button]?.url : assetsPath + '/' + assets[assetsOnVideo?.button]?.url "
 				 (mouseover)="onHoverZariRakheinBtn()" (mouseleave)="onLeaveZariRakheinBtn()" (click)="resumeSpecial($event)">

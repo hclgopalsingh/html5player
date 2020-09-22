@@ -78,7 +78,7 @@
     width: 100%;
 }
 #zaariRakheinId .zaariRakheinBtn {
-   width: 15%;
+   width: 16%;
     margin-top: .5%;
     margin-right: 7.5%;
     float: right;
@@ -399,4 +399,3 @@
     75%  {width: 40%;}
     100% {width: 50%;} 
 }
-.ElementryTitle .zaariRakheinBtn{margin-right:.5%!important}

@@ -21,7 +21,7 @@
 	-webkit-appearance: none;
 	margin-top: 0px;
 }
-.volumeslider{cursor: pointer;}
+
 #controlsContainer {
   display: flex;
 	align-items: center;
@@ -29,9 +29,9 @@
   margin: 0;
   clear: both;
   position: absolute;
-  height: 6.08%;
+  height: 6%;
   width: 100%;
-  z-index: 1200;
+  z-index: 1050;
   opacity: .9;
   bottom: 0;
   background: #000;
@@ -77,21 +77,10 @@
     75%  {opacity: 0.75;}
     100% {opacity: 1;}
 }
-#autoPlayOnOffContainer {
-    width: 9.2% !important;
-    padding: 0 !important;
-    position: absolute;
-    right: 9%;
-}
-@media (min-width: 576px){
-    .col-sm-1 {
-        flex: none;
-    }
-}
 #volumeContainer{
-    position:absolute !important;
-    right:2.5%;/*3%;*/
-    cursor:pointer;
+	position:absolute !important;
+	right:3%;
+	cursor:pointer;
 }
 div#MuteVarTemp::after {
     content: '';
@@ -103,7 +92,6 @@ div#MuteVarTemp::after {
     left: 1%;
     bottom: -13%;
     z-index: -1;
-    cursor: default;
 }
 
 .hideAutoplay{

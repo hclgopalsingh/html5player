@@ -124,13 +124,11 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             }
         );
         this.assetsPath = this.appModel.assetsfolderpath;
-        this.appModel.navShow = 1;
     }
 
 
 
-    ngOnInit() {
-        this.Sharedservice.setShowAnsEnabled(false);
+    ngOnInit() {        
 		this.Sharedservice.setLastQuesAageyBadheStatus(true);
         this.isSpriteHide=true;
         this.ifRightAns = false;
@@ -198,8 +196,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
         clearTimeout(this.rightSelectTimer);
         clearTimeout(this.wrongSelectTimer);
     }
-    
-    /** To stop all the sounds**/
+	
 	stopAllSounds() {
         this.audio.pause();
         this.audio.currentTime = 0;
@@ -515,7 +512,6 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
     option.optBg = option.optBg_original;
   }
 
-
   /****** Option Hover VO  *******/
   playOptionHover(option, index) {
     if (option && option.audio && option.audio.url && !option.selected) {
@@ -614,12 +610,10 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             if (idx < 5) {
                 this.myoption.leftoption[idx].selected = true;
                 this.quesObj.questionText[this.quesBoxId].answer.image=this.myoption.leftoption[idx].image;
-                this.quesObj.questionText[this.quesBoxId].totalDigits=this.myoption.leftoption[idx].totalDigits;
             }
             else {
                 this.myoption.rightoption[idx-5].selected = true;
                 this.quesObj.questionText[this.quesBoxId].answer.image=this.myoption.rightoption[idx-5].image;
-                this.quesObj.questionText[this.quesBoxId].totalDigits=this.myoption.rightoption[idx-5].totalDigits;
             }
             this.answerPopupType = 'right';
             this.attemptType = "manual";
@@ -634,7 +628,6 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             }
             this.clapSound.nativeElement.onended = () =>{                    
                 if(this.rowsfilled==10){  // If last block then open Popup
-                    this.appModel.storeVisitedTabs();
                     this.quesObj.questionText[this.quesBoxId].highlight=false;
                     this.quesObj.questionText[this.quesBoxId].blinkBox=false;
                     let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement           
@@ -688,6 +681,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
                 }else{
                     this.Sharedservice.setShowAnsEnabled(false);
                 }
+                // this.maincontent.nativeElement.className = ""; 
                 this.disableMainContent=false; //Enable main content
                 
                 for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {    //Enable ShowAns Button
@@ -702,11 +696,11 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...      
-      if(array[currentIndex] && array[currentIndex].isShow==false){//If index does not exists and option is invalid move to next index
+      if(array[currentIndex] && array[currentIndex].isShow==false){
         currentIndex -= 1;
       }else{        
         randomIndex = Math.floor(Math.random() * currentIndex);
-        if(array[randomIndex] && array[randomIndex].isShow==true){ //If index exists and option is valid           
+        if(array[randomIndex] && array[randomIndex].isShow==true){            
             var optionBg1 = array[currentIndex].optBg;
             var img_hover1 = array[currentIndex].optBg_hover;
             var text1copy = array[currentIndex].optBg_original;
@@ -728,7 +722,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
             array[randomIndex].optBg_hover = img_hover2;
             array[randomIndex].optBg_original = text2copy;
             
-            if(this.validOptCount==2){// If there are only 2 option then exit to avoid double swap
+            if(this.validOptCount==2){
                 break;
             }else{
                 currentIndex -= 1;
@@ -763,9 +757,8 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
         this.quesObj.questionText[highlightOn].highlight=false;
         this.quesObj.questionText[highlightOn].blinkBox=false;        
         this.playRandomQues();
+    
    }
-
-   /** Higlighting a random row **/
    playRandomQues(){
      
         while(this.rowsfilled!=10){
@@ -794,6 +787,7 @@ export class Template11Componenteva implements OnInit, AfterViewInit {
                 break;
             }
         }
+        
                        
    }
   
