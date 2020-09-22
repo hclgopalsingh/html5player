@@ -176,6 +176,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     zIndexvalue: number = 1;
     isShowOk: boolean = false;
     placeholderWidth = "7%";
+    popupTxtRequired:boolean=false;
     styleblockLeft = [
         { 'top': '33%', 'left': '24.8%' },
         { 'top': '33%', 'left': '32.8%' },
@@ -914,6 +915,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                     this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
                     this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
+                    this.popupTxtRequired=this.fetchedcontent.category_1.right_style_title.required;
                     this.isRightWrong = true;
                     this.isPartial = false;
                 }
@@ -925,6 +927,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
                     this.feedbackAssets.style_body = this.fetchedcontent.category_2.right_style_body;
                     this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.right_style_title;
+                    this.popupTxtRequired=this.fetchedcontent.category_2.right_style_title.required;
                     this.isRightWrong = true;
                     this.isPartial = false;
                 }
@@ -956,18 +959,21 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
                         this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
+                        this.popupTxtRequired=this.fetchedcontent.category_1.right_style_title.required;
                         this.isRightWrong = true;
                         this.isPartial = false;
                     } else if (this.categoryA.correct.length == 0) {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_1.wrong_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_1.wrong_style_body;
                         this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.wrong_style_title;
+                        this.popupTxtRequired=this.fetchedcontent.category_1.wrong_style_title.required;
                         this.isRightWrong = true;
                         this.isPartial = false;
                     } else {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_1.partial_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_1.partial_style_body;
                         this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.partial_style_title;
+                        this.popupTxtRequired=this.fetchedcontent.category_1.partial_style_title.required;
                         this.isRightWrong = false;
                         this.isPartial = true;
                     }
@@ -979,18 +985,21 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_2.right_style_body;
                         this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.right_style_title;
+                        this.popupTxtRequired=this.fetchedcontent.category_2.right_style_title.required;
                         this.isRightWrong = true;
                         this.isPartial = false;
                     } else if (this.categoryB.correct.length == 0) {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_2.wrong_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_2.wrong_style_body;
                         this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.wrong_style_title;
+                        this.popupTxtRequired=this.fetchedcontent.category_2.wrong_style_title.required;
                         this.isRightWrong = true;
                         this.isPartial = false;
                     } else {
                         this.feedbackAssets.style_header = this.fetchedcontent.category_2.partial_style_header;
                         this.feedbackAssets.style_body = this.fetchedcontent.category_2.partial_style_body;
                         this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.partial_style_title;
+                        this.popupTxtRequired=this.fetchedcontent.category_2.partial_style_title.required;
                         this.isRightWrong = false;
                         this.isPartial = true;
                     }
@@ -1299,6 +1308,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.currentFeedbackPlaying = "categoryB";
         this.category = JSON.parse(JSON.stringify(this.categoryB));
         if (this.showAnswerClicked) {
+            this.popupTxtRequired=this.fetchedcontent.showans_2.popTitleTxt_img.required;
             this.isShowOk = false;
             this.feedbackAssets = this.fetchedcontent.showans_2
             this.isRightWrong = true;
@@ -1311,18 +1321,22 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.right_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_2.right_style_body;
                 this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.right_style_title;
+                this.popupTxtRequired=this.fetchedcontent.category_2.right_style_title.required;
                 this.isRightWrong = true;
                 this.isPartial = false;
+                
             } else if (this.categoryB.correct.length == 0) {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.wrong_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_2.wrong_style_body;
                 this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.wrong_style_title;
+                this.popupTxtRequired=this.fetchedcontent.category_2.wrong_style_title.required;
                 this.isRightWrong = true;
                 this.isPartial = false;
             } else {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_2.partial_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_2.partial_style_body;
                 this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_2.partial_style_title;
+                this.popupTxtRequired=this.fetchedcontent.category_2.partial_style_title.required;
                 this.isRightWrong = false;
                 this.isPartial = true;
             }
@@ -1350,6 +1364,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
 
         if (this.showAnswerClicked) {
             this.feedbackAssets = this.fetchedcontent.showans_1
+            this.popupTxtRequired=this.fetchedcontent.showans_1.popTitleTxt_img.required;
             this.isRightWrong = true;
             this.isPartial = false;
         }
@@ -1359,6 +1374,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
                 this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
+                this.popupTxtRequired=this.fetchedcontent.category_1.right_style_title.required;
                 this.isRightWrong = true;
                 this.isPartial = false;
 
@@ -1366,6 +1382,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.wrong_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.wrong_style_body;
                 this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.wrong_style_title;
+                this.popupTxtRequired=this.fetchedcontent.category_1.wrong_style_title.required;
                 this.isRightWrong = true;
                 this.isPartial = false;
 
@@ -1373,6 +1390,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.feedbackAssets.style_header = this.fetchedcontent.category_1.partial_style_header;
                 this.feedbackAssets.style_body = this.fetchedcontent.category_1.partial_style_body;
                 this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.partial_style_title;
+                this.popupTxtRequired=this.fetchedcontent.category_1.partial_style_title.required;
                 this.isRightWrong = false;
                 this.isPartial = true;
 
@@ -1413,6 +1431,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         // let fetchedData: any = this.appModel.content.contentData.data;
         if (this.showAnswerClicked) {
             this.feedbackAssets = this.fetchedcontent.showans_1
+            this.popupTxtRequired=this.fetchedcontent.showans_1.popTitleTxt_img.required;
         } else {
             this.feedbackAssets = this.fetchedcontent.category_1;
         }

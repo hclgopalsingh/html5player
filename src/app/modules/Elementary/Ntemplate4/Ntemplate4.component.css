@@ -930,12 +930,11 @@ info modal modal
 }
 
 #modalTemp4 #instructionBarFeedback {
-  position: relative;
+  /* position: relative;
   top: 5%;
   width: 100%;
   text-align: center;
-  margin-bottom: .9%;
-  /* display: none; */
+  margin-bottom: .9%; */
 }
 
 #modalTemp4 #instructionBarFeedback .instructionBase {
