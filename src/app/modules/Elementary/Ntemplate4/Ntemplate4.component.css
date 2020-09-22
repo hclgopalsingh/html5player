@@ -177,29 +177,7 @@ button:focus {
   width: 3.5%;
 }
 
-/* #playPauseBtn img {
-  width: 200%;
-  filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
-} */
-
-/* #SkipBtn{
-  position: absolute;
-  top: 83.7%;
-  right: -3.7%;
-  cursor: pointer;
-  width: 16%;
-}
-#SkipBtn img {
-  max-width: 70%;
-} */
-
-#SkipBtn {
-  /*position: absolute;
-  top: 98%;
-  right: 18%;
-  cursor: pointer;
-  width: 1.5%;*/
+#SkipBtn {  
   position: absolute;
   top: 86%;
   /*85%*/
@@ -210,16 +188,6 @@ button:focus {
   /*1.5%*/
 }
 
-/* #SkipBtn img {
-  max-width: 70%;
-} */
-/* .optionsPath {
-  position: absolute;
-  width: 78%;
-  height: 82%;
-  border: solid 5px #fff;
-  border-radius: 50%;
-} */
 .option1,
 .option2,
 .option3,
@@ -233,7 +201,7 @@ button:focus {
 .option11 {
   position: absolute;
   top: 0;
-  cursor: pointer;
+  /* cursor: pointer; */
   width: 10.4%;
 }
 
@@ -293,7 +261,7 @@ button:focus {
 }
 
 .optionsBlock img {
-  cursor: pointer;
+  /* cursor: pointer; */
   position: relative;
   max-width: 100%;
 }
@@ -508,31 +476,6 @@ button:focus {
   align-items: center;
 }
 
-/* .modal-title{
-  margin-left: 1.5%;
-  height: 80%;
-} */
-/* .close {
-	width: auto;
-	height: 75%;
-  margin-right: .5%;
-	margin-top: -.1%;
-  -webkit-appearance: inherit !important;
-  cursor: pointer;
-  opacity: 1 !important;
-} */
-@media (min-width: 1366px) {
-  /* .close {
-		height: 95%;
-    margin-right: .3%;
-	} */
-}
-
-/* .close:focus, .close:hover {
-  color: #000;
-  text-decoration: none;
-  opacity: 1;
-} */
 .modal-dialog {
   /* width: 30%; */
   max-width: 80%;
@@ -551,22 +494,6 @@ button:focus {
   /*198px;*/
 }
 
-/* .modal-header{
-	padding: .5% !important;
-	height: 7vmin;
-  position: relative;
-  top: 0;
-  width: 100%;
-  border: solid .7vmin #85d222;
-  border-bottom: none !important;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #248446;
-} */
-/* .modal-header:before,
-.modal-header:after{
-  content: none;
-} */
 .modal-body {
   padding: 2%;
   background: #afdec0;
@@ -1003,18 +930,16 @@ info modal modal
 }
 
 #modalTemp4 #instructionBarFeedback {
-  position: relative;
+  /* position: relative;
   top: 5%;
   width: 100%;
   text-align: center;
-  margin-bottom: .9%;
-  /* display: none; */
+  margin-bottom: .9%; */
 }
 
 #modalTemp4 #instructionBarFeedback .instructionBase {
   width: 100%;
   position: relative;
-  /* cursor: pointer; */
 }
 
 #modalTemp4 .actionButtons button {
@@ -1026,29 +951,6 @@ info modal modal
 #modalTemp4 .actionButtons button img {
   max-width: 100%;
 }
-
-/* #modalTemp4 .close {
-    width: 3.5%;
-    height: auto;
-    margin-right: .5%;
-    margin-top: -.1%;
-    -webkit-appearance: inherit !important;
-    cursor: pointer;
-    opacity: 1 !important;
-}
-
-#modalTemp4 .close {
-    float: right;
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-} */
-/* #modalTemp4 .navigate .actionButtons {
-  max-width: 5.5%;
-  margin-left: 1.2%;
-} */
 #modalTemp4 .elementBlock {
   width: 94%;
   position: absolute;
