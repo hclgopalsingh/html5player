@@ -15,11 +15,50 @@ import Keyboard from "simple-keyboard";
 import hindiLayout from "simple-keyboard-layouts/build/layouts/hindi";
 import englishLayout from "simple-keyboard-layouts/build/layouts/english";
 
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition,
+    AnimationEvent
+} from '@angular/animations';
+
 declare var $: any;
 
 
 @Component({
   selector: 'ntemp17',
+  animations: [
+    trigger('wordActionbox', [
+      state('wordBox', style({
+
+      })
+      ),
+      state('actionBox', style({
+        'left': '32%',
+        'top': '-123%',
+        'width': '36%'
+      })
+      ),
+      transition('wordBox => actionBox', [
+        animate('0.8s')
+      ]),
+    ]),
+    trigger('textinwordActionbox', [
+      state('textinwordBox', style({
+      'font-size':'1.5vmax'
+      })
+      ),
+      state('textinactionBox', style({
+      'font-size':'3vmax'
+      })
+      ),
+      transition('textinwordBox => textinactionBox', [
+        animate('0.8s')
+      ]),
+    ])
+  ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './Ntemplate17.component.html',
   styleUrls: ['./Ntemplate17.component.css','../../../view/css/bootstrap.min.css',"../../../../../node_modules/simple-keyboard/build/css/index.css"]
@@ -215,6 +254,7 @@ export class Ntemplate17Component implements OnInit {
   /*END: Theme Implementation(Template Changes)*/ 
   videoPlaytimer:number;
   instructionDisable:boolean;
+
 
 
   ngAfterViewInit() {
@@ -943,7 +983,9 @@ export class Ntemplate17Component implements OnInit {
     if (this.quesObj.lang != 'math') {
       let wordObj = {
         time: new Date().getTime(),
-        word: this.inputVal
+        word: this.inputVal,
+        state:"wordBox",
+        stateTxt:"textinwordBox"
       }
       this.wordArr.push(wordObj);
 
@@ -1000,18 +1042,27 @@ export class Ntemplate17Component implements OnInit {
 
   moveToBox(idx, word) {
     this.selectedIdx = idx;
-    let t_left = this.optionPlaceRef.nativeElement.getBoundingClientRect().left;
-    let t_top = this.optionPlaceRef.nativeElement.getBoundingClientRect().top;
-    let f_left = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().left;
-    let f_top = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().top;
+    // this.t_left = this.optionPlaceRef.nativeElement.getBoundingClientRect().left;
+    this.wordArr[this.selectedIdx].state="actionBox";
+    this.wordArr[this.selectedIdx].stateTxt="textinactionBox";
+    // let t_top = this.optionPlaceRef.nativeElement.getBoundingClientRect().top;
+    // let f_left = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().left;
+    // let f_top = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().top;
     /*$(this.wordBlockRef.nativeElement.children[idx]).addClass('absolutePosition');
     this.wordBlockRef.nativeElement.children[idx].style.left = f_left;
     this.wordBlockRef.nativeElement.children[idx].style.top = f_top;*/
-    $(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-123%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
-	$(this.wordBlockRef.nativeElement.children[idx].children[1]).animate({"font-size": "3vmax" }, 500);
+    //$(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-123%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
+	//$(this.wordBlockRef.nativeElement.children[idx].children[1]).animate({"font-size": "3vmax" }, 500);
     this.wordBlockRef.nativeElement.classList = "wordBlock disableIt";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
+  }
+
+  onAnimationEvent(event: AnimationEvent){
+   console.log(event);
+  if(event.triggerName=="wordActionbox"){
+    this.pushToTestBox(this.selectedIdx, this.wordArr[this.selectedIdx].word);
+  }
   }
 
   addToWrongList() {

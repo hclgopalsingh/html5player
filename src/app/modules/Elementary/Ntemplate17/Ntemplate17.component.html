@@ -194,9 +194,9 @@
 				<img class="img-fluid" [src]="refBase?.url" (load)="checkImgLoaded();"/>
 				<div class="wordBlock disableIt" #wordBlockRef>
 					<div class="wordItem" [ngClass]="(wordObj.word!='')?'submitOpt':'placeHolderOpt'" *ngFor="let wordObj of wordArr; let idx = index;"
-					 (click)="moveToBox(idx,wordObj.word);">
+					 [@wordActionbox]="wordObj.state" (@wordActionbox.done)="onAnimationEvent($event)" (click)="moveToBox(idx,wordObj.word);">
 						<img class="img-fluid" [src]="wordBox?.url" />
-						<span id="boxWord" [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
+						<span id="boxWord" [@textinwordActionbox]="wordObj.stateTxt" [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
 					</div>
 				</div>
 			</div>
