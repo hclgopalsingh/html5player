@@ -98,7 +98,7 @@
 
 <div class="videoMainContainer" *ngIf="isPlayVideo">
 	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay" (ended)="endedHandler()">
-	  <source [src]="quesObj?.quesVideo?.location=='content' ? assetspath + '/' + quesObj?.quesVideo?.urlOgv : assetspath + '/' + quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
+	  <source [src]="quesObj?.quesVideo?.location=='content' ? assetspath + '/' + quesObj?.quesVideo?.urlOgv : assetsPath + '/' + quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
 	</video>
 	<div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.location=='content' ? assetspath + '/' + quesObj?.quesPlayPause?.url : assetspath + '/' + quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()"/></div>
   <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.location=='content' ? assetspath + '/' + quesObj?.quesSkip?.urlOgv : assetspath + '/' + quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
@@ -128,16 +128,16 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="submitPopupAssets?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="feedback?.replay_confirm?.headerTxt_img?.location=='content' ? assetspath + '/' + feedback?.replay_confirm?.headerTxt_img?.url : assetspath + '/' + feedback?.replay_confirm?.headerTxt_img?.url">
+          <img class="modal-title" [src]="feedback?.replay_confirm?.headerTxt_img?.location=='content' ? assetspath + '/' + feedback?.replay_confirm?.headerTxt_img?.url : assetsPath + '/' + feedback?.replay_confirm?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="submitPopupAssets?.close_btn?.location=='content' ? assetspath + '/' + submitPopupAssets?.close_btn?.url : assetspath + '/' + submitPopupAssets?.close_btn?.url" (click)="sendFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="submitPopupAssets?.close_btn?.location=='content' ? assetspath + '/' + submitPopupAssets?.close_btn?.url : assetsPath + '/' + submitPopupAssets?.close_btn?.url" (click)="sendFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedback?.submit_popup?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.location=='content' ? assetspath + '/' + submitPopupAssets?.submit_text?.url : assetspath + '/' + submitPopupAssets?.submit_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="sendFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()" (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid" [src]="submitPopupAssets?.confirm_btn?.location=='content' ? assetspath + '/' + submitPopupAssets?.confirm_btn?.url : assetspath + '/' + submitPopupAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="sendFeedback('submit-modal-id','no');" (mousemove)="hoveronSubmitDecline()" (mouseleave)="houtonSubmitDecline()"><img class="img-fluid" [src]="submitPopupAssets?.decline_btn?.location=='content' ? assetspath + '/' + submitPopupAssets?.decline_btn?.url : assetspath + '/' + submitPopupAssets?.decline_btn?.url"></button>
+            <button type="button" (click)="sendFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()" (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid" [src]="submitPopupAssets?.confirm_btn?.location=='content' ? assetspath + '/' + submitPopupAssets?.confirm_btn?.url : assetsPath + '/' + submitPopupAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback('submit-modal-id','no');" (mousemove)="hoveronSubmitDecline()" (mouseleave)="houtonSubmitDecline()"><img class="img-fluid" [src]="submitPopupAssets?.decline_btn?.location=='content' ? assetspath + '/' + submitPopupAssets?.decline_btn?.url : assetsPath + '/' + submitPopupAssets?.decline_btn?.url"></button>
           </div>
         </div>
 
@@ -157,16 +157,16 @@
 	  <div class="modal-content" #modalRef>
 		<div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmPopupAssets?.style_header">
 		  <!-- <h4 class="modal-title">Modal Heading</h4> -->
-		  <img class="modal-title" [src]="feedback?.confirm_popup?.headerTxt_img?.location=='content' ? assetspath + '/' + feedback?.confirm_popup?.headerTxt_img?.url : assetspath + '/' + feedback?.confirm_popup?.headerTxt_img?.url">
+		  <img class="modal-title" [src]="feedback?.confirm_popup?.headerTxt_img?.location=='content' ? assetspath + '/' + feedback?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedback?.confirm_popup?.headerTxt_img?.url">
 		  <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-		  <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.close_btn?.url : assetspath + '/' + confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+		  <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
 		</div>
 
 		<div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedback?.confirm_popup?.style_body">
-		  <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? assetspath + '/' + confirmPopupAssets?.confirm_text?.url : assetspath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
+		  <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? assetspath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
 		  <div class="actionButtons">
-			<button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.confirm_btn?.url : assetspath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
-			<button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.decline_btn?.url : assetspath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+			<button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
+			<button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? assetspath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
 		  </div>
 		</div>
 
@@ -179,14 +179,14 @@
 		<div class="modal-dialog">
 		  <div class="modal-content" #modalRef>
 			<div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
-			  <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.location=='content' ? assetspath + '/' + replayconfirmAssets?.headerTxt_img?.url : assetspath + '/' + replayconfirmAssets?.headerTxt_img?.url">
-			  <img class="close" [src]="replayconfirmAssets?.close_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.close_btn?.url : assetspath + '/' + replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+			  <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.location=='content' ? assetspath + '/' + replayconfirmAssets?.headerTxt_img?.url : assetsPath + '/' + replayconfirmAssets?.headerTxt_img?.url">
+			  <img class="close" [src]="replayconfirmAssets?.close_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.close_btn?.url : assetsPath + '/' + replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
 			</div>
 			<div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
-			  <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_text?.url : assetspath + '/' + replayconfirmAssets?.confirm_text?.url"></div>
+			  <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_text?.url : assetsPath + '/' + replayconfirmAssets?.confirm_text?.url"></div>
 			  <div class="actionButtons">
-				<button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');" (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_btn?.url : assetspath + '/' + replayconfirmAssets?.confirm_btn?.url"></button>
-				<button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()" (mouseleave)="houtonReplayDecline()"><img class="img-fluid" [src]="replayconfirmAssets?.decline_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.decline_btn?.url : assetspath + '/' + replayconfirmAssets?.decline_btn?.url"></button>
+				<button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');" (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.confirm_btn?.url : assetsPath + '/' + replayconfirmAssets?.confirm_btn?.url"></button>
+				<button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()" (mouseleave)="houtonReplayDecline()"><img class="img-fluid" [src]="replayconfirmAssets?.decline_btn?.location=='content' ? assetspath + '/' + replayconfirmAssets?.decline_btn?.url : assetsPath + '/' + replayconfirmAssets?.decline_btn?.url"></button>
 			  </div>
 			</div>
 		  </div>

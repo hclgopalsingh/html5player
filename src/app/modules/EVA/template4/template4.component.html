@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
     <div class="" #overlay></div>	
-     <div class="container-fluid eva eva4" id="container">
+     <div class="container-fluid eva" id="container">
         <div class="headerBar">
             <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
            </div>

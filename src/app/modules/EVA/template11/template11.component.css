@@ -96,16 +96,9 @@
 .refQues .table_row div.answer div.answer_img
 {
 	position: absolute;
+	width: 66%;
     align-self: center;
-}
-.refQues .table_row div.answer div.answer_img.totDigit2
-{
-	width: 41%;
-}
-.refQues .table_row div.answer div.answer_img.totDigit3
-{
-	width: 60%;
-}  
+} 
 #optionsBlock{
     position: absolute;
     top: 16%;
@@ -129,19 +122,9 @@
 	position: absolute;
 	width: 36%;			
 }
-
 .options div:hover{
+	transition: transform .2s;
 	transform: scale(1.1);
-	/* transition: transform .2s; */
-}
-
-
-#optionsBlock .shadow{
-	position: absolute;
-    left: 15%;
-    top: 4%;
-	z-index: -2;
-	cursor:default;
 }
 @keyframes scaleIn{
 	0%{
@@ -150,7 +133,8 @@
 	100%{
    transform: scale(1.1)
 	}
-}.options div{
+}
+.options div{
 	width:25%;
 }
 .options #optimage0{
@@ -170,7 +154,7 @@
     right:0;
 }
 .options #optimage4{
-	top:78%;
+	bottom:0;
     left: 46%;
 }
 .options #optimage5{
@@ -193,15 +177,17 @@
 	top: 70%;
     right:10%;
 }
-
+.options div:hover{
+	transform: scale(1.1);
+}
 .options div.subOpt:hover{
 	transform: none;
 }
 .options div div.subOpt{
     position: absolute;
     transition: none;
-    height: 97%;
-    width: 97%;
+    height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
     display: flex;
@@ -209,11 +195,8 @@
     align-items: center;
 	z-index: 3;
 }
-div.subOpt.digit_2 img{
-	max-width: 56%;
-}
-div.subOpt.digit_3 img{
-	max-width: 83%;
+div.subOpt img{
+	max-width: 80%;
 }
 .options > div{
 	cursor:pointer;

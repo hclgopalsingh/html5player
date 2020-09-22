@@ -42,10 +42,7 @@
                         </div>
                         <div [ngClass]="{'answer':true, 'blinkBox':quesTxt?.blinkBox}">
                             <img class="img-fluid" [src]="quesObj?.answer?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.answer?.background?.url : quesObj?.answer?.background?.location=='assets' ? assetsPath + '/' +quesObj?.answer?.background?.url:''" alt="">
-                            <div class="answer_img" 
-                            [class.totDigit2]='quesTxt?.totalDigits==2'
-                            [class.totDigit3]='quesTxt?.totalDigits==3'
-                            *ngIf="quesTxt.isfilled">
+                            <div class="answer_img" *ngIf="quesTxt.isfilled">
                                 <img class="img-fluid" [src]="quesTxt?.answer?.image?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.image?.url : quesTxt?.answer?.image?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.image?.url:''" alt="">
                             </div>
                         </div>
@@ -56,35 +53,26 @@
        
         <div id="optionsBlock">
             <div class="options">                
-                <div on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)' [ngClass]="{'disableDiv':opt.selected}" id="{{'optimage'+idx}}" #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index" (click)="selectOpt(opt, leftOptRef, idx)">
-                    <ng-template [ngIf]="opt.isShow">                   
+                <div  [ngClass]="{'disableDiv':opt.selected}" id="{{'optimage'+idx}}" #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index"
+                    (click)="selectOpt(opt, leftOptRef, idx)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
+                    <ng-template [ngIf]="opt.isShow">
                         <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" >
-                        <div class="subOpt" 
-                        [class.digit_2]='opt?.totalDigits==2'
-                        [class.digit_3]='opt?.totalDigits==3'
-                        *ngIf="!opt.selected">
+                        <div class="subOpt" *ngIf="!opt.selected">
                             <img class="img-fluid"
                             [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url">
-                        </div> 
-                        <img class="img-fluid shadow disablePointer"  [src]="commonAssets?.opt_shadow?.location=='content' ? containgFolderPath + '/' + commonAssets?.opt_shadow?.url : assetsPath + '/' +commonAssets?.opt_shadow?.url"
-                        (load)="checkImgLoaded();">
+                        </div>
                     </ng-template>                        
                 </div>
             </div>
             <div class="options">
-              <div  on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+5)' [ngClass]="{'disableDiv':opt.selected}" (click)="selectOpt(opt, rightOptRef, idx+5)"  id="{{'optimage'+(idx+5)}}" #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
-                >
+              <div [ngClass]="{'disableDiv':opt.selected}" id="{{'optimage'+(idx+5)}}" #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
+                (click)="selectOpt(opt, rightOptRef, idx+5)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+5)'>
                 <ng-template [ngIf]="opt.isShow">
-                    <img class="img-fluid"  [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url">
-                    <div class="subOpt" 
-                    [class.digit_2]='opt?.totalDigits==2'
-                    [class.digit_3]='opt?.totalDigits==3'
-                    *ngIf="!opt.selected">
+                    <img class="img-fluid" [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url">
+                    <div class="subOpt" *ngIf="!opt.selected">
                         <img class="img-fluid"
                         [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : assetsPath + '/' +opt?.image?.url">
-                     </div>
-                         <img class="img-fluid shadow disablePointer" [src]="commonAssets?.opt_shadow?.location=='content' ? containgFolderPath + '/' + commonAssets?.opt_shadow?.url : assetsPath + '/' +commonAssets?.opt_shadow?.url"
-                        (load)="checkImgLoaded();">
+                    </div>
                 </ng-template>                
               </div>
             </div>             
@@ -133,10 +121,7 @@
                                 </div>
                                 <div class="answer">
                                     <img class="img-fluid" [src]="quesObj?.answer?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.answer?.background?.url : quesObj?.answer?.background?.location=='assets' ? assetsPath + '/' +quesObj?.answer?.background?.url:''" alt="">
-                                    <div class="answer_img"
-                                        [class.totDigit2]='quesTxt?.totalDigits==2'
-                                        [class.totDigit3]='quesTxt?.totalDigits==3'
-                                    *ngIf="quesTxt.isfilled">
+                                    <div class="answer_img" *ngIf="quesTxt.isfilled">
                                         <img class="img-fluid" [src]="quesTxt?.answer?.image?.location=='content' ? containgFolderPath + '/' + quesTxt?.answer?.image?.url : quesTxt?.answer?.image?.location=='assets' ? assetsPath + '/' +quesTxt?.answer?.image?.url:''" alt="">
                                     </div>
                                 </div>
@@ -168,7 +153,8 @@
   <audio #rightFeedback [src]="rightFeedbackVO?.path?.location=='content'? containgFolderPath + '/' +  rightFeedbackVO?.path?.url : assetsPath +'/'+ rightFeedbackVO?.path?.url"></audio>
   <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : feedback?.right_ans_clap_sound?.location=='assets' ? assetsPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
   <audio #rightPopupfeedback [src]="rightPopupVO?.path?.location=='content' ? containgFolderPath + '/' + rightPopupVO?.path?.url : rightPopupVO?.path?.location=='assets' ? assetsPath + '/' + rightPopupVO?.path?.url:rightPopupVO?.path?.url"></audio>	
-  
+  <audio #showAnswerfeedback [src]="showAnswerVO?.path?.location=='content' ? containgFolderPath + '/' + showAnswerVO?.path?.url : showAnswerVO?.path?.location=='assets' ? assetsPath + '/' + showAnswerVO?.path?.url:showAnswerVO?.path?.url"></audio>
+
 
 
     

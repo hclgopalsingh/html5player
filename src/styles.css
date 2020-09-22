@@ -34,7 +34,7 @@ button:focus{
 } 
 @media only screen and (min-width: 1326px) and (max-height: 767px){
     .outerMostParent {
-        width: 81.6% !important;
+        width: 81.5% !important;
     }
 } 
 
@@ -156,7 +156,7 @@ button:focus{
 /*** Popup classes ***/
 .eva .modal{
     position: absolute !important;
-    height: 94.13% !important;
+    height: 93.94% !important;
 	display: flex;
 	background: rgba(0,0,0,.8);
 	display: none;
@@ -194,57 +194,6 @@ button:focus{
 .eva .modal .options div:hover{
 	animation: none !important;
 	transform: none !important;
-}
-
-
-.ele .modal-header {
-	padding: .5% !important;
-	height: 7vmin;
-	position: relative;
-	top: 0;
-	width: 100%;
-	border-bottom: none !important;
-	margin-bottom: -1px;
-	/*
-		border: solid .7vmin #85d222;
-	border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
-	background: #248446;
-	*/
-}
-.ele .modal-header:before,
-.ele .modal-header:after{
-	content: none;
-}
-.ele .modal-title,
-.ele #confirmModal .modal-title{
-	position:absolute;
-	left: 1.3vmin; 
-	height: 68% !important;
-	width: auto !important;
-}
-.ele .close,
-.ele #confirmModal .close {
-	position:absolute;
-	right:1.3vmin;
-	width: auto !important;
-	height: 68% !important;
-	margin-top: 0% !important; 
-	-webkit-appearance: inherit !important;
-	cursor: pointer;
-	opacity: 1!important;
-}
-.ele #confirmModal .modal-body{height: 36%;}
-.ele .modal-body{
-	border-top: none !important;
-	padding: 0 !important;
-}
-.ele .modal #instructionBarFeedback {
-    position: absolute !important;
-    width: 100% !important;
-    text-align: center !important;
-    top: 6% !important;
-    display: none;
 }
 .rightWrongAns{
     position: absolute;
@@ -417,13 +366,12 @@ button:focus{
 }
 /*** Misc classes ***/
 .disableDiv,
-.disableBtn,
-.disableFooterBtn{  
+.disableBtn{  
 	pointer-events: none;
 }
-/* .disableBtn{
+.disableBtn{
 	opacity: .5;  
-} */
+}
 .fadeContainer{
     background: rgba(0,0,0,.75);
     position: absolute;
@@ -431,15 +379,4 @@ button:focus{
     height: 83.9%;
     top: 0;
     z-index: 3;
-}
-#autoPlayOnOffContainer label{
-    font-size: .8vmax !important;
-}
-
-
-@media (min-width: 576px){
-	#autoPlayOnOffContainer.col-sm-1 {
-		flex: 0 0 8.52%;
-    	max-width: 8.52%;
-	}
 }

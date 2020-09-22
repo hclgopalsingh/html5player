@@ -116,7 +116,7 @@ export class Template8Component implements OnInit {
     @ViewChild('feedbackPopupSelectedOption') feedbackPopupSelectedOption: any;
     @ViewChild('showAnswerPopupSelectedOption') showAnswerPopupSelectedOption: any;
 
-    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, public dataService: DataService) {
+    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, private dataService: DataService) {
         
          //subscribing common popup from shared service to get the updated event and values of speaker
          this.Sharedservice.showAnsRef.subscribe(showansref => {
@@ -396,7 +396,7 @@ export class Template8Component implements OnInit {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     //option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
-                    this.appModel.storeVisitedTabs();
+
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();
                         this.clapSound.nativeElement.currentTime = 0;
