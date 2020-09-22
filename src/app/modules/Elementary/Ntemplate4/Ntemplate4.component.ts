@@ -254,16 +254,18 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
-            this.appModel.notifyUserAction();            
-            if (this.audio && this.audio.play) {
-                this.audio.pause;
+            this.appModel.notifyUserAction(); 
+            if(this.audio && !this.audio.paused){
+                this.audio.pause();
+                this.audio.currentTime = 0;
                 this.instructionBar.nativeElement.classList = "instructionBase";
                 for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
                     if (this.mainContainer.nativeElement.children[i].children[0] && this.mainContainer.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
                         this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
                     }
                 }
-            }     
+            }            
+              
             if (this.instructionVO && this.instructionVO.nativeElement.play) {
                 this.instructionVO.nativeElement.pause();
                 this.instructionVO.nativeElement.currentTime = 0;
@@ -320,10 +322,14 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngOnDestroy() {
-        if (this.quesVORef && this.quesVORef.nativeElement && this.quesVORef.nativeElement.play) {
-            this.quesVORef.nativeElement.pause();
-            this.quesVORef.nativeElement.currentTime = 0;
-        }
+        // if (this.quesVORef && this.quesVORef.nativeElement && this.quesVORef.nativeElement.play) {
+        //     this.quesVORef.nativeElement.pause();
+        //     this.quesVORef.nativeElement.currentTime = 0;
+        // }
+        if(this.audio && !this.audio.paused){
+            this.audio.pause();
+		    this.audio.currentTime = 0;
+        }       
         clearInterval(this.blinkTimeInterval);
         clearTimeout(this.timerDelayActs);
         clearTimeout(this.nextFeedbackTimer);
@@ -455,6 +461,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
 
     optionHover(idx, opt) {
         this.optionRef.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
+        this.optionRef.nativeElement.children[idx].children[0].style.cursor = "pointer";
     }
     playOptionHover(idx, opt) {
         this.appModel.notifyUserAction();
@@ -1260,6 +1267,12 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
     hleaveFeedbackPre() {
         this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
+    }
+    hoverSubmitClose() {
+        this.confirmSubmitAssets.close_btn = this.confirmSubmitAssets.close_btn_hover;
+    }
+    houtSubmitClose() {
+        this.confirmSubmitAssets.close_btn = this.confirmSubmitAssets.close_btn_original;
     }
     hoverSubmitConfirm() {
         this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_hover;
