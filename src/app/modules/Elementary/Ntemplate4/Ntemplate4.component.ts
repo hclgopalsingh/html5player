@@ -263,7 +263,11 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                         this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
                     }
                 }
-            }            
+            }     
+            if (this.instructionVO && this.instructionVO.nativeElement.play) {
+                this.instructionVO.nativeElement.pause();
+                this.instructionVO.nativeElement.currentTime = 0;
+            }       
             /*Disable Blink*/
             // clearInterval(this.blinkTimeInterval);
             // this.blinkTimeInterval=0;
