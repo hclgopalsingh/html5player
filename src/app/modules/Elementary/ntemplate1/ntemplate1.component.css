@@ -65,7 +65,6 @@ button:focus {
 
 #optionsBlock img,
 .optionsBlock img {
-  cursor: pointer;
   position: relative;
   max-width: 100%;
 }
