@@ -1188,10 +1188,10 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         let flag = true;
         this.nextBtnInterval = setInterval(() => {
             if (flag) {
-                this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_hover;
+                this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_blink2;
                 flag = false;
             } else {
-                this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
+                this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_blink1;
                 flag = true;
             }
         }, 300)
