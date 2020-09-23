@@ -1,5 +1,11 @@
 <div class="container-fluid ele" id="container">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <!-- <div class="videoOpen" *ngIf="!isPlayVideo" (click)= "playVideo()">
+    <div>
+      <img style= "width: 100%;" [src]= "commonAssets?.replay_btn?.url"
+      (mousemove)="hoverstartVideo()" (mouseleave)="houtstartVideo()"/>
+    </div>
+  </div> -->
   <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)= "endedHandleronSkip()">
     <div>
       <img style= "width: 100%;" [src]= "otherAssets?.video_stop?.url"
@@ -278,9 +284,9 @@
           <div class="teamNames">
             <div class="teamDetails" *ngFor="let quesFeedback of feedbackAssts?.ques_feedback?.correct_options">
               <div>
-                <img class="img-fluid teamNameBase"
-                  [src]="teamCommonAssets?.teamBg?.url">
-                <img class="img-fluid team" [src]="quesFeedback?.name">
+                <!-- <img class="img-fluid teamNameBase" [src]="teamCommonAssets?.teamBg?.url">
+                <img class="img-fluid team" [src]="quesFeedback?.name"> -->
+                <img class="img-fluid" [src]="quesFeedback?.team_name?.url">
               </div>
               <div class="rightAns">
                 <img class="img-fluid" [src]="quesFeedback?.correct_opt">

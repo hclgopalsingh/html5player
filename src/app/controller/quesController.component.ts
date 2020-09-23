@@ -55,6 +55,8 @@ export class QuesController implements OnInit {
   buttonPath: any;
   disableSubmit: boolean = true;
   disableReplay: boolean;
+  ReplaybtnFromContent:boolean=false;
+  tempReplayBtn:any;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
@@ -113,6 +115,11 @@ export class QuesController implements OnInit {
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       console.log("controlAssets", controlAssets);
       this.quesCtrl = controlAssets;
+      if(!this.EVA && this.ReplaybtnFromContent && this.quesCtrl){
+        this.quesCtrl.replay_btn=this.tempReplayBtn.replay_btn;
+        this.quesCtrl.replay_btn_hover=this.tempReplayBtn.replay_btn_hover;
+        this.quesCtrl.replay_btn_original=this.tempReplayBtn.replay_btn_original;
+      } 
       this.isLastQues = this.quesCtrl.isLastQues;
       if (this.isLastQues) {
         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
@@ -482,13 +489,14 @@ export class QuesController implements OnInit {
     this.disableTabs = controlObj.isTab;
     this.disableSubmit = controlObj.isSubmitRequired;
     this.disableReplay = controlObj.isReplayRequired;
-    // debugger;
-    if(controlObj.ReplaybtnFromContent && this.quesCtrl && this.quesCtrl.replay_btn){      
-      this.quesCtrl.replay_btn=controlObj.replay_btn;
-      this.quesCtrl.replay_btn_hover=controlObj.replay_btn_hover;
-      this.quesCtrl.replay_btn_original=controlObj.replay_btn_original;
+    this.tempReplayBtn=controlObj;  
+    if(controlObj.ReplaybtnFromContent){
+      this.ReplaybtnFromContent=true;         
+      // this.quesCtrl.replay_btn=controlObj.replay_btn;
+      // this.quesCtrl.replay_btn_hover=controlObj.replay_btn_hover;
+      // this.quesCtrl.replay_btn_original=controlObj.replay_btn_original;
     }
-    
+      
 
   }
   ngOnDestroy() {

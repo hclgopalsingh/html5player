@@ -22,6 +22,8 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 
 export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	private appModel: ApplicationmodelService;		
+	feedback_next_timer: any;
+	feedbackCloseTimer: NodeJS.Timer;
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
 		this.assetsPath = this.appModel.assetsfolderpath;
@@ -201,9 +203,10 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		this.functionalityType = this.appModel.content.contentLogic.functionalityType;
 		this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
 		this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
-		this.checkquesTab();
+		
 		/*End: Theme Implementation(Template Changes)*/
 		this.setData();
+		this.checkquesTab();
 		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
 				//this.appModel.openModal('success-modal-id', this.popupAssets, mode);
@@ -234,7 +237,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			}
 		})
 		this.appModel.handleController(this.controlHandler);
-		console.log("Value Passed");
+		// alert("Value Passed");
 		console.log(this.appModel.tPath, "this.appModel.tPath")
 		this.appModel.nextBtnEvent().subscribe(() => {
 			if (this.appModel.isLastSectionInCollection) {
@@ -247,7 +250,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue, this);
-	}
+	}	
 	ngOnDestroy() {
 		this.controlHandler.isNext = true;
 		this.controlHandler.isPrev = true;
@@ -264,6 +267,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 	/*Start: Theme Implementation(Template Changes)*/
 	checkquesTab() {
+		// this.appModel.handleController(this.controlHandler);
+		// alert("QuesTab");
 		if (this.fetchedcontent.commonassets.ques_control != undefined) {
 			this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
 		} else {
@@ -359,7 +364,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.controlHandler.replay_btn_hover=this.commonAssets.replay_btn_hover;
 			this.controlHandler.replay_btn_original=this.commonAssets.replay_btn_original;
 			/*End: Theme Implementation(Template Changes)*/
-			console.log("Value SET");
+			// alert("Value SET");
 		}
 	}
 	checkLiveScore(teamSide) {
@@ -720,6 +725,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 
 	houtstopVideo() {
 		this.otherAssets.video_stop = this.otherAssets.video_stop_original;
+	}
+
+	hoverstartVideo() {
+		this.commonAssets.replay_btn = this.commonAssets.replay_btn_hover;
+	}
+
+	houtstartVideo() {
+		this.commonAssets.replay_btn = this.commonAssets.replay_btn_original;
 	}
 
 	/*	resetActivity(){
@@ -1096,50 +1109,56 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		this.mainContainer.nativeElement.classList = "consoleBase";
 		this.isPlayVideo = false;
 	}
-
+	// playVideo() {
+	// 	this.isPlayVideo = true;
+	// 	this.appModel.enableReplayBtn(false);
+	// 	this.appModel.videoStraming(true);
+	// 	this.appModel.enableSubmitBtn(false);
+	// 	this.appModel.navShow = 2;
+	// 	this.mainContainer.nativeElement.classList = "consoleBase disableDiv";
+	// 	this.isPlayVideo = true;
+	// }
 	/*	openFeedbackPopup(){
 			this.checkNextActivities();
 		}*/
 	startNextTimer(){
 		clearTimeout(this.feedbackNextTimer);
-		clearTimeout(this.feedback_close_timer);
+		clearTimeout(this.feedbackCloseTimer);
 		console.log(this.currentFeedback);
 		/* Auto next in feedback modal */
 		if (this.currentFeedback < this.feedbackSoFor.length - 1){
-			this.feedbackNextTimer=this.feedback.feedback_next_timer;
-			setTimeout(()=>{
+			this.feedback_next_timer=this.feedback.feedback_next_timer;
+			this.feedbackNextTimer=setTimeout(()=>{
 				if(this.feedbackModal.nativeElement.classList == "modal displayPopup"){
 					this.nextFeedback();
 				}				
-			},this.feedbackNextTimer*60*1000)
-		}
-		
-		
-	}
-	nextFeedback() {
-		clearTimeout(this.feedbackNextTimer);
-		clearTimeout(this.feedback_close_timer);
-		this.currentFeedback++;
-		if (this.currentFeedback < this.feedbackSoFor.length) {
-			this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
-			/* Auto next in feedback modal */
-			this.startNextTimer();
-			
+			},this.feedback_next_timer*60*1000)
 		}else {
 			/* Auto close in feedback modal */
 			this.feedback_close_timer=this.feedback.feedback_close_timer;
-			setTimeout(()=>{
+			this.feedbackCloseTimer=setTimeout(()=>{
 				if(this.feedbackModal.nativeElement.classList == "modal displayPopup"){
 					this.closeFeedbackModal();
 				}
 			},this.feedback_close_timer*60*1000)
 		}
 		
+		
+	}
+	nextFeedback() {
+		clearTimeout(this.feedbackNextTimer);
+		clearTimeout(this.feedbackCloseTimer);
+		this.currentFeedback++;
+		if (this.currentFeedback < this.feedbackSoFor.length) {
+			this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
+			/* Auto next in feedback modal */
+			this.startNextTimer();			
+		}		
 	}
 	
 	prevFeedback() {
 		clearTimeout(this.feedbackNextTimer);
-		clearTimeout(this.feedback_close_timer);
+		clearTimeout(this.feedbackCloseTimer);
 		this.currentFeedback--;
 		if (this.currentFeedback < this.feedbackSoFor.length - 1) {
 			this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];

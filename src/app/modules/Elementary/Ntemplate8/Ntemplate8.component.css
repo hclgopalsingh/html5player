@@ -18,16 +18,16 @@ button:focus {
 }
 #container #consoleBlock {
 	position: absolute;
-  top: 11.5%;
+  top: 8%;
   width: 100%;
   left: 0;
-  height: 74%;/*76%;*/
+  height: 78%;/*76%;*/
 }
 #container .consoleBase {
   /* background: #666;
 	border: solid 2px #000;
 	border-radius: 205px; */
-  width:92%;
+  width:97%;
   height: 100%;
   position: relative;
 }
@@ -38,7 +38,7 @@ button:focus {
   width: 100%;
 }
 #container .rowTop{
-  top: 1.5%;
+  top: 3%;
 }
 #container .rowMid{
   top: 9.5%;
@@ -75,8 +75,8 @@ button:focus {
   width: 90%; */
 }
 #container .rowMid {
-  height: 77%;
-  margin: .8% 0;
+  height: 75.5%;
+  margin: 1.4% 0;
   display: flex;
   justify-content: space-between;
 }
@@ -88,12 +88,18 @@ button:focus {
   align-items: center;
   position: relative;
 }
+#container .rowMid .colLeft{
+  left:1%;
+}
+#container .rowMid .colRight{
+  right:1%;
+}
 #container .rowMid .colMid {
   /* background: #c2c2c2; */
   background-image: radial-gradient(#0074E2, #004589);
 	border: solid 1px #000;
 	border-radius: 33px;/*19vmin;*/
-  width:76%;
+  width:73.5%;
   position: relative;
 }
 @media (max-width: 1366px){
@@ -121,11 +127,19 @@ button:focus {
   /* background: #9a9a9a;
 	border: solid 1px #000;
 	border-radius: 50px; */
-  padding: 0 2.7%;
+  /* padding: 0 2.7%;
   position: absolute;
   right: .25%;
   top: .4%;
+  font-size: 3.5vmin; */
+  position: absolute;
+  width: 15%;
+  right: 2%;
+  top: 3%;
   font-size: 3.5vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .colMid .durationTime div{
   position: absolute;
@@ -155,11 +169,11 @@ button:focus {
 .rowBtm .passBtn,
 .rowBtm .teamDetails {
   top: 0;
-  right: 25.5%;
+  right: 22.5%;
 }
 .rowTop .teamDetails,
 .rowBtm .teamDetails{
-  right: 20.5%;
+  right: 17.5%;
   width: 4%;
 }
 .rowMid .colLeft .passBtn,
@@ -180,15 +194,15 @@ button:focus {
   cursor: pointer;
 }
 .teamDetails .teamNameBase {
-  max-width: 70%;
+  max-width: 100%;
 }
 .teamDetails .teamName{
   position: absolute;
-  max-width: 39%;
+  max-width: 100%;
 }
-.rowMid .teamDetails .teamName{
+/* .rowMid .teamDetails .teamName{
   max-width: 33%;
-}
+} */
 .teamDetails .gradeCircle{
   position: absolute;
 }
@@ -690,6 +704,7 @@ button:focus {
   z-index:1;
 }
 /* Modal Feedback classes end */
+.videoOpen,
 .videoClose{
   width: 3.5%;
   height: 6%;
