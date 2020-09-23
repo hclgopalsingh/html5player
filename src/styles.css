@@ -237,6 +237,14 @@ button:focus{
 .ele #confirmModal .modal-body{height: 36%;}
 .ele .modal-body{
 	border-top: none !important;
+	padding: 0 !important;
+}
+.ele .modal #instructionBarFeedback {
+    position: absolute !important;
+    width: 100% !important;
+    text-align: center !important;
+    top: 6% !important;
+    display: none;
 }
 .rightWrongAns{
     position: absolute;
