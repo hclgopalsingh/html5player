@@ -256,9 +256,9 @@ button:focus {
   /*69%;*/
 }
 
-.modal .optionsBlock {
+/* .modal .optionsBlock {
   margin: 2% 0;
-}
+} */
 
 #modalPartialOptions .optionsBlock {
   margin: 0;
@@ -270,7 +270,7 @@ button:focus {
 }
 
 .quesImage {
-  width: 100%;
+  width: 79%;
   position: relative;
   text-align: center;
   display: flex;
@@ -536,13 +536,16 @@ button:focus {
   content: none;
 }*/
 
-.modal-body {
-  /* padding:2%; */
+/*.modal-body {
   background: #afdec0;
   border: solid .7vmin #85d222;
-  /* border-top: none!important; */
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+}*/
+
+#modalTemp9 .modal-body {
+  flex-wrap: wrap;
+  align-content: space-around;
 }
 
 .modal-body img {
@@ -845,3 +848,31 @@ button:focus {
 .classOpacity {
   opacity: 0.3;
 }
+
+#modalTemp9 #instructionBarFeedback {
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+  display: none;
+}
+
+.modal .instructionBase {
+  width: 100% !important;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  cursor: default;
+}
+
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
+}
+
+/*#modalTemp9 #instructionBarFeedback .instructionBase {
+  width: 100% !important;
+  position: relative;
+  cursor: default;
+}*/

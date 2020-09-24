@@ -6,6 +6,7 @@ export class SharedserviceService {
   
     private subject = new Subject<any>();
     private ShowAnswer = new Subject<any>();
+    private disableShowAnswer = new Subject<any>();
     private SubmitAnswer = new Subject<any>();
     private IsVOPlaying = new Subject<any>();
     private AageyBadhe = new Subject<any>();
@@ -39,6 +40,15 @@ export class SharedserviceService {
         return this.ShowAnswer.asObservable();
     }
   
+    // disable click on show answer button even if show answer btn state is enabled
+    setShowAnsClickDisabled(status:any){
+        this.disableShowAnswer.next({data:status});
+    }
+
+    getShowAnsClickDisabled(){
+        return this.disableShowAnswer.asObservable();
+    }
+
     setSubmitAnsEnabled(status:any){
         this.SubmitAnswer.next({data:status});
     }

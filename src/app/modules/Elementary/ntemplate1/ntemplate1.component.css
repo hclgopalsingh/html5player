@@ -65,7 +65,6 @@ button:focus {
 
 #optionsBlock img,
 .optionsBlock img {
-  cursor: pointer;
   position: relative;
   max-width: 100%;
 }
@@ -630,8 +629,8 @@ button:focus {
 }
 
 #modalTemp5 .modal-body {
-  padding: 3%;
   flex-wrap: wrap;
+  height: 50vmin;
 }
 
 .modal-content {
@@ -639,7 +638,7 @@ button:focus {
   border: none !important;
   box-shadow: none !important;
   height: 100%;
-  min-width: 560px;
+  min-width: 100%;
   /*450px;*/
   min-height: 50vmin;
   /*350px;*/
@@ -709,14 +708,16 @@ button:focus {
 }
 
 #modalTemp5 .modal-body img {
-  max-width: 94%;
+  max-width: 87%;
   /* width: 70%; */
 }
 
 #modalTemp5 .optionsBlock {
   width: 100%;
-  height: 100%;
-  margin: 2% 0;
+  height: 33vmin;
+  margin: 2% auto;
+  position: absolute;
+  top: 23%;
 }
 
 .modalBodyContent {
@@ -726,7 +727,8 @@ button:focus {
 
 .modal .quesImage {
   align-self: center;
-  margin: 1% auto !important;
+  margin: 0% auto !important;
+  height: auto;
 }
 
 #modalTemp5 .quesImage {
@@ -738,19 +740,24 @@ button:focus {
   /*100%*/
 }
 
-#modalTemp5 #instructionBarFeedback {
+/*#modalTemp5 #instructionBarFeedback {
   position: relative;
   top: 0;
   width: 100%;
   text-align: center;
   margin-bottom: .9%;
   display: none;
-}
+}*/
 
-#modalTemp5 #instructionBarFeedback .instructionBase {
+.modal .instructionBase {
   width: 100%;
   position: relative;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
 }
 
 /*.close:focus, .close:hover {
@@ -773,22 +780,9 @@ html [type=button] {
 #modalPartialOptions .modal-body {
   padding: 3%;
   flex-wrap: wrap;
+  height: auto;
 }
 
-#modalPartialOptions #instructionBarPartial {
-  position: relative;
-  top: 0;
-  width: 100%;
-  text-align: center;
-  margin-bottom: .9%;
-  display: none;
-}
-
-#modalPartialOptions #instructionBarPartial .instructionBase {
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-}
 
 /*Partial Pop-up for 6+ options*/
 #modalPartialOptions .modal-dialog.sixplus {
@@ -811,7 +805,12 @@ html [type=button] {
 
 #modalPartialOptions .quesImage {
   display: block;
+  margin: 1% auto !important;
   /*contents;*/
+}
+
+#modalPartialOptions .quesImage:last-child {
+margin-bottom: 1.5%!important;
 }
 
 #modalPartialOptions .subHead {
@@ -849,7 +848,8 @@ html [type=button] {
 }
 
 #modalPartialOptions .optionsBlock {
-  padding: 0 1%;
+  padding: 0 1.5%;
+  margin-top: 11vmin;
 }
 
 #modalPartialOptions .optionsBlock .options {
@@ -950,7 +950,7 @@ html [type=button] {
 
 
 .videoMainContainer {
-  width: 99.9%;
+  width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
@@ -988,3 +988,14 @@ html [type=button] {
 .classOpacity {
   opacity: 0.3;
 }
+
+@media (max-width: 800px) {
+#modalTemp5 .modal-dialog {
+    min-width: 80%;
+}
+#modalTemp5 .modal-body img {
+    max-width: 80%;
+}
+}
+
+
