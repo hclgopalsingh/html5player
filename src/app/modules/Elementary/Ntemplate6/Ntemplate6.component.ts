@@ -41,7 +41,7 @@ declare var $: any;
 
 })
 
-export class Ntemplate6 implements OnInit {
+export class Ntemplate6 implements OnInit, OnDestroy {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -89,6 +89,7 @@ export class Ntemplate6 implements OnInit {
   @ViewChild('optionsClickable') optionsClickable: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('mainOuterContainer') mainOuterContainer: any
+  popupHeader:any;
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -140,6 +141,7 @@ export class Ntemplate6 implements OnInit {
   confirmPopupAssets: any;
   noOfRightAns: any;
   tempSubscription: Subscription;
+  AnswerpopupTxt: boolean = false;
   i: any;
   j: any;
   matrasInitPosition: any;
@@ -173,6 +175,8 @@ export class Ntemplate6 implements OnInit {
   hideVideoBg: boolean = false;
   matraPercentLeft: any;
   matraPercentTop: any;
+  showAnssetTimeout:any;
+  showAnssetTimeout2:any;
 
   PopUpMatraPercentLeft: any;
   PopUpMatraPercentTop: any;
@@ -731,11 +735,17 @@ export class Ntemplate6 implements OnInit {
       location: "assets",
       style: ""
     },
+    {
+      id: "L80",
+      url: "assets/images/letters/hindi/akshar/aaa.png",
+      location: "assets",
+      style: ""
+    },
 
     {
       id: "M1",
-      url: "assets/images/letters/hindi/matra/aa.png",
-      imgsrc_audio: "assets/options/AA_matra.ogg",
+      url: "assets/images/letters/hindi/matra/M1.png",
+      imgsrc_audio: "assets/options/M1.ogg",
       audio_location: "content",
       position: "right",
       location: "assets",
@@ -746,22 +756,22 @@ export class Ntemplate6 implements OnInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79"],
+            "L78", "L79","L80"],
           style: { "left": "-2" }
         }
       ]
     },
     {
       id: "M2",
-      url: "assets/images/letters/hindi/matra/ai.png",
-      imgsrc_audio: "assets/options/AI_matra.ogg",
+      url: "assets/images/letters/hindi/matra/M2.png",
+      imgsrc_audio: "assets/options/M2.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
       style: '',
       letters: [
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "4" }
         },
         {
@@ -777,7 +787,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "0" }
         },
         {
-          id: ["L12", "L79"],
+          id: ["L12", "L79", "L80"],
           style: { "left": "0.3" }
         },
         {
@@ -859,15 +869,15 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M3",
-      url: "assets/images/letters/hindi/matra/an.png",
-      imgsrc_audio: "assets/options/AN_matra.ogg",
+      url: "assets/images/letters/hindi/matra/M3.png",
+      imgsrc_audio: "assets/options/M3.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
       style: "",
       letters: [
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "5.6" }
         },
         {
@@ -947,7 +957,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "3.3" }
         },
         {
-          id: ["L79"],
+          id: ["L79", "L80"],
           style: { "left": "4" }
         },
         {
@@ -961,8 +971,8 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M4",
-      url: "assets/images/letters/hindi/matra/au.png",
-      imgsrc_audio: "option4.ogg",
+      url: "assets/images/letters/hindi/matra/M4.png",
+      imgsrc_audio: "assets/options/M4.ogg",
       audio_location: "content",
       position: "right",
       location: "assets",
@@ -973,15 +983,15 @@ export class Ntemplate6 implements OnInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79"],
+            "L78", "L79","L80"],
           style: { "left": "-4" }
         }
       ]
     },
     {
       id: "M5",
-      url: "assets/images/letters/hindi/matra/ee.png",
-      imgsrc_audio: "option5.ogg",
+      url: "assets/images/letters/hindi/matra/M5.png",
+      imgsrc_audio: "assets/options/M5.ogg",
       audio_location: "content",
       position: "right",
       location: "assets",
@@ -992,15 +1002,15 @@ export class Ntemplate6 implements OnInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79"],
+            "L78", "L79","L80"],
           style: { "left": "-4" }
         }
       ]
     },
     {
       id: "M6",
-      url: "assets/images/letters/hindi/matra/i.png",
-      imgsrc_audio: "assets/options/I_matra.ogg",
+      url: "assets/images/letters/hindi/matra/M6.png",
+      imgsrc_audio: "assets/options/M6.ogg",
       audio_location: "content",
       position: "left",
       location: "assets",
@@ -1011,22 +1021,22 @@ export class Ntemplate6 implements OnInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79"],
+            "L78", "L79","L80"],
           style: { "left": "-1.2" }
         }
       ]
     },
     {
       id: "M7",
-      url: "assets/images/letters/hindi/matra/Lower_bindi.png",
-      imgsrc_audio: "option2.ogg",
+      url: "assets/images/letters/hindi/matra/M7.png",
+      imgsrc_audio: "assets/options/M7.ogg",
       audio_location: "content",
       position: "bottom",
       location: "assets",
       style: '',
       letters: [
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "3.1" }
         },
         {
@@ -1141,8 +1151,8 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M8",
-      url: "assets/images/letters/hindi/matra/o.png",
-      imgsrc_audio: "assets/options/O_matraa.ogg",
+      url: "assets/images/letters/hindi/matra/M8.png",
+      imgsrc_audio: "assets/options/M8.ogg",
       audio_location: "content",
       position: "right",
       location: "assets",
@@ -1153,22 +1163,22 @@ export class Ntemplate6 implements OnInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79"],
+            "L78", "L79","L80"],
           style: { "left": "-3" }
         }
       ]
     },
     {
       id: "M9",
-      url: "assets/images/letters/hindi/matra/oo.png",
-      imgsrc_audio: "option4.ogg",
+      url: "assets/images/letters/hindi/matra/M9.png",
+      imgsrc_audio: "assets/options/M9.ogg",
       audio_location: "content",
       position: "bottom",
       location: "assets",
       style: "",
       letters: [
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "3.4" }
         },
         {
@@ -1232,7 +1242,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "4.1" }
         },
         {
-          id: ["L39", "L79"],
+          id: ["L39", "L79", "L80"],
           style: { "left": "3.7" }
         },
         {
@@ -1287,15 +1297,15 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M10",
-      url: "assets/images/letters/hindi/matra/R_matraa_2.png",
-      imgsrc_audio: "assets/options/RR_matraa.ogg",
+      url: "assets/images/letters/hindi/matra/M10.png",
+      imgsrc_audio: "assets/options/M10.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
       style: "",
       letters: [
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "6.8" }
         },
         {
@@ -1387,7 +1397,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "2.5" }
         },
         {
-          id: ["L79"],
+          id: ["L79", "L80"],
           style: { "left": "2.9" }
         },
         {
@@ -1401,15 +1411,15 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M11",
-      url: "assets/images/letters/hindi/matra/R_matraa_3.png",
-      imgsrc_audio: "assets/options/R_matraa.ogg",
+      url: "assets/images/letters/hindi/matra/M11.png",
+      imgsrc_audio: "assets/options/M11.ogg",
       audio_location: "content",
       position: "bottom_spcialCase",
       location: "assets",
       style: "",
       letters: [
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "2.9" }
         },
         {
@@ -1521,7 +1531,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "1.3" }
         },
         {
-          id: ["L79"],
+          id: ["L79", "L80"],
           style: { "left": "1.9" }
         },
         {
@@ -1536,8 +1546,8 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M12",
-      url: "assets/images/letters/hindi/matra/R_matraa_4.png",
-      imgsrc_audio: "option2.ogg",
+      url: "assets/images/letters/hindi/matra/M12.png",
+      imgsrc_audio: "assets/options/M12.ogg",
       audio_location: "content",
       position: "bottom",
       location: "assets",
@@ -1640,29 +1650,29 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "0.1" }
         },
         {
-          id: ["L79"],
+          id: ["L79", "L80"],
           style: { "left": "0.7" }
         },
         {
           id: ["L1", "L2", "L4", "L5", "L6", "L7", "L8", "L9", "L11", "L13", "L15", "L16", "L17",
             "L19", "L20", "L21", "L23", "L25", "L27", "L29", "L31", "L32", "L34", "L35", "L36", "L37", "L39", "L40",
             "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L56", "L57", "L58",
-            "L59", "L61", "L63", "L65", "L66", "L67", "L68", "L69", "L71", "L73", "L75", "L76", "L78"],
+            "L59", "L61", "L63", "L65", "L66", "L67", "L68", "L69", "L71", "L73", "L75", "L76", "L78","L80"],
           style: { "left": "0" }
         }
       ]
     },
     {
       id: "M13",
-      url: "assets/images/letters/hindi/matra/u.png",
-      imgsrc_audio: "assets/options/U_Matra.ogg",
+      url: "assets/images/letters/hindi/matra/M13.png",
+      imgsrc_audio: "assets/options/M13.ogg",
       audio_location: "content",
       position: "bottom",
       location: "assets",
       style: "",
       letters: [
         {
-          id: ["L1", "L3", "L4"],
+          id: ["L1", "L3", "L4","L80"],
           style: { "left": "1.5" }
         },
         {
@@ -1674,7 +1684,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "0" }
         },
         {
-          id: ["L12", "L18", "L30", "L51", "L58", "L74", "L79"],
+          id: ["L12", "L18", "L30", "L51", "L58", "L74", "L79", "L80"],
           style: { "left": "0.5" }
         },
         {
@@ -1697,8 +1707,8 @@ export class Ntemplate6 implements OnInit {
     },
     {
       id: "M14",
-      url: "assets/images/letters/hindi/matra/a.png",
-      imgsrc_audio: "assets/options/option3.ogg",
+      url: "assets/images/letters/hindi/matra/M14.png",
+      imgsrc_audio: "assets/options/M14.ogg",
       audio_location: "content",
       position: "top",
       location: "assets",
@@ -1729,7 +1739,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "0.9" }
         },
         {
-          id: ["L30", "L51", "L58", "L74", "L79"],
+          id: ["L30", "L51", "L58", "L74", "L79", "L80"],
           style: { "left": "1.2" }
         },
         {
@@ -1761,22 +1771,22 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "3.7" }
         },
         {
-          id: ["L1"],
+          id: ["L1","L80"],
           style: { "left": "5.1" }
         }
       ]
     },
     {
       id: "M15",
-      url: "assets/images/letters/hindi/matra/R_matraa_1.png",
-      imgsrc_audio: "option3.ogg",
+      url: "assets/images/letters/hindi/matra/M15.png",
+      imgsrc_audio: "assets/options/M15.ogg",
       audio_location: "content",
       position: "bottom",
       location: "assets",
       style: "",
       letters: [
         {
-          id: ["L1", "L3", "L4", "L26", "L39", "L52", "L62"],
+          id: ["L1", "L3", "L4", "L26", "L39", "L52", "L62","L80"],
           style: { "left": "3.3" }
         },
         {
@@ -1824,7 +1834,7 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "1.7" }
         },
         {
-          id: ["L17", "L18", "L58", "L79",],
+          id: ["L17", "L18", "L58", "L79","L80"],
           style: { "left": "1.8" }
         },
         {
@@ -1860,7 +1870,230 @@ export class Ntemplate6 implements OnInit {
           style: { "left": "3.8" }
         }
       ]
-    }
+    },
+    {
+      id: "M16",
+      url: "assets/images/letters/hindi/matra/M16.png",
+      imgsrc_audio: "assets/options/M16.ogg",
+      audio_location: "content",
+      position: "top",
+      location: "assets",
+      style: "",
+      letters: [
+        {
+          id: ["L1","L80"],
+          style: { "left": "5.6" }
+        },
+        {
+          id: ["L3"],
+          style: { "left": "3.3" }
+        },
+        {
+          id: ["L10", "L18", "L22", "L24", "L35", "L55"],
+          style: { "left": "3.2" }
+        },
+        {
+          id: ["L12", "L49"],
+          style: { "left": "3.8" }
+        },
+        {
+          id: ["L14"],
+          style: { "left": "4" }
+        },
+        {
+          id: ["L16", "L32"],
+          style: { "left": "4.5" }
+        },
+        {
+          id: ["L20", "L45"],
+          style: { "left": "4.3" }
+        },
+        {
+          id: ["L26"],
+          style: { "left": "3.5" }
+        },
+        {
+          id: ["L28", "L41"],
+          style: { "left": "3" }
+        },
+        {
+          id: ["L30", "L51", "L74", "L75"],
+          style: { "left": "3.9" }
+        },
+        {
+          id: ["L33", "L39", "L62"],
+          style: { "left": "5.2" }
+        },
+        {
+          id: ["L36", "L56"],
+          style: { "left": "2.5" }
+        },
+        {
+          id: ["L38"],
+          style: { "left": "5.0" }
+        },
+        {
+          id: ["L43"],
+          style: { "left": "6.6" }
+        },
+        {
+          id: ["L47", "L60"],
+          style: { "left": "5.2" }
+        },
+        {
+          id: ["L64"],
+          style: { "left": "3" }
+        },
+        {
+          id: ["L66", "L68"],
+          style: { "left": "3.5" }
+        },
+        {
+          id: ["L70"],
+          style: { "left": "4.4" }
+        },
+        {
+          id: ["L72"],
+          style: { "left": "4.4" }
+        },
+        {
+          id: ["L77"],
+          style: { "left": "3.3" }
+        },
+        {
+          id: ["L79", "L80"],
+          style: { "left": "4" }
+        },
+        {
+          id: ["L2", "L4", "L5", "L6", "L7", "L8", "L9", "L11", "L13", "L15", "L17",
+            "L19", "L21", "L23", "L25", "L27", "L29", "L31", "L34", "L37", "L40",
+            "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L57", "L58",
+            "L59", "L61", "L63", "L65", "L67", "L69", "L71", "L73", "L76", "L78"],
+          style: { "left": "4" }
+        }
+      ]
+    },
+    {
+      id: "M17",
+      url: "assets/images/letters/hindi/matra/M17.png",
+      imgsrc_audio: "assets/options/M17.ogg",
+      audio_location: "content",
+      position: "top",
+      location: "assets",
+      style: "",
+      letters: [
+        {
+          id: ["L1","L80"],
+          style: { "left": "5.6" }
+        },
+        {
+          id: ["L3"],
+          style: { "left": "3.3" }
+        },
+        {
+          id: ["L10", "L18", "L22", "L24", "L35", "L55"],
+          style: { "left": "3.2" }
+        },
+        {
+          id: ["L12", "L49"],
+          style: { "left": "3.8" }
+        },
+        {
+          id: ["L14"],
+          style: { "left": "4" }
+        },
+        {
+          id: ["L16", "L32"],
+          style: { "left": "4.5" }
+        },
+        {
+          id: ["L20", "L45"],
+          style: { "left": "4.3" }
+        },
+        {
+          id: ["L26"],
+          style: { "left": "3.5" }
+        },
+        {
+          id: ["L28", "L41"],
+          style: { "left": "3" }
+        },
+        {
+          id: ["L30", "L51", "L74", "L75"],
+          style: { "left": "3.9" }
+        },
+        {
+          id: ["L33", "L39", "L62"],
+          style: { "left": "5.2" }
+        },
+        {
+          id: ["L36", "L56"],
+          style: { "left": "2.5" }
+        },
+        {
+          id: ["L38"],
+          style: { "left": "5.0" }
+        },
+        {
+          id: ["L43"],
+          style: { "left": "6.6" }
+        },
+        {
+          id: ["L47", "L60"],
+          style: { "left": "5.2" }
+        },
+        {
+          id: ["L64"],
+          style: { "left": "3" }
+        },
+        {
+          id: ["L66", "L68"],
+          style: { "left": "3.5" }
+        },
+        {
+          id: ["L70"],
+          style: { "left": "4.4" }
+        },
+        {
+          id: ["L72"],
+          style: { "left": "4.4" }
+        },
+        {
+          id: ["L77"],
+          style: { "left": "3.3" }
+        },
+        {
+          id: ["L79"],
+          style: { "left": "4" }
+        },
+        {
+          id: ["L2", "L4", "L5", "L6", "L7", "L8", "L9", "L11", "L13", "L15", "L17",
+            "L19", "L21", "L23", "L25", "L27", "L29", "L31", "L34", "L37", "L40",
+            "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L57", "L58",
+            "L59", "L61", "L63", "L65", "L67", "L69", "L71", "L73", "L76", "L78"],
+          style: { "left": "4" }
+        }
+      ]
+    },
+    {
+      id: "M18",
+      url: "assets/images/letters/hindi/matra/M18.png",
+      imgsrc_audio: "assets/options/M18.ogg",
+      audio_location: "content",
+      position: "right",
+      location: "assets",
+      style: '',
+      letters: [
+        {
+          id: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L13", "L14", "L15", "L16", "L17", "L18", "L19", "L20",
+            "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
+            "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
+            "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
+            "L78", "L79","L80"],
+          style: { "left": "-2" }
+        }
+      ]
+    },
   ];
 
   disableSpeaker: boolean = false;
@@ -1972,6 +2205,8 @@ export class Ntemplate6 implements OnInit {
 		this.quesVORef.nativeElement.currentTime = 0;
     this.refQuesArr = [];
     this.QuesArr = [];
+    clearTimeout(this.showAnssetTimeout);
+    ////clearInterval(this.showAnssetTimeout2);
   }
 
   ngAfterViewInit() {
@@ -2048,8 +2283,7 @@ export class Ntemplate6 implements OnInit {
       this.instructionVO.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.pause();
     }
-    ////this.optionsClickable.nativeElement.children[0].children[i]
-    this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
+     this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
 
     if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx != i) {
       for (let j = 0; j < this.optionArr.length; j++) {
@@ -2069,8 +2303,11 @@ export class Ntemplate6 implements OnInit {
       this.optionsClickable.nativeElement.children[0].children[i].children[2].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue
 
       this.optionsClickable.nativeElement.children[0].children[i].children[2].play();
-
+      this.disableSection = true;
+      this.disableSpeaker = true;
       this.optionsClickable.nativeElement.children[0].children[i].children[2].onended = () => {
+        this.disableSection = false;
+        this.disableSpeaker = false;
         for (let j = 0; j < this.optionArr.length; j++) {
           this.optionsClickable.nativeElement.children[0].children[j].classList.remove('disable_div');   
         }
@@ -2109,8 +2346,6 @@ export class Ntemplate6 implements OnInit {
       this.options[i].topPos = "0";
   }
     console.log(opt, id);
-    this.appModel.enableReplayBtn(false);
-    this.appModel.enableNavBtn(true);
     this.appModel.handleController(this.controlHandler);
     this.appModel.handlePostVOActivity(true);
     this.count = 0;
@@ -2137,6 +2372,7 @@ export class Ntemplate6 implements OnInit {
       console.log("Answer is right");
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
+      
       setTimeout(() => {
         this.sendFeedback(undefined, 'yes', 'rightAnswer');
       }, 2000);
@@ -2144,6 +2380,7 @@ export class Ntemplate6 implements OnInit {
       console.log("Answer is wrong");
       this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
       this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+     
       setTimeout(() => {
         this.sendFeedback(undefined, 'yes', 'wrongAnswer');
       }, 2000);
@@ -2239,18 +2476,12 @@ export class Ntemplate6 implements OnInit {
         option.leftPos = this.moveleft;
         option.topPos = this.movetop;
         setTimeout(() => {
-          //this.duplicateOption.nativeElement.children[id].style.top = "auto";
-          ////$('#duplicate'+id).addClass('topauto');
-          this.duplicateOption.nativeElement.children[id].classList.add('topauto');
-       // this.duplicateOption.nativeElement.children[id].style.top = "auto!important";
-      // $(this.duplicateOption.nativeElement.children[id]).css("top", "auto");
-      console.log(this.duplicateOption.nativeElement.children[id].style.top);
+           this.duplicateOption.nativeElement.children[id].classList.add('topauto');
+        console.log(this.duplicateOption.nativeElement.children[id].style.top);
       }, 200)
-        //option.topPos = "auto!important";
-        option.isOpen = false;
+         option.isOpen = false;
       }, 300)
-      //option.topPos = "auto!important";
-      option.isOpen = false;
+       option.isOpen = false;
     }, 400)
    
     }
@@ -2354,6 +2585,7 @@ export class Ntemplate6 implements OnInit {
   }
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
+      console.log("blinkForLastQues")
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
       if (!this.appModel.eventDone) {
@@ -2531,8 +2763,6 @@ export class Ntemplate6 implements OnInit {
       this.coverTop = true;
       this.coverBottom = true;
       this.disableSection = true;
-      ////this.disableSpeaker = true;
-      ////this.speakerPointer = true;
       this.bodyContentDisable = true;
       this.instructionVO.nativeElement.onended = () => {
         this.disableSection = false;
@@ -2572,7 +2802,7 @@ export class Ntemplate6 implements OnInit {
         
       }
       if (this.clicked) {
-        this.coverBottom = true;
+        this.coverBottom = false;
         this.coverTop = false;
       }
       this.InstructionVo = true;
@@ -2594,6 +2824,7 @@ export class Ntemplate6 implements OnInit {
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       this.optionsAssets = this.fetchedcontent.optionsObj;
+      this.feedbackObj = this.fetchedcontent.feedback;
       for (let j = 0; j < this.optionsAssets.length; j++) {
         this.optionArr.push(this.optionsAssets[j].optionID);
       }
@@ -2693,7 +2924,6 @@ export class Ntemplate6 implements OnInit {
     this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay && !this.replayClicked) {
       this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
-      //this.mainContainer.nativeElement.classList = "bodyContent disable_div";
       this.bodyContentDisable = true;
       this.disableSection = true;
       this.disableSpeaker = true;
@@ -2708,8 +2938,7 @@ export class Ntemplate6 implements OnInit {
         this.disableSpeaker = false;
         this.InstructionVo = true;
         console.log('play');
-        //this.mainContainer.nativeElement.classList = "bodyContent";
-        setTimeout(() => {
+         setTimeout(() => {
           this.bodyContentDisable = false;
         }, 1000);
         this.disableSection = false;
@@ -2801,21 +3030,21 @@ export class Ntemplate6 implements OnInit {
       }
       else {
         this.coverTop = true;
-        this.coverBottom = true;
+        this.coverBottom = false;
+        this.optionDisable = true;
       }
       setTimeout(() => {
-        this.coverBottom = false;
-      }, 1000);
+        this.optionDisable = false;
+       
+      }, 2000);
+       
       this.appModel.notifyUserAction();
       this.confirmModalRef.nativeElement.classList = "modal";
     }
   }
-
+  
   sendFeedback(id, flag: string, action?: string) {
-    //var a = $('.myMatra').height();
-    ////$('.duplicateOptionImg ').height($('.myMatra').height());
-    ////$('.refQuesPopUp img').height($('.duplicateOptionImg').height());
-    this.count = 0;
+     this.count = 0;
     if (!this.clicked) {
       this.coverTop = false;
       this.coverBottom = true;
@@ -2833,20 +3062,30 @@ export class Ntemplate6 implements OnInit {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
-      $('.duplicateOptionImg ').addClass('topauto');
-      this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
-
+      for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
+      this.duplicateOption.nativeElement.children[i].classList.add('topauto');
+     }
+      
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) + 20 + "%";
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls"
+      if (this.feedbackObj.wrongAnswerpopupTxt.required) {
+        this.AnswerpopupTxt = true;
+        this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
+        this.Matra.nativeElement.classList.value = "refQues refQuesPopUp refQuesPopUp2";
+    } else {
+        this.AnswerpopupTxt = false;
+        this.Matra.nativeElement.classList.value = "refQues refQuesPopUp ";
+    }
       if (this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url) {
         this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
+        console.log("onended");
         this.appModel.enableNavBtn(false);
         this.appModel.handleController(this.controlHandler);
-        setTimeout(() => {
+        this.showAnssetTimeout = setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
           }
@@ -2854,13 +3093,14 @@ export class Ntemplate6 implements OnInit {
       }
     }
     if (action == "rightAnswer") {
-      $('.duplicateOptionImg ').addClass('topauto');
+       for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
+        this.duplicateOption.nativeElement.children[i].classList.add('topauto');
+       }
       this.flag = true;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
-      this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
-      if (id != undefined) {
+       if (id != undefined) {
         this.attemptType = "";
         this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 20 + "%";
         this.duplicateOption.nativeElement.children[id].style.zIndex = 1000;
@@ -2870,6 +3110,14 @@ export class Ntemplate6 implements OnInit {
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) + 20 + "%";
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
         this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionGreen"
+        if (this.feedbackObj.rightAnswerpopupTxt.required) {
+          this.AnswerpopupTxt = true;
+          this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
+          this.Matra.nativeElement.classList.value = "refQues refQuesPopUp refQuesPopUp2";
+      } else {
+          this.AnswerpopupTxt = false;
+          this.Matra.nativeElement.classList.value = "refQues refQuesPopUp ";
+      }
       }
 
       if (this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url) {
@@ -2880,32 +3128,33 @@ export class Ntemplate6 implements OnInit {
         this.appModel.enableNavBtn(false);
         this.appModel.handleController(this.controlHandler);
         this.appModel.handlePostVOActivity(false);
-        setTimeout(() => {
+        this.showAnssetTimeout = setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
-            this.blinkOnLastQues();
           }
-          this.appModel.moveNextQues();
-          if (this.duplicateOption.nativeElement && this.duplicateOption.nativeElement.children[id]) {
-            this.duplicateOption.nativeElement.children[id].style.opacity = 0;
-          }
-          (document.querySelector('.bodyContent') as HTMLElement).style.opacity = '0.3';
-          (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
-          this.bodyContentDisable = true;
-          this.InstructionVo = true;
+         
         }, this.showAnsTimeout);
       }
     }
     if (action == "showAnswer") {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
+      if (this.feedbackObj.showAnswerpopupTxt.required) {
+        this.AnswerpopupTxt = true;
+        this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
+        this.Matra.nativeElement.classList.value = "refQues refQuesPopUp refQuesPopUp2";
+    } else {
+        this.AnswerpopupTxt = false;
+        this.Matra.nativeElement.classList.value = "refQues refQuesPopUp ";
+    }
       this.flag = true;
       this.appModel.resetBlinkingTimer();
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
-      this.Matra.nativeElement.classList.value = "refQues refQuesPopUp";
-      $('.duplicateOptionImg ').addClass('topauto');
+      for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
+      this.duplicateOption.nativeElement.children[i].classList.add('topauto');
+     }
 
       if (id != undefined) {
         this.attemptType = "";
@@ -2925,10 +3174,10 @@ export class Ntemplate6 implements OnInit {
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        setTimeout(() => {
+       this.showAnssetTimeout = setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
-            this.blinkOnLastQues();
+             this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
           if (!this.flag) {
@@ -2945,7 +3194,9 @@ export class Ntemplate6 implements OnInit {
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
-      $('.duplicateOptionImg ').addClass('topauto');
+       for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
+        this.duplicateOption.nativeElement.children[i].classList.add('topauto');
+       }
     }
     if (flag == "no") {
       this.appModel.notifyUserAction();
@@ -2957,9 +3208,13 @@ export class Ntemplate6 implements OnInit {
       this.optionDisable = true;
     
       setTimeout(() => {
-        this.coverBottom = false;
         this.optionDisable = false;
-      }, 1000);
+       
+      }, 2000);
+      if(this.clicked){
+        this.coverBottom = false;
+      }
+      
       id.classList = "modal";
       if (this.flag) {
         this.mainContainer.nativeElement.style.opacity = "0.3";
@@ -3015,6 +3270,9 @@ export class Ntemplate6 implements OnInit {
   }
 
   closeModal() {
+    clearTimeout(this.showAnssetTimeout)
+    
+    ////clearInterval(this.showAnssetTimeout2);
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
@@ -3032,6 +3290,7 @@ export class Ntemplate6 implements OnInit {
 
     if (this.flag) {
       this.count = 1;
+      console.log("close modal blinking checking");
       this.blinkOnLastQues();
       this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
       this.mainContainer.nativeElement.style.opacity = "0.3";
@@ -3042,6 +3301,7 @@ export class Ntemplate6 implements OnInit {
       this.appModel.enableReplayBtn(false);
     } else {
       this.clicked = false;
+      console.log("this.appModel.wrongAttemptAnimation")
       this.appModel.wrongAttemptAnimation();
       this.coverTop = false;
       this.coverBottom = true;
@@ -3053,29 +3313,6 @@ export class Ntemplate6 implements OnInit {
     }
   }
 
-  closeModalManually() {
-    if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
-      this.feedbackPopupAudio.nativeElement.pause();
-      this.feedbackPopupAudio.nativeElement.currentTime = 0;
-    }
-    this.appModel.notifyUserAction();
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) - 20 + "%";
-    this.Matra.nativeElement.classList.value = "refQues";
-    this.answerModalRef.nativeElement.classList = "modal";
-    if (this.flag) {
-      this.blinkOnLastQues();
-      this.resetwithoutAttempt(this.optionObj[this.currentMatraNumberjson], this.currentMatraNumberjson);
-      this.mainContainer.nativeElement.style.opacity = "0.3";
-      (document.querySelector('.instructionBar') as HTMLElement).style.opacity = '0.3';
-
-      this.bodyContentDisable = true;
-      this.InstructionVo = true;
-    } else {
-      this.resetAttempt(this.optionObj[this.currentOptionNumber]);
-    }
-  }
 
 
 }
