@@ -64,6 +64,8 @@ button:focus {
 }
 #container .rowMid .optionsBlock{
   margin: auto;
+  position: absolute;
+  top:7%;
 }
 #container .rowMid .optionsBlock div{
   margin: 18% auto;
@@ -75,8 +77,8 @@ button:focus {
   width: 90%; */
 }
 #container .rowMid {
-  height: 75.5%;
-  margin: 1.4% 0;
+  height: 76%;
+  margin: 1.2% 0;
   display: flex;
   justify-content: space-between;
 }
@@ -99,7 +101,7 @@ button:focus {
   background-image: radial-gradient(#0074E2, #004589);
 	border: solid 1px #000;
 	border-radius: 33px;/*19vmin;*/
-  width:73.5%;
+  width:73.7%;
   position: relative;
 }
 @media (max-width: 1366px){
@@ -133,7 +135,7 @@ button:focus {
   top: .4%;
   font-size: 3.5vmin; */
   position: absolute;
-  width: 15%;
+  width: 14%;
   right: 2%;
   top: 3%;
   font-size: 3.5vmin;
@@ -189,6 +191,7 @@ button:focus {
 .rowMid .colRight .teamDetails {
   right: 14%;
   width: 33%;
+  bottom:5.5%;
 }
 .passBtn img{
   cursor: pointer;
@@ -304,8 +307,17 @@ button:focus {
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 }
+.instructionBarScoreboard{
+  width: 100%;
+}
+.instructionBaseScoreboard{
+  width: 46%;;
+}
 .modal-body img{
-	max-width: 94%;
+	max-width: 100%;
+}
+.modal-body-container{
+  width: 100%;
 }
 .modalBodyContent{
 	background: #afdec0;
@@ -599,12 +611,12 @@ button:focus {
 /* Modal Feedback classes begin */
 .teamNames {
   position: absolute;
-  width: 99.6%;
+  width: 98.2%;
   top: 26%;
   display: flex;
   justify-content: center;
   align-items: center;
-  left: .2%;
+  /* left: .2%; */
 }
 .teamNames .teamDetails{
   position: relative;
@@ -620,25 +632,29 @@ button:focus {
   margin-bottom: 5%;
 }
 .teamNames .teamDetails .rightAns {
-  padding: 33.4% 0;
+  /* padding: 33.4% 0; */
+  height: 27vmin;
   width: 100%;
-  border-top: solid .3vmin #8da3ab;
+  border-left:none!important;
+  /* border-top: solid .3vmin #8da3ab;
   border-right: solid .3vmin #8da3ab;
-  border-bottom: solid .3vmin #8da3ab;
+  border-bottom: solid .3vmin #8da3ab; */
   margin-bottom: 0;
 }
 .teamNames .teamDetails:last-child .rightAns {
-  border-right: none;
+  border-right: none !important;
 }
-.teamNames .teamDetails .rightAns.borderR {
-  /* border-right: solid .3vmin #8da3ab; */
-}
+
 .rightAns img {
   max-width: 70% !important;
+  width: 60%;
   position: absolute;
 }
 .teamNames .teamDetails .teamNameBase {
   max-width: 17%;
+}
+.teamNames .teamDetails .team_name img{
+  max-width: 52%;
 }
 .teamNames .teamDetails .team{
   max-width: 11%;
@@ -649,8 +665,8 @@ button:focus {
   position: absolute !important;
 }
 #modalfeedback .close {
-  right: .7%;
-  top: 2%;
+  right: 2.5%;
+  top: 5%;
   position: absolute;
   height: 7% !important;
 }
@@ -673,9 +689,10 @@ button:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 #container #modalfeedback .instructionBar {
-  top: 3%;
+  top: 6%;
 }
 #modalfeedback .instructionBase {
   width: 59%;
@@ -687,8 +704,8 @@ button:focus {
 }
 .navigate {
   position: absolute;
-  bottom: 2%;
-  width: 92%;
+  bottom: 4%;
+  width: 95%;
 }
 .navigate img {
   margin-left: 1.2%;
