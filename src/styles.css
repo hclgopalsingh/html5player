@@ -243,7 +243,7 @@ button:focus{
     position: absolute !important;
     width: 100% !important;
     text-align: center !important;
-    top: 6% !important;
+    top: 2.5vmin!important;
     display: none;
 }
 .rightWrongAns{
@@ -443,3 +443,14 @@ button:focus{
     	max-width: 8.52%;
 	}
 }
+
+.modal #instructionBarFeedback, 
+#modalPartialOptions #instructionBarPartial{
+	position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 2.5vmin!important;
+    display: none;
+}
+
+
