@@ -655,11 +655,21 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
 
   closeModal() {
     clearTimeout(this.wrongFeedbackAudioTimer);
+    if(this.popupBodyRef.nativeElement.children[0] !=undefined) {
     for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
       if (!this.popupBodyRef.nativeElement.children[0].children[i].children[1].paused) {
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].pause();
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].currentTime = 0;
       }
+    }
+    }
+    if(this.popupBodyRef.nativeElement.children[1] !=undefined) {
+    for (let i = 0; i < this.popupBodyRef.nativeElement.children[1].children.length; i++) {
+      if (!this.popupBodyRef.nativeElement.children[1].children[i].children[1].paused) {
+        this.popupBodyRef.nativeElement.children[1].children[i].children[1].pause();
+        this.popupBodyRef.nativeElement.children[1].children[i].children[1].currentTime = 0;
+      }
+    }
     }
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
@@ -919,6 +929,9 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
     }
     if (obj.questionAudio && obj.questionAudio.nativeElement) {
       obj.questionAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    }
+    if (obj.wrongFeedbackAudio && obj.wrongFeedbackAudio.nativeElement) {
+      obj.wrongFeedbackAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if(obj.popupBodyRef.nativeElement && obj.popupBodyRef.nativeElement.children[0]){
     for (let i = 0; i < obj.popupBodyRef.nativeElement.children[0].children.length; i++) {
@@ -1263,6 +1276,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       }
     } else {
         /*******"Please Try Again" audio at the end of all wrongfeedback audio Implementation*/
+        if(this.count == 0){
           this.wrongFeedbackAudioTimer=setTimeout(()=>{
           this.wrongFeedbackAudio.nativeElement.src=this.feedbackObj.partialwrongAnswerAudio.url;
           this.wrongFeedbackAudio.nativeElement.play();
@@ -1274,6 +1288,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
           }, 2000);
          } 
           },500);
+        }
       // setTimeout(() => {
       //   if (this.count == 0) {
       //     this.closeModal();
