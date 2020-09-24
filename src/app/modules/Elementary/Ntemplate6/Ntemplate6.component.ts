@@ -2638,7 +2638,7 @@ export class Ntemplate6 implements OnInit, OnDestroy {
   }
 
   replayVideo() {
-
+    this.clicked = false;
     this.replayClicked = true;
     this.skipButton = true;
     this.hideVideoBg = true;
