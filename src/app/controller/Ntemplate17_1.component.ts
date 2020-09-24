@@ -699,17 +699,14 @@ export class Ntemplate17_1 implements OnInit {
         layout: hindiLayout,
         display:{
           '{bksp}': 'backspace',
-          '{enter}': 'enter',
-          '{shift}': 'Switch',
-          '{lock}': 'Lock',
-          '{tab}': 'Tab',
-          '{space}': 'Space',
+          '{space}': '            Space                '
         },
+        maxLength: 12,
         buttonTheme:
         [
           {
             class: "hg-red",
-            buttons: "ब ह ग द"
+            buttons: "क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण अ आ इ ई उ ऊ ए ऐ औ ओ अं अः ऋ ड़ ढ़ त थ द ध न प फ ब भ म य र ल व श स ष ह क्ष श्र त्र ज्ञ ऋ"
           }
         ],
 

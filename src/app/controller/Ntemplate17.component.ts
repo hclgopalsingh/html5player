@@ -1209,6 +1209,7 @@ export class Ntemplate17 implements OnInit {
 
 
   clickBtn(id, opt) {
+    console.log("id",id,"opt",opt)
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
     if (id == "Normal") {
@@ -1281,7 +1282,8 @@ export class Ntemplate17 implements OnInit {
 
 
   clickBtnMatra(id, opt, evnt) {
-
+    console.log("id",id)
+    console.log("opt",opt)
     this.currentMatraNumber = id;
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
