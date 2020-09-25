@@ -237,6 +237,14 @@ button:focus{
 .ele #confirmModal .modal-body{height: 36%;}
 .ele .modal-body{
 	border-top: none !important;
+	padding: 0 !important;
+}
+.ele .modal #instructionBarFeedback {
+    position: absolute !important;
+    width: 100% !important;
+    text-align: center !important;
+    top: 2.5vmin!important;
+    display: none;
 }
 .rightWrongAns{
     position: absolute;
@@ -435,3 +443,14 @@ button:focus{
     	max-width: 8.52%;
 	}
 }
+
+.modal #instructionBarFeedback, 
+#modalPartialOptions #instructionBarPartial{
+	position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 2.5vmin!important;
+    display: none;
+}
+
+
