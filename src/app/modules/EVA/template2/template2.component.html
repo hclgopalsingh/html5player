@@ -15,7 +15,7 @@
       [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
       (load)="checkImgLoaded();" />
   </div>
-  <div #maincontent>
+  <div [ngClass]="{'disableDiv':disableMainContent}">
     <div id="instructionBar">
       <div class="instructionBase">
         <img class="img-fluid"
