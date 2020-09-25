@@ -87,7 +87,17 @@
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body d-flex flex-wrap align-content-center" [ngStyle]="styleBodyPopup">
+			<div class="modal-body d-flex flex-wrap align-content-center popupPadding" [ngStyle]="styleBodyPopup">
+				<!--<div class="instructionBase" [ngStyle]="{'display': AnswerpopupTxt ? 'flex' : 'none' }">
+					
+				  </div>-->
+			<div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            [ngClass]="{'dispFlex':AnswerpopupTxt}">
+            <div class="instructionBase">
+				<img class="img-fluid" [src]="popupHeader" />
+            </div>
+		  </div>
+		   
 				<div class="d-flex align-items-center justify-content-center ansImage">
 					<img class="img-fluid " [src]="question.bgImgsrc.url" (load)="checkImgLoaded();">
 					 <img class="img-fluid questionImg" [src]="question.imgsrc.url">
@@ -100,6 +110,7 @@
 					<img class="img-fluid" [src]="commonAssets?.ok_btn?.url" (mousemove)="hoverOk()"
 					(mouseleave)="houtOk()" (click)="closePopup()" />
 				</div>
+			 
 			</div>
 		</div>
 	</div>
