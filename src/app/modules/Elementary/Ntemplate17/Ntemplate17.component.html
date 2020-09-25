@@ -90,9 +90,9 @@
 				 (keypress)="keyPress()"/>
 			</div>
 			<!---->
-			<div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div>
+			<!-- <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> -->
 			<!-- Number keyboard-->
-			<div class="simple-keyboardImage" *ngIf="keyBoardVersion">
+			<!-- <div class="simple-keyboardImage" *ngIf="keyBoardVersion">
 				<img class="img-fluid" src="../../assets/images/content17/HindiKeyboard.png" alt="">
 				<div class="row1" (mousemove)="hoverRow1($event)" #row1>
 					<div *ngFor="let opt of rowIndex1; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click)="clickBtnMatra(opt.value, opt.index, $event)"></div>
@@ -113,7 +113,7 @@
 				<div class="numPad" (mousemove)="hovernumPad($event)" #numPad>
 					<div *ngFor="let opt of numPadIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click)="clickBtn(opt.value, opt)"></div>
 				</div>
-			</div>
+			</div> -->
 			<div class="simple-keyboard hg-theme-default hg-layout-default hideKeyboard" #mathKeyboardRef *ngIf="!keyBoardVersion">
 				<div class="hg-row">
 					<div class="hg-button hg-standardBtn" (click)="numberClick(1)">

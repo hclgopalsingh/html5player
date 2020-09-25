@@ -715,13 +715,16 @@ export class Ntemplate17Component implements OnInit {
 
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
-        this.layout = hindiLayout;
-        this.keyBoard1 = this.fetchedcontent.Keyboard;
-        this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
-        this.rowIndex2 = this.fetchedcontent.Keyboard[0].row2;
-        this.rowIndex3 = this.fetchedcontent.Keyboard[0].row3;
-        this.btmRowIndex = this.fetchedcontent.Keyboard[0].btmRow;
-        this.numPadIndex = this.fetchedcontent.Keyboard[0].numPadArray;
+        console.log("hindi", hindiLayout)
+        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","ऍ ॅ ्र ु ौ ै ा ू ः ी ँ ़ ॉ ो े ् ि ं ृ",,"अ आ इ ई उ ऊ ए ऐ औ ओ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","स ष ह क्ष {space} श्र त्र ज्ञ ऋ"],
+        shift:["~ {bksp}","{tab}फ ऱ ख थ छ ठ ब ह ग द ज ड","{lock} {enter}",'{shift} "" ँ ़ ॉ ो े ् ि ु ं {shift}',"@ {space}"]};
+        this.layout = newHindiLayout;
+        // this.keyBoard1 = this.fetchedcontent.Keyboard;
+        // this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
+        // this.rowIndex2 = this.fetchedcontent.Keyboard[0].row2;
+        // this.rowIndex3 = this.fetchedcontent.Keyboard[0].row3;
+        // this.btmRowIndex = this.fetchedcontent.Keyboard[0].btmRow;
+        // this.numPadIndex = this.fetchedcontent.Keyboard[0].numPadArray;
         this.inputDivRef.nativeElement.children[0].classList.add("inputHindiDiv");
         this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
@@ -929,9 +932,12 @@ export class Ntemplate17Component implements OnInit {
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
     }
     if (this.quesObj.lang == 'hindi') {
-      this.keyBoardVersion = this.commonAssets.keyboard.New;
+      this.inputDivRef.nativeElement.children[0].maxLength = "12";
+      // this.keyBoardVersion = this.commonAssets.keyboard.New;
       this.quesContainer.nativeElement.style.marginTop = 0 + "%";
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
+      this.keyboard = new Keyboard({ onKeyPress: button => this.onKeyPress(button), layout: this.layout, theme: "hg-hindi hg-theme-default"
+    });
     }
     if (this.layout == "mathLayout") {
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default";
