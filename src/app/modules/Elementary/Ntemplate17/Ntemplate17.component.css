@@ -1403,3 +1403,38 @@ input {
 #infoModalId .popupModelBody {
 	padding: 0;
 }
+
+/* .hg-hindi{
+  max-width: 73.7%;
+  position: absolute;
+  right: 11.3%;
+  top:  100%;
+  z-index: 101;
+} */
+
+.simple-keyboard.hg-layout-default .hg-button.hg-red {
+  background: rgb(82 75 75 / 70%) !important;
+  color: white;
+}
+
+.simple-keyboard {
+  max-width: 77.7%;
+  position: absolute;
+  right: 11.3%;
+  top:  99%;
+  z-index: 100;
+}
+
+ .simple-keyboard.hg-theme-default .hg-button {
+  height: 30px !important;
+}
+.hg-button span {
+  font-size: 1.3vmax !important;
+  font-weight: 500;
+  color: #fff;
+}
+
+.hg-button-space{
+  width: 37% !important
+}
+
