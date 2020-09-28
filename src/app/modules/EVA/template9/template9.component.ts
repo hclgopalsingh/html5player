@@ -368,6 +368,9 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
         const newNode = parser.parseFromString(data, 'text/xml');
         newNode.documentElement.style.maxWidth = '100%';
         newNode.documentElement.style.maxHeight = '100%';
+        while (document.getElementById('svgContainer').firstChild) {
+          document.getElementById('svgContainer').removeChild(document.getElementById('svgContainer').firstChild);
+        }
         document.getElementById('svgContainer').appendChild(newNode.documentElement);
       });
   }
