@@ -24,7 +24,7 @@
 			<div class="actionBox">
 				<div class="actionBtn">
 					<img class="img-fluid" [src]="testAssts?.right_tick?.url"
-					 (click)="addToRightList()" (mousemove)="hoverRightTick()" (mouseleave)="houtRightTick()" [ngClass]="{'disablePointer':selectedOptionArr[0]==''}"
+					 (click)="addToRightList()"  (mousemove)="hoverRightTick()" (mouseleave)="houtRightTick()" [ngClass]="{'disablePointer':selectedOptionArr[0]==''}"
 					/>
 					<img class="img-fluid" [src]="testAssts?.wrong_tick?.url"
 					 (click)="addToWrongList()" (mousemove)="hoverWrongTick()" (mouseleave)="houtWrongTick()" [ngClass]="{'disablePointer':selectedOptionArr[0]==''}"
@@ -35,11 +35,11 @@
 					/>
 					<!--<img class="img-fluid optionPicked" #optionPlaceRef [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />-->
 					<!--<img style.visibilty="hidden" class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />-->
-					<div #optionPlaceRef [ngClass]="{'animateWidth':selectedOptionArr.length>0}" class="optionPlace" *ngFor="let opt of selectedOptionArr"
-					 [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
-						<img *ngIf="selectedOptionArr.length>0" class="img-fluid" [src]="wordBox?.url"
+					<div #optionPlaceRef [ngClass]="{'animateWidth':selectedOptionArr.text!=''}" class="optionPlace" 
+					 [@wordTestbox]="{value:selectedOptionArr.state,params: {toTestBoxleft: selectedOptionArr.toTestBoxleft , toTestBoxtop: selectedOptionArr.toTestBoxtop}}" (@wordTestbox.done)="onAnimationEvent($event)" [ngStyle]="{'visibility':selectedOptionArr.text!=undefined? 'visible':'hidden'}">
+						<img *ngIf="selectedOptionArr.text!=''" class="img-fluid" [src]="wordBox?.url"
 						/>
-						<span [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
+						<span [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{selectedOptionArr.text}}</span>
 					</div>
 				</div>
 				<audio #feedbackPopupAudio></audio>
@@ -194,9 +194,9 @@
 				<img class="img-fluid" [src]="refBase?.url" (load)="checkImgLoaded();"/>
 				<div class="wordBlock disableIt" #wordBlockRef>
 					<div class="wordItem" [ngClass]="(wordObj.word!='')?'submitOpt':'placeHolderOpt'" *ngFor="let wordObj of wordArr; let idx = index;"
-					 [@wordActionbox]="wordObj.state" (@wordActionbox.done)="onAnimationEvent($event)" (click)="moveToBox(idx,wordObj.word);">
+					 [@wordActionbox]="wordObj.state" (@wordActionbox.done)="onAnimationEvent($event)">
 						<img class="img-fluid" [src]="wordBox?.url" />
-						<span id="boxWord" [@textinwordActionbox]="wordObj.stateTxt" [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
+						<span id="boxWord"  [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
 					</div>
 				</div>
 			</div>

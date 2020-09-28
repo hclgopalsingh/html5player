@@ -32,30 +32,32 @@ declare var $: any;
   animations: [
     trigger('wordActionbox', [
       state('wordBox', style({
-
+       'transform': 'scale(1.0)'
       })
       ),
       state('actionBox', style({
-        'left': '32%',
-        'top': '-123%',
-        'width': '36%'
+        'left': '41.5%',
+        'top': '-98%',
+        'transform': 'scale(2.2)'
       })
       ),
       transition('wordBox => actionBox', [
-        animate('0.8s')
+        animate('0.5s')
       ]),
     ]),
-    trigger('textinwordActionbox', [
-      state('textinwordBox', style({
-      'font-size':'1.5vmax'
+    trigger('wordTestbox', [
+      state('actionBox', style({
+
       })
       ),
-      state('textinactionBox', style({
-      'font-size':'3vmax'
-      })
+      state('testBox', style({
+        'left': '{{toTestBoxleft}}',
+        'top': '{{toTestBoxtop}}',
+        'transform': 'scale(0.226)'
+      }),{ params: { toTestBoxleft: 'auto', toTestBoxtop: 'auto' } }
       ),
-      transition('textinwordBox => textinactionBox', [
-        animate('0.8s')
+      transition('actionBox => testBox', [
+        animate('0.5s')
       ]),
     ])
   ],
@@ -195,7 +197,7 @@ export class Ntemplate17Component implements OnInit {
   selectedIdx: number = -1;
   currentRightListIdx: number = 0;
   currentWrongListIdx: number = 0;
-  selectedOptionArr: any = [];
+  selectedOptionArr: any = {};
   rightListArr: any = [];
   wrongListArr: any = [];
   videoStartTimer: any;
@@ -254,8 +256,11 @@ export class Ntemplate17Component implements OnInit {
   /*END: Theme Implementation(Template Changes)*/ 
   videoPlaytimer:number;
   instructionDisable:boolean;
-
-
+  toTestBoxleft:any;
+  toTestBoxtop:any;
+  midstate:any="actionBox";
+  counter:any=0
+  listtype:string="";
 
   ngAfterViewInit() {
   }
@@ -741,7 +746,8 @@ export class Ntemplate17Component implements OnInit {
       this.rightListArr.push("");
       this.wrongListArr.push("");
     }
-    this.selectedOptionArr.push("");
+    //this.selectedOptionArr.push("");
+    this.selectedOptionArr={};
     if (this.QuestionVideo != undefined) {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
@@ -836,6 +842,9 @@ export class Ntemplate17Component implements OnInit {
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();
+      setTimeout(()=>{
+        this.moveToBox(0,undefined);
+      },3000);
       $("#instructionBar").addClass("disable_div");
       this.appModel.enableReplayBtn(false);
       
@@ -984,8 +993,7 @@ export class Ntemplate17Component implements OnInit {
       let wordObj = {
         time: new Date().getTime(),
         word: this.inputVal,
-        state:"wordBox",
-        stateTxt:"textinwordBox"
+        state:"wordBox"
       }
       this.wordArr.push(wordObj);
 
@@ -1044,7 +1052,6 @@ export class Ntemplate17Component implements OnInit {
     this.selectedIdx = idx;
     // this.t_left = this.optionPlaceRef.nativeElement.getBoundingClientRect().left;
     this.wordArr[this.selectedIdx].state="actionBox";
-    this.wordArr[this.selectedIdx].stateTxt="textinactionBox";
     // let t_top = this.optionPlaceRef.nativeElement.getBoundingClientRect().top;
     // let f_left = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().left;
     // let f_top = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().top;
@@ -1060,42 +1067,64 @@ export class Ntemplate17Component implements OnInit {
 
   onAnimationEvent(event: AnimationEvent){
    console.log(event);
-  if(event.triggerName=="wordActionbox"){
+  if(event.fromState == "wordBox" && event.toState == "actionBox" && event.phaseName == "done"){
     this.pushToTestBox(this.selectedIdx, this.wordArr[this.selectedIdx].word);
+  }
+  if(event.fromState == "actionBox" && event.toState == "testBox" && event.phaseName == "done"){
+    if(this.listtype == "rightList"){
+      this.pushToRightList();
+    }
+    if(this.listtype == "wrongList") {
+      this.pushToWrongList();
+    }
+    this.counter++;
+    setTimeout(()=>{
+     this.moveToBox(this.counter,undefined);
+    },3000);
   }
   }
 
   addToWrongList() {
+    this.listtype="wrongList";
+    this.selectedOptionArr.state="testBox";
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedWrongListRef.nativeElement.children[this.currentWrongListIdx].getBoundingClientRect();
     this.optionPlaceRef.nativeElement.style.zIndex = "100";
-    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToWrongList());
-    $(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
-	this.wordBlockRef.nativeElement.classList = "wordBlock";
+    this.selectedOptionArr.toTestBoxleft = ((to.left - (from.left))*0.324)-0.5+ "%";
+    this.selectedOptionArr.toTestBoxtop = ((to.top - (from.top))*0.779)-23+ "%";
+    //$(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToWrongList());
+    //$(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
+	  this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
 
   addToRightList() {
+    this.listtype="rightList";
+    this.selectedOptionArr.state="testBox";
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedRightListRef.nativeElement.children[this.currentRightListIdx].getBoundingClientRect();
-    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToRightList());
-    $(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
-	this.wordBlockRef.nativeElement.classList = "wordBlock";
+    this.selectedOptionArr.toTestBoxleft = ((to.left - (from.left))*0.324)-0.5+ "%";
+    this.selectedOptionArr.toTestBoxtop = ((to.top - (from.top))*0.779)-23+ "%";
+    //this.toTestBoxwidth = to.width;
+    //$(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToRightList());
+    //$(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
+	  this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
 
   pushToTestBox(idx, word) {
     this.wordArr[idx].word = "";
-    this.selectedOptionArr[0] = word;
+    this.selectedOptionArr.text = word;
+    this.selectedOptionArr.state = this.wordArr[idx].state;
     this.noAttempts--;
     $("#optionPlaceId").addClass("animateWidth");
   }
 
   pushToRightList() {
-    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr[0]));
-    this.selectedOptionArr[0] = "";
+    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr.text));
+    this.selectedOptionArr.text = "";
     this.rightListArr[this.currentRightListIdx] = copyTxt;
     this.currentRightListIdx++;
     if (this.noAttempts == 0) {
@@ -1112,8 +1141,8 @@ export class Ntemplate17Component implements OnInit {
   }
 
   pushToWrongList() {
-    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr[0]));
-    this.selectedOptionArr[0] = "";
+    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr.text));
+    this.selectedOptionArr.text = "";
     this.wrongListArr[this.currentWrongListIdx] = copyTxt;
     this.currentWrongListIdx++;
     if (this.noAttempts == 0) {
