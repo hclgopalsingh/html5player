@@ -18,7 +18,7 @@
     /*width: 18%;*/
 	position: absolute;
     width: 12%;/* 18% updated on 11 April */
-    right: 14%; 
+    right: 17%; 
     margin-top:20px;
 }
 #ansBlock .options{
@@ -45,7 +45,7 @@
 #quesImage{
 	width: 46%;
     position: absolute;
-    left: 14%;
+    left: 17%;
 }
 #quesImage img{
 	/*cursor:pointer;*/
