@@ -243,6 +243,9 @@
     padding: 10px;
     left: -13%; */
 }
+.modal .ansImage{
+  margin-top: 1%;
+}
 .disappear-button{
 	visibility:hidden;
 }
@@ -336,7 +339,7 @@
     width: 100%;
     text-align: center; cursor: default;
   }
-  .closepopup_btn{text-align: center; clear:both; width: 100%; margin-top:2%;}
+  .closepopup_btn{text-align: center; clear:both; width: 100%; margin: 2% 0;}
   .closepopup_btn img{width: 10.4%; cursor: pointer;
     max-width: 10.4%;}
 

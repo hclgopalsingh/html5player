@@ -73,9 +73,9 @@ button:focus {
 #optionsBlock .options,
 .optionsBlock .options {
   position: relative;
-  margin: 1%;
+  margin: 2%;
   vertical-align: middle;
-  width: 31%;
+  width: 30%;
   display: inline-block;
   /*animation: scaleit 0.4s ease-in;*/
 }
