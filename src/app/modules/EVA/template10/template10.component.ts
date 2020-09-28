@@ -467,7 +467,7 @@ export class TemplateTenComponent implements OnInit {
     this.selectedIndex = id;
     this.refQuesWord.nativeElement.children[id].classList.add("blinkOn");
     //check if user clicked wrong akshar
-    if (!letter.iscorrect_ans) {
+    if(!letter.correct_index || this.questionObj.letters[this.selectedIndex].matraadded.length === Object.keys(this.questionObj.letters[this.selectedIndex].correct_ans.correct_ans_obj).length) {
       for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
         document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
       }

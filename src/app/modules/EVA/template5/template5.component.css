@@ -231,6 +231,9 @@
 .modal .rightAnsIcon {
     width: 15%;
 }
+.modal .keyContainer {
+    pointer-events: none;
+}
 .parentAnsContainer {
     position: absolute;
     left: 50.7%;
