@@ -42,7 +42,7 @@ import {
 })
 
 export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
-    private appModel: ApplicationmodelService;
+    private appModel: ApplicationmodelService;    
     constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
         this.appModel = appModel;
         if (!this.appModel.isVideoPlayed) {
@@ -177,6 +177,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     isShowOk: boolean = false;
     placeholderWidth = "7%";
     popupTxtRequired:boolean=false;
+    closeFeedbackPopup: NodeJS.Timer;
+    closeFeedbackPopup2: NodeJS.Timer;
     styleblockLeft = [
         { 'top': '33%', 'left': '24.8%' },
         { 'top': '33%', 'left': '32.8%' },
@@ -259,10 +261,15 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             if(this.audio && !this.audio.paused){
                 this.audio.pause();
                 this.audio.currentTime = 0;
-                this.instructionBar.nativeElement.classList = "instructionBase";
-                for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-                    if (this.mainContainer.nativeElement.children[i].children[0] && this.mainContainer.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
-                        this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
+                this.instructionDisable=false;
+                // for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
+                //     if (this.mainContainer.nativeElement.children[i].children[0] && this.mainContainer.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
+                //         this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
+                //     }
+                // }
+                for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                    if (this.optionRef.nativeElement.children[i].children[0] && this.optionRef.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
+                        this.optionRef.nativeElement.children[i].children[0].classList.remove("disableDiv");
                     }
                 }
             }            
@@ -481,12 +488,13 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     this.optionRef.nativeElement.children[i].children[0].classList.add("disableDiv");
                 }
             }
-            this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-            this.instructionDisable = false;
+            if (this.instructionVO && this.instructionVO.nativeElement.play) {
+                this.instructionVO.nativeElement.pause();
+                this.instructionVO.nativeElement.currentTime = 0;
+            }
+            this.instructionDisable = true;
             this.audio.onended = () => {
-                this.instructionBar.nativeElement.classList = "instructionBase";
+                this.instructionDisable = false;
                 for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
                     if (i != idx && this.optionRef.nativeElement.children[i].children[0]) {
                         this.optionRef.nativeElement.children[i].children[0].classList.remove("disableDiv");
@@ -509,25 +517,18 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.enableReplayBtn(false);
         this.startCount = 0;
         clearInterval(this.blinkTimeInterval);
-        this.blinkTimeInterval = 0;
-        // this.moveFrom = this.optionRef.nativeElement.children[idx].getBoundingClientRect();
-        // this.moveFrom = this.optionRef.nativeElement.children[idx];
+        this.blinkTimeInterval = 0;       
         this.selectedOpt.idx = idx;
-        // this.selectedOpt.moveFrom = JSON.parse(JSON.stringify(this.moveFrom));
-        // this.selectedOpt.moveTo = JSON.parse(JSON.stringify(this.moveTo));
         let copyOpt: any = JSON.parse(JSON.stringify(this.selectedOpt));
         this.selectedOptList.push(copyOpt);
-        // console.log(this.selectedOptList);
         this.zIndexvalue = this.zIndexvalue + 1;
         this.optionRef.nativeElement.children[idx].classList.add("controlCursor");
+        this.optionRef.nativeElement.children[idx].classList.add("disableDiv");
         this.optionRef.nativeElement.children[idx].children[0].style.zIndex = this.zIndexvalue;
         opt.isOpen = false;
-        // opt.leftPos = this.moveTo.left - (this.moveFrom.left + this.moveFrom.width * .16) + "%";
-        // opt.topPos = this.moveTo.top - (this.moveFrom.top + this.moveFrom.height * .14) + "%";     
         opt.leftPos = this.moveTo.left;
         opt.topPos = this.moveTo.top;
         opt.posWidth = this.placeholderWidth;
-        // this.optionRef.nativeElement.children[idx].classList.add("shrink_it");        
         this.startCount = 0;
         setTimeout(() => {
             this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
@@ -568,7 +569,6 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                     clearInterval(this.blinkTimeInterval);
                 }
                 this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
-                //this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
                 for (let i = 0; i < this.options.length; i++) {
                     let optFound = false;
                     for (let j = 0; j < this.selectedOptList.length; j++) {
@@ -635,14 +635,14 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
             this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
             this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
-            this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+            this.instructionDisable=true;
             this.quesVORef.nativeElement.play();
             this.appModel.enableReplayBtn(false);
             this.appModel.enableSubmitBtn(false);
             this.appModel.handlePostVOActivity(true);
             this.quesVORef.nativeElement.onended = () => {
                 this.mainContainer.nativeElement.classList = "bodyContent";
-                this.instructionBar.nativeElement.classList = "instructionBase";
+                this.instructionDisable=false;
                 this.startActivity();
                 this.appModel.handlePostVOActivity(false);
                 this.appModel.enableReplayBtn(true);
@@ -842,6 +842,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     sendFeedback(ref, flag: string, action?: string) {
         this.appModel.notifyUserAction();
         ref.classList = "modal";
+        clearTimeout(this.closeFeedbackPopup);
+        clearTimeout(this.closeFeedbackPopup2);
         this.isShowOk = false;
         if (action == "showAnswer") {
             this.showAnswerClicked = true;
@@ -934,7 +936,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }
             setTimeout(() => {
                 this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
-                setTimeout(() => {
+                this.closeFeedbackPopup=setTimeout(() => {
                     this.appModel.enableSubmitBtn(false);
                     this.setFeedbackAndPlayCorrect(0);
                 }, 0)
@@ -1007,7 +1009,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
 
                 setTimeout(() => {
                     this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
-                    setTimeout(() => {
+                    this.closeFeedbackPopup=setTimeout(() => {
                         this.setFeedbackAndPlayCorrect(0);
                     }, 0)
                 }, 0)
@@ -1019,7 +1021,6 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 }
             }
 
-            //this.resetActivity();
         }
 
     }
@@ -1219,6 +1220,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         for (let i = 0; i < this.options.length; i++) {
             this.optionRef.nativeElement.children[i].classList.remove('greyOut');
             this.optionRef.nativeElement.children[i].classList.remove('controlCursor');
+            this.optionRef.nativeElement.children[i].classList.remove("disableDiv");
         }
         this.selectedOptList.splice(0, this.selectedOptList.length);
         this.leftSelectedIdx = 0;
@@ -1342,7 +1344,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }
         }
         clearInterval(this.nextBtnInterval);
-        setTimeout(() => {
+        this.closeFeedbackPopup2=setTimeout(() => {
             this.setFeedbackAndPlayCorrect(0);
         }, 500)
         this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
