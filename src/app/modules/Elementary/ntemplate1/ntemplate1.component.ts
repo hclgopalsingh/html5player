@@ -856,19 +856,19 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
   onHoverOption(opt, i, j) {
     if (opt && opt != undefined) {
       if (this.narrator.nativeElement.paused) {
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
+        this.optionsBlock.nativeElement.children[i].children[j].style.cursor = "pointer";
+        this.optionsBlock.nativeElement.children[i].children[j].style.transform = "scale(1.1)";
+        this.optionsBlock.nativeElement.children[i].children[j].style.transition = "transform .3s ease";
       }
     }
   }
 
   OptionZoomOutAnimation(opt, i, j) {
     if (!this.checked && this.narrator.nativeElement.paused) {
-      opt.imgsrc = opt.imgsrc_original;
-      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
-      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = " ";
-      this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "default";
+      //opt.imgsrc = opt.imgsrc_original;
+      this.optionsBlock.nativeElement.children[i].children[j].style.transform = "scale(1.0)";
+      this.optionsBlock.nativeElement.children[i].children[j].style.transition = "transform .3s ease";
+      //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "default";
     }
   }
 
