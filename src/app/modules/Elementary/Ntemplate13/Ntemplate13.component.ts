@@ -298,6 +298,10 @@ export class Ntemplate13 implements OnInit {
 			$("#instructionBar").css("opacity", "0.3");
 			//   this.checked = true;
 		} else {
+			if(this.showAnsModalPopup){
+				this.removeEvents();
+			this.blinkOnLastQues();
+			}
 			console.log("closing modal")
 			this.popUpClosed = true;
 			this.wrongOptAudioPlaying = false;
