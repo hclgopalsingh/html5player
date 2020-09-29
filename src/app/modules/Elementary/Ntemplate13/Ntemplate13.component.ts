@@ -176,6 +176,7 @@ export class Ntemplate13 implements OnInit {
 	lastOpt: any;
 
 	onHoverOption(opt, index) {
+		this.disableSection = false;
 		//pauseinstruction VO
 		console.log("this.lastOpt:", this.lastOpt, "index:", index)
 		if (this.lastOpt != index) {
@@ -242,6 +243,16 @@ export class Ntemplate13 implements OnInit {
 		this.lastOpt = undefined
 	}
 	playHoverInstruction() {
+		for (var i = 0; i < this.myoption.length; i++) {
+			this.optionBlock.nativeElement.children[i].children[2].pause();
+			this.optionBlock.nativeElement.children[i].children[2].currentTime = 0;
+			this.optionBlock.nativeElement.children[i].children[1].className = "speaker";
+		}
+		for (let option = 0; option < this.myoption.length; option++) {
+
+			this.optionBlock.nativeElement.children[option].className = "options";
+
+		}
 		this.disableSection = true;
 		this.appModel.notifyUserAction();
 		if (!this.narrator.nativeElement.paused) {
@@ -299,6 +310,10 @@ export class Ntemplate13 implements OnInit {
 			//   this.checked = true;
 		} else {
 			if(this.showAnsModalPopup){
+				this.removeEvents();
+			this.blinkOnLastQues();
+			}
+			if(this.showAnsAuto){
 				this.removeEvents();
 			this.blinkOnLastQues();
 			}

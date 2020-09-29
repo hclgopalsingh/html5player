@@ -141,6 +141,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     disableOption: boolean = false;
     disableSpeaker: boolean = false;
     optionPlaying: boolean = false;
+    popupHeader:any;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -478,7 +479,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             this.styleBodyPopup = this.feedbackObj.style_body;
             if (this.feedbackObj.showAnswerpopupTxt.required) {
                 this.AnswerpopupTxt = true;
-                this.feedbackObj.rightAnswerpopupTxt.url = this.feedbackObj.showAnswerpopupTxt.url;
+                this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
             } else {
                 this.AnswerpopupTxt = false;
             }
@@ -549,7 +550,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.styleBodyPopup = this.feedbackObj.style_body;
                     if (this.feedbackObj.rightAnswerpopupTxt.required) {
                         this.AnswerpopupTxt = true;
-                        this.feedbackObj.rightAnswerpopupTxt.url = this.feedbackObj.rightAnswerpopupTxt.url;
+                        this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
                     } else {
                         this.AnswerpopupTxt = false;
                     }
@@ -573,7 +574,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.styleBodyPopup = this.feedbackObj.wrong_style_body;
                     if (this.feedbackObj.wrongAnswerpopupTxt.required) {
                         this.AnswerpopupTxt = true;
-                        this.feedbackObj.rightAnswerpopupTxt.url = this.feedbackObj.wrongAnswerpopupTxt.url;
+                        this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
                     } else {
                         this.AnswerpopupTxt = false;
                     }
@@ -725,7 +726,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.styleBodyPopup = this.feedbackObj.style_body;
         if (this.feedbackObj.wrongAnswerpopupTxt.required) {
             this.AnswerpopupTxt = true;
-            this.feedbackObj.rightAnswerpopupTxt.url = this.feedbackObj.showAnswerpopupTxt.url;
+            this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
         } else {
             this.AnswerpopupTxt = false;
         }
