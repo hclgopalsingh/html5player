@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { SignalrCustomModule } from './common/signalr';
 import { NouisliderModule } from 'ng2-nouislider';
@@ -21,6 +21,7 @@ import { DataloaderService } from './common/services/dataloader.service';
 import { HttphandlerService } from './common/services/httphandler.service';
 import { EvaModule } from './modules/EVA/eva.module';
 import { ContainerComponent } from './modules/Global/container/container.component';
+import { createCustomElement } from '@angular/elements';
 
 @NgModule({
   declarations: [
@@ -45,8 +46,15 @@ import { ContainerComponent } from './modules/Global/container/container.compone
 		EvaModule,
   ],
   providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
+  // entryComponents: [AppComponent]
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-  constructor(appModel: ApplicationmodelService) { }
+  constructor(appModel: ApplicationmodelService, private injector: Injector) { }
+  // ngDoBootstrap() {
+  //   const el = createCustomElement(AppComponent, { injector: this.injector });
+  //   if (!customElements.get('angular-9-comp')) {
+  //     customElements.define('angular-9-comp', el);
+  //   }
+  // }
 }

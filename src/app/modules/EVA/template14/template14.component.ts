@@ -41,25 +41,25 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
   }
 
 
-  @ViewChild("optionsBlock") optionsBlock: any;
-  @ViewChild('narrator') narrator: any;
-  @ViewChild('instruction') instruction: any;
-  @ViewChild('confirmModalRef') confirmModalRef: any;
-  @ViewChild('popupRef') popupRef: any;
-  @ViewChild('rightFeedbackVO') rightFeedbackVO: any
-  @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
-  @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  @ViewChild('monthDates') monthDates: any;
-  @ViewChild('monthDatesinPopup') monthDatesinPopup: any;
-  @ViewChild('footerNavBlock') footerNavBlock: any;
-  @ViewChild('speakerNormal') speakerNormal: any;
+  @ViewChild("optionsBlock", {static: true}) optionsBlock: any;
+  @ViewChild('narrator', {static: true}) narrator: any;
+  @ViewChild('instruction', {static: true}) instruction: any;
+  @ViewChild('confirmModalRef', {static: true}) confirmModalRef: any;
+  @ViewChild('popupRef', {static: true}) popupRef: any;
+  @ViewChild('rightFeedbackVO', {static: true}) rightFeedbackVO: any
+  @ViewChild('wrongFeedbackVO', {static: true}) wrongFeedbackVO: any;
+  @ViewChild('feedbackPopupAudio', {static: true}) feedbackPopupAudio: any;
+  @ViewChild('monthDates', {static: true}) monthDates: any;
+  @ViewChild('monthDatesinPopup', {static: true}) monthDatesinPopup: any;
+  @ViewChild('footerNavBlock', {static: true}) footerNavBlock: any;
+  @ViewChild('speakerNormal', {static: true}) speakerNormal: any;
   @ViewChild('disableSpeaker') disableSpeaker: any;
-  @ViewChild('sprite') sprite: any;
-  @ViewChild('overlay') overlay: any;
-  @ViewChild('clapSound') clapSound: any;
-  @ViewChild('wrongFeedback') wrongFeedback: any;
-  @ViewChild('rightFeedback') rightFeedback: any;
-  @ViewChild('showAnswerVideo') showAnswerVideo: any;
+  @ViewChild('sprite', {static: true}) sprite: any;
+  @ViewChild('overlay', {static: true}) overlay: any;
+  @ViewChild('clapSound', {static: true}) clapSound: any;
+  @ViewChild('wrongFeedback', {static: true}) wrongFeedback: any;
+  @ViewChild('rightFeedback', {static: true}) rightFeedback: any;
+  @ViewChild('showAnswerVideo', {static: true}) showAnswerVideo: any;
 
   LastquestimeStart: boolean = false;
   videoonshowAnspopUp: any;

@@ -558,6 +558,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
         if (this.rightFeedback && this.rightFeedback.nativeElement) {
           if (this.correctAnswerCounter === this.correctAnswerCount) {
             this.showRightAnswerPopup();
+            this.appModel.storeVisitedTabs();
           } else {
             this.setClappingTimer(this.rightFeedback);
             this.rightFeedback.nativeElement.onended = () => {

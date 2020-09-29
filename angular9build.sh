@@ -1,0 +1,2 @@
+#!/bin/sh
+ng build --prod --output-hashing=none && cat dist/shiksha-html5player/runtime-es5.js dist/shiksha-html5player/runtime-es2015.js dist/shiksha-html5player/polyfills-es5.js dist/shiksha-html5player/polyfills-es2015.js dist/shiksha-html5player/scripts.js dist/shiksha-html5player/main-es5.js dist/shiksha-html5player/main-es2015.js > preview/angular9update.js

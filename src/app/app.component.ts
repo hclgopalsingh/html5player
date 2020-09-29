@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ApplicationmodelService } from './common/services/applicationmodel.service';
 import { SharedserviceService } from './common/services/sharedservice.service';
@@ -43,6 +43,8 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 	subscription: Subscription;
 	Template: any;
 	isVideo: boolean = false;
+	@Input() parentTitle:string;
+	@Output() playerEvent = new EventEmitter<any>();
 
 
 	/*@HostListener('document:keyup', ['$event'])
@@ -66,6 +68,12 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 			this.resizeContainer();
 		}
 		this.appModel.getPreviewMode(this);
+		console.log("parent title",this.parentTitle);
+		this.appModel.eventSubject.subscribe(event => {
+			this.playerEvent.emit(event);
+			console.log("parent title inside subscription",this.parentTitle);
+			console.log("app component event",event);
+		});
 		console.log('appModel.navShow', this.appModel.navShow);
 		this.router.events.subscribe((event: Event) => {
 			this.isVideo = false;

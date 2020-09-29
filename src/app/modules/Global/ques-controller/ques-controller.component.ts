@@ -78,6 +78,9 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
+    if (sessionStorage.getItem("tabsVisited")) {
+      sessionStorage.removeItem("tabsVisited");
+    }
     this.subscriptionQuesNos = this.appModel.getNoOfQues().subscribe(num => {
       console.log("number of questions", num);
       this.noOfQues = num;
@@ -131,7 +134,23 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
         }
       });
       if (this.EVA) {
-        this.quesTabs = this.quesCtrl.quesTabs;
+        for (let i = 0; i < 5; i++) {
+          if (i > this.noOfQues - 1) {  // disabled question tab
+            this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleDisabled"];
+          }
+          else {
+            this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleUnVisited"];
+          }
+          if (sessionStorage.getItem("tabsVisited")) {  // tabs for which answer is given once
+            let visitedTabArr = JSON.parse(sessionStorage.getItem("tabsVisited"));
+            if (visitedTabArr.indexOf(i) > -1) {
+              this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleVisited"];
+            }
+          }
+          if (i == this.questionNo) { //current question tab
+            this.quesTabs[i] = this.quesCtrl.quesTabs["tabCircleActive"];
+          }
+        }
       } else {
         if (this.quesCtrl.quesTabs != undefined) {
           this.quesTabs = this.quesCtrl.quesTabs.slice(0, this.noOfQues);

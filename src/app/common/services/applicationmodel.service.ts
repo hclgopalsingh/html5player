@@ -58,6 +58,7 @@ export class ApplicationmodelService {
   _wrongAttemptAnimation = new Subject<any>();
   _autoPlaySubject = new Subject<any>();
   _blinkingSubject = new Subject<any>();
+  _eventSubject = new Subject<any>();
   //_resetTimerOnNewSeg = new Subject<any>();
   private attemptsNT8: any = [];
   private rightAttempt: any = [];
@@ -282,8 +283,12 @@ export class ApplicationmodelService {
     return this._firstQues.asObservable();
   }
 
+  get eventSubject() {
+    return this._eventSubject.asObservable();
+  }
 
   set event(value: any) {
+    this._eventSubject.next(value);
     console.log('ApplicationmodelService: event - value=', value);
     console.log('@@@@@@@@@@@@@@@@', value.action);
     const data = {
