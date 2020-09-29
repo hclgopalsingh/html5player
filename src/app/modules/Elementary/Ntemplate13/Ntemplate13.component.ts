@@ -313,6 +313,10 @@ export class Ntemplate13 implements OnInit {
 				this.removeEvents();
 			this.blinkOnLastQues();
 			}
+			if(this.showAnsAuto){
+				this.removeEvents();
+			this.blinkOnLastQues();
+			}
 			console.log("closing modal")
 			this.popUpClosed = true;
 			this.wrongOptAudioPlaying = false;
