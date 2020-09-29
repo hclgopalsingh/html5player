@@ -1237,7 +1237,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
   }
   playrightFeedbackAudioforPartialPopup(i) {
     let current = i;
-    if (this.rightansArray[i] && this.rightansArray[i].imgrightfeedback_audio) {
+    if (this.rightansArray[i] && this.rightansArray[i].img_partialinc_rightfeedback_audio) {
       this.feedbackAudio = this.rightansArray[i].img_partialinc_rightfeedback_audio;
       this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
@@ -1260,8 +1260,8 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
   }
   playwrongFeedbackAudioforPartialPopup(i) {
     let current = i;
-    if (this.wrongansArray[i] && this.wrongansArray[i].imgwrongfeedback_audio) {
-      this.feedbackAudio = this.wrongansArray[i].imgwrongfeedback_audio;
+    if (this.wrongansArray[i] && this.wrongansArray[i].img_partialinc_wrongfeedback_audio) {
+      this.feedbackAudio = this.wrongansArray[i].img_partialinc_wrongfeedback_audio;
       this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
