@@ -86,7 +86,7 @@
 			</div>
 			<div class="inputDiv" #inputDivRef>
 				<input type="text" (input)="onInputChange($event)" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
-				 placeholder={{inputFieldText}} [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();"
+				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();"
 				 (keypress)="keyPress()"/>
 			</div>
 			<!---->

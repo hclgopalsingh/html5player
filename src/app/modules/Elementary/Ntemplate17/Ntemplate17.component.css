@@ -1438,3 +1438,10 @@ input {
   width: 37% !important
 }
 
+.hideBtn {
+  display:none !important;
+}
+
+.hg-standardBtn:hover{
+  border: solid white 1.5px;
+}
