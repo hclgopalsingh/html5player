@@ -71,7 +71,7 @@ button:focus {
 .refQues .img-fluid{
   position: absolute;
   height: 100%;
-  -webkit-filter: none!important;;
+  -webkit-filter: none!important;
   filter: none!important;
   z-index: 0;
 }
@@ -79,7 +79,9 @@ button:focus {
   background: transparent;
   border: none;
   border-radius: 0;
-  height: 86%;
+  height: 81%;
+  position: absolute;
+  top: 19%;
   width: 100%;
   align-content: center;
   /* margin: 6vmin 13vmin; */
