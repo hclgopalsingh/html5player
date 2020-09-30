@@ -401,6 +401,15 @@ export class Ntemplate13 implements OnInit {
 		}
 
 		this.appModel.getConfirmationPopup().subscribe((val) => {
+			for (var i = 0; i < this.myoption.length; i++) {
+				this.optionBlock.nativeElement.children[i].children[2].pause();
+				this.optionBlock.nativeElement.children[i].children[2].currentTime = 0;
+				this.optionBlock.nativeElement.children[i].children[1].className = "speaker";
+
+				this.optionBlock.nativeElement.children[i].className = "options";
+			    this.optionBlock.nativeElement.children[i].children[0].style.cursor = "pointer";
+			}
+			 
 
 			if (val == "uttarDikhayein") {
 
