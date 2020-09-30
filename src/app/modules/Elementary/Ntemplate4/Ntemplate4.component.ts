@@ -260,8 +260,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             this.appModel.notifyUserAction(); 
             if(this.audio && !this.audio.paused){
                 this.audio.pause();
-                this.audio.currentTime = 0;
-                this.instructionDisable=false;
+                this.audio.currentTime = 0;                
                 // for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
                 //     if (this.mainContainer.nativeElement.children[i].children[0] && this.mainContainer.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
                 //         this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
@@ -277,6 +276,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             if (this.instructionVO && this.instructionVO.nativeElement.play) {
                 this.instructionVO.nativeElement.pause();
                 this.instructionVO.nativeElement.currentTime = 0;
+                this.instructionDisable=false;
             }       
             /*Disable Blink*/
             // clearInterval(this.blinkTimeInterval);
