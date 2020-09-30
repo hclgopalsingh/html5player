@@ -716,8 +716,7 @@ export class Ntemplate17Component implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ॅ ्र ु ौ ै ा ू ः ी ँ ़ ॉ ो े ि ं ृ",,"अ आ इ ई उ ऊ ए ऐ औ ओ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","स ष ह क्ष {space} श्र त्र ज्ञ ऋ"],
-        shift:["~ {bksp}","{tab}फ ऱ ख थ छ ठ ब ह ग द ज ड","{lock} {enter}",'{shift} "" ँ ़ ॉ ो े ् ि ु ं {shift}',"@ {space}"]};
+        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
         // this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
@@ -963,7 +962,7 @@ export class Ntemplate17Component implements OnInit {
       [
         {
           class: "hg-red",
-          buttons: "क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण अ आ इ ई उ ऊ ए ऐ औ ओ अं अः ऋ ड़ ढ़ त थ द ध न प फ ब भ म य र ल व श स ष ह क्ष श्र त्र ज्ञ ऋ"
+          buttons: "क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण अ आ इ ई उ ऊ ए ऐ औ ओ अं अः ऋ ड़ ढ़ त थ द ध न प फ ब भ म य र ल व श स ष ह क्ष श्र त्र ज्ञ ऋ ऍ  ॅ  ॉ"
         },
         {
           class:"hideBtn",
