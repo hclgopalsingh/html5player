@@ -381,8 +381,12 @@ export class VideoComponent implements OnInit {
 		this.quesRepeat.nativeElement.pause();
 		this.quesRepeat.nativeElement.currentTime = 0;
 	}
-	if(this.speakerBtn.nativeElement){
-		this.speakerBtn.nativeElement.children[1].style.display="none";
+	if (this.speakerBtn.nativeElement) {
+		this.speakerBtn.nativeElement.children[1].style.display = "none";
+	}
+	if (this.templateTypeEVA) {
+		this.assets.speaker = this.assets.speaker_original;
+	} else {
 		this.speakerBtn.nativeElement.children[1].className = "speaker";
 	}
    this.isPlaying = false;
