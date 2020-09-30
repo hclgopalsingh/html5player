@@ -19,6 +19,8 @@ body{
 	height:100%;
 	overflow:hidden;
 	position:relative;
+	font-size: small !important;
+	line-height: 1.5 !important;
 }
 button:focus{
     outline: none !important;
