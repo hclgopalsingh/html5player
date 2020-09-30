@@ -377,6 +377,14 @@ export class VideoComponent implements OnInit {
   }
 
   private playVideo(ct?: number) {
+	if(this.quesRepeat.nativeElement){
+		this.quesRepeat.nativeElement.pause();
+		this.quesRepeat.nativeElement.currentTime = 0;
+	}
+	if(this.speakerBtn.nativeElement){
+		this.speakerBtn.nativeElement.children[1].style.display="none";
+		this.speakerBtn.nativeElement.children[1].className = "speaker";
+	}
    this.isPlaying = false;
    if(this.mainVideo && this.mainVideo.nativeElement){
 	   if(ct) {
@@ -527,7 +535,7 @@ export class VideoComponent implements OnInit {
   }
 
   resumeSpecial(event) {
-    console.log('VideoComponent: resumeSpecial - event=', event);
+	console.log('VideoComponent: resumeSpecial - event=', event);
     // this.isPlaying = true;
     // this.mainVideo.nativeElement.play();
 	// this.fadeOutFlag = true;
