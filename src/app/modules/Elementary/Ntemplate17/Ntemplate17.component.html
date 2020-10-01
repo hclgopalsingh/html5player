@@ -1,4 +1,4 @@
-<div class="container-fluid temp14" id="container">
+<div class="ele container-fluid temp14" id="container">
 	<div id="bgImage">
 		<img class="img-fluid" [src]="commonAssets?.background?.url"
 		 (load)="checkImgLoaded();" />
@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<div class="bodyContent" #bodyContent>
-		<div class="testContainer flex-row justify-content-center align-items-center hideTestScreen" #testContainer>
+		<div class="testContainer flex-row justify-content-center align-items-center hideTestScreen" [ngClass]="{'disable_div':testContainerDisable}" #testContainer>
 			<div class="correctBox">
 				<img class="img-fluid" [src]="testAssts?.right_container?.url"/>
 				<div class="optionsList" #selectedRightListRef>
@@ -62,7 +62,7 @@
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
 				<ng-template [ngIf]="_questionAreaImageFlag || _questionAreaVideoFlag">
-					<img class="img-fluid" [src]="_questionAreaImage?.url">
+					<img class="img-fluid quesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
 				</ng-template>
 				
 
@@ -71,9 +71,16 @@
 					</ng-template>
 
 					<ng-template [ngIf]="_questionAreaAudioFlag">
-							<img class="img-fluid" id="questionAudioID" [src]="_questionAreaAudio?.imageUrl" (click)="questionAudioPlay()">
-							<span (click)="questionAudioPlay()">Play Audio</span>
+						<div class="audio-container" (click)="questionAudioPlay();" [ngClass]="{'disable_div':speakerdisable}">
+						<img class="img-fluid" [src]="_questionAreaAudio?.bgImg?.url"  (load)="checkImgLoaded();">
+						<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker?.url" (load)="checkImgLoaded();">
+						<div *ngIf="displayWave" class="waveAnimation">
+							<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker_sprite1?.url">
+							<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker_sprite2?.url">
+							<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker_sprite3?.url">
+						</div>
 							<audio #questionAudio></audio>
+						</div>
 						</ng-template>
 
 				<!--<ng-template [ngIf]="_questionAreaVideoFlag">
@@ -210,10 +217,10 @@
 				<div class="modal-header" [ngStyle]="submitPopupAssets?.style_header">
 					<img class="modal-title" [src]="submitPopupAssets?.headerTxt_img?.url">
 					<img class="close" [src]="submitPopupAssets?.close_btn?.url"
-					 (click)="sendFeedback(submitModalRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+					 (click)="sendFeedback(submitModalRef,'no');" (mousemove)="hoverCloseSubmitConfirm()" (mouseleave)="houtCloseSubmitConfirm()">
 				</div>
 
-				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="submitPopupAssets?.submit_popup?.style_body">
+				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="submitPopupAssets?.style_body">
 					<div class="msgImage">
 						<img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.url">
 					</div>
@@ -235,14 +242,14 @@
 	<div class="modal" id="modalTemp17" #feedbackModal>
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header">
-					<img class="modal-title fadeOut" [src]="feedbackObj?.headerTxt_img?.url">
-					<img class="close fadeOut" [src]="feedbackObj?.close_btn?.url"
+				<div class="modal-header" [ngStyle]="feedbackObj?.style_header">
+					<img class="modal-title " [src]="feedbackObj?.headerTxt_img?.url">
+					<img class="close" [src]="feedbackObj?.close_btn?.url"
 					 type="button" (click)="sendFeedback(feedbackModal,'no','feedbackDone');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body d-flex justify-content-center">
+				<div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
 					<div class="testContainer d-flex flex-row justify-content-center align-items-center" style="display:flex !important;">
 						<div class="correctBox">
 							<img class="img-fluid" [src]="feedbackObj?.corect_box?.url">
@@ -325,18 +332,23 @@
 </ng-template>
 
 </div>
-<div class="videoMainContainer" *ngIf="_questionAreaVideoFlag" style="visibility:hidden;">
-	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
+<div class="videoMainContainer"  style="visibility:hidden;">
+	<video #mainVideo *ngIf="_questionAreaVideoFlag" id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
 	 poster="assets/images/videoPoster.svg"  (ended)="endedHandler()">
 		<source [src]="_questionAreaVideo?.url"
 		 type="{{videoType}}">
 	</video>
-	<div id="playPauseBtn">
+	<img #fullImage *ngIf="_questionAreaImageFlag" poster="assets/images/videoPoster.svg" class="img-fluid" [src]="_questionAreaImage?.fullscreenImg?.url" />
+	<div *ngIf="_questionAreaVideoFlag" id="playPauseBtn">
 		<img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()"
 		 (click)="PlayPauseVideo()" />
 	</div>
-	<div id="SkipBtn" *ngIf="videoReplayd">
+	<div *ngIf="_questionAreaVideoFlag && videoReplayd" id="SkipBtn">
 		<img class="img-fluid" [src]="quesObj?.quesSkip?.url"
 		 (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" />
+	</div>
+	<div *ngIf="_questionAreaImageFlag" id="closeBtn">
+		<img class="img-fluid" [src]="quesObj?.quesSkip?.url"
+		 (click)="endedHandleronClose()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" />
 	</div>
 </div>
