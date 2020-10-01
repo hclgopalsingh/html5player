@@ -315,16 +315,17 @@ export class Ntemplate17Component implements OnInit {
 	  }
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
-      if (this.quesObj.lang == 'eng' || this.quesObj.lang == 'hindi') {
+      if (this.quesObj.lang == 'eng') {
         if (this.btnCounting > 0) {
           this.btnCounting -= 1;
           this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
         }
-
-
         //this.btnCounting-=1;
       }
-
+      if(this.quesObj.lang == 'hindi'){
+        this.btnCounting -= 1;
+        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
+      }
 
     } else if (this.btnCounting < this.maxCharacter) {
 	  if(button == "{space}") {
@@ -716,7 +717,7 @@ export class Ntemplate17Component implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
+        const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
         // this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
@@ -967,6 +968,10 @@ export class Ntemplate17Component implements OnInit {
         {
           class:"hideBtn",
           buttons: "a"
+        },
+        {
+          class:"hg-lightGrey",
+          buttons: "1 2 3 4 5 6 7 8 9 0 - . |"
         }
       ],
     });

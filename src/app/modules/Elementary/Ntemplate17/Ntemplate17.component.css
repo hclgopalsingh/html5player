@@ -1445,3 +1445,7 @@ input {
 .hg-standardBtn:hover{
   border: solid white 1.5px;
 }
+
+.simple-keyboard.hg-layout-default .hg-button.hg-lightGrey{
+  background: #A8A8A8 !important;
+}
