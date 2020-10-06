@@ -717,8 +717,8 @@ export class Ntemplate17Component implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 . - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
-        // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
+        // const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 . - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
+        const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
         // this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
