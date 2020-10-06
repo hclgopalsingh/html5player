@@ -32,30 +32,32 @@ declare var $: any;
   animations: [
     trigger('wordActionbox', [
       state('wordBox', style({
-
+       'transform': 'scale(1.0)'
       })
       ),
       state('actionBox', style({
-        'left': '32%',
-        'top': '-123%',
-        'width': '36%'
+        'left': '41.5%',
+        'top': '-98%',
+        'transform': 'scale(2.2)'
       })
       ),
       transition('wordBox => actionBox', [
-        animate('0.8s')
+        animate('0.5s')
       ]),
     ]),
-    trigger('textinwordActionbox', [
-      state('textinwordBox', style({
-      'font-size':'1.5vmax'
+    trigger('wordTestbox', [
+      state('actionBox', style({
+
       })
       ),
-      state('textinactionBox', style({
-      'font-size':'3vmax'
-      })
+      state('testBox', style({
+        'left': '{{toTestBoxleft}}',
+        'top': '{{toTestBoxtop}}',
+        'transform': 'scale(0.226)'
+      }),{ params: { toTestBoxleft: 'auto', toTestBoxtop: 'auto' } }
       ),
-      transition('textinwordBox => textinactionBox', [
-        animate('0.8s')
+      transition('actionBox => testBox', [
+        animate('0.5s')
       ]),
     ])
   ],
@@ -130,6 +132,7 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('infoModalRef') InfoModalRef: any;
   @ViewChild('questionVideo') QuestionVideo: any;
   @ViewChild('questionAudio') QuestionAudio: any;
+  @ViewChild('fullImage') fullImage: any;
 
 
 
@@ -195,7 +198,7 @@ export class Ntemplate17Component implements OnInit {
   selectedIdx: number = -1;
   currentRightListIdx: number = 0;
   currentWrongListIdx: number = 0;
-  selectedOptionArr: any = [];
+  selectedOptionArr: any = {};
   rightListArr: any = [];
   wrongListArr: any = [];
   videoStartTimer: any;
@@ -254,8 +257,14 @@ export class Ntemplate17Component implements OnInit {
   /*END: Theme Implementation(Template Changes)*/ 
   videoPlaytimer:number;
   instructionDisable:boolean;
-
-
+  toTestBoxleft:any;
+  toTestBoxtop:any;
+  midstate:any="actionBox";
+  counter:any=0
+  listtype:string="";
+  displayWave: boolean;
+  speakerdisable:boolean=false;
+  testContainerDisable:boolean=false;
 
   ngAfterViewInit() {
   }
@@ -328,13 +337,18 @@ export class Ntemplate17Component implements OnInit {
       }
 
     } else if (this.btnCounting < this.maxCharacter) {
-	  if(button == "{space}") {
+	  if(button == "{space}" && this.inputVal  != " ") {
 		this.inputVal  += " ";
-	  } else {
-		this.inputVal += button;
+	  } 
+    else {
+    if(button != "{space}"){
+     this.inputVal += button;
+    }  
 	  }		  
       this.btnCounting += 1;
+      if(this.inputVal  != " "){
       this.addBtnRef.nativeElement.style.opacity = "1";
+      }
     }
     else {
 
@@ -745,7 +759,8 @@ export class Ntemplate17Component implements OnInit {
       this.rightListArr.push("");
       this.wrongListArr.push("");
     }
-    this.selectedOptionArr.push("");
+    //this.selectedOptionArr.push("");
+    this.selectedOptionArr={};
     if (this.QuestionVideo != undefined) {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
@@ -814,6 +829,13 @@ export class Ntemplate17Component implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
+  hoverCloseSubmitConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_hover;
+  }
+  houtCloseSubmitConfirm() {
+    this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_original;
+  }
+
   hoverClosePopup() {
     this.feedbackObj.close_btn = this.feedbackObj.close_btn_hover;
   }
@@ -840,6 +862,9 @@ export class Ntemplate17Component implements OnInit {
       // this.postFeedbackAction();
     } else if (action == "submitAnswer") {
       this.showTestScreen();
+      setTimeout(()=>{
+        this.moveToBox(0,undefined);
+      },3000);
       $("#instructionBar").addClass("disable_div");
       this.appModel.enableReplayBtn(false);
       
@@ -1028,8 +1053,7 @@ export class Ntemplate17Component implements OnInit {
       let wordObj = {
         time: new Date().getTime(),
         word: this.inputVal,
-        state:"wordBox",
-        stateTxt:"textinwordBox"
+        state:"wordBox"
       }
       this.wordArr.push(wordObj);
 
@@ -1077,6 +1101,7 @@ export class Ntemplate17Component implements OnInit {
 
   showTestScreen() {
     this.noAttempts = this.wordArr.length;
+    this.testContainerDisable=true;
     this.testContainer.nativeElement.classList = "testContainer d-flex flex-row justify-content-center align-items-center";
     this.quesContainer.nativeElement.classList = "quesContainer flex-row justify-content-center align-items-center";
     this.quesContainer.nativeElement.classList = "quesContainer flex-row justify-content-center align-items-center hideTestScreen";
@@ -1088,7 +1113,6 @@ export class Ntemplate17Component implements OnInit {
     this.selectedIdx = idx;
     // this.t_left = this.optionPlaceRef.nativeElement.getBoundingClientRect().left;
     this.wordArr[this.selectedIdx].state="actionBox";
-    this.wordArr[this.selectedIdx].stateTxt="textinactionBox";
     // let t_top = this.optionPlaceRef.nativeElement.getBoundingClientRect().top;
     // let f_left = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().left;
     // let f_top = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().top;
@@ -1104,42 +1128,70 @@ export class Ntemplate17Component implements OnInit {
 
   onAnimationEvent(event: AnimationEvent){
    console.log(event);
-  if(event.triggerName=="wordActionbox"){
+  if(event.fromState == "wordBox" && event.toState == "actionBox" && event.phaseName == "done"){
+    this.testContainerDisable=false;
     this.pushToTestBox(this.selectedIdx, this.wordArr[this.selectedIdx].word);
+  }
+  if(event.fromState == "actionBox" && event.toState == "testBox" && event.phaseName == "done"){
+    if(this.listtype == "rightList"){
+      this.pushToRightList();
+    }
+    if(this.listtype == "wrongList") {
+      this.pushToWrongList();
+    }
+    this.counter++;
+    setTimeout(()=>{
+     this.testContainerDisable=false;
+    if(this.wordArr.length !== this.counter){
+     this.moveToBox(this.counter,undefined);
+    }
+    },3000);
   }
   }
 
   addToWrongList() {
+    this.listtype="wrongList";
+    this.testContainerDisable=true;
+    this.selectedOptionArr.state="testBox";
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedWrongListRef.nativeElement.children[this.currentWrongListIdx].getBoundingClientRect();
     this.optionPlaceRef.nativeElement.style.zIndex = "100";
-    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToWrongList());
-    $(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
-	this.wordBlockRef.nativeElement.classList = "wordBlock";
+    this.selectedOptionArr.toTestBoxleft = ((to.left - (from.left))*0.324)-0.5+ "%";
+    this.selectedOptionArr.toTestBoxtop = ((to.top - (from.top))*0.779)-23+ "%";
+    //$(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToWrongList());
+    //$(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
+	  this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
 
   addToRightList() {
+    this.listtype="rightList";
+    this.testContainerDisable=true;
+    this.selectedOptionArr.state="testBox";
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedRightListRef.nativeElement.children[this.currentRightListIdx].getBoundingClientRect();
-    $(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToRightList());
-    $(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
-	this.wordBlockRef.nativeElement.classList = "wordBlock";
+    this.selectedOptionArr.toTestBoxleft = ((to.left - (from.left))*0.324)-0.5+ "%";
+    this.selectedOptionArr.toTestBoxtop = ((to.top - (from.top))*0.779)-23+ "%";
+    //this.toTestBoxwidth = to.width;
+    //$(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToRightList());
+    //$(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
+	  this.wordBlockRef.nativeElement.classList = "wordBlock";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
 
   pushToTestBox(idx, word) {
     this.wordArr[idx].word = "";
-    this.selectedOptionArr[0] = word;
+    this.selectedOptionArr.text = word;
+    this.selectedOptionArr.state = this.wordArr[idx].state;
     this.noAttempts--;
     $("#optionPlaceId").addClass("animateWidth");
   }
 
   pushToRightList() {
-    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr[0]));
-    this.selectedOptionArr[0] = "";
+    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr.text));
+    this.selectedOptionArr.text = "";
     this.rightListArr[this.currentRightListIdx] = copyTxt;
     this.currentRightListIdx++;
     if (this.noAttempts == 0) {
@@ -1150,14 +1202,14 @@ export class Ntemplate17Component implements OnInit {
     }
 
     this.feedbackAudio = this.feedbackObj.right_sound;
-    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
 
   }
 
   pushToWrongList() {
-    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr[0]));
-    this.selectedOptionArr[0] = "";
+    let copyTxt = JSON.parse(JSON.stringify(this.selectedOptionArr.text));
+    this.selectedOptionArr.text = "";
     this.wrongListArr[this.currentWrongListIdx] = copyTxt;
     this.currentWrongListIdx++;
     if (this.noAttempts == 0) {
@@ -1166,7 +1218,7 @@ export class Ntemplate17Component implements OnInit {
       }, 3000)
     }
     this.feedbackAudio = this.feedbackObj.wrong_sound;
-    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
 
 
@@ -1508,6 +1560,10 @@ export class Ntemplate17Component implements OnInit {
     }
   }
 
+  endedHandleronClose(){
+    this.fullImage.nativeElement.parentElement.style.visibility="hidden";
+  }
+
 
   PlayPauseVideo() {
     if (this.PlayPauseFlag) {
@@ -1584,10 +1640,12 @@ export class Ntemplate17Component implements OnInit {
     }
     if(this._questionAreaAudioFlag) {
       this._setQuestionAudio = this._questionAreaAudio;
-      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.img_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       setTimeout(() => {
+        this.displayWave=true;
         this.QuestionAudio.nativeElement.play();
         this.QuestionAudio.nativeElement.onended=() => {
+          this.displayWave=false;
           this.blinkTextBox();
           this.instructionDisable=false;
           //this.instructionBar.nativeElement.classList = "instructionBase";
@@ -1613,6 +1671,12 @@ export class Ntemplate17Component implements OnInit {
     if (this._addWordFlag == true) {
       this.appModel.enableSubmitBtn(true);
     }
+  }
+
+  onclickImageorVideo(){
+    this.fullImage.nativeElement.parentElement.style.visibility="visible";
+    this.instruction.nativeElement.pause();
+    this.instruction.nativeElement.currentTime=0;
   }
 
 
@@ -1655,8 +1719,14 @@ export class Ntemplate17Component implements OnInit {
     if (this.QuestionAudio != undefined) {
 	  this.stopInstructionVO();
       this._setQuestionAudio = this._questionAreaAudio;
-      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.location == "content" ? this.containgFolderPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this._questionAreaAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.QuestionAudio.nativeElement.src = this._questionAreaAudio.img_audio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.displayWave=true;
+      this.speakerdisable=true;
       this.QuestionAudio.nativeElement.play();
+      this.QuestionAudio.nativeElement.onended=()=> {
+        this.displayWave=false;
+        this.speakerdisable=false;
+      }
     }
   }
 

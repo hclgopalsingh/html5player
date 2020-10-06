@@ -156,6 +156,19 @@ button:focus {
   cursor: pointer;
   width: 3.5%;/*1.5%*/
 }
+
+#closeBtn{
+  /*position: absolute;
+  top: 96.5%;
+  right: 1.7%;
+  cursor: pointer;
+  width: 16%;*/
+  position: absolute;
+  top: 86%;
+  right: .7%;/*-3.7%*/
+  cursor: pointer;
+  width: 3.5%;/*16%*/
+}
  
 /*#SkipBtn{
   position: absolute;
@@ -287,6 +300,29 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+}
+
+.refQuesImg {
+  position: absolute;
+  width: 22%;
+  top: 5%;
+  left: 2.5%;
+}
+
+.waveAnimation img{
+  position: absolute;
+  top: 5%;
+  left: 2.5%;
+}
+
+.audio-container{
+  cursor: pointer;
+}
+
+
+.waveAnimation img:nth-child(1) {
+  animation: blink1 normal infinite cubic-bezier(0, 0.5, 0.5, 0);
+  animation-duration: 1.5s;
 }
 
 #optionsBlock .refTxt,
@@ -452,7 +488,7 @@ button:focus {
 }
 
 #instructionBar .instructionBase {
-  width: 83%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
@@ -973,7 +1009,7 @@ html [type=button] {
 
 .addBtn{
 	text-align: center;
-    width: 7%;
+  width: 7%;
     /* padding: 0.5% 2%; */
 }
 
@@ -1061,7 +1097,7 @@ html [type=button] {
 .wordItem span {
   position: absolute;
 	font-size: 1.3vmax;
-  cursor: pointer;
+  cursor: default;
 }
 
 ul {
@@ -1253,6 +1289,11 @@ input {
    cursor: pointer;
 }
 */
+
+.quesImg{
+cursor: pointer
+}
+
 .optionPlace{
     display: inline-flex;
     justify-content: center;
@@ -1260,13 +1301,12 @@ input {
     position: absolute;
     /*top: 5%;
     left: 5%;*/
-    width: 90%;
+    width: 70%;
 }
 
 .optionPlace span {
     position: absolute;
 	font-size: 3vmax;
-   cursor: pointer;
 }
 .displayPopup {
   display: block;
@@ -1299,7 +1339,7 @@ input {
 
 .submitOpt{
   visibility: visible;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 .placeHolderOpt{
