@@ -10,16 +10,10 @@
   <div class="bodyContent" #mainContainer>
     <div class="matchBlock">
       <div class="matchHolder">
-        <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">
-        <!-- <div class="optSelectedHidden">
-          <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div> -->
+        <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">        
       </div>
       <div class="matchHolder">
-        <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
-        <!-- <div class="optSelectedHidden">
-          <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div> -->
+        <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">      
       </div>
     </div>
     <div #placeholderRefLeft>
