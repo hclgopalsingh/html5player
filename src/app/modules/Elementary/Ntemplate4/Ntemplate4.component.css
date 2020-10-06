@@ -469,6 +469,9 @@ button:focus {
   height: 100%;
   padding-left: 0px;
 }
+.modal .instructionBase img {
+  cursor: auto;
+}
 
 .modal.show {
   display: flex !important;
