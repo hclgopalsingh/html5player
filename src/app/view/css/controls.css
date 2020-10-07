@@ -21,7 +21,14 @@
 	-webkit-appearance: none;
 	margin-top: 0px;
 }
-.volumeslider{cursor: pointer;}
+.volumeslider,
+.volumesliderDisable{
+    cursor: pointer; 
+    left:-30% !important;
+}
+.volumesliderDisable{
+    cursor: default; 
+}
 #controlsContainer {
   display: flex;
 	align-items: center;
@@ -98,7 +105,7 @@ div#MuteVarTemp::after {
     background: rgba(0, 0, 0,.7) !important;
     border-radius: 3vmin;
     height: 321%;
-    width: 105%;
+    width: 100%;/*105%;*/
     position: absolute;
     left: 1%;
     bottom: -13%;
