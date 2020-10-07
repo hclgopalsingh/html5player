@@ -253,7 +253,6 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.showAnswerClicked = true;
                 this.isShowOk = false;
                 this.getAnswer();
-                //showAnswerclicked
             }
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
@@ -261,12 +260,6 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             if(this.audio && !this.audio.paused){
                 this.audio.pause();
                 this.audio.currentTime = 0;
-                this.instructionDisable=false;
-                // for (let i = 0; i < this.mainContainer.nativeElement.children.length; i++) {
-                //     if (this.mainContainer.nativeElement.children[i].children[0] && this.mainContainer.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
-                //         this.mainContainer.nativeElement.children[i].children[0].classList.remove("disableDiv");
-                //     }
-                // }
                 for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
                     if (this.optionRef.nativeElement.children[i].children[0] && this.optionRef.nativeElement.children[i].children[0].classList.contains("disableDiv")) {
                         this.optionRef.nativeElement.children[i].children[0].classList.remove("disableDiv");
@@ -277,12 +270,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             if (this.instructionVO && this.instructionVO.nativeElement.play) {
                 this.instructionVO.nativeElement.pause();
                 this.instructionVO.nativeElement.currentTime = 0;
+                this.instructionDisable=false;
             }       
-            /*Disable Blink*/
-            // clearInterval(this.blinkTimeInterval);
-            // this.blinkTimeInterval=0;
-            // this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-            // this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+            
             this.isOptionDisabled = true;
             if (val == "uttarDikhayein") {
                 clearTimeout(this.showAnsTimeout);
@@ -317,6 +307,10 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.postWrongAttempt.subscribe(() => {
             if (this.appModel.feedbackType == "fullyIncorrect" || this.appModel.feedbackType == "partialIncorrect") {
                 this.resetActivity();
+            }else if(this.appModel.feedbackType = "partialCorrect"){
+                if (this.selectableOpts > 0) {
+                    this.getRandomIndxBlink(this.selectableOpts);
+                } 
             }
             this.appModel.startPreviousTimer();
             this.appModel.notifyUserAction();
@@ -329,19 +323,15 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.templatevolume(this.appModel.volumeValue, this);
     }
 
-    ngOnDestroy() {
-        // if (this.quesVORef && this.quesVORef.nativeElement && this.quesVORef.nativeElement.play) {
-        //     this.quesVORef.nativeElement.pause();
-        //     this.quesVORef.nativeElement.currentTime = 0;
-        // }
+    ngOnDestroy() {        
         if(this.audio && !this.audio.paused){
             this.audio.pause();
 		    this.audio.currentTime = 0;
-        }       
-        clearInterval(this.blinkTimeInterval);
+        }
         clearTimeout(this.timerDelayActs);
         clearTimeout(this.nextFeedbackTimer);
         clearTimeout(this.showAnsTimeout);
+        clearInterval(this.blinkTimeInterval);
         this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
         this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
         /*Start: Theme Implementation(Template Changes)*/
@@ -367,10 +357,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.notifyUserAction();
         setTimeout(() => {
             this.isOptionDisabled = false;
-        }, 1000);
-        // if (this.selectableOpts > 0) {
-        //     this.getRandomIndxBlink(this.selectableOpts);
-        // }
+        }, 1000);        
     }
 
 
@@ -428,7 +415,6 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.leftRandomArray = JSON.parse(JSON.stringify(this.optionHolder.left_random_index));
         this.rightRandomArray = JSON.parse(JSON.stringify(this.optionHolder.right_random_index));
         this.completeRandomArr = this.leftRandomArray.concat(this.rightRandomArray);
-        // console.log(this.completeRandomArr);
         this.randomArray = new Array(this.questionObj.noOfOptions);
         this.maxRandomNo = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
         this.noOfImgs = this.commonAssets.imgCount;
@@ -442,15 +428,12 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         if (this.isLastQuesAct || this.isLastQues) {
             this.appModel.setlastQuesNT();
         }
-        // console.log(this.dummyImgs);
         for (let i = 0; i < this.questionObj.noOfOptions; i++) {
             this.randomArray[i] = i;
         }
         this.quesObj = this.fetchedcontent.quesObj;
         for (let i = 0; i < this.options.length; i++) {
-            this.options[i].isOpen = true;
-            // this.options[i].leftPos = "0";
-            // this.options[i].topPos = "0";
+            this.options[i].isOpen = true;            
         }
         /*Start: Theme Implementation(Template Changes)*/
         this.controlHandler = {
@@ -517,6 +500,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.enableReplayBtn(false);
         this.startCount = 0;
         clearInterval(this.blinkTimeInterval);
+        this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+        this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
         this.blinkTimeInterval = 0;       
         this.selectedOpt.idx = idx;
         let copyOpt: any = JSON.parse(JSON.stringify(this.selectedOpt));
@@ -531,8 +516,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         opt.posWidth = this.placeholderWidth;
         this.startCount = 0;
         setTimeout(() => {
-            this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
-            this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
+            // this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+            // this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
             if (this.blinkSide == "left") {
                 if (this.placeholderRefLeft.nativeElement.children[this.leftSelectedIdx]) {
                     this.leftSelectedIdx++;
@@ -567,6 +552,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             } else {
                 if (this.blinkTimeInterval) {
                     clearInterval(this.blinkTimeInterval);
+                    this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+                    this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
                 }
                 this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
                 for (let i = 0; i < this.options.length; i++) {
@@ -877,27 +864,20 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
-            this.appModel.wrongAttemptAnimation();
-            // if (this.selectableOpts > 0) {
-            //     this.getRandomIndxBlink(this.selectableOpts);
-            // }
+            this.appModel.wrongAttemptAnimation();            
         } else if (action == "cancelReplay") {
             this.appModel.videoStraming(false);
             this.appModel.enableReplayBtn(true);
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
-            // if (this.selectableOpts > 0) {
-            //     this.getRandomIndxBlink(this.selectableOpts);
-            // }
+            
         } else if (flag == "no") {
             console.log(this.selectableOpts);
             setTimeout(() => {
                 this.isOptionDisabled = false;
             }, 1000);
-            // if (this.selectableOpts > 0) {
-            //     this.getRandomIndxBlink(this.selectableOpts);
-            // } 
+            
         }
 
     }
@@ -907,6 +887,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         // let fetchedData: any = this.appModel.content.contentData.data;
         if (this.isAllRight) {            
             clearInterval(this.blinkTimeInterval);
+            this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+            this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
             this.appModel.stopAllTimer();
             console.log("show both category A and category B modal for all right");
             if (this.categoryA && this.categoryA.correct.length) {
@@ -951,6 +933,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 }/*Set Feedback Type for animation Complete*/
 
                 clearInterval(this.blinkTimeInterval);
+                this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+                this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
                 this.appModel.stopAllTimer();
                 console.log("show category A and category B modal for both right and wrong");
                 if (this.categoryA && (this.categoryA.correct.length || this.categoryA.incorrect.length)) {
@@ -1016,6 +1000,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             } else {
                 this.appModel.feedbackType = "partialCorrect";
                 this.infoModalRef.nativeElement.classList = "modal displayPopup";
+                clearInterval(this.blinkTimeInterval);
+                this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+                this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
                 if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement) {
                     this.partialFeedbackRef.nativeElement.play();
                 }
@@ -1212,7 +1199,6 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.isAllRight = false;
         for (let i = 0; i < this.selectedOptList.length; i++) {
             this.options[this.selectedOptList[i].idx].isOpen = true;
-            // this.optionRef.nativeElement.children[this.selectedOptList[i].idx].classList.remove("shrink_it");
             this.optionRef.nativeElement.children[this.selectedOptList[i].idx].children[0].style.zIndex = 1;
             this.zIndexvalue = 1;
         }
@@ -1227,6 +1213,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.rightSelectedIdx = 0;
         this.selectableOpts = JSON.parse(JSON.stringify(this.questionObj.noOfOptions));
         clearInterval(this.blinkTimeInterval);
+        this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+        this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
         this.completeRandomArr = this.leftRandomArray.concat(this.rightRandomArray);
         if (this.categoryA && this.categoryA.correct && this.categoryA.correct.length) {
             this.categoryA.correct.splice(0, this.categoryA.correct.length);
@@ -1407,6 +1395,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
 
     getAnswer() {
         clearInterval(this.blinkTimeInterval);
+        this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
+        this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
         this.attemptType = "auto";
         this.appModel.enableSubmitBtn(false);
         this.categoryA.correct.splice(0, this.categoryA.correct.length);
