@@ -22,8 +22,8 @@
     <div class="refQues" #matra>
 
       <ng-container *ngFor="let opt of refQuesArr;let idx = index">
-        <img id="matra{{idx}}" style="cursor: pointer !important" class="myMatra" [src]="opt?.url"
-          (click)="checkAnswerMatra(opt,idx)">
+        <img id="matra{{idx}}" [ngClass]="{'matraQue':opt.letters}"  style="cursor: pointer" class="myMatra" [src]="opt?.url"
+          (click)="checkAnswerMatra(opt,idx)"> 
       </ng-container>
       <img class="img-fluid" [src]="commonAssets?.qus_base?.url" (load)="checkImgLoaded();">
     </div>
