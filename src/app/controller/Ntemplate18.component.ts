@@ -3,6 +3,8 @@ import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { PlayerConstants } from '../common/playerconstants';
+import { ThemeConstants } from '../common/themeconstants';
+import { SharedserviceService } from '../services/sharedservice.service';
 
 
 declare var $: any;
@@ -16,7 +18,7 @@ declare var $: any;
 
 export class Ntemplate18 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -164,6 +166,10 @@ export class Ntemplate18 implements OnInit {
   styleHeaderPopup:any;
   styleBodyPopup:any;
   PlayPauseFlag:boolean = true;
+  fetchedcontent: any;
+  functionalityType: any;
+    themePath: any;
+     showAnsTimeout: any;
   /*
     hasEventFired:boolean = false;
     	if(!this.hasEventFired){
@@ -181,7 +187,7 @@ export class Ntemplate18 implements OnInit {
     clearInterval(this.blinkTimeInterval);
     this.startCount = 0;
     for (let i = 0; i < this.refcpyArray.length; i++) {
-      this.refQues.nativeElement.children[i].children[0].src = this.refcpyArray[i].imgsrc_original.location == "content" ? this.containgFolderPath + "/" + this.refcpyArray[i].imgsrc_original.url : this.assetsPath + "/" + this.refcpyArray[i].imgsrc_original.url;
+      this.refQues.nativeElement.children[i].children[0].src =  this.refcpyArray[i].imgsrc_original.url;
     }
     this.index1 = 0;
   }
@@ -224,9 +230,9 @@ export class Ntemplate18 implements OnInit {
     this.appModel.notifyUserAction();
     if (this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].paused && this.narrator.nativeElement.paused) {
       if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-        this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].src = this.containgFolderPath + "/" + opt.imgsrc_audio.url;
+        this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].src =  opt.imgsrc_audio.url;
       } else {
-        this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
+        this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].src =  opt.imgsrc_audio.url;
       }
       this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].load();
       if (!this.instruction.nativeElement.paused) {
@@ -279,10 +285,10 @@ export class Ntemplate18 implements OnInit {
       if (this.narrator.nativeElement.paused) {
         //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
         if (opt.imgsrc && opt.imgsrc.location == "content") {
-          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.containgFolderPath + "/" + opt.dropBoxImgHover.url;
+          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src =  opt.dropBoxImgHover.url;
         }
         else {
-          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.assetsPath + "/" + opt.dropBoxImgHover.url;
+          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src =  opt.dropBoxImgHover.url;
         }
       }
     }
@@ -307,12 +313,12 @@ export class Ntemplate18 implements OnInit {
     if (opt && opt != undefined) {
       if (opt.imgsrc && opt.imgsrc.location == "content") {
         if (!opt.placed) {
-          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.containgFolderPath + "/" + opt.dropBoxImg_original.url;
+          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src =  opt.dropBoxImg_original.url;
         }
       }
       else {
         if (!opt.placed) {
-          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.assetsPath + "/" + opt.dropBoxImg_original.url;
+          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src =  opt.dropBoxImg_original.url;
         }
       }
     }
@@ -491,7 +497,7 @@ export class Ntemplate18 implements OnInit {
             this.appModel.enableReplayBtn(true);
           }
           this.optionObj[idx].placed = false;
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.containgFolderPath + "/" + this.optionObj[idx].dropBoxImg_original.url;
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src =  this.optionObj[idx].dropBoxImg_original.url;
           this.refcpyArray[this.optionObj[idx].sequenceNo - 1].position = "top";
           //this.refcpyArray[this.prevIdx].previousIndex = this.prevIdx;
           //this.refcpyArray.push(this.refcpyArray[this.prevIdx]);
@@ -529,7 +535,7 @@ export class Ntemplate18 implements OnInit {
         $(this.refQues.nativeElement.children[this.index1].children[0]).animate({ left: this.moveleft, top: this.movetop }, 800, () => {
           clearInterval(this.blinkTimeInterval);
           this.isAllowed = true;
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.containgFolderPath + "/" + this.refQuesObj[this.index1].imgsrc_original.url;
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src =  this.refQuesObj[this.index1].imgsrc_original.url;
           this.refQues.nativeElement.children[this.index1].children[0].style.visibility = "hidden";
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItemVisible";
           this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
@@ -537,7 +543,7 @@ export class Ntemplate18 implements OnInit {
           this.refcpyArray[this.index1].placedInOption = idx;
           this.optionObj[idx].sequenceNo = this.refcpyArray[this.index1].sequenceNo;
           this.refQues.nativeElement.children[this.index1].children[0].style.cursor = "pointer";
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.containgFolderPath + "/" + this.optionObj[idx].dropBoxImgHover.url;
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src =  this.optionObj[idx].dropBoxImgHover.url;
           //if (this.countofAnimation != undefined) {
           //if (this.countofAnimation != 0 && this.optionObj[this.prevOptIdx].placed) {
           //  this.optionsBlock.nativeElement.children[0].children[this.prevOptIdx].children[1].style.pointerEvents = "none";
@@ -639,7 +645,7 @@ houtSkip(){
       $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
         clearInterval(this.blinkTimeInterval);
         this.countofAnimation--;
-        this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.containgFolderPath + "/" + this.optionObj[idx].dropBoxImg_original.url;
+        this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src =  this.optionObj[idx].dropBoxImg_original.url;
         this.optionObj[idx].placed = false;
         this.refcpyArray[this.optionObj[idx].sequenceNo - 1].position = "top";
         //this.refcpyArray[this.prevIdx].previousIndex = this.prevIdx;
@@ -688,7 +694,18 @@ houtSkip(){
     }
     this.containgFolderPath = this.getBasePath();
     this.appModel.functionone(this.templatevolume,this);
-
+    this.appModel.functionone(this.templatevolume, this);//start end
+    this.containgFolderPath = this.getBasePath();
+    let fetchedData: any = this.appModel.content.contentData.data;
+    //getting json data 
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+    this.appModel.globalJsonData.subscribe(data => {
+        this.showAnsTimeout = data.showAnsTimeout;
+    });
+    this.checkquesTab();
     this.setData();
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -815,7 +832,13 @@ houtSkip(){
 		});
     this.appModel.resetBlinkingTimer()
   }
-
+  checkquesTab() {
+    if (this.fetchedcontent.commonassets.ques_control != undefined) {
+        this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+        this.appModel.getJson();
+    }
+}
   postWrongAttempt(){
     this.resetAttempt();
     this.appModel.notifyUserAction();
@@ -885,7 +908,7 @@ houtSkip(){
 
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      this.narrator.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.narrator.nativeElement.src =   this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
       
@@ -928,7 +951,7 @@ houtSkip(){
       } else {
         clearInterval(this.blinkTimeInterval);
         for (let i = 0; i < this.refcpyArray.length; i++) {
-          this.refQues.nativeElement.children[i].children[0].src = this.refcpyArray[i].imgsrc_original.location == "content" ? this.containgFolderPath + "/" + this.refcpyArray[i].imgsrc_original.url : this.assetsPath + "/" + this.refcpyArray[i].imgsrc_original.url;
+          this.refQues.nativeElement.children[i].children[0].src =  this.refcpyArray[i].imgsrc_original.url;
         }
         //console.log(this.optionsBlock.nativeElement);
         //console.log(this.optionObj);
@@ -1002,13 +1025,13 @@ houtSkip(){
   setData() {
 
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+     ////let fetchedData: any = this.appModel.content.contentData.data;
+      ////console.log(fetchedData);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+      ////this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+      this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
@@ -1016,7 +1039,7 @@ houtSkip(){
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.refQuesObj = fetchedData.refQuesObj;
+      this.refQuesObj = this.fetchedcontent.refQuesObj;
       for (let x = 0; x < this.refQuesObj.length; x++) {
         this.refQuesObj[x].imgsrc = this.refQuesObj[x].imgsrc_original;
         this.refQuesObj[x].position = "top";
@@ -1030,21 +1053,21 @@ houtSkip(){
         this.indexArray.push(i);
         this.fetchAnswer.push(i);
       }
-      this.optionObj = fetchedData.optionObj;
+      this.optionObj = this.fetchedcontent.optionObj;
       for (let x = 0; x < this.optionObj.length; x++) {
         this.optionObj[x].placed = false;
       }
-      this.optionCommonAssets = fetchedData.option_common_assets;
+      this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
-      this.feedbackObj = fetchedData.feedback;
+      this.feedbackObj = this.fetchedcontent.feedback;
       this.correctImg = this.feedbackObj.popup_commmon_imgs.correctimg;
       this.incorrectImg = this.feedbackObj.popup_commmon_imgs.incorrectimg;
       this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.infoPopupAssets = fetchedData.feedback.info_popup;
-      this.submitPopupAssets = fetchedData.feedback.submit_popup;
-      this.replayconfirmAssets = fetchedData.feedback.replay_confirm;
-      this.quesObj = fetchedData.quesObj;
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.infoPopupAssets = this.fetchedcontent.feedback.info_popup;
+      this.submitPopupAssets = this.fetchedcontent.feedback.submit_popup;
+      this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
+      this.quesObj = this.fetchedcontent.quesObj;
       if (this.quesObj.questype == "image") {
         this.quesFlag = true;
       } else {
@@ -1159,7 +1182,7 @@ houtSkip(){
       if (this.countofAnimation != this.originalArray.length) {
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
-        this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         this.feedbackInfoAudio.nativeElement.play();
         this.appModel.notifyUserAction();
       } else {
@@ -1191,7 +1214,7 @@ houtSkip(){
       this.appModel.notifyUserAction();
       //let i = 0;
       for (let i = 0; i < this.refcpyArray.length; i++) {
-        this.refQues.nativeElement.children[i].children[0].src = this.refcpyArray[i].imgsrc_original.location == "content" ? this.containgFolderPath + "/" + this.refcpyArray[i].imgsrc_original.url : this.assetsPath + "/" + this.refcpyArray[i].imgsrc_original.url;
+        this.refQues.nativeElement.children[i].children[0].src =  this.refcpyArray[i].imgsrc_original.url;
       }
       //this.resetAttempt();
     }
@@ -1202,14 +1225,14 @@ houtSkip(){
       if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id) {
         console.log("RIGHT ANSWER");
         this.noOfRightAnsClicked++;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.correctImg.location == "content" ? this.containgFolderPath + "/" + this.correctImg.url : this.assetsPath + "/" + this.correctImg.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.fetchAnswer[x].imgsrc.url : this.assetsPath + "/" + this.fetchAnswer[x].imgsrc.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src =  this.correctImg.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src =  this.fetchAnswer[x].imgsrc.url;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = "img-fluid optItempopUp";
       } else {
         console.log("WRONG ANSWER");
         this.noOfWrongAnsClicked++;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.incorrectImg.location == "content" ? this.containgFolderPath + "/" + this.incorrectImg.url : this.assetsPath + "/" + this.incorrectImg.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.fetchAnswer[x].imgsrc.url : this.assetsPath + "/" + this.fetchAnswer[x].imgsrc.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src =  this.incorrectImg.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src =  this.fetchAnswer[x].imgsrc.url;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = "img-fluid optItempopUp";
       }
     }
@@ -1243,8 +1266,8 @@ houtSkip(){
 
   setRightFeedback() {
     for (let x = 0; x < this.feedbackObj.correct_ans_index.length; x++) {
-      this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.correctImg.location == "content" ? this.containgFolderPath + "/" + this.correctImg.url : this.assetsPath + "/" + this.correctImg.url;
-      this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.feedbackObj.correct_ans_index[x].correctimg.location == "content" ? this.containgFolderPath + "/" + this.feedbackObj.correct_ans_index[x].imgsrc.url : this.assetsPath + "/" + this.feedbackObj.correct_ans_index[x].imgsrc.url;
+      this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src =  this.correctImg.url;
+      this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src =  this.feedbackObj.correct_ans_index[x].imgsrc.url;
       this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = "img-fluid optItempopUp";
     }
     this.setplayrightFeedbackAudio(0);
@@ -1256,14 +1279,14 @@ houtSkip(){
       if (this.feedbackObj.correct_ans_index[i].id == this.fetchAnswer[i].id) {
         if (this.fetchAnswer[i] && this.fetchAnswer[i].correctAudio) {
           this.feedbackAudio = this.fetchAnswer[i].correctAudio;
-          this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
         }
       }
       else {
         if (this.fetchAnswer[i] && this.fetchAnswer[i].incorrectAudio) {
           this.feedbackAudio = this.fetchAnswer[i].incorrectAudio;
-          this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
         }
       }
@@ -1302,7 +1325,7 @@ houtSkip(){
     let current = i;
     if (this.feedbackObj.correct_ans_index[i] && this.feedbackObj.correct_ans_index[i].correctAudio) {
       this.feedbackAudio = this.feedbackObj.correct_ans_index[i].correctAudio;
-      this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackPopupAudio.nativeElement.src);
       this.feedbackPopupAudio.nativeElement.play();
       if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i].children[0]) {
@@ -1327,7 +1350,7 @@ houtSkip(){
     if (this.rightansArray1.length > 0) {
       if (this.rightansArray1[i] && this.rightansArray1[i].imgrightfeedback_audio) {
         this.feedbackAudio = this.rightansArray1[i].imgrightfeedback_audio;
-        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         console.log(this.feedbackPopupAudio.nativeElement.src);
         this.feedbackPopupAudio.nativeElement.play();
         if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i]) {
@@ -1347,7 +1370,7 @@ houtSkip(){
     } else {
       if (this.ansArray1[i] && this.ansArray1[i].imgrightfeedback_audio) {
         this.feedbackAudio = this.ansArray1[i].imgrightfeedback_audio;
-        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
         console.log(this.feedbackPopupAudio.nativeElement.src);
         this.feedbackPopupAudio.nativeElement.play();
         if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i]) {
@@ -1375,7 +1398,7 @@ houtSkip(){
     let current = i;
     if (this.rightansArray2[i] && this.rightansArray2[i].imgrightfeedback_audio) {
       this.feedbackAudio = this.rightansArray2[i].imgrightfeedback_audio;
-      this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackPopupAudio.nativeElement.src);
       this.feedbackPopupAudio.nativeElement.play();
       if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[1].children[i]) {
@@ -1399,7 +1422,7 @@ houtSkip(){
     let current = i;
     if (this.rightansArray[i] && this.rightansArray[i].imgrightfeedback_audio) {
       this.feedbackAudio = this.rightansArray[i].imgrightfeedback_audio;
-      this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackpartialPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
       if (this.partialpopupBodyRef && this.partialpopupBodyRef.nativeElement && this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i]) {
@@ -1424,7 +1447,7 @@ houtSkip(){
     let current = i;
     if (this.wrongansArray[i] && this.wrongansArray[i].imgwrongfeedback_audio) {
       this.feedbackAudio = this.wrongansArray[i].imgwrongfeedback_audio;
-      this.feedbackpartialPopupAudio.nativeElement.src = this.feedbackAudio.location == "content" ? this.containgFolderPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackpartialPopupAudio.nativeElement.src =  this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
       if (this.partialpopupBodyRef && this.partialpopupBodyRef.nativeElement && this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i]) {
@@ -1450,7 +1473,7 @@ houtSkip(){
       this.refcpyArray[i].position = "top";
       this.refQues.nativeElement.children[i].children[0].style.visibility = "";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = "img-fluid optItem";
-      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.containgFolderPath + "/" + this.optionObj[i].dropBoxImg_original.url;
+      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src =  this.optionObj[i].dropBoxImg_original.url;
       $(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
     }
     this.appModel.enableReplayBtn(true);
@@ -1468,12 +1491,12 @@ houtSkip(){
       if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
         if (this.ansArray1.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate optionsWidth";
-          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.containgFolderPath + "/" + this.ansArray1[i].imgrightfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.ansArray1[i].imgrightfeedback_audio.url;
         }
 
         if (this.AnsObj.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate";
-          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.containgFolderPath + "/" + this.AnsObj[0][i].imgrightfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.AnsObj[0][i].imgrightfeedback_audio.url;
         }
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].load();
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].play();
@@ -1496,11 +1519,11 @@ houtSkip(){
         $("#optionsBlock .options").css("pointer-events", "unset");
         if (this.ansArray1.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate optionsWidth";
-          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.containgFolderPath + "/" + this.ansArray1[i].imgwrongfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.ansArray1[i].imgwrongfeedback_audio.url;
         }
         if (this.AnsObj.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate";
-          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.containgFolderPath + "/" + this.AnsObj[0][i].imgwrongfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.AnsObj[0][i].imgwrongfeedback_audio.url;
         }
 
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].load();
@@ -1523,7 +1546,7 @@ houtSkip(){
         //this.popupBodyRef.nativeElement.children[1].children[j].classList = "options optionAnimate";
         this.popupBodyRef.nativeElement.children[1].children[j].classList.value += " optionAnimate";
         if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
-          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src = this.containgFolderPath + "/" + this.AnsObj[1][j].imgrightfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src =  this.AnsObj[1][j].imgrightfeedback_audio.url;
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].load();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].play();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].onended = () => {
@@ -1535,7 +1558,7 @@ houtSkip(){
           }
         }
         if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src = this.containgFolderPath + "/" + this.AnsObj[1][j].imgwrongfeedback_audio.url;
+          this.popupBodyRef.nativeElement.children[1].children[j].children[1].src =  this.AnsObj[1][j].imgwrongfeedback_audio.url;
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].load();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].play();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].onended = () => {
