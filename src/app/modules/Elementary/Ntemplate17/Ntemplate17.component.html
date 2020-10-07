@@ -61,10 +61,12 @@
 				<!-- [ngStyle]="quesObj?.bgColor"-->
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
-				<ng-template [ngIf]="_questionAreaImageFlag || _questionAreaVideoFlag">
+				<ng-template [ngIf]="_questionAreaImageFlag">
 					<img class="img-fluid quesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
 				</ng-template>
-				
+				<ng-template [ngIf]="_questionAreaVideoFlag">
+					<img class="img-fluid quesImg" [src]="_questionAreaVideo?.imageUrl?.url" (click)="onclickImageorVideo();">
+				</ng-template>
 
 				<ng-template [ngIf]="_questionAreaTextFlag">
 						<img class="img-fluid" [src]="quesObj?.quesImg?.url"><span>{{_questionAreaText}}</span>
@@ -121,7 +123,7 @@
 					<div *ngFor="let opt of numPadIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click)="clickBtn(opt.value, opt)"></div>
 				</div>
 			</div> -->
-			<div class="simple-keyboard hg-theme-default hg-layout-default hideKeyboard" #mathKeyboardRef *ngIf="!keyBoardVersion" style="font-family: Kruti Dev!important;">
+			<div class="simple-keyboard hg-theme-default hg-layout-default hideKeyboard" #mathKeyboardRef *ngIf="!keyBoardVersion">
 				<div class="hg-row">
 					<div class="hg-button hg-standardBtn" (click)="numberClick(1)">
 						<span>1</span>

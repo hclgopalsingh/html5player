@@ -255,7 +255,7 @@ export class Ntemplate17Component implements OnInit {
   functionalityType:any;
   showAnsTimeout:number;
   /*END: Theme Implementation(Template Changes)*/ 
-  videoPlaytimer:number;
+  videoPlaytimer:any;
   instructionDisable:boolean;
   toTestBoxleft:any;
   toTestBoxtop:any;
@@ -725,14 +725,17 @@ export class Ntemplate17Component implements OnInit {
 
       this._questionAreaVideoFlag = this.commonAssets.questionArea[0].video.flag;
       this._questionAreaImageFlag = this.commonAssets.questionArea[0].image.flag;
+      // if(this._questionAreaImageFlag){
+      //   this._questionAreaImage = this.commonAssets.questionArea[0].video
+      // }
       this._questionAreaTextFlag = this.commonAssets.questionArea[0].text.flag;
       this._questionAreaAudioFlag = this.commonAssets.questionArea[0].audio.flag;
 
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        // const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 . - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
-        const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
+        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 . - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
+        // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
         // this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
@@ -1127,7 +1130,7 @@ export class Ntemplate17Component implements OnInit {
   }
 
   onAnimationEvent(event: AnimationEvent){
-   console.log(event);
+   console.log(event,"yhi par hun--------->.>>>>>>");
   if(event.fromState == "wordBox" && event.toState == "actionBox" && event.phaseName == "done"){
     this.testContainerDisable=false;
     this.pushToTestBox(this.selectedIdx, this.wordArr[this.selectedIdx].word);
@@ -1674,9 +1677,20 @@ export class Ntemplate17Component implements OnInit {
   }
 
   onclickImageorVideo(){
-    this.fullImage.nativeElement.parentElement.style.visibility="visible";
-    this.instruction.nativeElement.pause();
-    this.instruction.nativeElement.currentTime=0;
+    if(this._questionAreaVideoFlag){
+      console.log("show video")
+      this.mainVideo.nativeElement.parentElement.style.visibility="visible";
+      this.mainVideo.nativeElement.play();
+      this.mainVideo.nativeElement.onended = () => {
+        this.mainVideo.nativeElement.currentTime = 0;
+        this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
+      }
+    }
+    else{
+      this.fullImage.nativeElement.parentElement.style.visibility="visible";
+      this.instruction.nativeElement.pause();
+      this.instruction.nativeElement.currentTime=0;
+    }
   }
 
 
