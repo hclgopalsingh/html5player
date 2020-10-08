@@ -2,7 +2,7 @@
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar">
     <div class="instructionBase" #instructionBar>
-      <img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url"
+      <img [ngClass]="{'pointerCursor':pointerCursor}" class="img-fluid"  (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url"
         (load)="checkImgLoaded();" />
     </div>
     <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
@@ -16,10 +16,10 @@
             <img class="img-fluid"
               [src]="option?.selected ? option?.imgsrc_active?.url : option?.imgsrc?.url"
               (load)="checkImgLoaded();">
-            <img class="img-fluid upArrow" (click)="movePrevious(idx,opt);" [src]="optionObjCopy?.moveUpBtn?.url"
-              (mouseover)="hoverPre(option,idx)" (mouseleave)="hleavePre(option,idx)">
-            <img class="img-fluid downArrow" (click)="moveNext(idx,opt);" [src]="optionObjCopy?.moveDownBtn?.url"
-              (mouseover)="hoverNext(option,idx)" (mouseleave)="hleaveNext(option,idx)">
+                <img [ngClass]="{'d-none':first}" class="img-fluid upArrow" (click)="movePrevious(idx,opt);" [src]="optionObjCopy?.moveUpBtn?.url"
+                  (mouseover)="hoverPre(option,idx)" (mouseleave)="hleavePre(option,idx)">
+                <img [ngClass]="{'d-none':last}" class="img-fluid downArrow" (click)="moveNext(idx,opt);" [src]="optionObjCopy?.moveDownBtn?.url"
+                  (mouseover)="hoverNext(option,idx)" (mouseleave)="hleaveNext(option,idx)">
           </div>
         </div>
       </div>
