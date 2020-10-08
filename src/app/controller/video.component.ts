@@ -377,6 +377,18 @@ export class VideoComponent implements OnInit {
   }
 
   private playVideo(ct?: number) {
+	if(this.quesRepeat.nativeElement){
+		this.quesRepeat.nativeElement.pause();
+		this.quesRepeat.nativeElement.currentTime = 0;
+	}
+	if (this.speakerBtn.nativeElement) {
+		this.speakerBtn.nativeElement.children[1].style.display = "none";
+	}
+	if (this.templateTypeEVA) {
+		this.assets.speaker = this.assets.speaker_original;
+	} else {
+		this.speakerBtn.nativeElement.children[1].className = "speaker";
+	}
    this.isPlaying = false;
    if(this.mainVideo && this.mainVideo.nativeElement){
 	   if(ct) {
@@ -527,7 +539,7 @@ export class VideoComponent implements OnInit {
   }
 
   resumeSpecial(event) {
-    console.log('VideoComponent: resumeSpecial - event=', event);
+	console.log('VideoComponent: resumeSpecial - event=', event);
     // this.isPlaying = true;
     // this.mainVideo.nativeElement.play();
 	// this.fadeOutFlag = true;
@@ -556,6 +568,12 @@ export class VideoComponent implements OnInit {
 			this.volumeBar.nativeElement.className = "volumeslider";
 			/*let selectBox = <HTMLElement>document.getElementById("MuteVar");
 			(<HTMLInputElement><any>selectBox.children[0]).checked = false;*/
+		}
+		if(event.target.value == 0){
+			this.appModel.isMute = true;
+			this.MuteVar.nativeElement.children[0].checked = true;
+			this.volumeBtn = this.volumeMute;
+			this.volumeBar.nativeElement.className = "volumesliderDisable";
 		}
 	}
   }
