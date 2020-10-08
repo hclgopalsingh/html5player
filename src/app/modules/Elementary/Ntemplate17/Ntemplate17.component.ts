@@ -140,21 +140,21 @@ export class Ntemplate17Component implements OnInit {
 
 
   @HostListener('document:click', ['$event'])
-  clickout(event) {
-    let openFlag: boolean = false;
-    if (!this.keyBoardVersion) {
-      if (((!this.inputDivRef.nativeElement.contains(event.target))) && ((!this.simpleKeyboardRef.nativeElement.contains(event.target)))) {
-        if (this.keyboard) {
-          //this.keyboard.destroy();
-        }
-      }
+  // clickout(event) {
+  //   let openFlag: boolean = false;
+  //   if (!this.keyBoardVersion) {
+  //     if (((!this.inputDivRef.nativeElement.contains(event.target))) && ((!this.simpleKeyboardRef.nativeElement.contains(event.target)))) {
+  //       if (this.keyboard) {
+  //         //this.keyboard.destroy();
+  //       }
+  //     }
 
-      if (!(this.mathKeyboardRef && this.mathKeyboardRef.nativeElement.contains(event.target)) && !(this.inputDivRef.nativeElement.contains(event.target))) {
-        // this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
-      }
-    }
+  //     if (!(this.mathKeyboardRef && this.mathKeyboardRef.nativeElement.contains(event.target)) && !(this.inputDivRef.nativeElement.contains(event.target))) {
+  //       // this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
+  //     }
+  //   }
 
-  }
+  // }
 
   audio = new Audio();
   blink: boolean = false;
@@ -734,7 +734,7 @@ export class Ntemplate17Component implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 . - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र श्र ज्ञ ऋ ऍ ॅ ॉ"]}
+        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 . - | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श श","ष स ह क्ष {space} त्र श्र ज्ञ ॠ ऍ ॅ ॉ"]}
         // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
@@ -992,7 +992,7 @@ export class Ntemplate17Component implements OnInit {
       [
         {
           class: "hg-red",
-          buttons: "क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण अ आ इ ई उ ऊ ए ऐ औ ओ अं अः ऋ ड़ ढ़ त थ द ध न प फ ब भ म य र ल व श स ष ह क्ष श्र त्र ज्ञ ऋ ऍ  ॅ  ॉ"
+          buttons: "क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण अ आ इ ई उ ऊ ए ऐ औ ओ अं अः ऋ ड़ ढ़ त थ द ध न प फ ब भ म य र ल व श स ष ह क्ष श्र त्र ज्ञ ॠ ऍ  ॅ  ॉ"
         },
         {
           class:"hideBtn",
@@ -1085,6 +1085,7 @@ export class Ntemplate17Component implements OnInit {
       this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
       if (this.inputVal != '') {
         let wordObj = {
+          state:"wordBox",
           time: new Date().getTime(),
           word: this.inputVal
         }

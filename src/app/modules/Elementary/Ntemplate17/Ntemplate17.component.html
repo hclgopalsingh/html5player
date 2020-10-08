@@ -65,7 +65,10 @@
 					<img class="img-fluid quesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
 				</ng-template>
 				<ng-template [ngIf]="_questionAreaVideoFlag">
-					<img class="img-fluid quesImg" [src]="_questionAreaVideo?.imageUrl?.url" (click)="onclickImageorVideo();">
+					<div class="audio-container">
+					<img class="img-fluid" [src]="_questionAreaVideo?.bgImg?.url"  (load)="checkImgLoaded();">
+					<img class="img-fluid refQuesImg" [src]="_questionAreaVideo?.imageUrl?.url" (click)="onclickImageorVideo();">
+					</div>
 				</ng-template>
 
 				<ng-template [ngIf]="_questionAreaTextFlag">
