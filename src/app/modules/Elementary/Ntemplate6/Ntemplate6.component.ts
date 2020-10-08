@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
@@ -41,7 +41,7 @@ declare var $: any;
 
 })
 
-export class Ntemplate6 implements OnInit, OnDestroy {
+export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -259,7 +259,7 @@ export class Ntemplate6 implements OnInit, OnDestroy {
   disableSection: boolean = false;
   speakerPointer:boolean = false;
   optionDisable:boolean = false;
-  
+  destroy:boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -2143,6 +2143,9 @@ export class Ntemplate6 implements OnInit, OnDestroy {
       }
     })
     this.appModel.getConfirmationPopup().subscribe((val) => {
+      this.disableSection = false;
+        this.InstructionVo = true;
+        this.bodyContentDisable = false;
 
       if (val == "uttarDikhayein") {
         this.InstructionVo = true;
@@ -2175,6 +2178,16 @@ export class Ntemplate6 implements OnInit, OnDestroy {
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
           this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         }
+        if (this.Myspeaker && this.Myspeaker.nativeElement) {
+          this.Myspeaker.nativeElement.pause();
+          this.Myspeaker.nativeElement.currentTime = 0;
+          this.speakerWave = false;
+        }
+        if (this.instructionVO && this.instructionVO.nativeElement) {
+          this.instructionVO.nativeElement.pause();
+          this.instructionVO.nativeElement.currentTime = 0;
+          this.disableSpeaker = false;
+        }
       }
     });
 
@@ -2201,19 +2214,23 @@ export class Ntemplate6 implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroy = true;
+     
     this.quesVORef.nativeElement.pause();
-		this.quesVORef.nativeElement.currentTime = 0;
+    this.quesVORef.nativeElement.currentTime = 0;
+    this.feedbackPopupAudio.nativeElement.pause();
+    this.feedbackPopupAudio.nativeElement.currentTime = 0;
+    clearTimeout(this.showAnssetTimeout);
+     
+    
+    
     this.refQuesArr = [];
     this.QuesArr = [];
-    clearTimeout(this.showAnssetTimeout);
-    ////clearInterval(this.showAnssetTimeout2);
+ 
   }
 
   ngAfterViewInit() {
-    //   alert('ngAfterViewInit');
-    //this.appModel.setLoader(false);
-    //this.checkforQVO();
-
+ 
   }
 
   playHoverInstruction() {
@@ -2340,6 +2357,7 @@ export class Ntemplate6 implements OnInit, OnDestroy {
     }
   }
   checkAnswer(opt, id) {
+    this.appModel.enableReplayBtn(false);
     for (let i = 0; i < this.options.length; i++) {
       this.options[i].isOpen = false;
       this.options[i].leftPos = "0";
@@ -2630,10 +2648,10 @@ export class Ntemplate6 implements OnInit, OnDestroy {
       obj.audio.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.mainVideo && obj.mainVideo.nativeElement) {
-      this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+      obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.Myspeaker && obj.Myspeaker.nativeElement) {
-      this.Myspeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+      obj.Myspeaker.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
   }
 
@@ -3080,6 +3098,8 @@ export class Ntemplate6 implements OnInit, OnDestroy {
       if (this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url) {
         this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
+      console.log('playing feedbackPopupAudio');
+if(!this.destroy){
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         console.log("onended");
@@ -3091,6 +3111,7 @@ export class Ntemplate6 implements OnInit, OnDestroy {
           }
         }, this.showAnsTimeout);
       }
+    }
     }
     if (action == "rightAnswer") {
        for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
@@ -3123,6 +3144,7 @@ export class Ntemplate6 implements OnInit, OnDestroy {
       if (this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url) {
         this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
+      if(!this.destroy){
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         this.appModel.enableNavBtn(false);
@@ -3135,6 +3157,7 @@ export class Ntemplate6 implements OnInit, OnDestroy {
          
         }, this.showAnsTimeout);
       }
+    }
     }
     if (action == "showAnswer") {
       this.styleHeaderPopup = this.feedbackObj.style_header;
@@ -3290,7 +3313,6 @@ export class Ntemplate6 implements OnInit, OnDestroy {
 
     if (this.flag) {
       this.count = 1;
-      console.log("close modal blinking checking");
       this.blinkOnLastQues();
       this.duplicateOption.nativeElement.children[this.currentMatraNumberjson].style.filter = "grayscale(100%) brightness(0) saturate(0)";
       this.mainContainer.nativeElement.style.opacity = "0.3";
@@ -3301,7 +3323,6 @@ export class Ntemplate6 implements OnInit, OnDestroy {
       this.appModel.enableReplayBtn(false);
     } else {
       this.clicked = false;
-      console.log("this.appModel.wrongAttemptAnimation")
       this.appModel.wrongAttemptAnimation();
       this.coverTop = false;
       this.coverBottom = true;
