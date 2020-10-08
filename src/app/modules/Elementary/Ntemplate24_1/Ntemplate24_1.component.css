@@ -61,7 +61,7 @@ button:focus {
   border:solid 0px transparent;
 }
 
-#playPauseBtn {
+/* #playPauseBtn {
   position: absolute;
   top: 85%;
   right: 16%;
@@ -83,8 +83,22 @@ button:focus {
 }
 #SkipBtn img {
   max-width: 70%;
+} */
+#playPauseBtn {
+  position: absolute;
+  top: 86%;
+  right: .7%;
+  cursor: pointer;
+  width: 3.5%;
 }
 
+#SkipBtn {  
+  position: absolute;
+  top: 86%;
+  right: 5%;
+  cursor: pointer;
+  width: 3.5%;
+}
 .refQues img{
   width: 100%;
 }
@@ -658,16 +672,29 @@ button:focus {
 	padding: 0;
 }
 
-.videoMainContainer{
+/* .videoMainContainer{
   width:100%;
   height:auto;
   position:relative;
   top:0;
   left:0;
   z-index: 101;
+} */
+.videoMainContainer{
+  width:100%;
 }
-
-.video_loader{
+.videoWrapper{
+  width: 99.9%;
+  height:100%;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+.videoMainContainer .videoBg{
+  opacity: 0;
+}
+/* .video_loader{
 	position: absolute;
     width: 100%;
     top: 0%;
@@ -675,7 +702,7 @@ button:focus {
 }
 .video_loader img{
 	width:100%;
-}
+} */
 .optionAnimate{
 	transform: scale(1.1);
 	animation: scaleOption 0.2s linear;

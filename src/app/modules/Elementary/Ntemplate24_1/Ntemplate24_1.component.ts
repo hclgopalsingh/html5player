@@ -143,6 +143,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   bgSubscription: Subscription;
   /*End: Theme Implementation(Template Changes)*/
   showAnsTimeout: number;
+  quesSkip: boolean = false;
 
   playHoverInstruction() {
     if (!this.instructionVO.nativeElement.paused) {
@@ -172,30 +173,26 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   hoverPre(opt, idx) {
-
-    //this.optionObjCopy.moveUpBtn = this.optionObjCopy.moveUpBtn_hover;
-    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_hover.location == "content" ? this.containgFolderPath + "/" + this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
   }
   hleavePre(opt, idx) {
-    //this.optionObjCopy.moveUpBtn = this.optionObjCopy.moveUpBtn_original;
-    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_original.location == "content" ? this.containgFolderPath + "/" + this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
   }
   hoverNext(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_hover.location == "content" ? this.containgFolderPath + "/" + this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
-    //this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
   }
   hleaveNext(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_hover.location == "content" ? this.containgFolderPath + "/" + this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
-    //this.optionObjCopy.moveDownBtn = this.optionObjCopy.moveDownBtn_original;
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
   }
 
   playSound(soundAssets, idx) {
     if (this.audio && this.audio.paused) {
-      if (soundAssets.location == 'content') {
-        this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-      } else {
-        this.audio.src = soundAssets.url;
-      }
+      // if (soundAssets.location == 'content') {
+      //   this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
+      // } else {
+      //   this.audio.src = soundAssets.url;
+      // }
+      this.audio.src = soundAssets.url
       this.audio.load();
       this.audio.play();
       for (let i = 0; i < this.mainContainer.nativeElement.children[0].children[0].children.length; i++) {
@@ -339,7 +336,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.containgFolderPath = this.getBasePath();
     /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
-    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));
+    console.log("Mayank"+this.fetchedcontent);
     this.functionalityType = this.appModel.content.contentLogic.functionalityType;
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
     this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
@@ -503,7 +501,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   checkforQVO() {
     this.isVideoLoaded = true;
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
-      this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
       this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
       this.quesVORef.nativeElement.play();
@@ -529,10 +527,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       // let fetchedData: any = this.appModel.content.contentData.data;
       // console.log(fetchedData);
       this.feedback = this.fetchedcontent.feedback;
+      console.log("Shefali"+this.fetchedcontent);
       this.commonAssets = this.fetchedcontent.commonassets;
       this.narratorAudio = this.fetchedcontent.commonassets.narrator;
-      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
-      this.ques_control = this.fetchedcontent.commonassets.ques_control;
+      // this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+      // this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
@@ -558,7 +557,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.quesObj = this.fetchedcontent.quesObj;
       if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
         this.isPlayVideo = true;
-        //sessionStorage.setItem("isPlayVideo", "true");
       } else {
         this.isPlayVideo = false;
       }
@@ -743,6 +741,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     } else if (action == "submitAnswer") {
       this.getAnswer('submitAnswer');
     } else if (action == "replay") {
+      this.quesSkip = true;
       this.replayVideo();
     } else if (action == "resetActivity") {
       //this.resetActivity();
@@ -834,7 +833,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     } else {
       feedbackVo = optionsAssets[num].incorrect_vo;
     }
-    this.feedbackAudio.nativeElement.src = feedbackVo.location == "content" ? this.containgFolderPath + "/" + feedbackVo.url : this.assetsPath + "/" + feedbackVo.url;
+    this.feedbackAudio.nativeElement.src = feedbackVo.url;
     this.feedbackAudio.nativeElement.play();
     this.feedbackOption.nativeElement.children[num].children[0].classList = "img-fluid optionAnimate";
     this.feedbackAudio.nativeElement.onended = () => {
