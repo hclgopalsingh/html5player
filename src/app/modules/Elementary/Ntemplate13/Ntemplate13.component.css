@@ -74,6 +74,9 @@
 .modal .speakerImage{
     width: 15%;
 }
+.modal .speakerd{
+  top: 28%;
+}
 @-webkit-keyframes play {
    from { background-position:    400%; }
      to { background-position: 0%;  }
