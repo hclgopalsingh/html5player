@@ -309,6 +309,7 @@ export class Ntemplate13 implements OnInit {
 			$("#instructionBar").css("opacity", "0.3");
 			//   this.checked = true;
 		} else {
+			this.disableSpeaker = true;
 			if(this.showAnsModalPopup){
 				this.removeEvents();
 			this.blinkOnLastQues();
@@ -988,6 +989,7 @@ export class Ntemplate13 implements OnInit {
 	}
 	//TRY HERE
 	closePopup() {
+		this.disableSpeaker = true;
 		if (this.showAnsModalPopup) {
 			this.feedbackVoRef.nativeElement.pause();
 			this.wrongOptAudio.nativeElement.pause();
