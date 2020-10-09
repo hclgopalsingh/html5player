@@ -19,7 +19,7 @@ button:focus {
   cursor: pointer;
 }
 .inputHindiDiv {
-  font-family: 'Kruti Dev 010';
+  font-family: sans-serif;
 }
 
 #inputKeyboard{
@@ -992,7 +992,7 @@ html [type=button] {
 	width: 60.7%;
 	height: 54%;
 	margin: 0 2.6%;
-  font-family: 'Kruti Dev 010';
+  font-family: sans-serif;
 }
 
 .inputDiv input{
