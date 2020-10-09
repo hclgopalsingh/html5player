@@ -16,10 +16,10 @@ button:focus {
 }
 .bodyContent {
   position: absolute;
-  top: 16%;
+  top: 18%;
   width: 100%;
   left: 0;
-  height: 72%;
+  height: 69%;
   text-align: -webkit-center;
 }
 .bodyContent .speaker {
@@ -166,7 +166,7 @@ button:focus {
   position: relative;
   /* margin: 0% 1%; */
   vertical-align: middle;
-  width: 65%;
+  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -227,11 +227,11 @@ button:focus {
 /* } */
 
 .upArrow {
-  left: 1%;
+  left: 2%;
   cursor: pointer;
 }
 .downArrow {
-  right: 1%;
+  right: 2.5%;
   cursor: pointer;
 }
 
@@ -355,21 +355,15 @@ button:focus {
   text-align: center;
   line-height: 0;
 }
-#container .modal .instructionBar {
+/* #container .modal .instructionBar {
   top: 1%;
-}
+} */
 .instructionBar .instructionBase {
   width: 60%;/*86%;*/
   position: relative;
-  /* cursor: pointer; */
+  cursor: pointer;
+}
 
-}
-.instructionBase .instructionText {
-  position: absolute;
-  top: 0%;
-  left:0;
-  /* cursor: pointer; */
-}
 /* Modal */
 .modal{
 	position: absolute !important;
@@ -387,6 +381,10 @@ button:focus {
   /* max-height: 100%; */
   margin-left: 1.5%;
   height: 80%;
+}
+#instructionBarFeedback .instructionBaseFeedback {
+  width: 100%;
+  position: relative;
 }
 .close {
 	width: auto;
@@ -475,7 +473,7 @@ button:focus {
   margin: 1% auto;
 }
 #container .modal #optionsBlock {
-  margin-top: 0;
+  margin-top: 6%;
 }
 @keyframes scaleit {
 	0% {
