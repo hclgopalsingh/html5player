@@ -73,6 +73,13 @@
 }
 .modal .speakerImage{
     width: 15%;
+    position: absolute; /*for layout change*/
+    right: 10%; /*for layout change*/
+    top: 37%; /*for layout change*/
+}
+.modal .speakerd{
+  top: 28%;
+  left: 73.4%; /*for layout change*/
 }
 @-webkit-keyframes play {
    from { background-position:    400%; }
@@ -245,6 +252,7 @@
 }
 .modal .ansImage{
   margin-top: 1%;
+  margin-right: 21%; /*for layout change*/
 }
 .disappear-button{
 	visibility:hidden;
@@ -285,6 +293,11 @@
 	position:absolute;
 	right:0.5%;
 	bottom:1%;
+}
+@media (min-width: 576px){
+  .modal-dialog {
+    margin: 0 auto !important;
+  }
 }
 /* css update ends - 27 March */
 @media (min-width: 800px) and (max-width: 1299px){
