@@ -73,7 +73,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.assetsPath = this.appModel.assetsfolderpath;
         this.appModel.navShow = 2;
     }
-
+    destroy = true;
     audio = new Audio();
     blink: boolean = false;
     currentIdx = 0;
@@ -142,6 +142,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     disableSpeaker: boolean = false;
     optionPlaying: boolean = false;
     popupHeader:any;
+    disableAllOption = false;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -221,6 +222,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
     ngOnDestroy() {
+        this.destroy = true;
     }
 
     ngAfterViewChecked() {
@@ -466,6 +468,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     sendFeedback(ref, flag: string, action?: string) {
+        this.appModel.handlePostVOActivity(false);
         this.appModel.notifyUserAction();
         if (flag == 'no') {
             this.disableOption = true;
@@ -489,7 +492,15 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
             this.appModel.stopAllTimer();
+
+
+
+           // opt.isCorrect
+            
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+                if(this.optionObj.opts[i].isCorrect){
+                    this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+                }
                 this.optionRef.nativeElement.children[i].classList.add('disableDiv');
             }
         } else if (action == "feedbackDone") {
@@ -507,12 +518,14 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     selectOpt(opt, idx) {
+        this.destroy = false;
         for (let i = 0; i < this.optionObj.opts.length; i++) {
             this.optionObj.opts[i].isOpen = false;
             this.optionObj.opts[i].leftPos = this.optionRef.nativeElement.children[i].children[1].offsetLeft + "px";
             this.optionObj.opts[i].topPos = this.optionRef.nativeElement.children[i].children[1].offsetTop + "px";
         }
         this.appModel.enableReplayBtn(false);
+        this.appModel.handlePostVOActivity(true);
         //disable click
         this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
         this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
@@ -558,18 +571,23 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
                     this.feedbackVoRef.nativeElement.src = this.commonAssets.rightfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+                    if(!this.destroy){
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
                             this.feedbackModalRef.nativeElement.classList = "modal";
                             this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
                         }, this.showAnsTimeout)
-                    }
+                    }}
+
                 }, 2000)
             } else {
+                
                 this.isRightSelected = false;
+                
                 //handle for wrong attempt
                 setTimeout(() => {
+                    this.disableAllOption = true;
                     this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
                     this.styleBodyPopup = this.feedbackObj.wrong_style_body;
                     if (this.feedbackObj.wrongAnswerpopupTxt.required) {
@@ -582,14 +600,16 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
                     this.feedbackVoRef.nativeElement.src = this.commonAssets.wrongfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+
+                    if(!this.destroy){
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
                             this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
                             this.feedbackModalRef.nativeElement.classList = "modal";
-
-                        }, this.showAnsTimeout)
-                    }
+                            
+                        }, this.showAnsTimeout);
+                    }}
                 }, 2000)
             }
         }
@@ -613,6 +633,9 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                 this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
                 this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
                 this.appModel.wrongAttemptAnimation();
+                setTimeout(() => {
+                    this.disableAllOption = false; 
+                }, 4000);
             }, 200)
         }
     }
@@ -768,13 +791,13 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             obj.audio.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.mainVideo && obj.mainVideo.nativeElement) {
-            this.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+            obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.speakerAudioRef && obj.speakerAudioRef.nativeElement) {
-            this.speakerAudioRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+            obj.speakerAudioRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
         if (obj.feedbackVoRef && obj.feedbackVoRef.nativeElement) {
-            this.feedbackVoRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+            obj.feedbackVoRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
     }
 
