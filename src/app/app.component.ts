@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy, EventEmitter, Output, Input, SimpleChange } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ApplicationmodelService } from './common/services/applicationmodel.service';
 import { SharedserviceService } from './common/services/sharedservice.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { ParentcommunicationService } from './common/services/parentcommunication.service';
 
 @Component({
 	selector: 'app-root',
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
-	constructor(public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService) {
+	constructor(public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
 		this.subscription = this.Sharedservice.getData().subscribe(data => {
 			this.Template = data.data.TemplateType;
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 	subscription: Subscription;
 	Template: any;
 	isVideo: boolean = false;
-	@Input() parentTitle:string;
+	@Input() initData:Observable<any>;
 	@Output() playerEvent = new EventEmitter<any>();
 
 
@@ -61,6 +62,24 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 			}, 0);
 		}
 	}
+	// ngOnChanges(changes: { [property: string]: SimpleChange }){
+	// 	// Extract changes to the input property by its name
+	// 	let change: SimpleChange = changes['initData']; 
+	// 	console.log("change",change);
+	// 	this.parentCommunication.setInitData(change.currentValue);
+	// 	this.appModel.initializeApp(change.currentValue);
+	//  // Whenever the data in the parent changes, this method gets triggered. You 
+	//  // can act on the changes here. You will have both the previous value and the 
+	//  // current value here.
+	//  }
+	// ngAfterViewInit() {
+
+	// 	console.log("parenttitle inside ngAfterviewInit",this.parentTitle);
+	// 	this.parentTitle.subscribe((event) => {
+	// 		this.parentCommunication.setInitData(event);
+	// 		console.log("from parent to child inside ngAfterViewInit",event);
+	// 	});
+	// }
 
 	ngOnInit() {
 		window.onresize = (e) => {
@@ -68,10 +87,18 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 			this.resizeContainer();
 		}
 		this.appModel.getPreviewMode(this);
-		console.log("parent title",this.parentTitle);
+		console.log("parent title",this.initData);
+		// this.parentTitle.subscribe((event) => {
+		// 	debugger;
+		// 	console.log("from parent to child",event);
+		// });
+		// console.log("parenttitle inside ngOnInit",this.parentTitle);
+		// this.parentTitle.subscribe((event) => {
+		// 	console.log("from parent to child inside ngOnInit",event);
+		// });
 		this.appModel.eventSubject.subscribe(event => {
 			this.playerEvent.emit(event);
-			console.log("parent title inside subscription",this.parentTitle);
+			// console.log("parent title inside subscription",this.parentTitle);
 			console.log("app component event",event);
 		});
 		console.log('appModel.navShow', this.appModel.navShow);

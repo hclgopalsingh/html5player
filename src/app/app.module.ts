@@ -22,6 +22,7 @@ import { HttphandlerService } from './common/services/httphandler.service';
 import { EvaModule } from './modules/EVA/eva.module';
 import { ContainerComponent } from './modules/Global/container/container.component';
 import { createCustomElement } from '@angular/elements';
+import { ParentcommunicationService } from './common/services/parentcommunication.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { createCustomElement } from '@angular/elements';
 		NgxPaginationModule,
 		EvaModule,
   ],
-  providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService],
+  providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, ParentcommunicationService],
   // entryComponents: [AppComponent]
   bootstrap: [AppComponent]
 })

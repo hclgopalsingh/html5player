@@ -37,7 +37,7 @@
           <ng-container *ngFor="let letter of questionObj?.letters;let idx = index">
             <div [ngClass]="[letter?.matravalue ? 'matra_'+letter.matravalue:'']" (click)="checkAkshar(letter, idx)">
               <img class="img-fluid dark"
-                [src]="letter?.location=='content' ? containgFolderPath + '/' + letter?.url : letter?.url"
+                [src]="letter?.location=='content' ? containgFolderPath + '/' + letter?.url : letter?.location=='assets' ? assetsPath + '/' +letter?.url:''"
                 (load)="checkImgLoaded();">
               <ng-template [ngIf]="letter?.hasmatra">
                 <img class="matraImg"
@@ -125,7 +125,7 @@
   <audio #rightFeedback
     [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
   <audio #clapSound
-    [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
+    [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : assetsPath +'/'+ feedback?.right_ans_clap_sound?.url"></audio>
   <audio #showAnswerfeedback
     [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
   <audio #multiCorrectFeedback

@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SharedserviceService } from '../services/sharedservice.service';
 import { ThemeConstants } from '../themeconstants';
+import { ParentcommunicationService } from './parentcommunication.service';
 
 
 declare var $: any;
@@ -87,7 +88,7 @@ export class ApplicationmodelService {
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     
-    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService) {
+    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
     this.httpHandler = httpHandler;
     this.commonLoader = commonLoader;
     this.router = router;
@@ -326,7 +327,11 @@ export class ApplicationmodelService {
     }
   }
 
-
+  // initializeApp(initData) {
+  //   this.dataHandler = this.parentCommunication;
+  //     //this.parentCommunication.setInitData('{"homePath": "home","forwardEnabled": true,"sessionId":"kdfjddfk43243kjfkj","playerPreview": false, "files":[{"startAt": 0,"segmentId": 123,"file": "http://localhost:8080/contentEVA-10/"}]}');    
+  //     this.dataHandler.loadData(true, this.listener.bind(this), this.baseLoaded.bind(this), this.baseFailed.bind(this));
+  // }
   private baseLoaded(data): void {
     console.log('ApplicationmodelService: baseLoaded - data = ', data);
     this.initValues = data;
