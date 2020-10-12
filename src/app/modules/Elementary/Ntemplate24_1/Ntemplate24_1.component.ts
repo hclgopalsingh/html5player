@@ -5,11 +5,36 @@ import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp24_1',
+  animations: [
+    trigger('upDown', [
+        state('up', style({
+
+        })),
+        state('down', style({
+            'left': '{{leftPos}}',
+            'top': '{{topPos}}',
+
+        }), { params: { leftPos: 0, topPos: 0 } }),
+        transition('up => down', [
+            animate('0.5s')
+        ]),
+        transition('down => up', [
+            animate('0.5s')
+        ]),
+    ]),
+  ],
   templateUrl: './Ntemplate24_1.component.html',
   styleUrls: ['./Ntemplate24_1.component.css', '../../../view/css/bootstrap.min.css'],
 
@@ -151,6 +176,13 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   greyOutInstruction:boolean=false;
   greyOutOpt:boolean=false;
   isPartialPopup:boolean=false;
+  styleBlock = [
+    { 'top': '33%', 'left': '24.8%' },
+    { 'top': '33%', 'left': '32.8%' },
+    { 'top': '33%', 'left': '40.8%' },
+    { 'top': '46.5%', 'left': '24.8%' },
+    { 'top': '46.5%', 'left': '32.8%' }
+]
 
   // playHoverInstruction() {
   //   if (!this.instructionVO.nativeElement.paused) {
@@ -368,7 +400,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         this.disableInstruction=false;
       }
       if (val == "uttarDikhayein") {
-        clearTimeout(this.autoClosePopup);
+        clearTimeout(this.postCompleteTimer);
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
