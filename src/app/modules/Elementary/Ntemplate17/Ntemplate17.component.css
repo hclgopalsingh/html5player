@@ -185,6 +185,97 @@ button:focus {
 .modal .incorrectBox{
 	width: 43%;/*37.5%;*/
 }
+.placeholder1,
+.placeholder2,
+.placeholder3,
+.placeholder4,
+.placeholder5,
+.placeholder6,
+.placeholder7,
+.placeholder8,
+.placeholder9,
+.placeholder10,
+.placeholder11,
+.placeholder12,
+.placeholder13,
+.placeholder14,
+.placeholder15,
+.placeholder16,
+.placeholder17,
+.placeholder18,
+.placeholder19,
+.placeholder20,
+.placeholder21,
+.placeholder22,
+.placeholder23,
+.placeholder24 {
+  position: absolute;
+  left: 3.5%;
+  top: 20%;
+  width: 7.2%;
+  z-index: 1;
+}
+.placeholder2,
+.placeholder4,
+.placeholder6,
+.placeholder8,
+.placeholder10,
+.placeholder12 {
+  left: 16.8%;
+}
+.placeholder13,
+.placeholder14,
+.placeholder15,
+.placeholder16,
+.placeholder17,
+.placeholder18,
+.placeholder19,
+.placeholder20,
+.placeholder21,
+.placeholder22,
+.placeholder23,
+.placeholder24 {
+  left: 75.8%;
+}
+.placeholder14,
+.placeholder16,
+.placeholder18,
+.placeholder20,
+.placeholder22,
+.placeholder24 {
+  left: 89.2%;
+}
+.placeholder3,
+.placeholder4,
+.placeholder15,
+.placeholder16 {
+  top: 32.7%;
+}
+.placeholder5,
+.placeholder6,
+.placeholder17,
+.placeholder18 {
+  top: 45.4%;
+}
+.placeholder7,
+.placeholder8,
+.placeholder19,
+.placeholder20 {
+  top: 58.1%;
+}
+.placeholder9,
+.placeholder10,
+.placeholder21,
+.placeholder22 {
+  top: 70.8%;
+}
+.placeholder11,
+.placeholder12,
+.placeholder23,
+.placeholder24 {
+  top: 83.8%;
+}
+
 .optionsList {
     position: absolute;
     top: 18.5%;
