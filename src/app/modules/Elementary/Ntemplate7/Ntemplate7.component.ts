@@ -73,6 +73,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.assetsPath = this.appModel.assetsfolderpath;
         this.appModel.navShow = 2;
     }
+    buttonClosed = false;
     destroy = true;
     audio = new Audio();
     blink: boolean = false;
@@ -471,6 +472,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.handlePostVOActivity(false);
         this.appModel.notifyUserAction();
         if (flag == 'no') {
+            this.InstructionVo = true;
             this.disableOption = true;
             setTimeout(() => {
                 this.disableOption = false;
@@ -513,11 +515,13 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         } else if (action == "replay") {
             //this.replayVideo();
         } else if (action == "feedbackClosed") {
+            this.buttonClosed = true;
             this.postFeedBackVo();
         }
     }
 
     selectOpt(opt, idx) {
+        this.buttonClosed = false;
         this.destroy = false;
         for (let i = 0; i < this.optionObj.opts.length; i++) {
             this.optionObj.opts[i].isOpen = false;
@@ -576,7 +580,9 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
                             this.feedbackModalRef.nativeElement.classList = "modal";
+                            if(!this.buttonClosed){
                             this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
+                            }
                         }, this.showAnsTimeout)
                     }}
 
@@ -605,8 +611,11 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.feedbackVoRef.nativeElement.play();
                     this.feedbackVoRef.nativeElement.onended = () => {
                         setTimeout(() => {
+                            if(!this.buttonClosed){
                             this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
+                        }
                             this.feedbackModalRef.nativeElement.classList = "modal";
+                        
                             
                         }, this.showAnsTimeout);
                     }}
