@@ -569,6 +569,12 @@ export class VideoComponent implements OnInit {
 			/*let selectBox = <HTMLElement>document.getElementById("MuteVar");
 			(<HTMLInputElement><any>selectBox.children[0]).checked = false;*/
 		}
+		if(event.target.value == 0){
+			this.appModel.isMute = true;
+			this.MuteVar.nativeElement.children[0].checked = true;
+			this.volumeBtn = this.volumeMute;
+			this.volumeBar.nativeElement.className = "volumesliderDisable";
+		}
 	}
   }
   
