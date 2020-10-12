@@ -332,7 +332,9 @@ export class Ntemplate17Component implements OnInit {
         //this.btnCounting-=1;
       }
       if(this.quesObj.lang == 'hindi'){
-        this.btnCounting -= 1;
+        if(this.btnCounting && this.btnCounting >0){
+          this.btnCounting -= 1;
+        }
         this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
       }
 
@@ -734,7 +736,7 @@ export class Ntemplate17Component implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श श","ष स ह क्ष {space} त्र श्र ज्ञ ॠ ऍ ॅ ॉ"]}
+        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ ़",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र ज्ञ श्र ॠ ऍ ॅ ॉ"]}
         // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
@@ -991,7 +993,7 @@ export class Ntemplate17Component implements OnInit {
       buttonTheme:
       [
         {
-          class: "hg-red",
+          class: "hg-color_matra",
           buttons: "क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण अ आ इ ई उ ऊ ए ऐ औ ओ अं अः ऋ ड़ ढ़ त थ द ध न प फ ब भ म य र ल व श स ष ह क्ष श्र त्र ज्ञ ॠ ऍ  ॅ  ॉ"
         },
         {
@@ -999,9 +1001,19 @@ export class Ntemplate17Component implements OnInit {
           buttons: "a"
         },
         {
-          class:"hg-lightGrey",
+          class:"hg-color_spaces",
           buttons: "1 2 3 4 5 6 7 8 9 0 - . |"
-        }
+        },
+        {
+          class:"hg-red",
+          buttons: "् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ ़"
+        },
+        {
+          class:"hg-lightGrey",
+          buttons: "{bksp} {space}"
+        },
+
+
       ],
     });
     }
@@ -1554,14 +1566,21 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronSkip() {
-    this.isPlayVideo = false;
-    this.appModel.navShow = 2;
-    this.appModel.videoStraming(false);
-    this.QuestionLoaded();
-    if(this.videoReplayd){
-       this.QuestionVideo.nativeElement.pause();
-       this.QuestionVideo.nativeElement.currentTime=0;
+    this.videoReplayd = false;
+    this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
+    if(this.mainVideo && this.mainVideo.nativeElement){
+    this.mainVideo.nativeElement.currentTime = 0;
+    this.mainVideo.nativeElement.pause();
     }
+    this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+    // this.isPlayVideo = false;
+    // this.appModel.navShow = 2;
+    // this.appModel.videoStraming(false);
+    // this.QuestionLoaded();
+    // if(this.videoReplayd){
+    //    this.QuestionVideo.nativeElement.pause();
+    //    this.QuestionVideo.nativeElement.currentTime=0;
+    // }
   }
 
   endedHandleronClose(){
@@ -1680,9 +1699,12 @@ export class Ntemplate17Component implements OnInit {
   onclickImageorVideo(){
     if(this._questionAreaVideoFlag){
       console.log("show video")
+      this.quesObj.quesPlayPause = this.quesObj.quesPause;
       this.mainVideo.nativeElement.parentElement.style.visibility="visible";
+      this.videoReplayd = true;
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
+        this.videoReplayd = false;
         this.mainVideo.nativeElement.currentTime = 0;
         this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
       }
