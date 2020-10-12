@@ -630,6 +630,7 @@ export class Ntemplate10 implements OnInit {
 		  this.bgSubscription.unsubscribe();
 		}
 		/*End: Theme Implementation(Template Changes)*/
+	    clearTimeout(this.showAnsDisableTimer);
 	  }
 	
 	  /*Start: Theme Implementation(Template Changes)*/
