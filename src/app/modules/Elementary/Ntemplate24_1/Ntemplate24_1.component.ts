@@ -11,6 +11,7 @@ import {
   style,
   animate,
   transition,
+  AnimationEvent
 } from '@angular/animations';
 
 declare var $: any;
@@ -18,20 +19,21 @@ declare var $: any;
 @Component({
   selector: 'ntemp24_1',
   animations: [
-    trigger('upDown', [
-        state('up', style({
-
+    trigger('step', [
+        state('state1', style({
+          'left':'auto',
+          'top':'auto'
         })),
-        state('down', style({
-            'left': '{{leftPos}}',
-            'top': '{{topPos}}',
+        state('state2', style({
+          'left': '{{leftPos}}',
+          'top': '{{topPos}}',
 
-        }), { params: { leftPos: 0, topPos: 0 } }),
-        transition('up => down', [
+        }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+        transition('state1 => state2', [
             animate('0.5s')
         ]),
-        transition('down => up', [
-            animate('0.5s')
+        transition('state2 => state1', [
+            animate('0s')
         ]),
     ]),
   ],
@@ -176,13 +178,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   greyOutInstruction:boolean=false;
   greyOutOpt:boolean=false;
   isPartialPopup:boolean=false;
-  styleBlock = [
-    { 'top': '33%', 'left': '24.8%' },
-    { 'top': '33%', 'left': '32.8%' },
-    { 'top': '33%', 'left': '40.8%' },
-    { 'top': '46.5%', 'left': '24.8%' },
-    { 'top': '46.5%', 'left': '32.8%' }
-]
+  direction:any;
+  optClicked:any;
 
   // playHoverInstruction() {
   //   if (!this.instructionVO.nativeElement.paused) {
@@ -248,8 +245,19 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   //     }
   //   }
   // }
-
+  onAnimationEvent(event: AnimationEvent, opt, idx) {    
+    if (event.fromState == "state1" && event.toState == "state2" && event.phaseName == "done") {
+      if(this.optClicked==idx){
+        console.log("Shefali "+idx+this.direction);
+        this.reArrangeOpts(idx, this.direction);
+      }
+      
+    }
+  }
   movePrevious(idx, opt) {
+    console.log("Shefali movePrev");
+    this.direction='left';
+    this.optClicked=idx;  
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
@@ -260,12 +268,22 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.appModel.enableSubmitBtn(true);
       this.appModel.enableReplayBtn(false);
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
-      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx - 1].getBoundingClientRect();
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'left') });
+      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx - 1].getBoundingClientRect();            
+      this.optionObjCopy.optionArray[idx].isAuto=false;
+      this.optionObjCopy.optionArray[idx].leftPos=to.left - (from.left)+"%";
+      this.optionObjCopy.optionArray[idx].topPos=to.top - (from.top)+"%";
+      this.optionObjCopy.optionArray[idx-1].isAuto=false;
+      this.optionObjCopy.optionArray[idx-1].leftPos=from.left - (to.left)+"%";
+      this.optionObjCopy.optionArray[idx-1].topPos=from.top - (to.top)+"%";         
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'left') });
+      // this.reArrangeOpts(idx, 'left');
     }
   }
   moveNext(idx, opt) {
+    console.log("Shefali moveNext");
+    this.optClicked=idx;
+    this.direction='right';  
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
@@ -276,27 +294,44 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.appModel.enableSubmitBtn(true);
       this.appModel.enableReplayBtn(false);
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
-      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'right') });
+      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();            
+      this.optionObjCopy.optionArray[idx].isAuto=false;
+      this.optionObjCopy.optionArray[idx].leftPos=to.left - (from.left)+"%";
+      this.optionObjCopy.optionArray[idx].topPos=to.top - (from.top)+"%";
+      this.optionObjCopy.optionArray[idx+1].isAuto=false;      
+      this.optionObjCopy.optionArray[idx+1].leftPos=from.left - (to.left)+"%";
+      this.optionObjCopy.optionArray[idx+1].topPos=from.top - (to.top)+"%";
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'right') });      
+      // this.reArrangeOpts(idx, 'right');
     }
   }
   reArrangeOpts(idx, flag) {
-    if (flag == "left") {
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).css('top', 'auto').css('left', 'auto');
+    // debugger;
+    if (flag == "left") {      
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).css('top', 'auto').css('left', 'auto');
+      this.optionObjCopy.optionArray[idx].isAuto=true;
+      this.optionObjCopy.optionArray[idx-1].isAuto=true;
       let optCurrent = this.optionObjCopy.optionArray[idx];
       let optLeft = this.optionObjCopy.optionArray[idx - 1];
       this.optionObjCopy.optionArray[idx] = optLeft;
       this.optionObjCopy.optionArray[idx - 1] = optCurrent;
-    } else if (flag == "right") {
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).css('top', 'auto').css('left', 'auto');
+      
+    } else if (flag == "right") {      
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
+      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).css('top', 'auto').css('left', 'auto');
+      this.optionObjCopy.optionArray[idx].isAuto=true;
+      this.optionObjCopy.optionArray[idx+1].isAuto=true;
       let optCurrent = this.optionObjCopy.optionArray[idx];
       let optRight = this.optionObjCopy.optionArray[idx + 1];
+      optCurrent.isAuto=true;
+      optRight.isAuto=true;
       this.optionObjCopy.optionArray[idx] = optRight;
       this.optionObjCopy.optionArray[idx + 1] = optCurrent;
+      
     }
+    console.log("Shefali"+flag);
   }
 
   // optionLeave(idx, opt) {
@@ -608,6 +643,9 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         isReplayRequired: this.quesObj.replayRequired
       }
       /*End: Theme Implementation(Template Changes)*/
+      for(let i=0;i<this.optionObjCopy.optionArray.length;i++){
+        this.optionObjCopy.optionArray[i].isAuto=true;
+      }
     }
   }
 
