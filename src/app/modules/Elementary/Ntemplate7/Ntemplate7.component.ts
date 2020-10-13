@@ -210,6 +210,8 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         })
 
         this.appModel.postWrongAttempt.subscribe(() => {
+            //alert('animation close');
+            this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
             this.postWrongAttemplt();
         })
         this.appModel.handleController(this.controlHandler);
@@ -636,9 +638,9 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             }, 500)
         } else {
             setTimeout(() => {
-                setTimeout(() => {
+                /*setTimeout(() => {
                     this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
-                }, 50)
+                }, 50)*/
                 this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
                 this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
                 this.appModel.wrongAttemptAnimation();
@@ -752,6 +754,13 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                 break;
             }
         }
+
+        for (let i = 0; i < this.optionObj.opts.length; i++) {
+        if(this.optionObj.opts[i].isCorrect){
+            this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+        }
+        }
+
         this.quesObjCopy.questionText[this.quesEmptyTxtIndx].url = correctOpt.url;
         this.quesObjCopy.questionText[this.quesEmptyTxtIndx].location = correctOpt.location;
         this.styleHeaderPopup = this.feedbackObj.style_header;
