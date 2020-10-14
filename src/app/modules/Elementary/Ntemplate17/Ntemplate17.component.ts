@@ -53,7 +53,8 @@ declare var $: any;
       state('testBox', style({
         'left': '{{toTestBoxleft}}',
         'top': '{{toTestBoxtop}}',
-        'transform': 'scale(0.226)'
+        'transform': 'scale(.240)',
+        
       }),{ params: { toTestBoxleft: 'auto', toTestBoxtop: 'auto' } }
       ),
       transition('actionBox => testBox', [
@@ -112,6 +113,8 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('wordBlockRef') wordBlockRef: any;
   @ViewChild('optionPlaceRef') optionPlaceRef: any;
   @ViewChild('selectedRightListRef') selectedRightListRef: any;
+  @ViewChild('DummyRightListRef') DummyRightListRef: any;
+  @ViewChild('DummyWrongListRef') DummyWrongListRef: any;
   @ViewChild('selectedOptionRef') selectedOptionRef: any;
   @ViewChild('selectedWrongListRef') selectedWrongListRef: any;
   @ViewChild('feedbackModal') feedbackModal: any;
@@ -139,7 +142,7 @@ export class Ntemplate17Component implements OnInit {
 
 
 
-  @HostListener('document:click', ['$event'])
+ // @HostListener('document:click', ['$event'])
   // clickout(event) {
   //   let openFlag: boolean = false;
   //   if (!this.keyBoardVersion) {
@@ -265,6 +268,107 @@ export class Ntemplate17Component implements OnInit {
   displayWave: boolean;
   speakerdisable:boolean=false;
   testContainerDisable:boolean=false;
+  rightPosArray:any =[
+    {
+    "left":"-7%",
+    "top":"1%"
+    },
+    {
+    "left":"3.5%",
+    "top":"1%"
+    },
+    {
+      "left":"-7%",
+      "top":"13%"
+      },
+    {
+      "left":"3.5%",
+      "top":"13%"
+      },
+    {
+      "left":"-7%",
+      "top":"25%"
+      },
+    {
+      "left":"3.5%",
+      "top":"25%"
+      },
+    {
+      "left":"-7%",
+      "top":"37%"
+      },
+    {
+      "left":"3.5%",
+      "top":"37%"
+      },
+    {
+      "left":"-7%",
+      "top":"50%"
+      },
+    {
+      "left":"3.5%",
+      "top":"50%"
+      },
+    {
+      "left":"-7%",
+      "top":"63%"
+      },
+    {
+      "left":"3.5%",
+      "top":"63%"
+      },
+  ]
+
+  wrongPosArray:any =[
+    {
+    "left":"65.5%",
+    "top":"1%"
+    },
+    {
+    "left":"76%",
+    "top":"1%"
+    },
+    {
+      "left":"65.5%",
+      "top":"13%"
+      },
+    {
+      "left":"76%",
+      "top":"13%"
+      },
+    {
+      "left":"65.5%",
+      "top":"25%"
+      },
+    {
+      "left":"76%",
+      "top":"25%"
+      },
+    {
+      "left":"65.5%",
+      "top":"37%"
+      },
+    {
+      "left":"76%",
+      "top":"37%"
+      },
+    {
+      "left":"65.5%",
+      "top":"50%"
+      },
+    {
+      "left":"76%",
+      "top":"50%"
+      },
+    {
+      "left":"65.5%",
+      "top":"63%"
+      },
+    {
+      "left":"76%",
+      "top":"63%"
+      },
+  ]
 
   ngAfterViewInit() {
   }
@@ -736,7 +840,7 @@ export class Ntemplate17Component implements OnInit {
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         console.log("hindi", hindiLayout)
-        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ ़",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र ज्ञ श्र ॠ ऍ ॅ ॉ"]}
+        const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ़ ्र ृ र्",,"अ आ इ ई उ ऊ ए ऐ ओ औ अं अः","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र ज्ञ श्र ॠ ऍ ॅ ॉ"]}
         // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
         this.layout = newHindiLayout;
         // this.keyBoard1 = this.fetchedcontent.Keyboard;
@@ -1006,7 +1110,7 @@ export class Ntemplate17Component implements OnInit {
         },
         {
           class:"hg-red",
-          buttons: "् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ ़"
+          buttons: "् ा ि ी ु ू े ै ो ौ ं ँ ः ्र ृ ़ र्"
         },
         {
           class:"hg-lightGrey",
@@ -1172,8 +1276,8 @@ export class Ntemplate17Component implements OnInit {
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
     let to = this.selectedWrongListRef.nativeElement.children[this.currentWrongListIdx].getBoundingClientRect();
     this.optionPlaceRef.nativeElement.style.zIndex = "100";
-    this.selectedOptionArr.toTestBoxleft = ((to.left - (from.left))*0.324)-0.5+ "%";
-    this.selectedOptionArr.toTestBoxtop = ((to.top - (from.top))*0.779)-23+ "%";
+    this.selectedOptionArr.toTestBoxleft = this.wrongPosArray[this.currentWrongListIdx].left;
+    this.selectedOptionArr.toTestBoxtop = this.wrongPosArray[this.currentWrongListIdx].top;
     //$(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToWrongList());
     //$(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
 	  this.wordBlockRef.nativeElement.classList = "wordBlock";
@@ -1186,9 +1290,10 @@ export class Ntemplate17Component implements OnInit {
     this.testContainerDisable=true;
     this.selectedOptionArr.state="testBox";
     let from = this.optionPlaceRef.nativeElement.getBoundingClientRect();
-    let to = this.selectedRightListRef.nativeElement.children[this.currentRightListIdx].getBoundingClientRect();
-    this.selectedOptionArr.toTestBoxleft = ((to.left - (from.left))*0.324)-0.5+ "%";
-    this.selectedOptionArr.toTestBoxtop = ((to.top - (from.top))*0.779)-23+ "%";
+    // let to = this.selectedRightListRef.nativeElement.children[this.currentRightListIdx].getBoundingClientRect();
+    let to = this.DummyRightListRef.nativeElement.children[this.currentRightListIdx].getBoundingClientRect();
+    this.selectedOptionArr.toTestBoxleft = this.rightPosArray[this.currentRightListIdx].left;
+    this.selectedOptionArr.toTestBoxtop = this.rightPosArray[this.currentRightListIdx].top;
     //this.toTestBoxwidth = to.width;
     //$(this.optionPlaceRef.nativeElement).animate({ left: (to.left - (from.left)+22), top: (to.top - (from.top)+10), width: to.width }, 500, () => this.pushToRightList());
     //$(this.optionPlaceRef.nativeElement.children[1]).animate({"font-size": "0.9vmax"}, 500);
@@ -1750,6 +1855,13 @@ export class Ntemplate17Component implements OnInit {
   }
   houtCloseOk() {
     this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+  }
+
+  hoverClosePic() {
+    this.quesObj.close_btn =  this.quesObj.close_btn_hover;
+  }
+  houtClosePic() {
+    this.quesObj.close_btn =  this.quesObj.close_btn_original;
   }
 
   questionAudioPlay() {
