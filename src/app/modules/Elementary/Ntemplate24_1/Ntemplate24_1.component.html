@@ -10,16 +10,16 @@
   <div class="bodyContent" #mainContainer>
     <div class="d-flex mx-0" id="optionsBlock" #options>
       <div class="my-auto quesImage">
-        <div class="options" 
-          [ngClass]="{'disableDiv':disableOpt,'greyOut':greyOutOpt}"
+        <div class="options" [ngClass]="{'disableDiv':disableOpt,'greyOut':greyOutOpt}"
           *ngFor="let option of optionObjCopy.optionArray;let idx=index; let first=first; let last=last;">
           <div>
-            <img class="img-fluid"
-              [src]="option?.imgsrc?.url" (load)="checkImgLoaded();">
-                <img [ngClass]="{'d-none':first}" class="img-fluid upArrow" (click)="movePrevious(idx,opt);" [src]="optionObjCopy?.moveUpBtn?.url"
-                  (mouseover)="hoverPre(option,idx)" (mouseleave)="hleavePre(option,idx)">
-                <img [ngClass]="{'d-none':last}" class="img-fluid downArrow" (click)="moveNext(idx,opt);" [src]="optionObjCopy?.moveDownBtn?.url"
-                  (mouseover)="hoverNext(option,idx)" (mouseleave)="hleaveNext(option,idx)">
+            <img class="img-fluid" [src]="option?.imgsrc?.url" (load)="checkImgLoaded();">
+            <img [ngClass]="{'d-none':first}" class="img-fluid upArrow" (click)="movePrevious(idx,opt);"
+              [src]="optionObjCopy?.moveUpBtn?.url" (mouseover)="hoverPre(option,idx)"
+              (mouseleave)="hleavePre(option,idx)">
+            <img [ngClass]="{'d-none':last}" class="img-fluid downArrow" (click)="moveNext(idx,opt);"
+              [src]="optionObjCopy?.moveDownBtn?.url" (mouseover)="hoverNext(option,idx)"
+              (mouseleave)="hleaveNext(option,idx)">
           </div>
         </div>
       </div>
@@ -116,8 +116,7 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
-          <div class="flex-row justify-content-around" id="instructionBarFeedback"
-            [ngClass]="{'dispFlex':true}">
+          <div class="flex-row justify-content-around" id="instructionBarFeedback" [ngClass]="{'dispFlex':true}">
             <div class="instructionBaseFeedback">
               <img class="img-fluid" [src]="feedbackAssets?.popTitleTxt_img?.url" />
             </div>
@@ -126,10 +125,10 @@
             <div class="my-auto quesImage" #feedbackOption>
               <div class="options" *ngFor="let feed of assetsFeedback; let idx = index">
                 <div>
-                  <img class="img-fluid" 
-                  [src]="isPartialPopup? (feed.index==feedback.correct_sequence[idx]? feed?.imgsrc_correct?.url : feed?.imgsrc_incorrect?.url) : (feed?.imgsrc?.url)">
+                  <img class="img-fluid"
+                    [src]="isPartialPopup? (feed.index==feedback.correct_sequence[idx]? feed?.imgsrc_correct?.url : feed?.imgsrc_incorrect?.url) : (feed?.imgsrc?.url)">
                 </div>
-                <div>
+                <div *ngIf="isPartialPopup">
                   <img class="img-fluid" *ngIf="isPartialPopup && feed.index==feedback.correct_sequence[idx]"
                     [src]="feedbackAssets?.right_tick?.url">
                   <img class="img-fluid" *ngIf="isPartialPopup && feed.index!=feedback.correct_sequence[idx]"
@@ -178,7 +177,7 @@
     <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
         (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
     <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="quesSkip"
-        (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>    
+        (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
   </div>
   <!-- <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
     (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
@@ -193,5 +192,3 @@
     <img src="assets/images/loaderVideo.gif">
   </div> -->
 </div>
-
- 

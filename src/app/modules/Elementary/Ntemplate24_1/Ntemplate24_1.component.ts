@@ -20,21 +20,21 @@ declare var $: any;
   selector: 'ntemp24_1',
   animations: [
     trigger('step', [
-        state('state1', style({
-          'left':'auto',
-          'top':'auto'
-        })),
-        state('state2', style({
-          'left': '{{leftPos}}',
-          'top': '{{topPos}}',
+      state('state1', style({
+        'left': 'auto',
+        'top': 'auto'
+      })),
+      state('state2', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}',
 
-        }), { params: { leftPos: 'auto', topPos: 'auto' } }),
-        transition('state1 => state2', [
-            animate('0.5s')
-        ]),
-        transition('state2 => state1', [
-            animate('0s')
-        ]),
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      transition('state1 => state2', [
+        animate('0.5s')
+      ]),
+      transition('state2 => state1', [
+        animate('0s')
+      ]),
     ]),
   ],
   templateUrl: './Ntemplate24_1.component.html',
@@ -72,7 +72,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   }
 
-  
+
   // @ViewChild('instructionBar') instructionBar: any;
   // @ViewChild('instruction') instruction: any;  
   // @ViewChild('optionAudio') optionAudio: any;
@@ -171,15 +171,15 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   bgSubscription: Subscription;
   /*End: Theme Implementation(Template Changes)*/
   showAnsTimeout: number;
-  autoClosePopupTimer:number;
+  autoClosePopupTimer: number;
   quesSkip: boolean = false;
-  disableInstruction:boolean=true;
-  disableOpt:boolean=false;
-  greyOutInstruction:boolean=false;
-  greyOutOpt:boolean=false;
-  isPartialPopup:boolean=false;
-  direction:any;
-  optClicked:any;
+  disableInstruction: boolean = true;
+  disableOpt: boolean = false;
+  greyOutInstruction: boolean = false;
+  greyOutOpt: boolean = false;
+  isPartialPopup: boolean = false;
+  direction: any;
+  optClicked: any;
 
   // playHoverInstruction() {
   //   if (!this.instructionVO.nativeElement.paused) {
@@ -245,7 +245,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   //     }
   //   }
   // }
-  onAnimationEvent(event: AnimationEvent, opt, idx) {    
+  onAnimationEvent(event: AnimationEvent, opt, idx) {
     // if (event.fromState == "state1" && event.toState == "state2" && event.phaseName == "done") {
     //   if(this.optClicked==idx){
     //     console.log("Shefali "+idx+this.direction);
@@ -255,19 +255,19 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   }
   movePrevious(idx, opt) {
     // console.log("Shefali movePrev");
-    this.direction='left';
-    this.optClicked=idx;  
+    this.direction = 'left';
+    this.optClicked = idx;
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
-      this.disableInstruction=false;
+      this.disableInstruction = false;
     }
     this.appModel.notifyUserAction();
     if (idx - 1 != -1) {
       this.appModel.enableSubmitBtn(true);
       this.appModel.enableReplayBtn(false);
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
-      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx - 1].getBoundingClientRect();            
+      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx - 1].getBoundingClientRect();
       // this.optionObjCopy.optionArray[idx].isAuto=false;
       // this.optionObjCopy.optionArray[idx].leftPos=(to.left - (from.left))+"%";
       // this.optionObjCopy.optionArray[idx].topPos=(to.top - (from.top))+"%";
@@ -283,19 +283,19 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   }
   moveNext(idx, opt) {
     // console.log("Shefali moveNext");
-    this.optClicked=idx;
-    this.direction='right';  
+    this.optClicked = idx;
+    this.direction = 'right';
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
-      this.disableInstruction=false;
+      this.disableInstruction = false;
     }
     this.appModel.notifyUserAction();
     if (idx + 1 <= this.optionObj.optionArray.length - 1) {
       this.appModel.enableSubmitBtn(true);
       this.appModel.enableReplayBtn(false);
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
-      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();            
+      let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();
       // this.optionObjCopy.optionArray[idx].isAuto=false;
       // this.optionObjCopy.optionArray[idx].leftPos=(to.left - (from.left))+"%";
       // this.optionObjCopy.optionArray[idx].topPos=(to.top - (from.top))+"%";
@@ -303,7 +303,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       // this.optionObjCopy.optionArray[idx+1].leftPos=(from.left - (to.left))+"%";
       // this.optionObjCopy.optionArray[idx+1].topPos=(from.top - (to.top))+"%";
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
-      $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'right') });      
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'right') });
       // setTimeout(()=>{
       //   this.reArrangeOpts(idx, this.direction);
       // },500)
@@ -312,7 +312,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   reArrangeOpts(idx, flag) {
     // this.optClicked="false1"; 
     // this.direction="null";   
-    if (flag == "left") {      
+    if (flag == "left") {
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).css('top', 'auto').css('left', 'auto');
       // this.optionObjCopy.optionArray[idx].isAuto=true;
@@ -320,16 +320,16 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       let optCurrent = this.optionObjCopy.optionArray[idx];
       let optLeft = this.optionObjCopy.optionArray[idx - 1];
       this.optionObjCopy.optionArray[idx] = optLeft;
-      this.optionObjCopy.optionArray[idx - 1] = optCurrent;      
-    } else if (flag == "right") {      
+      this.optionObjCopy.optionArray[idx - 1] = optCurrent;
+    } else if (flag == "right") {
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).css('top', 'auto').css('left', 'auto');
       // this.optionObjCopy.optionArray[idx].isAuto=true;
       // this.optionObjCopy.optionArray[idx+1].isAuto=true;
       let optCurrent = this.optionObjCopy.optionArray[idx];
-      let optRight = this.optionObjCopy.optionArray[idx + 1];      
+      let optRight = this.optionObjCopy.optionArray[idx + 1];
       this.optionObjCopy.optionArray[idx] = optRight;
-      this.optionObjCopy.optionArray[idx + 1] = optCurrent;      
+      this.optionObjCopy.optionArray[idx + 1] = optCurrent;
     }
   }
 
@@ -427,7 +427,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       if (!this.instructionVO.nativeElement.paused) {
         this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
-        this.disableInstruction=false;
+        this.disableInstruction = false;
       }
       if (val == "uttarDikhayein") {
         clearTimeout(this.postCompleteTimer);
@@ -526,7 +526,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.assetsFeedback = this.optionObjCopy.optionArray;
     }
     this.setPopupAssets();
-    this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";    
+    this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
     let checkDom = setInterval(() => {
       if (this.feedbackOption.nativeElement.children.length == this.feedback.correct_sequence.length) {
         clearInterval(checkDom);
@@ -586,7 +586,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.quesVORef.nativeElement.onended = () => {
         this.mainContainer.nativeElement.classList = "bodyContent";
         // this.instructionBar.nativeElement.classList = "instructionBase";
-        this.disableInstruction=false;
+        this.disableInstruction = false;
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
         //  this.appModel.enableSubmitBtn(true);
@@ -622,7 +622,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         this.appModel.setlastQuesNT();
       }
       this.optionObj = this.fetchedcontent.optionObj;
-      this.optionObjCopy = JSON.parse(JSON.stringify(this.optionObj));     
+      this.optionObjCopy = JSON.parse(JSON.stringify(this.optionObj));
       this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
       this.infoPopupAssets = this.fetchedcontent.info_popup;
@@ -642,8 +642,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         isReplayRequired: this.quesObj.replayRequired
       }
       /*End: Theme Implementation(Template Changes)*/
-      for(let i=0;i<this.optionObjCopy.optionArray.length;i++){
-        this.optionObjCopy.optionArray[i].isAuto=true;
+      for (let i = 0; i < this.optionObjCopy.optionArray.length; i++) {
+        this.optionObjCopy.optionArray[i].isAuto = true;
       }
     }
   }
@@ -691,19 +691,19 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   }
   hoverPlayPause() {
     if (this.PlayPauseFlag) {
-        this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
     } else {
-        this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
     }
-}
+  }
 
-leavePlayPause() {
+  leavePlayPause() {
     if (this.PlayPauseFlag) {
-        this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
     } else {
-        this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
     }
-}
+  }
   hoverSkip() {
     // this.skipFlag = false;
     this.quesObj.quesSkip = this.quesObj.quesSkipHover;
@@ -715,11 +715,11 @@ leavePlayPause() {
   playInstruction() {
     if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
       this.instructionVO.nativeElement.play();
-      this.disableInstruction=true;
+      this.disableInstruction = true;
       //this.mainContainer.nativeElement.style.pointerEvents = "none";
       this.instructionVO.nativeElement.onended = () => {
         this.mainContainer.nativeElement.style.pointerEvents = "";
-        this.disableInstruction=false;
+        this.disableInstruction = false;
       }
     }
   }
@@ -828,7 +828,7 @@ leavePlayPause() {
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     ref.classList = "modal";
-    this.isPartialPopup=false;
+    this.isPartialPopup = false;
     if (action == "showAnswer") {
       this.popupType = "showanswer"
       this.getAnswer('showAnswer');
@@ -974,8 +974,8 @@ leavePlayPause() {
     // for (let i in this.mainContainer.nativeElement.children[0].children[0].children) {
     //   $(this.mainContainer.nativeElement.children[0].children[0].children[i]).addClass("greyOut");      
     // }
-    this.greyOutOpt=true;
-    this.greyOutInstruction=true;
+    this.greyOutOpt = true;
+    this.greyOutInstruction = true;
     // this.instructionBar.nativeElement.classList = "instructionBase disableDiv greyOut";
     this.appModel.enableSubmitBtn(false);
     this.appModel.enableReplayBtn(false);
@@ -984,7 +984,7 @@ leavePlayPause() {
   setPopupAssets() {
     console.log(this.feedbackAssets);
     console.log("check pop up type", "this.attemptType:", "this.popupType:", this.popupType);
-    this.autoClosePopupTimer=this.feedbackAssets.autoCloseMin * 60 * 1000;
+    this.autoClosePopupTimer = this.feedbackAssets.autoCloseMin * 60 * 1000;
     if (this.popupType == "wrong") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;
@@ -992,17 +992,17 @@ leavePlayPause() {
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackAssets.wrong_style_header;
       this.styleBodyPopup = this.feedbackAssets.wrong_style_body;
-      this.feedbackAssets.popTitleTxt_img=this.feedbackAssets.wrong_style_title;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.wrong_style_title;
     }
     if (this.popupType == "partialCorrect") {
-      this.isPartialPopup=true;
+      this.isPartialPopup = true;
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = true;
       this.styleHeaderPopup = this.feedbackAssets.partial_style_header;
       this.styleBodyPopup = this.feedbackAssets.partial_style_body;
-      this.feedbackAssets.popTitleTxt_img=this.feedbackAssets.partial_style_title;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.partial_style_title;
     }
     if (this.popupType == "correct") {
       this.rightanspopUpheader_img = true;
@@ -1011,17 +1011,17 @@ leavePlayPause() {
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackAssets.style_header;
       this.styleBodyPopup = this.feedbackAssets.style_body;
-      this.feedbackAssets.popTitleTxt_img=this.feedbackAssets.right_style_title;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.right_style_title;
     }
     if (this.popupType == "showanswer") {
-      this.autoClosePopupTimer=this.showAnsTimeout;
+      this.autoClosePopupTimer = this.showAnsTimeout;
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackAssets.style_header;
       this.styleBodyPopup = this.feedbackAssets.style_body;
-      this.feedbackAssets.popTitleTxt_img=this.feedbackAssets.showAns_style_title;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.showAns_style_title;
     }
     console.log(this.autoClosePopupTimer);
 
