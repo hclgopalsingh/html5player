@@ -2200,7 +2200,13 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.appModel.postWrongAttempt.subscribe(() => {
+      
       this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.left = "0%";
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = "0%";
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList.remove('grayscale');
       this.postWrongAttemplt();
     });
     this.appModel.enableNavBtn(false);
@@ -3258,11 +3264,7 @@ if(!this.destroy){
 
   resetAttempt(opt) {
     this.count = 1;
-    
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.left = "0%";
-    this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = "0%";
+      
     if (opt.position == "right") {
       this.refQuesCopy.splice(this.index + 1, 1)
       this.Matra.nativeElement.children[this.index + 1].remove();
@@ -3272,7 +3274,7 @@ if(!this.destroy){
       this.refQuesCopy.splice(this.index, 1)
     } else if (opt.position == "top" || opt.position == "bottom" || opt.position == "bottom_spcialCase") {
       this.refQuesCopy.splice(this.index, 1)
-      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
+      ////this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
     }
   }
 
@@ -3324,6 +3326,8 @@ if(!this.destroy){
       this.appModel.enableReplayBtn(false);
     } else {
       this.clicked = false;
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList.add('grayscale');
+      //this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
       this.appModel.wrongAttemptAnimation();
       this.coverTop = false;
       this.coverBottom = true;
