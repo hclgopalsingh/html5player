@@ -1,16 +1,16 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
 
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp24',
-  templateUrl: '../view/layout/Ntemplate24.component.html',
-  styleUrls: ['../view/css/Ntemplate24.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate24.component.html',
+  styleUrls: ['./Ntemplate24.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
