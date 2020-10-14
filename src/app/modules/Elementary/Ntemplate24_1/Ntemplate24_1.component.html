@@ -11,9 +11,7 @@
     <div class="d-flex mx-0" id="optionsBlock" #options>
       <div class="my-auto quesImage">
         <div class="options" 
-        [@step]="{value: option.isAuto ? 'state1' : 'state2', params: {leftPos: option.leftPos , topPos: option.topPos}}"
-        (@step.start)="onAnimationEvent($event,opt,idx)" (@step.done)="onAnimationEvent($event,opt,idx)"
-        [ngClass]="{'disableDiv':disableOpt,'greyOut':greyOutOpt}"
+          [ngClass]="{'disableDiv':disableOpt,'greyOut':greyOutOpt}"
           *ngFor="let option of optionObjCopy.optionArray;let idx=index; let first=first; let last=last;">
           <div>
             <img class="img-fluid"

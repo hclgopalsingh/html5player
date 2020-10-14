@@ -246,16 +246,15 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   //   }
   // }
   onAnimationEvent(event: AnimationEvent, opt, idx) {    
-    if (event.fromState == "state1" && event.toState == "state2" && event.phaseName == "done") {
-      if(this.optClicked==idx){
-        console.log("Shefali "+idx+this.direction);
-        this.reArrangeOpts(idx, this.direction);
-      }
-      
-    }
+    // if (event.fromState == "state1" && event.toState == "state2" && event.phaseName == "done") {
+    //   if(this.optClicked==idx){
+    //     console.log("Shefali "+idx+this.direction);
+    //     this.reArrangeOpts(idx, this.direction);
+    //   }      
+    // }
   }
   movePrevious(idx, opt) {
-    console.log("Shefali movePrev");
+    // console.log("Shefali movePrev");
     this.direction='left';
     this.optClicked=idx;  
     if (!this.instructionVO.nativeElement.paused) {
@@ -269,19 +268,21 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.appModel.enableReplayBtn(false);
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
       let to = this.mainContainer.nativeElement.children[0].children[0].children[idx - 1].getBoundingClientRect();            
-      this.optionObjCopy.optionArray[idx].isAuto=false;
-      this.optionObjCopy.optionArray[idx].leftPos=to.left - (from.left)+"%";
-      this.optionObjCopy.optionArray[idx].topPos=to.top - (from.top)+"%";
-      this.optionObjCopy.optionArray[idx-1].isAuto=false;
-      this.optionObjCopy.optionArray[idx-1].leftPos=from.left - (to.left)+"%";
-      this.optionObjCopy.optionArray[idx-1].topPos=from.top - (to.top)+"%";         
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'left') });
-      // this.reArrangeOpts(idx, 'left');
+      // this.optionObjCopy.optionArray[idx].isAuto=false;
+      // this.optionObjCopy.optionArray[idx].leftPos=(to.left - (from.left))+"%";
+      // this.optionObjCopy.optionArray[idx].topPos=(to.top - (from.top))+"%";
+      // this.optionObjCopy.optionArray[idx-1].isAuto=false;
+      // this.optionObjCopy.optionArray[idx-1].leftPos=(from.left - (to.left))+"%";
+      // this.optionObjCopy.optionArray[idx-1].topPos=(from.top - (to.top))+"%";         
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'left') });
+      // setTimeout(()=>{
+      //   this.reArrangeOpts(idx, this.direction);
+      // },500)
     }
   }
   moveNext(idx, opt) {
-    console.log("Shefali moveNext");
+    // console.log("Shefali moveNext");
     this.optClicked=idx;
     this.direction='right';  
     if (!this.instructionVO.nativeElement.paused) {
@@ -295,43 +296,41 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.appModel.enableReplayBtn(false);
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
       let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();            
-      this.optionObjCopy.optionArray[idx].isAuto=false;
-      this.optionObjCopy.optionArray[idx].leftPos=to.left - (from.left)+"%";
-      this.optionObjCopy.optionArray[idx].topPos=to.top - (from.top)+"%";
-      this.optionObjCopy.optionArray[idx+1].isAuto=false;      
-      this.optionObjCopy.optionArray[idx+1].leftPos=from.left - (to.left)+"%";
-      this.optionObjCopy.optionArray[idx+1].topPos=from.top - (to.top)+"%";
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'right') });      
-      // this.reArrangeOpts(idx, 'right');
+      // this.optionObjCopy.optionArray[idx].isAuto=false;
+      // this.optionObjCopy.optionArray[idx].leftPos=(to.left - (from.left))+"%";
+      // this.optionObjCopy.optionArray[idx].topPos=(to.top - (from.top))+"%";
+      // this.optionObjCopy.optionArray[idx+1].isAuto=false;      
+      // this.optionObjCopy.optionArray[idx+1].leftPos=(from.left - (to.left))+"%";
+      // this.optionObjCopy.optionArray[idx+1].topPos=(from.top - (to.top))+"%";
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'right') });      
+      // setTimeout(()=>{
+      //   this.reArrangeOpts(idx, this.direction);
+      // },500)
     }
   }
   reArrangeOpts(idx, flag) {
-    // debugger;
+    // this.optClicked="false1"; 
+    // this.direction="null";   
     if (flag == "left") {      
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).css('top', 'auto').css('left', 'auto');
-      this.optionObjCopy.optionArray[idx].isAuto=true;
-      this.optionObjCopy.optionArray[idx-1].isAuto=true;
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).css('top', 'auto').css('left', 'auto');
+      // this.optionObjCopy.optionArray[idx].isAuto=true;
+      // this.optionObjCopy.optionArray[idx-1].isAuto=true;
       let optCurrent = this.optionObjCopy.optionArray[idx];
       let optLeft = this.optionObjCopy.optionArray[idx - 1];
       this.optionObjCopy.optionArray[idx] = optLeft;
-      this.optionObjCopy.optionArray[idx - 1] = optCurrent;
-      
+      this.optionObjCopy.optionArray[idx - 1] = optCurrent;      
     } else if (flag == "right") {      
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
-      // $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).css('top', 'auto').css('left', 'auto');
-      this.optionObjCopy.optionArray[idx].isAuto=true;
-      this.optionObjCopy.optionArray[idx+1].isAuto=true;
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
+      $(this.mainContainer.nativeElement.children[0].children[0].children[idx + 1]).css('top', 'auto').css('left', 'auto');
+      // this.optionObjCopy.optionArray[idx].isAuto=true;
+      // this.optionObjCopy.optionArray[idx+1].isAuto=true;
       let optCurrent = this.optionObjCopy.optionArray[idx];
-      let optRight = this.optionObjCopy.optionArray[idx + 1];
-      optCurrent.isAuto=true;
-      optRight.isAuto=true;
+      let optRight = this.optionObjCopy.optionArray[idx + 1];      
       this.optionObjCopy.optionArray[idx] = optRight;
-      this.optionObjCopy.optionArray[idx + 1] = optCurrent;
-      
+      this.optionObjCopy.optionArray[idx + 1] = optCurrent;      
     }
-    console.log("Shefali"+flag);
   }
 
   // optionLeave(idx, opt) {
@@ -342,22 +341,18 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   //   }, 500)
   // }
 
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
-  }
+  // OptionZoomOutAnimation(opt, i, j) {
+  //   if (!this.checked && this.instructionVO.nativeElement.paused) {
+  //     opt.imgsrc = opt.imgsrc_original;
+  //     if (opt.imgsrc && opt.imgsrc.location == "content") {
+  //     } else {
+  //     }
+  //   }
+  // }
 
-  OptionZoomOutAnimation(opt, i, j) {
-    if (!this.checked && this.instructionVO.nativeElement.paused) {
-      opt.imgsrc = opt.imgsrc_original;
-      if (opt.imgsrc && opt.imgsrc.location == "content") {
-      } else {
-      }
-    }
-  }
+  // onClickoption(opt, i, j) {
 
-  onClickoption(opt, i, j) {
-
-  }
+  // }
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -468,6 +463,10 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.postWrongAttemplt();
     })
     this.appModel.resetBlinkingTimer();
+  }
+
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
   }
 
   ngOnDestroy() {
@@ -817,13 +816,13 @@ leavePlayPause() {
     this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_original;
   }
 
-  showFeedback(id: string, flag: string) {
+  // showFeedback(id: string, flag: string) {
 
-  }
+  // }
 
-  resetAttempt() {
+  // resetAttempt() {
 
-  }
+  // }
 
 
   sendFeedback(ref, flag: string, action?: string) {
@@ -907,14 +906,14 @@ leavePlayPause() {
     this.appModel.enableSubmitBtn(true);
   }
 
-  selectOpt(idx, opt) {
-    this.appModel.notifyUserAction();
-    this.appModel.enableReplayBtn(false);
-    for (let i in this.optionObjCopy.optionArray) {
-      this.optionObjCopy.optionArray[i].selected = false;
-    }
-    this.optionObjCopy.optionArray[idx].selected = true;
-  }
+  // selectOpt(idx, opt) {
+  //   this.appModel.notifyUserAction();
+  //   this.appModel.enableReplayBtn(false);
+  //   for (let i in this.optionObjCopy.optionArray) {
+  //     this.optionObjCopy.optionArray[i].selected = false;
+  //   }
+  //   this.optionObjCopy.optionArray[idx].selected = true;
+  // }
 
   playFeedbackAudio(num) {
     let optionsAssets: any;
