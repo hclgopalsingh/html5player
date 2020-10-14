@@ -3,14 +3,14 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 @Component({
   selector: 'app-instruction-bar',
   templateUrl: './instruction-bar.component.html',
-  styleUrls: ['./instruction-bar.component.css']
+  styleUrls: ['./instruction-bar.component.scss']
 })
 export class InstructionBarComponent implements OnInit {
   @Input() assetsPath: string;
   @Input() contentPath: string;
   @Input() data:any;
   @Input() instructiontext:string="";
-  @Output() loader = new EventEmitter<any>();
+  @Output() imageLoad = new EventEmitter();
 
   constructor() { }
 
@@ -18,7 +18,7 @@ export class InstructionBarComponent implements OnInit {
   }
 
   checkImgLoaded() {
-    this.loader.emit();
+    this.imageLoad.emit();
   }
 
 }

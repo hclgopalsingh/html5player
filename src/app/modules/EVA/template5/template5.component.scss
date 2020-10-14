@@ -236,6 +236,9 @@
 	.rightAnsIcon {
 		width: 15%;
 	}
+	.keyContainer {
+		pointer-events: none;
+	}
 }
 .parentAnsContainer {
 	position: absolute;
@@ -292,13 +295,9 @@
 		transition: transform .5s ease;
 	}
 }
- ::host {
-	&::ng-deep {
-		.speakerBtn {
-			width: 5.5%;
-			bottom: 19.5%;
-			right: 3.2%;
-			position: absolute;
-		}
-	}
+:host ::ng-deep .speakerBtn {
+	width: 5.5%;
+    bottom: 19.5%;
+    right: 3.2%;
+    position: absolute;
 }

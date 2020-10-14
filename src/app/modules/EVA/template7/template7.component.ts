@@ -1,19 +1,16 @@
-import { Component, OnInit, ViewChild, OnDestroy ,AfterViewChecked,AfterViewInit} from '@angular/core';
-import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
-import { SharedserviceService } from '../../../common/services/sharedservice.service';
-
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApplicationmodelService } from 'src/app/common/services/applicationmodel.service';
+import { SharedserviceService } from 'src/app/common/services/sharedservice.service';
 
 @Component({
 	selector: 'app-template7',
 	templateUrl: './template7.component.html',
 	styleUrls: ['./template7.component.scss']
 })
-
-export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestroy,AfterViewInit  {
+export class TemplateSevenComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
 	constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-	
 		//subscribing common popup from shared service to get the updated event and values of speaker
 		this.Sharedservice.showAnsRef.subscribe(showansref => {
 			this.showAnswerRef = showansref;
@@ -34,19 +31,19 @@ export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestr
 
 	}
 
-	@ViewChild('narrator_voice') narrator_voice: any;
-	@ViewChild('titleNavBtn') titleNavBtn: any;
-	@ViewChild('titleAudio') titleAudio: any;
+	@ViewChild('narrator_voice', {static: true}) narrator_voice: any;
+	@ViewChild('titleNavBtn', {static: true}) titleNavBtn: any;
+	@ViewChild('titleAudio', {static: true}) titleAudio: any;
 	@ViewChild('clapSound') clapSound: any;
 	@ViewChild('repeatFeedback') repeatFeedback: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
 	@ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-	@ViewChild('showAnswerRef') showAnswerRef: any;
-	@ViewChild('ansPopup') ansPopup: any;
+	@ViewChild('showAnswerRef', {static: true}) showAnswerRef: any;
+	@ViewChild('ansPopup', {static: true}) ansPopup: any;
 	@ViewChild('rightFeedback') rightFeedback: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
 	@ViewChild('partialFeedback') partialFeedback: any;
-	@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
+	@ViewChild('videoonshowAnspopUp', {static: true}) videoonshowAnspopUp: any;
 	@ViewChild('optionRef') optionRef: any;
 
 
@@ -67,7 +64,7 @@ export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestr
 	isLastQuesAct: boolean;
 	noOfImgs: number;
 	common_assets: any = "";
-	contentFolderPath: string = "";
+	contentgFolderPath: string = "";
 	videoPlayed = false;
 	speakerPlayed = false;
 	instructiontext: string;
@@ -100,7 +97,7 @@ export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestr
 		this.Sharedservice.setLastQuesAageyBadheStatus(true);
 		this.attemptType = "";
 		this.setTemplateType();
-		this.contentFolderPath = this.basePath;
+		this.contentgFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 		//subscribing speaker from shared service to get the updated object of speaker
 		this.Sharedservice.spriteElement.subscribe(imagesrc => {
@@ -139,7 +136,7 @@ export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestr
 				this.appModel.stopAllTimer();
 				this.stopAllSounds()
 				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
 					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
 						this.videoonshowAnspopUp.nativeElement.play();
@@ -281,7 +278,7 @@ export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestr
 	playSound(soundAssets, idx) {
 		if (this.audio && this.audio.paused) {
 			if (soundAssets.location == 'content') {
-				this.audio.src = this.contentFolderPath + '/' + soundAssets.url;
+				this.audio.src = this.contentgFolderPath + '/' + soundAssets.url;
 			} else {
 				this.audio.src = soundAssets.url;
 			}
@@ -604,7 +601,6 @@ export class TemplateSevenComponent implements OnInit, AfterViewChecked, OnDestr
 			this.optionsBlock.nativeElement.classList = "disable_div";
 			(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "none";
 			this.narrator_voice.nativeElement.play();
-			document.getElementById("container").style.opacity = "1";
 			this.narrator_voice.nativeElement.onended = () => {
 				document.getElementById(this.ansArray[0].id).focus();
 				this.optionsBlock.nativeElement.classList = "";

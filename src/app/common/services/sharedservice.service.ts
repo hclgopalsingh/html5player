@@ -1,11 +1,12 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import {Injectable, Output, EventEmitter} from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SharedserviceService {
-
+  
     private subject = new Subject<any>();
     private ShowAnswer = new Subject<any>();
+    private disableShowAnswer = new Subject<any>();
     private SubmitAnswer = new Subject<any>();
     private IsVOPlaying = new Subject<any>();
     private AageyBadhe = new Subject<any>();
@@ -31,116 +32,125 @@ export class SharedserviceService {
         return this.subject.asObservable();
     }
 
-    setShowAnsEnabled(status: any) {
-        this.ShowAnswer.next({ data: status });
+    setShowAnsEnabled(status:any){
+        this.ShowAnswer.next({data:status});
     }
 
-    getShowAnsEnabled() {
+    getShowAnsEnabled(){
         return this.ShowAnswer.asObservable();
     }
-
-    setSubmitAnsEnabled(status: any) {
-        this.SubmitAnswer.next({ data: status });
+  
+    // disable click on show answer button even if show answer btn state is enabled
+    setShowAnsClickDisabled(status:any){
+        this.disableShowAnswer.next({data:status});
     }
 
-    getSubmitAnsEnabled() {
+    getShowAnsClickDisabled(){
+        return this.disableShowAnswer.asObservable();
+    }
+
+    setSubmitAnsEnabled(status:any){
+        this.SubmitAnswer.next({data:status});
+    }
+
+    getSubmitAnsEnabled(){
         return this.SubmitAnswer.asObservable();
     }
 
-    setVoplayingStatus(status: any) {
-        this.IsVOPlaying.next({ data: status });
+    setVoplayingStatus(status:any){
+        this.IsVOPlaying.next({data:status});
     }
 
-    getVoPlayingStatus() {
-        return this.IsVOPlaying.asObservable();
+    getVoPlayingStatus(){
+       return this.IsVOPlaying.asObservable();
     }
 
 
-    setLastQuesAageyBadheStatus(status: any) {
-        this.AageyBadhe.next({ data: status });
+    setLastQuesAageyBadheStatus(status:any){
+        this.AageyBadhe.next({data:status});
     }
 
-    getLastQuesAageyBadheStatus() {
-        return this.AageyBadhe.asObservable();
+    getLastQuesAageyBadheStatus(){
+       return this.AageyBadhe.asObservable();
     }
 
-    setIsAggeyBadheClicked(status: any) {
-        this.isAageyBadhe.next({ data: status });
+    setIsAggeyBadheClicked(status:any){
+        this.isAageyBadhe.next({data:status});
     }
 
-    getIsAggeyBadheClicked() {
+    getIsAggeyBadheClicked(){
         return this.isAageyBadhe.asObservable();
     }
 
-    setTimeOnLastQues(Questimer: any) {
-        this.isTimerActive.next({ data: Questimer });
+    setTimeOnLastQues(Questimer:any){
+        this.isTimerActive.next({data:Questimer});
     }
 
-    getTimerOnLastQues() {
+    getTimerOnLastQues(){
         return this.isTimerActive.asObservable();
     }
-    public moveNext() {
+    public moveNext(){
         this.moveNextSubject.next();
-    }
+      }
 
-    get moveNextNotification() {
+    get moveNextNotification(){
         return this.moveNextSubject.asObservable();
-    }
+      }
 
 
-    setShowHideConfirmation(status: any) {
-        this.ShowHideConfirmation.next({ data: status });
+    setShowHideConfirmation(status:any){
+        this.ShowHideConfirmation.next({data:status});
     }
 
-    getsetShowHideConfirmation() {
-        return this.ShowHideConfirmation.asObservable();
+    getsetShowHideConfirmation(){
+       return this.ShowHideConfirmation.asObservable();
     }
-    //method to convert json with complate url based on location
-    imagePath(data, containgFolderPath, themePath, functionalityType) {
-        const keys = Object.keys(data);
-        const objlength = keys.length;
+      //method to convert json with complate url based on location
+      imagePath(data, containgFolderPath, themePath, functionalityType){	
+        var keys = Object.keys(data);
+		var objlength = keys.length;
         this.setPath(objlength, data, containgFolderPath, themePath, functionalityType);
     }
 
-    setPath(objlength, data, containgFolderPath, themePath, functionalityType) {
-        for (let i = 0; i < objlength; i++) {
-            const value = data[Object.keys(data)[i]];
+	setPath(objlength, data, containgFolderPath, themePath, functionalityType){
+		for (var i=0; i<objlength; i++){
+			var value =	data[Object.keys(data)[i]];
 
-            if (typeof value != "object") {
-                //console.log('not object')
-            } else {
-                if (value.hasOwnProperty("location") && value.length == undefined) {
-                    const location = value["location"];
-
-                    if (location == "content") {
-                        if (value["url"]) {
-                            value["url"] = containgFolderPath + '/' + value["url"];
-                        }
-                        if (value["urlOgv"]) {
-                            value["urlOgv"] = containgFolderPath + '/' + value["urlOgv"];
-                        }
-                        if (value["urlMP4"]) {
-                            value["urlMP4"] = containgFolderPath + '/' + value["urlMP4"];
-                        }
-                    } else if (location == "theme") {
-                        if (value["url"]) {
-                            value["url"] = themePath + '/type_' + functionalityType + '/' + value["url"];
-                        }
-                        if (value["urlOgv"]) {
-                            value["urlOgv"] = themePath + '/type_' + functionalityType + '/' + value["urlOgv"];
-                        }
-                        if (value["urlMP4"]) {
-                            value["urlMP4"] = themePath + '/type_' + functionalityType + '/' + value["urlMP4"];
-                        }
-                        if (value["urlglobal"]) {
-                            value["urlglobal"] = themePath + '/' + value["urlglobal"];
+			if(typeof value != "object"){
+				//console.log('not object')
+			}else{
+				if(value.hasOwnProperty("location") && value.length == undefined ){
+					var location = value["location"];
+					
+					if(location == "content"){
+						if(value["url"]){
+							value["url"] = containgFolderPath + '/' + value["url"];
+						}
+						if(value["urlOgv"]){
+							value["urlOgv"] = containgFolderPath + '/' + value["urlOgv"];
+						}
+						if(value["urlMP4"]){
+							value["urlMP4"] = containgFolderPath + '/' + value["urlMP4"];
+						}														
+					} else if(location == "theme"){
+						if(value["url"]){
+							value["url"] = themePath + '/type_'+ functionalityType +'/'+ value["url"];					
+						}
+						if(value["urlOgv"]){
+							value["urlOgv"] = themePath + '/type_'+ functionalityType +'/'+ value["urlOgv"];					
+						}
+						if(value["urlMP4"]){
+							value["urlMP4"] = themePath + '/type_'+ functionalityType +'/'+ value["urlMP4"];					
+						}
+						if(value["urlglobal"]){
+							value["urlglobal"] = themePath +'/'+ value["urlglobal"];
                             value['url'] = value['urlglobal']; // replace existing key with new name 
-                            delete value['urlglobal'];
-                        }
-                    }
-                }
-                this.imagePath(value, containgFolderPath, themePath, functionalityType)
-            }
+                            delete value['urlglobal'];					
+						}						
+					}
+				}			
+				this.imagePath(value, containgFolderPath, themePath, functionalityType)
+			}
         }
-    }
+	}
 }

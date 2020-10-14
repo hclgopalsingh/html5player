@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked,AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
@@ -10,7 +10,7 @@ import { PlayerConstants } from '../../../common/playerconstants';
   templateUrl: './template12.component.html',
   styleUrls: ['./template12.component.scss']
 })
-export class Template12Component implements OnInit ,OnDestroy,AfterViewChecked,AfterViewInit  {
+export class Template12Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
   blink: boolean = false;
   commonAssets: any = "";
@@ -251,17 +251,21 @@ export class Template12Component implements OnInit ,OnDestroy,AfterViewChecked,A
       });
     });
     //logic to set different width based on last row length
-    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length - 2].rowValues.length;
+    this.resultDigitCount = this.quesObj.tablet.questionText[this.quesObj.tablet.questionText.length-2].rowValues.length;
     if (this.quesObj.tablet.quesType === "add" || this.quesObj.tablet.quesType === "subt") {
-      if (this.resultDigitCount === 5) {
+      if(this.resultDigitCount === 5) {
         this.parentInputClass = "input_digits-5";
-      } else if (this.resultDigitCount === 4) {
+      }
+      else if(this.resultDigitCount === 4) {
         this.parentInputClass = "input_digits-4";
-      } else if (this.resultDigitCount === 3) {
+      }
+      else if(this.resultDigitCount === 3) {
         this.parentInputClass = "input_digits-3";
-      } else if (this.resultDigitCount === 2) {
+      }
+      else if(this.resultDigitCount === 2) {
         this.parentInputClass = "input_digits-2";
-      } else if (this.resultDigitCount === 1) {
+      }
+      else if(this.resultDigitCount === 1) {
         this.parentInputClass = "input_digits-1";
       }
     }
@@ -367,6 +371,7 @@ export class Template12Component implements OnInit ,OnDestroy,AfterViewChecked,A
 
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
         if (this.correctAnswerCounter === this.correctAnswerCount) {
+          this.appModel.storeVisitedTabs();
           this.showRightAnswerPopup();
         }
         else {
@@ -509,7 +514,7 @@ export class Template12Component implements OnInit ,OnDestroy,AfterViewChecked,A
   setBlink() {
     let highLightDigitObj = this.getHighLightDigitDetails();
     this.quesObj.tablet.questionText[Number(highLightDigitObj.rowId) - 1].rowValues[highLightDigitObj.digitId - 1]["blink"] = true;
-
+    
   }
 
   /******On Hover option ********/

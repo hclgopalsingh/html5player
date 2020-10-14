@@ -1,0 +1,91 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #instruction
+  [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url"
+  autoplay="autoplay"></audio>
+<div [ngClass]="{'fadeContainer':isOverlay}"></div>
+<div class="container-fluid eva" id="container">
+  <div class="headerBar">
+    <img class="img-fluid"
+      [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" />
+  </div>
+  <div id="bgImage">
+    <img class="img-fluid"
+      [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url" />
+  </div>
+  <div [ngClass]="{'disableDiv':disableMainContent}">
+    <div id="instructionBar">
+      <div class="instructionBase">
+        <img class="img-fluid"
+          [src]="commonAssets?.instruction_bg
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" />
+        <span class="instructionText">{{instructiontext}}</span>
+      </div>
+    </div>
+
+    <div id="parentBlock">
+      <div class="queryBlock">
+        <img class="img-fluid"
+          [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+        <div id="svgContainer" #quesRef on-mousemove="mouseOverSVG($event)" on-mouseout="mouseOutSVG($event)"
+          (click)="onSVGClick($event)">
+        </div>
+      </div>
+
+      <div [ngClass]="{'disableDiv':disableOptions,'keypadBlock':true}">
+        <img class="img-fluid"
+          [src]="myoption?.pencil?.image?.location=='content' ? containgFolderPath + '/' + myoption?.pencil?.image?.url : myoption?.pencil?.image?.location=='assets' ? assetsPath + '/' +myoption?.pencil?.image?.url:''"
+          alt="">
+        <div class="optionContainer" [ngClass]="[parentOptionsClass]" #optionsContainer>
+          <div id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index"
+            (click)="checkAnswer(option, idx)" on-mousemove="onHoverOptions(option)"
+            on-mouseout="onHoveroutOptions(option)" on-mouseenter='playOptionHover(option,idx)'>
+            <img class="img-fluid"
+              [src]="option?.image?.location=='content' ? containgFolderPath + '/' + option?.image?.url : option?.image?.location=='assets' ? assetsPath + '/' +option?.image?.url:''">
+            <img class="img-fluid"
+              [src]="option?.image_bg?.location=='content' ? containgFolderPath + '/' + option?.image_bg?.url : option?.image_bg?.location=='assets' ? assetsPath + '/' +option?.image_bg?.url:''">
+          </div>
+        </div>
+      </div>
+      <app-Globalspeaker (clickSpeaker)="onSpeakerClicked()"></app-Globalspeaker>
+    </div>
+
+  </div>
+  <!--END OF MAIN CONTENT-->
+
+  <!-- Right/Wrong Popup  -->
+  <div class="modal" id="evaTemp12" #ansPopup>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+          <img class="img-fluid"
+            [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+          <div class="queryBlock">
+            <img class="img-fluid"
+          [src]="quesObj?.tablet?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.tablet?.background?.url : quesObj?.tablet?.background?.location=='assets' ? assetsPath + '/' +quesObj?.tablet?.background?.url:''">
+          <div id="rightAnsPopup"></div>
+          </div>
+          <div class="rightWrongAns">
+            <img class="img-fluid"
+              [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+          </div>
+          <img class="popupCloseBtn"
+            [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+            (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- show answer Popup  -->
+  <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
+</div>
+<!-- Popup Modal Audios -->
+<audio #wrongFeedback
+  [src]="feedback?.wrong_ans_sound?.path?.location=='content'? containgFolderPath + '/' +  feedback?.wrong_ans_sound?.path?.url : assetsPath +'/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+<audio #rightFeedback
+  [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
+<audio #clapSound
+  [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
+<audio #multiCorrectFeedback
+  [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>

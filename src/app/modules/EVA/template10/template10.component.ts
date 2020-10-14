@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy ,AfterViewInit} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './template10.component.html',
   styleUrls: ['./template10.component.scss']
 })
-export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy,AfterViewInit {
+export class TemplateTenComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   blink: boolean = false;
   commonAssets: any = "";
   rightPopup: any;
@@ -80,7 +80,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
-  @ViewChild('sprite') sprite: any;
+  @ViewChild('sprite', {static: true}) sprite: any;
   @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('ansPopup') ansPopup: any;
   @ViewChild('wrongFeedback') wrongFeedback: any;
@@ -94,9 +94,9 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
   @ViewChild('overlay') overlay: any;
   @ViewChild('multiCorrectFeedback') multiCorrectFeedback: any;
   @ViewChild('refQuesWord') refQuesWord: any;
-  @ViewChild('optionsContainer') optionsContainer: any;
+  @ViewChild('optionsContainer', {static: true}) optionsContainer: any;
 
-  constructor(private appModel: ApplicationmodelService, private activatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+  constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 
     //subscribing common popup from shared service to get the updated event and values of speaker
     this.Sharedservice.showAnsRef.subscribe(showansref => {
@@ -113,7 +113,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     if (!this.appModel.isVideoPlayed) {
       this.isVideoLoaded = false;
     } else {
-      // this.appModel.setLoader(true);
+      this.appModel.setLoader(true);
       // if error occured during image loading loader wil stop after 5 seconds 
       this.loaderTimer = setTimeout(() => {
         this.appModel.setLoader(false);
@@ -136,22 +136,15 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     this.appModel.navShow = 2;
   }
 
-  ngAfterViewInit(){
-    this.sprite.nativeElement.style = "display:none";  
-    this.optionsContainer.nativeElement.classList.add("disableDiv");
-
-    if (this.appModel.isNewCollection) {
-      this.appModel.event = { 'action': 'segmentBegins' };
-    }
-  }
-
   ngOnInit() {
     this.Sharedservice.setShowAnsEnabled(false);
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
     this.attemptType = "";
     this.setTemplateType();
     console.log("this.attemptType = " + this.attemptType);
-   
+    if (this.appModel.isNewCollection) {
+      this.appModel.event = { 'action': 'segmentBegins' };
+    }
     this.containgFolderPath = this.getBasePath();
     this.setData();
     this.questionObj.letters.forEach(question => {
@@ -249,6 +242,11 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     this.audio.pause();
   }
 
+  ngAfterViewInit() {
+    this.sprite.nativeElement.style = "display:none";
+    this.optionsContainer.nativeElement.classList.add("disableDiv");
+  }
+
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
     if (this.getChromeVersion() < 71) {
@@ -293,7 +291,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
 
   /******Set template type for EVA******/
   setTemplateType(): void {
-    this.activatedRoute.data.subscribe(data => {
+    this.ActivatedRoute.data.subscribe(data => {
       this.Sharedservice.sendData(data);
     })
   }
@@ -438,10 +436,10 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   handleMarginOnAksharToggle(matraArrIndex, id, marginValue) {
-    if (matraArrIndex.indexOf(id) > -1) {
+    if(matraArrIndex.indexOf(id) > -1) {
       this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id)]].style["margin"] = "0";
-    } else if (matraArrIndex.indexOf(id - 1) > -1) {
-      this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id - 1)]].style["margin"] = "0";
+    } else if (matraArrIndex.indexOf(id-1) > -1) {
+      this.refQuesWord.nativeElement.children[matraArrIndex[matraArrIndex.indexOf(id-1)]].style["margin"] = "0";
     } else {
       matraArrIndex.forEach(index => {
         this.refQuesWord.nativeElement.children[index].style["margin-right"] = marginValue;
@@ -457,7 +455,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
       if (this.refQuesWord.nativeElement.children[i].classList.contains("blinkOn")) {
         this.refQuesWord.nativeElement.children[i].classList.remove("blinkOn");
       }
-      if (this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "oo") {
+      if(this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "oo") {
         ooMatraArrIndex.push(i);
       } else if (this.refQuesWord.nativeElement.children[i].getAttribute("matra") === "ang") {
         angMatraArrIndex.push(i);
@@ -468,7 +466,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     this.selectedIndex = id;
     this.refQuesWord.nativeElement.children[id].classList.add("blinkOn");
     //check if user clicked wrong akshar
-    if (!letter.iscorrect_ans) {
+    if(!letter.correct_index || this.questionObj.letters[this.selectedIndex].matraadded.length === Object.keys(this.questionObj.letters[this.selectedIndex].correct_ans.correct_ans_obj).length) {
       for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
         document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");
       }
@@ -499,14 +497,14 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   addMatraMargin() {
-    for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
-      const matraValue = this.refQuesWord.nativeElement.children[i].getAttribute("matra");
-      if (matraValue === "oo") {
+      for (let i = 0; i < this.refQuesWord.nativeElement.children.length; i++) {
+        let matraValue = this.refQuesWord.nativeElement.children[i].getAttribute("matra");
+        if(matraValue === "oo") {
         this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-2%";
-      } else if (matraValue === "ang" && this.questionObj.letters[i].matraadded && this.questionObj.letters[i].matraadded.length === 1) {
-        this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-3%";
-      }
-    }
+        } else if (matraValue === "ang" && this.questionObj.letters[i].matraadded &&  this.questionObj.letters[i].matraadded.length === 1) {
+          this.refQuesWord.nativeElement.children[i].style["margin-right"] = "-3%";
+        }
+      } 
   }
   /****Check answer on option click*****/
   checkAnswer(option, index) {
@@ -521,9 +519,9 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     }
     this.stopAllSounds("clicked");
     if (option.matravalue === "oo") {
-      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra", "oo");
-    } else if (option.matravalue === "ang") {
-      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra", "ang");
+      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra","oo");
+    } else if(option.matravalue === "ang") {
+      this.refQuesWord.nativeElement.children[this.selectedIndex].setAttribute("matra","ang");
     }
     const matraIndex = selectedAkshar.matraadded.indexOf(option.matravalue);
     if (this.correctAnswerObj.correct_index.indexOf(option.id) > -1 && matraIndex < 0) {
@@ -668,13 +666,27 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
 
-    if (this.showAnswerRef) {
-      this.showAnswerRef.nativeElement.classList = "modal";
-    }
-    if(this.ansPopup) {
-      this.ansPopup.nativeElement.classList = "modal";
-    }
-    this.stopAllSounds();
+    this.showAnswerRef.nativeElement.classList = "modal";
+    this.ansPopup.nativeElement.classList = "modal";
+
+    this.wrongFeedback.nativeElement.pause();
+    this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+
+    this.rightFeedback.nativeElement.pause();
+    this.rightFeedback.nativeElement.currentTime = 0;
+
+    this.videoonshowAnspopUp.nativeElement.pause();
+    this.videoonshowAnspopUp.nativeElement.currentTime = 0;
+
+    this.multiCorrectFeedback.nativeElement.pause();
+    this.multiCorrectFeedback.nativeElement.currentTime = 0;
+
+    this.wrongFeedbackOnAkshar.nativeElement.pause();
+    this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
+
     this.refQuesWord.nativeElement.classList.remove("disableDiv");
 
     if (Type === "answerPopup") {
@@ -786,12 +798,12 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
       this.audio.play();
       for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
         if (i != idx) {
-          this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
+            this.optionsContainer.nativeElement.children[i].classList.add("disableDiv");
         }
-      }
-      this.audio.onended = () => {
+    }
+    this.audio.onended = () => {
         this.enableAllOptions();
-      }
+    }
     }
   }
 
@@ -808,7 +820,7 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
   /***** Enable all options and speaker on audio end *******/
   enableAllOptions() {
     for (let i = 0; i < this.optionsContainer.nativeElement.children.length; i++) {
-      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv") && !this.myoption[i].selected) {
+      if (this.optionsContainer.nativeElement.children[i].classList.contains("disableDiv")  && !this.myoption[i].selected) {
         this.optionsContainer.nativeElement.children[i].classList.remove("disableDiv");
       }
     }
@@ -816,39 +828,25 @@ export class TemplateTenComponent implements OnInit, AfterViewChecked, OnDestroy
 
   /** Function to stop all sounds **/
   stopAllSounds(clicked?) {
-    if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
-    }
-    if (this.myAudiospeaker) {
-      this.myAudiospeaker.nativeElement.pause();
-      this.myAudiospeaker.nativeElement.currentTime = 0;
-    }
-    if (this.wrongFeedback) {
-      this.wrongFeedback.nativeElement.pause();
-      this.wrongFeedback.nativeElement.currentTime = 0;
-    }
-    if (this.rightFeedback) {
-      this.rightFeedback.nativeElement.pause();
-      this.rightFeedback.nativeElement.currentTime = 0;
-    }
-    if (this.clapSound) {
-      this.clapSound.nativeElement.pause();
-      this.clapSound.nativeElement.currentTime = 0;
-    }
-    if (this.wrongFeedbackOnAkshar) {
-      this.wrongFeedbackOnAkshar.nativeElement.pause();
-      this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
-    }
-    if (this.videoonshowAnspopUp) {
-      this.videoonshowAnspopUp.nativeElement.pause();
-      this.videoonshowAnspopUp.nativeElement.currentTime = 0;
-    }
-    if (this.multiCorrectFeedback) {
-      this.multiCorrectFeedback.nativeElement.pause();
-      this.multiCorrectFeedback.nativeElement.currentTime = 0;
-    }
-    if (clicked) {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+
+    this.myAudiospeaker.nativeElement.pause();
+    this.myAudiospeaker.nativeElement.currentTime = 0;
+
+    this.wrongFeedback.nativeElement.pause();
+    this.wrongFeedback.nativeElement.currentTime = 0;
+
+    this.rightFeedback.nativeElement.pause();
+    this.rightFeedback.nativeElement.currentTime = 0;
+
+    this.clapSound.nativeElement.pause();
+    this.clapSound.nativeElement.currentTime = 0;
+
+    this.wrongFeedbackOnAkshar.nativeElement.pause();
+    this.wrongFeedbackOnAkshar.nativeElement.currentTime = 0;
+
+    if(clicked) {
       this.enableAllOptions();
     }
   }

@@ -1,0 +1,171 @@
+#svgContainer {
+	position: absolute;
+	top: 5.1%;
+	display: flex;
+	justify-content: center;
+	width: 82%;
+	left: 7.2%;
+	height: 89%;
+	align-items: center;
+}
+#parentBlock {
+	position: absolute;
+	top: 19%;
+	width: 100%;
+	height: 80%;
+	left: 0%;
+}
+.keypadBlock {
+	position: absolute;
+	display: flex;
+	width: 51%;
+	left: 47%;
+	top: 3%;
+	height: 63%;
+	justify-content: center;
+	align-items: center;
+	img {
+		z-index: 2;
+	}
+}
+.queryBlock {
+	position: absolute;
+	left: 1.8%;
+	width: 44%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.optionContainer {
+	position: absolute;
+	display: flex;
+	height: 100%;
+	width: 100%;
+	div {
+		img {
+			&:first-child {
+				position: absolute;
+			}
+		}
+		position: absolute;
+		width: 15%;
+		cursor: pointer;
+		transition: top .1s ease-in;
+	}
+	#key1 {
+		&:hover {
+			top: 7%;
+		}
+		left: 14%;
+		top: 8.5%;
+	}
+	#key2 {
+		&:hover {
+			top: 7%;
+		}
+		left: 41.5%;
+		top: 8.5%;
+	}
+	#key3 {
+		&:hover {
+			top: 7%;
+		}
+		top: 8.5%;
+		left: 68.8%;
+	}
+	#key4 {
+		&:hover {
+			top: 55.6%;
+		}
+		top: 53.5%;
+		left: 27.8%;
+	}
+	#key5 {
+		&:hover {
+			top: 55.6%;
+		}
+		top: 53.5%;
+		left: 55%;
+	}
+	#key6 {
+		&:hover {
+			top: 55.6%;
+		}
+		top: 53.5%;
+		left: 82.5%;
+	}
+}
+.pencil_option_5.optionContainer {
+	div {
+		width: 17%;
+	}
+	#key1 {
+		&:hover {
+			top: 1%;
+		}
+		left: 16%;
+		top: 2.5%;
+	}
+	#key2 {
+		&:hover {
+			top: 1%;
+		}
+		left: 48%;
+		top: 2.5%;
+	}
+	#key3 {
+		&:hover {
+			top: 1%;
+		}
+		top: 2.5%;
+		left: 78.9%;
+	}
+	#key4 {
+		&:hover {
+			top: 56.5%;
+		}
+		top: 54.4%;
+		left: 32.4%;
+	}
+	#key5 {
+		&:hover {
+			top: 56.5%;
+		}
+		top: 54.4%;
+		left: 63.5%;
+	}
+}
+:host ::ng-deep .speakerBtn {
+	width: 5.6%;
+    bottom: 21%;
+    right: 1.2%;
+    position: absolute;
+}
+.modal {
+	.queryBlock {
+		left: 22.8%;
+		width: 52%;
+		position: absolute;
+		top: 5.1%;
+		display: flex;
+		justify-content: center;
+		height: 75.5%;
+		align-items: center;
+		div#rightAnsPopup {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 82%;
+			height: 81.2%;
+			top: 9%;
+			left: 7.5%;
+		}
+	}
+}
+.rightWrongAns {
+	bottom: 9%;
+	img {
+		width: 6%;
+	}
+}

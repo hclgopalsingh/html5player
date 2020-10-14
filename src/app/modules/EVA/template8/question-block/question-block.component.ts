@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { QuestionBlockVO } from '../../../../common/services/eva/template8/questionblockVO';
-import { Constants } from '../../../../common/services/eva/template8/constants';
+import { QuestionBlockVO } from 'src/app/common/services/eva/template8/questionblockVO';
+import { Constants } from 'src/app/common/services/eva/template8/constants';
 
 
 @Component({
   selector: 'app-question-block',
   templateUrl: './question-block.component.html',
-  styleUrls: ['./question-block.component.css']
+  styleUrls: ['./question-block.component.scss']
 })
 export class QuestionBlockComponent implements OnInit {
   selectedOptionURL: string = "";
@@ -29,13 +29,13 @@ export class QuestionBlockComponent implements OnInit {
 
   @Input() dataCorrectOption: any;
 
-  @ViewChild('blinkingBlock') blinkingBlock: any;
+  @ViewChild('blinkingBlock', {static: true}) blinkingBlock: any;
   @ViewChild('pauseBlockBlink') pauseBlockBlink: any;  
-  @ViewChild('selectedOptionBlock') selectedOptionBlock: any;
-  @ViewChild('selectedOptionBlockBlink') selectedOptionBlockBlink: any;
+  @ViewChild('selectedOptionBlock', {static: true}) selectedOptionBlock: any;
+  @ViewChild('selectedOptionBlockBlink', {static: true}) selectedOptionBlockBlink: any;
   @ViewChild('questionBase') questionBase: any;
   @ViewChild('questionStatement') questionStatement: any;
-  @Output() loader = new EventEmitter();
+  @Output() imageLoad = new EventEmitter();
 
   constructor() {
 
@@ -125,7 +125,7 @@ export class QuestionBlockComponent implements OnInit {
   }
 
   checkImgLoaded() {
-    this.loader.emit();
+    this.imageLoad.emit();
   }
 
   reset() {

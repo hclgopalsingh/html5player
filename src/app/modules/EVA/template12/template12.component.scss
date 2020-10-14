@@ -310,15 +310,11 @@
 	justify-content: center;
 	align-items: center;
 }
-::host {
-	&::ng-deep {
-		.speakerBtn {
-			width: 6%;
-			bottom: 14%;
-			right: 1.2%;
-			position: absolute;
-		}
-	}
+:host ::ng-deep .speakerBtn {
+	width: 6%;
+    bottom: 14%;
+    right: 1.2%;
+    position: absolute;
 }
 .highlightBox {
 	&::before {

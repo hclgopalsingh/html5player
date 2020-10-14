@@ -34,6 +34,7 @@
 		margin-top: 0px;
 	}
 	cursor: pointer;
+	left: -30% !important;
 }
 .volumesliderDisable {
 	&::-webkit-slider-thumb {
@@ -45,6 +46,9 @@
 		-webkit-appearance: none;
 		margin-top: 0px;
 	}
+	cursor: pointer;
+	left: -30% !important;
+	cursor: default;
 }
 #controlsContainer {
 	display: flex;
@@ -52,9 +56,9 @@
 	margin: 0;
 	clear: both;
 	position: absolute;
-	height: 6%;
+	height: 6.08%;
 	width: 100%;
-	z-index: 1050;
+	z-index: 1200;
 	opacity: .9;
 	bottom: 0;
 	background: #000;
@@ -89,9 +93,15 @@
 	opacity: 1;
 	animation: fadeIn 0.5s linear;
 }
+#autoPlayOnOffContainer {
+	width: 9.2% !important;
+	padding: 0 !important;
+	position: absolute;
+	right: 9%;
+}
 #volumeContainer {
 	position: absolute !important;
-	right: 3%;
+	right: 2.5%;
 	cursor: pointer;
 }
 div#MuteVarTemp {
@@ -100,7 +110,7 @@ div#MuteVarTemp {
 		background: rgba(0, 0, 0,.7) !important;
 		border-radius: 3vmin;
 		height: 321%;
-		width: 105%;
+		width: 100%;
 		position: absolute;
 		left: 1%;
 		bottom: -13%;
@@ -124,5 +134,10 @@ div#MuteVarTemp {
 		label {
 			font-size: .5em !important;
 		}
+	}
+}
+@media (min-width: 576px) {
+	.col-sm-1 {
+		flex: none;
 	}
 }

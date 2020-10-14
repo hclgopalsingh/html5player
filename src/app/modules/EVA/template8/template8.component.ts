@@ -1,10 +1,10 @@
 
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewChecked} from '@angular/core';
-import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subscription } from 'rxjs';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { DataService } from '../../../common/services/eva/template8/data.service';
 import { Constants } from '../../../common/services/eva/template8/constants';
 import { QuestionBlockVO } from '../../../common/services/eva/template8/questionblockVO';
@@ -16,7 +16,7 @@ import { AssetVO } from '../../../common/services/eva/template8/assetVO';
     templateUrl: './template8.component.html',
     styleUrls: ['./template8.component.scss']
 })
-export class Template8Component implements OnInit ,OnDestroy,AfterViewChecked {
+export class Template8Component implements OnInit,AfterViewInit, AfterViewChecked, OnDestroy {
     blink: boolean = false;
     commonAssets: any = "";
     ques: any = "";
@@ -94,7 +94,7 @@ export class Template8Component implements OnInit ,OnDestroy,AfterViewChecked {
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
-    @ViewChild('sprite') sprite: any;
+    @ViewChild('sprite', {static: true}) sprite: any;
     @ViewChild('speakerNormal') speakerNormal: any;
     @ViewChild('ansPopup') ansPopup: any;
     // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
@@ -160,7 +160,6 @@ export class Template8Component implements OnInit ,OnDestroy,AfterViewChecked {
     }
 
     ngOnInit() {
-        this.sprite.nativeElement.style = "display:none";
         this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
@@ -282,6 +281,10 @@ export class Template8Component implements OnInit ,OnDestroy,AfterViewChecked {
         this.templatevolume(this.appModel.volumeValue, this);
     }
 
+    ngAfterViewInit() {
+        this.sprite.nativeElement.style = "display:none";
+    }
+
     /******Set template type for EVA******/
     setTemplateType(): void {
         this.ActivatedRoute.data.subscribe(data => {
@@ -396,7 +399,7 @@ export class Template8Component implements OnInit ,OnDestroy,AfterViewChecked {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     //option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
-
+                    this.appModel.storeVisitedTabs();
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();
                         this.clapSound.nativeElement.currentTime = 0;

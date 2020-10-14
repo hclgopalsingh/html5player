@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked, AfterViewInit } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 // import { Base } from '../../../controller/base';
 import { SharedserviceService } from '../../../common/services/sharedservice.service';
@@ -6,15 +6,12 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 import { DragulaService } from "ng2-dragula";
 
-import 'jquery';
-declare var $: any;
-
 @Component({
 	selector: 'app-template6',
 	templateUrl: './template6.component.html',
 	styleUrls: ['./template6.component.scss']
 })
-export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
+export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked, AfterViewInit {
 
 	constructor(private dragulaService: DragulaService, private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
 		//subscribing common popup from shared service to get the updated event and values of speaker
@@ -97,12 +94,12 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 	@ViewChild('narrator_voice') narrator_voice: any;
 	@ViewChild('titleNavBtn') titleNavBtn: any;
 	@ViewChild('container') containerBlock: any;
-	@ViewChild('sprite') sprite: any;
+	@ViewChild('sprite', {static: true}) sprite: any;
 	@ViewChild('titleAudio') titleAudio: any;
 	@ViewChild('maincontent') maincontent: any;
 	@ViewChild('clapSound') clapSound: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
-	@ViewChild('showAnswerRef') showAnswerRef: any;
+	@ViewChild('showAnswerRef', {static: true}) showAnswerRef: any;
 	@ViewChild('ansPopup') ansPopup: any;
 	@ViewChild('rightFeedback') rightFeedback: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
@@ -419,7 +416,6 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 		clearInterval(this.blinkTimeInterval);
 		this.attemptType = "";
 		this.setTemplateType();
-		this.sprite.nativeElement.style = "display:none";
 		this.contentgFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 
@@ -509,6 +505,10 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 		this.templatevolume(this.appModel.volumeValue, this);
 	}
 
+	ngAfterViewInit() {
+        this.sprite.nativeElement.style = "display:none";
+    }
+
 	checkImgLoaded() {
 		if (!this.LoadFlag) {
 			this.noOfImgsLoaded++;
@@ -561,16 +561,16 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 
 		this.randomIdx = prevRandomId !== undefined ? prevRandomId : Math.floor((Math.random() * no));
 		clearInterval(this.blinkTimeInterval);
-		$(this.optionsBlock.nativeElement.children[0].children[2]).removeClass("disableDiv1");
-		$(this.optionsBlock.nativeElement.children[0].children[0]).removeClass("disableDiv1");
+		this.optionsBlock.nativeElement.children[0].children[2].classList.remove("disableDiv1");
+		this.optionsBlock.nativeElement.children[0].children[0].classList.remove("disableDiv1");
 
 
 		if (this.optionHolder.left_random_index.includes(this.completeRandomArr[this.randomIdx]) && this.blinkCategory1 < 3 && this.LRightAttempt < 3) {
 			this.blinkCategoryA(this.randomIdx);
-			$(this.optionsBlock.nativeElement.children[0].children[2]).addClass("disableDiv1");
+			this.optionsBlock.nativeElement.children[0].children[2].classList.add("disableDiv1");
 		} else if (this.optionHolder.right_random_index.includes(this.completeRandomArr[this.randomIdx]) && this.blinkCategory2 < 3 && this.RRightAttempt < 3) {
 			this.blinkCategoryB(this.randomIdx);
-			$(this.optionsBlock.nativeElement.children[0].children[0]).addClass("disableDiv1");
+			this.optionsBlock.nativeElement.children[0].children[0].classList.add("disableDiv1");
 		} else if (this.blinkCategory1 == 3) {
 			let flagFound = false;
 			for (let i = 0; i < this.completeRandomArr.length; i++) {
@@ -676,7 +676,7 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 				this.splishedValue = this.completeRandomArr[this.randomIdx];
 				this.completeRandomArr.splice(this.randomIdx, 1);
 				element.classList.add("disable_div");
-				$(this.optionsBlock.nativeElement.children[1].children[idx]).addClass("disableDiv1");
+				this.optionsBlock.nativeElement.children[1].children[idx].classList.add("disableDiv1");
 				this.setClappingTimer(this.rightFeedback);
 				this.ifRightAns = true;
 				this.categoryA.correct.push(opt);
@@ -719,7 +719,7 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 				this.splishedValue = this.completeRandomArr[this.randomIdx];
 				this.completeRandomArr.splice(this.randomIdx, 1);
 				element.classList.add("disable_div");
-				$(this.optionsBlock.nativeElement.children[1].children[idx]).addClass("disableDiv1");
+				this.optionsBlock.nativeElement.children[1].children[idx].classList.add("disableDiv1");
 				this.setClappingTimer(this.rightFeedback);
 				this.categoryB.correct.push(opt);
 				this.ifRightAns = true;
@@ -764,7 +764,7 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 	/****** sets clapping timer ********/
 	setClappingTimer(feedback) {
 		this.clapSound.nativeElement.play();
-		$(this.optionsBlock.nativeElement).addClass("disableDiv1");
+		this.optionsBlock.nativeElement.classList.add("disableDiv1");
 		this.clapTimer = setTimeout(() => {
 			this.clapSound.nativeElement.pause();
 			this.clapSound.nativeElement.currentTime = 0;
@@ -772,7 +772,7 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 
 		}, 2000);
 		this.rightFeedback.nativeElement.onended = () => {
-			$(this.optionsBlock.nativeElement).removeClass("disableDiv1");
+			this.optionsBlock.nativeElement.classList.remove("disableDiv1");
 			if (this.categoryA.correct.length < 3 || this.categoryB.correct.length < 3) {
 				for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
 					document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
@@ -872,8 +872,8 @@ export class Template6Component implements OnInit ,OnDestroy,AfterViewChecked {
 			if (this.categoryA.correct.length == 3 && this.categoryB.correct.length == 3) {
 				this.blinkOnLastQues();
 			} else {
-				$(this.optionsBlock.nativeElement).removeClass("disableDiv");
-				$(this.optionsBlock.nativeElement).removeClass("disableDiv1");
+				this.optionsBlock.nativeElement.classList.remove("disableDiv");
+				this.optionsBlock.nativeElement.classList.remove("disableDiv1");
 				this.getRandomIndxBlink(this.selectableOpts);
 			}
 		} else {

@@ -20,8 +20,8 @@ export class GlobalspeakerComponent implements OnInit {
 	videoPlayed = false;
 	//   speakerPlayed = false;
 	contentgFolderPath: string = "";
-	@ViewChild('speakerVolume') speakerVolume: any;
-	@ViewChild('sprite') sprite: any;
+	@ViewChild('speakerVolume', {static: true}) speakerVolume: any;
+	@ViewChild('sprite', {static: true}) sprite: any;
 	@Output() clickSpeaker = new EventEmitter<any>();
 	get basePath(): any {
 		if (this.appModel && this.appModel.content) {
@@ -36,14 +36,10 @@ export class GlobalspeakerComponent implements OnInit {
 		}
 	}
 
-	AfterViewInit(){
-		this.sprite.nativeElement.style = "display:none";
-	}
-
 	ngOnInit() {
 		this.contentgFolderPath = this.basePath;
 		this.setData();
-	
+		this.sprite.nativeElement.style = "display:none";
 		this.Sharedservice.speakerVol.next(this.speakerVolume);
 		this.Sharedservice.spriteElement.next(this.sprite);
 	}

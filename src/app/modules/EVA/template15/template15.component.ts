@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewChildren,AfterViewChecked } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewChildren,AfterViewChecked, AfterViewInit } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './template15.component.html',
     styleUrls: ['./template15.component.scss']
 })
-export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked {
+export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked,AfterViewInit {
     blink: boolean = false;
     commonAssets: any = "";
     rightPopup: any;
@@ -84,7 +84,7 @@ export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked {
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
-    @ViewChild('sprite') sprite: any;
+    @ViewChild('sprite', {static: true}) sprite: any;
     @ViewChild('speakerNormal') speakerNormal: any;
     @ViewChild('feedbackPopup') feedbackPopup: any;
     // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
@@ -144,7 +144,6 @@ export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked {
 
     ngOnInit() {
         this.Sharedservice.setLastQuesAageyBadheStatus(true);
-        this.sprite.nativeElement.style = "display:none";
         this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
@@ -231,6 +230,10 @@ export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked {
 
     ngAfterViewChecked() {
         this.templatevolume(this.appModel.volumeValue, this);
+    }
+
+    ngAfterViewInit() {
+        this.sprite.nativeElement.style = "display:none";
     }
 
     //**Function to stop all sounds */
@@ -325,6 +328,7 @@ export class Template15Component implements OnInit ,OnDestroy,AfterViewChecked {
             setTimeout(() => {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     option.image = option.image_hover;
+                    this.appModel.storeVisitedTabs();
                     this.clapSound.nativeElement.play();
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();

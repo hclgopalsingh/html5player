@@ -1,8 +1,8 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy,AfterViewChecked,EventEmitter, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, ViewEncapsulation, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
-import { SharedserviceService } from '../../../common/services/sharedservice.service';
+import { ApplicationmodelService } from 'src/app/common/services/applicationmodel.service';
+import { SharedserviceService } from 'src/app/common/services/sharedservice.service';
 
 @Component({
   selector: 'app-template14',
@@ -11,9 +11,9 @@ import { SharedserviceService } from '../../../common/services/sharedservice.ser
   encapsulation: ViewEncapsulation.None
 
 })
-export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChecked, AfterViewInit  {
+export class TemplateFourteenComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit {
 
-  constructor(private  appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
+  constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -41,25 +41,25 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
   }
 
 
-  @ViewChild("optionsBlock", {static: true}) optionsBlock: any;
-  @ViewChild('narrator', {static: true}) narrator: any;
-  @ViewChild('instruction', {static: true}) instruction: any;
-  @ViewChild('confirmModalRef', {static: true}) confirmModalRef: any;
-  @ViewChild('popupRef', {static: true}) popupRef: any;
-  @ViewChild('rightFeedbackVO', {static: true}) rightFeedbackVO: any
-  @ViewChild('wrongFeedbackVO', {static: true}) wrongFeedbackVO: any;
-  @ViewChild('feedbackPopupAudio', {static: true}) feedbackPopupAudio: any;
+  @ViewChild("optionsBlock") optionsBlock: any;
+  @ViewChild('narrator') narrator: any;
+  @ViewChild('instruction') instruction: any;
+  @ViewChild('confirmModalRef') confirmModalRef: any;
+  @ViewChild('popupRef') popupRef: any;
+  @ViewChild('rightFeedbackVO') rightFeedbackVO: any
+  @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
+  @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('monthDates', {static: true}) monthDates: any;
   @ViewChild('monthDatesinPopup', {static: true}) monthDatesinPopup: any;
-  @ViewChild('footerNavBlock', {static: true}) footerNavBlock: any;
-  @ViewChild('speakerNormal', {static: true}) speakerNormal: any;
+  @ViewChild('footerNavBlock') footerNavBlock: any;
+  @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('disableSpeaker') disableSpeaker: any;
-  @ViewChild('sprite', {static: true}) sprite: any;
-  @ViewChild('overlay', {static: true}) overlay: any;
+  @ViewChild('sprite') sprite: any;
+  @ViewChild('overlay') overlay: any;
   @ViewChild('clapSound', {static: true}) clapSound: any;
   @ViewChild('wrongFeedback', {static: true}) wrongFeedback: any;
   @ViewChild('rightFeedback', {static: true}) rightFeedback: any;
-  @ViewChild('showAnswerVideo', {static: true}) showAnswerVideo: any;
+  @ViewChild('showAnswerVideo') showAnswerVideo: any;
 
   LastquestimeStart: boolean = false;
   videoonshowAnspopUp: any;
@@ -143,25 +143,9 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
   lastQuestionCheck: any;
   clappingTimer: any;
   ifYearAnsCorrect =true;
-  ifMonthAnsCorrect =true;  
+  ifMonthAnsCorrect =true;
   previousItemeventArr = []
 
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
-  }
-
-  ngAfterViewInit(){
-    this.appModel.setLoader(false);
-    this.checkforQVO();
-    if (this.appModel.isNewCollection) {
-      this.appModel.event = { 'action': 'segmentBegins' };
-    }
-    // let that = this;
-    // document.getElementById('submitAns').onclick = function(){
-    //   console.log("submit clicked")
-    //   that.stopAllSounds()
-    // }
-  }
 
   ngOnInit() {
     this.setTemplateType();
@@ -209,6 +193,23 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
         this.appModel.event = { 'action': 'exit' };
       }
     });
+  }
+
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
+  ngAfterViewInit(){
+    this.appModel.setLoader(false);
+    this.checkforQVO();
+    if (this.appModel.isNewCollection) {
+      this.appModel.event = { 'action': 'segmentBegins' };
+    }
+    // let that = this;
+    // document.getElementById('submitAns').onclick = function(){
+    //   console.log("submit clicked")
+    //   that.stopAllSounds()
+    // }
   }
 
   templatevolume(vol, obj) {
@@ -265,7 +266,6 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
     }
   }
 
- 
   //to reset things after a wrong answer
   postWrongAttemplt() {
     this.Sharedservice.setSubmitAnsEnabled(false);
@@ -513,7 +513,7 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
         this.selectedDaysId.length = 0;
         for (let i = this.startIndex; i >= 0; i--) {
           this.monthDates.nativeElement.children[0].children[i].children[0].src = this.datesArr[0].base_original.location == "content" ? this.containgFolderPath + "/" + this.datesArr[0].base_original.url : this.assetsPath + "/" + this.datesArr[0].base_original.url;
-          if (this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i]){
+          if (this.monthDates.nativeElement && this.monthDates.nativeElement.children[0] && this.monthDates.nativeElement.children[0].children[i]) {
             this.monthDates.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
           }
         }
@@ -1035,7 +1035,6 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
 
   }
 
-  
   CheckAnswer() {
     this.ifYearAnsCorrect =true;
     this.ifMonthAnsCorrect =true;
@@ -1090,7 +1089,7 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
       let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
       let that = this
       RightMonthArray.forEach((element1, i)=> {
-        that.monthsArr.forEach((item, ind) => {
+        that.monthsArr.forEach((item, ind)=> {
           if (item.id == element1) {
             RightMonthArray[i] = ind
           }
@@ -1225,8 +1224,8 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
   onSubmitResult() {
     let RightMonthArray = JSON.parse(JSON.stringify(this.feedback.right_month))
     let that = this
-    RightMonthArray.forEach((element1, i)=>  {
-      that.monthsArr.forEach((item, ind)=>  {
+    RightMonthArray.forEach((element1, i)=> {
+      that.monthsArr.forEach((item, ind)=> {
         if (item.id == element1) {
           RightMonthArray[i] = ind
         }
@@ -1244,8 +1243,8 @@ export class TemplateFourteenComponent implements OnInit ,OnDestroy,AfterViewChe
     console.log("rightWeekDayArray", rightWeekDayArray)
 
     let selectedWeekDayArray = JSON.parse(JSON.stringify(this.selectedDaysId))
-    selectedWeekDayArray.forEach((element1, i) => {
-      that.ArrweekDays.forEach((item, ind) => {
+    selectedWeekDayArray.forEach((element1, i)=> {
+      that.ArrweekDays.forEach((item, ind)=> {
         if (item.id == element1) {
           selectedWeekDayArray[i] = ind
         }
