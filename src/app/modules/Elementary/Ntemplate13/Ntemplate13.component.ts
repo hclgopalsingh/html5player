@@ -88,6 +88,7 @@ export class Ntemplate13 implements OnInit {
 	showIntroScreen: boolean = true;
 	commonAssets: any = "";
 	idArray: any = [];
+	showAnsAuto:boolean = false;
 	resultSound: any = "";
 	isFirstQues: boolean;
 	isLastQues: boolean = false;
@@ -138,6 +139,8 @@ export class Ntemplate13 implements OnInit {
 	};
 	wrongOptAudioPlaying: boolean = false;
 	optionDisable: boolean = true;
+	AnswerpopupTxt: boolean = false;
+	popupHeader:any;
 
 	hoverDecline() {
 		this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
@@ -173,6 +176,7 @@ export class Ntemplate13 implements OnInit {
 	lastOpt: any;
 
 	onHoverOption(opt, index) {
+		this.disableSection = false;
 		//pauseinstruction VO
 		console.log("this.lastOpt:", this.lastOpt, "index:", index)
 		if (this.lastOpt != index) {
@@ -239,6 +243,16 @@ export class Ntemplate13 implements OnInit {
 		this.lastOpt = undefined
 	}
 	playHoverInstruction() {
+		for (var i = 0; i < this.myoption.length; i++) {
+			this.optionBlock.nativeElement.children[i].children[2].pause();
+			this.optionBlock.nativeElement.children[i].children[2].currentTime = 0;
+			this.optionBlock.nativeElement.children[i].children[1].className = "speaker";
+		}
+		for (let option = 0; option < this.myoption.length; option++) {
+
+			this.optionBlock.nativeElement.children[option].className = "options";
+
+		}
 		this.disableSection = true;
 		this.appModel.notifyUserAction();
 		if (!this.narrator.nativeElement.paused) {
@@ -273,6 +287,13 @@ export class Ntemplate13 implements OnInit {
 		}
 		if (flag == "yes") {
 			this.showAnsModalPopup = true;
+
+			if (this.feedbackObj.showAnswerpopupTxt.required) {
+				this.AnswerpopupTxt = true;
+				this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;				 
+			} else {
+				this.AnswerpopupTxt = false;			 
+			}
 			//show answer
 			this.showAnsModal(this.fixedOptions[this.feedback.correct_ans_index])
 
@@ -288,6 +309,15 @@ export class Ntemplate13 implements OnInit {
 			$("#instructionBar").css("opacity", "0.3");
 			//   this.checked = true;
 		} else {
+			this.disableSpeaker = true;
+			if(this.showAnsModalPopup){
+				this.removeEvents();
+			this.blinkOnLastQues();
+			}
+			if(this.showAnsAuto){
+				this.removeEvents();
+			this.blinkOnLastQues();
+			}
 			console.log("closing modal")
 			this.popUpClosed = true;
 			this.wrongOptAudioPlaying = false;
@@ -300,6 +330,7 @@ export class Ntemplate13 implements OnInit {
 			}
 			console.log("this.ifWrongAns", this.ifWrongAns)
 			if (this.ifWrongAns) {
+				
 				this.removeEvents();
 				this.appModel.wrongAttemptAnimation();
 				this.idArray = [];
@@ -318,6 +349,7 @@ export class Ntemplate13 implements OnInit {
 			}
 
 			if (this.ifRightAns) {
+				
 				this.removeEvents();
 				this.ifRightAns = false;
 				$("#instructionBar").addClass("disable_div");
@@ -370,6 +402,15 @@ export class Ntemplate13 implements OnInit {
 		}
 
 		this.appModel.getConfirmationPopup().subscribe((val) => {
+			for (var i = 0; i < this.myoption.length; i++) {
+				this.optionBlock.nativeElement.children[i].children[2].pause();
+				this.optionBlock.nativeElement.children[i].children[2].currentTime = 0;
+				this.optionBlock.nativeElement.children[i].children[1].className = "speaker";
+
+				this.optionBlock.nativeElement.children[i].className = "options";
+			    this.optionBlock.nativeElement.children[i].children[0].style.cursor = "pointer";
+			}
+			 
 
 			if (val == "uttarDikhayein") {
 
@@ -406,6 +447,13 @@ export class Ntemplate13 implements OnInit {
 				console.log("mode manuall", mode)
 
 			} else if (mode == "auto") {
+				if (this.feedbackObj.showAnswerpopupTxt.required) {
+					this.AnswerpopupTxt = true;
+					this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;				 
+				} else {
+					this.AnswerpopupTxt = false;			 
+				}
+				this.showAnsAuto = true;
 				this.confirmModalRef.nativeElement.classList = "modal";
 				this.showAnsModal(this.fixedOptions[this.feedback.correct_ans_index])
 				$("#instructionBar").addClass("disable_div");
@@ -570,6 +618,14 @@ export class Ntemplate13 implements OnInit {
 		// logic to check what user has done is correct or wrong
 		if (opt.custom_id == this.feedback.correct_ans_index) {
 			this.wrongImgOption = opt
+			if (this.feedbackObj.rightAnswerpopupTxt.required) {
+				this.AnswerpopupTxt = true;
+				this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
+				 
+			} else {
+				this.AnswerpopupTxt = false;
+				 
+			}
 			//this.feedbackPopup = this.rightPopup;
 			this.rightanspopUpheader_img = true;
 			this.wronganspopUpheader_img = false;
@@ -602,7 +658,14 @@ export class Ntemplate13 implements OnInit {
 			}
 
 		} else {
-
+			if (this.feedbackObj.wrongAnswerpopupTxt.required) {
+				this.AnswerpopupTxt = true;
+				this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
+				 
+			} else {
+				this.AnswerpopupTxt = false;
+				 
+			}
 			this.ifWrongAns = true;
 			this.showAnsModalPopup = false;
 			//this.feedbackPopup = this.wrongPopup;
@@ -926,7 +989,15 @@ export class Ntemplate13 implements OnInit {
 	}
 	//TRY HERE
 	closePopup() {
+		this.disableSpeaker = true;
 		if (this.showAnsModalPopup) {
+			this.feedbackVoRef.nativeElement.pause();
+			this.wrongOptAudio.nativeElement.pause();
+			this.wrongOptAudio.nativeElement.currentTime = 0
+			this.removeEvents();
+			this.blinkOnLastQues();
+			this.wrongOptAudioPlaying = false;
+		}else if(this.showAnsAuto){
 			this.feedbackVoRef.nativeElement.pause();
 			this.wrongOptAudio.nativeElement.pause();
 			this.wrongOptAudio.nativeElement.currentTime = 0

@@ -10,16 +10,10 @@
   <div class="bodyContent" #mainContainer>
     <div class="matchBlock">
       <div class="matchHolder">
-        <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">
-        <!-- <div class="optSelectedHidden">
-          <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div> -->
+        <img class="img-fluid" [src]="optionHolder?.leftHolder?.url" (load)="checkImgLoaded();">        
       </div>
       <div class="matchHolder">
-        <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">
-        <!-- <div class="optSelectedHidden">
-          <img *ngFor="let option of dummyImgs" class="img-fluid" [src]="option?.imgsrc?.url">
-        </div> -->
+        <img class="img-fluid" [src]="optionHolder?.rightHolder?.url" (load)="checkImgLoaded();">      
       </div>
     </div>
     <div #placeholderRefLeft>
@@ -35,7 +29,7 @@
     <div #optionRef>
       <div class="{{option?.imgsrc?.style_class}}"
         [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos, posWidth:option.posWidth}}"
-        *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}" #optionRef>
+        *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}">
         <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)"
           (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)"
           (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
@@ -95,7 +89,7 @@
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
           <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.url">
           <img class="close" [src]="confirmSubmitAssets?.close_btn?.url" (click)="sendFeedback(confirmSubmitRef,'no');"
-            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+            (mousemove)="hoverSubmitClose()" (mouseleave)="houtSubmitClose()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.url"></div>

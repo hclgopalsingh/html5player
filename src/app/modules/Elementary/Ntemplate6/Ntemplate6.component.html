@@ -22,8 +22,8 @@
     <div class="refQues" #matra>
 
       <ng-container *ngFor="let opt of refQuesArr;let idx = index">
-        <img id="matra{{idx}}" style="cursor: pointer !important" class="myMatra" [src]="opt?.url"
-          (click)="checkAnswerMatra(opt,idx)">
+        <img id="matra{{idx}}" [ngClass]="{'matraQue':opt.letters}"  style="cursor: pointer" class="myMatra" [src]="opt?.url"
+          (click)="checkAnswerMatra(opt,idx)"> 
       </ng-container>
       <img class="img-fluid" [src]="commonAssets?.qus_base?.url" (load)="checkImgLoaded();">
     </div>
@@ -38,8 +38,8 @@
 
     
     <div class="row mx-0" id="optionsBlock" #optionsClickable [ngClass]="{'disable_div':optionDisable}">
-      <div class="my-auto quesImage">
-        <div class="options"  *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
+      <div class="my-auto quesImage" [ngClass]="{'disable_div':optionDisable}">
+        <div class="options"  [ngClass]="{'disable_div':optionDisable}" *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
           (mouseenter)="playHoverOption(option,idxX)" (mousemove)="optionHover(option,idxX)"
           (mouseleave)="onHoverOptionOut(option,idxX)">
           <img id="idx{{idxX}}" class="img-fluid" [src]="option?.baseImg?.url">
@@ -56,7 +56,7 @@
   <audio #wrongFeedbackVO [src]="feedbackObj?.wrong_ans_sound?.url"></audio>
 
   <!-- The Modal -->
-  <div class="modal" id="customModal" #popupRef>
+  <div class="modal " id="customModal" #popupRef>
     <div class="modal-dialog">
       <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.url">
       <div class="modal-content">
@@ -71,6 +71,7 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center">
+          
           <div class="row mx-0 optionsBlock">
             <div class="my-auto quesImage" #popupBodyRef>
               <div class="options">
@@ -140,6 +141,9 @@
       </div>
 
       <div class="modal-body" #moalBodyRefSuccess [ngStyle]="styleBodyPopup">
+        <div class="instructionBase" [ngStyle]="{'display': AnswerpopupTxt ? 'flex' : 'none' }">
+          <img class="img-fluid" [src]="popupHeader" />
+        </div>
       </div>
     </div>
   </div>

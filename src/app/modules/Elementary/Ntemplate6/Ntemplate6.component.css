@@ -132,7 +132,9 @@ button:focus {
 .refQuesPopUp + .duplicateOption {
   top: 23.098%;
 }
-
+.refQuesPopUp2 + .duplicateOption {
+  top: 30.098%!important;
+}
 .opacityCls {
   opacity:0;
 }
@@ -158,6 +160,18 @@ button:focus {
   height: 78%;
 }
 .topauto{top:auto!important}
+.modal .instructionBase {
+  width: 100%;
+  position: relative;
+  cursor: default;
+  display: flex;
+  justify-content: center;
+}
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
+}
+.matraQue {cursor: default!important;}
 
 .duplicateOptionBlack {
   -webkit-filter: grayscale(100%) brightness(0) saturate(0);
@@ -178,6 +192,10 @@ button:focus {
   pointer-events: none;
 }
 
+.grayscale{
+  -webkit-filter: grayscale(100%) brightness(0) saturate(0)!important;
+  filter: grayscale(100%) brightness(0) saturate(0)!important;
+}
 .refQues{
   width: 57%;
   height: 46%;
@@ -198,11 +216,17 @@ button:focus {
 
 .refQuesPopUp {
   position: relative;
-  top: 20%;
+  top: 20.1%;
   background: transparent !important;
   border: solid 0px transparent !important;
   z-index: 110;
   pointer-events: none;
+  
+}
+.refQuesPopUp2 {
+ 
+  top: 27.1%!important;
+ 
   
 }
 
