@@ -2200,6 +2200,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.appModel.postWrongAttempt.subscribe(() => {
+      this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
       this.postWrongAttemplt();
     });
     this.appModel.enableNavBtn(false);
@@ -3257,7 +3258,7 @@ if(!this.destroy){
 
   resetAttempt(opt) {
     this.count = 1;
-    this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
+    
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.left = "0%";
