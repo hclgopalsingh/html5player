@@ -178,10 +178,12 @@ button:focus {
   position: relative;
   /* margin: 0% 1%; */
   vertical-align: middle;
-  width: 51%;
+  width: 80%;/*auto, 51%*/
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
+  margin: 1% auto;
   /*	animation: scaleit 0.4s ease-in;*/
 }
 
@@ -466,12 +468,12 @@ button:focus {
 	align-self: center;
   margin: 1% auto !important;
 }*/
-.modal #optionsBlock .options,
+/* .modal #optionsBlock .options,
 .modal .optionsBlock .options {
   width: auto;
   pointer-events: none;
   margin: 1% auto;
-}
+} */
 #container .modal #optionsBlock {
   margin-top: 6%;
 }
