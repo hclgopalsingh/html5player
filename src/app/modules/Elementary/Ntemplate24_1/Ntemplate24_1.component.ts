@@ -72,21 +72,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   }
 
-
-  // @ViewChild('instructionBar') instructionBar: any;
-  // @ViewChild('instruction') instruction: any;  
-  // @ViewChild('optionAudio') optionAudio: any;
-  // @ViewChild('maincontent') maincontent: any;  
-  // @ViewChild('submitModalRef') submitModalRef: any;  
-  // @ViewChild('mainmodalRef') mainmodalRef: any;
-  // @ViewChild('popupRef') popupRef: any;
-  // @ViewChild('popupBodyRef') popupBodyRef: any;
-  // @ViewChild('popupImage') popupImage: any;
-  // @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  // @ViewChild('partialpopupRef') partialpopupRef: any;
-  // @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
-  // @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any; 
-  // @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('quesVORef') quesVORef: any;
   @ViewChild('instructionVO') instructionVO: any;
   @ViewChild('mainContainer') mainContainer: any;
@@ -107,36 +92,22 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   feedback: any = "";
   narratorAudio: any;
   checked: boolean = false;
-  // showIntroScreen: boolean;
-  // partialpopupRequired: boolean = false;
-  // wrongansArray: any = [];
   isFirstQues: boolean;
   isLastQues: boolean = false;
-  // isAutoplayOn: boolean;
   isLastQuesAct: boolean;
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
-  // disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
   optionObj: any;
-  // optArr1: any;
-  // optArr2: any;
   optionCommonAssets: any;
   ques_control: any;
-  // feedbackObj: any;
-  // correctImg: any;
-  // incorrectImg: any;
-  // popupAssets: any;
   confirmAssets: any;
   infoPopupAssets: any;
   confirmSubmitAssets: any;
   confirmReplayAssets: any;
-  // noOfRightAns: any;
-  // rightAnspopupAssets: any;
-  // tempSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
   quesObj: any;
@@ -147,7 +118,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   optionObjCopy: any;
   feedbackAssets: any;
   isAllRight: boolean = false;
-  // isWrongAttempted: boolean = false;
   assetsFeedback: any = [];
   answerFeedback: string = "";
   postCompleteTimer: any;
@@ -181,33 +151,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   direction: any;
   optClicked: any;
 
-  // playHoverInstruction() {
-  //   if (!this.instructionVO.nativeElement.paused) {
-  //     console.log("narrator/instruction voice still playing");
-  //   } else {
-  //     console.log("play on Instruction");
-  //     if (this.instruction.nativeElement.paused) {
-  //       this.instruction.nativeElement.currentTime = 0;
-  //       this.instruction.nativeElement.play();
-  //       $(".instructionBase img").css("cursor", "pointer");        
-  //     }
-  //     if (!this.optionAudio.nativeElement.paused) {
-  //       this.instruction.nativeElement.currentTime = 0;
-  //       this.instruction.nativeElement.pause();        
-  //     }
-  //   }
-  // }
-
-  // playOptionHover(idx, opt) {
-  //   if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
-  //     this.playSound(opt, opt.mouse_over_audio, idx);
-  //   }
-  // }
-
-  // optionHover(idx, opt) {
-  //   $(this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0]).addClass("scaleInAnimation");
-  // }
-
   hoverPre(opt, idx) {
     this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
   }
@@ -221,40 +164,14 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
   }
 
-  // playSound(opt, soundAssets, idx) {
-  //   if (this.audio && this.audio.paused) {
-  //     this.audio.src = soundAssets.url
-  //     this.audio.load();
-  //     this.audio.play();
-  //     for (let i = 0; i < this.mainContainer.nativeElement.children[0].children[0].children.length; i++) {
-  //       if (i != idx) {
-  //         $(this.mainContainer.nativeElement.children[0].children[0].children[i]).addClass("disableDiv");
-  //       }
-  //     }
-  //     this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
-  //     this.instructionVO.nativeElement.pause();
-  //     this.instructionVO.nativeElement.currentTime = 0;
-  //     this.audio.onended = () => {
-  //       this.instructionBar.nativeElement.classList = "instructionBase";
-  //       for (let i = 0; i < this.mainContainer.nativeElement.children[0].children[0].children.length; i++) {
-  //         if (i != idx) {
-  //           $(this.mainContainer.nativeElement.children[0].children[0].children[i]).removeClass("disableDiv");
-  //         }
-  //       }
-
-  //     }
-  //   }
-  // }
   onAnimationEvent(event: AnimationEvent, opt, idx) {
     // if (event.fromState == "state1" && event.toState == "state2" && event.phaseName == "done") {
     //   if(this.optClicked==idx){
-    //     console.log("Shefali "+idx+this.direction);
     //     this.reArrangeOpts(idx, this.direction);
     //   }      
     // }
   }
   movePrevious(idx, opt) {
-    // console.log("Shefali movePrev");
     this.direction = 'left';
     this.optClicked = idx;
     if (!this.instructionVO.nativeElement.paused) {
@@ -282,7 +199,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
   moveNext(idx, opt) {
-    // console.log("Shefali moveNext");
     this.optClicked = idx;
     this.direction = 'right';
     if (!this.instructionVO.nativeElement.paused) {
@@ -332,27 +248,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.optionObjCopy.optionArray[idx + 1] = optCurrent;
     }
   }
-
-  // optionLeave(idx, opt) {
-  //   $(this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0]).addClass("scaleOutAnimation");
-  //   setTimeout(() => {
-  //     $(this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0]).removeClass("scaleOutAnimation");
-  //     $(this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0]).removeClass("scaleInAnimation");
-  //   }, 500)
-  // }
-
-  // OptionZoomOutAnimation(opt, i, j) {
-  //   if (!this.checked && this.instructionVO.nativeElement.paused) {
-  //     opt.imgsrc = opt.imgsrc_original;
-  //     if (opt.imgsrc && opt.imgsrc.location == "content") {
-  //     } else {
-  //     }
-  //   }
-  // }
-
-  // onClickoption(opt, i, j) {
-
-  // }
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -462,6 +357,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     })
+    this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
   }
 
@@ -816,15 +712,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_original;
   }
 
-  // showFeedback(id: string, flag: string) {
-
-  // }
-
-  // resetAttempt() {
-
-  // }
-
-
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     ref.classList = "modal";
@@ -862,36 +749,12 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
 
 
-  // showReplay(ref, flag: string, action?: string) {
-  //   ref.classList = "modal";
-  //   this.appModel.notifyUserAction();
-  //   if (flag == "yes") {
-  //     if (action == "replay") {
-  //       this.replayVideo();
-  //     }
-  //   } else if (flag == "no") {
-  //     this.appModel.videoStraming(false);
-  //     setTimeout(() => {
-  //       $("#instructionBar").removeClass("disable_div");
-  //       $("#optionsBlock .options").removeClass("disable_div");
-  //     }, 1000);
-  //   }
-  // }
-
   replayVideo() {
     this.videoReplayd = true;
-    this.isPlayVideo = true;
-    // $("#optionsBlock .options").addClass("disable_div");
-    // $(".instructionBase").addClass("disable_div");
-    // this.disableOpt=true;
-    // this.disableInstruction=true;
+    this.isPlayVideo = true;    
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
-        // $("#optionsBlock .options").removeClass("disable_div");
-        // $(".instructionBase").removeClass("disable_div");
-        // this.disableOpt=true;
-        // this.disableInstruction=true;
         this.isPlayVideo = false;
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
@@ -905,15 +768,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.enableReplayBtn(true);
     this.appModel.enableSubmitBtn(true);
   }
-
-  // selectOpt(idx, opt) {
-  //   this.appModel.notifyUserAction();
-  //   this.appModel.enableReplayBtn(false);
-  //   for (let i in this.optionObjCopy.optionArray) {
-  //     this.optionObjCopy.optionArray[i].selected = false;
-  //   }
-  //   this.optionObjCopy.optionArray[idx].selected = true;
-  // }
 
   playFeedbackAudio(num) {
     let optionsAssets: any;
