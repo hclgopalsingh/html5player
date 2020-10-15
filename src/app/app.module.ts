@@ -23,6 +23,7 @@ import { EvaModule } from './modules/EVA/eva.module';
 import { ContainerComponent } from './modules/Global/container/container.component';
 import { createCustomElement } from '@angular/elements';
 import { ParentcommunicationService } from './common/services/parentcommunication.service';
+import { ElementaryModule } from './modules/Elementary/elementary.module';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ParentcommunicationService } from './common/services/parentcommunicatio
 		SignalrCustomModule.forRoot(),
 		NouisliderModule,
 		NgxPaginationModule,
-		EvaModule,
+    EvaModule,
+    ElementaryModule
   ],
   providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, ParentcommunicationService],
   // entryComponents: [AppComponent]

@@ -261,7 +261,7 @@
 	},
 	"partialIncorrectAnimationAssets": {
 		"img": {
-			"urlglobal": "global/animations/partialIncorrectAnimation.gif",
+			"urlglobal": "global/animations/Sadanimation.gif",
 			"location": "theme"
 		},
 		"audio": {
@@ -272,7 +272,7 @@
 	},
 	"partialCorrectAnimationAssets": {
 		"img": {
-			"urlglobal": "global/animations/partialCorrect.webp",
+			"urlglobal": "global/animations/Happyanimation.gif",
 			"location": "theme"
 		},
 		"audio": {
