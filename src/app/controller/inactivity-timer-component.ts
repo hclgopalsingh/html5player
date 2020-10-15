@@ -210,15 +210,15 @@ export class InactivityTimerComponent implements OnDestroy, OnInit {
   }
 
   private renderNextQ(timer){
-    //console.log("next question timer ", timer/1000);
+    console.log("next question timer ", timer/1000);
   }
 
   private renderNextSeg(timer){
-    //console.log("next segment timer ", timer/1000);
+    console.log("next segment timer ", timer/1000);
   }
 
   private renderuttar(timer){
-    //console.log("next uttar timer ", timer/1000);
+    console.log("next uttar timer ", timer/1000);
   }
 
   private render(count) {
