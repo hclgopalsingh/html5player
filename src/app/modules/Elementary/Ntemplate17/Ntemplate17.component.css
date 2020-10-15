@@ -1562,7 +1562,7 @@ cursor: pointer
 }
 
  .simple-keyboard.hg-theme-default .hg-button {
-  height: 30px !important;
+  height: 2.2vmax !important;
 }
 .hg-button span {
   font-size: 1.3vmax !important;
@@ -1582,6 +1582,35 @@ cursor: pointer
   border: solid white 1.5px;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-lightGrey{
-  background: #A8A8A8 !important;
+.simple-keyboard.hg-layout-default .hg-button.hg-color_number{
+  background: #AE6C6C !important;
+  box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
+  border-bottom: none 
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-color_matra{
+  background: #A375AD !important;
+  box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
+  border-bottom: none 
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-color_spaces{
+  background: #224f90 !important;
+  box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
+  border-bottom: none 
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-red{
+  /* background: #008E59 !important; */
+  background: linear-gradient(180deg, #008E59 0%, #009961 100%) !important;
+  box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
+  border-bottom: none 
+}
+
+
+.charleft{
+  margin-left: 96%;
+  font-size: 1.2vmax;
+  font-weight: 600;
+  margin-top: -4%;
 }

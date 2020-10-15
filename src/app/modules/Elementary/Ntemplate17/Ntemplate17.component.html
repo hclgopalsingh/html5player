@@ -182,6 +182,7 @@
 				<input type="text" (input)="onInputChange($event)" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
 				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();"
 				 (keypress)="keyPress()"/>
+				 <div class="charleft" >{{charLeft}}</div>
 			</div>
 			<!---->
 			<!-- <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> -->
