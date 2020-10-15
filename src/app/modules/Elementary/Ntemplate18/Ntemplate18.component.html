@@ -1,15 +1,6 @@
 <div class="container-fluid temp14" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
   <audio #narrator [src]="quesInfo?.narrator?.url"></audio>
-  <!--
-      <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
-      <img class="img-fluid" src="images/optImg0.svg">
-      <img class="img-fluid" src="images/optBase.svg">
-      <img class="img-fluid refTxt" src="images/optTxt0.svg">
-  </div>
-  <div class="d-flex align-items-center justify-content-center hideit" id="burst">
-      <img class="img-fluid" src="images/burst.gif">
-  </div>
-  -->
+ 
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
     <div class="instructionBase">
@@ -50,7 +41,7 @@
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
       <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
@@ -73,18 +64,18 @@
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
       <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="submitPopupAssets?.style_header">
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.info_popup?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="feedbackObj?.replay_confirm?.headerTxt_img?.url">
+          <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="submitPopupAssets?.close_btn?.url" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.submit_popup?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.url"></div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="feedbackObj?.info_popup?.info_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()" (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid" [src]="submitPopupAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoveronSubmitDecline()" (mouseleave)="houtonSubmitDecline()"><img class="img-fluid" [src]="submitPopupAssets?.decline_btn?.url"></button>
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()" (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid" [src]="feedbackObj?.info_popup?.ok_btn?.url"></button>
+            
           </div>
         </div>
 
@@ -160,8 +151,8 @@
                     <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();">
                   </div>
                   <div>
-                    <img class="img-fluid" [src]="opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="onClickoption(idx)" (load)="checkImgLoaded();">
-                    <img class="img-fluid optItem" [src]="opt?.samplerefquesImg?.url">
+                    <img class="img-fluid abc1" style="visibility: hidden;" [src]="opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="onClickoption(idx)" (load)="checkImgLoaded();">
+                    <img class="img-fluid optItem abc2" [src]="opt?.samplerefquesImg?.url">
                     <audio #feedbackPopupAudio></audio>
                   </div>
                 </div>

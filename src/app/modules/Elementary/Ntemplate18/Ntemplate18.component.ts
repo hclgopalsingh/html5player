@@ -1,18 +1,18 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
-import { ThemeConstants } from '../common/themeconstants';
-import { SharedserviceService } from '../services/sharedservice.service';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp18',
-  templateUrl: '../view/layout/Ntemplate18.component.html',
-  styleUrls: ['../view/css/Ntemplate18.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate18.component.html',
+  styleUrls: ['./Ntemplate18.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
