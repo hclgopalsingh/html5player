@@ -848,3 +848,4 @@
 button:focus {
   outline: none !important;
 }
+.modal-body .instructionBase img{cursor: default!important;}
