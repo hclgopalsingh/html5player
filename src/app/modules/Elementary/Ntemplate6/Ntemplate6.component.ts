@@ -2106,6 +2106,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   InstructionVo: boolean = false;
   bodyContentDisable: boolean = false;
   lastidx: any;
+  answerClicked:boolean = false;
 
   ngOnInit() {
     let that = this;
@@ -2303,6 +2304,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   }
 
   playHoverOption(opt, i) {
+    this.InstructionVo = true;
     this.appModel.notifyUserAction();
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.currentTime = 0;
@@ -2331,14 +2333,15 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.disableSection = true;
       this.disableSpeaker = true;
       this.optionsClickable.nativeElement.children[0].children[i].children[2].onended = () => {
+        if(!this.answerClicked){
         this.disableSection = false;
         this.disableSpeaker = false;
+      }
+        
         for (let j = 0; j < this.optionArr.length; j++) {
           this.optionsClickable.nativeElement.children[0].children[j].classList.remove('disable_div');   
         }
       }
-
-      
 
       this.onHoverOption(opt, i);
     }
@@ -2365,6 +2368,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   checkAnswer(opt, id) {
+    this.answerClicked=true;
     this.appModel.enableReplayBtn(false);
     for (let i = 0; i < this.options.length; i++) {
       this.options[i].isOpen = false;
@@ -2787,7 +2791,9 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.instructionVO.nativeElement.play();
       this.InstructionVo = false;
       //this.coverTop = true;
+      if (!this.clicked) {
       this.coverBottom = true;
+      }
       this.disableSection = true;
       //this.bodyContentDisable = true;
       this.instructionVO.nativeElement.onended = () => {
@@ -3311,6 +3317,8 @@ if(!this.destroy){
   }
 
   closeModal() {
+    console.log('this.answerClicked = false;');
+    this.answerClicked = false;
     clearTimeout(this.showAnssetTimeout)
  
     if(this.showAnswerPopup){
