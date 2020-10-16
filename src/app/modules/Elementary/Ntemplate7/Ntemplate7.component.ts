@@ -527,11 +527,8 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             this.postFeedBackVo();
           if(this.showAnswerPopup){
             this.refQues.nativeElement.children[this.quesEmptyTxtIndx].src = "";
-            this.refQues.nativeElement.children[this.quesEmptyTxtIndx].classList = "dark engTxtMargin ansSpace blinkAnimation adjustBlink"; 
-            ////this.quesObjCopy.questionText[this.quesEmptyTxtIndx].url = "";
-            ////this.quesObjCopy.questionText[this.quesEmptyTxtIndx].classList.add("dark engTxtMargin ansSpace blinkAnimation adjustBlink"); 
-            console.log('aaa' + this.refQues.nativeElement.children[this.quesEmptyTxtIndx].url);
-            console.log("2222222223333");
+            this.refQues.nativeElement.children[this.quesEmptyTxtIndx].classList = "dark engTxtMargin ansSpace adjustBlink"; 
+            
             for (let i = 0; i < this.optionObj.opts.length; i++) {
                 if(this.optionObj.opts[i].isCorrect){
                    // alert();
@@ -815,8 +812,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.play();
         if(this.showAnswerPopup){
             this.isRightSelected = true;
-            console.log("show ans is true 2222");
-            ////this.isOptionSelected = true;
+           
         }else{
             this.isRightSelected = true;
             this.isOptionSelected = true;
