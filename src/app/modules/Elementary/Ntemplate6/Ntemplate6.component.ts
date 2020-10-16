@@ -260,6 +260,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   speakerPointer:boolean = false;
   optionDisable:boolean = false;
   destroy:boolean = false;
+  showAnswerPopup:boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -2571,7 +2572,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.duplicateOption.nativeElement.children[id].style.top = this.percentTop;
     this.duplicateOption.nativeElement.children[id].style.top = this.percentLeft;
     this.duplicateOption.nativeElement.children[id].style.zIndex = 1;
-    this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
+    ////this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
     this.duplicateOption.nativeElement.children[id].style.opacity = 1;
     this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
     if (option.position == "right") {
@@ -2785,16 +2786,16 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.Myspeaker.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.play();
       this.InstructionVo = false;
-      this.coverTop = true;
+      //this.coverTop = true;
       this.coverBottom = true;
       this.disableSection = true;
-      this.bodyContentDisable = true;
+      //this.bodyContentDisable = true;
       this.instructionVO.nativeElement.onended = () => {
         this.disableSection = false;
         this.InstructionVo = true;
 
         setTimeout(() => {
-          this.bodyContentDisable = false;
+          //this.bodyContentDisable = false;
         }, 2000);
 
        
@@ -2817,6 +2818,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.instructionVO.nativeElement.currentTime = 0;
     this.Myspeaker.nativeElement.play();
     this.speakerWave = true;
+    
     this.coverTop = true;
     this.coverBottom = true;
     this.disableSection = true;
@@ -2828,7 +2830,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
       if (this.clicked) {
         this.coverBottom = false;
-        this.coverTop = false;
+        this.coverTop = true;
       }
       this.InstructionVo = true;
       this.speakerWave = false;
@@ -3031,6 +3033,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showFeedback(flag: string) {
+    this.showAnswerPopup = true;
     this.attemptType = "manual";
     if (this.index != undefined) {
       //this.Matra.nativeElement.children[this.index].style.outline = '';
@@ -3207,6 +3210,18 @@ if(!this.destroy){
        this.showAnssetTimeout = setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
+            this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 1;
+
+
+            this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
+            this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
+            this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
+            this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.left = "0%";
+            this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = "0%";
+            this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList.remove('grayscale');
+
+
+
              this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
@@ -3297,7 +3312,17 @@ if(!this.destroy){
 
   closeModal() {
     clearTimeout(this.showAnssetTimeout)
-    
+ 
+    if(this.showAnswerPopup){
+      this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.left = "0%";
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = "0%";
+      this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList.remove('grayscale');
+
+    }
+    this.showAnswerPopup = false;
     ////clearInterval(this.showAnssetTimeout2);
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
