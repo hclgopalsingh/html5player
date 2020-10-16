@@ -144,6 +144,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     optionPlaying: boolean = false;
     popupHeader:any;
     disableAllOption = false;
+    showAnswerPopup:boolean = false;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -482,6 +483,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         }
         ref.classList = "modal";
         if (action == "showAnswer") {
+            this.showAnswerPopup = true;
             this.styleHeaderPopup = this.feedbackObj.style_header;
             this.styleBodyPopup = this.feedbackObj.style_body;
             if (this.feedbackObj.showAnswerpopupTxt.required) {
@@ -503,7 +505,8 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
                 if(this.optionObj.opts[i].isCorrect){
-                    this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+
+                    ////this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
                 }
                 this.optionRef.nativeElement.children[i].classList.add('disableDiv');
             }
@@ -517,8 +520,30 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         } else if (action == "replay") {
             //this.replayVideo();
         } else if (action == "feedbackClosed") {
+    
+           
+            
             this.buttonClosed = true;
             this.postFeedBackVo();
+          if(this.showAnswerPopup){
+            this.refQues.nativeElement.children[this.quesEmptyTxtIndx].src = "";
+            this.refQues.nativeElement.children[this.quesEmptyTxtIndx].classList = "dark engTxtMargin ansSpace blinkAnimation adjustBlink"; 
+            ////this.quesObjCopy.questionText[this.quesEmptyTxtIndx].url = "";
+            ////this.quesObjCopy.questionText[this.quesEmptyTxtIndx].classList.add("dark engTxtMargin ansSpace blinkAnimation adjustBlink"); 
+            console.log('aaa' + this.refQues.nativeElement.children[this.quesEmptyTxtIndx].url);
+            console.log("2222222223333");
+            for (let i = 0; i < this.optionObj.opts.length; i++) {
+                if(this.optionObj.opts[i].isCorrect){
+                   // alert();
+                    this.optionRef.nativeElement.children[i].children[1].classList.remove('invisible');
+                    this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
+                this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
+                }
+                }
+            }else{
+               
+            }
+            this.showAnswerPopup = false;
         }
     }
 
@@ -755,9 +780,15 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             }
         }
 
+
         for (let i = 0; i < this.optionObj.opts.length; i++) {
         if(this.optionObj.opts[i].isCorrect){
-            this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+            if(this.showAnswerPopup){
+
+            }else{
+                this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+            }
+            
         }
         }
 
@@ -782,8 +813,17 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             this.feedbackVoRef.nativeElement.src = this.commonAssets.rightfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         this.feedbackVoRef.nativeElement.play();
-        this.isRightSelected = true;
-        this.isOptionSelected = true;
+        if(this.showAnswerPopup){
+            this.isRightSelected = true;
+            console.log("show ans is true 2222");
+            ////this.isOptionSelected = true;
+        }else{
+            this.isRightSelected = true;
+            this.isOptionSelected = true;
+        }
+        
+        
+        ////this.isOptionSelected = true;
         this.appModel.enableReplayBtn(false);
         this.feedbackVoRef.nativeElement.onended = () => {
             setTimeout(() => {
