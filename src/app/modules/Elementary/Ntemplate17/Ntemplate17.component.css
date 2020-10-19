@@ -1609,8 +1609,9 @@ cursor: pointer
 
 
 .charleft{
-  margin-left: 96%;
+  margin-left: 93%;
   font-size: 1.2vmax;
   font-weight: 600;
   margin-top: -4%;
+  font-family: sans-serif;
 }

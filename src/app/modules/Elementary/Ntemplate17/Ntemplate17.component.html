@@ -144,7 +144,10 @@
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
 				<ng-template [ngIf]="_questionAreaImageFlag">
-					<img class="img-fluid quesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
+					<div class="audio-container">
+					<img class="img-fluid refQuesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
+					<img class="img-fluid" [src]="_questionAreaImage?.bgImg?.url"  (load)="checkImgLoaded();">
+				</div>
 				</ng-template>
 				<ng-template [ngIf]="_questionAreaVideoFlag">
 					<div class="audio-container">
@@ -182,7 +185,7 @@
 				<input type="text" (input)="onInputChange($event)" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
 				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();"
 				 (keypress)="keyPress()"/>
-				 <div class="charleft" >{{charLeft}}</div>
+				 <div class="charleft" >{{currentChar+"/"+totalChar}}</div>
 			</div>
 			<!---->
 			<!-- <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> -->
@@ -338,6 +341,12 @@
 
 				<!-- Modal body -->
 				<div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
+					<div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+						[ngClass]="{'dispFlex':popupTxtRequired}">
+						<div class="instructionBase">
+							<img class="img-fluid" [src]="feedbackObj?.AnswerpopupTxt?.url" />
+						</div>
+					</div>
 					<div class="testContainer d-flex flex-row justify-content-center align-items-center" style="display:flex !important;">
 						<div class="correctBox">
 							<img class="img-fluid" [src]="feedbackObj?.corect_box?.url">
