@@ -23,7 +23,7 @@ button:focus {
 }
 
 #inputKeyboard{
-  font-size: 5vmax;/*6vmax*/
+  font-size: 3.8vmax;/*5vmax*/
 }
 
 .nonHindiInput{
@@ -31,7 +31,7 @@ button:focus {
 }
 
 #boxWord{
-  font-size: 1.5vmax;
+  font-size: .9vmax;/*1.5vmax;*/
 }
 
 .vowels{
@@ -312,10 +312,10 @@ button:focus {
 }
 .optionsList div span{
   position: absolute;
-  font-size: 0.9vmax;
+  font-size: 0.44vmax;/*0.9vmax;*/
 }
 .modal .optionsList div span{
-  font-size: 1.05vmax;
+  font-size: 0.7vmax;/*1.05vmax;*/
 }
 
 .modal .optionsList img{
@@ -349,7 +349,7 @@ button:focus {
 	max-width: 63% !important;
 }
 .bodyContent .refQues {
-	width: 23.7%;
+	width: 23%;/*23.7%*/
   text-align: center;
   display: flex;
   justify-content: center;
@@ -1081,7 +1081,7 @@ html [type=button] {
 }
 
 .inputDiv{
-	width: 60.7%;
+	width: 61.7%;/*60.7%;*/
 	height: 54%;
 	margin: 0 2.6%;
   font-family: 'Kruti Dev 010';
@@ -1092,7 +1092,7 @@ html [type=button] {
 	height: 100%;
 	border: 2px solid black;
 	border-radius: 10px;
-	padding: .5rem 1rem;
+  padding: .5rem .5% .5rem 0;/*.5rem 1rem;*/
 	font-size: 4.25rem;
 	line-height: 2.5;
 	text-align: center;
@@ -1341,14 +1341,23 @@ input {
 .simple-keyboard.hg-theme-default .hg-button{
 	background: #666 !important;
 	height: auto !important;
-	padding: .34% !important;
+  padding: .34% !important;
+  border-bottom-color: rgba(255,255,255,0) !important;
 }
-
-.hg-button span{
+.simple-keyboard.hg-theme-default .hg-button:hover{
+  border-bottom-color: rgba(255,255,255,1) !important;
+}
+/* .hg-button span{
   font-size: 1.6vmax !important;
   font-weight: bold;
   color: #fff;
+} */
+.hg-button span {
+  font-size: 1.25vmax !important;
+  font-weight: 500;
+  color: #fff;
 }
+
 
 .disableDiv{
   pointer-events: none;
@@ -1401,8 +1410,8 @@ cursor: pointer
 }
 
 .optionPlace span {
-    position: absolute;
-	font-size: 3vmax;
+  position: absolute;
+	font-size: 1.8vmax;/*3vmax;*/
 }
 .displayPopup {
   display: block;
@@ -1564,11 +1573,6 @@ cursor: pointer
  .simple-keyboard.hg-theme-default .hg-button {
   height: 2.2vmax !important;
 }
-.hg-button span {
-  font-size: 1.3vmax !important;
-  font-weight: 500;
-  color: #fff;
-}
 
 .hg-button-space{
   width: 30% !important
@@ -1578,35 +1582,43 @@ cursor: pointer
   display:none !important;
 }
 
+.hg-standardBtn{
+  border: solid rgba(255,255,255,0) 1.5px;
+}
 .hg-standardBtn:hover{
   border: solid white 1.5px;
+  border-bottom-color: rgba(255,255,255,1) !important;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-color_number{
   background: #AE6C6C !important;
   box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
-  border-bottom: none 
+  /* border-bottom: none; */
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-color_matra{
   background: #A375AD !important;
   box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
-  border-bottom: none 
+  /* border-bottom: none;  */
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-color_spaces{
   background: #224f90 !important;
   box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
-  border-bottom: none 
+  /* border-bottom: none; */
+  border: solid rgba(255,255,255,0) 1px;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-color_spaces:hover{
+  border-color: rgba(255,255,255,1);
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-red{
   /* background: #008E59 !important; */
   background: linear-gradient(180deg, #008E59 0%, #009961 100%) !important;
   box-shadow: inset 0px 0px 5px rgba(0,0,0,0.7);
-  border-bottom: none 
+  /* border-bottom: none; */
 }
-
 
 .charleft{
   margin-left: 96%;
