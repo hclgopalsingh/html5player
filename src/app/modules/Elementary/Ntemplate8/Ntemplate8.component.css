@@ -131,11 +131,11 @@ button:focus {
 }
 
 #container .rowMid .colLeft {
-  left: 1%;
+  left: 1.2%;
 }
 
 #container .rowMid .colRight {
-  right: 1%;
+  right: 0.9%;
 }
 
 #container .rowMid .colMid {
@@ -306,7 +306,8 @@ button:focus {
 }
 
 #container .modal .instructionBarFeedback {
-  top: 1%;
+  top: 7%;
+  position: absolute;
 }
 
 .instructionBarFeedback .instructionBaseFeedback {
@@ -406,6 +407,7 @@ button:focus {
 
 .modal-body-container {
   width: 100%;
+  padding:1%;
 }
 
 .modalBodyContent {
@@ -782,7 +784,11 @@ button:focus {
 
 .teamNames .teamDetails .rightAns {
   /* padding: 33.4% 0; */
-  height: 27vmin;
+  /* height: 27vmin; */
+  height: 23vmin;
+  width: 100%;
+  border-left: none !important;
+  margin-bottom: 0;
   width: 100%;
   border-left: none !important;
   /* border-top: solid .3vmin #8da3ab;

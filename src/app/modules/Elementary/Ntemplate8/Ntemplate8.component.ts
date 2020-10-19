@@ -271,6 +271,9 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
 			obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.instruction && obj.instruction.nativeElement) {
+			obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
 		if (obj.audio) {
 			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
 		}
