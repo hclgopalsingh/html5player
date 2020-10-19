@@ -194,8 +194,7 @@ export class Ntemplate17Component implements OnInit {
   noAttempts: number = 0;
   stringArr: any = [];
   feedbackTimer: any;
-
-
+  popupTxtRequired: boolean = false;
   value = "";
   keyboard: Keyboard;
   selectedIdx: number = -1;
@@ -369,6 +368,8 @@ export class Ntemplate17Component implements OnInit {
       "top":"63%"
       },
   ]
+  totalChar:any = 12;
+  currentChar:any = 0;
 
   ngAfterViewInit() {
   }
@@ -430,6 +431,7 @@ export class Ntemplate17Component implements OnInit {
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
       if(this.charLeft <12){
+        this.currentChar = this.currentChar - 1;
         this.charLeft =  this.charLeft+1
       }  
       if (this.quesObj.lang == 'eng') {
@@ -472,6 +474,7 @@ export class Ntemplate17Component implements OnInit {
     console.log("this.inputVal.lengthr",this.inputVal.length)
     if(button != "{bksp}" && this.charLeft>0){
       this.charLeft = this.charLeft-1
+      this.currentChar =  this.currentChar + 1;
     }
   };
 
@@ -836,7 +839,7 @@ export class Ntemplate17Component implements OnInit {
       this._questionAreaVideo = this.commonAssets.questionArea[0].video;
       this._questionAreaText = this.commonAssets.questionArea[0].text.txt;
       this._questionAreaAudio = this.commonAssets.questionArea[0].audio;
-
+      this.popupTxtRequired = this.feedbackObj.AnswerpopupTxt.required
       this._questionAreaVideoFlag = this.commonAssets.questionArea[0].video.flag;
       this._questionAreaImageFlag = this.commonAssets.questionArea[0].image.flag;
       // if(this._questionAreaImageFlag){
@@ -1172,6 +1175,8 @@ export class Ntemplate17Component implements OnInit {
   addWord() {
     this.instructionBar.nativeElement.style.pointerEvents="";
     this.appModel.notifyUserAction();
+    this.charLeft = 12;
+    this.currentChar = 0;
     this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
     this.inputFieldText = this.commonAssets.inputFieldText.info;
