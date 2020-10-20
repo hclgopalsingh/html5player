@@ -1,19 +1,14 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Subject, Observable, Subscription } from 'rxjs';
-import { timer } from 'rxjs/observable/timer';
-import { defer } from 'rxjs/observable/defer';
-import { interval } from 'rxjs/observable/interval';
+import { Subscription } from 'rxjs';
 import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { InactivityTimerComponent } from '../../../controller/inactivity-timer-component';
-import { retry } from 'rxjs/operators/retry';
 
 import Keyboard from "simple-keyboard";
 import hindiLayout from "simple-keyboard-layouts/build/layouts/hindi";
-import englishLayout from "simple-keyboard-layouts/build/layouts/english";
 
 import {
     trigger,
@@ -138,27 +133,6 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('fullImage') fullImage: any;
 
 
-
-
-
-
- // @HostListener('document:click', ['$event'])
-  // clickout(event) {
-  //   let openFlag: boolean = false;
-  //   if (!this.keyBoardVersion) {
-  //     if (((!this.inputDivRef.nativeElement.contains(event.target))) && ((!this.simpleKeyboardRef.nativeElement.contains(event.target)))) {
-  //       if (this.keyboard) {
-  //         //this.keyboard.destroy();
-  //       }
-  //     }
-
-  //     if (!(this.mathKeyboardRef && this.mathKeyboardRef.nativeElement.contains(event.target)) && !(this.inputDivRef.nativeElement.contains(event.target))) {
-  //       // this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
-  //     }
-  //   }
-
-  // }
-
   audio = new Audio();
   blink: boolean = false;
   commonAssets: any = "";
@@ -195,7 +169,7 @@ export class Ntemplate17Component implements OnInit {
   stringArr: any = [];
   feedbackTimer: any;
   popupTxtRequired: boolean = false;
-  value = "";
+
   keyboard: Keyboard;
   selectedIdx: number = -1;
   currentRightListIdx: number = 0;
@@ -371,241 +345,8 @@ export class Ntemplate17Component implements OnInit {
   totalChar:any = 12;
   currentChar:any = 0;
 
-  ngAfterViewInit() {
-  }
 
-  onChange = (input: string) => {
-    console.log("Input changed", input);
-    this.inputVal = input;
-    this.addBtnRef.nativeElement.style.opacity = "1";
-    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-      this.QuestionVideo.nativeElement.pause();
-      this.QuestionVideo.nativeElement.currentTime = 0;
-	  //this.QuestionVideo.nativeElement.load();
-    }
-
-  };
-
-  checkMaxLength() {
-    if (this.inputVal.length == 12 || this.inputVal.length > 12) {
-      this.inputVal = this.inputVal.substr(0, 12);
-      this.inputDivRef.nativeElement.children[0].value = this.inputVal;
-    }
-  }
-
-  onKeyPress = (button: string) => {
-    console.log("Button pressed", button);
-    
-    this.stopInstructionVO();
-
-    if (button === "{tab}" || button === "{enter}" || button === ".com") {
-      return;
-    }
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === "{shift}" || button === "{lock}") {
-      this.handleShift();
-	  if(button === "{lock}") {
-		for(let i =0;i<this.disablebtnarrEng.length;i++) {
-			if(this.disablebtnarrEng[i] == "{space}") {
-				(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).children[0].innerHTML="Space bar";
-			} else if(this.disablebtnarrEng[i] == "{shift}"){
-			  if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
-				for(var j =0;j<2;j++){
-					(this.keyboard.getButtonElement(this.disablebtnarrEng[i])[j]  as HTMLElement).classList.add("disableDiv");
-				  }
-				}				
-			} else {
-				if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
-					(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).classList.add("disableDiv");
-				}
-			}
-		}
-		  // if(this.keyboard.options.layoutName=="shift") {
-			  // (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-shift ")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
-		  // } else {
-			  // (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
-		  // }
-	  }
-    } else if (button === "{bksp}") {
-      this.btnSelected = "{bksp}";
-      if(this.charLeft <12){
-        this.currentChar = this.currentChar - 1;
-        this.charLeft =  this.charLeft+1
-      }  
-      if (this.quesObj.lang == 'eng') {
-        if (this.btnCounting > 0) {
-          this.btnCounting -= 1;
-          this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
-        }
-        //this.btnCounting-=1;
-      }
-      if(this.quesObj.lang == 'hindi'){
-        if(this.btnCounting && this.btnCounting >0){
-          this.btnCounting -= 1;
-        }
-        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
-      }
-
-    } else if (this.btnCounting < this.maxCharacter) {
-	  if(button == "{space}" && this.inputVal  != " ") {
-		this.inputVal  += " ";
-	  } 
-    else {
-    if(button != "{space}"){
-     this.inputVal += button;
-    }  
-	  }		  
-      this.btnCounting += 1;
-      if(this.inputVal  != " "){
-      this.addBtnRef.nativeElement.style.opacity = "1";
-      }
-    }
-    else {
-
-    }
-
-    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-      this.QuestionVideo.nativeElement.pause();
-      this.QuestionVideo.nativeElement.currentTime = 0;
-	  //this.QuestionVideo.nativeElement.load();
-    }
-    console.log("this.inputVal.lengthr",this.inputVal.length)
-    if(button != "{bksp}" && this.charLeft>0){
-      this.charLeft = this.charLeft-1
-      this.currentChar =  this.currentChar + 1;
-    }
-  };
-
-  onInputChange = (event: any) => {
-    /* console.log(event);
-     if(this.btnPressed<12){
-       this.keyboard.setInput(event.target.value);
-     }*/
-  };
-
-  /*test() {
-    if (this.inputVal.length > this.prevEntry.length && (this.btnPressed == 11 || this.btnPressed < 11)) {
-      this.stringArr.push(this.inputVal.length - this.prevEntry.length);
-      this.prevEntry = this.inputVal;
-      this.btnPressed++;
-      console.log("normal case");
-    } else if (this.btnPressed > 12 && this.btnSelected != "{bksp}") {
-      let copy = JSON.parse(JSON.stringify(this.prevEntry));
-      this.inputVal = "";
-      this.inputVal = copy;
-      console.log("more than 12 case");
-      // this.keyboard.setInput(copy);
-      this.inputDivRef.nativeElement.children[0].value = copy;
-    } else if (this.btnSelected == "{bksp}" && this.inputVal.length < this.prevEntry.length && (this.prevEntry.length - this.inputVal.length == this.stringArr[this.stringArr.length - 1])) {
-      this.stringArr.splice(this.stringArr.length - 1, 1);
-      this.prevEntry = this.inputVal;
-      this.btnPressed--;
-      this.btnSelected = "";
-      console.log("backspace");
-    } else if (this.btnSelected != "{bksp}" && this.btnPressed == 12) {
-      this.btnPressed++;
-      console.log("added 12 plus");
-    }
-  }*/
-
-  handleShift = () => {
-    let currentLayout = this.keyboard.options.layoutName;
-    let shiftToggle = currentLayout === "default" ? "shift" : "default";
-
-    this.keyboard.setOptions({
-      layoutName: shiftToggle
-    });
-  };
-
-  playHoverInstruction() {
-    if (!this.instruction.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      console.log("play on Instruction");
-      if (this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.play();
-        this.appModel.handlePostVOActivity(false);
-        this._playInstructionFlag = true;
-        $(".instructionBase img").css("cursor", "pointer");
-        this.instruction.nativeElement.onended = () => {
-          if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-            this.QuestionVideo.nativeElement.play();
-            this.appModel.handlePostVOActivity(false);
-            this.instructionBar.nativeElement.style.pointerEvents="none";
-            this.QuestionVideo.nativeElement.onended = () => {
-              this.appModel.handlePostVOActivity(false);
-			        //this.QuestionVideo.nativeElement.load();
-              this.QuestionVideo.nativeElement.pause();
-              this.QuestionVideo.nativeElement.currentTime=0;
-              this.instructionBar.nativeElement.style.pointerEvents="";
-            }
-          }
-        }       
-      }
-    }
-  }
-
-  ngAfterViewChecked() {
-    this.appModel.templatevolume(this.appModel.volumeValue, this);
-    if (this.inputVal == "") {
-      this.addBtnRef.nativeElement.style.opacity = "0.5";
-    }
-  }
-
-  blinkOnLastQues() {
-    this.appModel.eventFired();
-    this.appModel.event = { 'action': 'segmentEnds' };
-    if (this.InfoModalRef != undefined) {
-      // this.appModel.moveNextQues();
-      this.InfoModalRef.nativeElement.classList = "displayPopup modal";
-
-
-      if (this.quesObj.lang != 'math') {
-        this.appModel.moveNextQues();
-      }
-      console.log("==BlinkOnLastQuestion==");
-      this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
-      this.nextQuestionTimeronLast = setTimeout(() => {
-        if (this.quesObj.lang == 'math') {
-          this.disableScreen();
-          this.InfoModalRef.nativeElement.classList = "modal";
-          console.log("inMiliSecond = " + this.nextQuestionTimerForLastQuestioninMiliSec);
-        }
-      }, this.nextQuestionTimerForLastQuestioninMiliSec)
-
-
-      /*if (this.appModel.isLastSectionInCollection) {
-  // this.appModel.blinkForLastQues();
-  //this.appModel.stopAllTimer();
-  if (!this.appModel.eventDone) {
-    if (this.isLastQuesAct) {
-      this.appModel.eventFired();
-      this.appModel.event = { 'action': 'segmentEnds' };
-      if (this.InfoModalRef != undefined) {
-       // this.appModel.moveNextQues();
-        this.InfoModalRef.nativeElement.classList = "displayPopup modal";
-        
-      }
-
-    }
-    if (this.isLastQues) {
-      this.appModel.event = { 'action': 'end' };
-    }
-  }
-} else {
-  if (this.InfoModalRef != undefined) {
-    this.InfoModalRef.nativeElement.classList = "displayPopup modal";
-  }
-  this.appModel.moveNextQues();
-  console.log("==BlinkOnLastQuestion==");
-}*/
-    }
-  }
-
-
+  //angular life-cycle funtions
   ngOnInit() {
     this.attemptType = "auto";
     this.appModel.notifyUserAction();
@@ -692,10 +433,6 @@ export class Ntemplate17Component implements OnInit {
       }
     })
 
-    this.appModel.questionEvent.subscribe(() => {
-
-    });
-
     this.appModel.nextBtnEvent().subscribe(() => {
       if (this.appModel.isLastSectionInCollection) {
         this.appModel.event = { 'action': 'segmentEnds' };
@@ -736,6 +473,227 @@ export class Ntemplate17Component implements OnInit {
     this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
   }
 
+  ngDoCheck() {
+    if (this.inputVal.length > this.prevEntry.length) {
+      this.prevEntry = this.inputVal;
+      this.stopInstructionVO();
+    }
+  }
+
+  ngAfterViewChecked() {
+    this.appModel.templatevolume(this.appModel.volumeValue, this);
+    if (this.inputVal == "") {
+      this.addBtnRef.nativeElement.style.opacity = "0.5";
+    }
+  }
+
+  onChange = (input: string) => {
+    console.log("Input changed", input);
+    this.inputVal = input;
+    this.addBtnRef.nativeElement.style.opacity = "1";
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
+	  //this.QuestionVideo.nativeElement.load();
+    }
+
+  };
+
+
+  //checking max length
+  // checkMaxLength() {
+  //   if (this.inputVal.length == 12 || this.inputVal.length > 12) {
+  //     this.inputVal = this.inputVal.substr(0, 12);
+  //     this.inputDivRef.nativeElement.children[0].value = this.inputVal;
+  //   }
+  // }
+
+  //event on key press
+  onKeyPress = (button: string) => {
+    console.log("Button pressed", button);
+    
+    this.stopInstructionVO();
+
+    if (button === "{tab}" || button === "{enter}" || button === ".com") {
+      return;
+    }
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === "{shift}" || button === "{lock}") {
+      this.handleShift();
+	  if(button === "{lock}") {
+		for(let i =0;i<this.disablebtnarrEng.length;i++) {
+			if(this.disablebtnarrEng[i] == "{space}") {
+				(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).children[0].innerHTML="Space bar";
+			} else if(this.disablebtnarrEng[i] == "{shift}"){
+			  if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
+				for(var j =0;j<2;j++){
+					(this.keyboard.getButtonElement(this.disablebtnarrEng[i])[j]  as HTMLElement).classList.add("disableDiv");
+				  }
+				}				
+			} else {
+				if(this.keyboard.getButtonElement(this.disablebtnarrEng[i])!=undefined) {
+					(this.keyboard.getButtonElement(this.disablebtnarrEng[i]) as HTMLElement).classList.add("disableDiv");
+				}
+			}
+		}
+		  // if(this.keyboard.options.layoutName=="shift") {
+			  // (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-shift ")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
+		  // } else {
+			  // (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
+		  // }
+	  }
+    } else if (button === "{bksp}") {
+      this.btnSelected = "{bksp}";
+      if(this.charLeft <12){
+        this.currentChar = this.currentChar - 1;
+        this.charLeft =  this.charLeft+1
+      }  
+      if (this.quesObj.lang == 'eng') {
+        if (this.btnCounting > 0) {
+          this.btnCounting -= 1;
+          this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
+        }
+        //this.btnCounting-=1;
+      }
+      if(this.quesObj.lang == 'hindi'){
+        if(this.btnCounting && this.btnCounting >0){
+          this.btnCounting -= 1;
+        }
+        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
+      }
+
+    } else if (this.btnCounting < this.maxCharacter) {
+	  if(button == "{space}" && this.inputVal  != " ") {
+		this.inputVal  += " ";
+	  } 
+    else {
+    if(button != "{space}"){
+     this.inputVal += button;
+    }  
+	  }		  
+      this.btnCounting += 1;
+      if(this.inputVal  != " "){
+      this.addBtnRef.nativeElement.style.opacity = "1";
+      }
+    }
+    else {
+
+    }
+
+    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+      this.QuestionVideo.nativeElement.pause();
+      this.QuestionVideo.nativeElement.currentTime = 0;
+	  //this.QuestionVideo.nativeElement.load();
+    }
+    console.log("this.inputVal.lengthr",this.inputVal.length)
+    if(button != "{bksp}" && this.charLeft>0){
+      this.charLeft = this.charLeft-1
+      this.currentChar =  this.currentChar + 1;
+    }
+  };
+
+  //to check on keyboard press
+  onInputChange = (event: any) => {
+    /* console.log(event);
+     if(this.btnPressed<12){
+       this.keyboard.setInput(event.target.value);
+     }*/
+  };
+
+
+  handleShift = () => {
+    let currentLayout = this.keyboard.options.layoutName;
+    let shiftToggle = currentLayout === "default" ? "shift" : "default";
+
+    this.keyboard.setOptions({
+      layoutName: shiftToggle
+    });
+  };
+
+  //play instruction on instr click
+  playHoverInstruction() {
+    if (!this.instruction.nativeElement.paused) {
+      console.log("narrator/instruction voice still playing");
+    } else {
+      console.log("play on Instruction");
+      if (this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.play();
+        this.appModel.handlePostVOActivity(false);
+        this._playInstructionFlag = true;
+        $(".instructionBase img").css("cursor", "pointer");
+        this.instruction.nativeElement.onended = () => {
+          if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+            this.QuestionVideo.nativeElement.play();
+            this.appModel.handlePostVOActivity(false);
+            this.instructionBar.nativeElement.style.pointerEvents="none";
+            this.QuestionVideo.nativeElement.onended = () => {
+              this.appModel.handlePostVOActivity(false);
+			        //this.QuestionVideo.nativeElement.load();
+              this.QuestionVideo.nativeElement.pause();
+              this.QuestionVideo.nativeElement.currentTime=0;
+              this.instructionBar.nativeElement.style.pointerEvents="";
+            }
+          }
+        }       
+      }
+    }
+  }
+
+  blinkOnLastQues() {
+    this.appModel.eventFired();
+    this.appModel.event = { 'action': 'segmentEnds' };
+    if (this.InfoModalRef != undefined) {
+      // this.appModel.moveNextQues();
+      this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+
+
+      if (this.quesObj.lang != 'math') {
+        this.appModel.moveNextQues("noBlink");
+      }
+      console.log("==BlinkOnLastQuestion==");
+      this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
+      this.nextQuestionTimeronLast = setTimeout(() => {
+        if (this.quesObj.lang == 'math') {
+          this.disableScreen();
+          this.InfoModalRef.nativeElement.classList = "modal";
+          console.log("inMiliSecond = " + this.nextQuestionTimerForLastQuestioninMiliSec);
+        }
+      }, this.nextQuestionTimerForLastQuestioninMiliSec)
+
+
+      /*if (this.appModel.isLastSectionInCollection) {
+  // this.appModel.blinkForLastQues();
+  //this.appModel.stopAllTimer();
+  if (!this.appModel.eventDone) {
+    if (this.isLastQuesAct) {
+      this.appModel.eventFired();
+      this.appModel.event = { 'action': 'segmentEnds' };
+      if (this.InfoModalRef != undefined) {
+       // this.appModel.moveNextQues();
+        this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+        
+      }
+
+    }
+    if (this.isLastQues) {
+      this.appModel.event = { 'action': 'end' };
+    }
+  }
+} else {
+  if (this.InfoModalRef != undefined) {
+    this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+  }
+  this.appModel.moveNextQues();
+  console.log("==BlinkOnLastQuestion==");
+}*/
+    }
+  }
+
+
+
   close() {
     //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
@@ -760,11 +718,7 @@ export class Ntemplate17Component implements OnInit {
         // this.appModel.enableReplayBtn(this.playMyVideo);
         this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
         this.instructionDisable=true;
-        //this.instructionBar.nativeElement.classList = "instructionBase disablePointer";
-        // this.videoStartTimer = setTimeout(() => {
-        //this.mainVideo.nativeElement.play();
-        // this.appModel.enableSubmitBtn(false);
-        //this.mainVideo.nativeElement.onended = () => {
+        
           this.isQuesTypeVideo = false;
           this.appModel.navShow=2;
           setTimeout(() => {
@@ -772,29 +726,6 @@ export class Ntemplate17Component implements OnInit {
             //if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
               this.quesVORef.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "? someRandomSeed=" + Math.random().toString(36);
                 this.QuestionLoaded();
-            //} 
-            // else {
-            //   this.appModel.handlePostVOActivity(true);
-            //   // this.appModel.enableReplayBtn(true);
-            //   this.inputDivRef.nativeElement.classList = "inputDiv";
-            //   this.instructionBar.nativeElement.classList = "instructionBase";
-            //   if (this.QuestionVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
-            //     this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
-            //     this.QuestionVideo.nativeElement.play();
-            //     this.appModel.handlePostVOActivity(false);
-            //     this.alldisabledwhilequestionVideoPlay();
-            //     this.QuestionVideo.nativeElement.onended = () => {
-            //       this.blinkTextBox();
-            //       this.appModel.handlePostVOActivity(false);
-            //       this.inputDivRef.nativeElement.classList = "inputDiv";
-            //       this.allEnabledwhilequestionVideoPlay();
-            //     }
-            //   }
-            //   if (this._questionAreaVideoFlag != true) {
-            //     this.blinkTextBox();
-            //   }
-            // }
-            //this.startActivity();
           }, 200)
         //}
         // }, 500);
@@ -802,6 +733,7 @@ export class Ntemplate17Component implements OnInit {
     }
   }
 
+  //gather data and assign to variables
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       //let fetchedData: any = this.appModel.content.contentData.data;
@@ -854,13 +786,7 @@ export class Ntemplate17Component implements OnInit {
         const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ़ ्र ृ र्",,"अ आ इ ई उ ऊ ए ऐ ओ औ ऍ","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र ज्ञ श्र ॠ ॅ ॉ"]}
         // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
         this.layout = newHindiLayout;
-        // this.keyBoard1 = this.fetchedcontent.Keyboard;
-        // this.rowIndex1 = this.fetchedcontent.Keyboard[0].row1;
-        // this.rowIndex2 = this.fetchedcontent.Keyboard[0].row2;
-        // this.rowIndex3 = this.fetchedcontent.Keyboard[0].row3;
-        // this.btmRowIndex = this.fetchedcontent.Keyboard[0].btmRow;
-        // this.numPadIndex = this.fetchedcontent.Keyboard[0].numPadArray;
-        this.inputDivRef.nativeElement.children[0].classList.add("inputHindiDiv");
+        this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
 		const newenglishLayout={default:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} q w e r t y u i o p [ ] \\","{lock} a s d f g h j k l ; ' {enter}","{shift} z x c v b n m , . / {shift}","@ {space}"],shift:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} Q W E R T Y U I O P { } |",'{lock} A S D F G H J K L : " {enter}',"{shift} Z X C V B N M < > ? {shift}","@ {space}"]};
@@ -894,6 +820,31 @@ export class Ntemplate17Component implements OnInit {
       return this.appModel.content.id + '';
     }
   }
+
+  //button hover events
+
+  hoverRightTick() {
+    this.testAssts.right_tick = this.testAssts.right_tick_hover;
+  }
+
+  houtRightTick() {
+    this.testAssts.right_tick = this.testAssts.right_tick_original;
+  }
+  hoverWrongTick() {
+    this.testAssts.wrong_tick = this.testAssts.wrong_tick_hover;
+  }
+
+  houtWrongTick() {
+    this.testAssts.wrong_tick = this.testAssts.wrong_tick_original;
+  }
+
+  addBtnHover() {
+    this.addBtn.add_btn = this.addBtn.add_btn_hover;
+  }
+  addBtnLeave() {
+    this.addBtn.add_btn = this.addBtn.add_btn_original;
+  }
+
   hoverConfirm() {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
@@ -963,6 +914,41 @@ export class Ntemplate17Component implements OnInit {
   houtClosePopup() {
     this.feedbackObj.close_btn = this.feedbackObj.close_btn_original;
   }
+
+  leavePlayPause(){
+    if(this.PlayPauseFlag)
+    {   
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
+    }
+    else{
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
+    }
+  }
+
+  hoverOK() {
+    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
+  }
+
+  houtOK() {
+    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+  }
+
+  hoverCloseOk() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+  }
+  houtCloseOk() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+  }
+
+  hoverClosePic() {
+    this.quesObj.close_btn =  this.quesObj.close_btn_hover;
+  }
+  houtClosePic() {
+    this.quesObj.close_btn =  this.quesObj.close_btn_original;
+  }
+
+
+  //onclicking the popup buttons
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
@@ -1064,6 +1050,7 @@ export class Ntemplate17Component implements OnInit {
     this.instruction.nativeElement.currentTime = 0;
   }
 
+  //open Keyboard 
   openKeyBoard() {
     clearInterval(this.blinkTimer);
     this.instructionBar.nativeElement.style.pointerEvents="";
@@ -1172,6 +1159,7 @@ export class Ntemplate17Component implements OnInit {
 	// }
   }
 
+  //adding a word
   addWord() {
     this.instructionBar.nativeElement.style.pointerEvents="";
     this.appModel.notifyUserAction();
@@ -1232,6 +1220,7 @@ export class Ntemplate17Component implements OnInit {
     }
   }
 
+  //showing second test screen
   showTestScreen() {
     this.noAttempts = this.wordArr.length;
     this.testContainerDisable=true;
@@ -1242,23 +1231,16 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.enableSubmitBtn(false);
   }
 
+  //moving boxes
   moveToBox(idx, word) {
     this.selectedIdx = idx;
-    // this.t_left = this.optionPlaceRef.nativeElement.getBoundingClientRect().left;
     this.wordArr[this.selectedIdx].state="actionBox";
-    // let t_top = this.optionPlaceRef.nativeElement.getBoundingClientRect().top;
-    // let f_left = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().left;
-    // let f_top = this.wordBlockRef.nativeElement.children[idx].getBoundingClientRect().top;
-    /*$(this.wordBlockRef.nativeElement.children[idx]).addClass('absolutePosition');
-    this.wordBlockRef.nativeElement.children[idx].style.left = f_left;
-    this.wordBlockRef.nativeElement.children[idx].style.top = f_top;*/
-    //$(this.wordBlockRef.nativeElement.children[idx]).animate({ left: '32%', top: '-123%', width: '36%' }, 500, () => { this.pushToTestBox(idx, word) });
-	//$(this.wordBlockRef.nativeElement.children[idx].children[1]).animate({"font-size": "3vmax" }, 500);
     this.wordBlockRef.nativeElement.classList = "wordBlock disableIt";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
   }
 
+  //on animation finish function
   onAnimationEvent(event: AnimationEvent){
    console.log(event,"yhi par hun--------->.>>>>>>");
   if(event.fromState == "wordBox" && event.toState == "actionBox" && event.phaseName == "done"){
@@ -1282,6 +1264,7 @@ export class Ntemplate17Component implements OnInit {
   }
   }
 
+  //adding word to wrong list
   addToWrongList() {
     this.listtype="wrongList";
     this.testContainerDisable=true;
@@ -1298,6 +1281,7 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.handlePostVOActivity(false);
   }
 
+  //adding word to right list
   addToRightList() {
     this.listtype="rightList";
     this.testContainerDisable=true;
@@ -1364,28 +1348,7 @@ export class Ntemplate17Component implements OnInit {
     this.stopInstructionVO();
   }
 
-  hoverRightTick() {
-    this.testAssts.right_tick = this.testAssts.right_tick_hover;
-  }
-
-  houtRightTick() {
-    this.testAssts.right_tick = this.testAssts.right_tick_original;
-  }
-  hoverWrongTick() {
-    this.testAssts.wrong_tick = this.testAssts.wrong_tick_hover;
-  }
-
-  houtWrongTick() {
-    this.testAssts.wrong_tick = this.testAssts.wrong_tick_original;
-  }
-
-  addBtnHover() {
-    this.addBtn.add_btn = this.addBtn.add_btn_hover;
-  }
-  addBtnLeave() {
-    this.addBtn.add_btn = this.addBtn.add_btn_original;
-  }
-
+  //on clicking numbers
   numberClick(num) {
     this.stopInstructionVO();
     this.instructionBar.nativeElement.style.pointerEvents="";
@@ -1398,6 +1361,7 @@ export class Ntemplate17Component implements OnInit {
     this.addBtnRef.nativeElement.style.opacity = "1";
   }
 
+  //on clicking operator
   operatorClick(operator) {
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + operator;
@@ -1415,6 +1379,8 @@ export class Ntemplate17Component implements OnInit {
       this.onChange(editedStr);
     }
   */
+
+  //on clicking tab
   tabClick() {
     let editedStr = this.inputVal + " ";
     if (this.btnCounting < this.maxCharacter) {
@@ -1424,6 +1390,7 @@ export class Ntemplate17Component implements OnInit {
 
   }
 
+  //deleting a word
   deleteElement() {
     this.stopInstructionVO();
     if (this.btnCounting > 0) {
@@ -1435,35 +1402,7 @@ export class Ntemplate17Component implements OnInit {
 
   }
 
-  ngDoCheck() {
-    /* if(this.inputVal.length > this.prevEntry.length && (this.btnPressed == 11 || this.btnPressed < 11)){
-       this.stringArr.push(this.inputVal.length - this.prevEntry.length);
-       this.prevEntry = this.inputVal;
-       this.btnPressed++;
-       console.log("normal case");
-     }else if( this.btnPressed > 12 && this.btnSelected!="{bksp}"){
-       let copy  = JSON.parse(JSON.stringify(this.prevEntry));
-       this.inputVal = "";
-       this.inputVal = copy;
-        console.log("more than 12 case");
-      // this.keyboard.setInput(copy);
-      this.inputDivRef.nativeElement.children[0].value = copy;
-     }else if(this.btnSelected=="{bksp}" && this.inputVal.length < this.prevEntry.length && (this.prevEntry.length - this.inputVal.length  == this.stringArr[this.stringArr.length-1])){
-         this.stringArr.splice(this.stringArr.length-1,1);
-         this.prevEntry = this.inputVal;
-          this.btnPressed--;
-          this.btnSelected="";
-          console.log("backspace");
-     }else if(this.btnSelected!="{bksp}" && this.btnPressed==12){
-       this.btnPressed++;
-        console.log("added 12 plus");
-     }*/
-    if (this.inputVal.length > this.prevEntry.length) {
-      this.prevEntry = this.inputVal;
-      this.stopInstructionVO();
-    }
-  }
-
+  //to disable screen
   disableScreen() {
     //this.inputDivRef.nativeElement.children[0].setSelectionRange(this.inputVal.length-1,0);
     this.bodyContent.nativeElement.classList = "bodyContent disableDiv";
@@ -1492,42 +1431,44 @@ export class Ntemplate17Component implements OnInit {
     }
   }
 
-  hoverRow1(event) {
-    for (let i = 0; i < this.keyBoard1[0].row1.length; i++) {
-      this.Row1.nativeElement.children[i].style.left = this.keyBoard1[0].row1[i].left + "%";
-    }
-  }
+  //for old keyboard
+  // hoverRow1(event) {
+  //   for (let i = 0; i < this.keyBoard1[0].row1.length; i++) {
+  //     this.Row1.nativeElement.children[i].style.left = this.keyBoard1[0].row1[i].left + "%";
+  //   }
+  // }
 
-  hoverRow2(event) {
-    for (let i = 0; i < this.keyBoard1[0].row2.length; i++) {
-      this.Row2.nativeElement.children[i].style.left = this.keyBoard1[0].row2[i].left + "%";
-    }
-  }
+  // hoverRow2(event) {
+  //   for (let i = 0; i < this.keyBoard1[0].row2.length; i++) {
+  //     this.Row2.nativeElement.children[i].style.left = this.keyBoard1[0].row2[i].left + "%";
+  //   }
+  // }
 
-  hoverRow3(event) {
-    for (let i = 0; i < this.keyBoard1[0].row3.length; i++) {
-      this.Row3.nativeElement.children[i].style.left = this.keyBoard1[0].row3[i].left + "%";
-      this.Row3.nativeElement.children[i].style.top = this.keyBoard1[0].row3[i].top + "%";
-    }
-  }
-
-
-  hoverbtmRow(event) {
-    for (let i = 0; i < this.keyBoard1[0].btmRow.length; i++) {
-      this.BtmRow.nativeElement.children[i].style.left = this.keyBoard1[0].btmRow[i].left + "%";
-      this.BtmRow.nativeElement.children[i].style.width = this.keyBoard1[0].btmRow[i].width + "%";
-    }
-  }
-
-  hovernumPad(event) {
-    for (let i = 0; i < this.keyBoard1[0].numPadArray.length; i++) {
-      this.NumPad.nativeElement.children[i].style.left = this.keyBoard1[0].numPadArray[i].left + "%";
-      this.NumPad.nativeElement.children[i].style.top = this.keyBoard1[0].numPadArray[i].top + "%";
-      this.NumPad.nativeElement.children[i].style.width = this.keyBoard1[0].numPadArray[i].width + "%";
-    }
-  }
+  // hoverRow3(event) {
+  //   for (let i = 0; i < this.keyBoard1[0].row3.length; i++) {
+  //     this.Row3.nativeElement.children[i].style.left = this.keyBoard1[0].row3[i].left + "%";
+  //     this.Row3.nativeElement.children[i].style.top = this.keyBoard1[0].row3[i].top + "%";
+  //   }
+  // }
 
 
+  // hoverbtmRow(event) {
+  //   for (let i = 0; i < this.keyBoard1[0].btmRow.length; i++) {
+  //     this.BtmRow.nativeElement.children[i].style.left = this.keyBoard1[0].btmRow[i].left + "%";
+  //     this.BtmRow.nativeElement.children[i].style.width = this.keyBoard1[0].btmRow[i].width + "%";
+  //   }
+  // }
+
+  // hovernumPad(event) {
+  //   for (let i = 0; i < this.keyBoard1[0].numPadArray.length; i++) {
+  //     this.NumPad.nativeElement.children[i].style.left = this.keyBoard1[0].numPadArray[i].left + "%";
+  //     this.NumPad.nativeElement.children[i].style.top = this.keyBoard1[0].numPadArray[i].top + "%";
+  //     this.NumPad.nativeElement.children[i].style.width = this.keyBoard1[0].numPadArray[i].width + "%";
+  //   }
+  // }
+
+
+  //click event to capture what btn was clicked
   clickBtn(id, opt) {
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
@@ -1599,63 +1540,65 @@ export class Ntemplate17Component implements OnInit {
 
   }
 
+// old hindi keyboard
+  // clickBtnMatra(id, opt, evnt) {
 
-  clickBtnMatra(id, opt, evnt) {
+  //   this.currentMatraNumber = id;
+  //   this.appModel.notifyUserAction();
+  //   this.appModel.handlePostVOActivity(false);
 
-    this.currentMatraNumber = id;
-    this.appModel.notifyUserAction();
-    this.appModel.handlePostVOActivity(false);
+  //   for (let y = 0; y < this.rowIndex2.length; y++) {
+  //     document.getElementById("index" + y).style.display = "block";
+  //     document.getElementById("index" + y).style.left = this.rowIndex2[y].left + "%";
+  //   }
 
-    for (let y = 0; y < this.rowIndex2.length; y++) {
-      document.getElementById("index" + y).style.display = "block";
-      document.getElementById("index" + y).style.left = this.rowIndex2[y].left + "%";
-    }
+  //   for (let y = 0; y < this.rowIndex3.length; y++) {
 
-    for (let y = 0; y < this.rowIndex3.length; y++) {
+  //     if (this.rowIndex3[y].matras[this.currentMatraNumber].matra == "") {
+  //       document.getElementById("consonent" + y).style.display = "block";
+  //       document.getElementById("consonent" + y).style.left = this.rowIndex3[y].left + "%";
+  //       document.getElementById("consonent" + y).style.top = this.rowIndex3[y].top + "%";
+  //     }
+  //     else {
+  //       document.getElementById("consonent" + y).style.display = "none";
+  //     }
 
-      if (this.rowIndex3[y].matras[this.currentMatraNumber].matra == "") {
-        document.getElementById("consonent" + y).style.display = "block";
-        document.getElementById("consonent" + y).style.left = this.rowIndex3[y].left + "%";
-        document.getElementById("consonent" + y).style.top = this.rowIndex3[y].top + "%";
-      }
-      else {
-        document.getElementById("consonent" + y).style.display = "none";
-      }
-
-    }
+  //   }
 
 
-    for (let i = 0; i < this.rowIndex1.length; i++) {
-      this.Row1.nativeElement.children[i].classList.remove("highlight");
-    }
-    this.Row1.nativeElement.children[id].classList.add("highlight");
+  //   for (let i = 0; i < this.rowIndex1.length; i++) {
+  //     this.Row1.nativeElement.children[i].classList.remove("highlight");
+  //   }
+  //   this.Row1.nativeElement.children[id].classList.add("highlight");
 
-    this.matraBtnOn = true;
-    this.matraRepeatArr.push(id);
-    this.matraCounter += 1;
-    if (this.matraRepeatArr[0] == this.matraRepeatArr[1]) {
-      this.matraBtnOn = false;
-      this.matraRepeatArr = [];
-      this.matraCounter = 0;
-      this.Row1.nativeElement.children[id].classList.remove("highlight");
-      for (let y = 0; y < this.rowIndex2.length; y++) {
-        document.getElementById("index" + y).style.display = "none";
-      }
-      for (let y = 0; y < this.rowIndex3.length; y++) {
-        document.getElementById("consonent" + y).style.display = "none";
-      }
-    }
-    else {
-      if (this.matraCounter > 1) {
-        this.matraRepeatArr.shift();
-      }
-    }
-    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-      this.QuestionVideo.nativeElement.pause();
-      this.QuestionVideo.nativeElement.currentTime = 0;
-    }
-  }
+  //   this.matraBtnOn = true;
+  //   this.matraRepeatArr.push(id);
+  //   this.matraCounter += 1;
+  //   if (this.matraRepeatArr[0] == this.matraRepeatArr[1]) {
+  //     this.matraBtnOn = false;
+  //     this.matraRepeatArr = [];
+  //     this.matraCounter = 0;
+  //     this.Row1.nativeElement.children[id].classList.remove("highlight");
+  //     for (let y = 0; y < this.rowIndex2.length; y++) {
+  //       document.getElementById("index" + y).style.display = "none";
+  //     }
+  //     for (let y = 0; y < this.rowIndex3.length; y++) {
+  //       document.getElementById("consonent" + y).style.display = "none";
+  //     }
+  //   }
+  //   else {
+  //     if (this.matraCounter > 1) {
+  //       this.matraRepeatArr.shift();
+  //     }
+  //   }
+  //   if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+  //     this.QuestionVideo.nativeElement.pause();
+  //     this.QuestionVideo.nativeElement.currentTime = 0;
+  //   }
+  // }
 
+
+  //video related funtions
   checkVideoLoaded() {
     if (this.videoReplayd) {
       this.appModel.setLoader(false);
@@ -1691,14 +1634,6 @@ export class Ntemplate17Component implements OnInit {
     this.mainVideo.nativeElement.pause();
     }
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
-    // this.isPlayVideo = false;
-    // this.appModel.navShow = 2;
-    // this.appModel.videoStraming(false);
-    // this.QuestionLoaded();
-    // if(this.videoReplayd){
-    //    this.QuestionVideo.nativeElement.pause();
-    //    this.QuestionVideo.nativeElement.currentTime=0;
-    // }
   }
 
   endedHandleronClose(){
@@ -1751,6 +1686,7 @@ export class Ntemplate17Component implements OnInit {
 
   }
 
+  //initialising a question
   checkinputnull() {
     this.appModel.handlePostVOActivity(true);
     this.appModel.enableReplayBtn(this.playMyVideo);
@@ -1845,37 +1781,7 @@ export class Ntemplate17Component implements OnInit {
     }
   }
 
-  leavePlayPause(){
-    if(this.PlayPauseFlag)
-    {   
-      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;   
-    }
-    else{
-      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal; 
-    }
-  }
-
-  hoverOK() {
-    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
-  }
-
-  houtOK() {
-    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
-  }
-
-  hoverCloseOk() {
-    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
-  }
-  houtCloseOk() {
-    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
-  }
-
-  hoverClosePic() {
-    this.quesObj.close_btn =  this.quesObj.close_btn_hover;
-  }
-  houtClosePic() {
-    this.quesObj.close_btn =  this.quesObj.close_btn_original;
-  }
+  
 
   questionAudioPlay() {
     if (this.QuestionAudio != undefined) {
@@ -1892,6 +1798,7 @@ export class Ntemplate17Component implements OnInit {
     }
   }
 
+  //disable screen functions
   alldisabledwhilequestionVideoPlay() {
     $("#instructionBar").addClass("disable_div");
     this.appModel.enableReplayBtn(false);

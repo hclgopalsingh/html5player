@@ -94,7 +94,7 @@ button:focus {
 .modal .testContainer{
 	height: auto;
   justify-content: space-around !important;
-  margin-top: 0%;
+  margin-top: 8%;
 }
 .correctBox,
 .incorrectBox{
@@ -183,7 +183,7 @@ button:focus {
 
 .modal .correctBox,
 .modal .incorrectBox{
-	width: 43%;/*37.5%;*/
+	width:37.5%;
 }
 .placeholder1,
 .placeholder2,
@@ -1084,7 +1084,7 @@ html [type=button] {
 	width: 60.7%;
 	height: 54%;
 	margin: 0 2.6%;
-  font-family: 'Kruti Dev 010';
+  font-family: 'Arial';
 }
 
 .inputDiv input{
@@ -1614,4 +1614,15 @@ cursor: pointer
   font-weight: 600;
   margin-top: -4%;
   font-family: sans-serif;
+}
+
+.modal .instructionBase {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
 }
