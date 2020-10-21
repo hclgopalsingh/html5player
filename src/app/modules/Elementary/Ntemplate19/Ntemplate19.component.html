@@ -26,7 +26,7 @@
     </div>
     <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
   </div>
-  <div class="bodyContent">
+  <div [ngClass]="['bodyContent', parentMatrixClass]">
    <!--  <div class="tabularBlock" #tabularBlock>
       <div class="tabularData">
         <div class="rowBox" *ngFor="let tabularBlock of tabularBlockObj;let idx = index">
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="criteriaContainer">
-      <img class="img-fluid criteriaHeader" *ngFor="let header of fetchedcontent?.refQuesObj?.criteriaHeaders;let idx = index" [src]="header?.url" (load)="checkImgLoaded();">
+      <img class="img-fluid criteriaHeader" id="criteria{{idx+1}}" *ngFor="let header of fetchedcontent?.refQuesObj?.criteriaHeaders;let idx = index" [src]="header?.url" (load)="checkImgLoaded();">
     </div>
   <!-- </div> -->
     <div class="optionsBlock" #optionsBlock>

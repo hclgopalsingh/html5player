@@ -9,34 +9,17 @@
   width: 17%;
 }
 .quesContainer {
-  position: absolute;
-  top: 35%;
-  width: 87%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 87%;
+    height: 94%;
 }
 .contentBlock {
   position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 6%;
-    top:10%;
-    /* min-width: auto; */
-    /* min-height: auto; */
-    width: 100%;
-}
-.criteriaContainer {
-  position: absolute;
-  top: 17%;
-  left: 25.5%;
-  width: 15%;
-  height: auto;
   display: flex;
-  align-items: initial;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 72%;
+  top: 9.5%;
+  width: 100%;
 }
 .options img {
   position: absolute;
@@ -45,42 +28,140 @@
 .optionBlock img:first-child {
   width: auto;
 }
+.placeholderContainer {
+  position: absolute;
+    width: 100%;
+    height: 100%;
+}
 .placeholderContainer img {
   position: absolute;
     width: 14%;
 }
-.placeholderContainer #optPlaceholder1 {
-  top: 77%;
-  left: 43%;
+.criteriaContainer img {
+  position: absolute;
+  width: 14%;
 }
-.placeholderContainer #optPlaceholder2 {
-  top: 77%;
+.criteriaContainer #criteria1 {
+  top: 16.9%;
+}
+.criteriaContainer #criteria2 {
+top: 32.2%;
+}
+.criteriaContainer #criteria3 {
+top: 47.8%;
+}
+.criteriaContainer #criteria4 {
+top: 63%;
+}
+/****** 5*3 matrix start ******/
+.matrix_5x3 .criteriaContainer img {
+  left: 26%;
+}
+.matrix_5x3 .placeholderContainer #optPlaceholder1 {
+  top: 10%;
+    left: 43%;
+}
+.matrix_5x3 .placeholderContainer #optPlaceholder2 {
+  top: 10%;
   left: 60%;
 }
-.placeholderContainer #optPlaceholder3 {
-  top: 316%;
+.matrix_5x3 .placeholderContainer #optPlaceholder3 {
+  top: 31.5%;
   left: 43%;
 }
-.placeholderContainer #optPlaceholder4 {
-  top: 316%;
+.matrix_5x3 .placeholderContainer #optPlaceholder4 {
+  top: 31.5%;
   left: 60%;
 }
-.placeholderContainer #optPlaceholder5 {
-  top: 550%;
+.matrix_5x3 .placeholderContainer #optPlaceholder5 {
+  top: 53%;
   left: 43%;
 }
-.placeholderContainer #optPlaceholder6 {
-  top: 550%;
+.matrix_5x3 .placeholderContainer #optPlaceholder6 {
+  top: 53%;
   left: 60%;
 }
-.placeholderContainer #optPlaceholder7 {
-  top: 780%;
+.matrix_5x3 .placeholderContainer #optPlaceholder7 {
+  top: 74%;
   left: 43%;
 }
-.placeholderContainer #optPlaceholder8 {
-  top: 780%;
+.matrix_5x3 .placeholderContainer #optPlaceholder8 {
+  top: 74%;
   left: 60%;
 }
+/****** 5*3 matrix end ******/
+
+/****** 5*5 matrix start ******/
+.matrix_5x5 .criteriaContainer img {
+  left: 8.5%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder1 {
+  top: 10%;
+  left: 26%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder2 {
+  top: 10%;
+  left: 43%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder3 {
+  top: 10%;
+  left: 60%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder4 {
+  top: 10%;
+  left: 77%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder5 {
+  top: 31.5%;
+  left: 26%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder6 {
+  top: 31.5%;
+  left: 43%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder7 {
+  top: 31.5%;
+  left: 60%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder8 {
+  top: 31.5%;
+  left: 77%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder9 {
+  top: 53%;
+  left: 26%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder10 {
+  top: 53%;
+  left: 43%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder11 {
+  top: 53%;
+  left: 60%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder12 {
+  top: 53%;
+  left: 77%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder13 {
+  top: 74%;
+  left: 26%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder14 {
+  top: 74%;
+  left: 43%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder15 {
+  top: 74%;
+  left: 60%;
+}
+.matrix_5x5 .placeholderContainer #optPlaceholder16 {
+  top: 74%;
+  left: 77%;
+}
+/***** 5*5 matrix end *******/
+
+
 button:focus {
   outline: 0 !important;
 }
@@ -296,6 +377,7 @@ button:focus {
 }
 
 .optionBase {
+  height: 100%;
   max-width: 84%!important;
 }
 
@@ -319,8 +401,8 @@ button:focus {
 } */
 
   .options img {
-    max-width: 14.05%;
-    margin: 0 2.95%;
+    max-width: 16%;
+    padding: 0.4% 0;
     position:relative;
   }
 

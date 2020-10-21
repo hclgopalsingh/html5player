@@ -205,6 +205,7 @@ export class Ntemplate19Component implements OnInit {
   instructionDisable: boolean = false;
   clickedIndex: any;
   optionPlaceholders: any;
+  parentMatrixClass:any;
   /*
     hasEventFired:boolean = false;
     	if(!this.hasEventFired){
@@ -365,7 +366,7 @@ export class Ntemplate19Component implements OnInit {
     this.optionObj[this.index1].isOpen = false;
     this.optionObj[this.index1].leftPos = "40%";
     this.optionObj[this.index1].topPos = "-495%";
-    // this.optionObj[this.index1].optPos = "absolute";
+    this.optionObj[this.index1].optPos = "absolute";
     
     
   }
@@ -870,6 +871,12 @@ houtSkip(){
       // this.infoPopupAssets = fetchedData.feedback.info_popup;
       // this.submitPopupAssets = fetchedData.feedback.submit_popup;
       // this.replayconfirmAssets = fetchedData.feedback.replay_confirm;
+      let refQuesObj = this.fetchedcontent.refQuesObj;
+      if (refQuesObj.criteriaHeaders.length === 4 && refQuesObj.headers.length === 3) {
+        this.parentMatrixClass = "matrix_5x3";
+      } else if (refQuesObj.criteriaHeaders.length === 4 && refQuesObj.headers.length === 5) {
+        this.parentMatrixClass = "matrix_5x5";
+      }
       this.quesObj = this.fetchedcontent.quesObj;
       this.optionPlaceholders = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
       if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
