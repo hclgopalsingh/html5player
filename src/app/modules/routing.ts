@@ -34,7 +34,6 @@ import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component'
 import { Ntemplate17Component } from './Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate24 } from '../controller/Ntemplate24.component';
 import { Ntemplate24_1 } from '../controller/Ntemplate24_1.component';
-import { Ntemplate19 } from '../controller/Ntemplate19.component';
 import {Ntemplate21} from '../controller/Ntemplate21.component';
 import { NTitleComponent} from '../controller/NTitle.component';
 import { NgModule } from '@angular/core';
@@ -65,6 +64,7 @@ import { Template12ComponentEVA } from './EVA/template12/template12.component';
 import { TemplateSevenComponent } from './EVA/template7/template7.component';
 import { Template5Component } from './EVA/template5/template5.component';
 import { Template9Component } from './EVA/template9/template9.component';
+import { Ntemplate19Component } from './Elementary/Ntemplate19/Ntemplate19.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -135,8 +135,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp18ext', component: Ntemplate18, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp18_1', component: Ntemplate18_1, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp18_1ext', component: Ntemplate18_1, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp19', component: Ntemplate19, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp19ext', component: Ntemplate19, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp19', component: Ntemplate19Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp19ext', component: Ntemplate19Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp21', component: Ntemplate21, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp21ext', component: Ntemplate21, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp24_1', component: Ntemplate24_1, runGuardsAndResolvers: 'always' },
