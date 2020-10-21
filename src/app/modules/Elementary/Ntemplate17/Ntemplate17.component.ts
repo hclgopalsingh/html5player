@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subscription } from 'rxjs';
-import 'jquery';
+// import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
@@ -19,7 +19,7 @@ import {
     AnimationEvent
 } from '@angular/animations';
 
-declare var $: any;
+// declare var $: any;
 
 
 @Component({
@@ -32,7 +32,7 @@ declare var $: any;
       ),
       state('actionBox', style({
         'left': '41.5%',
-        'top': '-98%',
+        'top': '-115%',
         'transform': 'scale(2.2)'
       })
       ),
@@ -102,30 +102,30 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('mainVideo') mainVideo: any;
-  @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
+  // @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('quesContainer') quesContainer: any;
   @ViewChild('testContainer') testContainer: any;
   @ViewChild('wordBlockRef') wordBlockRef: any;
   @ViewChild('optionPlaceRef') optionPlaceRef: any;
-  @ViewChild('selectedRightListRef') selectedRightListRef: any;
+  // @ViewChild('selectedRightListRef') selectedRightListRef: any;
   @ViewChild('DummyRightListRef') DummyRightListRef: any;
   @ViewChild('DummyWrongListRef') DummyWrongListRef: any;
-  @ViewChild('selectedOptionRef') selectedOptionRef: any;
+  // @ViewChild('selectedOptionRef') selectedOptionRef: any;
   @ViewChild('selectedWrongListRef') selectedWrongListRef: any;
   @ViewChild('feedbackModal') feedbackModal: any;
   @ViewChild('addBtnRef') addBtnRef: any;
   @ViewChild('inputDivRef') inputDivRef: any;
-  @ViewChild('simpleKeyboardRef') simpleKeyboardRef: any;
+  // @ViewChild('simpleKeyboardRef') simpleKeyboardRef: any;
   @ViewChild('quesVORef') quesVORef: any;
   @ViewChild('instructionBar') instructionBar: any;
   @ViewChild('mathKeyboardRef') mathKeyboardRef: any;
-  @ViewChild('modalfeedback17') modalfeedback17: any;
+  // @ViewChild('modalfeedback17') modalfeedback17: any;
   @ViewChild('bodyContent') bodyContent: any;
-  @ViewChild('row1') Row1: any;
-  @ViewChild('row2') Row2: any;
-  @ViewChild('row3') Row3: any;
-  @ViewChild('btmRow') BtmRow: any;
-  @ViewChild('numPad') NumPad: any;
+  // @ViewChild('row1') Row1: any;
+  // @ViewChild('row2') Row2: any;
+  // @ViewChild('row3') Row3: any;
+  // @ViewChild('btmRow') BtmRow: any;
+  // @ViewChild('numPad') NumPad: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('infoModalRef') InfoModalRef: any;
   @ViewChild('questionVideo') QuestionVideo: any;
@@ -241,53 +241,56 @@ export class Ntemplate17Component implements OnInit {
   displayWave: boolean;
   speakerdisable:boolean=false;
   testContainerDisable:boolean=false;
+
+  disableaddbtnPointer:any = false
+
   rightPosArray:any =[
     {
-    "left":"-7%",
+    "left":"-3%",
     "top":"1%"
     },
     {
-    "left":"3.5%",
+    "left":"7.5%",
     "top":"1%"
     },
     {
-      "left":"-7%",
+      "left":"-3%",
       "top":"13%"
       },
     {
-      "left":"3.5%",
+      "left":"7.5%",
       "top":"13%"
       },
     {
-      "left":"-7%",
+      "left":"-3%",
       "top":"25%"
       },
     {
-      "left":"3.5%",
+      "left":"7.5%",
       "top":"25%"
       },
     {
-      "left":"-7%",
+      "left":"-3%",
       "top":"37%"
       },
     {
-      "left":"3.5%",
+      "left":"7.5%",
       "top":"37%"
       },
     {
-      "left":"-7%",
+      "left":"-3%",
       "top":"50%"
       },
     {
-      "left":"3.5%",
+      "left":"7.5%",
       "top":"50%"
       },
     {
-      "left":"-7%",
+      "left":"-3%",
       "top":"63%"
       },
     {
-      "left":"3.5%",
+      "left":"7.5%",
       "top":"63%"
       },
   ]
@@ -351,6 +354,7 @@ export class Ntemplate17Component implements OnInit {
     this.attemptType = "auto";
     this.appModel.notifyUserAction();
     this.addBtnRef.nativeElement.style.opacity = "0.5";
+    this.disableaddbtnPointer = true
     this.appModel.functionone(this.appModel.templatevolume, this);//start end
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
@@ -373,7 +377,8 @@ export class Ntemplate17Component implements OnInit {
         //show modal for manual
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
+          //$("#instructionBar").addClass("disable_div");
+          this.instruction = true;
           this.popupRef.nativeElement.classList = "displayPopup modal";
           // this.setFeedbackAudio();
         }
@@ -387,7 +392,9 @@ export class Ntemplate17Component implements OnInit {
         //this.InfoModalRef.nativeElement.classList = "displayPopup modal";
         // this.appModel.moveNextQues();
         if (this.popupRef && this.popupRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
+          // $("#instructionBar").addClass("disable_div");
+          this.instructionDisable = true
+
           this.popupRef.nativeElement.classList = "displayPopup modal";
           //this.appModel.enableReplayBtn(true);
           //this.setFeedbackAudio();
@@ -400,7 +407,9 @@ export class Ntemplate17Component implements OnInit {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-          $("#instructionBar").addClass("disable_div");
+         // $("#instructionBar").addClass("disable_div");
+         this.instructionDisable = true
+
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
         }
       }
@@ -411,7 +420,8 @@ export class Ntemplate17Component implements OnInit {
            this.QuestionVideo.nativeElement.pause();
            this.QuestionVideo.nativeElement.currentTime = 0;
 		  //this.QuestionVideo.nativeElement.load();
-      this.instructionBar.nativeElement.style.pointerEvents="";
+      // this.instructionBar.nativeElement.style.pointerEvents="";
+      this.instructionDisable = false;
         }
       }
       if (action == "replayVideo") {
@@ -427,7 +437,8 @@ export class Ntemplate17Component implements OnInit {
             this.QuestionVideo.nativeElement.pause();
             this.QuestionVideo.nativeElement.currentTime = 0;
 			//this.QuestionVideo.nativeElement.load();
-      this.instructionBar.nativeElement.style.pointerEvents="";
+      // this.instructionBar.nativeElement.style.pointerEvents="";
+          this.instructionDisable = false;
           }
         }
       }
@@ -484,6 +495,7 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
     if (this.inputVal == "") {
       this.addBtnRef.nativeElement.style.opacity = "0.5";
+      this.disableaddbtnPointer = true
     }
   }
 
@@ -491,6 +503,7 @@ export class Ntemplate17Component implements OnInit {
     console.log("Input changed", input);
     this.inputVal = input;
     this.addBtnRef.nativeElement.style.opacity = "1";
+    this.disableaddbtnPointer = false;
     if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
       this.QuestionVideo.nativeElement.pause();
       this.QuestionVideo.nativeElement.currentTime = 0;
@@ -513,7 +526,7 @@ export class Ntemplate17Component implements OnInit {
     console.log("Button pressed", button);
     
     this.stopInstructionVO();
-
+    this.instructionDisable = false;
     if (button === "{tab}" || button === "{enter}" || button === ".com") {
       return;
     }
@@ -576,6 +589,7 @@ export class Ntemplate17Component implements OnInit {
       this.btnCounting += 1;
       if(this.inputVal  != " "){
       this.addBtnRef.nativeElement.style.opacity = "1";
+      this.disableaddbtnPointer = false;
       }
     }
     else {
@@ -621,20 +635,23 @@ export class Ntemplate17Component implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
+        this.instructionDisable = true;
         this.appModel.handlePostVOActivity(false);
         this._playInstructionFlag = true;
-        $(".instructionBase img").css("cursor", "pointer");
+        // $(".instructionBase img").css("cursor", "pointer");
         this.instruction.nativeElement.onended = () => {
+          this.instructionDisable = false
           if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
             this.QuestionVideo.nativeElement.play();
+            this.instructionDisable = false
             this.appModel.handlePostVOActivity(false);
-            this.instructionBar.nativeElement.style.pointerEvents="none";
+           // this.instructionBar.nativeElement.style.pointerEvents="none";
             this.QuestionVideo.nativeElement.onended = () => {
               this.appModel.handlePostVOActivity(false);
 			        //this.QuestionVideo.nativeElement.load();
               this.QuestionVideo.nativeElement.pause();
               this.QuestionVideo.nativeElement.currentTime=0;
-              this.instructionBar.nativeElement.style.pointerEvents="";
+              // this.instructionBar.nativeElement.style.pointerEvents="";
             }
           }
         }       
@@ -971,7 +988,8 @@ export class Ntemplate17Component implements OnInit {
       setTimeout(()=>{
         this.moveToBox(0,undefined);
       },3000);
-      $("#instructionBar").addClass("disable_div");
+      // $("#instructionBar").addClass("disable_div");
+      this.instructionDisable = true
       this.appModel.enableReplayBtn(false);
       
     } else if (action == "showAnswerFeedback") {
@@ -990,8 +1008,9 @@ export class Ntemplate17Component implements OnInit {
     } else if (flag == "no") {
       this.appModel.videoStraming(false);
       setTimeout(() => {
-        $("#instructionBar").removeClass("disable_div");
-        $("#optionsBlock .options").removeClass("disable_div");
+        //$("#instructionBar").removeClass("disable_div");
+        this.instructionDisable = true;
+       // $("#optionsBlock .options").removeClass("disable_div");
       }, 1000);
     }
   }
@@ -1053,7 +1072,8 @@ export class Ntemplate17Component implements OnInit {
   //open Keyboard 
   openKeyBoard() {
     clearInterval(this.blinkTimer);
-    this.instructionBar.nativeElement.style.pointerEvents="";
+    // this.instructionBar.nativeElement.style.pointerEvents="";
+    this.instructionDisable = false
     this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
@@ -1161,7 +1181,8 @@ export class Ntemplate17Component implements OnInit {
 
   //adding a word
   addWord() {
-    this.instructionBar.nativeElement.style.pointerEvents="";
+    // this.instructionBar.nativeElement.style.pointerEvents="";
+    this.instructionDisable = false;
     this.appModel.notifyUserAction();
     this.charLeft = 12;
     this.currentChar = 0;
@@ -1185,7 +1206,7 @@ export class Ntemplate17Component implements OnInit {
       this.inputVal = "";
       this.btnCounting = 0;
       this.addBtnRef.nativeElement.style.opacity = "0.5";
-
+      this.disableaddbtnPointer = true;
       this.keyBoardVersion = false;
       this.appModel.enableSubmitBtn(true);
       this.btnPressed = 0;
@@ -1304,7 +1325,7 @@ export class Ntemplate17Component implements OnInit {
     this.selectedOptionArr.text = word;
     this.selectedOptionArr.state = this.wordArr[idx].state;
     this.noAttempts--;
-    $("#optionPlaceId").addClass("animateWidth");
+    // $("#optionPlaceId").addClass("animateWidth");
   }
 
   pushToRightList() {
@@ -1351,7 +1372,8 @@ export class Ntemplate17Component implements OnInit {
   //on clicking numbers
   numberClick(num) {
     this.stopInstructionVO();
-    this.instructionBar.nativeElement.style.pointerEvents="";
+    // this.instructionBar.nativeElement.style.pointerEvents="";
+    this.instructionDisable = false;
     let editedStr = this.inputVal + "" + num;
     if (this.btnCounting < this.maxCharacter) {
       this.onChange(editedStr);
@@ -1359,6 +1381,7 @@ export class Ntemplate17Component implements OnInit {
     }
 
     this.addBtnRef.nativeElement.style.opacity = "1";
+    this.disableaddbtnPointer = false;
   }
 
   //on clicking operator
@@ -1371,6 +1394,8 @@ export class Ntemplate17Component implements OnInit {
     }
 
     this.addBtnRef.nativeElement.style.opacity = "1";
+    this.disableaddbtnPointer = false;
+
   }
 
   /*
@@ -1468,77 +1493,81 @@ export class Ntemplate17Component implements OnInit {
   // }
 
 
-  //click event to capture what btn was clicked
-  clickBtn(id, opt) {
-    this.appModel.notifyUserAction();
-    this.appModel.handlePostVOActivity(false);
-    if (id == "Normal") {
-      this.matraBtnOn = false;
-      this.matraRepeatArr = [];
-      this.matraCounter = 0;
-      for (let y = 0; y < this.rowIndex2.length; y++) {
-        document.getElementById("index" + y).style.display = "none";
-      }
-      for (let y = 0; y < this.rowIndex3.length; y++) {
-        document.getElementById("consonent" + y).style.display = "none";
-      }
+  //click event to capture what btn was clicked old keyboard
+  // clickBtn(id, opt) {
+  //   this.appModel.notifyUserAction();
+  //   this.appModel.handlePostVOActivity(false);
+  //   if (id == "Normal") {
+  //     this.matraBtnOn = false;
+  //     this.matraRepeatArr = [];
+  //     this.matraCounter = 0;
+  //     for (let y = 0; y < this.rowIndex2.length; y++) {
+  //       document.getElementById("index" + y).style.display = "none";
+  //     }
+  //     for (let y = 0; y < this.rowIndex3.length; y++) {
+  //       document.getElementById("consonent" + y).style.display = "none";
+  //     }
 
-      for (let i = 0; i < this.rowIndex1.length; i++) {
-        this.Row1.nativeElement.children[i].classList.remove("highlight");
-      }
-    }
-    else if (id == "Spacebar") {
-      if (this.CharacterCounter >= this.maxCharacter) {
-         return;
-       }
-      this.inputDivRef.nativeElement.children[0].value += " ";
-      this.hindiKeyboardArray.push(" ");
-      this.CharacterCounter += 1;
-    }
-    else if (id == "Clear") {
-      this.inputFieldText = this.commonAssets.inputFieldText.info;
-      this.inputDivRef.nativeElement.children[0].value = this.inputFieldText;
-      this.hindiKeyboardArray = [];
-      this.CharacterCounter = 0;
-      this.inputVal = "";
-    }
-    else if (id == "Backspace") {
-      this.hindiKeyboardArray.splice(this.hindiKeyboardArray.length - 1, 1);
-      this.inputDivRef.nativeElement.children[0].value = this.hindiKeyboardArray.join("");
-      this.inputVal = String(this.hindiKeyboardArray.join(""));
-      console.log("this.inputVal = " + this.inputVal);
-      if (this.CharacterCounter > 0) {
-        this.CharacterCounter -= 1;
-      }
+  //     for (let i = 0; i < this.rowIndex1.length; i++) {
+  //       this.Row1.nativeElement.children[i].classList.remove("highlight");
+  //     }
+  //   }
+  //   else if (id == "Spacebar") {
+  //     if (this.CharacterCounter >= this.maxCharacter) {
+  //        return;
+  //      }
+  //     this.inputDivRef.nativeElement.children[0].value += " ";
+  //     this.hindiKeyboardArray.push(" ");
+  //     this.CharacterCounter += 1;
+  //   }
+  //   else if (id == "Clear") {
+  //     this.inputFieldText = this.commonAssets.inputFieldText.info;
+  //     this.inputDivRef.nativeElement.children[0].value = this.inputFieldText;
+  //     this.hindiKeyboardArray = [];
+  //     this.CharacterCounter = 0;
+  //     this.inputVal = "";
+  //   }
+  //   else if (id == "Backspace") {
+  //     this.hindiKeyboardArray.splice(this.hindiKeyboardArray.length - 1, 1);
+  //     this.inputDivRef.nativeElement.children[0].value = this.hindiKeyboardArray.join("");
+  //     this.inputVal = String(this.hindiKeyboardArray.join(""));
+  //     console.log("this.inputVal = " + this.inputVal);
+  //     if (this.CharacterCounter > 0) {
+  //       this.CharacterCounter -= 1;
+  //     }
 
-    }
-    else {
-      if (this.CharacterCounter >= this.maxCharacter) {
-        return;
-      }
-      if (this.matraBtnOn == true) {
+  //   }
+  //   else {
+  //     if (this.CharacterCounter >= this.maxCharacter) {
+  //       return;
+  //     }
+  //     if (this.matraBtnOn == true) {
 
-        this.inputDivRef.nativeElement.children[0].value += opt.matras[this.currentMatraNumber].matra;
-        this.hindiKeyboardArray.push(opt.matras[this.currentMatraNumber].matra);
-        this.addBtnRef.nativeElement.style.opacity = "1";
-      }
-      else {
-        this.inputDivRef.nativeElement.children[0].value += id;
-        this.hindiKeyboardArray.push(id);
-        this.addBtnRef.nativeElement.style.opacity = "1";
-      }
-      this.inputVal = String(this.hindiKeyboardArray.join(""));
-      console.log("this.inputVal = " + this.inputVal);
-      this.CharacterCounter += 1;
+  //       this.inputDivRef.nativeElement.children[0].value += opt.matras[this.currentMatraNumber].matra;
+  //       this.hindiKeyboardArray.push(opt.matras[this.currentMatraNumber].matra);
+  //       this.addBtnRef.nativeElement.style.opacity = "1";
+  //       this.disableaddbtnPointer = false;
 
-    }
+  //     }
+  //     else {
+  //       this.inputDivRef.nativeElement.children[0].value += id;
+  //       this.hindiKeyboardArray.push(id);
+  //       this.addBtnRef.nativeElement.style.opacity = "1";
+  //       this.disableaddbtnPointer = false;
 
-    if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
-      this.QuestionVideo.nativeElement.pause();
-      this.QuestionVideo.nativeElement.currentTime = 0;
-    }
+  //     }
+  //     this.inputVal = String(this.hindiKeyboardArray.join(""));
+  //     console.log("this.inputVal = " + this.inputVal);
+  //     this.CharacterCounter += 1;
 
-  }
+  //   }
+
+  //   if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
+  //     this.QuestionVideo.nativeElement.pause();
+  //     this.QuestionVideo.nativeElement.currentTime = 0;
+  //   }
+
+  // }
 
 // old hindi keyboard
   // clickBtnMatra(id, opt, evnt) {
@@ -1785,7 +1814,8 @@ export class Ntemplate17Component implements OnInit {
 
   questionAudioPlay() {
     if (this.QuestionAudio != undefined) {
-	  this.stopInstructionVO();
+    this.stopInstructionVO();
+    this.instructionDisable =false;
       this._setQuestionAudio = this._questionAreaAudio;
       this.QuestionAudio.nativeElement.src = this._questionAreaAudio.img_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       this.displayWave=true;
@@ -1800,11 +1830,13 @@ export class Ntemplate17Component implements OnInit {
 
   //disable screen functions
   alldisabledwhilequestionVideoPlay() {
-    $("#instructionBar").addClass("disable_div");
+    // $("#instructionBar").addClass("disable_div");
+    this.instructionDisable = true
     this.appModel.enableReplayBtn(false);
   }
   allEnabledwhilequestionVideoPlay() {
-    $("#instructionBar").removeClass("disable_div");
+    // $("#instructionBar").removeClass("disable_div");
+    this.instructionDisable = false;
     this.appModel.enableReplayBtn(true);
   }
 

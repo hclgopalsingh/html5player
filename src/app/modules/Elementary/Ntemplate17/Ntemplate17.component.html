@@ -4,7 +4,7 @@
 		 (load)="checkImgLoaded();" />
 	</div>
 	<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-		<div class="instructionBase" #instructionBar [ngClass]="{'disable_div':instructionDisable}">
+		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}" >
 			<img class="img-fluid" [src]="commonAssets?.instruction_img?.url"
 			 (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 			<audio #instruction [src]="commonAssets?.instruction_vo?.url"></audio>
@@ -283,7 +283,7 @@
 			<!-- end here-->
 			<div class="addBtn" #addBtnRef>
 				<img class="img-fluid" [src]="addBtn?.add_btn?.url"
-				 (load)="checkImgLoaded();" (click)="addWord();" [ngClass]="{'disablePointer':inputVal==''}" (mousemove)="addBtnHover()"
+				 (load)="checkImgLoaded();" (click)="addWord();" [ngClass]="{'disablePointer':inputVal==''}" [ngStyle]="{'cursor': inputVal!=='' ? 'pointer' : 'default' }"(mousemove)="addBtnHover()"
 				 (mouseleave)="addBtnLeave()" />
 			</div>
 		</div>

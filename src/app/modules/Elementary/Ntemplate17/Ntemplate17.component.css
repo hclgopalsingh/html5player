@@ -31,7 +31,7 @@ button:focus {
 }
 
 #boxWord{
-  font-size: .9vmax;/*1.5vmax;*/
+  font-size: 1.5vmax;
 }
 
 .vowels{
@@ -98,10 +98,18 @@ button:focus {
 }
 .correctBox,
 .incorrectBox{
-	width: 23.3%;/*23.6%;*/
-	position: relative;
+	width: 26.5%;/*23.6%;*/
+  position: relative;
+  top: 1.5%;
 }
 
+.correctBox{
+  left: 4%;
+}
+
+.incorrectBox{
+  left: -4%;
+}
 /*.videoMainContainer{
   position: absolute;
   top: 0%;
@@ -312,10 +320,10 @@ button:focus {
 }
 .optionsList div span{
   position: absolute;
-  font-size: 0.44vmax;/*0.9vmax;*/
+  font-size: 0.9vmax;
 }
 .modal .optionsList div span{
-  font-size: 0.7vmax;/*1.05vmax;*/
+  font-size: 1.05vmax;
 }
 
 .modal .optionsList img{
@@ -327,10 +335,12 @@ button:focus {
 .actionBox {
     width: 39%;
     margin: 0 5%;
+    margin-top: -3%;
 }
 .actionBtn {
     display: flex;
     justify-content: center;
+    align-items: center;
 	margin-bottom: 7%;
 }
 .actionBtn img{
@@ -364,7 +374,7 @@ button:focus {
 	/* max-width: 93%; */
 }
 #optionsBlock {
-    margin-top: 1%;
+    margin-top: 2%;
     opacity: 0;
 }
 #optionsBlock img,
@@ -1404,14 +1414,14 @@ cursor: pointer
     left: 5%;*/
     width: 31%;
     left: 34.5%;
-    top: 40%;
+    top: 33%;
     z-index: 1;
 
 }
 
 .optionPlace span {
   position: absolute;
-	font-size: 1.8vmax;/*3vmax;*/
+	font-size: 3vmax;
 }
 .displayPopup {
   display: block;
