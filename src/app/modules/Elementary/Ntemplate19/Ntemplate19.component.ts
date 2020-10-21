@@ -488,7 +488,7 @@ export class Ntemplate19Component implements OnInit {
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       for (let x = 0; x < this.optionsBlock.nativeElement.children[1].children.length; x++) {
         this.optionsBlock.nativeElement.children[1].children[x].src = 
-          this.optionObj[x].imgsrc.location == "content" ? this.containgFolderPath + "/" + this.optionObj[x].imgsrc.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.optionObj[x].imgsrc.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.optionObj[x].imgsrc.url = this.optionObj[x].imgsrc.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       if (mode == "manual") {
         //show modal for manual
