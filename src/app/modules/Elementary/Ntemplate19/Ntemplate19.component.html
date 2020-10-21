@@ -10,15 +10,21 @@
       <img class="img-fluid" src="images/burst.gif">
   </div>
   -->
-  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <!-- <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
     <div class="instructionBase">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
-      <!--
-       <img class="img-fluid instructionText" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
-      -->
     </div>
+  </div> -->
+
+  <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div class="d-flex flex-row justify-content-around instructionBar">
+    <div class="instructionBase" #instructionBar [ngClass]="{'disableDiv':instructionDisable}">
+      <img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_bg?.url"
+        (load)="checkImgLoaded();" />
+    </div>
+    <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
   </div>
   <div class="bodyContent">
    <!--  <div class="tabularBlock" #tabularBlock>
@@ -53,7 +59,7 @@
     <div class="contentBlock">
       <img class="img-fluid quesContainer" [src]="fetchedcontent?.refQuesObj?.quesContainer?.url" (load)="checkImgLoaded();">
       <div class="placeholderContainer">
-        <img class="img-fluid" id="optPlaceholder{{idx+1}}" *ngFor="let placeholder of fetchedcontent?.refQuesObj?.optionPlaceHolders;let idx = index" (click)="onClickPlaceholder(placeholder,idx)" [src]="placeholder?.imgsrc?.url" (load)="checkImgLoaded();">
+        <img class="img-fluid" id="optPlaceholder{{idx+1}}" *ngFor="let placeholder of optionPlaceholders;let idx = index" (click)="onClickPlaceholder(placeholder,idx)" [src]="placeholder?.imgsrc?.url" (load)="checkImgLoaded();">
       </div>
     </div>
     <div class="criteriaContainer">
@@ -63,7 +69,7 @@
     <div class="optionsBlock" #optionsBlock>
       <img class="img-fluid optionBase" [src]="fetchedcontent?.refOptionObj?.optionContainer?.url" (load)="checkImgLoaded();">
       <div class="options">
-        <img class="img-fluid" id="option{{idx+1}}" [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos, optPos: option.optPos}}" *ngFor="let option of optionObj;let idx = index" (load)="checkImgLoaded();" [src]="option?.imgsrc?.url" [ngStyle]="option?.style_display" (mouseenter)="playHoverOption(option,idx)" (mousemove)="optionHover(option,idx)" (mouseleave)="optionHoverOut(option,idx)">
+        <img class="img-fluid" id="option{{idx+1}}" [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos, optPos: option.optPos}}" (@openClose.start)="onAnimationEvent($event,opt,idx)" (@openClose.done)="onAnimationEvent($event,option,idx)" *ngFor="let option of optionObj;let idx = index" (load)="checkImgLoaded();" [src]="option?.imgsrc?.url" [ngStyle]="option?.style_display" (mouseenter)="playHoverOption(option,idx)" (mousemove)="optionHover(option,idx)" (mouseleave)="optionHoverOut(option,idx)">
       </div>
       <audio #optionAudio></audio>
     </div>

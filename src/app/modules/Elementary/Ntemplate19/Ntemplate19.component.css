@@ -480,23 +480,31 @@ button:focus {
   width: 70%;
 }
 
-#container #instructionBar {
+#container .instructionBar {
   position: absolute;
   top: 10%;
   width: 100%;
   text-align: center;
 }
 
-#instructionBar .instructionBase {
-  width: 50%;
+#container .modal .instructionBar {
+  top: 1%;
+}
+
+.instructionBar .instructionBase {
+  width: 60%;
+  /*86%;*/
   position: relative;
-  cursor: pointer;
 }
 
 .instructionBase .instructionText {
   position: absolute;
   top: 0%;
   left: 0;
+}
+
+.instructionBase img {
+  cursor: pointer;
 }
 
 @keyframes scaleit {

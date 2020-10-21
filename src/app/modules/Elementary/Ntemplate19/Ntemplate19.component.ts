@@ -11,6 +11,7 @@ import {
   style,
   animate,
   transition,
+  AnimationEvent
 } from '@angular/animations';
 
 declare var $: any;
@@ -74,7 +75,9 @@ export class Ntemplate19Component implements OnInit {
 
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
-  @ViewChild('instruction') instruction: any;
+  // @ViewChild('instruction') instruction: any;
+  @ViewChild('instructionBar') instructionBar: any;
+    @ViewChild('instructionVO') instructionVO: any;
   @ViewChild('optionAudio') optionAudio: any;
   @ViewChild('maincontent') maincontent: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
@@ -199,6 +202,9 @@ export class Ntemplate19Component implements OnInit {
   styleHeaderPopup:any;
   styleBodyPopup:any;
   PlayPauseFlag:boolean = true;
+  instructionDisable: boolean = false;
+  clickedIndex: any;
+  optionPlaceholders: any;
   /*
     hasEventFired:boolean = false;
     	if(!this.hasEventFired){
@@ -221,28 +227,39 @@ export class Ntemplate19Component implements OnInit {
     this.index1 = 0;
   }
 
-  playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused!) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      console.log("play on Instruction");
-      if (this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.play();
-        //this.tabularBlock.nativeElement.style.pointerEvents = "none";
-        this.instruction.nativeElement.onended = () => {
-          //this.tabularBlock.nativeElement.style.pointerEvents = "";
+  // playHoverInstruction() {
+  //   if (!this.narrator.nativeElement.paused!) {
+  //     console.log("narrator/instruction voice still playing");
+  //   } else {
+  //     console.log("play on Instruction");
+  //     if (this.instruction.nativeElement.paused) {
+  //       this.instruction.nativeElement.currentTime = 0;
+  //       this.instruction.nativeElement.play();
+  //       //this.tabularBlock.nativeElement.style.pointerEvents = "none";
+  //       this.instruction.nativeElement.onended = () => {
+  //         //this.tabularBlock.nativeElement.style.pointerEvents = "";
+  //       }
+  //       $(".instructionBase img").css("cursor", "pointer");
+  //     }
+  //     //if (this.refQues.optionType == "image") {
+  //     //  if (!this.optionAudio.nativeElement.paused) {
+  //     //    this.instruction.nativeElement.currentTime = 0;
+  //     //    this.instruction.nativeElement.pause();
+  //     //  }
+  //     //}
+  //   }
+  // }
+
+  playInstruction() {
+    this.appModel.notifyUserAction();
+    if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
+        this.instructionDisable = true;
+        this.instructionVO.nativeElement.play();
+        this.instructionVO.nativeElement.onended = () => {
+            this.instructionDisable = false;
         }
-        $(".instructionBase img").css("cursor", "pointer");
-      }
-      //if (this.refQues.optionType == "image") {
-      //  if (!this.optionAudio.nativeElement.paused) {
-      //    this.instruction.nativeElement.currentTime = 0;
-      //    this.instruction.nativeElement.pause();
-      //  }
-      //}
     }
-  }
+}
 
   playHoverOption(opt, i) {
     if (i == this.index1) {
@@ -253,8 +270,8 @@ export class Ntemplate19Component implements OnInit {
           this.optionsBlock.nativeElement.children[2].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
         }
         this.optionsBlock.nativeElement.children[2].load();
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
+        if (!this.instructionVO.nativeElement.paused) {
+          this.instructionVO.nativeElement.pause();
           this.tabularBlock.nativeElement.style.pointerEvents = "";
         }
         this.optionsBlock.nativeElement.children[2].play();
@@ -344,20 +361,30 @@ export class Ntemplate19Component implements OnInit {
   }
 
   onClickPlaceholder(opt,idx) {
+    this.clickedIndex = idx;
     this.optionObj[this.index1].isOpen = false;
     this.optionObj[this.index1].leftPos = "40%";
     this.optionObj[this.index1].topPos = "-495%";
-    this.optionObj[this.index1].optPos = "absolute";
-    this.refcpyArray.splice(this.index, 1);
+    // this.optionObj[this.index1].optPos = "absolute";
+    
+    
+  }
+
+  onAnimationEvent(event: AnimationEvent, opt, j) {
+    if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
+      this.refcpyArray.splice(this.index, 1);
     if (this.indexArray.length >= 1) {
       let newObj = this.indexArray.shift();
       this.refcpyArray.push(newObj);
     }
     this.optionsAfterFive++;
-    clearInterval(this.blinkTimeInterval);
+      clearInterval(this.blinkTimeInterval);
     if (this.optionsBlock.nativeElement && this.optionsBlock.nativeElement.children[1].children[this.optionsAfterFive]) {
       this.optionsBlock.nativeElement.children[1].children[this.optionsAfterFive].style.display = "flex";
     }
+    // opt.style_display="none";
+    this.optionPlaceholders[this.clickedIndex].imgsrc = opt.imgsrc_original;
+    //this.optionPlaceholders[this.clickedIndex]
     // this.optionsBlock.nativeElement.children[1].children[this.index1].style.display = "none";
     // this.optionsBlock.nativeElement.children[1].children[this.index1].style.pointerEvents = "none";
     if (this.refcpyArray.length == 5) {
@@ -365,11 +392,12 @@ export class Ntemplate19Component implements OnInit {
     } else {
       this.getRandomIndex(this.refcpyArray.length);
     }
+    }
   }
  
 
   onClickoption(opt,idx,idxx) {
-    if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused! || !this.instructionVO.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       if (opt.id != null && this.countofAnimation != this.optionObj.length) {
@@ -557,10 +585,10 @@ export class Ntemplate19Component implements OnInit {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
-        if (!this.instruction.nativeElement.paused)
+        if (!this.instructionVO.nativeElement.paused)
         {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
+          this.instructionVO.nativeElement.pause();
+          this.instructionVO.nativeElement.currentTime = 0;
         }
         //this.isShow = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
@@ -569,19 +597,19 @@ export class Ntemplate19Component implements OnInit {
         }
       }
       if (action == "submitAnswer") {
-        if (!this.instruction.nativeElement.paused)
+        if (!this.instructionVO.nativeElement.paused)
             {
-              this.instruction.nativeElement.pause();
-              this.instruction.nativeElement.currentTime = 0;
+              this.instructionVO.nativeElement.pause();
+              this.instructionVO.nativeElement.currentTime = 0;
             }
         //this.isShow = false;
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
       if (action == "replayVideo") {
-        if (!this.instruction.nativeElement.paused)
+        if (!this.instructionVO.nativeElement.paused)
             {
-              this.instruction.nativeElement.pause();
-              this.instruction.nativeElement.currentTime = 0;
+              this.instructionVO.nativeElement.pause();
+              this.instructionVO.nativeElement.currentTime = 0;
             }
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
@@ -639,8 +667,8 @@ export class Ntemplate19Component implements OnInit {
     if (obj.feedbackPopupAudio && obj.feedbackPopupAudio.nativeElement) {
       obj.feedbackPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-    if (obj.instruction && obj.instruction.nativeElement) {
-      obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    if (obj.instructionVO && obj.instructionVO.nativeElement) {
+      obj.instructionVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.feedbackpartialPopupAudio && obj.feedbackpartialPopupAudio.nativeElement) {
       obj.feedbackpartialPopupAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -722,11 +750,11 @@ houtSkip(){
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
-      (document.getElementById("instructionBar") as HTMLElement).style.pointerEvents="none";
+      // (document.getElementById("instructionBar") as HTMLElement).style.pointerEvents="none";
       $(".bodyContent").addClass("disable_div");
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-        (document.getElementById("instructionBar") as HTMLElement).style.pointerEvents="";
+        // (document.getElementById("instructionBar") as HTMLElement).style.pointerEvents="";
         $(".bodyContent").removeClass("disable_div");
         this.isQuesTypeImage = true;
         this.startActivity();
@@ -843,6 +871,7 @@ houtSkip(){
       // this.submitPopupAssets = fetchedData.feedback.submit_popup;
       // this.replayconfirmAssets = fetchedData.feedback.replay_confirm;
       this.quesObj = this.fetchedcontent.quesObj;
+      this.optionPlaceholders = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
       if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
         this.isPlayVideo = true;
         //sessionStorage.setItem("isPlayVideo", "true");
@@ -930,9 +959,9 @@ houtSkip(){
   }
 
   hoveronTable() {
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime=0;
+        if (!this.instructionVO.nativeElement.paused) {
+          this.instructionVO.nativeElement.pause();
+          this.instructionVO.nativeElement.currentTime=0;
           this.tabularBlock.nativeElement.style.pointerEvents = "";
         }
   }
