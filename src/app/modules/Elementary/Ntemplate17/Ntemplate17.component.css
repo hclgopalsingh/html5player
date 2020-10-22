@@ -95,7 +95,7 @@ button:focus {
 	height: auto;
   justify-content: space-around !important;
   /* margin-top: 8%; */
-  margin: 8% 0 1.5% 0;
+  margin: 7% 0 7.5% 0;
 }
 .correctBox,
 .incorrectBox{
@@ -1653,6 +1653,16 @@ cursor: pointer
   max-height: 7vmin;
 }
 
-.closepopup_btn{text-align: center; clear:both; width: 100%; margin: 2% 0;}
-  .closepopup_btn img{width: 10.4%; cursor: pointer;
-    max-width: 10.4%;}
+.closepopup_btn{
+  text-align: center; 
+  clear:both; 
+  width: 100%; 
+  margin: 0 0 1% 0;
+  position: absolute;
+  bottom: 0%;
+}
+.closepopup_btn img{
+  width: 10.4%; 
+  cursor: pointer;
+  max-width: 10.4%;
+}
