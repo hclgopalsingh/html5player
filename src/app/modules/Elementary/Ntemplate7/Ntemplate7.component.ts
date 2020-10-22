@@ -142,9 +142,9 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     disableOption: boolean = false;
     disableSpeaker: boolean = false;
     optionPlaying: boolean = false;
-    popupHeader:any;
+    popupHeader: any;
     disableAllOption = false;
-    showAnswerPopup:boolean = false;
+    showAnswerPopup: boolean = false;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -501,10 +501,10 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
 
 
 
-           // opt.isCorrect
-            
+            // opt.isCorrect
+
             for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-                if(this.optionObj.opts[i].isCorrect){
+                if (this.optionObj.opts[i].isCorrect) {
 
                     ////this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
                 }
@@ -520,25 +520,27 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         } else if (action == "replay") {
             //this.replayVideo();
         } else if (action == "feedbackClosed") {
-    
-           
-            
+
+
+
             this.buttonClosed = true;
             this.postFeedBackVo();
-          if(this.showAnswerPopup){
-            this.refQues.nativeElement.children[this.quesEmptyTxtIndx].src = "";
-            this.refQues.nativeElement.children[this.quesEmptyTxtIndx].classList = "dark engTxtMargin ansSpace adjustBlink"; 
-            
-            for (let i = 0; i < this.optionObj.opts.length; i++) {
-                if(this.optionObj.opts[i].isCorrect){
-                   // alert();
-                    this.optionRef.nativeElement.children[i].children[1].classList.remove('invisible');
-                    this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
-                this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
+            if (this.showAnswerPopup) {
+                if (!this.isOptionSelected) {
+                    this.refQues.nativeElement.children[this.quesEmptyTxtIndx].src = "";
+                    this.refQues.nativeElement.children[this.quesEmptyTxtIndx].classList = "dark engTxtMargin ansSpace adjustBlink";
+
+                    for (let i = 0; i < this.optionObj.opts.length; i++) {
+                        if (this.optionObj.opts[i].isCorrect) {
+                            this.optionRef.nativeElement.children[i].children[1].classList.remove('invisible');
+                            this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
+                            this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
+                        }
+                    }
                 }
-                }
-            }else{
-               
+
+            } else {
+
             }
             this.showAnswerPopup = false;
         }
@@ -599,22 +601,23 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
                     this.feedbackVoRef.nativeElement.src = this.commonAssets.rightfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
-                    if(!this.destroy){
-                    this.feedbackVoRef.nativeElement.play();
-                    this.feedbackVoRef.nativeElement.onended = () => {
-                        setTimeout(() => {
-                            this.feedbackModalRef.nativeElement.classList = "modal";
-                            if(!this.buttonClosed){
-                            this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
-                            }
-                        }, this.showAnsTimeout)
-                    }}
+                    if (!this.destroy) {
+                        this.feedbackVoRef.nativeElement.play();
+                        this.feedbackVoRef.nativeElement.onended = () => {
+                            setTimeout(() => {
+                                this.feedbackModalRef.nativeElement.classList = "modal";
+                                if (!this.buttonClosed) {
+                                    this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
+                                }
+                            }, this.showAnsTimeout)
+                        }
+                    }
 
                 }, 2000)
             } else {
-                
+
                 this.isRightSelected = false;
-                
+
                 //handle for wrong attempt
                 setTimeout(() => {
                     this.disableAllOption = true;
@@ -631,18 +634,19 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                     this.instructionVO.nativeElement.currentTime = 0;
                     this.feedbackVoRef.nativeElement.src = this.commonAssets.wrongfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
 
-                    if(!this.destroy){
-                    this.feedbackVoRef.nativeElement.play();
-                    this.feedbackVoRef.nativeElement.onended = () => {
-                        setTimeout(() => {
-                            if(!this.buttonClosed){
-                            this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
+                    if (!this.destroy) {
+                        this.feedbackVoRef.nativeElement.play();
+                        this.feedbackVoRef.nativeElement.onended = () => {
+                            setTimeout(() => {
+                                if (!this.buttonClosed) {
+                                    this.sendFeedback(this.feedbackModalRef.nativeElement, 'no', 'feedbackClosed');
+                                }
+                                this.feedbackModalRef.nativeElement.classList = "modal";
+
+
+                            }, this.showAnsTimeout);
                         }
-                            this.feedbackModalRef.nativeElement.classList = "modal";
-                        
-                            
-                        }, this.showAnsTimeout);
-                    }}
+                    }
                 }, 2000)
             }
         }
@@ -667,7 +671,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                 this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
                 this.appModel.wrongAttemptAnimation();
                 setTimeout(() => {
-                    this.disableAllOption = false; 
+                    this.disableAllOption = false;
                 }, 4000);
             }, 200)
         }
@@ -779,14 +783,14 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
 
 
         for (let i = 0; i < this.optionObj.opts.length; i++) {
-        if(this.optionObj.opts[i].isCorrect){
-            if(this.showAnswerPopup){
+            if (this.optionObj.opts[i].isCorrect) {
+                if (this.showAnswerPopup) {
 
-            }else{
-                this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+                } else {
+                    this.optionRef.nativeElement.children[i].children[1].classList.add('invisible');
+                }
+
             }
-            
-        }
         }
 
         this.quesObjCopy.questionText[this.quesEmptyTxtIndx].url = correctOpt.url;
@@ -810,15 +814,15 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
             this.feedbackVoRef.nativeElement.src = this.commonAssets.rightfeedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
         }
         this.feedbackVoRef.nativeElement.play();
-        if(this.showAnswerPopup){
+        if (this.showAnswerPopup) {
             this.isRightSelected = true;
-           
-        }else{
+
+        } else {
             this.isRightSelected = true;
             this.isOptionSelected = true;
         }
-        
-        
+
+
         ////this.isOptionSelected = true;
         this.appModel.enableReplayBtn(false);
         this.feedbackVoRef.nativeElement.onended = () => {
