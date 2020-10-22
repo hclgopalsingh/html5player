@@ -31,9 +31,9 @@ import {
       })
       ),
       state('actionBox', style({
-        'left': '41.5%',
-        'top': '-115%',
-        'transform': 'scale(2.2)'
+        'left': '43%',
+        'top': '-116%',
+        'transform': 'scale(1.8)'
       })
       ),
       transition('wordBox => actionBox', [
@@ -48,7 +48,7 @@ import {
       state('testBox', style({
         'left': '{{toTestBoxleft}}',
         'top': '{{toTestBoxtop}}',
-        'transform': 'scale(.240)',
+        'transform': 'scale(.3)',
         
       }),{ params: { toTestBoxleft: 'auto', toTestBoxtop: 'auto' } }
       ),
@@ -57,9 +57,11 @@ import {
       ]),
     ])
   ],
+  //todo
   encapsulation: ViewEncapsulation.None,
   templateUrl: './Ntemplate17.component.html',
   styleUrls: ['./Ntemplate17.component.css','../../../view/css/bootstrap.min.css',"../../../../../node_modules/simple-keyboard/build/css/index.css"]
+//todo
 })
 export class Ntemplate17Component implements OnInit {
 
@@ -143,7 +145,7 @@ export class Ntemplate17Component implements OnInit {
   isFirstQues: boolean;
   isLastQues: boolean = false;
   isLastQuesAct: boolean;
-  charLeft: number = 12;
+  charLeft: number = 17;
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
@@ -180,7 +182,7 @@ export class Ntemplate17Component implements OnInit {
   videoStartTimer: any;
   btnPressed: number = 0;
   prevEntry: string = "";
-  maxLength: number = 12;
+  maxLength: number = 17;
   btnSelected: string = "";
   blinkFlag: boolean = false;
   blinkTimer: any;
@@ -196,7 +198,7 @@ export class Ntemplate17Component implements OnInit {
   matraRepeatArr: any = [];
   matraCounter: number = 0;
   keyBoardVersion: boolean;
-  maxCharacter: number = 12;
+  maxCharacter: number = 17;
   CharacterCounter: number = 0;
   PlayPauseFlag: boolean = true;
   attemptType: string = "";
@@ -246,106 +248,106 @@ export class Ntemplate17Component implements OnInit {
 
   rightPosArray:any =[
     {
-    "left":"-3%",
-    "top":"1%"
+    "left":"-2%",
+    "top":"2%"
     },
     {
-    "left":"7.5%",
-    "top":"1%"
+    "left":"9%",
+    "top":"2%"
     },
     {
-      "left":"-3%",
-      "top":"13%"
+      "left":"-2%",
+      "top":"16%"
       },
     {
-      "left":"7.5%",
-      "top":"13%"
+      "left":"9%",
+      "top":"16%"
       },
     {
-      "left":"-3%",
-      "top":"25%"
+      "left":"-2%",
+      "top":"30%"
       },
     {
-      "left":"7.5%",
-      "top":"25%"
+      "left":"9%",
+      "top":"30%"
       },
     {
-      "left":"-3%",
-      "top":"37%"
+      "left":"-2%",
+      "top":"45%"
       },
     {
-      "left":"7.5%",
-      "top":"37%"
+      "left":"9%",
+      "top":"45%"
       },
     {
-      "left":"-3%",
-      "top":"50%"
+      "left":"-2%",
+      "top":"60%"
       },
     {
-      "left":"7.5%",
-      "top":"50%"
+      "left":"9%",
+      "top":"60%"
       },
     {
-      "left":"-3%",
-      "top":"63%"
+      "left":"-2%",
+      "top":"75%"
       },
     {
-      "left":"7.5%",
-      "top":"63%"
+      "left":"9%",
+      "top":"75%"
       },
   ]
 
   wrongPosArray:any =[
     {
-    "left":"65.5%",
-    "top":"1%"
+    "left":"64%",
+    "top":"2%"
     },
     {
     "left":"76%",
-    "top":"1%"
+    "top":"2%"
     },
     {
-      "left":"65.5%",
-      "top":"13%"
+      "left":"64%",
+      "top":"16%"
       },
     {
       "left":"76%",
-      "top":"13%"
+      "top":"16%"
       },
     {
-      "left":"65.5%",
-      "top":"25%"
-      },
-    {
-      "left":"76%",
-      "top":"25%"
-      },
-    {
-      "left":"65.5%",
-      "top":"37%"
+      "left":"64%",
+      "top":"30%"
       },
     {
       "left":"76%",
-      "top":"37%"
+      "top":"30%"
       },
     {
-      "left":"65.5%",
-      "top":"50%"
-      },
-    {
-      "left":"76%",
-      "top":"50%"
-      },
-    {
-      "left":"65.5%",
-      "top":"63%"
+      "left":"64%",
+      "top":"45%"
       },
     {
       "left":"76%",
-      "top":"63%"
+      "top":"45%"
+      },
+    {
+      "left":"64%",
+      "top":"60%"
+      },
+    {
+      "left":"76%",
+      "top":"60%"
+      },
+    {
+      "left":"64%",
+      "top":"75%"
+      },
+    {
+      "left":"76%",
+      "top":"75%"
       },
   ]
-  totalChar:any = 12;
+  totalChar:any = 17;
   currentChar:any = 0;
 
 
@@ -559,7 +561,7 @@ export class Ntemplate17Component implements OnInit {
 	  }
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
-      if(this.charLeft <12){
+      if(this.charLeft <17){
         this.currentChar = this.currentChar - 1;
         this.charLeft =  this.charLeft+1
       }  
@@ -818,7 +820,7 @@ export class Ntemplate17Component implements OnInit {
 
     }
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 17; i++) {
       this.rightListArr.push("");
       this.wrongListArr.push("");
     }
@@ -948,6 +950,14 @@ export class Ntemplate17Component implements OnInit {
 
   houtOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
+  }
+
+  hoverOKPop() {
+    this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_hover;
+  }
+
+  houtOKpop() {
+    this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_original;
   }
 
   hoverCloseOk() {
@@ -1080,12 +1090,12 @@ export class Ntemplate17Component implements OnInit {
     this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
     this.inputFieldText = "";
     if (this.quesObj.lang != 'hindi') {
-      this.inputDivRef.nativeElement.children[0].maxLength = "12";
+      this.inputDivRef.nativeElement.children[0].maxLength = "17";
       this.quesContainer.nativeElement.style.marginTop = 0 + "%";
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
     }
     if (this.quesObj.lang == 'hindi') {
-      this.inputDivRef.nativeElement.children[0].maxLength = "12";
+      this.inputDivRef.nativeElement.children[0].maxLength = "17";
       // this.keyBoardVersion = this.commonAssets.keyboard.New;
       this.quesContainer.nativeElement.style.marginTop = 0 + "%";
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
@@ -1111,7 +1121,7 @@ export class Ntemplate17Component implements OnInit {
         'ं': '&nbsp;ं',
         'ृ': '&nbsp;ृ',
       },
-      maxLength: 12,
+      maxLength: 17,
       buttonTheme:
       [
         {
@@ -1184,7 +1194,7 @@ export class Ntemplate17Component implements OnInit {
     // this.instructionBar.nativeElement.style.pointerEvents="";
     this.instructionDisable = false;
     this.appModel.notifyUserAction();
-    this.charLeft = 12;
+    this.charLeft = 17;
     this.currentChar = 0;
     this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
