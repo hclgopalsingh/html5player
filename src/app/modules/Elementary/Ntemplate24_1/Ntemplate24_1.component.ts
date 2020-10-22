@@ -838,7 +838,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   setPopupAssets() {
     console.log(this.feedbackAssets);
     console.log("check pop up type", "this.attemptType:", "this.popupType:", this.popupType);
-    this.autoClosePopupTimer = this.feedbackAssets.autoCloseMin * 60 * 1000;
+    this.autoClosePopupTimer = this.feedbackAssets.autoCloseSec * 1000;
     if (this.popupType == "wrong") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;

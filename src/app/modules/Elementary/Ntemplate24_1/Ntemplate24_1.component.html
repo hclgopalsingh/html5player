@@ -1,4 +1,4 @@
-<div class="container-fluid" id="container" *ngIf="!isPlayVideo">
+<div class="container-fluid ele" id="container" *ngIf="!isPlayVideo">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar">
     <div class="instructionBase" [ngClass]="{'disableDiv':disableInstruction,'greyOut':greyOutInstruction}">
