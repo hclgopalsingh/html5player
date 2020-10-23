@@ -156,7 +156,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	disableSelection : boolean = false;
 	isVideoPaused : boolean = false;
 	hasVideoStarted : boolean = false;
-	disableReplayBtn : boolean = true;
+	disableReplayBtn : boolean = false;
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('quesVORef') quesVORef: any;
 	@ViewChild('instruction') instruction: any;
@@ -347,6 +347,10 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			// this.controlHandler.replay_btn_hover = this.commonAssets.replay_btn_hover;
 			// this.controlHandler.replay_btn_original = this.commonAssets.replay_btn_original;
 			/*End: Theme Implementation(Template Changes)*/
+			if(this.questionObj.videoQues==false){
+				this.isPlayVideo=false;
+				this.disableReplayBtn=true;
+			}
 		}
 	}
 	playHoverInstruction() {
@@ -443,12 +447,22 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 						this.appModel.enableSubmitBtn(false);
 						// this.appModel.enableReplayBtn(false);
 						setTimeout(() => {
-							this.instruction.nativeElement.play();
-							this.instruction.nativeElement.onended =() => {
-								this.isPlayVideo = true;
-								this.hasVideoStarted = true;
-								this.mainVideo.nativeElement.play();
-								this.mainVideo.nativeElement.onended = () => {
+								this.instruction.nativeElement.play();
+								this.instruction.nativeElement.onended =() => {								
+								if(this.questionObj.videoQues!=false){
+									this.isPlayVideo = true;
+									this.hasVideoStarted = true;
+									this.mainVideo.nativeElement.play();
+									this.mainVideo.nativeElement.onended = () => {
+										this.instuctionDisable=false;
+										this.appModel.enableSubmitBtn(true);
+										// this.appModel.enableReplayBtn(true);
+										setTimeout(() => {
+											this.isPlayVideo = false;
+											this.startActivity();
+										}, 200)
+									}
+								}else{
 									this.instuctionDisable=false;
 									this.appModel.enableSubmitBtn(true);
 									// this.appModel.enableReplayBtn(true);
@@ -457,13 +471,16 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 										this.startActivity();
 									}, 200)
 								}
-							}														
+								
+							}
+																					
 						}, 500);
 
 					} else {
 						this.appModel.setLoader(false);
 						this.appModel.enableSubmitBtn(true);
 						// this.appModel.enableReplayBtn(true);
+						this.instuctionDisable=false;
 						this.isPlayVideo = false;
 						this.startActivity();
 					}

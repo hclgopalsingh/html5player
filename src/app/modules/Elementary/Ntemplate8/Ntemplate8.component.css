@@ -934,7 +934,7 @@ button:focus {
 .hide_div{
   visibility: hidden;
 }
-.disabledBtn{
+.disableBtn{
   opacity: 0.5;
   pointer-events: none;
 }

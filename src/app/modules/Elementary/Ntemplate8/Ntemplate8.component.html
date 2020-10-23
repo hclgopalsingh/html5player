@@ -74,7 +74,7 @@
             <img *ngIf="isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_play?.url" (mousemove)="hoverplayVideo()"
             (mouseleave)="houtplayVideo()"/>
           </div>
-          <div [ngClass]="{'disabledBtn': disableReplayBtn}" class="videoOpen" *ngIf="!isPlayVideo" (click)="openReplayConfirm()">
+          <div [ngClass]="{'disableBtn': disableReplayBtn}" class="videoOpen" *ngIf="!isPlayVideo" (click)="openReplayConfirm()">
             <img style="width: 100%;" [src]="otherAssets?.replay_btn?.url" (mousemove)="hoverstartVideo()"
             (mouseleave)="houtstartVideo()"/>
           </div>
