@@ -893,7 +893,8 @@ button:focus {
 
 /* Modal Feedback classes end */
 .videoOpen,
-.videoClose {
+.videoPlayPause,
+.videoSkip {
   width: 3.5%;
   height: 6%;
   /* border: solid .1vmax #000; */
@@ -903,12 +904,14 @@ button:focus {
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 9.1%;
+  right: 2.1%;
   bottom: 7.4%;
   z-index: 100;
   cursor: pointer;
 }
-
+.videoSkip{
+  right:7%
+}
 /* .videoClose:hover{
   background: #fff;
 } */
@@ -920,14 +923,18 @@ button:focus {
 .d-show {
   display: block !important;
 }
-.playPause{
+/* .playPause{
   position: absolute;
   right: 16%;
   top: 3%;
   color: #fff;
   cursor: pointer;
   z-index: 100;
-}
+} */
 .hide_div{
   visibility: hidden;
+}
+.disabledBtn{
+  opacity: 0.5;
+  pointer-events: none;
 }
