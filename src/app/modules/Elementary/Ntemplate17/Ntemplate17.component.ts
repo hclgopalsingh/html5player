@@ -483,7 +483,7 @@ export class Ntemplate17Component implements OnInit {
     clearInterval(this.blinkTimer);
     clearInterval(this.feedbackTimer);
     clearTimeout(this.videoPlaytimer);
-    this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
+    this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
   }
 
   ngDoCheck() {
@@ -1033,7 +1033,7 @@ export class Ntemplate17Component implements OnInit {
     this.inputDivRef.nativeElement.classList = "inputDiv";
     this.instructionBar.nativeElement.classList = "instructionBase";
     clearInterval(this.blinkTimer);
-    this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
+    this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
 
     let interval = setInterval(() => {
       if (this.mainVideo && this.mainVideo.nativeElement) {
@@ -1087,7 +1087,7 @@ export class Ntemplate17Component implements OnInit {
     this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
-    this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
+    this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
     this.inputFieldText = "";
     if (this.quesObj.lang != 'hindi') {
       this.inputDivRef.nativeElement.children[0].maxLength = "17";
@@ -1450,10 +1450,10 @@ export class Ntemplate17Component implements OnInit {
   blinkTextBox() {
     this.blinkTimer = setInterval(() => {
       if (this.blinkFlag) {
-        this.inputDivRef.nativeElement.children[0].style.border = "2px solid black";
+        this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
         this.blinkFlag = false;
       } else {
-        this.inputDivRef.nativeElement.children[0].style.border = "2px solid yellow";
+        this.inputDivRef.nativeElement.children[0].style.border = "4px solid yellow";
         this.blinkFlag = true;
       }
     }, 500)
