@@ -1150,7 +1150,7 @@ export class Ntemplate17Component implements OnInit {
     });
     }
     if (this.layout == "mathLayout") {
-      this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default";
+      this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default mathTop";
     } else {
       if (this.quesObj.lang != 'hindi') {
 
