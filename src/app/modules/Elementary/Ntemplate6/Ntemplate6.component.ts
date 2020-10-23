@@ -261,6 +261,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   optionDisable:boolean = false;
   destroy:boolean = false;
   showAnswerPopup:boolean = false;
+  isRightSelected : boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -2399,6 +2400,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
       this.flag = true;
+      this.isRightSelected=true;
       console.log("Answer is right");
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
@@ -3321,7 +3323,7 @@ if(!this.destroy){
     this.answerClicked = false;
     clearTimeout(this.showAnssetTimeout)
  
-    if(this.showAnswerPopup){
+    if(this.showAnswerPopup && !this.isRightSelected){
       this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
