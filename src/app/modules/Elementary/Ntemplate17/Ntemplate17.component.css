@@ -1666,3 +1666,7 @@ cursor: pointer
   cursor: pointer;
   max-width: 10.4%;
 }
+
+.mathTop{
+  top: 120%;
+}
