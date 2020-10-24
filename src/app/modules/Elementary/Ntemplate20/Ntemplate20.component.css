@@ -74,9 +74,9 @@
 .placeholder div img:nth-of-type(2){
   width: 75%;
 }
-.modal .placeholder div:nth-of-type(1) img{
-  /*max-width: 9.5% !important;*/
-}
+/* .modal .placeholder div:nth-of-type(1) img{
+  max-width: 9.5% !important;
+} */
 .placeholder:hover {
   opacity: 1;
   cursor: pointer;
@@ -257,6 +257,10 @@
   left: 48%;
   top: 30%;
 }
+.disable_div {
+  pointer-events: none;
+}
+
 .animation-shake {
 	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
 	transform: translate3d(0, 0, 0);
@@ -298,10 +302,19 @@
 #container .modal .instructionBar {
   top: 1%;
 }
-.instructionBar .instructionBase {
+/* .instructionBar .instructionBase {
   width: 50%;
   position: relative;
+} */
+
+.instructionBar .instructionBase {
+  width: 60% !important;
+  /*86%;*/
+  position: relative;
+  cursor: pointer;
 }
+
+
 .instructionBase .instructionText {
   position: absolute;
   top: 0%;
@@ -331,7 +344,7 @@
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
-  opacity: 1;
+  opacity: 1 !important;
 }
 @media (min-width: 1366px){
 	.close {
@@ -382,9 +395,9 @@
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 }
-.modal-body img{
-	/* max-width: 94%; */
-}
+/* .modal-body img{
+	max-width: 94%;
+} */
 .modalBodyContent{
 	background: #afdec0;
 	margin: -1px;
@@ -659,7 +672,6 @@ info modal modal
     transform: scale(1.1)
   }
 }
-
 
 .scaleOutAnimation {
   animation: scaleOut 0.5s linear;

@@ -11,6 +11,7 @@ import { Ntemplate8 } from './Ntemplate8/Ntemplate8.component';
 import { Ntemplate13 } from './Ntemplate13/Ntemplate13.component';
 import { Ntemplate1Component } from './Ntemplate1/Ntemplate1.component';
 import { Ntemplate9Component } from './Ntemplate9/Ntemplate9.component';
+import { Ntemplate20Component } from './Ntemplate20/Ntemplate20.component';
 
  
 @NgModule({
@@ -28,7 +29,8 @@ import { Ntemplate9Component } from './Ntemplate9/Ntemplate9.component';
   Ntemplate8,
   Ntemplate13,
   Ntemplate1Component,
-	Ntemplate9Component
+  Ntemplate9Component,
+  Ntemplate20Component
   ],
   providers: []
 })
