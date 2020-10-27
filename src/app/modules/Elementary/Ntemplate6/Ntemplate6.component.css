@@ -133,7 +133,9 @@ button:focus {
   top: 23.098%;
 }
 .refQuesPopUp2 + .duplicateOption {
-  top: 30.098%!important;
+  /* top: 30.098%!important; */
+  top: 30.17%!important;
+
 }
 .opacityCls {
   opacity:0;
