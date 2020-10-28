@@ -1,5 +1,5 @@
 <div class="container-fluid" id="container" *ngIf="!isPlayVideo">
-  <div id="bgImage"><img [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
+  <div id="bgImage"><img [src]="commonAssets?.background?.url"
             (load)="checkImgLoaded();" /></div>
 			 <div class="d-flex flex-row justify-content-around instructionBar">
                 <div class="instructionBase"  #instructionBar>

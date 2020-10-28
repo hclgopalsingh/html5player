@@ -1,22 +1,24 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { PlayerConstants } from '../common/playerconstants';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { PlayerConstants } from '../../../common/playerconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp24',
-  templateUrl: '../view/layout/Ntemplate24.component.html',
-  styleUrls: ['../view/css/Ntemplate24.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate24.component.html',
+  styleUrls: ['./Ntemplate24.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
 export class Ntemplate24 implements OnInit {
   private appModel: ApplicationmodelService;
-  constructor(appModel: ApplicationmodelService) {
+  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -75,6 +77,9 @@ export class Ntemplate24 implements OnInit {
   audio = new Audio();
   commonAssets: any = "";
   feedback: any = "";
+  themePath:any;
+  fetchedcontent:any;
+  functionalityType:any;
   narratorAudio: any;
   checked: boolean = false;
   showIntroScreen: boolean;
@@ -130,7 +135,10 @@ export class Ntemplate24 implements OnInit {
   styleHeaderPopup:any;
   styleBodyPopup:any;
   PlayPauseFlag:boolean = true;
-
+  controlHandler = {
+		isSubmitRequired:false,
+    isReplayRequired:false
+  };
 
   playHoverInstruction() {
     if (!this.instructionVO.nativeElement.paused) {
@@ -282,6 +290,12 @@ optionLeave(idx, opt) {
 
   ngOnInit() {
     let that = this;
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/'+ this.fetchedcontent.theme_name ; 
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+    this.checkquesTab();
     $( "#navBlock" ).click(function() {
       if (!that.instructionVO.nativeElement.paused)
       {
@@ -327,6 +341,11 @@ optionLeave(idx, opt) {
 				}
 			}
         })
+       
+       
+        // this.appModel.globalJsonData.subscribe(data=>{
+        //   this.showAnsTimeout = data.showAnsTimeout;
+        // });
         this.appModel.nextBtnEvent().subscribe(() =>{
 			if(this.appModel.isLastSectionInCollection){
 				this.appModel.event = {'action': 'segmentEnds'};	
@@ -338,6 +357,7 @@ optionLeave(idx, opt) {
          this.appModel.postWrongAttempt.subscribe(() =>{
              this.postWrongAttemplt();
         })
+        this.appModel.handleController(this.controlHandler);
         this.appModel.resetBlinkingTimer();
   }
 
@@ -458,18 +478,18 @@ getAnswer(flag){
 
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+      //let fetchedData: any = this.appModel.content.contentData.data;
+      console.log(this.fetchedcontent);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+      this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
-      this.questionObj = fetchedData.quesObj;
-      this.feedbackAssets = fetchedData.feedback_popup;
+      this.questionObj = this.fetchedcontent.quesObj;
+      this.feedbackAssets = this.fetchedcontent.feedback_popup;
       if(this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed){
             this.isPlayVideo = true;
         }else{
@@ -479,21 +499,25 @@ getAnswer(flag){
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.optionObj = fetchedData.optionObj;
+      this.optionObj = this.fetchedcontent.optionObj;
       this.optionObjCopy = JSON.parse(JSON.stringify(this.optionObj));
-      this.optionCommonAssets = fetchedData.option_common_assets;
+      this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
-       this.infoPopupAssets = fetchedData.info_popup;
-        this.confirmAssets = fetchedData.show_answer_confirm;
-        this.confirmSubmitAssets = fetchedData.submit_confirm;
-        this.confirmReplayAssets = fetchedData.replay_confirm;
-        this.quesObj = fetchedData.quesObj;
+       this.infoPopupAssets = this.fetchedcontent.info_popup;
+        this.confirmAssets = this.fetchedcontent.show_answer_confirm;
+        this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
+        this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
+        this.quesObj = this.fetchedcontent.quesObj;
         if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
           this.isPlayVideo = true;
           //sessionStorage.setItem("isPlayVideo", "true");
         } else {
           this.isPlayVideo = false;
         }
+        this.controlHandler={
+          isSubmitRequired:this.quesObj.submitRequired,
+          isReplayRequired:this.quesObj.replayRequired
+    }
     }
   }
 
@@ -873,6 +897,17 @@ getAnswer(flag){
 
 
   }
+
+  /*Start: Theme Implementation(Template Changes)*/
+  checkquesTab() {
+    // if(this.fetchedcontent.commonassets.ques_control!=undefined) {
+    //   this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    // } else {
+      this.appModel.getJson();      
+    //}
+  }
+
+/*End: Theme Implementation(Template Changes)*/
 
   closeModel(){
     //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
