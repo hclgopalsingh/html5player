@@ -875,24 +875,24 @@ getAnswer(flag){
           this.wronganspopUpheader_img = false;
           this.showanspopUpheader_img = false;
           this.partialCorrectheaderTxt_img = true;
-          this.styleHeaderPopup = this.feedbackAssets.style_header;
-          this.styleBodyPopup = this.feedbackAssets.style_body;
+          this.styleHeaderPopup = this.feedbackAssets.partial_style_header;
+          this.styleBodyPopup = this.feedbackAssets.partial_style_body;
       }
       if(this.popupType == "correct"){
           this.rightanspopUpheader_img = true;
           this.wronganspopUpheader_img = false;
           this.showanspopUpheader_img = false;
           this.partialCorrectheaderTxt_img = false;
-          this.styleHeaderPopup = this.feedbackAssets.style_header;
-          this.styleBodyPopup = this.feedbackAssets.style_body;
+          this.styleHeaderPopup = this.feedbackAssets.right_style_header;
+          this.styleBodyPopup = this.feedbackAssets.right_style_body;
       }
       if(this.popupType == "showanswer"){
           this.rightanspopUpheader_img = false;
           this.wronganspopUpheader_img = false;
           this.showanspopUpheader_img = true;
           this.partialCorrectheaderTxt_img = false;
-          this.styleHeaderPopup = this.feedbackAssets.style_header;
-          this.styleBodyPopup = this.feedbackAssets.style_body;
+          this.styleHeaderPopup = this.feedbackAssets.show_style_header;
+          this.styleBodyPopup = this.feedbackAssets.show_style_body;
       }
 
 
