@@ -386,12 +386,12 @@ export class Template3Component extends Base implements OnInit {
 			randomIndex = Math.floor(Math.random() * currentIndex);
 			currentIndex -= 1;
 			var img_hover1 = array[currentIndex].imgsrc_hover;
-			var text1 = array[currentIndex].imgsrc_letter;
+			// var text1 = array[currentIndex].imgsrc_letter;
 			var text1copy = array[currentIndex].image_original;
 			var optionBg1 = array[currentIndex].image_original;
 
 			var img_hover2 = array[randomIndex].imgsrc_hover;
-			var text2 = array[randomIndex].imgsrc_letter;
+			// var text2 = array[randomIndex].imgsrc_letter;
 			var text2copy = array[randomIndex].image_original;
 			var optionBg2 = array[randomIndex].image_original;
 			// And swap it with the current element.
@@ -400,12 +400,12 @@ export class Template3Component extends Base implements OnInit {
 			array[randomIndex] = temporaryValue;
 
 			array[currentIndex].imgsrc_hover = img_hover1;
-			array[currentIndex].imgsrc_letter = text1;
+			// array[currentIndex].imgsrc_letter = text1;
 			array[currentIndex].image_original = text1copy;
 			array[currentIndex].imgsrc = optionBg1;
 
 			array[randomIndex].imgsrc_hover = img_hover2;
-			array[randomIndex].imgsrc_letter = text2;
+			// array[randomIndex].imgsrc_letter = text2;
 			array[randomIndex].image_original = text2copy;
 			array[randomIndex].imgsrc = optionBg2;
 

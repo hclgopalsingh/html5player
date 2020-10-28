@@ -192,6 +192,10 @@ button:focus {
   pointer-events: none;
 }
 
+.grayscale{
+  -webkit-filter: grayscale(100%) brightness(0) saturate(0)!important;
+  filter: grayscale(100%) brightness(0) saturate(0)!important;
+}
 .refQues{
   width: 57%;
   height: 46%;
