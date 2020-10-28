@@ -604,7 +604,7 @@ export class Ntemplate17Component implements OnInit {
 	  //this.QuestionVideo.nativeElement.load();
     }
     console.log("this.inputVal.lengthr",this.inputVal.length)
-    if(button != "{bksp}" && this.charLeft>0){
+    if(button != "{bksp}" && button != "{lock}" && this.charLeft>0){
       this.charLeft = this.charLeft-1
       this.currentChar =  this.currentChar + 1;
     }
