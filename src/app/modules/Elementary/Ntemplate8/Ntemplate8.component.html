@@ -1,7 +1,7 @@
 <div class="container-fluid ele" id="container">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar"
-    [ngClass]="{'disableDiv':instuctionDisable}">
+    [ngClass]="{'disableDiv':instructionDisable}">
     <div class="instructionBase" [ngStyle]="{'cursor': !InstructionVo ? 'pointer' : 'default' }">
       <img class="img-fluid" [src]="commonAssets?.instruction_img?.url" (click)="playHoverInstruction()"
         (load)="checkImgLoaded();" />
@@ -61,20 +61,14 @@
               [src]="score?.live_no?.url">
           </div>
         </div>
-        <div class="colMid h-100">
-          <!-- <div id="playPauseContainer" class="col-sm-1" (click)="updatePlay($event)" style="margin: 0; position: relative; display: grid; align-items: center; justify-items: center; text-align: center; width:5.33%; padding:0 3px;">
-            <div [ngStyle]="{'display': isPlaying ? 'block' : 'none'}" style="cursor: pointer;"><img  style="max-width: 100%"
-               [src]="assets?.play_graphic?.location=='content' ? containgFolderPath + '/' + assets?.play_graphic?.url : assetsPath + '/' + assets?.play_graphic?.url "></div>
-            <div [ngStyle]="{'display': !isPlaying ? 'block' : 'none'}" style="cursor: pointer;"><img *ngIf="basePath" style="max-width: 100%"
-               [src]="assets['pause_graphic']?.location=='content' ? containgFolderPath + '/' + assets['pause_graphic']?.url : assetsPath + '/' + assets['pause_graphic']?.url"></div>
-          </div> -->
+        <div class="colMid h-100">          
           <div [ngClass]="{'d-none': !hasVideoStarted}" class="videoPlayPause" *ngIf="isPlayVideo" (click)="videoPlayPause()">
             <img *ngIf="!isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_pause?.url" (mousemove)="hoverpauseVideo()"
               (mouseleave)="houtpauseVideo()" />
             <img *ngIf="isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_play?.url" (mousemove)="hoverplayVideo()"
             (mouseleave)="houtplayVideo()"/>
           </div>
-          <div [ngClass]="{'disableBtn': disableReplayBtn}" class="videoOpen" *ngIf="!isPlayVideo" (click)="openReplayConfirm()">
+          <div [ngClass]="{'disableBtn': disableReplayBtn, 'hideBtn':hideReplayBtn}" class="videoOpen" *ngIf="!isPlayVideo" (click)="openReplayConfirm()">
             <img style="width: 100%;" [src]="otherAssets?.replay_btn?.url" (mousemove)="hoverstartVideo()"
             (mouseleave)="houtstartVideo()"/>
           </div>
@@ -82,10 +76,6 @@
             <img style="width: 100%;" [src]="otherAssets?.video_skip?.url" (mousemove)="hoverSkipVideo()"
               (mouseleave)="houtSkipVideo()" />
           </div>
-          <!-- <div class="playPause">
-            <span *ngIf="!isPlayVideo" (click)="openReplayConfirm()">Replay</span>
-            <span *ngIf="videoReplayd && isPlayVideo"(click)="endedHandleronSkip()">Skip</span>
-          </div>           -->
           <div class="durationTime">
             <img class="img-fluid" [src]="questionObj?.quesImg?.timeBg?.url">
             <div>{{displayTimer}}</div>
@@ -95,7 +85,7 @@
             <audio #quesVORef [src]="questionObj?.quesImg?.quesAudio?.url" (ended)="audioEnded()"></audio>
           </div>
           <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
-            poster="assets/images/videoPoster.svg">
+            [poster]="questionObj?.videoPoster?.url">
             <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
           </video>
         </div>
@@ -302,11 +292,3 @@
     </div>
   </div>
 </div>
-<!--
-<div class="videoMainContainer" *ngIf="isPlayVideo">
-        <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" poster="assets/images/videoPoster.svg">
-                <source [src]="questionObj?.quesVideo?.location=='content' ? containgFolderPath + '/' + questionObj?.quesVideo?.urlOgv : assetsPath + '/' + questionObj?.quesVideo?.urlOgv"
-                type="{{videoType}}">
-        </video>
-</div>
--->

@@ -115,7 +115,7 @@ button:focus {
 }
 
 #container .rowMid {
-  height: 76%;
+  height: 75.9%;
   margin: 1.2% 0;
   display: flex;
   justify-content: space-between;
@@ -142,21 +142,21 @@ button:focus {
   /* background: #c2c2c2; */
   background-image: radial-gradient(#0074E2, #004589);
   border: solid 1px #000;
-  border-radius: 33px;
+  border-radius: 26px;
   /*19vmin;*/
-  width: 73.7%;
+  width: 73.9%;
   position: relative;
 }
 
 @media (max-width: 1366px) {
   #container .rowMid .colMid {
-    border-radius: 24px;
+    border-radius: 16px;
   }
 }
 
 @media (max-width: 1024px) {
   #container .rowMid .colMid {
-    border-radius: 22px;
+    border-radius: 15px;
   }
 
   .colMid .durationTime {
@@ -166,7 +166,7 @@ button:focus {
 
 @media (max-width: 900px) {
   #container .rowMid .colMid {
-    border-radius: 17px;
+    border-radius: 9px;
   }
 
   .colMid .durationTime {
@@ -895,7 +895,7 @@ button:focus {
 .videoOpen,
 .videoPlayPause,
 .videoSkip {
-  width: 3.5%;
+  width: 6.5%;
   height: 6%;
   /* border: solid .1vmax #000; */
   border-radius: 50%;
@@ -910,7 +910,7 @@ button:focus {
   cursor: pointer;
 }
 .videoSkip{
-  right:7%
+  right:10%
 }
 /* .videoClose:hover{
   background: #fff;
@@ -937,4 +937,7 @@ button:focus {
 .disableBtn{
   opacity: 0.5;
   pointer-events: none;
+}
+.hideBtn{
+  display: none;
 }

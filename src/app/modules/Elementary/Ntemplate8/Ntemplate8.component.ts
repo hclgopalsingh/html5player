@@ -151,12 +151,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	feedback_next_timer: any;
 	feedbackCloseTimer: NodeJS.Timer;
 	/*End: Theme Implementation(Template Changes)*/
-	instuctionDisable : boolean = true;
+	instructionDisable : boolean = true;
 	showOption : boolean =false;
 	disableSelection : boolean = false;
 	isVideoPaused : boolean = false;
 	hasVideoStarted : boolean = false;
 	disableReplayBtn : boolean = false;
+	hideReplayBtn : boolean = false;
+	selectedteamRef : any;
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('quesVORef') quesVORef: any;
 	@ViewChild('instruction') instruction: any;
@@ -349,7 +351,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			/*End: Theme Implementation(Template Changes)*/
 			if(this.questionObj.videoQues==false){
 				this.isPlayVideo=false;
-				this.disableReplayBtn=true;
+				this.hideReplayBtn=true;
 			}
 		}
 	}
@@ -362,11 +364,11 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			if (this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.play();
-			 this.instuctionDisable=true;
+			 this.instructionDisable=true;
 			// this.InstructionVo = true;
 			// $(".instructionBase").css("cursor", "default");
 			this.instruction.nativeElement.onended = () => {
-			 this.instuctionDisable=false;
+			 this.instructionDisable=false;
 				// this.InstructionVo = false;
 			// $(".instructionBase").css("cursor", "pointer");
 			}
@@ -454,7 +456,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 									this.hasVideoStarted = true;
 									this.mainVideo.nativeElement.play();
 									this.mainVideo.nativeElement.onended = () => {
-										this.instuctionDisable=false;
+										this.instructionDisable=false;
 										this.appModel.enableSubmitBtn(true);
 										// this.appModel.enableReplayBtn(true);
 										setTimeout(() => {
@@ -463,7 +465,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 										}, 200)
 									}
 								}else{
-									this.instuctionDisable=false;
+									this.instructionDisable=false;
 									this.appModel.enableSubmitBtn(true);
 									// this.appModel.enableReplayBtn(true);
 									setTimeout(() => {
@@ -480,7 +482,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 						this.appModel.setLoader(false);
 						this.appModel.enableSubmitBtn(true);
 						// this.appModel.enableReplayBtn(true);
-						this.instuctionDisable=false;
+						this.instructionDisable=false;
 						this.isPlayVideo = false;
 						this.startActivity();
 					}
@@ -515,13 +517,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	playSound(soundAssets, idx, teamRef, team) {
+		this.selectedteamRef=teamRef;
 		if (this.audio && this.audio.paused) {
 			let selectedIdx = -1;
 			if(!this.instruction.nativeElement.paused){
 				this.instruction.nativeElement.pause();
 				this.instruction.nativeElement.currentTime = 0;				  
 			}  
-			this.instuctionDisable = true;                  
+			this.instructionDisable = true;                  
 			if (team == "teamUp") {
 				if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDownRef.nativeElement.children[0]) {
 					this.teamDownRef.nativeElement.children[0].classList.add("disableDiv");
@@ -590,39 +593,41 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.audio.load();
 			this.audio.play();
 			this.audio.onended = () => {
-				if (this.teamUp) {
-					if (this.teamUpRef && this.teamUpRef.nativeElement && this.teamUp.isStillActive && this.teamUpRef.nativeElement.children[0]) {
-						this.teamUpRef.nativeElement.children[0].classList = "optionsBlock ";
-					}
-				}
-				if (this.teamDown) {
-					if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDown.isStillActive && this.teamDownRef.nativeElement.children[0]) {
-						this.teamDownRef.nativeElement.children[0].classList = "optionsBlock ";
-
-					}
-				}
-				if (this.teamLeft) {
-					if (this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeft.isStillActive && this.teamLeftRef.nativeElement.children[0]) {
-						this.teamLeftRef.nativeElement.children[0].classList = "optionsBlock text-center ";
-					}
-				}
-				if (this.teamRight) {
-					if (this.teamRightRef && this.teamRightRef.nativeElement && this.teamRight.isStillActive && this.teamRightRef.nativeElement.children[0]) {
-						this.teamRightRef.nativeElement.children[0].classList = "optionsBlock text-center";
-					}
-				}
-				if (teamRef.children[0] && teamRef.children[0].children) {
-					for (let i = 0; i < teamRef.children[0].children.length; i++) {
-						if (idx != i && selectedIdx != i) {
-							teamRef.children[0].children[i].classList.remove("disableDiv");;
-						}
-					}
-				}
-				this.instuctionDisable = false;
+				this.onOptionAudioEnd(this.selectedteamRef);
 			}
 		}
 	}
+	onOptionAudioEnd(teamRef){
+		if (this.teamUp) {
+			if (this.teamUpRef && this.teamUpRef.nativeElement && this.teamUp.isStillActive && this.teamUpRef.nativeElement.children[0]) {
+				this.teamUpRef.nativeElement.children[0].classList = "optionsBlock ";
+			}
+		}
+		if (this.teamDown) {
+			if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDown.isStillActive && this.teamDownRef.nativeElement.children[0]) {
+				this.teamDownRef.nativeElement.children[0].classList = "optionsBlock ";
 
+			}
+		}
+		if (this.teamLeft) {
+			if (this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeft.isStillActive && this.teamLeftRef.nativeElement.children[0]) {
+				this.teamLeftRef.nativeElement.children[0].classList = "optionsBlock text-center ";
+			}
+		}
+		if (this.teamRight) {
+			if (this.teamRightRef && this.teamRightRef.nativeElement && this.teamRight.isStillActive && this.teamRightRef.nativeElement.children[0]) {
+				this.teamRightRef.nativeElement.children[0].classList = "optionsBlock text-center";
+			}
+		}
+		if (teamRef.children[0] && teamRef.children[0].children) {
+			for (let i = 0; i < teamRef.children[0].children.length; i++) {
+				if (teamRef.children[0].children[i].classList.contains("disableDiv")) {
+					teamRef.children[0].children[i].classList.remove("disableDiv");;
+				}
+			}
+		}
+		this.instructionDisable = false;
+	}
 	playOptionHover(opt, idx, teamRef, team) {
 		if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
 			this.playSound(opt.mouse_over_audio, idx, teamRef, team);
@@ -814,13 +819,18 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		*/
 
 	replayVideo() {
+		if(this.audio && !this.audio.paused){
+			this.audio.pause();
+			this.audio.currentTime=0;
+			this.onOptionAudioEnd(this.selectedteamRef);
+		}
 		this.totalTime = this.currentTime + this.totalTime;
 		this.videoReplayd = true;
 		this.isPlayVideo = true;
 		this.appModel.enableSubmitBtn(false);
 		this.disableSelection = true;
 		this.allowSkip = true;
-		this.instuctionDisable=true;
+		this.instructionDisable=true;
 		this.appModel.handleController(this.controlHandler);
 		setTimeout(() => {
 			this.mainVideo.nativeElement.play();
@@ -830,7 +840,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.isPlayVideo = false;
 				this.disableSelection = false;
 				this.isVideoPaused=false;
-				this.instuctionDisable=false;
+				this.instructionDisable=false;
 				this.appModel.videoStraming(false);
 				if (this.actsTimeout) {
 					this.checkAttemptedOpt();
@@ -988,7 +998,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		if(!this.instruction.nativeElement.paused){
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime=0;
-			this.instuctionDisable=false;
+			this.instructionDisable=false;
 		}
 		if (action == "submitAnswer") {
 			this.checkAttemptedOpt();
@@ -1150,7 +1160,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		// this.mainContainer.nativeElement.classList = "consoleBase";
 		// this.disableMainCont = false;
 		this.disableSelection = false;
-		this.instuctionDisable = false;
+		this.instructionDisable = false;
 		this.isPlayVideo = false;
 		this.isVideoPaused=false;
 	}
