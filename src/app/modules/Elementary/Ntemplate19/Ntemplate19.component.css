@@ -6,7 +6,7 @@
     width: 100%;
 }
 .headerBlock img {
-  width: 17%;
+  width: 17.25%;
 }
 .quesContainer {
     width: 87%;
@@ -28,14 +28,25 @@
 .optionBlock img:first-child {
   width: auto;
 }
+.disable_div {
+  pointer-events: none;
+}
+.classOpacity {
+  opacity: 0.3;
+}
 .placeholderContainer {
   position: absolute;
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .placeholderContainer img {
   position: absolute;
-    width: 14%;
+  width: 14%;
+  cursor: pointer;
+}
+.modal .placeholderContainer img {
+  cursor: default;
+  pointer-events: none;
 }
 .criteriaContainer img {
   position: absolute;
@@ -53,6 +64,110 @@ top: 47.8%;
 .criteriaContainer #criteria4 {
 top: 63%;
 }
+/****** 3*3 matrix start ******/
+.matrix_3x3 .headerBlock {
+  top: 6%;
+}
+.matrix_3x3 .headerBlock img {
+  width: 23%;
+}
+.matrix_3x3 .contentBlock {
+  height: 68%;
+  top: 13%;
+  width: 100%;
+}
+.matrix_3x3 .quesContainer {
+  width: 85.5%;
+  height: 100%;
+}
+.matrix_3x3 .placeholderContainer img, .matrix_3x3 .criteriaContainer img {
+  width: 19%;
+}
+.matrix_3x3 .placeholderContainer #optPlaceholder1 {
+  top: 24%;
+  left: 40%;
+}
+.matrix_3x3 .placeholderContainer #optPlaceholder2 {
+  top: 24%;
+  left: 63%;
+}
+.matrix_3x3 .placeholderContainer #optPlaceholder3 {
+  top: 53%;
+  left: 40%;
+}
+.matrix_3x3 .placeholderContainer #optPlaceholder4 {
+  top: 53%;
+  left: 63%;
+}
+.matrix_3x3 .criteriaContainer #criteria1 {
+  top: 29.2%;
+  left: 17.5%;
+}
+.matrix_3x3 .criteriaContainer #criteria2 {
+  top: 49.5%;
+  left: 17.5%;
+}
+
+/****** 3*3 matrix end ******/
+
+/****** 3*5 matrix start ******/
+.matrix_3x5 .headerBlock {
+  top: 12%;
+}
+.matrix_3x5 .headerBlock img {
+  width: 16.7%;
+}
+.matrix_3x5 .contentBlock {
+  height: 72%;
+  top: 7.5%;
+}
+.matrix_3x5 .quesContainer {
+  width: 84.3%;
+  height: 100%;
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder1 {
+  left: 26.3%;
+  top: 31%;
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder2 {
+  top: 31%;
+  left: 42.7%;
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder3 {
+  top: 31%;
+  left: 59.4%
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder4 {
+  top: 31%;
+  left: 76%;
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder5 {
+  left: 26.3%;
+  top: 53.5%;
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder6 {
+  top: 53.5%;
+  left: 42.7%;
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder7 {
+  top: 53.5%;
+  left: 59.4%
+}
+.matrix_3x5 .placeholderContainer #optPlaceholder8 {
+  top: 53.5%;
+  left: 76%;
+}
+.matrix_3x5 .criteriaContainer #criteria1 {
+  left: 10%;
+  top: 30%;
+}
+.matrix_3x5 .criteriaContainer #criteria2 {
+  left: 10%;
+  top: 46%;
+}
+
+/****** 3*5 matrix end ******/
+
 /****** 5*3 matrix start ******/
 .matrix_5x3 .criteriaContainer img {
   left: 26%;
@@ -92,8 +207,14 @@ top: 63%;
 /****** 5*3 matrix end ******/
 
 /****** 5*5 matrix start ******/
+.matrix_5x5 .quesContainer {
+  width: 84.5%;
+}
+.matrix_5x5 .headerBlock img {
+  width: 16.8%;
+}
 .matrix_5x5 .criteriaContainer img {
-  left: 8.5%;
+  left: 9.5%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder1 {
   top: 10%;
@@ -105,11 +226,11 @@ top: 63%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder3 {
   top: 10%;
-  left: 60%;
+  left: 59.7%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder4 {
   top: 10%;
-  left: 77%;
+  left: 76.5%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder5 {
   top: 31.5%;
@@ -121,11 +242,11 @@ top: 63%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder7 {
   top: 31.5%;
-  left: 60%;
+  left: 59.7%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder8 {
   top: 31.5%;
-  left: 77%;
+  left: 76.5%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder9 {
   top: 53%;
@@ -137,11 +258,11 @@ top: 63%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder11 {
   top: 53%;
-  left: 60%;
+  left: 59.7%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder12 {
   top: 53%;
-  left: 77%;
+  left: 76.5%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder13 {
   top: 74%;
@@ -153,24 +274,26 @@ top: 63%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder15 {
   top: 74%;
-  left: 60%;
+  left: 59.7%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder16 {
   top: 74%;
-  left: 77%;
+  left: 76.5%;
 }
 /***** 5*5 matrix end *******/
 
+/* Modal */
+#modalTemp19 {
+  background: rgba(0, 0, 0, .85);
+}
+
+#modalTemp19 .modal-body {
+  flex-wrap: wrap;
+  align-content: space-around;
+}
 
 button:focus {
   outline: 0 !important;
-}
-.hideit {
-  display: none !important;
-}
-
-.showit {
-  display: block !important;
 }
 
 .dispFlex {
@@ -201,29 +324,6 @@ button:focus {
 }
 
 
-
-.quesImage .optItem {
-  position: absolute !important;
-  width: auto;
-  max-width: 35% !important;
-  visibility:hidden;
-  /* height: 90%; */
-}
-
-.quesImage .optItemVisible {
-  position: absolute !important;
-  width: auto;
-  max-width: 35% !important;
-  /* height: 90%; */
-}
-
-.quesImage .optItempopUp {
-  position: absolute !important;
-  width: auto;
-  max-width: 35% !important;
-  /* height: 90%; */
-}
-
 #playPauseBtn {
   position: absolute;
   top: 85%;
@@ -248,124 +348,6 @@ button:focus {
   max-width: 70%;
 }
 
-.tabularBlock {
-  height: 77.6%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tabularData {
-  width: 84%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  /* border: solid 1px #000; */
-}
-
-/*.x2x8 {
-  width: 20.9%;
-  display: flex;
-}
-
-.x4x4 {
-  width: 62%;
-}*/
-
-
-.rowBox {
-  width: 100%;
-  height: 11%;
-  min-height: 11%;
-  display: flex;
-  justify-content: center;
-}
-.bodyContent .colBox:hover {
-  border: solid 1px #ff0;
-}
-
-.rowBox:first-child .colBox,
-.rowBox .colBox:first-child {
-  background: #aaa;
-  cursor: default;
-  border: solid 1px #000;
-}
-
-  .rowBox:first-child .colBox:first-child {
-    border-radius: 1vmin 0 0 0;
-    background: #999;
-    cursor:default;
-  }
-
-  .rowBox:first-child .colBox:last-child {
-    border-radius: 0 1vmin 0 0;
-  }
-
-  .rowBox:last-child .colBox:first-child {
-    border-radius: 0 0 0 1vmin;
-
-  }
-
-  .rowBox:last-child .colBox:last-child {
-    border-radius: 0 0 1vmin 0;
-  }
-
-.colBox {
-  width:  13%; /*7.5%;/*12%;*/
-  border: solid 1px #000;
-  display: flex;
-  align-self: stretch;
-  align-items: center;
-  justify-content: center;
-  background: #ccc;
-  cursor: pointer;
-}
-
-/*.x2x8 .colBox,
-.x4x4 .colBox {
-  width: 34%;
-}*/
-
-.colBox img {
-  max-width: 77%;/*63%;*/
-  /* padding: 17%; */
-}
-
-.fluidhidden {
-  position: absolute;
-  max-width: 5.5% !important;
-  visibility: hidden;
-}
-
-.fluid {
-  /*border: solid 2px #ff0;*/
-  position: absolute;
-  max-width: 5.5% !important;
-}
-
-.incorrect {
-  /*border: solid 2px #f00;*/
-  background: #f00 !important;
-}
-
-.correct {
-  /*border: solid 2px #30c70a;*/
-  background: #0c0!important;
-}
-
-.highlighthidden {
-  border: solid 2px #ff0;
-  visibility:hidden;
-}
-
-.highlight {
-  border: solid 2px #ff0;
-  /*visibility: hidden;*/
-}
-
-
 .optionsBlock {
   width: 100%;
   height: 20.5%;
@@ -388,32 +370,15 @@ button:focus {
   /*overflow: hidden;*/
   white-space: nowrap;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
-/* .optionsBlock #option1 {
-  left:11% !important;
-}
-.optionsBlock #option2 {
-  left:26% !important;
-}
-.optionsBlock #option3 {
-  left:40% !important;
-} */
 
   .options img {
     max-width: 16%;
+    margin: 0 2.05%;
     padding: 0.4% 0;
     position:relative;
   }
-
-.quesImage {
-  width: 100%;
-  position: relative;
-  text-align: center;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-}
 
 #container #navBlock {
   position: absolute;
@@ -429,17 +394,6 @@ button:focus {
     width: auto;
   }
 
-#container .quesBlock {
-  position: absolute;
-  left: 0%;
-  top: 3%;
-  width: 100%;
-  height: 5.5%;
-  display: flex;
-  justify-content: center;
-  /* align-items: center; */
-}
-
 .quesTab {
   width: 20%;
   display: inline-flex;
@@ -454,8 +408,7 @@ button:focus {
 
 #container #navBlock .prevBtn,
 #container #navBlock .nextBtn,
-#container #navBlock .ansBtn,
-#container .quesBlock img {
+#container #navBlock .ansBtn {
   cursor: pointer;
 }
 
@@ -465,8 +418,7 @@ button:focus {
 }
 
 #navBlock .prevBtn,
-#navBlock .nextBtn,
-#navBlock .submitBtn {
+#navBlock .nextBtn {
   cursor: pointer;
   width: 3.5%;
   margin-right: .7%;
@@ -501,67 +453,6 @@ button:focus {
   height: 100%;
 }
 
-.quesnum {
-  position: absolute;
-  width: 1vmin;
-  height: auto; /*43%;*/
-  left: 48%;
-  top: 30%;
-}
-
-
-.animation-shake {
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
-
-#correctAns {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  /*
-        background: url(../images/popup.svg) no-repeat center center;
-    */
-  background-size: contain;
-  animation: scaleit 0.2s ease-in;
-}
-
-.rightAnsBg {
-  animation: scaleit 0.2s ease-in;
-}
-
-#correctAns img {
-  position: absolute;
-  width: 70%;
-}
-
 #container .instructionBar {
   position: absolute;
   top: 10%;
@@ -588,24 +479,10 @@ button:focus {
 .instructionBase img {
   cursor: pointer;
 }
-
-@keyframes scaleit {
-  0% {
-    transform: scale(.9);
-    opacity: .0;
-  }
-
-  90% {
-    transform: scale(1.1);
-    opacity: .7;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.modal .instructionBase img {
+  cursor: default;
+  pointer-events: none;
 }
-
 #container #navBlock .prevBtn:hover,
 #container #navBlock .nextBtn:hover {
   -webkit-animation-name: moveLeft; /* Safari 4.0 - 8.0 */
@@ -620,116 +497,9 @@ button:focus {
   animation-name: moveRight;
 }
 
-@keyframes moveLeft {
-  0% {
-    left: 3.2%;
-  }
-
-  100% {
-    left: 2%;
-  }
-}
-
-@keyframes moveRight {
-  0% {
-    right: 3.3%;
-  }
-
-  100% {
-    right: 2%;
-  }
-}
-
-#burst {
-  position: absolute;
-  z-index: 101;
-  width: 100%;
-  height: 100%;
-}
-
-.disable_div {
-  pointer-events: none;
-}
-
-.options .desc {
-  position: relative;
-}
-
-/*.options:hover {
-  -ms-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  transform: scale(1.5);
-}*/
-
-.right,
-.wrong {
-  width: 20%;
-  position: absolute !important;
-  z-index: 3;
-  left: 40%;
-  bottom: -70%;
-  display: none;
-}
-
-.optionsWidth {
-  width: auto !important;
-}
-
-
 /* Modal classes */
-#customModal {
-  display: block !important;
-}
-
-#modalTemp5 {
-  background: rgba(0,0,0,.85);
-}
-
-#modalPartialOptions {
-  background: rgba(0,0,0,.85);
-}
-
-#customModal .modal-body {
-  height: 91%;
-  padding: 0 15px;
-}
-
-#customModal .options {
-  position: relative;
-  margin: .7% 0;
-}
-
-  #customModal .options div {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-    #customModal .options div img {
-      width: 48%;
-    }
-
 
 /*confirm modal*/
-
-.confirm_modal_content {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  background-clip: padding-box;
-  border: none;
-  border-radius: 0;
-  outline: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: none;
-}
-
 #confirmModal {
 	/* display: flex;*/
 	background: rgba(0,0,0,.85);
@@ -854,29 +624,14 @@ button:focus {
   align-items: center;
   padding-left: 0px;
 }
-
-  /*.modal-dialog {
-  width: 30%;
-  min-height: 49%;
-  width: 100%;
-  height: 88%;
-}*/
-  .modal.show {
-    display: -webkit-box !important;
-  }
-
+.modal.show {
+  display: -webkit-box !important;
+}
 .modal-dialog {
   width: 84%;
   max-width: 80% !important;
   height: 87%;
 }
-
-/*#modalTemp5 .modal-dialog {
-  width: 84%;
-  max-width: 80%;
-  height: 70%;
-}*/
-
 .modal-content {
   background: transparent !important;
   border: none !important;
@@ -894,49 +649,8 @@ button:focus {
   width: 100%;
   border-bottom: none !important;
   margin-bottom: -1px;
-  /*
-     border: solid .7vmin #85d222;
-    border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #248446;
-  */
 }
 
-#modalTemp5 .modal-header {
-  top: 0;
-}
-
-.modal .tabularData {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  /* border: solid 1px #000; */
-}
-
-.modal .colBox {
-  width: 11%;
-  display: flex;
-  align-self: stretch;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal .rowBox {
-  width: 100%;
-  height: 14%;
-  min-height: 11%;
-  display: flex;
-  justify-content: center;
-}
-
-.modal .fluid {
-  /*border: solid 2px #ff0;*/
-  position: absolute;
-  max-width: 10% !important;
-}
 
 .modal-title {
   margin-left: 1.5%;
@@ -960,55 +674,20 @@ button:focus {
   }
 }
 
-#modalTemp5 .modal-header .close {
-  margin-left: auto;
-}
-
 .modal-body {
   height: 75%;
   padding: 2%;
-  /*
-  background: #afdec0;
-  border: solid .7vmin #85d222;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  border-top: none !important;
-  */
   flex: auto !important;
   align-items: center;
 }
 
-  .modal-body img {
-    max-width: 84%; /*77%;*/
-  }
-
-/*#modalTemp5 .modal-body img {
-  max-width: 94%;
-   width: 70%;
-}*/
-
-#modalTemp5 .optionsBlock {
-  width: 100%;
-  height: 100%;
-  margin: 2% 0;
+.modal-body img {
+  max-width: 84%; /*77%;*/
 }
 
 .modalBodyContent {
   background: #afdec0;
   margin: -1px;
-}
-
-.modal .quesImage {
-  align-self: center;
-  margin: 1% auto !important;
-}
-
-#modalTemp5 .quesImage {
-  /* height: 100%; */
-}
-
-#modalTemp5 .optionsBlock .options {
-  width: 25%; /*100%*/
 }
 
 .close:focus, .close:hover {
@@ -1021,89 +700,10 @@ html [type=button] {
   -webkit-appearance: none;
 }
 
-
-/*Partial Pop-up*/
-#modalPartialOptions .modal-dialog {
-  max-width: 87%;
-}
-
-#modalPartialOptions .modal-header {
-  margin-bottom: -1px;
-}
-
-  #modalPartialOptions .modal-header:before,
-  #modalPartialOptions .modal-header:after {
-    content: none !important;
-  }
-
-#modalPartialOptions .modal-body img {
-  max-width: 100%;
-}
-
-#modalPartialOptions .quesImage {
-  display: block; /*contents;*/
-}
-
-#modalPartialOptions .subHead {
-  padding: 0 .5%;
-  height: auto; /*4.7vmin;*/
-  position: relative;
-  top: 0;
-  width: 100%;
-  border: solid 1px #444;
-  border-bottom-color: #777;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #9a9a9a;
-}
-
-  #modalPartialOptions .subHead img {
-    max-width: 6%;
-    padding: .4%;
-  }
-
-#modalPartialOptions .subContent {
-  width: 100%;
-  display: flex;
-  justify-content: center; /*space-evenly;*/
-  align-items: center;
-  padding: 3% 0;
-  background: #c4c4c4;
-  border: solid 1px #444;
-  border-top: none;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-#modalPartialOptions .optionsBlock {
-  padding: 0 1%;
-}
-
-  #modalPartialOptions .optionsBlock .options {
-    width: 13%;
-    margin: 0 .5%;
-  }
-
 @media (min-width: 576px) {
   .modal-dialog {
     margin: 0 auto !important;
   }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-.fadeOut {
-  animation-name: fadeOut;
-  animation-duration: 1s;
-  animation-fill-mode: both;
 }
 
 .scaleInAnimation {
@@ -1135,6 +735,28 @@ html [type=button] {
   100% {
     transform: scale(1.0)
   }
+}
+
+#modalTemp19 #instructionBarFeedback {
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: .9%;
+  display: none;
+}
+
+.modal .instructionBase {
+  width: 100% !important;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  cursor: default;
+}
+
+.modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
 }
 
 
