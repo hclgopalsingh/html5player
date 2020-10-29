@@ -129,7 +129,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		isNext: false,
 		isTab: false,
 		isSubmitRequired: true,
-		isReplayRequired: true,		
+		isReplayRequired: true,
 	};
 	quesIndx: number;
 	liveScore: any;
@@ -151,14 +151,16 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	feedback_next_timer: any;
 	feedbackCloseTimer: NodeJS.Timer;
 	/*End: Theme Implementation(Template Changes)*/
-	instructionDisable : boolean = true;
-	showOption : boolean =false;
-	disableSelection : boolean = false;
-	isVideoPaused : boolean = false;
-	hasVideoStarted : boolean = false;
-	disableReplayBtn : boolean = false;
-	hideReplayBtn : boolean = false;
-	selectedteamRef : any;
+	instructionDisable: boolean = true;
+	showOption: boolean = false;
+	disableSelection: boolean = false;
+	isVideoPaused: boolean = false;
+	hasVideoStarted: boolean = false;
+	disableReplayBtn: boolean = false;
+	hideReplayBtn: boolean = false;
+	faintInstruction : boolean = false;
+	faintContent : boolean =false;
+	selectedteamRef: any;
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('quesVORef') quesVORef: any;
 	@ViewChild('instruction') instruction: any;
@@ -252,7 +254,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 	/*End: Theme Implementation(Template Changes)*/
-	openReplayConfirm(){
+	openReplayConfirm() {
 		this.appModel.videoStraming(true);
 		this.confirmAssets = this.fetchedcontent.replay_confirm;
 		if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
@@ -342,16 +344,16 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.appModel.initializeAtemptMade();
 				this.appModel.initializeFeedbackArray(this.noOfTeams);
 			}
-			/*Start: Theme Implementation(Template Changes)*/			
+			/*Start: Theme Implementation(Template Changes)*/
 			this.controlHandler.isSubmitRequired = this.questionObj.submitRequired;
 			this.controlHandler.isReplayRequired = this.questionObj.replayRequired;
 			// this.controlHandler.replay_btn = this.commonAssets.replay_btn;
 			// this.controlHandler.replay_btn_hover = this.commonAssets.replay_btn_hover;
 			// this.controlHandler.replay_btn_original = this.commonAssets.replay_btn_original;
 			/*End: Theme Implementation(Template Changes)*/
-			if(this.questionObj.videoQues==false){
-				this.isPlayVideo=false;
-				this.hideReplayBtn=true;
+			if (this.questionObj.videoQues == false) {
+				this.isPlayVideo = false;
+				this.hideReplayBtn = true;
 			}
 		}
 	}
@@ -362,16 +364,16 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.appModel.notifyUserAction();
 			console.log("play on Instruction");
 			if (this.instruction.nativeElement.paused) {
-			this.instruction.nativeElement.currentTime = 0;
-			this.instruction.nativeElement.play();
-			 this.instructionDisable=true;
-			// this.InstructionVo = true;
-			// $(".instructionBase").css("cursor", "default");
-			this.instruction.nativeElement.onended = () => {
-			 this.instructionDisable=false;
-				// this.InstructionVo = false;
-			// $(".instructionBase").css("cursor", "pointer");
-			}
+				this.instruction.nativeElement.currentTime = 0;
+				this.instruction.nativeElement.play();
+				this.instructionDisable = true;
+				// this.InstructionVo = true;
+				// $(".instructionBase").css("cursor", "default");
+				this.instruction.nativeElement.onended = () => {
+					this.instructionDisable = false;
+					// this.InstructionVo = false;
+					// $(".instructionBase").css("cursor", "pointer");
+				}
 			}
 			// if (!this.optionAudio.nativeElement.paused) {
 			// this.instruction.nativeElement.currentTime = 0;
@@ -414,7 +416,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	startActivity() {
 		// this.mainContainer.nativeElement.classList = "consoleBase";
 		// this.disableMainCont = false;
-		this.showOption=true;
+		this.showOption = true;
 		this.resetTimerForAnswer();
 	}
 
@@ -436,7 +438,42 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		//this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
 		this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
 	}
-
+	checkForQVO(){
+		if(this.questionObj && this.questionObj.quesAudio && this.questionObj.quesAudio.url && this.questionObj.quesAudio.autoplay){
+			setTimeout(() => {							
+				this.instruction.nativeElement.play();
+				this.instruction.nativeElement.onended = () => {
+					if (this.questionObj.videoQues != false) {
+						this.isPlayVideo = true;
+						this.hasVideoStarted = true;
+						this.mainVideo.nativeElement.play();
+						this.mainVideo.nativeElement.onended = () => {
+							this.instructionDisable = false;
+							this.appModel.enableSubmitBtn(true);
+							setTimeout(() => {
+								this.isPlayVideo = false;
+								this.startActivity();
+							}, 200)
+						}
+					} else {
+						this.instructionDisable = false;
+						this.appModel.enableSubmitBtn(true);
+						setTimeout(() => {
+							this.isPlayVideo = false;
+							this.startActivity();
+						}, 200)
+					}
+				}
+		}, 500);
+		}else{
+			this.instructionDisable = false;
+			this.appModel.enableSubmitBtn(true);
+			setTimeout(() => {
+				this.isPlayVideo = false;
+				this.startActivity();
+			}, 200)
+		}
+	}
 	checkImgLoaded() {
 		if (!this.loadFlag) {
 			this.noOfImgsLoaded++;
@@ -447,42 +484,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 					clearTimeout(this.loaderTimer);
 					if (this.questionObj && this.questionObj.isNewQues) {
 						this.appModel.enableSubmitBtn(false);
-						// this.appModel.enableReplayBtn(false);
-						setTimeout(() => {
-								this.instruction.nativeElement.play();
-								this.instruction.nativeElement.onended =() => {								
-								if(this.questionObj.videoQues!=false){
-									this.isPlayVideo = true;
-									this.hasVideoStarted = true;
-									this.mainVideo.nativeElement.play();
-									this.mainVideo.nativeElement.onended = () => {
-										this.instructionDisable=false;
-										this.appModel.enableSubmitBtn(true);
-										// this.appModel.enableReplayBtn(true);
-										setTimeout(() => {
-											this.isPlayVideo = false;
-											this.startActivity();
-										}, 200)
-									}
-								}else{
-									this.instructionDisable=false;
-									this.appModel.enableSubmitBtn(true);
-									// this.appModel.enableReplayBtn(true);
-									setTimeout(() => {
-										this.isPlayVideo = false;
-										this.startActivity();
-									}, 200)
-								}
-								
-							}
-																					
-						}, 500);
+						this.checkForQVO();									
 
 					} else {
 						this.appModel.setLoader(false);
 						this.appModel.enableSubmitBtn(true);
-						// this.appModel.enableReplayBtn(true);
-						this.instructionDisable=false;
+						this.instructionDisable = false;
 						this.isPlayVideo = false;
 						this.startActivity();
 					}
@@ -517,14 +524,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	playSound(soundAssets, idx, teamRef, team) {
-		this.selectedteamRef=teamRef;
+		this.selectedteamRef = teamRef;
 		if (this.audio && this.audio.paused) {
 			let selectedIdx = -1;
-			if(!this.instruction.nativeElement.paused){
+			if (!this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.pause();
-				this.instruction.nativeElement.currentTime = 0;				  
-			}  
-			this.instructionDisable = true;                  
+				this.instruction.nativeElement.currentTime = 0;
+			}
+			this.instructionDisable = true;
 			if (team == "teamUp") {
 				if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDownRef.nativeElement.children[0]) {
 					this.teamDownRef.nativeElement.children[0].classList.add("disableDiv");
@@ -588,7 +595,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 						teamRef.children[0].children[i].classList.add("disableDiv");
 					}
 				}
-			}			
+			}
 			this.audio.src = soundAssets.url;
 			this.audio.load();
 			this.audio.play();
@@ -597,7 +604,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			}
 		}
 	}
-	onOptionAudioEnd(teamRef){
+	onOptionAudioEnd(teamRef) {
 		if (this.teamUp) {
 			if (this.teamUpRef && this.teamUpRef.nativeElement && this.teamUp.isStillActive && this.teamUpRef.nativeElement.children[0]) {
 				this.teamUpRef.nativeElement.children[0].classList = "optionsBlock ";
@@ -819,18 +826,19 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		*/
 
 	replayVideo() {
-		if(this.audio && !this.audio.paused){
+		if (this.audio && !this.audio.paused) {
 			this.audio.pause();
-			this.audio.currentTime=0;
+			this.audio.currentTime = 0;
 			this.onOptionAudioEnd(this.selectedteamRef);
 		}
+		this.hasVideoStarted = true;
 		this.totalTime = this.currentTime + this.totalTime;
 		this.videoReplayd = true;
 		this.isPlayVideo = true;
 		this.appModel.enableSubmitBtn(false);
 		this.disableSelection = true;
 		this.allowSkip = true;
-		this.instructionDisable=true;
+		this.instructionDisable = true;
 		this.appModel.handleController(this.controlHandler);
 		setTimeout(() => {
 			this.mainVideo.nativeElement.play();
@@ -839,8 +847,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				//	this.resumeActivity();
 				this.isPlayVideo = false;
 				this.disableSelection = false;
-				this.isVideoPaused=false;
-				this.instructionDisable=false;
+				this.isVideoPaused = false;
+				this.instructionDisable = false;
 				this.appModel.videoStraming(false);
 				if (this.actsTimeout) {
 					this.checkAttemptedOpt();
@@ -861,7 +869,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	checkAnswer(teamName, opt, index) {
 		console.log(this.appModel.getLiveScoreObj());
 		// this.appModel.enableReplayBtn(false);
-		this.disableReplayBtn=true;
+		this.disableReplayBtn = true;
 		let obj = {
 			"url": this.scoreCardAssets.right_thumb.url,
 			"location": this.scoreCardAssets.right_thumb.location,
@@ -932,7 +940,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 
 	passQuestion(teamName, ref) {
 		// this.appModel.enableReplayBtn(false);
-		this.disableReplayBtn=true;
+		this.disableReplayBtn = true;
 		ref.src = this.otherAssets.pass_btn_red.url;
 		ref.classList.add("disableDiv");
 		if (teamName == "teamup") {
@@ -995,15 +1003,15 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	openModal(action) {
-		if(!this.instruction.nativeElement.paused){
+		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
-			this.instruction.nativeElement.currentTime=0;
-			this.instructionDisable=false;
+			this.instruction.nativeElement.currentTime = 0;
+			this.instructionDisable = false;
 		}
-		if (action == "submitAnswer") {
+		if (action == "submitAnswer") {			
 			this.checkAttemptedOpt();
-			//this.timerSubscription.unsubscribe();
 			this.removeSubscription();
+			// this.timerSubscription.unsubscribe();			
 		}
 		if (action == "replay") {
 			this.replayVideo();
@@ -1011,6 +1019,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	checkAttemptedOpt() {
+		this.faintInstruction = true;
+		this.faintContent = true;
 		if (this.teamUp) {
 			this.removeOptClasses(this.teamUpRef.nativeElement.children[0]);
 			this.teamUpRef.nativeElement.classList = "rowTop disableTeam";
@@ -1106,7 +1116,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.feedbackSoFor = this.appModel.feedbackArray;
 				console.log(this.feedbackSoFor);
 			}, 500)
-			/* Auto close feedback modal */
+			/* Auto close scoreboard modal */
 			this.scoreboardCloseTimer = this.scoreCardAssets.scoreboardCloseTimer;
 			setTimeout(() => {
 				if (this.scoreBoardModal.nativeElement.classList == "modal displayPopup")
@@ -1126,7 +1136,6 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	closeScoreBoard() {
-
 		this.scoreBoardModal.nativeElement.classList = "modal";
 		this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
 		setTimeout(() => {
@@ -1134,22 +1143,21 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			/* Auto next in feedback modal */
 			this.startNextTimer();
 		}, 500)
-
 	}
-	videoPlayPause(){
-		if(!this.isVideoPaused){
+	videoPlayPause() {
+		if (!this.isVideoPaused) {
 			//Pause the video
-			if(!this.mainVideo.nativeElement.paused){
+			if (!this.mainVideo.nativeElement.paused) {
 				this.mainVideo.nativeElement.pause();
-				this.isVideoPaused=true;
+				this.isVideoPaused = true;
 			}
-		}else{
-			if(this.mainVideo.nativeElement.paused){
+		} else {
+			if (this.mainVideo.nativeElement.paused) {
 				this.mainVideo.nativeElement.play();
-				this.isVideoPaused=false;
+				this.isVideoPaused = false;
 			}
 		}
-			
+
 	}
 	endedHandleronSkip() {
 		this.isPlayVideo = false;
@@ -1162,7 +1170,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		this.disableSelection = false;
 		this.instructionDisable = false;
 		this.isPlayVideo = false;
-		this.isVideoPaused=false;
+		this.isVideoPaused = false;
 	}
 	/*	openFeedbackPopup(){
 			this.checkNextActivities();
@@ -1256,7 +1264,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	hleaveOkbtn() {
 		this.feedback.ok_btn = this.feedback.ok_btn_original;
 	}
-	
+
 	closeFeedbackModal() {
 		this.feedbackModal.nativeElement.classList = "modal";
 		this.controlHandler.isNext = true;

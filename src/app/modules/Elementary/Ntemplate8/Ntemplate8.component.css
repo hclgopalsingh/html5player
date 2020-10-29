@@ -140,7 +140,7 @@ button:focus {
 
 #container .rowMid .colMid {
   /* background: #c2c2c2; */
-  background-image: radial-gradient(#0074E2, #004589);
+  background-image: radial-gradient(#F2ADC6, #C77593);
   border: solid 1px #000;
   border-radius: 26px;
   /*19vmin;*/
@@ -191,6 +191,7 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .colMid .durationTime div {
@@ -311,7 +312,7 @@ button:focus {
 }
 
 .instructionBarFeedback .instructionBaseFeedback {
-  width: 86%;
+  width: 62%;
   /*52%;*/
   position: relative;
 }
@@ -785,7 +786,7 @@ button:focus {
 .teamNames .teamDetails .rightAns {
   /* padding: 33.4% 0; */
   /* height: 27vmin; */
-  height: 23vmin;
+  height: 28vmin;
   width: 100%;
   border-left: none !important;
   margin-bottom: 0;
@@ -873,13 +874,13 @@ button:focus {
 .navigate {
   position: absolute;
   bottom: 4%;
-  width: 95%;
+  width: 96%;
 }
 
 .navigate img {
-  margin-left: 1.2%;
+  margin-left: 0.8%;
   cursor: pointer;
-  max-width: 5.5%;
+  max-width: 4.2%;
 }
 
 .disableBtn {
@@ -910,27 +911,11 @@ button:focus {
   cursor: pointer;
 }
 .videoSkip{
-  right:9%
+  right:8%
 }
-/* .videoClose:hover{
-  background: #fff;
-} */
-/* .videoClose div{
-  width: 35%;
-  height: 35%;
-  background: #f00;
-} */
 .d-show {
   display: block !important;
 }
-/* .playPause{
-  position: absolute;
-  right: 16%;
-  top: 3%;
-  color: #fff;
-  cursor: pointer;
-  z-index: 100;
-} */
 .hide_div{
   visibility: hidden;
 }
@@ -940,4 +925,11 @@ button:focus {
 }
 .hideBtn{
   display: none;
+}
+#mainVideo{
+  clip-path: inset(0.1% 0.1% 0.5% 0% round 1vmax);
+}
+.showDisabled{
+  opacity:0.5;
+  pointer-events: none;
 }

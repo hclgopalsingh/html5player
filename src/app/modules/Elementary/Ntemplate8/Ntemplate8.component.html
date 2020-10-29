@@ -1,11 +1,11 @@
 <div class="container-fluid ele" id="container">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar"
-    [ngClass]="{'disableDiv':instructionDisable}">
+    [ngClass]="{'disableDiv':instructionDisable, 'showDisabled':faintInstruction}">
     <div class="instructionBase" [ngStyle]="{'cursor': !InstructionVo ? 'pointer' : 'default' }">
       <img class="img-fluid" [src]="commonAssets?.instruction_img?.url" (click)="playHoverInstruction()"
         (load)="checkImgLoaded();" />
-      <audio #instruction [src]="commonAssets?.instruction_vo?.url"></audio>
+      <audio #instruction [src]="questionObj?.quesAudio?.url"></audio>
     </div>
   </div>
   <!-- <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)="endedHandleronSkip()">
@@ -15,7 +15,7 @@
     </div>
   </div> -->
   <div class="d-flex justify-content-center align-items-center" id="consoleBlock">
-    <div class="consoleBase" [ngClass]="{'disableDiv':disableMainCont}" #mainContainer>
+    <div class="consoleBase" [ngClass]="{'disableDiv':disableMainCont, 'showDisabled':faintContent}" #mainContainer>
       <img class="img-fluid" [src]="otherAssets?.console_bg?.url" (load)="checkImgLoaded();" />
       <div class="rowTop" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamUpRef>
         <div class="optionsBlock" *ngIf="teamUp">
@@ -84,7 +84,7 @@
             <img class="img-fluid" [src]="questionObj?.quesImg?.imgsrc?.url">
             <audio #quesVORef [src]="questionObj?.quesImg?.quesAudio?.url" (ended)="audioEnded()"></audio>
           </div>
-          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
+          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" style="max-width: 100%"
             [poster]="questionObj?.videoPoster?.url">
             <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
           </video>
