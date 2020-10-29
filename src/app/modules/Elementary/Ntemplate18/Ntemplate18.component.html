@@ -3,7 +3,7 @@
  
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-    <div class="instructionBase" [ngClass]="{'disable_div':disableSection}" [ngStyle]="{'cursor': InstructionVo ? 'pointer' : 'default' }">
+    <div class="instructionBase" [ngClass]="{'disable_div':disableSection}" [ngStyle]="{'cursor': disableSection ? 'default' : 'pointer' }">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
       <audio #instruction [src]="quesObj?.quesInstruction?.url"></audio>
       <!--
@@ -14,13 +14,13 @@
   <div class="bodyContent" [ngClass]="{'disable_div':disableBody}">
     <div class="refQues" #refQues>
       <div id={{idx}}  *ngFor="let refQues of refQuesObj;let idx = index">
-          <img  [src]="refQues?.imgsrc?.url" (load)="checkImgLoaded();">
+          <img  [src]="refQues?.imgsrc?.url"  (load)="checkImgLoaded();">
       </div>
     </div>
 	<!-- Below class row has been removed due to issue in allignment  -->
-    <div class="mx-0" id="optionsBlock" #optionsBlock>
+    <div class="mx-0" id="optionsBlock" #optionsBlock [ngClass]="{'disable_div':disableoptionsBlock}">
       <div class="my-auto quesImage">
-        <div id="{{idx}}" class="options" *ngFor="let opt of optionObj;let idx = index">
+        <div id="{{idx}}" class="options" [ngClass]="{'disable_div':disableoptions}"  *ngFor="let opt of optionObj;let idx = index">
           <div *ngIf="quesFlag">
             <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="checkAllowed(idx,opt.placed)" (mouseenter)="playHoverOption(opt,idx)" (mousemove)="optionHover(opt,idx)"  (mouseleave)="optionHoverOut(opt,idx)">
             <audio #optionAudio></audio>
@@ -72,10 +72,10 @@
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="feedbackObj?.info_popup?.info_text?.url"></div>
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()" (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid" [src]="feedbackObj?.info_popup?.ok_btn?.url"></button>
-            
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()" (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
           </div>
         </div>
 
@@ -144,6 +144,12 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            [ngClass]="{'dispFlex':AnswerpopupTxt}">
+            <div class="instructionBase">
+				          <img class="img-fluid" [src]="popupHeader" />
+            </div>
+		        </div>
             <div class="row mx-0" id="optionsBlock" #popupBodyRef>
               <div class="my-auto quesImage">
                 <div id="{{idx}}" class="options" *ngFor="let opt of optionObj;let idx = index">
@@ -169,6 +175,6 @@
   </video>
 
   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()"/></div>
-  <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
+  <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()"/></div>
 
 </div>
