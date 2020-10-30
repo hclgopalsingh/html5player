@@ -19,7 +19,7 @@ button:focus {
   cursor: pointer;
 }
 .inputHindiDiv {
-  font-family: 'Kruti Dev 010';
+  font-family: 'Arial';
 }
 
 #inputKeyboard{
@@ -834,7 +834,7 @@ button:focus {
 }
 
 #confirmModal .modal-title {
-	margin-left: 3%;
+	margin-left: 0%;
 }
 
 #confirmModal .close {
@@ -1375,6 +1375,10 @@ input {
   opacity: 0.5;
 }
 
+.FakedisableDiv{
+  pointer-events: none;
+}
+
 .disableIt{
   pointer-events: none;
 }
@@ -1534,7 +1538,7 @@ cursor: pointer
 }
 
 #infoModalId .modal-title {
-	margin-left: 3%;
+	margin-left: 0%;
 }
 
 #infoModalId .close {
