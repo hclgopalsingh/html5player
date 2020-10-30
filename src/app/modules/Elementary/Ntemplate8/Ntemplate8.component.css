@@ -786,7 +786,7 @@ button:focus {
 .teamNames .teamDetails .rightAns {
   /* padding: 33.4% 0; */
   /* height: 27vmin; */
-  height: 28vmin;
+  height: 31vmin;
   width: 100%;
   border-left: none !important;
   margin-bottom: 0;
@@ -864,7 +864,9 @@ button:focus {
 #modalfeedback .instructionBase {
   width: 59%;
 }
-
+.instructionBar img{
+  cursor: pointer;
+}
 #modalfeedback .modal-content {
   box-shadow: none;
   background: transparent !important;
