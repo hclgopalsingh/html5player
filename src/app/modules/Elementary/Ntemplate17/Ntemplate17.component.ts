@@ -661,6 +661,10 @@ export class Ntemplate17Component implements OnInit {
       console.log("play on Instruction");
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
+        this.QuestionAudio.nativeElement.pause();
+        this.QuestionAudio.nativeElement.currentTime = 0;
+        this.displayWave=false;
+        this.speakerdisable=false;
         this.instruction.nativeElement.play();
         this.instructionDisable = true;
         this.appModel.handlePostVOActivity(false);
