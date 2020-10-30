@@ -444,17 +444,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.instruction.nativeElement.play();
 				this.instruction.nativeElement.onended = () => {
 					if (this.questionObj.videoQues != false) {
-						this.isPlayVideo = true;
-						this.hasVideoStarted = true;
-						this.mainVideo.nativeElement.play();
-						this.mainVideo.nativeElement.onended = () => {
-							this.instructionDisable = false;
-							this.appModel.enableSubmitBtn(true);
-							setTimeout(() => {
-								this.isPlayVideo = false;
-								this.startActivity();
-							}, 200)
-						}
+						this.playQuesVideo();
 					} else {
 						this.instructionDisable = false;
 						this.appModel.enableSubmitBtn(true);
@@ -466,6 +456,24 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				}
 		}, 500);
 		}else{
+			if (this.questionObj.videoQues != false) {
+				this.playQuesVideo();
+			}else{
+				this.instructionDisable = false;
+				this.appModel.enableSubmitBtn(true);
+				setTimeout(() => {
+					this.isPlayVideo = false;
+					this.startActivity();
+				}, 200)
+			}
+			
+		}
+	}
+	playQuesVideo(){
+		this.isPlayVideo = true;
+		this.hasVideoStarted = true;
+		this.mainVideo.nativeElement.play();
+		this.mainVideo.nativeElement.onended = () => {
 			this.instructionDisable = false;
 			this.appModel.enableSubmitBtn(true);
 			setTimeout(() => {
