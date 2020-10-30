@@ -5,12 +5,37 @@ import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
-
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp18',
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}'
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      state('closed', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}'
+
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      transition('open => closed', [
+        animate('.5s')
+      ]),
+      transition('closed => open', [
+        animate('.5s')
+      ]),
+    ]),
+  ],
   templateUrl: './Ntemplate18.component.html',
   styleUrls: ['./Ntemplate18.component.css', '../../../view/css/bootstrap.min.css'],
 
@@ -66,8 +91,8 @@ export class Ntemplate18 implements OnInit {
   @ViewChild('mainVideo') mainVideo: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('refQues') refQues: any;
-
-
+  @ViewChild('instructionBarTop') instructionBar:any
+  @ViewChild('bodyContent') bodyContentSection:any;
 
   attemptType: any;
   audio = new Audio();
@@ -181,8 +206,8 @@ export class Ntemplate18 implements OnInit {
   showAnsModalPopup: boolean = false
   AnswerpopupTxt: boolean = false;
   SkipLoad: boolean = false;
-  disableoptions:boolean = false;
-  disableoptionsBlock:boolean = false;
+  disableoptions: boolean = false;
+  disableoptionsBlock: boolean = false;
 
   popupHeader: any;
   ngOnDestroy() {
@@ -208,10 +233,10 @@ export class Ntemplate18 implements OnInit {
         this.instruction.nativeElement.play();
         this.disableSection = true;
         this.instruction.nativeElement.onended = () => {
-           this.startActivity();
-           this.disableSection = false;
+          this.startActivity();
+          this.disableSection = false;
         }
-         this.InstructionVo = true;
+        this.InstructionVo = true;
       }
       if (this.refQues.optionType == "image") {
         if (!this.optionAudio.nativeElement.paused) {
@@ -325,13 +350,19 @@ export class Ntemplate18 implements OnInit {
   }
 
 
-  checkAllowed(idx, placed) {
+  checkAllowed(idx, placed, opt) {
     //if(this.isAllowed){
-    this.onClickoption(idx, placed)
+    this.onClickoption(idx, placed, opt)
 
   }
 
-  onClickoption(idx, placed) {
+  onClickoption(idx, placed, opt) {
+    for (let i = 0; i < this.refQuesObj.length; i++) {
+      this.refQuesObj[i].isOpen = true;
+      this.refQuesObj[i].leftPos = 0 + "px";
+      this.refQuesObj[i].topPos = 0 + "px";
+    }
+
     if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
@@ -339,10 +370,17 @@ export class Ntemplate18 implements OnInit {
       (document.getElementsByClassName("bodyContent")[0] as HTMLElement).style.pointerEvents = "none";
       this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;
       if (placed) {
+        console.log('first');
         this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
         this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
         this.isAllowed = false;
-        $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 800, () => {
+     ////$(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 800, () => {
+
+
+      setTimeout(() => {
+        this.refQuesObj[this.index1].isOpen = false;
+          this.refQuesObj[this.index1].leftPos = 0 + "px";
+          this.refQuesObj[this.index1].topPos = 0 + "px";
           clearInterval(this.blinkTimeInterval);
           this.isAllowed = true
           this.countofAnimation--;
@@ -359,20 +397,36 @@ export class Ntemplate18 implements OnInit {
           setTimeout(() => {
             (document.getElementsByClassName("bodyContent")[0] as HTMLElement).style.pointerEvents = "";
           }, 200);
+        }, 400);
+       //// });
 
-        });
+
       } else {
+        var a = this.index1;
         this.moveFrom = this.refQues.nativeElement.children[this.index1].children[0].getBoundingClientRect();
         this.moveTo = this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
         this.isAllowed = false;
-        $(this.refQues.nativeElement.children[this.index1].children[0]).animate({ left: this.moveleft, top: this.movetop }, 800, () => {
+
+        opt.isOpen = true;
+        opt.leftPos = 0 + "px";
+        opt.topPos = 0 + "px";
+
+
+
+        setTimeout(() => {
+          console.log('dddddd');
+          this.refQuesObj[this.index1].isOpen = false;
+          this.refQuesObj[this.index1].leftPos = this.moveleft + "px";
+          this.refQuesObj[this.index1].topPos = this.movetop + "px";
+          console.log('aaa' + this.refQuesObj[this.index1].leftPos + this.refQuesObj[this.index1].topPos);
+
           clearInterval(this.blinkTimeInterval);
           this.isAllowed = true;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
-          this.refQues.nativeElement.children[this.index1].children[0].style.visibility = "hidden";
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItemVisible";
+
+
           this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
           this.optionObj[idx].placed = true;
           this.refcpyArray[this.index1].placedInOption = idx;
@@ -397,8 +451,15 @@ export class Ntemplate18 implements OnInit {
           this.blinkHolder();
           setTimeout(() => {
             (document.getElementsByClassName("bodyContent")[0] as HTMLElement).style.pointerEvents = "";
-          }, 200);
-        });
+            this.refQues.nativeElement.children[a].children[0].style.visibility = "hidden";
+            ////this.refQues.nativeElement.children[idx].children[0].style.visibility = "hidden";
+            console.log(this.refQues.nativeElement.children[a].children[0]);
+            ////this.refQuesObj[this.index1].classList.add('invisible');
+            this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItemVisible";
+          }, 500);
+
+        }, 400)
+
       }
       this.appModel.notifyUserAction();
     }
@@ -434,7 +495,7 @@ export class Ntemplate18 implements OnInit {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
-  onClickquesFromOpt(idx, opt) {
+/*  onClickquesFromOpt(idx, opt) {
     console.log("click on ques");
     this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
     this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
@@ -452,7 +513,7 @@ export class Ntemplate18 implements OnInit {
 
       });
     }
-  }
+  }*/
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -521,9 +582,11 @@ export class Ntemplate18 implements OnInit {
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           this.disableSection = true;
-          $("#instructionBar").css("opacity", "0.3");
+          /////$("#instructionBar").css("opacity", "0.3");
+          this.instructionBar.nativeElement.style.opacity = 0.3;
           this.disableBody = true;
-          $(".bodyContent").css("opacity", "0.3");
+          /////$(".bodyContent").css("opacity", "0.3");
+          this.bodyContentSection.nativeElement.style.opacity = 0.3;
           this.checked = true;
           this.rightanspopUpheader_img = false;
           this.wronganspopUpheader_img = false;
@@ -704,8 +767,8 @@ export class Ntemplate18 implements OnInit {
       this.disableBody = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-         this.InstructionVo = true;
-         this.disableBody = false;
+        this.InstructionVo = true;
+        this.disableBody = false;
         this.isQuesTypeImage = true;
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
@@ -948,6 +1011,7 @@ export class Ntemplate18 implements OnInit {
       }, 1000);
       //this.optionsBlock.nativeElement.classList = "row mx-0";
       this.disableoptions = false;
+      debugger;
       $("#optionsBlock .options").css("opacity", "unset");
       this.appModel.enableSubmitBtn(true);
       this.appModel.notifyUserAction();
@@ -1100,8 +1164,14 @@ export class Ntemplate18 implements OnInit {
           this.closeModal();
           this.appModel.notifyUserAction();
           this.disableSection = true;
-          $("#instructionBar").css("opacity", "0.3");
-          $(".bodyContent").css("opacity", "0.3");
+          debugger;
+          /////$("#instructionBar").css("opacity", "0.3");
+          /////$(".bodyContent").css("opacity", "0.3");
+
+           this.instructionBar.nativeElement.style.opacity = 0.3;
+           this.bodyContentSection.nativeElement.style.opacity = 0.3;
+
+
           this.disableBody = true;
           this.appModel.enableSubmitBtn(false);
         } else {
@@ -1266,7 +1336,8 @@ export class Ntemplate18 implements OnInit {
       this.refQues.nativeElement.children[i].children[0].style.visibility = "";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = "img-fluid optItem";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObj[i].dropBoxImg_original.url;
-      $(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
+      debugger;
+     ///// $(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
     }
     this.appModel.enableReplayBtn(true);
     this.appModel.enableSubmitBtn(false);
@@ -1307,9 +1378,9 @@ export class Ntemplate18 implements OnInit {
         }
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-      
-       this.disableoptionsBlock = false;
-         if (this.ansArray1.length > 0) {
+
+        this.disableoptionsBlock = false;
+        if (this.ansArray1.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate optionsWidth";
           this.popupBodyRef.nativeElement.children[0].children[i].children[1].src = this.ansArray1[i].imgwrongfeedback_audio.url;
         }
@@ -1387,15 +1458,17 @@ export class Ntemplate18 implements OnInit {
     this.noOfWrongAnsClicked = 0;
     if (flag == "yes") {
       this.appModel.enableSubmitBtn(false);
-      $(".bodyContent").css("opacity", "0.3");
-       this.disableBody = true;
+     ///// $(".bodyContent").css("opacity", "0.3");
+     this.bodyContentSection.nativeElement.style.opacity = 0.3;
+      this.disableBody = true;
       setTimeout(() => {
         this.appModel.resetBlinkingTimer();
         this.appModel.invokeTempSubject('showModal', 'manual');
       }, 100);
 
-        this.disableSection = true;
-       $("#instructionBar").css("opacity", "0.3");
+      this.disableSection = true;
+      /////$("#instructionBar").css("opacity", "0.3");
+      this.instructionBar.nativeElement.style.opacity = 0.3;
       this.checked = true;
       if (this.feedbackObj.showAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
@@ -1405,7 +1478,7 @@ export class Ntemplate18 implements OnInit {
       }
     } else {
       this.appModel.notifyUserAction();
-       this.disableSection = false;
+      this.disableSection = false;
       setTimeout(() => {
         document.getElementById("optionsBlock").style.pointerEvents = "";
       }, 1000);
@@ -1429,8 +1502,8 @@ export class Ntemplate18 implements OnInit {
       this.appModel.videoStraming(false);
       this.appModel.navShow = 2;
       setTimeout(() => {
-         this.disableSection = false;
-         this.disableoptions = false;
+        this.disableSection = false;
+        this.disableoptions = false;
       }, 1000);
     }
   }
@@ -1440,7 +1513,7 @@ export class Ntemplate18 implements OnInit {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
-     this.disableoptions = true;
+    this.disableoptions = true;
     this.disableSection = true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
@@ -1464,8 +1537,11 @@ export class Ntemplate18 implements OnInit {
     if (this.countofAnimation == this.noOfRightAnsClicked) {
       this.matched = true;
       this.disableSection = true;
-      $("#instructionBar").css("opacity", "0.3");
-      $(".bodyContent").css("opacity", "0.3");
+      debugger;
+      /////$("#instructionBar").css("opacity", "0.3");
+      /////$(".bodyContent").css("opacity", "0.3");
+      this.instructionBar.nativeElement.style.opacity = 0.3;
+      this.bodyContentSection.nativeElement.style.opacity = 0.3;
       this.disableBody = true;
       this.appModel.enableSubmitBtn(false);
       this.appModel.enableReplayBtn(false);
