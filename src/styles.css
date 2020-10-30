@@ -452,7 +452,7 @@ button:focus{
     width: 100%;
     text-align: center;
     top: 2.5vmin!important;
-    display: none;
+    /* display: none; */
 }
 
 
