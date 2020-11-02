@@ -1751,6 +1751,7 @@ export class Ntemplate17Component implements OnInit {
     this.mainVideo.nativeElement.pause();
     }
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+    this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
   }
 
