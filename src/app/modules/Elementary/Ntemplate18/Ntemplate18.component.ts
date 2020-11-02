@@ -1,7 +1,6 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Subject, Observable, Subscription } from 'rxjs'
-import 'jquery';
+import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
@@ -13,7 +12,6 @@ import {
   transition,
 } from '@angular/animations';
 
-declare var $: any;
 
 @Component({
   selector: 'ntemp18',
@@ -75,15 +73,11 @@ export class Ntemplate18 implements OnInit {
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   @ViewChild('optionAudio') optionAudio: any;
-  ////@ViewChild('maincontent') maincontent: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('submitModalRef') submitModalRef: any;
   @ViewChild('infoModalRef') infoModalRef: any;
-  ////@ViewChild('modalRef') modalRef: any;
-  ////@ViewChild('mainmodalRef') mainmodalRef: any;
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('popupBodyRef') popupBodyRef: any;
-  ////@ViewChild('popupImage') popupImage: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
   @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any;
@@ -230,6 +224,7 @@ export class Ntemplate18 implements OnInit {
     this.containgFolderPath = this.getBasePath();
     this.appModel.functionone(this.templatevolume, this);
     this.appModel.functionone(this.templatevolume, this);//start end
+    //getting path
     this.containgFolderPath = this.getBasePath();
     let fetchedData: any = this.appModel.content.contentData.data;
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
@@ -245,6 +240,7 @@ export class Ntemplate18 implements OnInit {
       if (mode == "manual") {
         //show modal for manual
         this.matched = true;
+        
         this.rightanspopUpheader_img = false;
         this.wronganspopUpheader_img = false;
         this.showanspopUpheader_img = true;
@@ -261,6 +257,17 @@ export class Ntemplate18 implements OnInit {
         }
       } else if (mode == "auto") {
         this.matched = true;
+        for (let x = 0; x < this.fetchAnswer.length; x++) {
+          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+        }
+        if (this.feedbackObj.rightAnswerpopupTxt.required) {
+          this.AnswerpopupTxt = true;
+          this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
+  
+        } else {
+          this.AnswerpopupTxt = false; 
+        }
         //show modal of auto
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
@@ -445,8 +452,7 @@ export class Ntemplate18 implements OnInit {
       if (this.narrator.nativeElement.paused) {
         if (opt.imgsrc && opt.imgsrc.location == "content") {
           this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = opt.dropBoxImgHover.url;
-        }
-        else {
+        } else {
           this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = opt.dropBoxImgHover.url;
         }
       }
@@ -458,8 +464,7 @@ export class Ntemplate18 implements OnInit {
         if (!opt.placed) {
           this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = opt.dropBoxImg_original.url;
         }
-      }
-      else {
+      } else {
         if (!opt.placed) {
           this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = opt.dropBoxImg_original.url;
         }
@@ -590,9 +595,11 @@ export class Ntemplate18 implements OnInit {
 
   endedHandleronSkip() {
     this.isPlayVideo = false;
+    this.disableoptions = false;
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
+
   }
 
   PlayPauseVideo() {
@@ -970,6 +977,8 @@ export class Ntemplate18 implements OnInit {
   }
 
   setFeedback() {
+    this.noOfRightAnsClicked = 0;
+    this.noOfWrongAnsClicked = 0;
     for (let x = 0; x < this.fetchAnswer.length; x++) {
       if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id) {
         console.log("RIGHT ANSWER");
@@ -1017,6 +1026,10 @@ export class Ntemplate18 implements OnInit {
       this.styleHeaderPopup = this.feedbackObj.partial_style_header;
       this.styleBodyPopup = this.feedbackObj.partial_style_body;
     } else if (this.fetchAnswer.length == this.noOfRightAnsClicked) {
+      for (let x = 0; x < this.fetchAnswer.length; x++) {
+        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+      }
       if (this.feedbackObj.rightAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
         this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
@@ -1033,6 +1046,10 @@ export class Ntemplate18 implements OnInit {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     } else if (this.fetchAnswer.length == this.noOfWrongAnsClicked) {
+      for (let x = 0; x < this.fetchAnswer.length; x++) {
+        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+      }
       if (this.feedbackObj.wrongAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
         this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
@@ -1104,7 +1121,7 @@ export class Ntemplate18 implements OnInit {
           this.closeModal();
           this.appModel.notifyUserAction();
           this.disableSection = true;
-          debugger;
+          
           this.instructionBar.nativeElement.style.opacity = 0.3;
           this.bodyContentSection.nativeElement.style.opacity = 0.3;
           this.disableBody = true;
@@ -1261,7 +1278,12 @@ export class Ntemplate18 implements OnInit {
       this.refQues.nativeElement.children[i].children[0].style.visibility = "";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = "img-fluid optItem";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObj[i].dropBoxImg_original.url;
-      ///// $(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
+      ////$(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
+      for (let i = 0; i < this.refQuesObj.length; i++) {
+        this.refQuesObj[i].isOpen = true;
+        this.refQuesObj[i].leftPos = 0 + "px";
+        this.refQuesObj[i].topPos = 0 + "px";
+      }
     }
     this.appModel.enableReplayBtn(true);
     this.appModel.enableSubmitBtn(false);
@@ -1272,6 +1294,7 @@ export class Ntemplate18 implements OnInit {
     this.startCount = 1;
     this.blinkHolder();
   }
+
   playFeedbackAudio(i, j, flag) {
     if (this.popupBodyRef.nativeElement.children[0].children[i] != undefined && !flag) {
       if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
@@ -1393,6 +1416,11 @@ export class Ntemplate18 implements OnInit {
       } else {
         this.AnswerpopupTxt = false;
       }
+      for (let x = 0; x < this.fetchAnswer.length; x++) {
+        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+      }
+      
     } else {
       this.appModel.notifyUserAction();
       this.disableSection = false;
@@ -1402,6 +1430,7 @@ export class Ntemplate18 implements OnInit {
     }
   }
 
+  // this function is for to show the confirmation popup for video replay
   showReplay(ref, flag: string, action?: string) {
     if (this.ifStopped) {
       this.startActivity();
@@ -1425,6 +1454,7 @@ export class Ntemplate18 implements OnInit {
     }
   }
 
+  // this function is used to replay the video af template using the replay icon
   replayVideo() {
     this.appModel.navShow = 1;
     this.videoReplayd = true;
@@ -1445,6 +1475,7 @@ export class Ntemplate18 implements OnInit {
     }, 500)
   }
 
+  // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
     for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
       this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList.value = "";
@@ -1452,7 +1483,7 @@ export class Ntemplate18 implements OnInit {
     if (this.countofAnimation == this.noOfRightAnsClicked) {
       this.matched = true;
       this.disableSection = true;
-      debugger;
+       
       this.instructionBar.nativeElement.style.opacity = 0.3;
       this.bodyContentSection.nativeElement.style.opacity = 0.3;
       this.disableBody = true;

@@ -351,6 +351,9 @@ button:focus {
   width: 100%;
   text-align: center;
 }
+.videoMainContainer{
+  width:99.8%;
+}
 
 #instructionBar .instructionBase {
   width: 70%;
@@ -598,10 +601,7 @@ button:focus {
 	margin-left: 3%;
 } */
 
-#confirmModal .close {
-	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
-}
+ 
 
 #confirmModal .modal-footer {
 	display: flex;
@@ -691,10 +691,7 @@ button:focus {
   top: 0;
 }
 
-.modal-title {
-  margin-left: 1.5%;
-  height: 80%;
-}
+
 
 .close {
   width: auto;
