@@ -3,7 +3,7 @@
 		<img class="img-fluid" [src]="commonAssets?.background?.url"
 		 (load)="checkImgLoaded();" />
 	</div>
-	<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+	<div class="d-flex flex-row justify-content-around instructionBar" #instructionBar id="instructionBar">
 		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}" >
 			<img class="img-fluid" [src]="commonAssets?.instruction_img?.url"
 			 (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
@@ -181,10 +181,10 @@
 			</ng-template>-->
 
 			</div>
-			<div class="inputDiv" #inputDivRef>
-				<input type="text" (input)="onInputChange($event)" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
-				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();"
-				 (keypress)="keyPress()"/>
+			<div class="inputDiv" #inputDivRef >
+				<input type="text" (input)="onInputChange($event)" spellcheck="false" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
+				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=17 || isPlayVideo}" (click)="openKeyBoard();"
+				 (blur)="onBlurMethod()" (keypress)="keyPress()"/>
 				 <div class="charleft" >{{currentChar+"/"+totalChar}}</div>
 			</div>
 			<!---->
@@ -418,8 +418,11 @@
 				</div>
 
 				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
-					<div class="msgImage">
-						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url">
+					<div *ngIf="!isSecondScreen"  class="msgImage">
+						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text1?.url">
+					</div>
+					<div *ngIf="isSecondScreen" class="msgImage">
+						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text2?.url">
 					</div>
 					<div class="actionButtons">
 						<button type="button" (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverOK()" (mouseleave)="houtOK()">
