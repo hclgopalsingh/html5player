@@ -84,7 +84,7 @@
 		</div>
 	</div>
 </div>
-<!-- The Modal Template 7 -->
+<!-- The Modal Template 20-->
 <div class="modal" id="modalTemp20" #modalfeedback20>
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
@@ -98,8 +98,6 @@
 					[src]="feedbackObj?.showAnswerheaderTxt_img?.url">
 				<img *ngIf="partialCorrectheaderTxt_img" class="modal-title"
 					[src]="feedbackObj?.headerTxt_img?.url">
-
-
 				<!-- <img class="modal-title" [src]="feedback?.headerTxt_img?.url"> -->
 				<img class="close" [src]="confirmSubmitAssets?.close_btn?.url"
 					(click)="sendFeedback(modalfeedback20,'no', 'fadeEverything');" (mousemove)="hoverCloseConfirmSubmit()"
@@ -108,15 +106,15 @@
 
 			<!-- Modal body -->
 			<div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
-				<!-- popup text-msg added ??? -->
-
+				<!-- popup text-msg ??? -->
 				<div class="instructionBase">
-					<img class="img-fluid" [src]="feedbackObj?.rightAnswerpopupTxt?.url" />
+					<img id="instructionBarFeedback" class="img-fluid" [src]="popUpFeedbackMsgUrl" />
 				  </div>
-
-				<!-- <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url"></div> -->
 				<div class="scaleBlock">
-					<img class="img-fluid" [src]="questionObj?.quesImg?.url" (load)="checkImgLoaded();" />
+					<img class="img-fluid" *ngIf="!partialCorrectCase" [src]="questionObj?.quesImg?.url" (load)="checkImgLoaded();" />
+
+					<img class="img-fluid" *ngIf="partialCorrectCase"  [src]="questionObj?.quesImg_partial?.url" (load)="checkImgLoaded();" />
+
 					<div class="blockAboveLine">
 						<div class="placeholder"
 							[ngClass]="{'opacityOne':opt.place=='up' || opt.selected, 'disable_div': isDisableDiv}"
@@ -125,16 +123,20 @@
 								[src]="opt?.url">
 							<div [ngClass]="{'hideDiv':!(opt.place=='up' && opt.place!=undefined)}">
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg==true)}">
-									<img class="img-fluid"
-										[src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+									<img class="img-fluid" *ngIf="!partialCorrectCase"  [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
+									<img class="img-fluid" *ngIf="partialCorrectCase"  [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.partialIncorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
 								</div>
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg!=true)}">
-									<img class="img-fluid"
+									<img class="img-fluid" *ngIf="!partialCorrectCase" 
 										[src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.correct_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
+										<img class="img-fluid" *ngIf="partialCorrectCase" [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.partialCorrect_box?.url : optionCommonAssts?.partialIncorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+								
 								</div>
 								<img class="img-fluid pos" [src]="opt?.imgsrc?.url" />
 							</div>
-
 						</div>
 					</div>
 					<div class="blockBelowLine">
@@ -145,16 +147,21 @@
 								[src]="opt?.url">
 							<div [ngClass]="{'hideDiv':!(opt.place=='down' && opt.place!=undefined)}">
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg==true)}">
-									<img class="img-fluid"
+									<img class="img-fluid"  *ngIf="!partialCorrectCase"  
 										[src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
+										<img class="img-fluid" *ngIf="partialCorrectCase"  [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.partialIncorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
 								</div>
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg!=true)}">
-									<img class="img-fluid"
+									<img class="img-fluid"  *ngIf="!partialCorrectCase"   
 										[src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.correct_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
+										<img class="img-fluid" *ngIf="partialCorrectCase" [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.partialCorrect_box?.url : optionCommonAssts?.partialIncorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
+
 								</div>
 								<img class="img-fluid pos" [src]="opt?.imgsrc?.url" />
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -180,7 +187,6 @@
 					(click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverCloseOk()"
 					(mouseleave)="houtCloseOk()">
 			</div>
-
 			<div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
 				<div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url">
 				</div>
@@ -242,14 +248,3 @@
 		</div>
 	</div>
 </div>
-
-<!-- <div class="videoMainContainer" *ngIf="isPlayVideo">
-	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
-		(loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
-		(ended)="endedHandler()">
-		<source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
-	</video>
-	<div class="video_loader" *ngIf="!isVideoLoaded">
-		<img src="assets/images/loaderVideo.gif">
-	</div>
-</div> -->
