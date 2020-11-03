@@ -119,8 +119,8 @@
 						<div class="placeholder"
 							[ngClass]="{'opacityOne':opt.place=='up' || opt.selected, 'disable_div': isDisableDiv}"
 							*ngFor="let opt of popupTopAssts; let idx = index">
-							<img class="img-fluid" [ngClass]="{'hideDiv':opt.place=='up' || opt.selected}"
-								[src]="opt?.url">
+							<!-- <img class="img-fluid" [ngClass]="{'hideDiv':opt.place=='up' || opt.selected}"
+								[src]="opt?.url"> -->
 							<div [ngClass]="{'hideDiv':!(opt.place=='up' && opt.place!=undefined)}">
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg==true)}">
 									<img class="img-fluid" *ngIf="!partialCorrectCase"  [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
@@ -135,7 +135,8 @@
 										<img class="img-fluid" *ngIf="partialCorrectCase" [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.partialCorrect_box?.url : optionCommonAssts?.partialIncorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
 								
 								</div>
-								<img class="img-fluid pos" [src]="opt?.imgsrc?.url" />
+								<img class="img-fluid pos" *ngIf="!partialCorrectCase" [src]="opt?.imgsrc?.url" />
+								<img class="img-fluid pos" *ngIf="partialCorrectCase" [src]="opt?.imgsrc_partial?.url" />
 							</div>
 						</div>
 					</div>
@@ -143,8 +144,8 @@
 						<div class="placeholder"
 							[ngClass]="{'opacityOne':opt.place=='down' || opt.selected, 'disable_div': isDisableDiv}"
 							*ngFor="let opt of popupDownAssts; let idx = index">
-							<img class="img-fluid" [ngClass]="{'hideDiv':opt.place=='down' || opt.selected}"
-								[src]="opt?.url">
+							<!-- <img class="img-fluid" [ngClass]="{'hideDiv':opt.place=='down' || opt.selected}"
+								[src]="opt?.url"> -->
 							<div [ngClass]="{'hideDiv':!(opt.place=='down' && opt.place!=undefined)}">
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg==true)}">
 									<img class="img-fluid"  *ngIf="!partialCorrectCase"  
@@ -160,7 +161,8 @@
 										<img class="img-fluid" *ngIf="partialCorrectCase" [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.partialCorrect_box?.url : optionCommonAssts?.partialIncorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
 
 								</div>
-								<img class="img-fluid pos" [src]="opt?.imgsrc?.url" />
+								<img class="img-fluid pos" *ngIf="!partialCorrectCase" [src]="opt?.imgsrc?.url" />
+								<img class="img-fluid pos" *ngIf="partialCorrectCase" [src]="opt?.imgsrc_partial?.url" />
 							</div>
 						</div>
 					</div>

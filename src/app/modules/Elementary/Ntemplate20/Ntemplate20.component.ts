@@ -308,17 +308,20 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     for (let i in this.optionObj.given_values) {
       let opt = {
         imgsrc: '',
+        imgsrc_partial: '',
         place: '',
         value: ''
       }
       if (this.optionObj.given_values[i].place == "down") {
         opt.place = 'down';
         opt.imgsrc = this.optionObj.given_values[i].imgsrc;
+        opt.imgsrc_partial = this.optionObj.given_values[i].imgsrc_partial;
         opt.value = this.optionObj.given_values[i].value
         this.placeHolderArrDown.splice(this.optionObj.given_values[i].index, 1, opt);
       } else if (this.optionObj.given_values[i].place == "up") {
         opt.place = 'up';
         opt.imgsrc = this.optionObj.given_values[i].imgsrc;
+        opt.imgsrc_partial = this.optionObj.given_values[i].imgsrc_partial;
         opt.value = this.optionObj.given_values[i].value
         this.placeHolderArrUp.splice(this.optionObj.given_values[i].index, 1, opt);
       }
@@ -454,6 +457,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.optionArr[this.randomOptIndx] && this.optionArr[this.randomOptIndx].imgsrc) {
       let opt = {
         imgsrc: this.optionArr[this.randomOptIndx].imgsrc,
+        imgsrc_partial: this.optionArr[this.randomOptIndx].imgsrc_partial,
         idImage: this.optionArr[this.randomOptIndx].imgsrc.idImage,
         selected: true,
         place: '',
@@ -1013,6 +1017,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }
       }
       else if (this.resultType == "partialCorrect") {
+        this.partialCorrectCase = true;
         this.appModel.feedbackType = "partialIncorrect";
         this.responseType = "partialAttempt";
         this.attemptType = "PartialWrong";
@@ -1029,7 +1034,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         if (this.submittedArr[i][0] == undefined) {
           let obj = {
             url: this.optionObj.place_holder.url,
-            location: this.optionObj.place_holder.location
+            location: this.optionObj.place_holder.location  
           }
           this.popupTopAssts.push(obj);
         } else {
@@ -1068,6 +1073,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         arr[i][1] = undefined;
       }
     }
+    // alert(JSON.stringify(arr))
     return arr;
   }
 
@@ -1388,17 +1394,20 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     for (let i in this.optionObj.given_values) {
       let opt = {
         imgsrc: '',
+        imgsrc_partial: '',
         place: '',
         value: ''
       }
       if (this.optionObj.given_values[i].place == "down") {
         opt.place = 'down';
         opt.imgsrc = this.optionObj.given_values[i].imgsrc;
+        opt.imgsrc_partial = this.optionObj.given_values[i].imgsrc_partial;
         opt.value = this.optionObj.given_values[i].value
         this.placeHolderArrDown.splice(this.optionObj.given_values[i].index, 1, opt);
       } else if (this.optionObj.given_values[i].place == "up") {
         opt.place = 'up';
         opt.imgsrc = this.optionObj.given_values[i].imgsrc;
+        opt.imgsrc_partial = this.optionObj.given_values[i].imgsrc_partial;
         opt.value = this.optionObj.given_values[i].value
         this.placeHolderArrUp.splice(this.optionObj.given_values[i].index, 1, opt);
       }
@@ -1413,6 +1422,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     for (let i = 0; i < this.sortedOptArr.length; i++) {
       let opt = {
         imgsrc: '',
+        imgsrc_partial: '',
         selected: true,
         place: '',
         value: '',
@@ -1421,6 +1431,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         isAtCorrectPos: true
       }
       opt.imgsrc = this.sortedOptArr[i].imgsrc;
+      opt.imgsrc_partial = this.sortedOptArr[i].imgsrc_partial;
       opt.value = this.sortedOptArr[i].value;
       opt.index = this.sortedOptArr[i].index;
       opt.BlueBg = this.sortedOptArr[i].BlueBg;
@@ -1471,8 +1482,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = true;
-      this.styleHeaderPopup = this.feedbackObj.style_header;
-      this.styleBodyPopup = this.feedbackObj.style_body;
+      this.styleHeaderPopup = this.feedbackObj.partial_style_header;
+      this.styleBodyPopup = this.feedbackObj.partial_style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.partialIncorrAnswerpopupTxt.url;
     }
     if (this.popupType == "correct") {
