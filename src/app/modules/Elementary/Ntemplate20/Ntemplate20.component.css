@@ -22,7 +22,7 @@
 }
 .scaleBlock{
   width: 100%;
-  /* height: 17.5%; */
+  height: 17.5%;
   display: flex;
   position: absolute;
   top: 29.5%;
@@ -30,7 +30,7 @@
 }
 .modal .scaleBlock{
   top: 40%;
-  height: 19.4%;/*added new*/
+  /* height: 19.4%; */
 }
 #modalTemp20{
   background:rgba(0,0,0,.85);
@@ -362,8 +362,10 @@
   opacity: 1;
 }
 .modal-dialog{
-  width: 84% !important;
-  height: 60%;
+  /* width: 84% !important;
+  height: 60%; */
+  width: 91% !important;
+  height: 69%;
 }
 .modal-content{
 	background: transparent !important;
