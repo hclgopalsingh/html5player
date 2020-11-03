@@ -41,7 +41,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Phase3T01V01 } from '../controller/phase3/template01/variant01.component';
 import { Ntemplate13 } from '../modules/Elementary/Ntemplate13/Ntemplate13.component';
-import { Ntemplate20 } from '../controller/Ntemplate20.component';
 import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from '../controller/Ntemplate11.component';
 import { Ntemplate12 } from '../controller/Ntemplate12.component';
@@ -65,6 +64,7 @@ import { Template12ComponentEVA } from './EVA/template12/template12.component';
 import { TemplateSevenComponent } from './EVA/template7/template7.component';
 import { Template5Component } from './EVA/template5/template5.component';
 import { Template9Component } from './EVA/template9/template9.component';
+import { Ntemplate20Component } from './Elementary/Ntemplate20/Ntemplate20.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -147,8 +147,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp13ext', component: Ntemplate13, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp10', component: Ntemplate10, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp10ext', component: Ntemplate10, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp20', component: Ntemplate20, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp20ext', component: Ntemplate20, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp20', component: Ntemplate20Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp20ext', component: Ntemplate20Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp11', component: Ntemplate11, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp11ext', component: Ntemplate11, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp12', component: Ntemplate12, runGuardsAndResolvers: 'always' },
