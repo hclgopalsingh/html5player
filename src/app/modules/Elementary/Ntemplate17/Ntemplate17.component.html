@@ -1,21 +1,103 @@
-<div class="container-fluid temp14" id="container">
+<div class="ele container-fluid temp14" id="container">
 	<div id="bgImage">
 		<img class="img-fluid" [src]="commonAssets?.background?.url"
 		 (load)="checkImgLoaded();" />
 	</div>
-	<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-		<div class="instructionBase" #instructionBar [ngClass]="{'disable_div':instructionDisable}">
+	<div class="d-flex flex-row justify-content-around instructionBar" #instructionBar id="instructionBar">
+		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}" >
 			<img class="img-fluid" [src]="commonAssets?.instruction_img?.url"
 			 (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 			<audio #instruction [src]="commonAssets?.instruction_vo?.url"></audio>
 		</div>
 	</div>
 	<div class="bodyContent" #bodyContent>
-		<div class="testContainer flex-row justify-content-center align-items-center hideTestScreen" #testContainer>
+		<div class="testContainer flex-row justify-content-center align-items-center hideTestScreen" [ngClass]="{'disable_div':testContainerDisable}" #testContainer>
+			<div #optionPlaceRef [ngClass]="{'animateWidth':selectedOptionArr.text!=''}" class="optionPlace" 
+					 [@wordTestbox]="{value:selectedOptionArr.state,params: {toTestBoxleft: selectedOptionArr.toTestBoxleft , toTestBoxtop: selectedOptionArr.toTestBoxtop}}" (@wordTestbox.done)="onAnimationEvent($event)" [ngStyle]="{'visibility':selectedOptionArr.text!=undefined? 'visible':'hidden'}">
+						<img *ngIf="selectedOptionArr.text!=''" class="img-fluid" [src]="wordBox?.url"
+						/>
+						<span [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{selectedOptionArr.text}}</span>
+			</div>
+			<div #DummyRightListRef style="visibility: hidden">
+			<div class="placeholder1">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder2">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder3">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder4">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder5">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder6">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder7">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder8">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder9">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder10">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder11">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder12">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			</div>
+			<div #DummyWrongListRef style="visibility: hidden">
+			<div class="placeholder13">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder14">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder15">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder16">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder17">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder18">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder19">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder20">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder21">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder22">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder23">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			<div class="placeholder24">
+				<img class="img-fluid" src="http://localhost:8088/contentNT-17/Q1/assets/Question_area/Word Box/wordBox.png">
+			</div>
+			</div>
 			<div class="correctBox">
 				<img class="img-fluid" [src]="testAssts?.right_container?.url"/>
 				<div class="optionsList" #selectedRightListRef>
-					<div *ngFor="let opt of rightListArr" [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
+					<div *ngFor="let opt of rightListArr; let i = index" [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
 						<img class="img-fluid" [src]="wordBox?.url" />
 						<span *ngIf="opt!=''" [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
 					</div>
@@ -24,7 +106,7 @@
 			<div class="actionBox">
 				<div class="actionBtn">
 					<img class="img-fluid" [src]="testAssts?.right_tick?.url"
-					 (click)="addToRightList()" (mousemove)="hoverRightTick()" (mouseleave)="houtRightTick()" [ngClass]="{'disablePointer':selectedOptionArr[0]==''}"
+					 (click)="addToRightList()"  (mousemove)="hoverRightTick()" (mouseleave)="houtRightTick()" [ngClass]="{'disablePointer':selectedOptionArr[0]==''}"
 					/>
 					<img class="img-fluid" [src]="testAssts?.wrong_tick?.url"
 					 (click)="addToWrongList()" (mousemove)="hoverWrongTick()" (mouseleave)="houtWrongTick()" [ngClass]="{'disablePointer':selectedOptionArr[0]==''}"
@@ -35,12 +117,12 @@
 					/>
 					<!--<img class="img-fluid optionPicked" #optionPlaceRef [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />-->
 					<!--<img style.visibilty="hidden" class="img-fluid" [src]="wordBox?.location=='content' ? containgFolderPath + '/' + wordBox?.url : wordBox?.url" />-->
-					<div #optionPlaceRef [ngClass]="{'animateWidth':selectedOptionArr.length>0}" class="optionPlace" *ngFor="let opt of selectedOptionArr"
-					 [ngStyle]="{'visibility':opt!=''? 'visible':'hidden'}">
-						<img *ngIf="selectedOptionArr.length>0" class="img-fluid" [src]="wordBox?.url"
+					<!-- <div #optionPlaceRef [ngClass]="{'animateWidth':selectedOptionArr.text!=''}" class="optionPlace" 
+					 [@wordTestbox]="{value:selectedOptionArr.state,params: {toTestBoxleft: selectedOptionArr.toTestBoxleft , toTestBoxtop: selectedOptionArr.toTestBoxtop}}" (@wordTestbox.done)="onAnimationEvent($event)" [ngStyle]="{'visibility':selectedOptionArr.text!=undefined? 'visible':'hidden'}">
+						<img *ngIf="selectedOptionArr.text!=''" class="img-fluid" [src]="wordBox?.url"
 						/>
-						<span [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{opt}}</span>
-					</div>
+						<span [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{selectedOptionArr.text}}</span>
+					</div> -->
 				</div>
 				<audio #feedbackPopupAudio></audio>
 			</div>
@@ -61,19 +143,34 @@
 				<!-- [ngStyle]="quesObj?.bgColor"-->
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
-				<ng-template [ngIf]="_questionAreaImageFlag || _questionAreaVideoFlag">
-					<img class="img-fluid" [src]="_questionAreaImage?.url">
+				<ng-template [ngIf]="_questionAreaImageFlag">
+					<div class="audio-container">
+					<img class="img-fluid refQuesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
+					<img class="img-fluid" [src]="_questionAreaImage?.bgImg?.url"  (load)="checkImgLoaded();">
+				</div>
 				</ng-template>
-				
+				<ng-template [ngIf]="_questionAreaVideoFlag">
+					<div class="audio-container">
+					<img class="img-fluid" [src]="_questionAreaVideo?.bgImg?.url"  (load)="checkImgLoaded();">
+					<img class="img-fluid refQuesImg" [src]="_questionAreaVideo?.imageUrl?.url" (click)="onclickImageorVideo();">
+					</div>
+				</ng-template>
 
 				<ng-template [ngIf]="_questionAreaTextFlag">
 						<img class="img-fluid" [src]="quesObj?.quesImg?.url"><span>{{_questionAreaText}}</span>
 					</ng-template>
 
 					<ng-template [ngIf]="_questionAreaAudioFlag">
-							<img class="img-fluid" id="questionAudioID" [src]="_questionAreaAudio?.imageUrl" (click)="questionAudioPlay()">
-							<span (click)="questionAudioPlay()">Play Audio</span>
+						<div class="audio-container" (click)="questionAudioPlay();" [ngClass]="{'disable_div':speakerdisable}">
+						<img class="img-fluid" [src]="_questionAreaAudio?.bgImg?.url"  (load)="checkImgLoaded();">
+						<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker?.url" (load)="checkImgLoaded();">
+						<div *ngIf="displayWave" class="waveAnimation">
+							<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker_sprite1?.url">
+							<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker_sprite2?.url">
+							<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker_sprite3?.url">
+						</div>
 							<audio #questionAudio></audio>
+						</div>
 						</ng-template>
 
 				<!--<ng-template [ngIf]="_questionAreaVideoFlag">
@@ -84,15 +181,16 @@
 			</ng-template>-->
 
 			</div>
-			<div class="inputDiv" #inputDivRef>
-				<input type="text" (input)="onInputChange($event)" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
-				 placeholder={{inputFieldText}} [ngClass]="{'disablePointer':wordArr.length>=12 || isPlayVideo}" (click)="openKeyBoard();"
-				 (keypress)="keyPress()"/>
+			<div class="inputDiv" #inputDivRef >
+				<input type="text" (input)="onInputChange($event)" spellcheck="false" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
+				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=17 || isPlayVideo}" (click)="openKeyBoard();"
+				 (blur)="onBlurMethod()" (keypress)="keyPress()"/>
+				 <div class="charleft" >{{currentChar+"/"+totalChar}}</div>
 			</div>
 			<!---->
-			<div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div>
+			<!-- <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> -->
 			<!-- Number keyboard-->
-			<div class="simple-keyboardImage" *ngIf="keyBoardVersion">
+			<!-- <div class="simple-keyboardImage" *ngIf="keyBoardVersion">
 				<img class="img-fluid" src="../../assets/images/content17/HindiKeyboard.png" alt="">
 				<div class="row1" (mousemove)="hoverRow1($event)" #row1>
 					<div *ngFor="let opt of rowIndex1; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click)="clickBtnMatra(opt.value, opt.index, $event)"></div>
@@ -113,7 +211,7 @@
 				<div class="numPad" (mousemove)="hovernumPad($event)" #numPad>
 					<div *ngFor="let opt of numPadIndex; let idx=index" class="{{opt.index}}" id="{{opt.value}}" (click)="clickBtn(opt.value, opt)"></div>
 				</div>
-			</div>
+			</div> -->
 			<div class="simple-keyboard hg-theme-default hg-layout-default hideKeyboard" #mathKeyboardRef *ngIf="!keyBoardVersion">
 				<div class="hg-row">
 					<div class="hg-button hg-standardBtn" (click)="numberClick(1)">
@@ -163,6 +261,12 @@
 					<div class="hg-button hg-standardBtn" (click)="numberClick('⋅')">
 						<span>⋅</span>
 					</div>
+					<div class="hg-button hg-standardBtn" (click)="operatorClick('<')">
+						<span>&lt;</span>
+					</div>
+					<div class="hg-button hg-standardBtn" (click)="operatorClick('>')">
+						<span>&gt;</span>
+					</div>
 					<div class="hg-button hg-standardBtn" (click)="operatorClick('%')">
 						<span>%</span>
 					</div>
@@ -179,7 +283,7 @@
 			<!-- end here-->
 			<div class="addBtn" #addBtnRef>
 				<img class="img-fluid" [src]="addBtn?.add_btn?.url"
-				 (load)="checkImgLoaded();" (click)="addWord();" [ngClass]="{'disablePointer':inputVal==''}" (mousemove)="addBtnHover()"
+				 (load)="checkImgLoaded();" (click)="addWord();" [ngClass]="{'disablePointer':inputVal==''}" [ngStyle]="{'cursor': inputVal!=='' ? 'pointer' : 'default' }"(mousemove)="addBtnHover()"
 				 (mouseleave)="addBtnLeave()" />
 			</div>
 		</div>
@@ -188,9 +292,9 @@
 				<img class="img-fluid" [src]="refBase?.url" (load)="checkImgLoaded();"/>
 				<div class="wordBlock disableIt" #wordBlockRef>
 					<div class="wordItem" [ngClass]="(wordObj.word!='')?'submitOpt':'placeHolderOpt'" *ngFor="let wordObj of wordArr; let idx = index;"
-					 (click)="moveToBox(idx,wordObj.word);">
+					 [@wordActionbox]="wordObj.state" (@wordActionbox.done)="onAnimationEvent($event)">
 						<img class="img-fluid" [src]="wordBox?.url" />
-						<span id="boxWord" [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
+						<span id="boxWord"  [ngClass]="(quesObj.lang == 'hindi')?'inputHindiDiv':'nonHindiInput'">{{wordObj.word}}</span>
 					</div>
 				</div>
 			</div>
@@ -204,10 +308,10 @@
 				<div class="modal-header" [ngStyle]="submitPopupAssets?.style_header">
 					<img class="modal-title" [src]="submitPopupAssets?.headerTxt_img?.url">
 					<img class="close" [src]="submitPopupAssets?.close_btn?.url"
-					 (click)="sendFeedback(submitModalRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+					 (click)="sendFeedback(submitModalRef,'no');" (mousemove)="hoverCloseSubmitConfirm()" (mouseleave)="houtCloseSubmitConfirm()">
 				</div>
 
-				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="submitPopupAssets?.submit_popup?.style_body">
+				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="submitPopupAssets?.style_body">
 					<div class="msgImage">
 						<img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.url">
 					</div>
@@ -229,14 +333,20 @@
 	<div class="modal" id="modalTemp17" #feedbackModal>
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header">
-					<img class="modal-title fadeOut" [src]="feedbackObj?.headerTxt_img?.url">
-					<img class="close fadeOut" [src]="feedbackObj?.close_btn?.url"
+				<div class="modal-header" [ngStyle]="feedbackObj?.style_header">
+					<img class="modal-title " [src]="feedbackObj?.headerTxt_img?.url">
+					<img class="close" [src]="feedbackObj?.close_btn?.url"
 					 type="button" (click)="sendFeedback(feedbackModal,'no','feedbackDone');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body d-flex justify-content-center">
+				<div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
+					<div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+						[ngClass]="{'dispFlex':popupTxtRequired}">
+						<div class="instructionBase">
+							<img class="img-fluid" [src]="feedbackObj?.AnswerpopupTxt?.url" />
+						</div>
+					</div>
 					<div class="testContainer d-flex flex-row justify-content-center align-items-center" style="display:flex !important;">
 						<div class="correctBox">
 							<img class="img-fluid" [src]="feedbackObj?.corect_box?.url">
@@ -256,6 +366,11 @@
 								</div>
 							</div>
 						</div>
+						
+					</div>
+					<div class="closepopup_btn">
+						<img class="img-fluid" [src]="feedbackObj?.ok_btn?.url" (mousemove)="hoverOKPop()"
+						(mouseleave)="houtOKpop()" (click)="sendFeedback(feedbackModal,'no','feedbackDone');" />
 					</div>
 
 				</div>
@@ -303,8 +418,11 @@
 				</div>
 
 				<div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
-					<div class="msgImage">
-						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url">
+					<div *ngIf="!isSecondScreen"  class="msgImage">
+						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text1?.url">
+					</div>
+					<div *ngIf="isSecondScreen" class="msgImage">
+						<img class="img-fluid h-100" [src]="infoPopupAssets?.info_text2?.url">
 					</div>
 					<div class="actionButtons">
 						<button type="button" (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverOK()" (mouseleave)="houtOK()">
@@ -319,18 +437,23 @@
 </ng-template>
 
 </div>
-<div class="videoMainContainer" *ngIf="_questionAreaVideoFlag" style="visibility:hidden;">
-	<video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
+<div class="videoMainContainer"  style="visibility:hidden;">
+	<video #mainVideo *ngIf="_questionAreaVideoFlag" id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" (loadeddata)="checkVideoLoaded()"
 	 poster="assets/images/videoPoster.svg"  (ended)="endedHandler()">
 		<source [src]="_questionAreaVideo?.url"
 		 type="{{videoType}}">
 	</video>
-	<div id="playPauseBtn">
+	<img #fullImage *ngIf="_questionAreaImageFlag" poster="assets/images/videoPoster.svg" class="img-fluid" [src]="_questionAreaImage?.fullscreenImg?.url" />
+	<div *ngIf="_questionAreaVideoFlag" id="playPauseBtn">
 		<img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()"
 		 (click)="PlayPauseVideo()" />
 	</div>
-	<div id="SkipBtn" *ngIf="videoReplayd">
+	<div *ngIf="_questionAreaVideoFlag && videoReplayd" id="SkipBtn">
 		<img class="img-fluid" [src]="quesObj?.quesSkip?.url"
 		 (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" />
+	</div>
+	<div *ngIf="_questionAreaImageFlag" id="closeBtn">
+		<img class="img-fluid" [src]="quesObj?.close_btn?.url"
+		 (click)="endedHandleronClose()" (mousemove)="hoverClosePic()" (mouseleave)="houtClosePic()" />
 	</div>
 </div>

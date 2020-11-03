@@ -354,6 +354,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.isPlayVideo = false;
         this.appModel.navShow = 2;
         this.appModel.videoStraming(false);
+        this.appModel.startPreviousTimer();
         this.appModel.notifyUserAction();
         setTimeout(() => {
             this.isOptionDisabled = false;

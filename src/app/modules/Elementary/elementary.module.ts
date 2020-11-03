@@ -12,6 +12,7 @@ import { Ntemplate13 } from './Ntemplate13/Ntemplate13.component';
 import { Ntemplate1Component } from './Ntemplate1/Ntemplate1.component';
 import { Ntemplate9Component } from './Ntemplate9/Ntemplate9.component';
 import { Ntemplate20Component } from './Ntemplate20/Ntemplate20.component';
+import { Ntemplate24_1 } from './Ntemplate24_1/Ntemplate24_1.component'
 
  
 @NgModule({
@@ -30,7 +31,8 @@ import { Ntemplate20Component } from './Ntemplate20/Ntemplate20.component';
   Ntemplate13,
   Ntemplate1Component,
   Ntemplate9Component,
-  Ntemplate20Component
+  Ntemplate20Component,
+  Ntemplate24_1
   ],
   providers: []
 })

@@ -13,7 +13,8 @@
     <div id="coverTop" [ngStyle]="{'display': coverTop ? 'block' : 'none' }"></div>
     <div id="coverBtm" [ngStyle]="{'display': coverBottom ? 'block' : 'none' }"></div>
     <div class="speaker" [ngClass]="{'disable_div':disableSpeaker}">
-      <img class="img-fluid" [src]="commonAssets?.speaker?.url" [ngStyle]="{'cursor': speakerPointer ? 'default' : 'pointer' }" (click)="playSpeaker($event)">
+      <img class="img-fluid" [src]="commonAssets?.speaker?.url" [ngStyle]="{'cursor': speakerPointer ? 'default' : 'pointer' }" (click)="playSpeaker($event)"
+      (load)="checkImgLoaded();">
       <div class="speakerWave" [ngClass]="{'dispFlex':speakerWave}"></div>
     </div>
     <audio #Speaker [src]="commonAssets?.speaker_vo?.url"></audio>
@@ -23,7 +24,7 @@
 
       <ng-container *ngFor="let opt of refQuesArr;let idx = index">
         <img id="matra{{idx}}" [ngClass]="{'matraQue':opt.letters}"  style="cursor: pointer" class="myMatra" [src]="opt?.url"
-          (click)="checkAnswerMatra(opt,idx)"> 
+          (click)="checkAnswerMatra(opt,idx)" (load)="checkImgLoaded();"> 
       </ng-container>
       <img class="img-fluid" [src]="commonAssets?.qus_base?.url" (load)="checkImgLoaded();">
     </div>
@@ -42,8 +43,8 @@
         <div class="options"  [ngClass]="{'disable_div':optionDisable}" *ngFor="let option of optionObj;let idxX = index" (click)="checkAnswer(option,idxX)"
           (mouseenter)="playHoverOption(option,idxX)" (mousemove)="optionHover(option,idxX)"
           (mouseleave)="onHoverOptionOut(option,idxX)">
-          <img id="idx{{idxX}}" class="img-fluid" [src]="option?.baseImg?.url">
-          <img class="img-fluid optItem" [src]="option?.url">
+          <img id="idx{{idxX}}" class="img-fluid" [src]="option?.baseImg?.url" (load)="checkImgLoaded();">
+          <img class="img-fluid optItem" [src]="option?.url" (load)="checkImgLoaded();">
           <audio #optionAudio></audio>
         </div>
       </div>
