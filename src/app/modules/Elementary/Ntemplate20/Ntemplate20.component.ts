@@ -1234,7 +1234,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   onAnimationEvent(event: AnimationEvent, opt, j) {
     this.animationFlag = true;
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
-      // this.appModel.enableSubmitBtn(false);
+      // this.appModel.enableSubmitBtn(true);
       this.appModel.handlePostVOActivity(true);
       if (this.selectedPosition == 'down') {
         this.pushToDownPlaceHolder(this.selectedPositionIndex, this.from);
@@ -1242,8 +1242,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.pushToUpPlaceHolder(this.selectedPositionIndex, this.from);
       }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done" && this.resetCounterFlag == true) {
-      // this.appModel.enableSubmitBtn(false);
-      this.appModel.handlePostVOActivity(true);
+            this.appModel.handlePostVOActivity(true);
       if (this.selectedPosition == 'down') {
         this.deleteDownPlaceHolder(this.reverseOption, this.reverseOptionIndex);
       } else if (this.selectedPosition == 'up') {
@@ -1415,6 +1414,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.submitButtonCounter = 0;
     this.resetCounterFlag = false;
     clearInterval(this.blinkTimeInterval);
+    this.partialCorrectCase = false;
   }
 
   setGivenValue() {

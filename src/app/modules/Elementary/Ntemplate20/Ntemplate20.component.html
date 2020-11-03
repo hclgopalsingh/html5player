@@ -98,7 +98,6 @@
 					[src]="feedbackObj?.showAnswerheaderTxt_img?.url">
 				<img *ngIf="partialCorrectheaderTxt_img" class="modal-title"
 					[src]="feedbackObj?.headerTxt_img?.url">
-				<!-- <img class="modal-title" [src]="feedback?.headerTxt_img?.url"> -->
 				<img class="close" [src]="confirmSubmitAssets?.close_btn?.url"
 					(click)="sendFeedback(modalfeedback20,'no', 'fadeEverything');" (mousemove)="hoverCloseConfirmSubmit()"
 					(mouseleave)="houtCloseConfirmSubmit()">
@@ -119,8 +118,6 @@
 						<div class="placeholder"
 							[ngClass]="{'opacityOne':opt.place=='up' || opt.selected, 'disable_div': isDisableDiv}"
 							*ngFor="let opt of popupTopAssts; let idx = index">
-							<!-- <img class="img-fluid" [ngClass]="{'hideDiv':opt.place=='up' || opt.selected}"
-								[src]="opt?.url"> -->
 							<div [ngClass]="{'hideDiv':!(opt.place=='up' && opt.place!=undefined)}">
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg==true)}">
 									<img class="img-fluid" *ngIf="!partialCorrectCase"  [src]=" opt.selected ? (opt.isAtCorrectPos ? optionCommonAssts?.given_value_box?.url : optionCommonAssts?.incorrect_box?.url) : (optionCommonAssts?.given_value_box?.url)" />
@@ -144,8 +141,6 @@
 						<div class="placeholder"
 							[ngClass]="{'opacityOne':opt.place=='down' || opt.selected, 'disable_div': isDisableDiv}"
 							*ngFor="let opt of popupDownAssts; let idx = index">
-							<!-- <img class="img-fluid" [ngClass]="{'hideDiv':opt.place=='down' || opt.selected}"
-								[src]="opt?.url"> -->
 							<div [ngClass]="{'hideDiv':!(opt.place=='down' && opt.place!=undefined)}">
 								<div [ngClass]="{'hideDiv':!(opt.BlueBg==true)}">
 									<img class="img-fluid"  *ngIf="!partialCorrectCase"  
@@ -184,7 +179,6 @@
 			<div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
 				<!-- <h4 class="modal-title">Modal Heading</h4> -->
 				<img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.url">
-				<!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
 				<img class="close" [src]="infoPopupAssets?.close_btn?.url"
 					(click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverCloseOk()"
 					(mouseleave)="houtCloseOk()">
