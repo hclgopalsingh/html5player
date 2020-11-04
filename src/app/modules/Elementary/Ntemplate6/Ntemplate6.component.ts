@@ -19,23 +19,23 @@ declare var $: any;
   selector: 'ntemp6',
   animations: [
     trigger('openClose', [
-        state('open', style({
-          'left': '{{leftPos}}',
-          'top': '{{topPos}}'
-        }), { params: { leftPos: 'auto', topPos: 'auto' } }),
-        state('closed', style({
-            'left': '{{leftPos}}',
-            'top': '{{topPos}}'
+      state('open', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}'
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      state('closed', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}'
 
-        }), { params: { leftPos: 'auto', topPos: 'auto' } }),
-        transition('open => closed', [
-            animate('.5s')
-        ]),
-        transition('closed => open', [
-            animate('.5s')
-        ]),
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      transition('open => closed', [
+        animate('.5s')
+      ]),
+      transition('closed => open', [
+        animate('.5s')
+      ]),
     ]),
-],
+  ],
   templateUrl: './Ntemplate6.component.html',
   styleUrls: ['./Ntemplate6.component.css', '../../../view/css/bootstrap.min.css'],
 
@@ -89,7 +89,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('optionsClickable') optionsClickable: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('mainOuterContainer') mainOuterContainer: any
-  popupHeader:any;
+  popupHeader: any;
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -175,8 +175,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   hideVideoBg: boolean = false;
   matraPercentLeft: any;
   matraPercentTop: any;
-  showAnssetTimeout:any;
-  showAnssetTimeout2:any;
+  showAnssetTimeout: any;
+  showAnssetTimeout2: any;
 
   PopUpMatraPercentLeft: any;
   PopUpMatraPercentTop: any;
@@ -257,10 +257,11 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   skipButton: boolean = false;
   replayClicked: boolean = false;
   disableSection: boolean = false;
-  speakerPointer:boolean = false;
-  optionDisable:boolean = false;
-  destroy:boolean = false;
-  showAnswerPopup:boolean = false;
+  speakerPointer: boolean = false;
+  optionDisable: boolean = false;
+  destroy: boolean = false;
+  showAnswerPopup: boolean = false;
+  isRightSelected: boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -757,7 +758,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79","L80"],
+            "L78", "L79", "L80"],
           style: { "left": "-2" }
         }
       ]
@@ -772,7 +773,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: '',
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "4" }
         },
         {
@@ -878,7 +879,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "5.6" }
         },
         {
@@ -984,7 +985,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79","L80"],
+            "L78", "L79", "L80"],
           style: { "left": "-4" }
         }
       ]
@@ -1003,7 +1004,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79","L80"],
+            "L78", "L79", "L80"],
           style: { "left": "-4" }
         }
       ]
@@ -1022,7 +1023,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79","L80"],
+            "L78", "L79", "L80"],
           style: { "left": "-1.2" }
         }
       ]
@@ -1037,7 +1038,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: '',
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "3.1" }
         },
         {
@@ -1164,7 +1165,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79","L80"],
+            "L78", "L79", "L80"],
           style: { "left": "-3" }
         }
       ]
@@ -1179,7 +1180,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "3.4" }
         },
         {
@@ -1306,7 +1307,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "6.8" }
         },
         {
@@ -1420,7 +1421,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "2.9" }
         },
         {
@@ -1658,7 +1659,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           id: ["L1", "L2", "L4", "L5", "L6", "L7", "L8", "L9", "L11", "L13", "L15", "L16", "L17",
             "L19", "L20", "L21", "L23", "L25", "L27", "L29", "L31", "L32", "L34", "L35", "L36", "L37", "L39", "L40",
             "L42", "L44", "L46", "L48", "L50", "L52", "L53", "L54", "L56", "L57", "L58",
-            "L59", "L61", "L63", "L65", "L66", "L67", "L68", "L69", "L71", "L73", "L75", "L76", "L78","L80"],
+            "L59", "L61", "L63", "L65", "L66", "L67", "L68", "L69", "L71", "L73", "L75", "L76", "L78", "L80"],
           style: { "left": "0" }
         }
       ]
@@ -1673,7 +1674,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1", "L3", "L4","L80"],
+          id: ["L1", "L3", "L4", "L80"],
           style: { "left": "1.5" }
         },
         {
@@ -1772,7 +1773,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           style: { "left": "3.7" }
         },
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "5.1" }
         }
       ]
@@ -1787,7 +1788,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1", "L3", "L4", "L26", "L39", "L52", "L62","L80"],
+          id: ["L1", "L3", "L4", "L26", "L39", "L52", "L62", "L80"],
           style: { "left": "3.3" }
         },
         {
@@ -1835,7 +1836,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           style: { "left": "1.7" }
         },
         {
-          id: ["L17", "L18", "L58", "L79","L80"],
+          id: ["L17", "L18", "L58", "L79", "L80"],
           style: { "left": "1.8" }
         },
         {
@@ -1882,7 +1883,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "5.6" }
         },
         {
@@ -1984,7 +1985,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       style: "",
       letters: [
         {
-          id: ["L1","L80"],
+          id: ["L1", "L80"],
           style: { "left": "5.6" }
         },
         {
@@ -2090,7 +2091,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
             "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39",
             "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58",
             "L59", "L60", "L61", "L62", "L63", "L64", "L65", "L66", "L67", "L68", "L69", "L70", "L71", "L72", "L73", "L74", "L75", "L76", "L77",
-            "L78", "L79","L80"],
+            "L78", "L79", "L80"],
           style: { "left": "-2" }
         }
       ]
@@ -2106,7 +2107,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   InstructionVo: boolean = false;
   bodyContentDisable: boolean = false;
   lastidx: any;
-  answerClicked:boolean = false;
+  answerClicked: boolean = false;
 
   ngOnInit() {
     let that = this;
@@ -2146,8 +2147,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     })
     this.appModel.getConfirmationPopup().subscribe((val) => {
       this.disableSection = false;
-        this.InstructionVo = true;
-        this.bodyContentDisable = false;
+      this.InstructionVo = true;
+      this.bodyContentDisable = false;
 
       if (val == "uttarDikhayein") {
         this.InstructionVo = true;
@@ -2202,7 +2203,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.appModel.postWrongAttempt.subscribe(() => {
-      
+
       this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
@@ -2224,22 +2225,17 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.destroy = true;
-     
     this.quesVORef.nativeElement.pause();
     this.quesVORef.nativeElement.currentTime = 0;
     this.feedbackPopupAudio.nativeElement.pause();
     this.feedbackPopupAudio.nativeElement.currentTime = 0;
     clearTimeout(this.showAnssetTimeout);
-     
-    
-    
-    this.refQuesArr = [];
-    this.QuesArr = [];
- 
+    // this.refQuesArr = [];
+    // this.QuesArr = [];
   }
 
   ngAfterViewInit() {
- 
+
   }
 
   playHoverInstruction() {
@@ -2310,7 +2306,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.instructionVO.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.pause();
     }
-     this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
+    this.optionsClickable.nativeElement.children[0].children[i].classList.add('scaleInAnimation');
 
     if (this.optionsClickable.nativeElement.children[0].children[i].children[2].paused && this.quesVORef.nativeElement.paused && this.isPaused() && this.lastidx != i) {
       for (let j = 0; j < this.optionArr.length; j++) {
@@ -2333,13 +2329,13 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.disableSection = true;
       this.disableSpeaker = true;
       this.optionsClickable.nativeElement.children[0].children[i].children[2].onended = () => {
-        if(!this.answerClicked){
-        this.disableSection = false;
-        this.disableSpeaker = false;
-      }
-        
+        if (!this.answerClicked) {
+          this.disableSection = false;
+          this.disableSpeaker = false;
+        }
+
         for (let j = 0; j < this.optionArr.length; j++) {
-          this.optionsClickable.nativeElement.children[0].children[j].classList.remove('disable_div');   
+          this.optionsClickable.nativeElement.children[0].children[j].classList.remove('disable_div');
         }
       }
 
@@ -2352,7 +2348,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.OptionZoomOutAnimation(opt, i);
     }
     this.lastidx = undefined;
-   
+
   }
   optionHover(opt, i) {
     this.playHoverOption(opt, i)
@@ -2368,13 +2364,13 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   checkAnswer(opt, id) {
-    this.answerClicked=true;
+    this.answerClicked = true;
     this.appModel.enableReplayBtn(false);
     for (let i = 0; i < this.options.length; i++) {
       this.options[i].isOpen = false;
       this.options[i].leftPos = "0";
       this.options[i].topPos = "0";
-  }
+    }
     console.log(opt, id);
     this.appModel.handleController(this.controlHandler);
     this.appModel.handlePostVOActivity(true);
@@ -2399,10 +2395,11 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.refQuesCopy.join('') == this.feedback.correct_ans_array.join('')) {
       this.flag = true;
+      this.isRightSelected = true;
       console.log("Answer is right");
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
-      
+
       setTimeout(() => {
         this.sendFeedback(undefined, 'yes', 'rightAnswer');
       }, 2000);
@@ -2410,15 +2407,15 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       console.log("Answer is wrong");
       this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
       this.styleBodyPopup = this.feedbackObj.wrong_style_body;
-     
+
       setTimeout(() => {
         this.sendFeedback(undefined, 'yes', 'wrongAnswer');
       }, 2000);
     }
   }
   onClickAnimation(option, id) {
-    
-    $('#duplicate'+id).removeClass('topauto');
+
+    $('#duplicate' + id).removeClass('topauto');
     this.windowWidth = window.innerWidth;
     this.mainContainerWidth = this.mainOuterContainer.nativeElement.offsetWidth;
     console.log("start Animation");
@@ -2470,13 +2467,13 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
         this.percentTop = (parseInt(this.optionInitPosArr[i].rightPos) + 56) + "%";
       }
     }
-    
+
     option.leftPos = this.percentLeft;
     option.topPos = this.percentTop;
     option.isOpen = true;
     this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 100;
     this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 0;
-    
+
     this.moveFrom = this.duplicateOption.nativeElement.children[id].getBoundingClientRect();
     if (option.position == "right") {
       this.moveTo = this.Matra.nativeElement.children[this.index + 1].getBoundingClientRect();
@@ -2485,7 +2482,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     }
     this.moveleft = (this.moveTo.left / (this.mainContainerWidth) * 100) + 1 + this.left - (((this.windowWidth - this.mainContainerWidth) / 2) / this.mainContainerWidth) * 100 + "%";
     if (option.position == "bottom") {
-      
+
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 5.5 + "%";
 
     } else if (option.position == "bottom_spcialCase") {
@@ -2506,15 +2503,15 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
         option.leftPos = this.moveleft;
         option.topPos = this.movetop;
         setTimeout(() => {
-           this.duplicateOption.nativeElement.children[id].classList.add('topauto');
-        console.log(this.duplicateOption.nativeElement.children[id].style.top);
-      }, 200)
-         option.isOpen = false;
+          this.duplicateOption.nativeElement.children[id].classList.add('topauto');
+          console.log(this.duplicateOption.nativeElement.children[id].style.top);
+        }, 200)
+        option.isOpen = false;
       }, 300)
-       option.isOpen = false;
+      option.isOpen = false;
     }, 400)
-   
-    }
+
+  }
 
   onClickAnimationManually(option, id, letterNumber) {
     this.windowWidth = window.innerWidth;
@@ -2595,8 +2592,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     else {
       this.movetop = (this.moveTo.top / this.mainContainerWidth * 100) - 3 + "%";
     }
-   this.duplicateOption.nativeElement.children[id].style.left = this.moveleft;
-   this.duplicateOption.nativeElement.children[id].style.top = this.movetop;
+    this.duplicateOption.nativeElement.children[id].style.left = this.moveleft;
+    this.duplicateOption.nativeElement.children[id].style.top = this.movetop;
   }
   checkAnswerMatra(event, id) {
     if (!this.instructionVO.nativeElement.paused) {
@@ -2792,7 +2789,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.InstructionVo = false;
       //this.coverTop = true;
       if (!this.clicked) {
-      this.coverBottom = true;
+        this.coverBottom = true;
       }
       this.disableSection = true;
       //this.bodyContentDisable = true;
@@ -2804,8 +2801,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           //this.bodyContentDisable = false;
         }, 2000);
 
-       
-        
+
+
         if (!this.clicked) {
           this.coverTop = false;
         }
@@ -2824,7 +2821,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.instructionVO.nativeElement.currentTime = 0;
     this.Myspeaker.nativeElement.play();
     this.speakerWave = true;
-    
+
     this.coverTop = true;
     this.coverBottom = true;
     this.disableSection = true;
@@ -2832,7 +2829,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.Myspeaker.nativeElement.onended = () => {
       if (!this.clicked) {
         this.coverTop = false;
-        
+
       }
       if (this.clicked) {
         this.coverBottom = false;
@@ -2845,7 +2842,6 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
 
   }
   setData() {
-
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       console.log(this.fetchedcontent);
       this.feedback = this.fetchedcontent.feedback;
@@ -2874,7 +2870,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-    
+
       console.log("this.optionObj", this.optionObj)
       this.refQuesObj = this.fetchedcontent.refQuesObj;
       let tempArr = [];
@@ -2967,11 +2963,11 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.appModel.enableSubmitBtn(false);
       this.appModel.handlePostVOActivity(true);
       this.quesVORef.nativeElement.onended = () => {
-         
+
         this.disableSpeaker = false;
         this.InstructionVo = true;
         console.log('play');
-         setTimeout(() => {
+        setTimeout(() => {
           this.bodyContentDisable = false;
         }, 1000);
         this.disableSection = false;
@@ -3069,16 +3065,16 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
       setTimeout(() => {
         this.optionDisable = false;
-       
+
       }, 2000);
-       
+
       this.appModel.notifyUserAction();
       this.confirmModalRef.nativeElement.classList = "modal";
     }
   }
-  
+
   sendFeedback(id, flag: string, action?: string) {
-     this.count = 0;
+    this.count = 0;
     if (!this.clicked) {
       this.coverTop = false;
       this.coverBottom = true;
@@ -3096,10 +3092,10 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
-      for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
-      this.duplicateOption.nativeElement.children[i].classList.add('topauto');
-     }
-      
+      for (let i = 0; i < this.duplicateOption.nativeElement.children.length; i++) {
+        this.duplicateOption.nativeElement.children[i].classList.add('topauto');
+      }
+
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top = parseFloat(this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.top) + 20 + "%";
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.zIndex = 1000;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls"
@@ -3107,37 +3103,37 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
         this.AnswerpopupTxt = true;
         this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
         this.Matra.nativeElement.classList.value = "refQues refQuesPopUp refQuesPopUp2";
-    } else {
+      } else {
         this.AnswerpopupTxt = false;
         this.Matra.nativeElement.classList.value = "refQues refQuesPopUp ";
-    }
+      }
       if (this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url) {
         this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgwrongfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       console.log('playing feedbackPopupAudio');
-if(!this.destroy){
-      this.feedbackPopupAudio.nativeElement.play();
-      this.feedbackPopupAudio.nativeElement.onended = () => {
-        console.log("onended");
-        this.appModel.enableNavBtn(false);
-        this.appModel.handleController(this.controlHandler);
-        this.showAnssetTimeout = setTimeout(() => {
-          if (this.count == 0) {
-            this.closeModal();
-          }
-        }, this.showAnsTimeout);
+      if (!this.destroy) {
+        this.feedbackPopupAudio.nativeElement.play();
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          console.log("onended");
+          this.appModel.enableNavBtn(false);
+          this.appModel.handleController(this.controlHandler);
+          this.showAnssetTimeout = setTimeout(() => {
+            if (this.count == 0) {
+              this.closeModal();
+            }
+          }, this.showAnsTimeout);
+        }
       }
     }
-    }
     if (action == "rightAnswer") {
-       for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
+      for (let i = 0; i < this.duplicateOption.nativeElement.children.length; i++) {
         this.duplicateOption.nativeElement.children[i].classList.add('topauto');
-       }
+      }
       this.flag = true;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
-       if (id != undefined) {
+      if (id != undefined) {
         this.attemptType = "";
         this.duplicateOption.nativeElement.children[id].style.top = parseFloat(this.duplicateOption.nativeElement.children[id].style.top) + 20 + "%";
         this.duplicateOption.nativeElement.children[id].style.zIndex = 1000;
@@ -3151,29 +3147,29 @@ if(!this.destroy){
           this.AnswerpopupTxt = true;
           this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
           this.Matra.nativeElement.classList.value = "refQues refQuesPopUp refQuesPopUp2";
-      } else {
+        } else {
           this.AnswerpopupTxt = false;
           this.Matra.nativeElement.classList.value = "refQues refQuesPopUp ";
-      }
+        }
       }
 
       if (this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio && this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url) {
         this.feedbackPopupAudio.nativeElement.src = this.optionsAssets[this.currentOptionNumber].imgrightfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       }
-      if(!this.destroy){
-      this.feedbackPopupAudio.nativeElement.play();
-      this.feedbackPopupAudio.nativeElement.onended = () => {
-        this.appModel.enableNavBtn(false);
-        this.appModel.handleController(this.controlHandler);
-        this.appModel.handlePostVOActivity(false);
-        this.showAnssetTimeout = setTimeout(() => {
-          if (this.count == 0) {
-            this.closeModal();
-          }
-         
-        }, this.showAnsTimeout);
+      if (!this.destroy) {
+        this.feedbackPopupAudio.nativeElement.play();
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          this.appModel.enableNavBtn(false);
+          this.appModel.handleController(this.controlHandler);
+          this.appModel.handlePostVOActivity(false);
+          this.showAnssetTimeout = setTimeout(() => {
+            if (this.count == 0) {
+              this.closeModal();
+            }
+
+          }, this.showAnsTimeout);
+        }
       }
-    }
     }
     if (action == "showAnswer") {
       this.styleHeaderPopup = this.feedbackObj.style_header;
@@ -3182,18 +3178,18 @@ if(!this.destroy){
         this.AnswerpopupTxt = true;
         this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
         this.Matra.nativeElement.classList.value = "refQues refQuesPopUp refQuesPopUp2";
-    } else {
+      } else {
         this.AnswerpopupTxt = false;
         this.Matra.nativeElement.classList.value = "refQues refQuesPopUp ";
-    }
+      }
       this.flag = true;
       this.appModel.resetBlinkingTimer();
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
-      for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
-      this.duplicateOption.nativeElement.children[i].classList.add('topauto');
-     }
+      for (let i = 0; i < this.duplicateOption.nativeElement.children.length; i++) {
+        this.duplicateOption.nativeElement.children[i].classList.add('topauto');
+      }
 
       if (id != undefined) {
         this.attemptType = "";
@@ -3213,7 +3209,7 @@ if(!this.destroy){
       }
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-       this.showAnssetTimeout = setTimeout(() => {
+        this.showAnssetTimeout = setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
             this.optionsClickable.nativeElement.children[0].children[id].children[1].style.opacity = 1;
@@ -3228,7 +3224,7 @@ if(!this.destroy){
 
 
 
-             this.blinkOnLastQues();
+            this.blinkOnLastQues();
           }
           this.appModel.moveNextQues();
           if (!this.flag) {
@@ -3245,9 +3241,9 @@ if(!this.destroy){
     if (flag == "yes") {
       this.confirmModalRef.nativeElement.classList = "modal";
       this.answerModalRef.nativeElement.classList = "displayPopup modal";
-       for(let i=0; i < this.duplicateOption.nativeElement.children.length; i++){
+      for (let i = 0; i < this.duplicateOption.nativeElement.children.length; i++) {
         this.duplicateOption.nativeElement.children[i].classList.add('topauto');
-       }
+      }
     }
     if (flag == "no") {
       this.appModel.notifyUserAction();
@@ -3257,15 +3253,15 @@ if(!this.destroy){
       }
       this.coverBottom = true;
       this.optionDisable = true;
-    
+
       setTimeout(() => {
         this.optionDisable = false;
-       
+
       }, 2000);
-      if(this.clicked){
+      if (this.clicked) {
         this.coverBottom = false;
       }
-      
+
       id.classList = "modal";
       if (this.flag) {
         this.mainContainer.nativeElement.style.opacity = "0.3";
@@ -3285,7 +3281,7 @@ if(!this.destroy){
 
   resetAttempt(opt) {
     this.count = 1;
-      
+
     if (opt.position == "right") {
       this.refQuesCopy.splice(this.index + 1, 1)
       this.Matra.nativeElement.children[this.index + 1].remove();
@@ -3320,8 +3316,8 @@ if(!this.destroy){
     console.log('this.answerClicked = false;');
     this.answerClicked = false;
     clearTimeout(this.showAnssetTimeout)
- 
-    if(this.showAnswerPopup){
+
+    if (this.showAnswerPopup && !this.isRightSelected) {
       this.optionsClickable.nativeElement.children[0].children[this.currentOptionNumber].children[1].style.opacity = 1;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].style.opacity = 0;
       this.duplicateOption.nativeElement.children[this.currentOptionNumber].classList = "img-fluid duplicateOptionImg opacityCls duplicateOptionBlack";
