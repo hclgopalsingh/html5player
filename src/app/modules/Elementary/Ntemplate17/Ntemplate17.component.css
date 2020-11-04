@@ -839,7 +839,8 @@ button:focus {
 
 #confirmModal .close {
 	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
+  margin: 0 1.6% 0 auto;
+  right: 0.3vmin !important;
 }
 
 #confirmModal .modal-footer {
@@ -1543,7 +1544,8 @@ cursor: pointer
 
 #infoModalId .close {
 	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
+  margin: 0 1.6% 0 auto;
+  right: 0.3vmin !important
 }
 
 #infoModalId .modal-footer {
@@ -1666,11 +1668,32 @@ cursor: pointer
   bottom: 0%;
 }
 .closepopup_btn img{
-  width: 10.4%; 
+  width: 9%; 
   cursor: pointer;
   max-width: 10.4%;
 }
 
 .mathTop{
   top: 120%;
+}
+
+.closeBtn_keyb{
+  width: 3.5% ;
+  /* height: 16% ; */
+  top: 90%;
+  right: 9%;
+  z-index: 101;
+  position: absolute;
+  cursor: pointer;
+}
+
+.closeBtn_keyb_math{
+    width: 3.5%;
+    top: 111%;
+    right: 9.4%;
+    z-index: 101;
+    /* overflow-y: auto; */
+    /* float: right; */
+    position: absolute;
+    cursor: pointer;
 }

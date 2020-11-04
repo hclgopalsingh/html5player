@@ -4,7 +4,7 @@
 		 (load)="checkImgLoaded();" />
 	</div>
 	<div class="d-flex flex-row justify-content-around instructionBar" #instructionBar id="instructionBar">
-		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}" >
+		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable && isSecondScreen}" >
 			<img class="img-fluid" [src]="commonAssets?.instruction_img?.url"
 			 (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 			<audio #instruction [src]="commonAssets?.instruction_vo?.url"></audio>
@@ -181,11 +181,19 @@
 			</ng-template>-->
 
 			</div>
-			<div class="inputDiv" #inputDivRef >
+			<div class="inputDiv" #inputDivRef [ngClass]="{'disable_div':keyBoardOpen}">
 				<input type="text" (input)="onInputChange($event)" spellcheck="false" #inputRef="ngModel" [(ngModel)]="inputVal" value={{value}} id="inputKeyboard"
 				 placeholder={{inputFieldText}} autocomplete="off" [ngClass]="{'disablePointer':wordArr.length>=17 || isPlayVideo}" (click)="openKeyBoard();"
-				 (blur)="onBlurMethod()" (keypress)="keyPress()"/>
+				 (blur)="onBlurMethod()" (keypress)="keyPress()" (keydown)="onKeydownMain($event)" (focus)="focussing()"  />
 				 <div class="charleft" >{{currentChar+"/"+totalChar}}</div>
+			</div>
+			<div *ngIf="keyBoardOpen && quesObj.lang != 'math' ">
+			<img class="closeBtn_keyb" [src]="quesObj?.close_btn?.url"
+					 (click)="closeKeyboard()" (mousemove)="hoverClosePic()" (mouseleave)="houtClosePic()">
+			</div>
+			<div *ngIf="keyBoardOpen && quesObj.lang == 'math'">
+				<img class="closeBtn_keyb_math" [src]="quesObj?.close_btn?.url"
+						 (click)="closeKeyboard()" (mousemove)="hoverClosePic()" (mouseleave)="houtClosePic()">
 			</div>
 			<!---->
 			<!-- <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> -->

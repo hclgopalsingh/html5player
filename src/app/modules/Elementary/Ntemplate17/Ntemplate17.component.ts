@@ -585,6 +585,7 @@ export class Ntemplate17Component implements OnInit {
         // if(this.btnCounting && this.btnCounting >0){
         //   this.btnCounting -= 1;
         // }
+        this.checkForSpecial(this.inputVal);
         this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
       }
 
@@ -625,6 +626,19 @@ export class Ntemplate17Component implements OnInit {
   };
 
 
+  checkForSpecial(val){
+    let L = val.length
+    let lastChar:any
+    if(L > 2){
+      lastChar = val[L-3] + val[L-2] + val[L-1] 
+      console.log(lastChar,"lastChar")
+      if(lastChar ==  "त्र" ||  lastChar =="ज्ञ" ||  lastChar =="श्र" || lastChar == "क्ष"){
+        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 2);
+      }
+    }
+  }
+
+
   onBlurMethod(){
     console.log("this.wordArr.length",this.wordArr.length)
     if(this.charLeft >0 && this.wordArr.length < 12){
@@ -661,8 +675,10 @@ export class Ntemplate17Component implements OnInit {
       console.log("play on Instruction");
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
-        this.QuestionAudio.nativeElement.pause();
-        this.QuestionAudio.nativeElement.currentTime = 0;
+        if(this.QuestionAudio && this.QuestionAudio.nativeElement){
+          this.QuestionAudio.nativeElement.pause();
+          this.QuestionAudio.nativeElement.currentTime = 0;
+        }
         this.displayWave=false;
         this.speakerdisable=false;
         this.instruction.nativeElement.play();
@@ -1124,9 +1140,7 @@ export class Ntemplate17Component implements OnInit {
   //open Keyboard 
   openKeyBoard() {
     this.keyBoardOpen = true;
-    for (let i = 0; i < document.getElementsByClassName("submitBtn").length; i++) {
-      document.getElementsByClassName("submitBtn")[i].classList.add("FakedisableDiv");
-      }
+    this.appModel.enableSubmitBtn(false);
     clearInterval(this.blinkTimer);
     // this.instructionBar.nativeElement.style.pointerEvents="";
     this.instructionDisable = false
@@ -1147,7 +1161,7 @@ export class Ntemplate17Component implements OnInit {
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
       this.keyboard = new Keyboard({ onKeyPress: button => this.onKeyPress(button), layout: this.layout, display:{
         '{bksp}': 'Backspace',
-        '{space}': 'Space',
+        '{space}': 'Space bar',
         'ॅ': '&nbsp;ॅ',
         '्': '&nbsp;्',
         'ु': '&nbsp;ु',
@@ -1231,15 +1245,20 @@ export class Ntemplate17Component implements OnInit {
 	// if(this.quesObj.lang == "eng") {
 		// (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
 		// //spacebarText.innerHTML="Space bar";
-	// }
+  // }
+  let inp =this.inputVal;
+  this.inputVal = "" ;
+  setTimeout(() => {
+    this.inputVal = inp
+  }, 10);
   }
 
   //adding a word
   addWord() {
     // this.instructionBar.nativeElement.style.pointerEvents="";
-    for (let i = 0; i < document.getElementsByClassName("submitBtn").length; i++) {
-      document.getElementsByClassName("submitBtn")[i].classList.remove("FakedisableDiv");
-      }
+    // for (let i = 0; i < document.getElementsByClassName("submitBtn").length; i++) {
+    //   document.getElementsByClassName("submitBtn")[i].classList.remove("FakedisableDiv");
+    //   }
     this.instructionDisable = false;
     this.appModel.notifyUserAction();
     this.charLeft = 17;
@@ -1349,6 +1368,13 @@ export class Ntemplate17Component implements OnInit {
     }
     },3000);
   }
+  }
+
+  focussing(){
+    console.log("wrongList...............--------->>>>>>>>>>>>..")
+    let inp =this.inputVal;
+    this.inputVal = "" ;
+    this.inputVal = inp
   }
 
   //adding word to wrong list
@@ -1744,6 +1770,7 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronSkip() {
+    
     this.videoReplayd = false;
     this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
     if(this.mainVideo && this.mainVideo.nativeElement){
@@ -1751,10 +1778,14 @@ export class Ntemplate17Component implements OnInit {
     this.mainVideo.nativeElement.pause();
     }
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+    this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
   }
 
   endedHandleronClose(){
+    this.appModel.startPreviousTimer();
+    this.appModel.notifyUserAction();
+    this.quesObj.close_btn =  this.quesObj.close_btn_original;
     this.fullImage.nativeElement.parentElement.style.visibility="hidden";
   }
 
@@ -1783,6 +1814,10 @@ export class Ntemplate17Component implements OnInit {
 
   keyPress() {
     return false;
+  }
+
+  onKeydownMain(ev) {
+    ev.preventDefault();
   }
 
   QuestionLoaded() {
@@ -1889,6 +1924,8 @@ export class Ntemplate17Component implements OnInit {
       }
     }
     else{
+      this.instructionDisable = false
+      this.appModel.stopAllTimer();
       this.fullImage.nativeElement.parentElement.style.visibility="visible";
       this.instruction.nativeElement.pause();
       this.instruction.nativeElement.currentTime=0;
@@ -1934,6 +1971,15 @@ export class Ntemplate17Component implements OnInit {
     // $("#instructionBar").removeClass("disable_div");
     this.instructionDisable = false;
     this.appModel.enableReplayBtn(true);
+  }
+
+  closeKeyboard(){
+    this.quesObj.close_btn =  this.quesObj.close_btn_original;
+    this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
+    this.keyBoardOpen = false;
+    if(this.wordArr && this.wordArr.length > 0) {
+      this.appModel.enableSubmitBtn(true);
+    }
   }
 
 }
