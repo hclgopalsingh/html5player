@@ -196,6 +196,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     isSubmitRequired: false,
     isReplayRequired: false
   };
+  showAnsTimer: any;
 
   showAnsModalPopup: boolean = false
   AnswerpopupTxt: boolean = false;
@@ -205,6 +206,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   popupHeader: any;
   ngOnDestroy() {
+    clearTimeout(this.showAnsTimer);
     clearInterval(this.blinkTimeInterval);
     this.startCount = 0;
     for (let i = 0; i < this.refcpyArray.length; i++) {
@@ -259,7 +261,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.matched = true;
         for (let x = 0; x < this.fetchAnswer.length; x++) {
           this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
-          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+         //// this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
         }
         if (this.feedbackObj.rightAnswerpopupTxt.required) {
           this.AnswerpopupTxt = true;
@@ -1121,7 +1123,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.setplayFeedbackAudio(current);
       }
     } else {
-      setTimeout(() => {
+      this.showAnsTimer =  setTimeout(() => {
         if (this.countofAnimation == this.noOfRightAnsClicked) {
           this.startCount = 0;
           this.matched = true;
@@ -1518,7 +1520,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.matched) {
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
-        this.resetAttempt();
+        //this.resetAttempt();
 
       }, 5000);
       setTimeout(() => {
