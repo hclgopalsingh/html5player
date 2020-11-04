@@ -38,12 +38,16 @@ button:focus {
 }
 
 #container #consoleBlock {
-  position: absolute;
+  /* position: absolute;
   top: 8%;
   width: 100%;
   left: 0;
-  height: 78%;
-  /*76%;*/
+  height: 78%; */
+  position: absolute;
+  top: 18%;
+  width: 87%;
+  left: 6.2%;
+  height: 68%;
 }
 
 #container .consoleBase {
@@ -111,7 +115,7 @@ button:focus {
 }
 
 #container .rowMid {
-  height: 76%;
+  height: 75.9%;
   margin: 1.2% 0;
   display: flex;
   justify-content: space-between;
@@ -127,32 +131,32 @@ button:focus {
 }
 
 #container .rowMid .colLeft {
-  left: 1%;
+  left: 1.2%;
 }
 
 #container .rowMid .colRight {
-  right: 1%;
+  right: 0.9%;
 }
 
 #container .rowMid .colMid {
   /* background: #c2c2c2; */
-  background-image: radial-gradient(#0074E2, #004589);
+  background-image: radial-gradient(#F2ADC6, #C77593);
   border: solid 1px #000;
-  border-radius: 33px;
+  border-radius: 26px;
   /*19vmin;*/
-  width: 73.7%;
+  width: 73.9%;
   position: relative;
 }
 
 @media (max-width: 1366px) {
   #container .rowMid .colMid {
-    border-radius: 24px;
+    border-radius: 16px;
   }
 }
 
 @media (max-width: 1024px) {
   #container .rowMid .colMid {
-    border-radius: 22px;
+    border-radius: 15px;
   }
 
   .colMid .durationTime {
@@ -162,7 +166,7 @@ button:focus {
 
 @media (max-width: 900px) {
   #container .rowMid .colMid {
-    border-radius: 17px;
+    border-radius: 9px;
   }
 
   .colMid .durationTime {
@@ -187,6 +191,7 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .colMid .durationTime div {
@@ -282,22 +287,17 @@ button:focus {
   position: absolute;
   width: 70%;
 }
-
-#container .instructionBar {
+#container #instructionBar {
   position: absolute;
   top: 10%;
   width: 100%;
   text-align: center;
 }
 
-#container .modal .instructionBar {
-  top: 1%;
-}
-
-.instructionBar .instructionBase {
-  width: 86%;
-  /*52%;*/
+#instructionBar .instructionBase {
+  width: 60%;
   position: relative;
+  cursor: pointer;
 }
 
 .instructionBase .instructionText {
@@ -305,6 +305,18 @@ button:focus {
   top: 0%;
   left: 0;
 }
+
+#container .modal .instructionBarFeedback {
+  top: 7%;
+  position: absolute;
+}
+
+.instructionBarFeedback .instructionBaseFeedback {
+  width: 62%;
+  /*52%;*/
+  position: relative;
+}
+
 
 /* Modal */
 .modal {
@@ -396,6 +408,7 @@ button:focus {
 
 .modal-body-container {
   width: 100%;
+  padding:1%;
 }
 
 .modalBodyContent {
@@ -462,16 +475,16 @@ button:focus {
   }
 }
 
-#burst {
+/* #burst {
   position: absolute;
   z-index: 101;
   width: 100%;
   height: 100%;
-}
+} */
 
 .optionsBlock img {
   cursor: pointer !important;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .faintOpt {
@@ -772,7 +785,11 @@ button:focus {
 
 .teamNames .teamDetails .rightAns {
   /* padding: 33.4% 0; */
-  height: 27vmin;
+  /* height: 27vmin; */
+  height: 28vmin;
+  width: 100%;
+  border-left: none !important;
+  margin-bottom: 0;
   width: 100%;
   border-left: none !important;
   /* border-top: solid .3vmin #8da3ab;
@@ -847,7 +864,9 @@ button:focus {
 #modalfeedback .instructionBase {
   width: 59%;
 }
-
+.instructionBar img{
+  cursor: pointer;
+}
 #modalfeedback .modal-content {
   box-shadow: none;
   background: transparent !important;
@@ -857,13 +876,13 @@ button:focus {
 .navigate {
   position: absolute;
   bottom: 4%;
-  width: 95%;
+  width: 96%;
 }
 
 .navigate img {
-  margin-left: 1.2%;
+  margin-left: 0.8%;
   cursor: pointer;
-  max-width: 5.5%;
+  max-width: 4.2%;
 }
 
 .disableBtn {
@@ -877,8 +896,9 @@ button:focus {
 
 /* Modal Feedback classes end */
 .videoOpen,
-.videoClose {
-  width: 3.5%;
+.videoPlayPause,
+.videoSkip {
+  width: 6%;
   height: 6%;
   /* border: solid .1vmax #000; */
   border-radius: 50%;
@@ -887,20 +907,31 @@ button:focus {
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 9.1%;
-  bottom: 7.4%;
+  right: 0.5%;
+  bottom: 4.4%;
   z-index: 100;
   cursor: pointer;
 }
-
-/* .videoClose:hover{
-  background: #fff;
-} */
-/* .videoClose div{
-  width: 35%;
-  height: 35%;
-  background: #f00;
-} */
+.videoSkip{
+  right:8%
+}
 .d-show {
   display: block !important;
+}
+.hide_div{
+  visibility: hidden;
+}
+.disableBtn{
+  opacity: 0.5;
+  pointer-events: none;
+}
+.hideBtn{
+  display: none;
+}
+#mainVideo{
+  clip-path: inset(0.1% 0.1% 0.5% 0% round 1vmax);
+}
+.showDisabled{
+  opacity:0.5;
+  pointer-events: none;
 }

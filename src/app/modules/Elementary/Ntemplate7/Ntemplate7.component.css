@@ -90,7 +90,7 @@ button:focus {
 .modal .instructionBase {
   width: 100%;
   position: relative;
-  cursor: pointer;
+  cursor: default!important;
   display: flex;
   justify-content: center;
 }

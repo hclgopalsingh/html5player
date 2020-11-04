@@ -176,6 +176,7 @@ export class Ntemplate13 implements OnInit {
 	lastOpt: any;
 
 	onHoverOption(opt, index) {
+		$(".instructionBase img").css("cursor", "pointer");
 		this.disableSection = false;
 		//pauseinstruction VO
 		console.log("this.lastOpt:", this.lastOpt, "index:", index)
@@ -262,7 +263,7 @@ export class Ntemplate13 implements OnInit {
 			if (this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.currentTime = 0;
 				this.instruction.nativeElement.play();
-				$(".instructionBase img").css("cursor", "pointer");
+				$(".instructionBase img").css("cursor", "default");
 			}
 			if (this.optionAudio && !this.optionAudio.nativeElement.paused) {
 				this.instruction.nativeElement.currentTime = 0;
@@ -271,6 +272,7 @@ export class Ntemplate13 implements OnInit {
 		}
 		this.instruction.nativeElement.onended = () => {
 			this.disableSection = false;
+			$(".instructionBase img").css("cursor", "pointer");
 		}
 	}
 
@@ -309,6 +311,8 @@ export class Ntemplate13 implements OnInit {
 			$("#instructionBar").css("opacity", "0.3");
 			//   this.checked = true;
 		} else {
+			$(".instructionBase img").css("cursor", "pointer");
+			this.disableSpeaker = true;
 			if(this.showAnsModalPopup){
 				this.removeEvents();
 			this.blinkOnLastQues();
@@ -988,6 +992,7 @@ export class Ntemplate13 implements OnInit {
 	}
 	//TRY HERE
 	closePopup() {
+		this.disableSpeaker = true;
 		if (this.showAnsModalPopup) {
 			this.feedbackVoRef.nativeElement.pause();
 			this.wrongOptAudio.nativeElement.pause();
