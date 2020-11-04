@@ -158,8 +158,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	hasVideoStarted: boolean = false;
 	disableReplayBtn: boolean = false;
 	hideReplayBtn: boolean = false;
-	faintInstruction : boolean = false;
-	faintContent : boolean =false;
+	faintInstruction: boolean = false;
+	faintContent: boolean = false;
 	selectedteamRef: any;
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('quesVORef') quesVORef: any;
@@ -206,6 +206,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			if (val == "submitAnswer") {
 				this.confirmAssets = this.fetchedcontent.submit_confirm;
 				if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
+
+					if (!this.instruction.nativeElement.paused) {
+						this.instruction.nativeElement.pause();
+						this.instruction.nativeElement.currentTime = 0;
+						this.instructionDisable = false;
+					}
 					this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
 				}
 				// this.confirmSubmitFlag=true;
@@ -438,44 +444,44 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		//this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
 		this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
 	}
-	checkForQVO(){
-		if(this.questionObj && this.questionObj.quesAudio && this.questionObj.quesAudio.url && this.questionObj.quesAudio.autoplay){
-			setTimeout(() => {							
+	checkForQVO() {
+		if (this.questionObj && this.questionObj.quesAudio && this.questionObj.quesAudio.url && this.questionObj.quesAudio.autoplay) {
+			setTimeout(() => {
 				this.instruction.nativeElement.play();
 				this.instruction.nativeElement.onended = () => {
 					if (this.questionObj.videoQues != false) {
 						this.playQuesVideo();
 					} else {
 						this.instructionDisable = false;
-						this.appModel.enableSubmitBtn(true);
+						this.appModel.enableSubmitBtn(false);
 						setTimeout(() => {
 							this.isPlayVideo = false;
 							this.startActivity();
 						}, 200)
 					}
 				}
-		}, 500);
-		}else{
+			}, 500);
+		} else {
 			if (this.questionObj.videoQues != false) {
 				this.playQuesVideo();
-			}else{
+			} else {
 				this.instructionDisable = false;
-				this.appModel.enableSubmitBtn(true);
+				this.appModel.enableSubmitBtn(false);
 				setTimeout(() => {
 					this.isPlayVideo = false;
 					this.startActivity();
 				}, 200)
 			}
-			
+
 		}
 	}
-	playQuesVideo(){
+	playQuesVideo() {
 		this.isPlayVideo = true;
 		this.hasVideoStarted = true;
 		this.mainVideo.nativeElement.play();
 		this.mainVideo.nativeElement.onended = () => {
 			this.instructionDisable = false;
-			this.appModel.enableSubmitBtn(true);
+			this.appModel.enableSubmitBtn(false);
 			setTimeout(() => {
 				this.isPlayVideo = false;
 				this.startActivity();
@@ -492,11 +498,13 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 					clearTimeout(this.loaderTimer);
 					if (this.questionObj && this.questionObj.isNewQues) {
 						this.appModel.enableSubmitBtn(false);
-						this.checkForQVO();									
+						this.checkForQVO();
 
 					} else {
 						this.appModel.setLoader(false);
-						this.appModel.enableSubmitBtn(true);
+						// this.appModel.enableSubmitBtn(true);
+						//old
+						this.appModel.enableSubmitBtn(false);
 						this.instructionDisable = false;
 						this.isPlayVideo = false;
 						this.startActivity();
@@ -851,7 +859,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		setTimeout(() => {
 			this.mainVideo.nativeElement.play();
 			this.mainVideo.nativeElement.onended = () => {
-				this.appModel.enableSubmitBtn(true);
+				this.appModel.enableSubmitBtn(false);
 				//	this.resumeActivity();
 				this.isPlayVideo = false;
 				this.disableSelection = false;
@@ -934,6 +942,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.highLightOpt(this.teamRightRef.nativeElement.children[0], index);
 			this.teamRightRef.nativeElement.classList = "colRight h-100 disableOpt";
 		}
+		if ((this.topSelectedIdx > -1 || this.teamUp.isStillActive == false) &&
+			(this.bottomSelectedIdx > -1 || this.teamDown.isStillActive == false) &&
+			(this.leftSelectedIdx > -1 || this.teamLeft.isStillActive == false) &&
+			(this.rightSelectedIdx > -1 || this.teamRight.isStillActive == false)) {
+			this.appModel.enableSubmitBtn(true);
+		}
 	}
 
 	highLightOpt(elem, index) {
@@ -1004,6 +1018,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			/*	setTimeout(() =>{
 					this.appModel.invokeTempSubject('showModal','manual');
 				},100)*/
+
 			this.openModal(action);
 		} else if (flag == "no") {
 			this.appModel.videoStraming(false);
@@ -1011,12 +1026,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	openModal(action) {
-		if (!this.instruction.nativeElement.paused) {
-			this.instruction.nativeElement.pause();
-			this.instruction.nativeElement.currentTime = 0;
-			this.instructionDisable = false;
-		}
-		if (action == "submitAnswer") {			
+		// if (!this.instruction.nativeElement.paused) {
+		// 	this.instruction.nativeElement.pause();
+		// 	this.instruction.nativeElement.currentTime = 0;
+		// 	this.instructionDisable = false;
+		// }
+		if (action == "submitAnswer") {
 			this.checkAttemptedOpt();
 			this.removeSubscription();
 			// this.timerSubscription.unsubscribe();			
