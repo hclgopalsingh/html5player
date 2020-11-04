@@ -40,7 +40,6 @@ import { Ntemplate18_1 } from './controller/Ntemplate18_1.component';
 import { Ntemplate19 } from './controller/Ntemplate19.component';
 import { Ntemplate24 } from './controller/Ntemplate24.component';
 import { Ntemplate21 } from './controller/Ntemplate21.component';
-import { Ntemplate20 } from './controller/Ntemplate20.component'
 import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
@@ -94,7 +93,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		Ntemplate18_1,
 		Ntemplate19,
 		Ntemplate21,
-		Ntemplate20,
 		Ntemplate10,
 		Ntemplate11,
 		Ntemplate12,
