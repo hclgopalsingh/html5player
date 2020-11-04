@@ -48,6 +48,11 @@
   cursor: default;
   pointer-events: none;
 }
+.criteriaContainer {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
 .criteriaContainer img {
   position: absolute;
   width: 14%;
@@ -100,12 +105,20 @@ top: 63%;
   left: 63%;
 }
 .matrix_3x3 .criteriaContainer #criteria1 {
-  top: 29.2%;
+  top: 24%;
   left: 17.5%;
 }
 .matrix_3x3 .criteriaContainer #criteria2 {
-  top: 49.5%;
+  top: 53%;
   left: 17.5%;
+}
+.modal .matrix_3x3 .contentBlock {
+  top: 14%;
+  height: 72%
+}
+.modal .matrix_3x3.bodyContent {
+  top:24%;
+  height: 76%;
 }
 
 /****** 3*3 matrix end ******/
@@ -119,7 +132,7 @@ top: 63%;
 }
 .matrix_3x5 .contentBlock {
   height: 72%;
-  top: 7.5%;
+  top: 7%;
 }
 .matrix_3x5 .quesContainer {
   width: 84.3%;
@@ -159,22 +172,45 @@ top: 63%;
 }
 .matrix_3x5 .criteriaContainer #criteria1 {
   left: 10%;
-  top: 30%;
+  top: 31%;
 }
 .matrix_3x5 .criteriaContainer #criteria2 {
   left: 10%;
-  top: 46%;
+  top: 53.5%;
+}
+.modal .matrix_3x5.bodyContent {
+  top: 22%;
+  height: 83%;
 }
 
 /****** 3*5 matrix end ******/
 
 /****** 5*3 matrix start ******/
+.matrix_5x3 .headerBlock {
+  top: 1%;
+}
+.matrix_5x3 .contentBlock {
+  height: 70%;
+  top: 11%;
+}
 .matrix_5x3 .criteriaContainer img {
   left: 26%;
 }
+.matrix_5x3 .criteriaContainer #criteria1 {
+  top: 10%;
+}
+.matrix_5x3 .criteriaContainer #criteria2 {
+  top: 31.5%;
+}
+.matrix_5x3 .criteriaContainer #criteria3 {
+  top: 53%;
+}
+.matrix_5x3 .criteriaContainer #criteria4 {
+  top: 74%;
+}
 .matrix_5x3 .placeholderContainer #optPlaceholder1 {
   top: 10%;
-    left: 43%;
+  left: 43%;
 }
 .matrix_5x3 .placeholderContainer #optPlaceholder2 {
   top: 10%;
@@ -204,17 +240,43 @@ top: 63%;
   top: 74%;
   left: 60%;
 }
+.modal .matrix_5x3.bodyContent {
+  top: 22%;
+  height: 83%;
+}
+.modal .matrix_5x3 .contentBlock {
+  top: 11.4%;
+}
 /****** 5*3 matrix end ******/
 
 /****** 5*5 matrix start ******/
 .matrix_5x5 .quesContainer {
   width: 84.5%;
 }
+.matrix_5x5 .headerBlock {
+  top: 1.5%;
+}
+.matrix_5x5 .contentBlock {
+  height: 70%;
+  top: 11%;
+}
 .matrix_5x5 .headerBlock img {
   width: 16.8%;
 }
 .matrix_5x5 .criteriaContainer img {
   left: 9.5%;
+}
+.matrix_5x5 .criteriaContainer #criteria1 {
+  top: 10%;
+}
+.matrix_5x5 .criteriaContainer #criteria2 {
+  top: 31.5%;
+}
+.matrix_5x5 .criteriaContainer #criteria3 {
+  top: 53%;
+}
+.matrix_5x5 .criteriaContainer #criteria4 {
+  top: 74%;
 }
 .matrix_5x5 .placeholderContainer #optPlaceholder1 {
   top: 10%;
@@ -280,7 +342,19 @@ top: 63%;
   top: 74%;
   left: 76.5%;
 }
+.modal .matrix_5x5.bodyContent {
+  height: 83%;
+  top:22%;
+}
 /***** 5*5 matrix end *******/
+
+.feedbackWrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 
 /* Modal */
 #modalTemp19 {
@@ -324,7 +398,7 @@ button:focus {
 }
 
 
-#playPauseBtn {
+/* #playPauseBtn {
   position: absolute;
   top: 85%;
   right: 16%;
@@ -346,7 +420,7 @@ button:focus {
 }
 #SkipBtn img {
   max-width: 70%;
-}
+} */
 
 .optionsBlock {
   width: 100%;
@@ -497,6 +571,25 @@ button:focus {
   animation-name: moveRight;
 }
 
+#playPauseBtn {
+  position: absolute;
+  top: 86%;
+  right: .7%;
+  cursor: pointer;
+  width: 3.5%;
+}
+
+#SkipBtn {  
+  position: absolute;
+  top: 86%;
+  /*85%*/
+  right: 5%;
+  /*16%*/
+  cursor: pointer;
+  width: 3.5%;
+  /*1.5%*/
+}
+
 /* Modal classes */
 
 /*confirm modal*/
@@ -578,15 +671,6 @@ button:focus {
 	width: 85%;
 }
 
-#confirmModal .modal-title {
-	margin-left: 3%;
-}
-
-#confirmModal .close {
-	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
-}
-
 #confirmModal .modal-footer {
 	display: flex;
 	align-items: center;
@@ -628,8 +712,8 @@ button:focus {
   display: -webkit-box !important;
 }
 .modal-dialog {
-  width: 84%;
-  max-width: 80% !important;
+  width: 92%;
+  max-width: 92% !important;
   height: 87%;
 }
 .modal-content {
@@ -652,10 +736,10 @@ button:focus {
 }
 
 
-.modal-title {
+/* .modal-title {
   margin-left: 1.5%;
   height: 80%;
-}
+} */
 
 .close {
   width: auto;
@@ -681,19 +765,9 @@ button:focus {
   align-items: center;
 }
 
-.modal-body img {
-  max-width: 84%; /*77%;*/
-}
-
 .modalBodyContent {
   background: #afdec0;
   margin: -1px;
-}
-
-.close:focus, .close:hover {
-  /*color: #000;
-  text-decoration: none;
-  opacity: 1;*/
 }
 
 html [type=button] {
@@ -759,4 +833,20 @@ html [type=button] {
   max-height: 7vmin;
 }
 
+/***** video container style *****/
+.videoMainContainer {
+  width: 100%;
+}
 
+.videoWrapper {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.videoMainContainer .videoBg {
+  opacity: 0;
+}
