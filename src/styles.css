@@ -451,7 +451,8 @@ button:focus{
 	position: absolute;
     width: 100%;
     text-align: center;
-    top: 2.5vmin!important;
+	top: 2.5vmin!important;
+	left:0;
     /* display: none; */
 }
 
