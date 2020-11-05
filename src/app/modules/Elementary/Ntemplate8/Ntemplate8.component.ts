@@ -130,10 +130,6 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		isTab: false,
 		isSubmitRequired: true,
 		isReplayRequired: true,
-		ReplaybtnFromContent: true,
-		replay_btn: {},
-		replay_btn_hover: {},
-		replay_btn_original: {}
 	};
 	quesIndx: number;
 	liveScore: any;
@@ -151,17 +147,27 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	scoreboardCloseTimer: any;
 	feedbackNextTimer: any;
 	feedback_close_timer: any;
-	disableMainCont: boolean = true;
+	disableMainCont: boolean = false;
 	feedback_next_timer: any;
 	feedbackCloseTimer: NodeJS.Timer;
 	/*End: Theme Implementation(Template Changes)*/
+	instructionDisable: boolean = true;
+	showOption: boolean = false;
+	disableSelection: boolean = false;
+	isVideoPaused: boolean = false;
+	hasVideoStarted: boolean = false;
+	disableReplayBtn: boolean = false;
+	hideReplayBtn: boolean = false;
+	faintInstruction: boolean = false;
+	faintContent: boolean = false;
+	selectedteamRef: any;
 	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('quesVORef') quesVORef: any;
+	@ViewChild('instruction') instruction: any;
 	@ViewChild('teamUpRef') teamUpRef: any;
 	@ViewChild('teamDownRef') teamDownRef: any;
 	@ViewChild('teamLeftRef') teamLeftRef: any;
 	@ViewChild('teamRightRef') teamRightRef: any;
-	// @ViewChild('mainContainer') mainContainer: any;
 	@ViewChild('confirmSubmitRef') confirmSubmitRef: any;
 	@ViewChild('confirmReplayRef') confirmReplayRef: any;
 	@ViewChild('scoreBoardModal') scoreBoardModal: any;
@@ -200,15 +206,21 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			if (val == "submitAnswer") {
 				this.confirmAssets = this.fetchedcontent.submit_confirm;
 				if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
+
+					if (!this.instruction.nativeElement.paused) {
+						this.instruction.nativeElement.pause();
+						this.instruction.nativeElement.currentTime = 0;
+						this.instructionDisable = false;
+					}
 					this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
 				}
 				// this.confirmSubmitFlag=true;
 			} else if (val == "replayVideo") {
-				this.appModel.videoStraming(true);
-				this.confirmAssets = this.fetchedcontent.replay_confirm;
-				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-					this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
-				}
+				// this.appModel.videoStraming(true);
+				// this.confirmAssets = this.fetchedcontent.replay_confirm;
+				// if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+				// 	this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
+				// }
 			}
 		})
 		this.appModel.handleController(this.controlHandler);
@@ -232,7 +244,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		this.controlHandler.isTab = true;
 		this.appModel.handleController(this.controlHandler);
 		this.appModel.enableSubmitBtn(false);
-		this.appModel.enableReplayBtn(false);
+		// this.appModel.enableReplayBtn(false);
 		/*Start: Theme Implementation(Template Changes)*/
 		if (this.bgSubscription != undefined) {
 			this.bgSubscription.unsubscribe();
@@ -248,6 +260,13 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 	/*End: Theme Implementation(Template Changes)*/
+	openReplayConfirm() {
+		this.appModel.videoStraming(true);
+		this.confirmAssets = this.fetchedcontent.replay_confirm;
+		if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+			this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
+		}
+	}
 	templatevolume(vol, obj) {
 		if (obj.quesVORef && obj.quesVORef.nativeElement) {
 			obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -261,13 +280,15 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		if (obj.wrongFeedbackVO && obj.wrongFeedbackVO.nativeElement) {
 			obj.wrongFeedbackVO.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.instruction && obj.instruction.nativeElement) {
+			obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
 		if (obj.audio) {
 			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
 		}
 	}
 
 	setData() {
-
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
 			this.feedback = this.fetchedcontent.feedback;
 			this.commonAssets = this.fetchedcontent.commonassets;
@@ -330,10 +351,40 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.appModel.initializeFeedbackArray(this.noOfTeams);
 			}
 			/*Start: Theme Implementation(Template Changes)*/
-			this.controlHandler.replay_btn = this.commonAssets.replay_btn;
-			this.controlHandler.replay_btn_hover = this.commonAssets.replay_btn_hover;
-			this.controlHandler.replay_btn_original = this.commonAssets.replay_btn_original;
+			this.controlHandler.isSubmitRequired = this.questionObj.submitRequired;
+			this.controlHandler.isReplayRequired = this.questionObj.replayRequired;
+			// this.controlHandler.replay_btn = this.commonAssets.replay_btn;
+			// this.controlHandler.replay_btn_hover = this.commonAssets.replay_btn_hover;
+			// this.controlHandler.replay_btn_original = this.commonAssets.replay_btn_original;
 			/*End: Theme Implementation(Template Changes)*/
+			if (this.questionObj.videoQues == false) {
+				this.isPlayVideo = false;
+				this.hideReplayBtn = true;
+			}
+		}
+	}
+	playHoverInstruction() {
+		if (!this.instruction.nativeElement.paused) {
+			console.log("instruction voice still playing");
+		} else {
+			this.appModel.notifyUserAction();
+			console.log("play on Instruction");
+			if (this.instruction.nativeElement.paused) {
+				this.instruction.nativeElement.currentTime = 0;
+				this.instruction.nativeElement.play();
+				this.instructionDisable = true;
+				// this.InstructionVo = true;
+				// $(".instructionBase").css("cursor", "default");
+				this.instruction.nativeElement.onended = () => {
+					this.instructionDisable = false;
+					// this.InstructionVo = false;
+					// $(".instructionBase").css("cursor", "pointer");
+				}
+			}
+			// if (!this.optionAudio.nativeElement.paused) {
+			// this.instruction.nativeElement.currentTime = 0;
+			// this.instruction.nativeElement.pause();
+			// }
 		}
 	}
 	checkLiveScore(teamSide) {
@@ -370,7 +421,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 
 	startActivity() {
 		// this.mainContainer.nativeElement.classList = "consoleBase";
-		this.disableMainCont = false;
+		// this.disableMainCont = false;
+		this.showOption = true;
 		this.resetTimerForAnswer();
 	}
 
@@ -392,7 +444,50 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		//this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
 		this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
 	}
+	checkForQVO() {
+		if (this.questionObj && this.questionObj.quesAudio && this.questionObj.quesAudio.url && this.questionObj.quesAudio.autoplay) {
+			setTimeout(() => {
+				this.instruction.nativeElement.play();
+				this.instruction.nativeElement.onended = () => {
+					if (this.questionObj.videoQues != false) {
+						this.playQuesVideo();
+					} else {
+						this.instructionDisable = false;
+						this.appModel.enableSubmitBtn(false);
+						setTimeout(() => {
+							this.isPlayVideo = false;
+							this.startActivity();
+						}, 200)
+					}
+				}
+			}, 500);
+		} else {
+			if (this.questionObj.videoQues != false) {
+				this.playQuesVideo();
+			} else {
+				this.instructionDisable = false;
+				this.appModel.enableSubmitBtn(false);
+				setTimeout(() => {
+					this.isPlayVideo = false;
+					this.startActivity();
+				}, 200)
+			}
 
+		}
+	}
+	playQuesVideo() {
+		this.isPlayVideo = true;
+		this.hasVideoStarted = true;
+		this.mainVideo.nativeElement.play();
+		this.mainVideo.nativeElement.onended = () => {
+			this.instructionDisable = false;
+			this.appModel.enableSubmitBtn(false);
+			setTimeout(() => {
+				this.isPlayVideo = false;
+				this.startActivity();
+			}, 200)
+		}
+	}
 	checkImgLoaded() {
 		if (!this.loadFlag) {
 			this.noOfImgsLoaded++;
@@ -403,23 +498,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 					clearTimeout(this.loaderTimer);
 					if (this.questionObj && this.questionObj.isNewQues) {
 						this.appModel.enableSubmitBtn(false);
-						this.appModel.enableReplayBtn(false);
-						setTimeout(() => {
-							this.mainVideo.nativeElement.play();
-							this.mainVideo.nativeElement.onended = () => {
-								this.appModel.enableSubmitBtn(true);
-								this.appModel.enableReplayBtn(true);
-								setTimeout(() => {
-									this.isPlayVideo = false;
-									this.startActivity();
-								}, 200)
-							}
-						}, 500);
+						this.checkForQVO();
 
 					} else {
 						this.appModel.setLoader(false);
-						this.appModel.enableSubmitBtn(true);
-						this.appModel.enableReplayBtn(true);
+						// this.appModel.enableSubmitBtn(true);
+						//old
+						this.appModel.enableSubmitBtn(false);
+						this.instructionDisable = false;
 						this.isPlayVideo = false;
 						this.startActivity();
 					}
@@ -454,8 +540,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	playSound(soundAssets, idx, teamRef, team) {
+		this.selectedteamRef = teamRef;
 		if (this.audio && this.audio.paused) {
 			let selectedIdx = -1;
+			if (!this.instruction.nativeElement.paused) {
+				this.instruction.nativeElement.pause();
+				this.instruction.nativeElement.currentTime = 0;
+			}
+			this.instructionDisable = true;
 			if (team == "teamUp") {
 				if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDownRef.nativeElement.children[0]) {
 					this.teamDownRef.nativeElement.children[0].classList.add("disableDiv");
@@ -520,49 +612,45 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 					}
 				}
 			}
-			// if (soundAssets.location == 'content') {
-			// 	this.audio.src = this.containgFolderPath + '/' + soundAssets.url;
-			// } else {
-
-			// 	this.audio.src = soundAssets.url;
-			// }
 			this.audio.src = soundAssets.url;
 			this.audio.load();
 			this.audio.play();
-			//for(let i= 0;i<teamRef.nativeElement)
 			this.audio.onended = () => {
-				if (this.teamUp) {
-					if (this.teamUpRef && this.teamUpRef.nativeElement && this.teamUp.isStillActive && this.teamUpRef.nativeElement.children[0]) {
-						this.teamUpRef.nativeElement.children[0].classList = "optionsBlock ";
-					}
-				}
-				if (this.teamDown) {
-					if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDown.isStillActive && this.teamDownRef.nativeElement.children[0]) {
-						this.teamDownRef.nativeElement.children[0].classList = "optionsBlock ";
-
-					}
-				}
-				if (this.teamLeft) {
-					if (this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeft.isStillActive && this.teamLeftRef.nativeElement.children[0]) {
-						this.teamLeftRef.nativeElement.children[0].classList = "optionsBlock text-center ";
-					}
-				}
-				if (this.teamRight) {
-					if (this.teamRightRef && this.teamRightRef.nativeElement && this.teamRight.isStillActive && this.teamRightRef.nativeElement.children[0]) {
-						this.teamRightRef.nativeElement.children[0].classList = "optionsBlock text-center";
-					}
-				}
-				if (teamRef.children[0] && teamRef.children[0].children) {
-					for (let i = 0; i < teamRef.children[0].children.length; i++) {
-						if (idx != i && selectedIdx != i) {
-							teamRef.children[0].children[i].classList.remove("disableDiv");;
-						}
-					}
-				}
+				this.onOptionAudioEnd(this.selectedteamRef);
 			}
 		}
 	}
+	onOptionAudioEnd(teamRef) {
+		if (this.teamUp) {
+			if (this.teamUpRef && this.teamUpRef.nativeElement && this.teamUp.isStillActive && this.teamUpRef.nativeElement.children[0]) {
+				this.teamUpRef.nativeElement.children[0].classList = "optionsBlock ";
+			}
+		}
+		if (this.teamDown) {
+			if (this.teamDownRef && this.teamDownRef.nativeElement && this.teamDown.isStillActive && this.teamDownRef.nativeElement.children[0]) {
+				this.teamDownRef.nativeElement.children[0].classList = "optionsBlock ";
 
+			}
+		}
+		if (this.teamLeft) {
+			if (this.teamLeftRef && this.teamLeftRef.nativeElement && this.teamLeft.isStillActive && this.teamLeftRef.nativeElement.children[0]) {
+				this.teamLeftRef.nativeElement.children[0].classList = "optionsBlock text-center ";
+			}
+		}
+		if (this.teamRight) {
+			if (this.teamRightRef && this.teamRightRef.nativeElement && this.teamRight.isStillActive && this.teamRightRef.nativeElement.children[0]) {
+				this.teamRightRef.nativeElement.children[0].classList = "optionsBlock text-center";
+			}
+		}
+		if (teamRef.children[0] && teamRef.children[0].children) {
+			for (let i = 0; i < teamRef.children[0].children.length; i++) {
+				if (teamRef.children[0].children[i].classList.contains("disableDiv")) {
+					teamRef.children[0].children[i].classList.remove("disableDiv");;
+				}
+			}
+		}
+		this.instructionDisable = false;
+	}
 	playOptionHover(opt, idx, teamRef, team) {
 		if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
 			this.playSound(opt.mouse_over_audio, idx, teamRef, team);
@@ -637,23 +725,6 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		opt.opt_normal = opt.opt_original;
 	}
 
-	// setTimerGrade(){
-	// 	if(this.currentMinute>=1){
-	// 		if(this.teamUp.isStillActive){
-	// 			this.teamUpGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
-	// 		}
-	// 		if(this.teamDown.isStillActive){
-	// 			this.teamDownGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
-	// 		}
-	// 		if(this.teamLeft.isStillActive){
-	// 			this.teamLeftGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;	
-	// 		}
-	// 		if(this.teamRight.isStillActive){
-	// 			this.teamRightGrade.nativeElement.src = this.teamCommonAssets.color_timer[this.currentMinute-1].url;
-	// 		}
-	// 	}
-	// }
-
 	hoverConfirm() {
 		this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
 	}
@@ -677,20 +748,36 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		this.confirmAssets.close_btn = this.confirmAssets.close_btn_original;
 	}
 
-	hoverstopVideo() {
-		this.otherAssets.video_stop = this.otherAssets.video_stop_hover;
+	hoverpauseVideo() {
+		this.otherAssets.video_pause = this.otherAssets.video_pause_hover;
 	}
 
-	houtstopVideo() {
-		this.otherAssets.video_stop = this.otherAssets.video_stop_original;
+	houtpauseVideo() {
+		this.otherAssets.video_pause = this.otherAssets.video_pause_original;
+	}
+
+	hoverplayVideo() {
+		this.otherAssets.video_play = this.otherAssets.video_play_hover;
+	}
+
+	houtplayVideo() {
+		this.otherAssets.video_play = this.otherAssets.video_play_original;
+	}
+
+	hoverSkipVideo() {
+		this.otherAssets.video_skip = this.otherAssets.video_skip_hover;
+	}
+
+	houtSkipVideo() {
+		this.otherAssets.video_skip = this.otherAssets.video_skip_original;
 	}
 
 	hoverstartVideo() {
-		this.commonAssets.replay_btn = this.commonAssets.replay_btn_hover;
+		this.otherAssets.replay_btn = this.otherAssets.replay_btn_hover;
 	}
 
 	houtstartVideo() {
-		this.commonAssets.replay_btn = this.commonAssets.replay_btn_original;
+		this.otherAssets.replay_btn = this.otherAssets.replay_btn_original;
 	}
 
 	/*	resetActivity(){
@@ -755,22 +842,29 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		*/
 
 	replayVideo() {
+		if (this.audio && !this.audio.paused) {
+			this.audio.pause();
+			this.audio.currentTime = 0;
+			this.onOptionAudioEnd(this.selectedteamRef);
+		}
+		this.hasVideoStarted = true;
 		this.totalTime = this.currentTime + this.totalTime;
 		this.videoReplayd = true;
 		this.isPlayVideo = true;
 		this.appModel.enableSubmitBtn(false);
-		// this.mainContainer.nativeElement.classList = "consoleBase disableDiv";
-		this.disableMainCont = true;
+		this.disableSelection = true;
 		this.allowSkip = true;
+		this.instructionDisable = true;
 		this.appModel.handleController(this.controlHandler);
 		setTimeout(() => {
 			this.mainVideo.nativeElement.play();
 			this.mainVideo.nativeElement.onended = () => {
-				this.appModel.enableSubmitBtn(true);
+				this.appModel.enableSubmitBtn(false);
 				//	this.resumeActivity();
 				this.isPlayVideo = false;
-				// this.mainContainer.nativeElement.classList = "consoleBase";
-				this.disableMainCont = false;
+				this.disableSelection = false;
+				this.isVideoPaused = false;
+				this.instructionDisable = false;
 				this.appModel.videoStraming(false);
 				if (this.actsTimeout) {
 					this.checkAttemptedOpt();
@@ -790,7 +884,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 */
 	checkAnswer(teamName, opt, index) {
 		console.log(this.appModel.getLiveScoreObj());
-		this.appModel.enableReplayBtn(false);
+		// this.appModel.enableReplayBtn(false);
+		this.disableReplayBtn = true;
 		let obj = {
 			"url": this.scoreCardAssets.right_thumb.url,
 			"location": this.scoreCardAssets.right_thumb.location,
@@ -847,6 +942,12 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.highLightOpt(this.teamRightRef.nativeElement.children[0], index);
 			this.teamRightRef.nativeElement.classList = "colRight h-100 disableOpt";
 		}
+		if ((this.topSelectedIdx > -1 || this.teamUp.isStillActive == false) &&
+			(this.bottomSelectedIdx > -1 || this.teamDown.isStillActive == false) &&
+			(this.leftSelectedIdx > -1 || this.teamLeft.isStillActive == false) &&
+			(this.rightSelectedIdx > -1 || this.teamRight.isStillActive == false)) {
+			this.appModel.enableSubmitBtn(true);
+		}
 	}
 
 	highLightOpt(elem, index) {
@@ -860,7 +961,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	passQuestion(teamName, ref) {
-		this.appModel.enableReplayBtn(false);
+		// this.appModel.enableReplayBtn(false);
+		this.disableReplayBtn = true;
 		ref.src = this.otherAssets.pass_btn_red.url;
 		ref.classList.add("disableDiv");
 		if (teamName == "teamup") {
@@ -916,6 +1018,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			/*	setTimeout(() =>{
 					this.appModel.invokeTempSubject('showModal','manual');
 				},100)*/
+
 			this.openModal(action);
 		} else if (flag == "no") {
 			this.appModel.videoStraming(false);
@@ -923,10 +1026,15 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	openModal(action) {
+		// if (!this.instruction.nativeElement.paused) {
+		// 	this.instruction.nativeElement.pause();
+		// 	this.instruction.nativeElement.currentTime = 0;
+		// 	this.instructionDisable = false;
+		// }
 		if (action == "submitAnswer") {
 			this.checkAttemptedOpt();
-			//this.timerSubscription.unsubscribe();
 			this.removeSubscription();
+			// this.timerSubscription.unsubscribe();			
 		}
 		if (action == "replay") {
 			this.replayVideo();
@@ -934,6 +1042,8 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	checkAttemptedOpt() {
+		this.faintInstruction = true;
+		this.faintContent = true;
 		if (this.teamUp) {
 			this.removeOptClasses(this.teamUpRef.nativeElement.children[0]);
 			this.teamUpRef.nativeElement.classList = "rowTop disableTeam";
@@ -1029,7 +1139,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 				this.feedbackSoFor = this.appModel.feedbackArray;
 				console.log(this.feedbackSoFor);
 			}, 500)
-			/* Auto close feedback modal */
+			/* Auto close scoreboard modal */
 			this.scoreboardCloseTimer = this.scoreCardAssets.scoreboardCloseTimer;
 			setTimeout(() => {
 				if (this.scoreBoardModal.nativeElement.classList == "modal displayPopup")
@@ -1049,7 +1159,6 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	closeScoreBoard() {
-
 		this.scoreBoardModal.nativeElement.classList = "modal";
 		this.feedbackAssts = this.feedbackSoFor[this.currentFeedback];
 		setTimeout(() => {
@@ -1057,18 +1166,34 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			/* Auto next in feedback modal */
 			this.startNextTimer();
 		}, 500)
+	}
+	videoPlayPause() {
+		if (!this.isVideoPaused) {
+			//Pause the video
+			if (!this.mainVideo.nativeElement.paused) {
+				this.mainVideo.nativeElement.pause();
+				this.isVideoPaused = true;
+			}
+		} else {
+			if (this.mainVideo.nativeElement.paused) {
+				this.mainVideo.nativeElement.play();
+				this.isVideoPaused = false;
+			}
+		}
 
 	}
-
 	endedHandleronSkip() {
 		this.isPlayVideo = false;
-		this.appModel.enableReplayBtn(true);
+		// this.appModel.enableReplayBtn(true);
 		this.appModel.videoStraming(false);
 		this.appModel.enableSubmitBtn(true);
 		this.appModel.navShow = 2;
 		// this.mainContainer.nativeElement.classList = "consoleBase";
-		this.disableMainCont = false;
+		// this.disableMainCont = false;
+		this.disableSelection = false;
+		this.instructionDisable = false;
 		this.isPlayVideo = false;
+		this.isVideoPaused = false;
 	}
 	/*	openFeedbackPopup(){
 			this.checkNextActivities();
@@ -1150,18 +1275,25 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	hleaveFeedbackPre() {
 		this.feedback.feedback_back_btn = this.feedback.feedback_back_btn_original;
 	}
+	hoverFeedbackClose() {
+		this.feedback.close_btn = this.feedback.close_btn_hover;
+	}
+	hleaveFeedbackClose() {
+		this.feedback.close_btn = this.feedback.close_btn_original;
+	}
 	hoverOkbtn() {
 		this.feedback.ok_btn = this.feedback.ok_btn_hover;
 	}
 	hleaveOkbtn() {
 		this.feedback.ok_btn = this.feedback.ok_btn_original;
 	}
+
 	closeFeedbackModal() {
 		this.feedbackModal.nativeElement.classList = "modal";
 		this.controlHandler.isNext = true;
 		this.appModel.handleController(this.controlHandler);
 		this.appModel.enableSubmitBtn(false);
-		this.appModel.enableReplayBtn(false);
+		// this.appModel.enableReplayBtn(false);
 		setTimeout(() => {
 			this.appModel.blinkForLastQues();
 			if (!this.appModel.eventDone) {

@@ -1,15 +1,23 @@
-<div class="container-fluid ele" id="container">
+<div class="container-fluid ele temp8" id="container">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
-  <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)="endedHandleronSkip()">
+  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar"
+    [ngClass]="{'disableDiv':instructionDisable, 'showDisabled':faintInstruction}">
+    <div class="instructionBase">
+      <img class="img-fluid" [src]="commonAssets?.instruction_img?.url" (click)="playHoverInstruction()"
+        (load)="checkImgLoaded();" />
+      <audio #instruction [src]="questionObj?.quesAudio?.url"></audio>
+    </div>
+  </div>
+  <!-- <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)="endedHandleronSkip()">
     <div>
       <img style="width: 100%;" [src]="otherAssets?.video_stop?.url" (mousemove)="hoverstopVideo()"
         (mouseleave)="houtstopVideo()" />
     </div>
-  </div>
+  </div> -->
   <div class="d-flex justify-content-center align-items-center" id="consoleBlock">
-    <div class="consoleBase" [ngClass]="{'disable_div':disableMainCont}" #mainContainer>
+    <div class="consoleBase" [ngClass]="{'disableDiv':disableMainCont, 'showDisabled':faintContent}" #mainContainer>
       <img class="img-fluid" [src]="otherAssets?.console_bg?.url" (load)="checkImgLoaded();" />
-      <div class="rowTop" #teamUpRef>
+      <div class="rowTop" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamUpRef>
         <div class="optionsBlock" *ngIf="teamUp">
           <div *ngFor="let opt of teamUp.options;let idx = index">
             <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
@@ -31,7 +39,8 @@
         </div>
       </div>
       <div class="rowMid">
-        <div class="colLeft h-100 disa" #teamLeftRef>
+        <div class="colLeft h-100 disa" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}"
+          #teamLeftRef>
           <div class="optionsBlock text-center" *ngIf="teamLeft">
             <div *ngFor="let opt of teamLeft.options;let idx = index">
               <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
@@ -52,7 +61,21 @@
               [src]="score?.live_no?.url">
           </div>
         </div>
-        <div class="colMid h-100">
+        <div class="colMid h-100">          
+          <div [ngClass]="{'d-none': !hasVideoStarted}" class="videoPlayPause" *ngIf="isPlayVideo" (click)="videoPlayPause()">
+            <img *ngIf="!isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_pause?.url" (mousemove)="hoverpauseVideo()"
+              (mouseleave)="houtpauseVideo()" />
+            <img *ngIf="isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_play?.url" (mousemove)="hoverplayVideo()"
+            (mouseleave)="houtplayVideo()"/>
+          </div>
+          <div [ngClass]="{'disableBtn': disableReplayBtn, 'hideBtn':hideReplayBtn}" class="videoOpen" *ngIf="!isPlayVideo" (click)="openReplayConfirm()">
+            <img style="width: 100%;" [src]="otherAssets?.replay_btn?.url" (mousemove)="hoverstartVideo()"
+            (mouseleave)="houtstartVideo()"/>
+          </div>
+          <div class="videoSkip" *ngIf="videoReplayd && isPlayVideo && allowSkip" (click)="endedHandleronSkip()">
+            <img style="width: 100%;" [src]="otherAssets?.video_skip?.url" (mousemove)="hoverSkipVideo()"
+              (mouseleave)="houtSkipVideo()" />
+          </div>
           <div class="durationTime">
             <img class="img-fluid" [src]="questionObj?.quesImg?.timeBg?.url">
             <div>{{displayTimer}}</div>
@@ -61,12 +84,12 @@
             <img class="img-fluid" [src]="questionObj?.quesImg?.imgsrc?.url">
             <audio #quesVORef [src]="questionObj?.quesImg?.quesAudio?.url" (ended)="audioEnded()"></audio>
           </div>
-          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
-            poster="assets/images/videoPoster.svg">
+          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" style="max-width: 100%"
+            [poster]="questionObj?.videoPoster?.url">
             <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
           </video>
         </div>
-        <div class="colRight h-100" #teamRightRef>
+        <div class="colRight h-100" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamRightRef>
           <div class="optionsBlock text-center" *ngIf="teamRight">
             <div *ngFor="let opt of teamRight.options;let idx = index">
               <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
@@ -87,7 +110,7 @@
           </div>
         </div>
       </div>
-      <div class="rowBtm" #teamDownRef>
+      <div class="rowBtm" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamDownRef>
         <div class="optionsBlock" *ngIf="teamDown">
           <div *ngFor="let opt of teamDown.options;let idx = index">
             <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
@@ -230,13 +253,14 @@
   <div class="modal" id="modalfeedback" #feedbackModal>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <img class="close zidx" [src]="feedback?.close_btn?.url" (click)="closeFeedbackModal()">
+        <img class="close zidx" [src]="feedback?.close_btn?.url" (mousemove)="hoverFeedbackClose()"
+          (mouseleave)="hleaveFeedbackClose()" (click)="closeFeedbackModal()">
         <img class="img-fluid" [src]="feedbackAssts?.feedback_base">
 
         <!-- Modal body -->
         <div class="modal-body">
-          <div class="d-flex flex-row justify-content-around instructionBar">
-            <div class="instructionBase">
+          <div class="d-flex flex-row justify-content-around instructionBarFeedback">
+            <div class="instructionBaseFeedback">
               <img class="img-fluid" [src]="feedbackAssts?.ques_feedback?.ques_img">
             </div>
           </div>
@@ -268,11 +292,3 @@
     </div>
   </div>
 </div>
-<!--
-<div class="videoMainContainer" *ngIf="isPlayVideo">
-        <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;" poster="assets/images/videoPoster.svg">
-                <source [src]="questionObj?.quesVideo?.location=='content' ? containgFolderPath + '/' + questionObj?.quesVideo?.urlOgv : assetsPath + '/' + questionObj?.quesVideo?.urlOgv"
-                type="{{videoType}}">
-        </video>
-</div>
--->

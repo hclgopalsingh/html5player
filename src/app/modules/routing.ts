@@ -20,7 +20,7 @@ import { Template16Component } from '../controller/template16.component';
 import { TemplatethirteenComponent } from '../controller/templatethirteen.component';
 import {Template12Component} from '../controller/template12.component';
 import {Ntemplate2} from './Elementary/Ntemplate2/Ntemplate2.component';
-import { Ntemplate18 } from '../controller/Ntemplate18.component';
+import { Ntemplate18 } from '../modules/Elementary/Ntemplate18/Ntemplate18.component';
 import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
 import {Ntemplate8} from '../modules/Elementary/Ntemplate8/Ntemplate8.component';
 import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
@@ -33,15 +33,13 @@ import { Ntemplate6 } from '../modules/Elementary/Ntemplate6/Ntemplate6.componen
 import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component';
 import { Ntemplate17Component } from './Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate24 } from '../modules/Elementary/Ntemplate24/Ntemplate24.component';
-import { Ntemplate24_1 } from '../controller/Ntemplate24_1.component';
-import { Ntemplate19 } from '../controller/Ntemplate19.component';
+import { Ntemplate24_1 } from '../modules/Elementary/Ntemplate24_1/Ntemplate24_1.component';
 import {Ntemplate21} from '../controller/Ntemplate21.component';
 import { NTitleComponent} from '../controller/NTitle.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Phase3T01V01 } from '../controller/phase3/template01/variant01.component';
 import { Ntemplate13 } from '../modules/Elementary/Ntemplate13/Ntemplate13.component';
-import { Ntemplate20 } from '../controller/Ntemplate20.component';
 import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate11 } from '../controller/Ntemplate11.component';
 import { Ntemplate12 } from '../controller/Ntemplate12.component';
@@ -65,6 +63,8 @@ import { Template12ComponentEVA } from './EVA/template12/template12.component';
 import { TemplateSevenComponent } from './EVA/template7/template7.component';
 import { Template5Component } from './EVA/template5/template5.component';
 import { Template9Component } from './EVA/template9/template9.component';
+import { Ntemplate20Component } from './Elementary/Ntemplate20/Ntemplate20.component';
+import { Ntemplate19Component } from './Elementary/Ntemplate19/Ntemplate19.component';
 
 export const APP_ROUTES: Routes = [
 	{ path: '', component: ContainerComponent },
@@ -135,8 +135,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp18ext', component: Ntemplate18, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp18_1', component: Ntemplate18_1, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp18_1ext', component: Ntemplate18_1, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp19', component: Ntemplate19, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp19ext', component: Ntemplate19, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp19', component: Ntemplate19Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp19ext', component: Ntemplate19Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp21', component: Ntemplate21, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp21ext', component: Ntemplate21, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp24_1', component: Ntemplate24_1, runGuardsAndResolvers: 'always' },
@@ -147,8 +147,8 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp13ext', component: Ntemplate13, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp10', component: Ntemplate10, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp10ext', component: Ntemplate10, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp20', component: Ntemplate20, runGuardsAndResolvers: 'always' },
-			{ path: 'ntemp20ext', component: Ntemplate20, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp20', component: Ntemplate20Component, runGuardsAndResolvers: 'always' },
+			{ path: 'ntemp20ext', component: Ntemplate20Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp11', component: Ntemplate11, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp11ext', component: Ntemplate11, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp12', component: Ntemplate12, runGuardsAndResolvers: 'always' },

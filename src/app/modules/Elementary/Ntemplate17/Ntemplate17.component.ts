@@ -171,7 +171,7 @@ export class Ntemplate17Component implements OnInit {
   stringArr: any = [];
   feedbackTimer: any;
   popupTxtRequired: boolean = false;
-
+  isSecondScreen :boolean = false;
   keyboard: Keyboard;
   selectedIdx: number = -1;
   currentRightListIdx: number = 0;
@@ -243,7 +243,7 @@ export class Ntemplate17Component implements OnInit {
   displayWave: boolean;
   speakerdisable:boolean=false;
   testContainerDisable:boolean=false;
-
+  keyBoardOpen:boolean = false
   disableaddbtnPointer:any = false
 
   rightPosArray:any =[
@@ -417,19 +417,18 @@ export class Ntemplate17Component implements OnInit {
       }
       if (action == "submitAnswer") {
         this.stopInstructionVO();
+        this.appModel.stopAllTimer();
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
         if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
            this.QuestionVideo.nativeElement.pause();
            this.QuestionVideo.nativeElement.currentTime = 0;
-		  //this.QuestionVideo.nativeElement.load();
-      // this.instructionBar.nativeElement.style.pointerEvents="";
-      this.instructionDisable = false;
+		  //this.QuestionVideo.nativeElement.load();      
         }
       }
       if (action == "replayVideo") {
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          this.instructionBar.nativeElement.classList = "instructionBase";
+          //this.instructionBar.nativeElement.classList = "instructionBase";
           this.stopInstructionVO();
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.PlayPauseFlag = true;
@@ -484,6 +483,13 @@ export class Ntemplate17Component implements OnInit {
     clearInterval(this.feedbackTimer);
     clearTimeout(this.videoPlaytimer);
     this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
+    if(this.QuestionAudio){
+      this.QuestionAudio.nativeElement.src = "";
+      this.QuestionAudio.nativeElement.pause();
+      this.QuestionAudio.nativeElement.currentTime = 0;
+    }
+    this.displayWave=false;
+    this.speakerdisable=false;
   }
 
   ngDoCheck() {
@@ -525,8 +531,10 @@ export class Ntemplate17Component implements OnInit {
 
   //event on key press
   onKeyPress = (button: string) => {
+    console.log("keypressedddd")
+    // this.inputDivRef.nativeElement.children[0].click();
     console.log("Button pressed", button);
-    
+    clearInterval(this.blinkTimer);
     this.stopInstructionVO();
     this.instructionDisable = false;
     if (button === "{tab}" || button === "{enter}" || button === ".com") {
@@ -564,22 +572,25 @@ export class Ntemplate17Component implements OnInit {
       if(this.charLeft <17){
         this.currentChar = this.currentChar - 1;
         this.charLeft =  this.charLeft+1
+        this.onBlurMethod();
       }  
       if (this.quesObj.lang == 'eng') {
-        if (this.btnCounting > 0) {
-          this.btnCounting -= 1;
-          this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
+        if (this.currentChar > 0) {
+          //this.currentChar -= 1;
         }
+        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
         //this.btnCounting-=1;
       }
       if(this.quesObj.lang == 'hindi'){
-        if(this.btnCounting && this.btnCounting >0){
-          this.btnCounting -= 1;
-        }
+        // if(this.btnCounting && this.btnCounting >0){
+        //   this.btnCounting -= 1;
+        // }
+        this.checkForSpecial(this.inputVal);
         this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
       }
 
-    } else if (this.btnCounting < this.maxCharacter) {
+    } 
+    else if (this.currentChar < this.totalChar) {
 	  if(button == "{space}" && this.inputVal  != " ") {
 		this.inputVal  += " ";
 	  } 
@@ -603,12 +614,40 @@ export class Ntemplate17Component implements OnInit {
       this.QuestionVideo.nativeElement.currentTime = 0;
 	  //this.QuestionVideo.nativeElement.load();
     }
-    console.log("this.inputVal.lengthr",this.inputVal.length)
-    if(button != "{bksp}" && this.charLeft>0){
+    console.log("this.inputVal.lengthr",this.inputVal.length, this.inputVal.trim(), this.inputVal.trim().length)
+    if(button != "{bksp}" && button != "{lock}" && this.charLeft>0){
+      if(this.inputVal.trim().length == 0){
+        this.inputVal="";}
+      if(this.inputVal.trim().length >0){
       this.charLeft = this.charLeft-1
       this.currentChar =  this.currentChar + 1;
+      }
     }
   };
+
+
+  checkForSpecial(val){
+    let L = val.length
+    let lastChar:any
+    if(L > 2){
+      lastChar = val[L-3] + val[L-2] + val[L-1] 
+      console.log(lastChar,"lastChar")
+      if(lastChar ==  "त्र" ||  lastChar =="ज्ञ" ||  lastChar =="श्र" || lastChar == "क्ष"){
+        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 2);
+      }
+    }
+  }
+
+
+  onBlurMethod(){
+    console.log("this.wordArr.length",this.wordArr.length)
+    if(this.charLeft >0 && this.wordArr.length < 12){
+      document.getElementById("inputKeyboard").focus();
+    }
+    else{
+      document.getElementById("inputKeyboard").blur();
+    }
+  }
 
   //to check on keyboard press
   onInputChange = (event: any) => {
@@ -636,6 +675,12 @@ export class Ntemplate17Component implements OnInit {
       console.log("play on Instruction");
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
+        if(this.QuestionAudio && this.QuestionAudio.nativeElement){
+          this.QuestionAudio.nativeElement.pause();
+          this.QuestionAudio.nativeElement.currentTime = 0;
+        }
+        this.displayWave=false;
+        this.speakerdisable=false;
         this.instruction.nativeElement.play();
         this.instructionDisable = true;
         this.appModel.handlePostVOActivity(false);
@@ -666,8 +711,15 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.event = { 'action': 'segmentEnds' };
     if (this.InfoModalRef != undefined) {
       // this.appModel.moveNextQues();
-      this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+      if(this.testContainerDisable){
+        console.log('on keyboard screen')
+      }
+      else{
+        console.log('on test screen')
 
+      }
+      this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+      clearInterval(this.blinkTimer);
 
       if (this.quesObj.lang != 'math') {
         this.appModel.moveNextQues("noBlink");
@@ -981,6 +1033,7 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.handlePostVOActivity(false);
     clearTimeout(this.nextQuestionTimeronLast);
     ref.classList = "modal";
+    this.instructionDisable = false;
     if (action == "replay") {
       this.replayVideo();
     } else if (action == "feedbackDone") {
@@ -1004,6 +1057,11 @@ export class Ntemplate17Component implements OnInit {
       
     } else if (action == "showAnswerFeedback") {
       //this.postShowAnswer();
+    }
+    else if(action == 'partialFeedback'){
+      if(this.charLeft == 17 && this.wordArr.length<12){
+        this.blinkTextBox();
+      }
     }
   }
 
@@ -1031,7 +1089,7 @@ export class Ntemplate17Component implements OnInit {
     this.appModel.navShow = 1;
     //this.appModel.enableSubmitBtn(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
-    this.instructionBar.nativeElement.classList = "instructionBase";
+    //this.instructionBar.nativeElement.classList = "instructionBase";
     clearInterval(this.blinkTimer);
     this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
 
@@ -1054,7 +1112,7 @@ export class Ntemplate17Component implements OnInit {
           this.appModel.notifyUserAction();
           this.appModel.handlePostVOActivity(false);
           this.inputDivRef.nativeElement.classList = "inputDiv";
-          this.instructionBar.nativeElement.classList = "instructionBase";
+          //this.instructionBar.nativeElement.classList = "instructionBase";
           /*  if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
               this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
               this.QuestionVideo.nativeElement.play();
@@ -1081,27 +1139,29 @@ export class Ntemplate17Component implements OnInit {
 
   //open Keyboard 
   openKeyBoard() {
+    this.keyBoardOpen = true;
+    this.appModel.enableSubmitBtn(false);
     clearInterval(this.blinkTimer);
     // this.instructionBar.nativeElement.style.pointerEvents="";
     this.instructionDisable = false
-    this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
+    // this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
     this.inputFieldText = "";
     if (this.quesObj.lang != 'hindi') {
-      this.inputDivRef.nativeElement.children[0].maxLength = "17";
+      //this.inputDivRef.nativeElement.children[0].maxLength = "17";
       this.quesContainer.nativeElement.style.marginTop = 0 + "%";
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
     }
     if (this.quesObj.lang == 'hindi') {
-      this.inputDivRef.nativeElement.children[0].maxLength = "17";
+      // this.inputDivRef.nativeElement.children[0].maxLength = "17";
       // this.keyBoardVersion = this.commonAssets.keyboard.New;
       this.quesContainer.nativeElement.style.marginTop = 0 + "%";
       this.testContainer.nativeElement.style.marginTop = 0 + "%";
       this.keyboard = new Keyboard({ onKeyPress: button => this.onKeyPress(button), layout: this.layout, display:{
         '{bksp}': 'Backspace',
-        '{space}': 'Space',
+        '{space}': 'Space bar',
         'ॅ': '&nbsp;ॅ',
         '्': '&nbsp;्',
         'ु': '&nbsp;ु',
@@ -1121,7 +1181,6 @@ export class Ntemplate17Component implements OnInit {
         'ं': '&nbsp;ं',
         'ृ': '&nbsp;ृ',
       },
-      maxLength: 17,
       buttonTheme:
       [
         {
@@ -1186,12 +1245,20 @@ export class Ntemplate17Component implements OnInit {
 	// if(this.quesObj.lang == "eng") {
 		// (document.getElementsByClassName("simple-keyboard hg-theme-default hg-layout-default")[0].lastChild.children[1].children[0] as HTMLElement).innerHTML="Space bar";
 		// //spacebarText.innerHTML="Space bar";
-	// }
+  // }
+  let inp =this.inputVal;
+  this.inputVal = "" ;
+  setTimeout(() => {
+    this.inputVal = inp
+  }, 10);
   }
 
   //adding a word
   addWord() {
     // this.instructionBar.nativeElement.style.pointerEvents="";
+    // for (let i = 0; i < document.getElementsByClassName("submitBtn").length; i++) {
+    //   document.getElementsByClassName("submitBtn")[i].classList.remove("FakedisableDiv");
+    //   }
     this.instructionDisable = false;
     this.appModel.notifyUserAction();
     this.charLeft = 17;
@@ -1249,10 +1316,16 @@ export class Ntemplate17Component implements OnInit {
       this.QuestionVideo.nativeElement.currentTime = 0;
 	  //this.QuestionVideo.nativeElement.load();
     }
+    this.onBlurMethod();
+    if(this.wordArr.length == 12){
+      this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
+    }
+    this.keyBoardOpen = false
   }
 
   //showing second test screen
   showTestScreen() {
+    this.isSecondScreen = true;
     this.noAttempts = this.wordArr.length;
     this.testContainerDisable=true;
     this.testContainer.nativeElement.classList = "testContainer d-flex flex-row justify-content-center align-items-center";
@@ -1269,6 +1342,7 @@ export class Ntemplate17Component implements OnInit {
     this.wordBlockRef.nativeElement.classList = "wordBlock disableIt";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
+    this.instructionDisable = true;
   }
 
   //on animation finish function
@@ -1276,6 +1350,7 @@ export class Ntemplate17Component implements OnInit {
    console.log(event,"yhi par hun--------->.>>>>>>");
   if(event.fromState == "wordBox" && event.toState == "actionBox" && event.phaseName == "done"){
     this.testContainerDisable=false;
+    this.instructionDisable = false;
     this.pushToTestBox(this.selectedIdx, this.wordArr[this.selectedIdx].word);
   }
   if(event.fromState == "actionBox" && event.toState == "testBox" && event.phaseName == "done"){
@@ -1295,8 +1370,17 @@ export class Ntemplate17Component implements OnInit {
   }
   }
 
+  focussing(){
+    console.log("wrongList...............--------->>>>>>>>>>>>..")
+    let inp =this.inputVal;
+    this.inputVal = "" ;
+    this.inputVal = inp
+  }
+
   //adding word to wrong list
   addToWrongList() {
+    this.stopInstructionVO();
+    this.instructionDisable = true
     this.listtype="wrongList";
     this.testContainerDisable=true;
     this.selectedOptionArr.state="testBox";
@@ -1314,6 +1398,8 @@ export class Ntemplate17Component implements OnInit {
 
   //adding word to right list
   addToRightList() {
+    this.stopInstructionVO();
+    this.instructionDisable = true
     this.listtype="rightList";
     this.testContainerDisable=true;
     this.selectedOptionArr.state="testBox";
@@ -1370,7 +1456,6 @@ export class Ntemplate17Component implements OnInit {
     this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
     this.feedbackPopupAudio.nativeElement.play();
 
-
   }
 
   openModal() {
@@ -1381,7 +1466,13 @@ export class Ntemplate17Component implements OnInit {
 
   //on clicking numbers
   numberClick(num) {
+    this.appModel.notifyUserAction();
     this.stopInstructionVO();
+    if(this.currentChar <17){
+      this.charLeft = this.charLeft-1
+      this.currentChar =  this.currentChar + 1;
+    }
+    
     // this.instructionBar.nativeElement.style.pointerEvents="";
     this.instructionDisable = false;
     let editedStr = this.inputVal + "" + num;
@@ -1396,6 +1487,11 @@ export class Ntemplate17Component implements OnInit {
 
   //on clicking operator
   operatorClick(operator) {
+    this.appModel.notifyUserAction();
+    if(this.currentChar <17){
+      this.charLeft = this.charLeft-1
+      this.currentChar =  this.currentChar + 1;
+    }
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + operator;
     if (this.btnCounting < this.maxCharacter) {
@@ -1428,13 +1524,17 @@ export class Ntemplate17Component implements OnInit {
   //deleting a word
   deleteElement() {
     this.stopInstructionVO();
+    if(this.charLeft <17){
+      this.currentChar = this.currentChar - 1;
+      this.charLeft =  this.charLeft+1
+    } 
     if (this.btnCounting > 0) {
       this.btnCounting -= 1;
       let editedStr = this.inputVal.substr(0, this.inputVal.length - 1);
       this.onChange(editedStr);
 
     }
-
+    this.onBlurMethod();
   }
 
   //to disable screen
@@ -1448,6 +1548,8 @@ export class Ntemplate17Component implements OnInit {
   }
 
   blinkTextBox() {
+    if(!this.keyBoardOpen){
+    document.getElementById("instructionBarFeedback").focus();
     this.blinkTimer = setInterval(() => {
       if (this.blinkFlag) {
         this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
@@ -1457,6 +1559,8 @@ export class Ntemplate17Component implements OnInit {
         this.blinkFlag = true;
       }
     }, 500)
+  }
+
   }
 
   stopInstructionVO() {
@@ -1666,6 +1770,7 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronSkip() {
+    
     this.videoReplayd = false;
     this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
     if(this.mainVideo && this.mainVideo.nativeElement){
@@ -1673,9 +1778,14 @@ export class Ntemplate17Component implements OnInit {
     this.mainVideo.nativeElement.pause();
     }
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+    this.appModel.startPreviousTimer();
+    this.appModel.notifyUserAction();
   }
 
   endedHandleronClose(){
+    this.appModel.startPreviousTimer();
+    this.appModel.notifyUserAction();
+    this.quesObj.close_btn =  this.quesObj.close_btn_original;
     this.fullImage.nativeElement.parentElement.style.visibility="hidden";
   }
 
@@ -1704,6 +1814,10 @@ export class Ntemplate17Component implements OnInit {
 
   keyPress() {
     return false;
+  }
+
+  onKeydownMain(ev) {
+    ev.preventDefault();
   }
 
   QuestionLoaded() {
@@ -1739,7 +1853,9 @@ export class Ntemplate17Component implements OnInit {
       this.mainVideo.nativeElement.play();
       this.appModel.handlePostVOActivity(false);
       this.alldisabledwhilequestionVideoPlay();
+      this.appModel.stopAllTimer();
       this.mainVideo.nativeElement.onended = () => {
+        this.appModel.notifyUserAction();
         this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
         this.instructionDisable=false;
         this.isPlayVideo=false;
@@ -1791,18 +1907,25 @@ export class Ntemplate17Component implements OnInit {
 
   onclickImageorVideo(){
     if(this._questionAreaVideoFlag){
+      this.appModel.stopAllTimer();
       console.log("show video")
       this.quesObj.quesPlayPause = this.quesObj.quesPause;
       this.mainVideo.nativeElement.parentElement.style.visibility="visible";
       this.videoReplayd = true;
+      this.instruction.nativeElement.pause();
+      this.instruction.nativeElement.currentTime=0;
+      this.instructionDisable =false;
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
         this.videoReplayd = false;
+        this.appModel.notifyUserAction();
         this.mainVideo.nativeElement.currentTime = 0;
         this.mainVideo.nativeElement.parentElement.style.visibility="hidden";
       }
     }
     else{
+      this.instructionDisable = false
+      this.appModel.stopAllTimer();
       this.fullImage.nativeElement.parentElement.style.visibility="visible";
       this.instruction.nativeElement.pause();
       this.instruction.nativeElement.currentTime=0;
@@ -1848,6 +1971,15 @@ export class Ntemplate17Component implements OnInit {
     // $("#instructionBar").removeClass("disable_div");
     this.instructionDisable = false;
     this.appModel.enableReplayBtn(true);
+  }
+
+  closeKeyboard(){
+    this.quesObj.close_btn =  this.quesObj.close_btn_original;
+    this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
+    this.keyBoardOpen = false;
+    if(this.wordArr && this.wordArr.length > 0) {
+      this.appModel.enableSubmitBtn(true);
+    }
   }
 
 }
