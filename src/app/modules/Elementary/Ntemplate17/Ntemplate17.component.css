@@ -1474,6 +1474,7 @@ cursor: pointer
 #infoModalId {
 	/* display: flex;*/
 	background: rgba(0,0,0,.85);
+  z-index: 102 !important;
 }
 
 #infoModalId .modal-dialog {
@@ -1678,17 +1679,16 @@ cursor: pointer
 }
 
 .closeBtn_keyb{
-  width: 3.5% ;
-  /* height: 16% ; */
-  top: 90%;
-  right: 9%;
+  width: 3.2%;
+  top: 91%;
+  right: 9.5%;
   z-index: 101;
   position: absolute;
   cursor: pointer;
 }
 
 .closeBtn_keyb_math{
-    width: 3.5%;
+    width: 3.2%;
     top: 111%;
     right: 9.4%;
     z-index: 101;

@@ -636,6 +636,14 @@ export class Ntemplate17Component implements OnInit {
         this.inputVal = this.inputVal.substring(0, this.inputVal.length - 2);
       }
     }
+    if(L>1){
+      lastChar = val[L-2] + val[L-1] 
+      console.log(lastChar,"lastChar")
+    
+      if(lastChar ==  "र्" ||  lastChar =="्र"){
+        this.inputVal = this.inputVal.substring(0, this.inputVal.length - 1);
+      }
+    }
   }
 
 
@@ -1250,6 +1258,9 @@ export class Ntemplate17Component implements OnInit {
   this.inputVal = "" ;
   setTimeout(() => {
     this.inputVal = inp
+    if(inp && inp.length > 0){
+      this.addBtnRef.nativeElement.style.opacity = "1";
+    }
   }, 10);
   }
 
@@ -1974,6 +1985,14 @@ export class Ntemplate17Component implements OnInit {
   }
 
   closeKeyboard(){
+    this.stopInstructionVO();
+    this.instructionDisable = true
+    if(this.QuestionAudio && this.QuestionAudio.nativeElement){
+      this.QuestionAudio.nativeElement.pause();
+      this.QuestionAudio.nativeElement.currentTime = 0;
+    }
+    this.displayWave=false;
+    this.speakerdisable=false;
     this.quesObj.close_btn =  this.quesObj.close_btn_original;
     this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
     this.keyBoardOpen = false;
