@@ -105,8 +105,11 @@
 							<div class="row mx-0" id="optionsBlock">
 								<div class="my-auto quesImage" #feedbackOption>
 									<div class="options" *ngFor="let feed of assetsFeedback; let idx = index">
-											<div>
-												<img class="img-fluid" [src]="feed?.imgsrc?.location=='content' ? containgFolderPath + '/' + feed?.imgsrc?.url : assetsPath + '/' + feed?.imgsrc?.url">
+											<div *ngIf="feed.index==feedback.correct_sequence[idx]"> 
+												<img class="img-fluid" [src]="feed?.imgsrc?.location=='content' ? containgFolderPath + '/' + feed?.imgsrc_right?.url : assetsPath + '/' + feed?.imgsrc?.url">
+                      </div>
+                      <div *ngIf="feed.index!=feedback.correct_sequence[idx]"> 
+												<img class="img-fluid" [src]="feed?.imgsrc?.location=='content' ? containgFolderPath + '/' + feed?.imgsrc_wrong?.url : assetsPath + '/' + feed?.imgsrc?.url">
 											</div>
 											<div>
 												<img class="img-fluid" *ngIf="feed.index==feedback.correct_sequence[idx]" [src]="feedbackAssets?.right_tick?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.right_tick?.url : assetsPath + '/' + feedbackAssets?.right_tick?.url">
