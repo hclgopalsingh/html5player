@@ -540,6 +540,13 @@ export class Ntemplate17Component implements OnInit {
     if (button === "{tab}" || button === "{enter}" || button === ".com") {
       return;
     }
+    if(this.QuestionAudio && this.QuestionAudio.nativeElement){
+      this.QuestionAudio.nativeElement.pause();
+      this.QuestionAudio.nativeElement.currentTime = 0;
+    }
+    this.displayWave=false;
+    this.speakerdisable=false;
+    this.appModel.notifyUserAction();
     /**
      * If you want to handle the shift and caps lock buttons
      */
