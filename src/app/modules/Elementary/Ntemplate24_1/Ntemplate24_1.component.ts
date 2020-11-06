@@ -151,6 +151,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.feedbackPopupRef.nativeElement.classList = "modal"
     this.confirmSubmitRef.nativeElement.classList = "modal"
     this.confirmModalRef.nativeElement.classList = "modal"
+    this.confirmReplayRef.nativeElement.classList = "modal"
   }
 
   ngOnInit() {
