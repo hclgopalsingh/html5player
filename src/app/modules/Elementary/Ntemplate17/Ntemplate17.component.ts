@@ -540,6 +540,13 @@ export class Ntemplate17Component implements OnInit {
     if (button === "{tab}" || button === "{enter}" || button === ".com") {
       return;
     }
+    if(this.QuestionAudio && this.QuestionAudio.nativeElement){
+      this.QuestionAudio.nativeElement.pause();
+      this.QuestionAudio.nativeElement.currentTime = 0;
+    }
+    this.displayWave=false;
+    this.speakerdisable=false;
+    this.appModel.notifyUserAction();
     /**
      * If you want to handle the shift and caps lock buttons
      */
@@ -569,7 +576,7 @@ export class Ntemplate17Component implements OnInit {
 	  }
     } else if (button === "{bksp}") {
       this.btnSelected = "{bksp}";
-      if(this.charLeft <17){
+      if(this.charLeft <this.totalChar){
         this.currentChar = this.currentChar - 1;
         this.charLeft =  this.charLeft+1
         this.onBlurMethod();
@@ -861,6 +868,8 @@ export class Ntemplate17Component implements OnInit {
 
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
+        this.totalChar = 17;
+        this.charLeft = 17;
         console.log("hindi", hindiLayout)
         const newHindiLayout = {default:["1 2 3 4 5 6 7 8 9 0 - . | {bksp}","a ् ा ि ी ु ू े ै ो ौ ं ँ ः ़ ्र ृ र्",,"अ आ इ ई उ ऊ ए ऐ ओ औ ऍ","क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण","त थ द ध न प फ ब भ म य र ल व श","ष स ह क्ष {space} त्र ज्ञ श्र ॠ ॅ ॉ"]}
         // const newHindiLayout = {default:["ƒ „ … † ‡ ˆ ‰ Š & - | {bksp}","a ~ k f h q w s S ks kS a ¡ % z `",,"v vk b bZ m Å , ,s vks vkS va v%","d [k x ?k ³ p N t > ¥ V B M < .k","r Fk n /k u i Q c Hk e ; j y o 'k",'"k l g {k {space} = J K _ ऍ W ‚']} 
@@ -868,11 +877,15 @@ export class Ntemplate17Component implements OnInit {
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("nonHindiInput");
       } else if (this.quesObj.lang == "eng") {
+        this.totalChar = 14;
+        this.charLeft = 14;
 		const newenglishLayout={default:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} q w e r t y u i o p [ ] \\","{lock} a s d f g h j k l ; ' {enter}","{shift} z x c v b n m , . / {shift}","@ {space}"],shift:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} Q W E R T Y U I O P { } |",'{lock} A S D F G H J K L : " {enter}',"{shift} Z X C V B N M < > ? {shift}","@ {space}"]};
         this.layout = newenglishLayout;
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
       } else if (this.quesObj.lang == "math") {
+        this.totalChar = 14;
+        this.charLeft = 14;
         this.layout = "mathLayout";
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
@@ -880,7 +893,7 @@ export class Ntemplate17Component implements OnInit {
 
     }
 
-    for (let i = 0; i < 17; i++) {
+    for (let i = 0; i < this.totalChar; i++) {
       this.rightListArr.push("");
       this.wrongListArr.push("");
     }
@@ -1067,7 +1080,8 @@ export class Ntemplate17Component implements OnInit {
       //this.postShowAnswer();
     }
     else if(action == 'partialFeedback'){
-      if(this.charLeft == 17 && this.wordArr.length<12){
+      if(this.charLeft == this.totalChar
+        && this.wordArr.length<12){
         this.blinkTextBox();
       }
     }
@@ -1272,7 +1286,7 @@ export class Ntemplate17Component implements OnInit {
     //   }
     this.instructionDisable = false;
     this.appModel.notifyUserAction();
-    this.charLeft = 17;
+    this.charLeft = this.totalChar;
     this.currentChar = 0;
     this.appModel.handlePostVOActivity(false);
     this.inputDivRef.nativeElement.classList = "inputDiv";
@@ -1479,7 +1493,7 @@ export class Ntemplate17Component implements OnInit {
   numberClick(num) {
     this.appModel.notifyUserAction();
     this.stopInstructionVO();
-    if(this.currentChar <17){
+    if(this.currentChar <this.totalChar){
       this.charLeft = this.charLeft-1
       this.currentChar =  this.currentChar + 1;
     }
@@ -1487,7 +1501,7 @@ export class Ntemplate17Component implements OnInit {
     // this.instructionBar.nativeElement.style.pointerEvents="";
     this.instructionDisable = false;
     let editedStr = this.inputVal + "" + num;
-    if (this.btnCounting < this.maxCharacter) {
+    if (this.btnCounting < this.totalChar) {
       this.onChange(editedStr);
       this.btnCounting += 1;
     }
@@ -1499,13 +1513,13 @@ export class Ntemplate17Component implements OnInit {
   //on clicking operator
   operatorClick(operator) {
     this.appModel.notifyUserAction();
-    if(this.currentChar <17){
+    if(this.currentChar <this.totalChar){
       this.charLeft = this.charLeft-1
       this.currentChar =  this.currentChar + 1;
     }
     this.stopInstructionVO();
     let editedStr = this.inputVal + "" + operator;
-    if (this.btnCounting < this.maxCharacter) {
+    if (this.btnCounting <this.totalChar) {
       this.onChange(editedStr);
       this.btnCounting += 1;
     }
@@ -1525,7 +1539,7 @@ export class Ntemplate17Component implements OnInit {
   //on clicking tab
   tabClick() {
     let editedStr = this.inputVal + " ";
-    if (this.btnCounting < this.maxCharacter) {
+    if (this.btnCounting < this.totalChar) {
       this.onChange(editedStr);
       this.btnCounting += 1;
     }
@@ -1535,7 +1549,7 @@ export class Ntemplate17Component implements OnInit {
   //deleting a word
   deleteElement() {
     this.stopInstructionVO();
-    if(this.charLeft <17){
+    if(this.charLeft <this.totalChar){
       this.currentChar = this.currentChar - 1;
       this.charLeft =  this.charLeft+1
     } 
