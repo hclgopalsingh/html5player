@@ -628,6 +628,23 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
+  hoverPlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
+    }
+  }
+  leavePlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+    }
+  }
+
   //this is function to execute the blink
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {

@@ -82,8 +82,8 @@
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()"
-              (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid"
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverConfirm()"
+            (mouseleave)="houtConfirm()"><img class="img-fluid"
                 [src]="confirmPopupAssets?.confirm_btn?.url"></button>
             <button type="button" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverDecline()"
               (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
@@ -193,7 +193,7 @@
     <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
   </video>
 
-  <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()" /></div>
+  <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
 
