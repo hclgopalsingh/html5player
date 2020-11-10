@@ -677,6 +677,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.notifyUserAction();
     ref.classList = "modal";
     this.isPartialPopup = false;
+    clearInterval(this.postCompleteTimer);
     if (action == "showAnswer") {
       this.popupType = "showanswer"
       this.getAnswer('showAnswer');
