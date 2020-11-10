@@ -49,6 +49,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
 
   optionBase: boolean = false;
+  isDisablePlaceholder: boolean = false;
+  blinkingFlag: boolean = true;
   partialCorrectCase: boolean = false;
   audio = new Audio();
   isDisableDiv: boolean = false;
@@ -136,6 +138,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   lowerImagesNo2: boolean = false;
   resetCounterFlag: boolean = true;
   animationFlag: boolean = false;
+  tabLoadAnimationFlag: boolean = false;
 
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -157,15 +160,13 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService, private renderer: Renderer2, private elementRef: ElementRef) {
     this.appModel = appModel;
-    if (!this.appModel.isVideoPlayed) {
-
-    } else {
-      this.appModel.setLoader(true);
-      // if error occured during image loading loader will stop after 5 seconds 
-      this.loaderTimer = setTimeout(() => {
-        this.appModel.setLoader(false);
-      }, 5000);
-    }
+    this.appModel.setLoader(true);
+    // if error occured during image loading loader wil stop after 5 seconds 
+    this.loaderTimer = setTimeout(() => {
+      this.appModel.setLoader(false);
+    }, 5000);
+    this.assetsPath = this.appModel.assetsfolderpath;
+    this.appModel.navShow = 2;
     this.appModel.notification.subscribe(
       (data) => {
         console.log('Component: constructor - data=', data);
@@ -179,11 +180,14 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }
       }
     );
-    this.assetsPath = this.appModel.assetsfolderpath;
-    this.appModel.navShow = 2;
+    this.tabLoadAnimationFlag = true;
   }
 
   ngOnInit() {
+    if (this.appModel.isNewCollection) {
+      this.appModel.event = { 'action': 'segmentBegins' };
+    }
+    this.blinkingFlag = true;
     this.attemptType = "";
     console.log("this.attemptType = " + this.attemptType);
     this.containgFolderPath = this.getBasePath();
@@ -200,6 +204,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     });
     /*End: Theme Implementation(Template Changes)*/
 
+
     this.setData();
     this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -214,21 +219,18 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     })
     this.appModel.getConfirmationPopup().subscribe((val) => {
       clearInterval(this.blinkInterval);
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.appModel.notifyUserAction();
       if (val == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
           this.setPopupAssets();
           this.popupType = "showanswer";
-          this.instructionVO.nativeElement.pause();
-          this.instructionVO.nativeElement.currentTime = 0;
         }
       } else if (val == "submitAnswer") {
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
           this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
-          this.instructionVO.nativeElement.pause();
-          this.instructionVO.nativeElement.currentTime = 0;
         }
       } else if (val == "replayVideo") {
 
@@ -252,7 +254,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    clearInterval(this.blinkTimeInterval);
+    clearTimeout(this.blinkTimeInterval);
+    this.appModel.resetBlinkingTimer();
     if (this.instructionVO.nativeElement != undefined) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
@@ -318,6 +321,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         opt.imgsrc_partial = this.optionObj.given_values[i].imgsrc_partial;
         opt.value = this.optionObj.given_values[i].value
         this.placeHolderArrDown.splice(this.optionObj.given_values[i].index, 1, opt);
+
       } else if (this.optionObj.given_values[i].place == "up") {
         opt.place = 'up';
         opt.imgsrc = this.optionObj.given_values[i].imgsrc;
@@ -327,11 +331,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     }
     this.questionObj = this.fetchedcontent.quesObj;
-    if (this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
-      this.isPlayVideo = true;
-    } else {
-      this.isPlayVideo = false;
-    }
     this.noOfImgs = this.commonAssets.imgCount;
     this.isLastQues = this.appModel.isLastSection;
     this.isLastQuesAct = this.appModel.isLastSectionInCollection;
@@ -402,9 +401,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (!this.loadFlag) {
       this.noOfImgsLoaded++;
       if (this.noOfImgsLoaded >= this.noOfImgs) {
-        this.appModel.setLoader(false);
+        setTimeout(() => {
+          this.appModel.setLoader(false);
+        }, 200);
         this.loadFlag = true;
         clearTimeout(this.loaderTimer);
+        clearTimeout(this.blinkTimeInterval);
         this.checkforQVO();
       }
     }
@@ -435,7 +437,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     } else {
       this.timerDelayActs = setTimeout(() => {
         this.startActivity();
-        this.appModel.handlePostVOActivity(false);
+        this.appModel.handlePostVOActivity(true);
         this.appModel.enableReplayBtn(true);
       }, 1000)
     }
@@ -499,14 +501,16 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /***  Instruction VO plays ***/
   playInstruction() {
+    // this.appModel.handlePostVOActivity(true);
     if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
       this.instructionVO.nativeElement.play();
       this.appModel.enableReplayBtn(false);
-      this.isDisableDiv = true;
+      // this.isDisableDiv = true;
       this.attemptType = "PlayInstruction";
       this.instructionVO.nativeElement.onended = () => {
         this.disableOnInstruction();
-        this.isDisableDiv = false;
+        // this.isDisableDiv = false;
+        // this.appModel.handlePostVOActivity(false);
       }
     }
   }
@@ -581,7 +585,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /*** Show Answer and submit Functionality after click on Yes ***/
   sendFeedback(ref, flag: string, action?: string) {
+
     this.popUpFeedbackMsgUrl = '';
+    this.instructionVO.nativeElement.pause();
+    this.instructionVO.nativeElement.currentTime = 0;
     console.log("action", action)
     this.appModel.notifyUserAction();
     ref.classList = "modal";
@@ -597,8 +604,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.feedbackPopupAudio.nativeElement.onended = () => {
         setTimeout(() => {
           this.appModel.notifyUserAction();
-          this.blinkOnLastQues();
-          this.fadeEverything();
+          if (flag == "ok") {
+            this.blinkOnLastQues();
+            this.fadeEverything();
+          }
         }, 1000)
       }
     } else if (action == "submitAnswer") {
@@ -626,13 +635,21 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
       this.fadeEverything();
+        if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+          this.blinkOnLastQues();
+        }
     }
     else if (action == "feedbackDone") {
-      if (this.responseType = "wrong") {
+      if (this.responseType == "wrong") {
         this.appModel.feedbackType = "fullyIncorrect";
         this.appModel.wrongAttemptAnimation();
-      } else if (this.responseType = "allcorrect") {
+      } else if (this.responseType == "allcorrect") {
         this.disableScreen();
+        if (flag != "yes") {
+          if (flag == "ok") {
+            this.blinkOnLastQues();
+          }
+        }
       }
     } else if (action == "replay") {
 
@@ -645,11 +662,14 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     }
     if (flag == "no") {
-      this.startBlinkOption();
+      if (this.blinkingFlag) {
+        this.startBlinkOption();
+      }
       if (this.attemptType != "") {
         this.disableOnInstruction();
       }
     }
+
   }
 
   /*** Instruction block Disable/Enable functionality ***/
@@ -669,16 +689,14 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /*** To Fade the screen functionality ***/
   fadeEverything() {
-    clearInterval(this.blinkInterval);
+    this.blinkingFlag = false;
+    this.feedbackPopupAudio.nativeElement.pause();
+    this.feedbackPopupAudio.nativeElement.currentTime = 0;
     if (this.attemptTypeClose == "fadeEverything" || this.attemptTypeClose == "") {
       if (this.attemptType == "manual") {
-        this.feedbackPopupAudio.nativeElement.pause();
-        this.feedbackPopupAudio.nativeElement.currentTime = 0;
-        this.appModel.blinkForLastQues(this.attemptType);
+        // this.appModel.blinkForLastQues(this.attemptType);
         this.resultType = "correct";
       } else if (this.attemptType == "wrong") {
-        this.feedbackPopupAudio.nativeElement.pause();
-        this.feedbackPopupAudio.nativeElement.currentTime = 0;
         this.appModel.wrongAttemptAnimation();
         this.resultType = "wrong";
         setTimeout(() => {
@@ -689,15 +707,11 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         return;
       }
       else if (this.attemptType == "showAnswer") {
-        this.feedbackPopupAudio.nativeElement.pause();
-        this.feedbackPopupAudio.nativeElement.currentTime = 0;
         this.blinkOnLastQues();
       }
       else if (this.attemptType == "uttarDikhayein") {
       }
       else if (this.attemptType == "PartialWrong") {
-        this.feedbackPopupAudio.nativeElement.pause();
-        this.feedbackPopupAudio.nativeElement.currentTime = 0;
         this.appModel.wrongAttemptAnimation();
         this.resultType = "partialCorrect";
         setTimeout(() => {
@@ -727,6 +741,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       // clearInterval(this.blinkInterval);
     }
     this.attemptType = "";
+    // this.instructionBar.nativeElement.classList = "greyOut instructionBase disableDiv";
+    // this.instructionBar.nativeElement.classList = "greyOut instructionBase disable_div";
+    clearInterval(this.blinkInterval);
   }
 
   /*** Checks the response with input ***/
@@ -1002,7 +1019,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.feedbackPopupAudio.nativeElement.onended = () => {
           setTimeout(() => {
             this.appModel.notifyUserAction();
-            this.blinkOnLastQues();
+            // this.blinkOnLastQues();
           }, 1000)
         }
       } else if (this.resultType == "wrong") {
@@ -1034,7 +1051,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         if (this.submittedArr[i][0] == undefined) {
           let obj = {
             url: this.optionObj.place_holder.url,
-            location: this.optionObj.place_holder.location  
+            location: this.optionObj.place_holder.location
           }
           this.popupTopAssts.push(obj);
         } else {
@@ -1073,11 +1090,11 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         arr[i][1] = undefined;
       }
     }
-    // alert(JSON.stringify(arr))
     return arr;
   }
 
   blinkOnLastQues() {
+   
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -1095,13 +1112,17 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.appModel.moveNextQues();
       this.disableScreen();
     }
+    this.instructionBar.nativeElement.classList = "greyOut instructionBase disable_div";
   }
 
   /*** Screen disable functionality ***/
   disableScreen() {
-    clearInterval(this.blinkTimeInterval);
     this.instructionBar.nativeElement.classList = "greyOut instructionBase";
-    this.elementRef.nativeElement.children[0].className = "greyOut";
+    // this.instructionBar.nativeElement.classList = "greyOut instructionBase disableDiv";
+
+    //remove $(this.mainContainer.nativeElement.children[0]).addClass('greyOut');
+    // this.elementRef.nativeElement.children[0].className = "greyOut";
+
     if (this.optionHolder != undefined) {
       this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
       this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
@@ -1124,6 +1145,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.category && this.category.incorrect && this.category.incorrect.length) {
       this.category.incorrect.splice(0, this.category.incorrect.length);
     }
+    clearInterval(this.blinkTimeInterval);
     this.appModel.enableReplayBtn(false);
   }
 
@@ -1162,7 +1184,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.feedbackPopupAudio.nativeElement.onended = () => {
       setTimeout(() => {
         this.appModel.notifyUserAction();
-        this.blinkOnLastQues();
+        // this.blinkOnLastQues();
         this.fadeEverything();
       }, 1000)
     }
@@ -1234,15 +1256,23 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   onAnimationEvent(event: AnimationEvent, opt, j) {
     this.animationFlag = true;
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
+      this.tabLoadAnimationFlag = false;
       // this.appModel.enableSubmitBtn(true);
       this.appModel.handlePostVOActivity(true);
       if (this.selectedPosition == 'down') {
         this.pushToDownPlaceHolder(this.selectedPositionIndex, this.from);
       } else if (this.selectedPosition == 'up') {
-        this.pushToUpPlaceHolder(this.selectedPositionIndex, this.from);
+        this.pushToUpPlaceHolder(this.selectedPositionIndex, this.from);        
+      }
+      if(this.submitButtonCounter == this.optionArr.length){
+        this.isDisablePlaceholder = true
+      }else{
+        this.isDisablePlaceholder = false
       }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done" && this.resetCounterFlag == true) {
-            this.appModel.handlePostVOActivity(true);
+      this.tabLoadAnimationFlag = false;
+      this.isDisablePlaceholder = false;
+      this.appModel.handlePostVOActivity(true);
       if (this.selectedPosition == 'down') {
         this.deleteDownPlaceHolder(this.reverseOption, this.reverseOptionIndex);
       } else if (this.selectedPosition == 'up') {
@@ -1252,7 +1282,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     }
     setTimeout(() => {
       this.animationFlag = false;
-      this.appModel.handlePostVOActivity(false);
+      if (!this.tabLoadAnimationFlag) {
+        this.appModel.handlePostVOActivity(false);
+      }
       // this.appModel.enableSubmitBtn(true);
     }, 600);
   }
@@ -1306,6 +1338,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   reversePosition(opt, idx, pos) {
+
     this.reverseOption = opt;
     this.reverseOptionIndex = idx;
     this.instructionVO.nativeElement.pause();
@@ -1316,6 +1349,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.appModel.notifyUserAction();
     this.disableOnInstruction();
     this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
+
+
+
     if (pos == 'up') {
       this.optionRef.nativeElement.children[opt.index].style.zIndex = "5";
       this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
@@ -1369,6 +1405,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   resetOptions() {
+    this.animationFlag = true;
+    this.isDisablePlaceholder = false;
     for (let i = 0; i < this.optionArr.length; i++) {
       this.optionRef.nativeElement.children[i].style.zIndex = "5";
       this.optionRef.nativeElement.children[i].style.visibility = "visible";
@@ -1415,6 +1453,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.resetCounterFlag = false;
     clearInterval(this.blinkTimeInterval);
     this.partialCorrectCase = false;
+    this.blinkingFlag = true;
   }
 
   setGivenValue() {
@@ -1506,6 +1545,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.showAnswerpopupTxt.url;
     }
+    // clearInterval(this.blinkTimeInterval);
   }
+
 
 }
