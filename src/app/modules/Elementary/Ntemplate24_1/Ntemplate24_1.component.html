@@ -94,6 +94,28 @@
       </div>
     </div>
   </div>
+  <div class="modal" id="confirmModal" #confirmReplayRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmReplayAssets?.style_header">
+          <img class="modal-title" [src]="confirmReplayAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmReplayAssets?.close_btn?.url" (click)="sendFeedback(confirmReplayRef,'no');"
+            (mousemove)="hoverReplayCloseConfirm()" (mouseleave)="houtReplayCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmReplayAssets?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmReplayAssets?.confirm_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback(confirmReplayRef,'yes','replay');"
+              (mousemove)="hoverReplayConfirm()" (mouseleave)="houtReplayConfirm()"><img class="img-fluid"
+                [src]="confirmReplayAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverReplayDecline()"
+              (mouseleave)="houtReplayDecline()"><img class="img-fluid"
+                [src]="confirmReplayAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- The Modal Template 3 -->
   <div class="modal" id="modalTemp18First" #feedbackPopupRef>
     <div class="modal-dialog modal-dialog-centered">
@@ -141,29 +163,7 @@
       </div>
     </div>
     <audio #feedbackAudio></audio>
-  </div>
-  <div class="modal" id="confirmModal" #confirmReplayRef>
-    <div class="modal-dialog">
-      <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmReplayAssets?.style_header">
-          <img class="modal-title" [src]="confirmReplayAssets?.headerTxt_img?.url">
-          <img class="close" [src]="confirmReplayAssets?.close_btn?.url" (click)="sendFeedback(confirmReplayRef,'no');"
-            (mousemove)="hoverReplayCloseConfirm()" (mouseleave)="houtReplayCloseConfirm()">
-        </div>
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmReplayAssets?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmReplayAssets?.confirm_text?.url"></div>
-          <div class="actionButtons">
-            <button type="button" (click)="sendFeedback(confirmReplayRef,'yes','replay');"
-              (mousemove)="hoverReplayConfirm()" (mouseleave)="houtReplayConfirm()"><img class="img-fluid"
-                [src]="confirmReplayAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverReplayDecline()"
-              (mouseleave)="houtReplayDecline()"><img class="img-fluid"
-                [src]="confirmReplayAssets?.decline_btn?.url"></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </div>  
 </div>
 
 <div class="videoMainContainer" *ngIf="isPlayVideo">

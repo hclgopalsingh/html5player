@@ -25,7 +25,7 @@
               (click)="checkAnswer('teamup',opt,idx)">
           </div>
         </div>
-        <div class="passBtn" *ngIf="teamUp">
+        <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamUp">
           <img class="img-fluid" #teamUpPass [src]="otherAssets?.pass_btn?.url"
             (click)="passQuestion('teamup',teamUpPass);" (mousemove)="hoverPass(teamUpPass)"
             (mouseleave)="houtPass(teamUpPass,'teamUp')">
@@ -48,7 +48,7 @@
                 (click)="checkAnswer('teamleft',opt,idx)">
             </div>
           </div>
-          <div class="passBtn" *ngIf="teamLeft">
+          <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamLeft">
             <img class="img-fluid" #teamLeftPass [src]="otherAssets?.pass_btn?.url"
               (click)="passQuestion('teamleft',teamLeftPass);" (mousemove)="hoverPass(teamLeftPass)"
               (mouseleave)="houtPass(teamLeftPass,'teamLeft')">
@@ -97,7 +97,7 @@
                 (click)="checkAnswer('teamright',opt,idx)">
             </div>
           </div>
-          <div class="passBtn" *ngIf="teamRight">
+          <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamRight">
             <img class="img-fluid" #teamRightPass [src]="otherAssets?.pass_btn?.url"
               (click)="passQuestion('teamright',teamRightPass);" (mousemove)="hoverPass(teamRightPass)"
               (mouseleave)="houtPass(teamRightPass,'teamRight')">
@@ -118,7 +118,7 @@
               (click)="checkAnswer('teamdown',opt,idx)">
           </div>
         </div>
-        <div class="passBtn" *ngIf="teamDown">
+        <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamDown">
           <img class="img-fluid" #teamDownPass [src]="otherAssets?.pass_btn?.url"
             (click)="passQuestion('teamdown',teamDownPass);" (mousemove)="hoverPass(teamDownPass)"
             (mouseleave)="houtPass(teamDownPass,'teamDown')">
