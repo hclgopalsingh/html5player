@@ -1,0 +1,24 @@
+
+{
+	"Holidays":[
+		{
+		"name":"Diwali",
+		"year":"2020",
+		"id": "01",
+		"month":"november",
+		"date": "14",
+		"day": "saturday" 
+		},
+		{
+		"name":"Holi",
+		"year":"2021",
+		"id": "02",
+		"month":"march",
+		"date": "18",
+		"day": "saturday" 
+		}
+	]
+
+}
+
+
