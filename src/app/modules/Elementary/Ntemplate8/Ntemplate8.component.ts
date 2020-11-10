@@ -212,6 +212,11 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 						this.instruction.nativeElement.currentTime = 0;
 						this.instructionDisable = false;
 					}
+					if (this.audio && !this.audio.paused) {
+						this.audio.pause();
+						this.audio.currentTime = 0;
+						this.onOptionAudioEnd(this.selectedteamRef);
+					}
 					this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
 				}
 				// this.confirmSubmitFlag=true;
