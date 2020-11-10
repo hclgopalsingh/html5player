@@ -212,6 +212,11 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 						this.instruction.nativeElement.currentTime = 0;
 						this.instructionDisable = false;
 					}
+					if (this.audio && !this.audio.paused) {
+						this.audio.pause();
+						this.audio.currentTime = 0;
+						this.onOptionAudioEnd(this.selectedteamRef);
+					}
 					this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
 				}
 				// this.confirmSubmitFlag=true;
@@ -271,6 +276,15 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 	/*End: Theme Implementation(Template Changes)*/
 	openReplayConfirm() {
 		this.appModel.videoStraming(true);
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.pause();
+			this.instruction.nativeElement.currentTime = 0;
+		}
+		if (this.audio && !this.audio.paused) {
+			this.audio.pause();
+			this.audio.currentTime = 0;
+			this.onOptionAudioEnd(this.selectedteamRef);
+		}
 		this.confirmAssets = this.fetchedcontent.replay_confirm;
 		if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 			this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
@@ -372,14 +386,14 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			}
 		}
 	}
-	playHoverInstruction() {
+	playHoverInstruction() {		
 		if (!this.instruction.nativeElement.paused) {
 			console.log("instruction voice still playing");
 		} else {
 			this.appModel.notifyUserAction();
 			console.log("play on Instruction");
-			if (this.instruction.nativeElement.paused) {
-				this.instruction.nativeElement.currentTime = 0;
+			if (this.instruction.nativeElement && this.instruction.nativeElement.src) {
+				// this.instruction.nativeElement.currentTime = 0;
 				this.instruction.nativeElement.play();
 				this.instructionDisable = true;
 				// this.InstructionVo = true;
@@ -858,12 +872,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 		this.otherAssets.video_skip = this.otherAssets.video_skip_original;
 		this.otherAssets.replay_btn = this.otherAssets.replay_btn_original;
 		this.otherAssets.video_pause = this.otherAssets.video_pause_original;
-		this.otherAssets.video_play = this.otherAssets.video_play_original;
-		if (this.audio && !this.audio.paused) {
-			this.audio.pause();
-			this.audio.currentTime = 0;
-			this.onOptionAudioEnd(this.selectedteamRef);
-		}
+		this.otherAssets.video_play = this.otherAssets.video_play_original;		
 		this.hasVideoStarted = true;
 		this.totalTime = this.currentTime + this.totalTime;
 		this.videoReplayd = true;
