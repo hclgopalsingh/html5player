@@ -506,10 +506,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.instructionVO.nativeElement.play();
       this.appModel.enableReplayBtn(false);
       // this.isDisableDiv = true;
+      this.instructionBar.nativeElement.classList = "instructionBase disable_div";
       this.attemptType = "PlayInstruction";
       this.instructionVO.nativeElement.onended = () => {
         this.disableOnInstruction();
         // this.isDisableDiv = false;
+        this.instructionBar.nativeElement.classList = "instructionBase";
         // this.appModel.handlePostVOActivity(false);
       }
     }

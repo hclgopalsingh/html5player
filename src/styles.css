@@ -246,7 +246,7 @@ button:focus{
     width: 100% !important;
     text-align: center !important;
     top: 2.5vmin!important;
-    display: none;
+    /* display: none; */
 }
 .rightWrongAns{
     position: absolute;
@@ -453,7 +453,7 @@ button:focus{
     text-align: center;
 	top: 2.5vmin!important;
 	left:0;
-    /* display: none; */
+	/* display: none; */
 }
 
 
