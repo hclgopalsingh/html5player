@@ -359,7 +359,7 @@ button:focus {
 }
 
 #instructionBar .instructionBase {
-  width: 70%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
@@ -601,14 +601,8 @@ button:focus {
 	width: 85%;
 }
 
-#confirmModal .modal-title {
-	margin-left: 3%;
-}
-
-#confirmModal .close {
-	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
-}
+ 
+ 
 
 #confirmModal .modal-footer {
 	display: flex;
@@ -705,11 +699,7 @@ button:focus {
   top: 0;
 }
 
-.modal-title {
-  margin-left: 1.5%;
-  /*height: 80%;*/
-  max-width: 30%;
-}
+ 
 
 .close {
   width: auto;
