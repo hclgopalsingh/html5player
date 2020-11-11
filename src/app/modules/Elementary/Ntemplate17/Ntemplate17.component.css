@@ -309,6 +309,7 @@ button:focus {
     position: absolute;
     top: 18%;
     width: 95%;
+    left: 2.2%;
 }
 .optionsList div{
   /*max-width: 32%;
