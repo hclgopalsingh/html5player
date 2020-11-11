@@ -1986,6 +1986,7 @@ else {
       this.QuestionAudio.nativeElement.play();
       this.questAreaDisable = true
       this.QuestionAudio.nativeElement.onended=()=> {
+        this.hoverquesArea();
         this.questAreaDisable = false
         this.displayWave=false;
         this.speakerdisable=false;
@@ -2024,12 +2025,12 @@ else {
 
   hoverquesArea(){
       if(this.questAreaDisable){
-        this.quesContainer.nativeElement.style.pointerEvents="none";
+        this.refques.nativeElement.style.pointerEvents="none";
         this.refques.nativeElement.style.cursor="default";
 
       }
       else{
-        this.quesContainer.nativeElement.style.pointerEvents="";
+        this.refques.nativeElement.style.pointerEvents="";
         this.refques.nativeElement.style.cursor="pointer";
       }
   }
