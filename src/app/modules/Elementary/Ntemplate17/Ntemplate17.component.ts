@@ -491,6 +491,7 @@ export class Ntemplate17Component implements OnInit {
     }
     this.displayWave=false;
     this.speakerdisable=false;
+    this.questAreaDisable = false
   }
 
   ngDoCheck() {
@@ -547,6 +548,7 @@ export class Ntemplate17Component implements OnInit {
     }
     this.displayWave=false;
     this.speakerdisable=false;
+    this.questAreaDisable = false;
     this.appModel.notifyUserAction();
     /**
      * If you want to handle the shift and caps lock buttons
@@ -697,6 +699,7 @@ export class Ntemplate17Component implements OnInit {
         }
         this.displayWave=false;
         this.speakerdisable=false;
+        this.questAreaDisable = false;
         this.instruction.nativeElement.play();
         this.instructionDisable = true;
         this.appModel.handlePostVOActivity(false);
@@ -1983,6 +1986,7 @@ else {
       this.QuestionAudio.nativeElement.src = this._questionAreaAudio.img_audio.url + "?someRandomSeed=" + Math.random().toString(36);
       this.displayWave=true;
       this.speakerdisable=true;
+      this.questAreaDisable = true;
       this.QuestionAudio.nativeElement.play();
       this.questAreaDisable = true
       this.QuestionAudio.nativeElement.onended=()=> {
@@ -1990,6 +1994,7 @@ else {
         this.questAreaDisable = false
         this.displayWave=false;
         this.speakerdisable=false;
+        this.questAreaDisable = false;
       }
     }
   }
@@ -2015,6 +2020,7 @@ else {
     }
     this.displayWave=false;
     this.speakerdisable=false;
+    this.questAreaDisable = false;
     this.quesObj.close_btn =  this.quesObj.close_btn_original;
     this.mathKeyboardRef.nativeElement.classList = "simple-keyboard hg-theme-default hg-layout-default hideKeyboard";
     this.keyBoardOpen = false;
