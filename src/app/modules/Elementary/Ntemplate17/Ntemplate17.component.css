@@ -419,7 +419,7 @@ button:focus {
 }
 
 .audio-container{
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 
