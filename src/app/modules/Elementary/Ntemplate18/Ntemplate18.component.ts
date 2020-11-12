@@ -203,6 +203,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   SkipLoad: boolean = false;
   disableoptions: boolean = false;
   disableoptionsBlock: boolean = false;
+  
 
   popupHeader: any;
   ngOnDestroy() {

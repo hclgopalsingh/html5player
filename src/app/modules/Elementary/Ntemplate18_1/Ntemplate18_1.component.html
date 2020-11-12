@@ -11,19 +11,20 @@
   <div class="bodyContent" [ngClass]="{'disable_div':disableBody}">
     <div class="refQues" #refQues>
       <div id={{idx}} *ngFor="let refQues of refQuesObj;let idx = index">
-        <img [src]="refQues?.imgsrc?.url" (load)="checkImgLoaded();">
+        <img [src]="refQues?.imgsrc?.url" [@openClose]="{value: refQues.isOpen ? 'open' : 'closed', params: {leftPos: refQues.leftPos , topPos: refQues.topPos}}" (load)="checkImgLoaded();">
+        {{refQues.isOpen}}
       </div>
     </div>
     <!-- Below class row has been removed and d-flex added due to issue in allignment  -->
-    <div class="d-flex mx-0" id="optionsBlock" #optionsBlock>
+    <div class="d-flex mx-0" id="optionsBlock" [ngClass]="{'disable_div':disableoptionsBlock}" #optionsBlock>
       <div class="my-auto quesImage">
-        <div id="{{idx}}" class="options" *ngFor="let opt of optionObj;let idx = index">
+        <div id="{{idx}}" class="options" [ngClass]="{'disable_div':disableoptions}" *ngFor="let opt of optionObj;let idx = index">
           <div *ngIf="quesFlag">
             <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();" (mouseenter)="playHoverOption(opt,idx)" (mousemove)="optionHover(opt,idx)" (mouseleave)="optionHoverOut(opt,idx)">
             <audio #optionAudio></audio>
           </div>
           <div id="option" *ngIf="!quesFlag">
-            <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="onClickoption(idx,opt.placed)">
+            <img class="img-fluid" [src]="opt?.imgsrc?.url" (mousemove)="optionHover(opt,idx)" (mouseleave)="optionHoverO(opt,idx)" (load)="checkImgLoaded();" (click)="onClickoption(idx,opt.placed, opt)">
           </div>
           <div id="dropBox">
             <img class="img-fluid" [src]="opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="onClickoption(idx,opt.placed)" (load)="checkImgLoaded();">
@@ -100,7 +101,7 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
           <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
-          <img class="close" [src]="replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="replayconfirmAssets?.confirm_text?.url"></div>

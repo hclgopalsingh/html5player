@@ -1,21 +1,47 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Subject, Observable, Subscription } from 'rxjs'
+import { Subscription } from 'rxjs'
 import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 declare var $: any;
 
 @Component({
   selector: 'ntemp18_1',
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}'
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      state('closed', style({
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}'
+
+      }), { params: { leftPos: 'auto', topPos: 'auto' } }),
+      transition('open => closed', [
+        animate('.5s')
+      ]),
+      transition('closed => open', [
+        animate('.5s')
+      ]),
+    ]),
+  ],
   templateUrl: './Ntemplate18_1.component.html',
   styleUrls: ['./Ntemplate18_1.component.css', '../../../view/css/bootstrap.min.css'],
 
 })
 
-export class Ntemplate18_1 implements OnInit {
+export class Ntemplate18_1 implements OnInit, OnDestroy {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -171,6 +197,8 @@ export class Ntemplate18_1 implements OnInit {
   disableSection: boolean = false;
   disableBody: boolean = false;
   SkipLoad: boolean = false;
+  disableoptions: boolean = false;
+  disableoptionsBlock: boolean = false;
 
   ngOnDestroy() {
     clearInterval(this.blinkTimeInterval);
@@ -193,7 +221,7 @@ export class Ntemplate18_1 implements OnInit {
         this.instruction.nativeElement.onended = () => {
          
         }
-        $(".instructionBase img").css("cursor", "pointer");
+        ////$(".instructionBase img").css("cursor", "pointer");
       }
       if (this.refQues.optionType == "image") {
         if (!this.optionAudio.nativeElement.paused) {
@@ -235,7 +263,6 @@ export class Ntemplate18_1 implements OnInit {
   onHoverImgOption(opt, i) {
     if (opt && opt != undefined) {
       if (this.narrator.nativeElement.paused) {
-        ////$(this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0]).addClass("scaleInAnimation");
         this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.add('scaleInAnimation');
       }
     }
@@ -243,8 +270,10 @@ export class Ntemplate18_1 implements OnInit {
 
 
   optionHover(opt, i) {
-    ////$(this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0]).addClass("scaleInAnimation");
     this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.add('scaleInAnimation');
+  }
+  optionHoverO(opt, i) {
+    this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.remove('scaleInAnimation');
   }
 
   onHoverOption(opt, i) {
@@ -288,11 +317,8 @@ export class Ntemplate18_1 implements OnInit {
 
   ZoomOutAnimationoption(opt, i) {
     if (!this.checked && this.narrator.nativeElement.paused) {
-      ////$(this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0]).addClass("scaleOutAnimation");
       this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.add('scaleOutAnimation');
       setTimeout(() => {
-        ////$(this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0]).removeClass("scaleInAnimation");
-        ////$(this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0]).removeClass("scaleOutAnimation");
         this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.remove('scaleInAnimation');
         this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.remove('scaleOutAnimation');
       }, 500);
@@ -303,9 +329,8 @@ export class Ntemplate18_1 implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
-  
-
-  onClickoption(idx, placed) {
+  onClickoption(idx, placed, opt) {
+    
     if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
@@ -317,8 +342,7 @@ export class Ntemplate18_1 implements OnInit {
       if (placed) {
         this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
         this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
-        $("#optionsBlock .options").addClass("disable_div");
-        ////$("#optionsBlock .options").addClass("disable-click");
+        this.disableoptions = true;
         $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
           for (let x = 0; x < this.optionObj.length; x++) {
@@ -337,8 +361,7 @@ export class Ntemplate18_1 implements OnInit {
           this.blinkHolder();
           
           setTimeout(()=>{
-            $("#optionsBlock .options").removeClass("disable_div");
-          $("#optionsBlock .options").removeClass("disable-click");
+            this.disableoptions = false;
           },200)
         });
       } else {
@@ -347,8 +370,7 @@ export class Ntemplate18_1 implements OnInit {
         this.moveTo = this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
-        $("#optionsBlock .options").addClass("disable_div");
-        $("#optionsBlock .options").addClass("disable-click");
+        this.disableoptions = true;
         $(this.refQues.nativeElement.children[this.index1].children[0]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
           clearInterval(this.blinkTimeInterval);
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src =  this.refQuesObj[this.index1].imgsrc_original.url;
@@ -378,8 +400,7 @@ export class Ntemplate18_1 implements OnInit {
           this.blinkHolder();
 
           setTimeout(()=>{
-            $("#optionsBlock .options").removeClass("disable_div");
-          $("#optionsBlock .options").removeClass("disable-click");
+            this.disableoptions = false;
           },200)
           
         });
@@ -390,8 +411,7 @@ export class Ntemplate18_1 implements OnInit {
 
   onClickquesFromOpt(idx, opt) {
     console.log("click on ques");
-    $("#optionsBlock .options").addClass("disable_div");
-    $("#optionsBlock .options").addClass("disable-click");
+    this.disableoptions = true;
     console.log("diSabled");
     this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
     this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
@@ -399,7 +419,6 @@ export class Ntemplate18_1 implements OnInit {
       this.startCount = 0;
       $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
         clearInterval(this.blinkTimeInterval);
-        
         this.countofAnimation--;
         if (this.countofAnimation == 0) {
           this.appModel.enableSubmitBtn(false);
@@ -412,8 +431,7 @@ export class Ntemplate18_1 implements OnInit {
         this.startCount = 1;
         this.blinkHolder();
         setTimeout(()=>{
-        $("#optionsBlock .options").removeClass("disable_div");
-        $("#optionsBlock .options").removeClass("disable-click");
+        this.disableoptions = false;
         },200)
       });
     }
@@ -445,13 +463,13 @@ export class Ntemplate18_1 implements OnInit {
 
   ngOnInit() {
     let that = this;
-        $( "#navBlock" ).click(function() {
+        /*$( "#navBlock" ).click(function() {
             if (!that.instruction.nativeElement.paused)
             {
               that.instruction.nativeElement.pause();
               that.instruction.nativeElement.currentTime = 0;
             }
-          });
+          });*/
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -480,12 +498,9 @@ export class Ntemplate18_1 implements OnInit {
         this.attemptType = "showAnswer";
         this.styleHeaderPopup = this.feedbackObj.style_header;
         this.styleBodyPopup = this.feedbackObj.style_body;
-
-
         this.startCount = 0;
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
-          ////$("#instructionBar").addClass("disable_div");
           this.disableSection = true;
           this.confirmModalRef.nativeElement.classList = "modal";
           this.confirmReplayRef.nativeElement.classList = "modal";
@@ -496,7 +511,6 @@ export class Ntemplate18_1 implements OnInit {
         this.matched = true;
         for (let x = 0; x < this.fetchAnswer.length; x++) {
           this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
-         //// this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
         }
         if (this.feedbackObj.rightAnswerpopupTxt.required) {
           this.AnswerpopupTxt = true;
@@ -509,13 +523,8 @@ export class Ntemplate18_1 implements OnInit {
         //show modal of auto
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
-          ////$("#instructionBar").addClass("disable_div");
           this.disableSection = true;
           this.disableBody = true;
-          ////$("#instructionBar").css("opacity", "0.3");
-          ////$(".bodyContent").addClass("disable_div");
-          ////$(".bodyContent").css("opacity", "0.3");
-
           this.rightanspopUpheader_img = false;
           this.wronganspopUpheader_img = false;
           this.showanspopUpheader_img = true;
@@ -531,7 +540,6 @@ export class Ntemplate18_1 implements OnInit {
           this.confirmModalRef.nativeElement.classList = "modal";
           this.confirmReplayRef.nativeElement.classList = "modal";
           this.popupRef.nativeElement.classList = "displayPopup modal";
-          //this.appModel.enableReplayBtn(true);
           this.noOfRightAnsClicked = 0;
           this.noOfWrongAnsClicked = 0;
           this.setRightFeedback();
@@ -544,7 +552,6 @@ export class Ntemplate18_1 implements OnInit {
             }
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
-          ////$("#instructionBar").addClass("disable_div");
           this.disableSection = true;
           this.confirmModalRef.nativeElement.classList = "modal";
           this.confirmReplayRef.nativeElement.classList = "modal";
@@ -564,9 +571,7 @@ export class Ntemplate18_1 implements OnInit {
           this.instruction.nativeElement.currentTime = 0;
         }
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-          ////$("#instructionBar").addClass("disable_div");
           this.disableSection = true;
-
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
         }
       }
@@ -587,7 +592,7 @@ export class Ntemplate18_1 implements OnInit {
             }
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          $("#optionsBlock .options").addClass("disable_div");
+          this.disableoptions = true;
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.PlayPauseFlag = true;
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -648,7 +653,6 @@ export class Ntemplate18_1 implements OnInit {
   }
 
   close() {
-    //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
@@ -707,16 +711,14 @@ houtSkip(){
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
-      ////$(".bodyContent").addClass("disable_div");
       this.disableBody = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-        ////$(".bodyContent").removeClass("disable_div");
-        this.disableBody = false;
-        this.isQuesTypeImage = true;
-        this.startActivity();
-        this.appModel.handlePostVOActivity(false);
-        this.appModel.enableReplayBtn(true);
+      this.disableBody = false;
+      this.isQuesTypeImage = true;
+      this.startActivity();
+      this.appModel.handlePostVOActivity(false);
+      this.appModel.enableReplayBtn(true);
       }
     } else {
       this.startActivity();
@@ -776,7 +778,6 @@ houtSkip(){
       this.feedback = this.fetchedcontent.feedback;
       this.commonAssets = this.fetchedcontent.commonassets;
       this.narratorAudio = this.fetchedcontent.commonassets.narrator;
-      ////this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
       this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
@@ -908,9 +909,6 @@ houtSkip(){
   showFeedback(id: string, flag: string) {
     if (id == "submit-modal-id") {
       this.submitModalRef.nativeElement.classList = "modal";
-      //this.optionsBlock.nativeElement.classList = "row mx-0";
-      //$("#optionsBlock .options").css("opacity", "unset");
-      //$("#optionsBlock .options").removeClass("disable_div");
     }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
@@ -940,12 +938,9 @@ houtSkip(){
   dontshowFeedback(id: string, flag: string) {
     if (id == "submit-modal-id") {
       this.submitModalRef.nativeElement.classList = "modal";
-      //this.optionsBlock.nativeElement.classList = "row mx-0";
-      $("#optionsBlock .options").removeClass("disable_div");
-      $("#optionsBlock .options").css("opacity", "unset");
+      this.disableoptions = false;
       this.appModel.enableSubmitBtn(true);
       this.appModel.notifyUserAction();
-      //let i = 0;
       for (let i = 0; i < this.refcpyArray.length; i++) {
         this.refQues.nativeElement.children[i].children[0].src =  this.refcpyArray[i].imgsrc_original.url;
       }
@@ -1101,15 +1096,12 @@ houtSkip(){
           this.matched = true;
           this.closeModal();
           this.appModel.notifyUserAction();
-          ////$("#instructionBar").addClass("disable_div");
           this.disableSection = true;
-          $("#instructionBar").css("opacity", "0.3");
-          $(".bodyContent").css("opacity", "0.3");
-          ////$(".bodyContent").addClass("disable_div");
+          ////$("#instructionBar").css("opacity", "0.3");
+          ////$(".bodyContent").css("opacity", "0.3");
           this.disableBody = true;
           this.appModel.enableSubmitBtn(false);
         } else {
-          //this.resetAttempt();
           this.closeModal();        }
       }, 200)
     }
@@ -1147,11 +1139,9 @@ houtSkip(){
         console.log(this.feedbackPopupAudio.nativeElement.src);
         this.feedbackPopupAudio.nativeElement.play();
         if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i]) {
-          //this.popupBodyRef.nativeElement.children[0].children[i].classList = "options optionAnimate";
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate";
         }
         this.feedbackPopupAudio.nativeElement.onended = () => {
-          //this.popupBodyRef.nativeElement.children[0].children[i].classList = "options";
           this.popupBodyRef.nativeElement.children[0].children[i].classList.remove("optionAnimate");
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " nutralize";
           ++current;
@@ -1167,11 +1157,9 @@ houtSkip(){
         console.log(this.feedbackPopupAudio.nativeElement.src);
         this.feedbackPopupAudio.nativeElement.play();
         if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i]) {
-          //this.popupBodyRef.nativeElement.children[0].children[i].classList = "options optionAnimate optionsWidth";
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate";
         }
         this.feedbackPopupAudio.nativeElement.onended = () => {
-          //this.popupBodyRef.nativeElement.children[0].children[i].classList = "options optionsWidth";
           this.popupBodyRef.nativeElement.children[0].children[i].classList.remove("optionAnimate");
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " nutralize";
           ++current;
@@ -1219,11 +1207,9 @@ houtSkip(){
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
       if (this.partialpopupBodyRef && this.partialpopupBodyRef.nativeElement && this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i]) {
-        //this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i].classList = "options optionAnimate";
         this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i].classList.value += " optionAnimate";
       }
       this.feedbackpartialPopupAudio.nativeElement.onended = () => {
-        //this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i].classList = "options";
         this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i].classList.remove("optionAnimate");
         this.partialpopupBodyRef.nativeElement.children[0].children[1].children[i].classList.value += " nutralize";
         ++current;
@@ -1244,11 +1230,9 @@ houtSkip(){
       console.log(this.feedbackpartialPopupAudio.nativeElement.src);
       this.feedbackpartialPopupAudio.nativeElement.play();
       if (this.partialpopupBodyRef && this.partialpopupBodyRef.nativeElement && this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i]) {
-        //this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i].classList = "options optionAnimate";
         this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i].classList.value += " optionAnimate";
       }
       this.feedbackpartialPopupAudio.nativeElement.onended = () => {
-        //this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i].classList = "options";
         this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i].classList.remove("optionAnimate");
         this.partialpopupBodyRef.nativeElement.children[1].children[1].children[i].classList.value += " nutralize";
         ++current;
@@ -1295,7 +1279,6 @@ houtSkip(){
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].play();
         this.popupBodyRef.nativeElement.children[0].children[i].children[1].onended = () => {
           if (this.ansArray1.length > 0) {
-            //this.popupBodyRef.nativeElement.children[0].children[i].classList = "options optionsWidth";
             this.popupBodyRef.nativeElement.children[0].children[i].classList.remove("optionAnimate");
             this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " nutralize";
           }
@@ -1308,8 +1291,9 @@ houtSkip(){
         }
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-        $("#optionsBlock").removeClass("disableDiv");
-        $("#optionsBlock .options").css("pointer-events", "unset");
+        ////$("#optionsBlock").removeClass("disableDiv");
+        this.disableoptionsBlock = false;
+        
         if (this.ansArray1.length > 0) {
           this.popupBodyRef.nativeElement.children[0].children[i].classList.value += " optionAnimate optionsWidth";
           this.popupBodyRef.nativeElement.children[0].children[i].children[1].src =  this.ansArray1[i].imgwrongfeedback_audio.url;
@@ -1334,16 +1318,15 @@ houtSkip(){
       if (j == undefined) {
         j = 0;
       }
-      $("#optionsBlock").removeClass("disableDiv");
+      ////$("#optionsBlock").removeClass("disableDiv");
+      this.disableoptionsBlock = false;
       if (this.popupBodyRef.nativeElement.children[1].children[j] != undefined && flag) {
-        //this.popupBodyRef.nativeElement.children[1].children[j].classList = "options optionAnimate";
         this.popupBodyRef.nativeElement.children[1].children[j].classList.value += " optionAnimate";
         if ((this.noOfRightAnsClicked == this.feedback.correct_ans_index.length) && this.noOfWrongAnsClicked == 0) {
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].src =  this.AnsObj[1][j].imgrightfeedback_audio.url;
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].load();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].play();
           this.popupBodyRef.nativeElement.children[1].children[j].children[1].onended = () => {
-            //this.popupBodyRef.nativeElement.children[1].children[j].classList = "options";
             this.popupBodyRef.nativeElement.children[1].children[j].classList.remove("optionAnimate");
             this.popupBodyRef.nativeElement.children[1].children[j].classList.value += " nutralize";
             j++;
@@ -1384,17 +1367,14 @@ houtSkip(){
     this.noOfWrongAnsClicked = 0;
     if (flag == "yes") {
       $(".bodyContent").css("opacity", "0.3");
-      ////$(".bodyContent").addClass("disable_div");
       this.disableBody = true;
       setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
         this.appModel.resetBlinkingTimer();
       }, 100);
 
-      ////$("#instructionBar").addClass("disable_div");
       this.disableSection = true;
-      //$(".modal-body .options .img-fluid").css("pointer-events", "none");
-      $("#instructionBar").css("opacity", "0.3");
+      ////$("#instructionBar").css("opacity", "0.3");
       this.appModel.enableSubmitBtn(false);
       this.checked = true;
       if (this.feedbackObj.showAnswerpopupTxt.required) {
@@ -1409,7 +1389,6 @@ houtSkip(){
       }
     } else {
       this.appModel.notifyUserAction();
-      ////$("#instructionBar").removeClass("disable_div");
       this.disableSection = false;
     }
   }
@@ -1426,9 +1405,8 @@ houtSkip(){
       this.appModel.videoStraming(false);
       this.appModel.navShow = 2;
       setTimeout(() => {
-        ////$("#instructionBar").removeClass("disable_div");
         this.disableSection = false;
-        $("#optionsBlock .options").removeClass("disable_div");
+        this.disableoptions = false;
       }, 1000);
     }
   }
@@ -1438,15 +1416,15 @@ houtSkip(){
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
-    $("#optionsBlock .options").addClass("disable_div");
-    $(".instructionBase").addClass("disable_div");
+    this.disableoptions = true;
+    ////$(".instructionBase").addClass("disable_div");
+    this.disableSection = true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
-      //this.appModel.stopAllTimer();
       this.mainVideo.nativeElement.onended = () => {
-        //this.appModel.enableSubmitBtn(true);
-        $("#optionsBlock .options").removeClass("disable_div");
-        $(".instructionBase").removeClass("disable_div");
+        this.disableoptions = false;
+        ////$(".instructionBase").removeClass("disable_div");
+        this.disableSection = false;
         this.appModel.navShow = 2;
         this.isPlayVideo = false;
         this.appModel.videoStraming(false);
@@ -1462,11 +1440,9 @@ houtSkip(){
     }
     if (this.countofAnimation == this.noOfRightAnsClicked) {
       this.matched = true;
-      ////$("#instructionBar").addClass("disable_div");
       this.disableSection = true;
       $("#instructionBar").css("opacity", "0.3");
       $(".bodyContent").css("opacity", "0.3");
-      ////$(".bodyContent").addClass("disable_div");
       this.disableBody = true;
       this.appModel.enableSubmitBtn(false);
     }
@@ -1488,9 +1464,8 @@ houtSkip(){
     if (!this.matched) {
       setTimeout(() => {
         this.appModel.wrongAttemptAnimation();
-        ////$("#instructionBar").removeClass("disable_div");
         this.disableSection = false;
-        $("#optionsBlock .options").removeClass("disable_div");
+        this.disableoptions = false;
       }, 10);
     }
 
