@@ -1,7 +1,7 @@
-<div #container class="container-fluid ele temp11" id="container" *ngIf="!showIntroScreen && !isPlayVideo">
+<div #container class="container-fluid ele temp11" id="container" >
 	<audio #narrator [src]="commonAssets?.narrator?.url"></audio>
 
-	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.url" (load)="checkImgLoaded();" /></div>
+	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.urlglobal" (load)="checkImgLoaded();" /></div>
 	<div #maincontent>
 		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="cursor: pointer;">
 			<div class="instructionBase">
