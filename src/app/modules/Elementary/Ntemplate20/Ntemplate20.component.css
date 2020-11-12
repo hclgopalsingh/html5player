@@ -366,19 +366,19 @@
   height: 80%;
 }
 
-.close {
+/* .close {
 	width: auto;
 	height: 75%;
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   opacity: 1 !important;
-}
+} */
 @media (min-width: 1366px){
-	.close {
+	/* .close {
 		height: 95%;
     margin-right: .3%;
-	}
+	} */
 }
 .close:focus, .close:hover {
   color: #000;
@@ -634,12 +634,12 @@ button:focus {
 	margin-left: 0%;
 }
 
-#confirmModal .close,
+/* #confirmModal .close,
 #infoModalId .close {
 	margin: 0 1.6% 0 auto;
-}
+} */
 
-#confirmModal .modal-footer,
+/* #confirmModal .modal-footer,
 #infoModalId .modal-footer {
 	display: flex;
 	align-items: center;
@@ -649,19 +649,19 @@ button:focus {
 	position: absolute;
 	width: 100%;
 	bottom: 16%;
-}
+} */
 
-#confirmModal .modal-footer button,
+/* #confirmModal .modal-footer button,
 #infoModalId .modal-footer button {
 	width: 13%;
 	border: none;
 	background: transparent;
-}
+} */
 
-#confirmModal .popupModelBody,
+/* #confirmModal .popupModelBody,
 #infoModalId .popupModelBody {
 	padding: 0;
-}
+} */
 
 /*
 info modal modal
