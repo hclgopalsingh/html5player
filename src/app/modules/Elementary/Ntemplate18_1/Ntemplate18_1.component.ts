@@ -199,6 +199,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
   SkipLoad: boolean = false;
   disableoptions: boolean = false;
   disableoptionsBlock: boolean = false;
+  isAllowed: boolean = true;
 
   ngOnDestroy() {
     clearInterval(this.blinkTimeInterval);
@@ -330,7 +331,23 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
   }
 
   onClickoption(idx, placed, opt) {
-    
+    for (let i = 0; i < this.refQuesObj.length; i++) {
+
+    if(this.refQuesObj[i].position != "top" && opt.placed && this.refQuesObj[i].sequenceNo == opt.sequenceNo){
+      this.refQuesObj[i].isOpen = !this.refQuesObj[i].isOpen;
+      this.refQuesObj[i].leftPos = 0 + 'px';
+      this.refQuesObj[i].topPos = 0 + 'px';
+       
+    }else if(this.refQuesObj[i].position != "top"){
+      this.refQuesObj[i].isOpen = true;
+    } else{
+      this.refQuesObj[i].isOpen = true;
+      this.refQuesObj[i].leftPos = 0 + 'px';
+      this.refQuesObj[i].topPos = 0 + 'px';
+    }
+      
+    }
+
     if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
@@ -342,12 +359,15 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
       if (placed) {
         this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
         this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = "";
-        this.disableoptions = true;
-        $(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 1000, () => {
+        ////this.disableoptions = true;
+        this.isAllowed = false;
+
+        setTimeout(() => {
+          this.refQuesObj[this.index1].isOpen = false;
+          this.refQuesObj[this.index1].leftPos = 0 + 'px';
+          this.refQuesObj[this.index1].topPos = 0 + 'px';
           clearInterval(this.blinkTimeInterval);
-          for (let x = 0; x < this.optionObj.length; x++) {
-            this.optionsBlock.nativeElement.children[0].children[x].children[1].children[0].style.pointerEvents = "";
-          }
+          this.isAllowed = true
           this.countofAnimation--;
           if (this.countofAnimation == 0) {
             this.appModel.enableSubmitBtn(false);
@@ -355,55 +375,63 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
           }
           this.optionObj[idx].placed = false;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObj[idx].dropBoxImg_original.url;
-          this.refcpyArray[this.optionObj[idx].sequenceNo - 1].position = "top";
+          this.refcpyArray[this.optionObj[idx].sequenceNo - 1].position = 'top';
           this.prevIdx = this.index1;
           this.startCount = 1;
           this.blinkHolder();
-          
-          setTimeout(()=>{
-            this.disableoptions = false;
-          },200)
-        });
+          setTimeout(() => {
+            (document.getElementsByClassName('bodyContent')[0] as HTMLElement).style.pointerEvents = '';
+          }, 200);
+        }, 400);
       } else {
-        
+        var a = this.index1;
         this.moveFrom = this.refQues.nativeElement.children[this.index1].children[0].getBoundingClientRect();
         this.moveTo = this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
-        this.disableoptions = true;
-        $(this.refQues.nativeElement.children[this.index1].children[0]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
+        ////this.disableoptions = true;
+        this.isAllowed = false;
+        opt.isOpen = true;
+        opt.leftPos = 0 + 'px';
+        opt.topPos = 0 + 'px';
+
+
+        setTimeout(() => {
+          this.refQuesObj[this.index1].isOpen = false;
+          this.refQuesObj[this.index1].leftPos = this.moveleft + 'px';
+          this.refQuesObj[this.index1].topPos = this.movetop + 'px';
+
           clearInterval(this.blinkTimeInterval);
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src =  this.refQuesObj[this.index1].imgsrc_original.url;
-          this.refQues.nativeElement.children[this.index1].children[0].style.visibility = "hidden";
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItemVisible";
-          for (let x = 0; x < this.optionObj.length; x++) {
-            this.optionsBlock.nativeElement.children[0].children[x].children[1].children[0].style.pointerEvents = "";
-          }
+          this.isAllowed = true;
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
+
           this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
           this.optionObj[idx].placed = true;
           this.refcpyArray[this.index1].placedInOption = idx;
           this.optionObj[idx].sequenceNo = this.refcpyArray[this.index1].sequenceNo;
-          this.refQues.nativeElement.children[this.index1].children[0].style.cursor = "pointer";
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src =  this.optionObj[idx].dropBoxImgHover.url;
+          this.refQues.nativeElement.children[this.index1].children[0].style.cursor = 'pointer';
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObj[idx].dropBoxImgHover.url;
           this.countofAnimation++;
           if (this.countofAnimation > 0) {
             this.appModel.enableSubmitBtn(true);
             this.appModel.enableReplayBtn(false);
           }
           this.prevOptIdx = idx;
-          this.refcpyArray[this.index1].position = "down";
+
+          this.refcpyArray[this.index1].position = 'down';
           this.index1++;
           this.startCount = 1;
           if (this.refcpyArray.length == this.index1) {
             this.index1 = 0;
           }
           this.blinkHolder();
+          setTimeout(() => {
+            (document.getElementsByClassName('bodyContent')[0] as HTMLElement).style.pointerEvents = '';
+            this.refQues.nativeElement.children[a].children[0].style.visibility = 'hidden';
+            this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = 'img-fluid optItemVisible';
+          }, 500);
 
-          setTimeout(()=>{
-            this.disableoptions = false;
-          },200)
-          
-        });
+        }, 400)
       }
       this.appModel.notifyUserAction();
     }
@@ -1252,7 +1280,12 @@ houtSkip(){
       this.refQues.nativeElement.children[i].children[0].style.visibility = "";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = "img-fluid optItem";
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src =  this.optionObj[i].dropBoxImg_original.url;
-      $(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
+      ////$(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
+      for (let i = 0; i < this.refQuesObj.length; i++) {
+        this.refQuesObj[i].isOpen = true;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
+      }
     }
     this.appModel.enableReplayBtn(true);
     this.countofAnimation = 0;
