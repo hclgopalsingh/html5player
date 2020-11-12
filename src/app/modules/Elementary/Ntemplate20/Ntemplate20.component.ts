@@ -215,6 +215,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.popupType = "showanswer"
         this.setPopupAssets();
         this.getAnswer();
+        // this.appModel.stopAllTimer();
       }
     })
     this.appModel.getConfirmationPopup().subscribe((val) => {
@@ -612,6 +613,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
           }
         }, 1000)
       }
+      // this.appModel.stopAllTimer();
+      
     } else if (action == "submitAnswer") {
       if (this.submitButtonCounter != this.optionArr.length) {
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
@@ -671,6 +674,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.disableOnInstruction();
       }
     }
+    
 
   }
 
@@ -1216,8 +1220,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   /***  Click on placeholder to set blinking option ***/
   selectPosition(index, pos) {
     this.resetCounterFlag = true;
-    this.instructionVO.nativeElement.pause();
-    this.instructionVO.nativeElement.currentTime = 0;
+    if(!this.isDisablePlaceholder){
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0;
+    }
     this.disableOnInstruction();
     this.appModel.notifyUserAction();
     if (this.submitButtonCounter == this.optionArr.length) {
@@ -1516,6 +1522,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
       this.styleBodyPopup = this.feedbackObj.wrong_style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.wrongAnswerpopupTxt.url;
+      this.appModel.stopAllTimer();
     }
     if (this.popupType == "partialCorrect") {
       this.rightanspopUpheader_img = false;
@@ -1526,6 +1533,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.partial_style_header;
       this.styleBodyPopup = this.feedbackObj.partial_style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.partialIncorrAnswerpopupTxt.url;
+      this.appModel.stopAllTimer();
     }
     if (this.popupType == "correct") {
       this.partialCorrectCase = false;
@@ -1536,6 +1544,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.rightAnswerpopupTxt.url;
+      this.appModel.stopAllTimer();
     }
     if (this.popupType == "showanswer") {
       this.rightanspopUpheader_img = false;
@@ -1546,6 +1555,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.showAnswerpopupTxt.url;
+      this.appModel.stopAllTimer();
     }
     // clearInterval(this.blinkTimeInterval);
   }
