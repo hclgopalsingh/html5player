@@ -1871,7 +1871,7 @@ else {
   checkinputnull() {
     this.appModel.handlePostVOActivity(true);
     this.appModel.enableReplayBtn(this.playMyVideo);
-    this.inputDivRef.nativeElement.classList = "inputDiv";
+    //this.inputDivRef.nativeElement.classList = "inputDiv";
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
     if (this.mainVideo != undefined && this._playInstructionFlag == false && this._questionAreaVideoFlag == true && this.videoReplayd == false) {
@@ -1909,6 +1909,7 @@ else {
           this.displayWave=false;
           this.blinkTextBox();
           this.instructionDisable=false;
+          this.inputDivRef.nativeElement.classList = "inputDiv";
           //this.instructionBar.nativeElement.classList = "instructionBase";
           //this.quesContainer.nativeElement.style.pointerEvents="";
           this.questAreaDisable = false;
@@ -1919,8 +1920,10 @@ else {
       this.QuestionVideo.nativeElement.play();
       this.appModel.handlePostVOActivity(false);
       this.alldisabledwhilequestionVideoPlay();
+      this.inputDivRef.nativeElement.classList = "inputDiv";
     }else if(this._questionAreaImageFlag || this._questionAreaTextFlag) {
       //this.quesContainer.nativeElement.style.pointerEvents="";
+      this.inputDivRef.nativeElement.classList = "inputDiv";
       this.questAreaDisable = false;
       this.instructionDisable=false;
       this.blinkTextBox();
