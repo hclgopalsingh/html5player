@@ -2013,7 +2013,7 @@ else {
 
   closeKeyboard(){
     this.stopInstructionVO();
-    this.instructionDisable = true
+    this.instructionDisable = false
     if(this.QuestionAudio && this.QuestionAudio.nativeElement){
       this.QuestionAudio.nativeElement.pause();
       this.QuestionAudio.nativeElement.currentTime = 0;
