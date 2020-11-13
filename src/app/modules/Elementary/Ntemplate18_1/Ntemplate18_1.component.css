@@ -153,7 +153,7 @@ button:focus {
 .optionsBlock #option img {
   position: relative;
   max-width: 100%;
-  cursor: default;
+  cursor: pointer;
 }
 
 #optionsBlock #dropBox img,
@@ -849,3 +849,6 @@ html [type=button] {
     transform: scale(1.1)
   }
 }
+
+.options  #dropBox{pointer-events: none;}
+.options #option{cursor: pointer;}
