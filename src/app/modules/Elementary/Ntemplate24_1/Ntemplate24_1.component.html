@@ -14,12 +14,14 @@
           *ngFor="let option of optionObjCopy.optionArray;let idx=index; let first=first; let last=last;">
           <div>
             <img class="img-fluid" [src]="option?.imgsrc?.url" (load)="checkImgLoaded();">
-            <img [ngClass]="{'d-none':first}" class="img-fluid upArrow" (click)="movePrevious(idx,opt);"
-              [src]="optionObjCopy?.moveUpBtn?.url" (mouseover)="hoverPre(option,idx)"
-              (mouseleave)="hleavePre(option,idx)">
-            <img [ngClass]="{'d-none':last}" class="img-fluid downArrow" (click)="moveNext(idx,opt);"
-              [src]="optionObjCopy?.moveDownBtn?.url" (mouseover)="hoverNext(option,idx)"
-              (mouseleave)="hleaveNext(option,idx)">
+            <span class="upArrowContainer" (mousemove)="hoverPre(option,idx)" (mouseleave)="hleavePre(option,idx)">
+              <img [ngClass]="{'d-none':first}" class="img-fluid" (click)="movePrevious(idx,opt);"
+                [src]="optionObjCopy?.moveUpBtn?.url">
+            </span>
+            <span class="downArrowContainer" (mousemove)="hoverNext(option,idx)" (mouseleave)="hleaveNext(option,idx)">
+              <img [ngClass]="{'d-none':last}" class="img-fluid" (click)="moveNext(idx,opt);"
+                [src]="optionObjCopy?.moveDownBtn?.url">
+            </span>
           </div>
         </div>
       </div>
