@@ -878,13 +878,15 @@ else {
       } else if (this.quesObj.lang == "eng") {
         this.totalChar = 14;
         this.charLeft = 14;
-		const newenglishLayout={default:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} q w e r t y u i o p [ ] \\","{lock} a s d f g h j k l ; ' {enter}","{shift} z x c v b n m , . / {shift}","@ {space}"],shift:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} Q W E R T Y U I O P { } |",'{lock} A S D F G H J K L : " {enter}',"{shift} Z X C V B N M < > ? {shift}","@ {space}"]};
+        this.optionPlaceRef.nativeElement.children[0].style.fontSize = "2.2vmax"
+        const newenglishLayout={default:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} q w e r t y u i o p [ ] \\","{lock} a s d f g h j k l ; ' {enter}","{shift} z x c v b n m , . / {shift}","@ {space}"],shift:["` 1 2 3 4 5 6 7 8 9 0 - = {bksp}","{tab} Q W E R T Y U I O P { } |",'{lock} A S D F G H J K L : " {enter}',"{shift} Z X C V B N M < > ? {shift}","@ {space}"]};
         this.layout = newenglishLayout;
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
       } else if (this.quesObj.lang == "math") {
         this.totalChar = 14;
         this.charLeft = 14;
+        this.optionPlaceRef.nativeElement.children[0].style.fontSize = "2.2vmax"
         this.layout = "mathLayout";
         this.inputDivRef.nativeElement.children[0].classList.add("nonHindiInput");
         this.inputDivRef.nativeElement.children[0].classList.remove("inputHindiDiv");
