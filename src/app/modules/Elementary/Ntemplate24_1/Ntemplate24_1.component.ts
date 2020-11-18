@@ -119,40 +119,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   greyOutOpt: boolean = false;
   isPartialPopup: boolean = false;
   animating : boolean = false;
-
-  blinkOnLastQues() {
-    if (this.appModel.isLastSectionInCollection) {
-      if (this.popupType == "correct") {
-        this.appModel.blinkForLastQues("manual");
-      }
-      else this.appModel.blinkForLastQues();
-      this.appModel.stopAllTimer();
-      if (!this.appModel.eventDone) {
-        if (this.isLastQuesAct) {
-          this.appModel.eventFired();
-          this.appModel.event = { 'action': 'segmentEnds' };
-        }
-        if (this.isLastQues) {
-          this.appModel.event = { 'action': 'end' };
-        }
-      }
-    } else {
-      if (this.popupType == "correct") {
-        this.appModel.moveNextQues("manual");
-      }
-      else this.appModel.moveNextQues();
-    }
-  }
-
-  closeModel() {
-    //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
-    this.infoModalRef.nativeElement.classList = "modal"
-    this.confirmReplayRef.nativeElement.classList == "modal"
-    this.feedbackPopupRef.nativeElement.classList = "modal"
-    this.confirmSubmitRef.nativeElement.classList = "modal"
-    this.confirmModalRef.nativeElement.classList = "modal"
-  }
-
+  
   ngOnInit() {
     let that = this;
     // $("#navBlock").click(function () {
@@ -240,6 +207,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.bgSubscription.unsubscribe();
     }
   }
+
+  /* To load the question tabs */
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -248,6 +217,43 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /* To blink next after correct attempt or show answer */
+  blinkOnLastQues() {
+    if (this.appModel.isLastSectionInCollection) {
+      if (this.popupType == "correct") {
+        this.appModel.blinkForLastQues("manual");
+      }
+      else this.appModel.blinkForLastQues();
+      this.appModel.stopAllTimer();
+      if (!this.appModel.eventDone) {
+        if (this.isLastQuesAct) {
+          this.appModel.eventFired();
+          this.appModel.event = { 'action': 'segmentEnds' };
+        }
+        if (this.isLastQues) {
+          this.appModel.event = { 'action': 'end' };
+        }
+      }
+    } else {
+      if (this.popupType == "correct") {
+        this.appModel.moveNextQues("manual");
+      }
+      else this.appModel.moveNextQues();
+    }
+  }
+
+  /* To close all popups */
+  closeModel() {
+    //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
+    this.infoModalRef.nativeElement.classList = "modal"
+    this.confirmReplayRef.nativeElement.classList == "modal"
+    this.feedbackPopupRef.nativeElement.classList = "modal"
+    this.confirmSubmitRef.nativeElement.classList = "modal"
+    this.confirmModalRef.nativeElement.classList = "modal"
+    this.confirmReplayRef.nativeElement.classList = "modal"
+  }
+
+  /* To show feedback or show answer popup */
   getAnswer(flag) {
     if (flag == 'showAnswer') {
       this.appModel.resetBlinkingTimer();
@@ -293,6 +299,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }, 100)
   }
 
+  /* To control vol of each audio in template */
   templatevolume(vol, obj) {
     if (obj.quesVORef && obj.quesVORef.nativeElement) {
       obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -317,6 +324,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
+  /* To show loader before loading the images */
   checkImgLoaded() {
     if (!this.loadFlag) {
       this.noOfImgsLoaded++;
@@ -329,6 +337,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /* To check for instruction audio and start the template */
   checkforQVO() {
     this.isVideoLoaded = true;
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
@@ -350,6 +359,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /* To fetch the json values */
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.feedback = this.fetchedcontent.feedback;
@@ -394,6 +404,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /* To show loader before loading the video */
   checkVideoLoaded() {
     if (!this.videoReplayd) {
       this.isVideoLoaded = true;
@@ -405,6 +416,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.isVideoLoaded = true;
     }
   }
+
+  /* To rehear instruction VO */
   playInstruction() {
     this.appModel.notifyUserAction();
     if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
@@ -417,12 +430,14 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       }
     }
   }
+
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
     }
   }
 
+  /* To replay video */
   replayVideo() {
     this.videoReplayd = true;
     this.isPlayVideo = true;
@@ -438,6 +453,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }, 500)
   }
 
+  /* Function on video ends */
   endedHandler() {
     if (!this.videoReplayd) {
       this.isPlayVideo = false;
@@ -447,6 +463,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /* Function on video ends on skip*/
   endedHandleronSkip() {
     this.isPlayVideo = false;
     this.appModel.navShow = 2;
@@ -455,7 +472,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.notifyUserAction();
   }
 
-
+  /* Toggle play and pause for video */
   PlayPauseVideo() {
     if (this.PlayPauseFlag) {
       this.mainVideo.nativeElement.pause();
@@ -469,6 +486,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   }
 
+  /*Hover in and out event handlers for different controls*/
   leavePlayPause() {
     if (this.PlayPauseFlag) {
       this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
@@ -492,16 +510,24 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
   hoverPre(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].src = this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.cursor = 'pointer';
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.pointerEvents = 'auto';
   }
   hleavePre(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].src = this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.cursor = "";
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.pointerEvents = 'none';
   }
   hoverNext(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].src = this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.cursor = 'pointer';
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.pointerEvents = 'auto';
   }
   hleaveNext(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].src = this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.cursor = "";
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.pointerEvents = 'none';
   }
   hoverConfirm() {
     this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;
@@ -589,6 +615,9 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   houtFeedbackClose() {
     this.feedbackAssets.close_btn = this.feedbackAssets.close_btn_original;
   }
+  /*Hover in and out events ends*/
+
+  /*On click up*/ 
   movePrevious(idx, opt) {
     if(!this.animating){
       this.animating=true;
@@ -606,9 +635,10 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
         $(this.mainContainer.nativeElement.children[0].children[0].children[idx - 1]).animate({ left: (from.left - (to.left)), top: (from.top - (to.top)) }, 500, () => { this.reArrangeOpts(idx, 'left') });
       }
-    }
-    
+    }    
   }
+
+    /*On click down*/ 
   moveNext(idx, opt) {
     if(!this.animating){
       this.animating=true;
@@ -628,6 +658,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       }
     }    
   }
+
+  /*After animations swapping the options*/ 
   reArrangeOpts(idx, flag) {
     if (flag == "left") {
       $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).css('top', 'auto').css('left', 'auto');
@@ -647,10 +679,13 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.animating=false;
     }
   }
+
+  /*Handler for all popup event calls*/ 
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     ref.classList = "modal";
     this.isPartialPopup = false;
+    clearInterval(this.postCompleteTimer);
     if (action == "showAnswer") {
       this.popupType = "showanswer"
       this.getAnswer('showAnswer');
@@ -689,6 +724,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.enableSubmitBtn(true);
   }
 
+    /*Playing feedback or show answer popup audios*/ 
   playFeedbackAudio(num) {
     let optionsAssets: any;
     if (this.answerFeedback == "showAnswer") {
@@ -725,6 +761,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /*After wrong attempt reset the activity*/ 
   postWrongAttemplt() {
     setTimeout(() => {
       this.appModel.enableSubmitBtn(false);
@@ -734,6 +771,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.notifyUserAction();
   }
 
+  /*After wrong attempt reset the activity*/
   removeClassOptAnimate() {
     if (this.feedbackOption.nativeElement && this.feedbackOption.nativeElement.children) {
       for (let i in this.feedbackOption.nativeElement.children) {
@@ -744,6 +782,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /*Disable the screen after show answer popup or correct feedback*/
   disableScreen() {
     this.greyOutOpt = true;
     this.greyOutInstruction = true;
@@ -751,6 +790,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.appModel.enableReplayBtn(false);
   }
 
+  /*Load the popup assets for show answer and feedback popup*/
   setPopupAssets() {
     console.log(this.feedbackAssets);
     console.log("check pop up type", "this.attemptType:", "this.popupType:", this.popupType);

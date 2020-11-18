@@ -138,8 +138,9 @@
 			</div>
 		</div>
 
+		<span (mousemove)="hoverquesArea()">
 		<div class="quesContainer d-flex flex-row justify-content-center align-items-center" #quesContainer>
-			<div class="refQues">
+			<div class="refQues" #refques>
 				<!-- [ngStyle]="quesObj?.bgColor"-->
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
@@ -161,7 +162,7 @@
 					</ng-template>
 
 					<ng-template [ngIf]="_questionAreaAudioFlag">
-						<div class="audio-container" (click)="questionAudioPlay();" [ngClass]="{'disable_div':speakerdisable}">
+						<div class="audio-container" (click)="questionAudioPlay();">
 						<img class="img-fluid" [src]="_questionAreaAudio?.bgImg?.url"  (load)="checkImgLoaded();">
 						<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker?.url" (load)="checkImgLoaded();">
 						<div *ngIf="displayWave" class="waveAnimation">
@@ -295,6 +296,7 @@
 				 (mouseleave)="addBtnLeave()" />
 			</div>
 		</div>
+		</span>
 		<div class="row mx-0 d-flex justify-content-around" id="optionsBlock" #optionsBlock>
 			<div class="refBase">
 				<img class="img-fluid" [src]="refBase?.url" (load)="checkImgLoaded();"/>
