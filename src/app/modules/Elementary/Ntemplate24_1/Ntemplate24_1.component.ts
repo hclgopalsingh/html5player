@@ -510,16 +510,24 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
   hoverPre(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].src = this.optionObjCopy.moveUpBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.cursor = 'pointer';
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.pointerEvents = 'auto';
   }
   hleavePre(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[1].src = this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].src = this.optionObjCopy.moveUpBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.cursor = "";
+    this.options.nativeElement.children[0].children[idx].children[0].children[1].children[0].style.pointerEvents = 'none';
   }
   hoverNext(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].src = this.optionObjCopy.moveDownBtn_hover.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.cursor = 'pointer';
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.pointerEvents = 'auto';
   }
   hleaveNext(opt, idx) {
-    this.options.nativeElement.children[0].children[idx].children[0].children[2].src = this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].src = this.optionObjCopy.moveDownBtn_original.url + "?someRandomSeed=" + Math.random().toString(36);
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.cursor = "";
+    this.options.nativeElement.children[0].children[idx].children[0].children[2].children[0].style.pointerEvents = 'none';
   }
   hoverConfirm() {
     this.confirmAssets.confirm_btn = this.confirmAssets.confirm_btn_hover;

@@ -211,8 +211,8 @@ button:focus {
   max-width: 100%;
 }
 
-#optionsBlock .options div:first-of-type img:first-of-type~img {
-  position: absolute !important;
+#optionsBlock .options div:first-of-type img:first-of-type~span img {
+  /* position: absolute !important; */
   width: auto;
   max-width: 93% !important;
   max-height: 55% !important;
@@ -292,14 +292,24 @@ button:focus {
 /* border-radius: .5vmax; */
 /* } */
 
-.upArrow {
+.upArrowContainer {
+  position: absolute;
+  width: 5.5%;
+  left: 1.8%;
+}
+.upArrowContainer img {
   left: 2%;
-  cursor: pointer;
+  pointer-events: none;
 }
 
-.downArrow {
+.downArrowContainer {
+  position: absolute;
+  width: 5.5%;
+  right: 2.2%;
+}
+.downArrowContainer img {
   right: 2.5%;
-  cursor: pointer;
+  pointer-events: none;
 }
 
 #optionsBlock .refTxt,
