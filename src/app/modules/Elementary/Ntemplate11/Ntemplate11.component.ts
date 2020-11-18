@@ -148,7 +148,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService ) {
     this.appModel = appModel;
-    this.assetsfolderlocation = this.appModel.assetsfolderpath;
+    this.assetspath = this.appModel.assetsfolderpath;
+    // this.assetsfolderlocation = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
     this.appModel.setLoader(true);
     // this.appModel.setLoader(false);
@@ -181,13 +182,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     /*this.assetspath=this.basePath;*/
     this.containgFolderPath = this.getBasePath();
 
-    this.assetspath = this.basePath;
+    // this.assetspath = this.basePath;
     this.appModel.functionone(this.templatevolume, this);
-    //start end
-    /*window.onresize = (e) =>{
-     this.resizeContainer();
-    }*/
-   
+       
 
     // let fetchedData: any = this.appModel.content.contentData.data;
     console.log("init--------------------------------->>>>>>>>>>>>>>>>>>>>:", this.appModel.content.contentData.data);

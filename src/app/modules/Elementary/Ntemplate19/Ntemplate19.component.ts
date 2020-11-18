@@ -297,12 +297,13 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
 
   /****** Play option VO on mouse hover ******/
   playOptionHover(opt, idx) {
+    if (this.instructionVO && this.instructionVO.nativeElement.play && idx === this.index1) {
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.instructionDisable = false;
+    }
     if (opt && opt.imgsrc_audio && opt.imgsrc_audio.url && idx === this.index1) {
       this.appModel.notifyUserAction();
-      if (this.instructionVO && this.instructionVO.nativeElement.play) {
-        this.instructionVO.nativeElement.pause();
-        this.instructionVO.nativeElement.currentTime = 0;
-      }
       this.playSound(opt.imgsrc_audio, idx);
     }
   }
@@ -880,11 +881,13 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
       this.replayVideo();
     } else if (action == "cancelReplay") {
-      this.appModel.videoStraming(false);
-      this.appModel.enableReplayBtn(true);
-      this.instructionDisable = false;
-      this.startCount = 1;
-      this.blinkHolder();
+      if(!this.bodyContentDisable) {
+        this.appModel.videoStraming(false);
+        this.appModel.enableReplayBtn(true);
+        this.instructionDisable = false;
+        this.startCount = 1;
+        this.blinkHolder();
+      }
       setTimeout(() => {
       }, 1000);
 
@@ -908,9 +911,11 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.instructionOpacity = true;
     } else {
       this.appModel.notifyUserAction();
-      this.startCount = 1;
-      this.blinkHolder();
-      this.instructionDisable = false;
+      if(!this.bodyContentDisable) {
+        this.startCount = 1;
+        this.blinkHolder();
+        this.instructionDisable = false;
+      }
     }
   }
 
@@ -933,6 +938,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.bodyContentOpacity = false;
       this.appModel.wrongAttemptAnimation();
     } else {
+      this.instructionDisable = true;
       this.instructionOpacity = true;
       this.bodyContentOpacity = true;
       this.bodyContentDisable = true;
@@ -940,9 +946,9 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.appModel.handlePostVOActivity(false);
       this.blinkOnLastQues();
     }
-    setTimeout(() => {
-      this.instructionDisable = false;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.instructionDisable = false;
+    // }, 1000);
   }
 
   /****** Replay video functionality *******/
