@@ -358,6 +358,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
+    this.appModel.notifyUserAction();
     this.optionRef.nativeElement.children[idx].className = "scaleInAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleOutAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "100";
