@@ -46,9 +46,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     );
   }
 
-  @ViewChild('quesVORef') quesVORef: any;
-  @ViewChild('instructionBar') instructionBar: any;
-  @ViewChild('instruction') instruction: any;
+  @ViewChild('quesVORef') quesVORef: any;  
   @ViewChild('instructionVO') instructionVO: any;
   @ViewChild('mainContainer') mainContainer: any;
   @ViewChild('optionAudio') optionAudio: any;
@@ -61,6 +59,8 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('feedbackPopupRef') feedbackPopupRef: any;
   @ViewChild('feedbackOption') feedbackOption: any;
   @ViewChild('feedbackAudio') feedbackAudio: any;
+  // @ViewChild('instructionBar') instructionBar: any;
+  // @ViewChild('instruction') instruction: any;
   // @ViewChild('maincontent') maincontent: any;  
   // @ViewChild('submitModalRef') submitModalRef: any;  
   // @ViewChild('modalRef') modalRef: any;
@@ -142,25 +142,105 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   };
   quesSkip: boolean = false;
   bgSubscription: Subscription;
+  showAnsTimeout: number;
+  autoClosePopupTimer: number;
   isPartialPopup: boolean = false;
+  disableInstruction: boolean = true;
+  disableOpt: boolean = false;
+  greyOutInstruction: boolean = false;
+  greyOutOpt: boolean = false;
 
-  playHoverInstruction() {
-    if (!this.instructionVO.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      console.log("play on Instruction");
-      if (this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.play();
-      }
-      if (!this.optionAudio.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
-      }
+  ngOnInit() {
+    let that = this;
+
+    // $( "#navBlock" ).click(function() {
+    //   if (!that.instructionVO.nativeElement.paused)
+    //   {
+    //     that.instructionVO.nativeElement.pause();
+    //     that.instructionVO.nativeElement.currentTime = 0;
+    //   }
+    // });
+    if (this.appModel.isNewCollection) {
+      this.appModel.event = { 'action': 'segmentBegins' };
     }
+    this.containgFolderPath = this.getBasePath();
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+    this.checkquesTab();
+    this.appModel.globalJsonData.subscribe(data => {
+      this.showAnsTimeout = data.showAnsTimeout;
+    });
+    this.setData();
+    this.appModel.getNotification().subscribe(mode => {
+      if (mode == "manual") {
+        console.log("manual mode ", mode);
+      } else if (mode == "auto") {
+        console.log("auto mode", mode);
+        this.closeModel()
+        this.getAnswer('showAnswer');
+        this.popupType = "showanswer"
+        this.setPopupAssets();
+      }
+    })
+    this.appModel.getConfirmationPopup().subscribe((val) => {
+      if (!this.instructionVO.nativeElement.paused) {
+        this.instructionVO.nativeElement.pause();
+        this.instructionVO.nativeElement.currentTime = 0;
+        this.disableInstruction = false;
+      }
+      this.setPopupAssets();
+      if (val == "uttarDikhayein") {
+        clearTimeout(this.postCompleteTimer);
+        if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
+          this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.appModel.notifyUserAction();
+        }
+      } else if (val == "submitAnswer") {
+        if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
+          this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
+          this.appModel.notifyUserAction();
+        }
+      } else if (val == "replayVideo") {
+        if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+          this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
+          this.appModel.notifyUserAction();
+          this.PlayPauseFlag = true;
+          this.quesObj.quesPlayPause = this.quesObj.quesPause;
+          this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+        }
+      }
+    })
+
+    this.appModel.nextBtnEvent().subscribe(() => {
+      if (this.appModel.isLastSectionInCollection) {
+        this.appModel.event = { 'action': 'segmentEnds' };
+      }
+      if (this.appModel.isLastSection) {
+        this.appModel.event = { 'action': 'end' };
+      }
+    })
+    this.appModel.postWrongAttempt.subscribe(() => {
+      this.postWrongAttemplt();
+    })
+    this.appModel.handleController(this.controlHandler);
+    this.appModel.resetBlinkingTimer();
   }
 
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.postCompleteTimer);
+    if (this.bgSubscription != undefined) {
+      this.bgSubscription.unsubscribe();
+    }
+  }
   playOptionHover(idx, opt) {
+    this.appModel.notifyUserAction();
     if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
       this.playSound(opt.mouse_over_audio, idx);
     }
@@ -175,11 +255,13 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
           this.mainContainer.nativeElement.children[0].children[0].children[i].classList.add("disableDiv");
         }
       }
-      this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+      // this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+      this.disableInstruction=true;
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
       this.audio.onended = () => {
-        this.instructionBar.nativeElement.classList = "instructionBase";
+        // this.instructionBar.nativeElement.classList = "instructionBase";
+        this.disableInstruction=false;
         for (let i = 0; i < this.mainContainer.nativeElement.children[0].children[0].children.length; i++) {
           this.mainContainer.nativeElement.children[0].children[0].children[i].classList.remove("disableDiv");
         }
@@ -189,6 +271,11 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   movePrevious(idx, opt) {
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.disableInstruction = false;
+    }
     this.appModel.enableSubmitBtn(true)
     this.appModel.notifyUserAction();
     if (idx - 1 != -1) {
@@ -199,6 +286,11 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   moveNext(idx, opt) {
+    if (!this.instructionVO.nativeElement.paused) {
+      this.instructionVO.nativeElement.pause();
+      this.instructionVO.nativeElement.currentTime = 0;
+      this.disableInstruction = false;
+    }
     this.appModel.notifyUserAction();
     this.appModel.enableSubmitBtn(true)
     if (idx + 1 <= this.optionObj.optionArray.length - 1) {
@@ -265,94 +357,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-
-  ngOnInit() {
-    let that = this;
-
-    // $( "#navBlock" ).click(function() {
-    //   if (!that.instructionVO.nativeElement.paused)
-    //   {
-    //     that.instructionVO.nativeElement.pause();
-    //     that.instructionVO.nativeElement.currentTime = 0;
-    //   }
-    // });
-    if (this.appModel.isNewCollection) {
-      this.appModel.event = { 'action': 'segmentBegins' };
-    }
-    this.containgFolderPath = this.getBasePath();
-    let fetchedData: any = this.appModel.content.contentData.data;
-    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));
-    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
-    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
-    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
-    this.checkquesTab();
-    // this.appModel.globalJsonData.subscribe(data => {
-    //   this.showAnsTimeout = data.showAnsTimeout;
-    // });
-    this.setData();
-    this.appModel.getNotification().subscribe(mode => {
-      if (mode == "manual") {
-        console.log("manual mode ", mode);
-      } else if (mode == "auto") {
-        console.log("auto mode", mode);
-        this.closeModel()
-        this.getAnswer('showAnswer');
-        this.popupType = "showanswer"
-        this.setPopupAssets();
-      }
-    })
-    this.appModel.getConfirmationPopup().subscribe((val) => {
-      this.setPopupAssets();
-      if (val == "uttarDikhayein") {
-        clearTimeout(this.postCompleteTimer);
-        if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-          this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
-        }
-      } else if (val == "submitAnswer") {
-        if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
-          this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
-        }
-      } else if (val == "replayVideo") {
-        if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
-          this.appModel.notifyUserAction();
-          this.PlayPauseFlag = true;
-          this.quesObj.quesPlayPause = this.quesObj.quesPause;
-          this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
-        }
-      }
-    })
-
-
-
-    this.appModel.nextBtnEvent().subscribe(() => {
-      if (this.appModel.isLastSectionInCollection) {
-        this.appModel.event = { 'action': 'segmentEnds' };
-      }
-      if (this.appModel.isLastSection) {
-        this.appModel.event = { 'action': 'end' };
-      }
-    })
-    this.appModel.postWrongAttempt.subscribe(() => {
-      this.postWrongAttemplt();
-    })
-    this.appModel.handleController(this.controlHandler);
-    this.appModel.resetBlinkingTimer();
-  }
-
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
-  }
-
-  ngOnDestroy() {
-    clearInterval(this.postCompleteTimer);
-    if (this.bgSubscription != undefined) {
-      this.bgSubscription.unsubscribe();
-    }
-  }
-
   getAnswer(flag) {
     this.appModel.stopAllTimer();
     if (flag == 'showAnswer') {
@@ -402,8 +406,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }, 100)
   }
 
-
-
   templatevolume(vol, obj) {
     if (obj.quesVORef && obj.quesVORef.nativeElement) {
       obj.quesVORef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -445,14 +447,14 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     if (this.questionObj && this.questionObj.quesInstruction && this.questionObj.quesInstruction.url && this.questionObj.quesInstruction.autoPlay) {
       this.quesVORef.nativeElement.src = this.questionObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
-      this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
       this.quesVORef.nativeElement.play();
       this.appModel.enableReplayBtn(false);
       this.appModel.enableSubmitBtn(false);
       this.appModel.handlePostVOActivity(true);
       this.quesVORef.nativeElement.onended = () => {
         this.mainContainer.nativeElement.classList = "bodyContent";
-        this.instructionBar.nativeElement.classList = "instructionBase";
+        // this.instructionBar.nativeElement.classList = "instructionBase";
+        this.disableInstruction=false;
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
         //this.appModel.enableSubmitBtn(true);
@@ -508,6 +510,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  /* To show loader before loading the video */
   checkVideoLoaded() {
     if (!this.videoReplayd) {
       this.isVideoLoaded = true;
@@ -520,17 +523,37 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }  
 
+  /* To rehear instruction VO */
   playInstruction() {
+    this.appModel.notifyUserAction();
     if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
       this.instructionVO.nativeElement.play();
+      this.disableInstruction = true;
       this.instructionVO.nativeElement.onended = () => {
-
+        this.mainContainer.nativeElement.style.pointerEvents = "";
+        this.disableInstruction = false;
       }
     }
   }
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
+    }
+  }
+  /*Hover in and out event handlers for different controls*/
+  leavePlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+    } else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+    }
+  }
+
+  hoverPlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+    } else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
     }
   }
   optionHover(idx, opt) {
@@ -651,7 +674,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
 
   }
 
-
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     this.isPartialPopup = false;
@@ -701,6 +723,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  /* To replay video */
   replayVideo() {
     this.videoReplayd = true;
     this.isPlayVideo = true;
@@ -713,6 +736,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }, 500)
   }
 
+  /* Function on video ends */
   endedHandler() {
     if (!this.videoReplayd) {
       this.isPlayVideo = false;
@@ -722,6 +746,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  /* Function on video ends on skip*/
   endedHandleronSkip() {
     this.appModel.navShow = 2;
     this.loadTemplateAfterVideo();
@@ -733,7 +758,9 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.notifyUserAction();
   }
 
+  /* Toggle play and pause for video */
   PlayPauseVideo() {
+    this.appModel.notifyUserAction();
     if (this.PlayPauseFlag) {
       this.mainVideo.nativeElement.pause();
       this.quesObj.quesPlayPause = this.quesObj.quesPlay;
@@ -799,7 +826,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
               }, 4000);
             this.appModel.wrongAttemptAnimation();
           }
-        }, 1000)
+        }, this.autoClosePopupTimer)
       }
     }
   }
@@ -833,7 +860,8 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
 
   disableScreen() {
     this.mainContainer.nativeElement.classList = "bodyContent greyOut";
-    this.instructionBar.nativeElement.classList = "instructionBase disableDiv disable-click";
+    // this.instructionBar.nativeElement.classList = "instructionBase disableDiv disable-click";
+    this.greyOutInstruction=true;
     this.appModel.enableSubmitBtn(false);
     this.appModel.enableReplayBtn(false);
   }
@@ -841,6 +869,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   setPopupAssets() {
     console.log(this.feedbackAssets)
     console.log("check pop up type", "this.attemptType:", this.attemptType, "this.popupType:", this.popupType)
+    this.autoClosePopupTimer = this.feedbackAssets.autoCloseSec * 1000;
     if (this.popupType == "wrong") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;
@@ -870,6 +899,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.right_style_title;
     }
     if (this.popupType == "showanswer") {
+      this.autoClosePopupTimer = this.showAnsTimeout;
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
@@ -880,7 +910,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  /*Start: Theme Implementation(Template Changes)*/
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -888,7 +917,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.getJson();
     }
   }
-  /*End: Theme Implementation(Template Changes)*/
 
   closeModel() {
     //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,

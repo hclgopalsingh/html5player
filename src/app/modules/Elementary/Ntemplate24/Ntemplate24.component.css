@@ -418,7 +418,7 @@ button:focus {
   pointer-events: none;
 }
 #container .modal #optionsBlock {
-  margin-top: 0;
+  margin-top: 7%;
 }
 @keyframes scaleit {
 	0% {
