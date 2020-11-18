@@ -313,19 +313,15 @@ button:focus {
   text-align: center;
   line-height: 0;
 }
-#container .modal .instructionBar {
+/* #container .modal .instructionBar {
   top: 1%;
-}
+} */
 .instructionBar .instructionBase {
   width: 60%;/*86%;*/
   position: relative;
   cursor: pointer;
 }
-.instructionBase .instructionText {
-  position: absolute;
-  top: 0%;
-	left:0;
-}
+
 /* Modal */
 .modal{
 	position: absolute !important;
@@ -338,9 +334,7 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-.modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
+/* .modal-title{
   margin-left: 1.5%;
   height: 80%;
 }
@@ -363,11 +357,15 @@ button:focus {
   color: #000;
   text-decoration: none;
   opacity: 1 !important;
+} */
+#instructionBarFeedback .instructionBaseFeedback {
+  width: 100%;
+  position: relative;
 }
 .modal-dialog{
   width: 84% !important;
   /* height: 65% !important; */
-  height: auto;/*100%;*/
+  /* height: auto; */
 }
 .modal-content{
   background: transparent !important;
@@ -377,9 +375,9 @@ button:focus {
 	min-width: 560px;/*640px;*/
   min-height: 48vmin;/*198px;*/
 }
-.modal-header{
+/* .modal-header{
 	padding: .5% !important;
-	height: 7vmin;/*56px;*/
+	height: 7vmin;
   position: relative;
   top: 0;
   width: 100%;
@@ -388,14 +386,14 @@ button:focus {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: #248446;
-}
-.modal-body{
-	padding:2%;
-	background: #afdec0;
-	border: solid .7vmin #85d222;
-	border-top:none;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
+} */
+.modal-body {
+  padding: 2% !important;
+  background: #afdec0;
+  border: solid .7vmin #85d222;
+  border-top: none;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 .modal-body img{
 	/* max-width: 94%; */
@@ -573,9 +571,9 @@ button:focus {
 	max-width: 80%;
 }
 
-#confirmModal .modal-header {
+/* #confirmModal .modal-header {
 	top: 0;
-}
+} */
 
 #confirmModal .bodyText {
 	position: absolute;

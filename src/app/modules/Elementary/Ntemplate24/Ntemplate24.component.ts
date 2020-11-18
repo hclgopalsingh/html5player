@@ -142,6 +142,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   };
   quesSkip: boolean = false;
   bgSubscription: Subscription;
+  isPartialPopup: boolean = false;
 
   playHoverInstruction() {
     if (!this.instructionVO.nativeElement.paused) {
@@ -231,11 +232,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleOutAnimation");
       this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleInAnimation");
     }, 500)
-  }
-
-  ngAfterViewChecked() {
-    this.templatevolume(this.appModel.volumeValue, this);
-  }
+  } 
 
   // OptionZoomOutAnimation(opt, i, j) {
   //   if (!this.checked && this.instructionVO.nativeElement.paused) {
@@ -345,11 +342,15 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.resetBlinkingTimer();
   }
 
+  ngAfterViewChecked() {
+    this.templatevolume(this.appModel.volumeValue, this);
+  }
+
   ngOnDestroy() {
     clearInterval(this.postCompleteTimer);
-    // if (this.bgSubscription != undefined) {
-    //   this.bgSubscription.unsubscribe();
-    // }
+    if (this.bgSubscription != undefined) {
+      this.bgSubscription.unsubscribe();
+    }
   }
 
   getAnswer(flag) {
@@ -653,6 +654,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
 
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
+    this.isPartialPopup = false;
     document.getElementById("optionsBlock").style.pointerEvents = "none";
     ref.classList = "modal";
     clearTimeout(this.postCompleteTimer);
@@ -772,7 +774,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       feedbackVo = optionsAssets[num].incorrect_vo;
     }
-    this.feedbackAudio.nativeElement.src = feedbackVo.location == "content" ? this.containgFolderPath + "/" + feedbackVo.url : this.assetsPath + "/" + feedbackVo.url;
+    this.feedbackAudio.nativeElement.src = feedbackVo.url;
     this.feedbackAudio.nativeElement.play();
     this.feedbackOption.nativeElement.children[num].children[0].classList = "img-fluid optionAnimate";
     this.feedbackAudio.nativeElement.onended = () => {
@@ -846,14 +848,17 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackAssets.wrong_style_header;
       this.styleBodyPopup = this.feedbackAssets.wrong_style_body;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.wrong_style_title;
     }
     if (this.popupType == "partialCorrect") {
+      this.isPartialPopup = true;
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
       this.partialCorrectheaderTxt_img = true;
       this.styleHeaderPopup = this.feedbackAssets.partial_style_header;
       this.styleBodyPopup = this.feedbackAssets.partial_style_body;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.partial_style_title;
     }
     if (this.popupType == "correct") {
       this.rightanspopUpheader_img = true;
@@ -862,6 +867,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackAssets.right_style_header;
       this.styleBodyPopup = this.feedbackAssets.right_style_body;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.right_style_title;
     }
     if (this.popupType == "showanswer") {
       this.rightanspopUpheader_img = false;
@@ -870,9 +876,8 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.partialCorrectheaderTxt_img = false;
       this.styleHeaderPopup = this.feedbackAssets.show_style_header;
       this.styleBodyPopup = this.feedbackAssets.show_style_body;
+      this.feedbackAssets.popTitleTxt_img = this.feedbackAssets.showAns_style_title;
     }
-
-
   }
 
   /*Start: Theme Implementation(Template Changes)*/
@@ -883,7 +888,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.getJson();
     }
   }
-
   /*End: Theme Implementation(Template Changes)*/
 
   closeModel() {
