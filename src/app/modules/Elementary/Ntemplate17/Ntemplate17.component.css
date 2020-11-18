@@ -31,8 +31,9 @@ button:focus {
 }
 
 #boxWord{
-  font-size: 1.5vmax;
+  font-size: 1.30vmax;
 }
+
 
 .vowels{
   width: 7.5%;
@@ -309,6 +310,7 @@ button:focus {
     position: absolute;
     top: 18%;
     width: 95%;
+    left: 2.2%;
 }
 .optionsList div{
   /*max-width: 32%;
@@ -321,10 +323,12 @@ button:focus {
 }
 .optionsList div span{
   position: absolute;
-  font-size: 0.9vmax;
+  font-size: 0.70vmax;
+  white-space: nowrap;
 }
 .modal .optionsList div span{
-  font-size: 1.05vmax;
+  font-size: .85vmax;
+  white-space: nowrap;
 }
 
 .modal .optionsList img{
@@ -419,7 +423,7 @@ button:focus {
 }
 
 .audio-container{
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 
@@ -1145,7 +1149,8 @@ html [type=button] {
 }
 
 .wordBlock .wordItem {
-	width: 16%;
+  width: 16%;
+  white-space: nowrap;
     position: relative;
     margin: .27% 0;
 	margin-right: .8%;
@@ -1430,7 +1435,8 @@ cursor: pointer
 
 .optionPlace span {
   position: absolute;
-	font-size: 2.6vmax;
+  font-size: 2.5vmax;
+  white-space: nowrap;
 }
 .displayPopup {
   display: block;
