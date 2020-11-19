@@ -1,4 +1,4 @@
-<div #container class="container-fluid ele temp11" id="container" >
+<div #container class="container-fluid ele temp11" id="container" *ngIf="!showIntroScreen && !isPlayVideo">
 	<audio #narrator [src]="commonAssets?.narrator?.url"></audio>
 
 	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.urlglobal" (load)="checkImgLoaded();" /></div>
