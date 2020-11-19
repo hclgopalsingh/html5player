@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="bodyContent" [ngClass]="{'disable_div':disableBody}" #bodyContent>
-    <div class="refQues" #refQues>
+    <div class="refQues disable_div" #refQues>
       <div id={{idx}} *ngFor="let refQues of refQuesObj;let idx = index">
         <img [src]="refQues?.imgsrc?.url" [@openClose]="{value: refQues.isOpen ? 'open' : 'closed', params: {leftPos: refQues.leftPos , topPos: refQues.topPos}}" (load)="checkImgLoaded();">
       </div>
@@ -144,7 +144,7 @@
                   <img style="cursor: default !important;" class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();">
                 </div>
                 <div>
-                  <img style="cursor: default !important;" class="img-fluid" [src]="opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="onClickoption(idx)" (load)="checkImgLoaded();">
+                  <img style="cursor: default !important; visibility: hidden;" class="img-fluid" [src]="opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (click)="onClickoption(idx)" (load)="checkImgLoaded();">
                   <img style="cursor: default !important;" class="img-fluid optItem" [src]="opt?.samplerefquesImg?.url">
                   <audio #feedbackPopupAudio></audio>
                 </div>

@@ -148,7 +148,9 @@ button:focus {
   max-width: 100%;
   cursor: pointer;
 }
-
+.videoMainContainer{
+  width:99.8%;
+}
 #optionsBlock #option img,
 .optionsBlock #option img {
   position: relative;
