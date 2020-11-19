@@ -40,7 +40,7 @@ button:focus {
 .refQues {
   width: 30%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /*space-around;*/
   align-items: center;
 }
 
@@ -112,6 +112,7 @@ button:focus {
 
 .refQues div {
   width: 15%;
+  margin: 0 2.5%;
   display: flex;
   align-items: center;
   border: solid 0px transparent;
