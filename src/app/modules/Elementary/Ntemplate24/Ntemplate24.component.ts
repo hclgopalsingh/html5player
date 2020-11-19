@@ -6,13 +6,12 @@ import { ThemeConstants } from '../../../common/themeconstants';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
-
 declare var $: any;
 
 @Component({
   selector: 'ntemp24',
   templateUrl: './Ntemplate24.component.html',
-  styleUrls: ['./Ntemplate24.component.css', '../../../view/css/bootstrap.min.css'],
+  styleUrls: ['./Ntemplate24.component.css'],
 
 })
 
@@ -151,7 +150,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   greyOutOpt: boolean = false;
 
   ngOnInit() {
-    let that = this;
+    // let that = this;
 
     // $( "#navBlock" ).click(function() {
     //   if (!that.instructionVO.nativeElement.paused)
@@ -509,13 +508,13 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     this.isPartialPopup = false;
-    document.getElementById("optionsBlock").style.pointerEvents = "none";
+    this.mainContainer.nativeElement.children[0].style.pointerEvents = "none";
     ref.classList = "modal";
     clearTimeout(this.postCompleteTimer);
     setTimeout(
       () => {
         if (action == "noShowAnswer" || action == "resetActivity" || action == undefined) {
-          document.getElementById("optionsBlock").style.pointerEvents = "";
+          this.mainContainer.nativeElement.children[0].style.pointerEvents = "";
         }
       }, 1000);
     if (action == "showAnswer") {
@@ -538,10 +537,10 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
         this.disableScreen();
         this.blinkOnLastQues();
       } else {
-        document.getElementById("optionsBlock").style.pointerEvents = "none ";
+        this.mainContainer.nativeElement.children[0].style.pointerEvents = "none ";
         setTimeout(
           () => {
-            document.getElementById("optionsBlock").style.pointerEvents = "";
+            this.mainContainer.nativeElement.children[0].style.pointerEvents = "";
           }, 4000);
         this.appModel.wrongAttemptAnimation();
       }
@@ -690,10 +689,10 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
             this.blinkOnLastQues();
 
           } else {
-            document.getElementById("optionsBlock").style.pointerEvents = "none ";
+            this.mainContainer.nativeElement.children[0].style.pointerEvents = "none ";
             setTimeout(
               () => {
-                document.getElementById("optionsBlock").style.pointerEvents = "";
+                this.mainContainer.nativeElement.children[0].style.pointerEvents = "";
               }, 4000);
             this.appModel.wrongAttemptAnimation();
           }
@@ -725,6 +724,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
 
   /*To set right, wrong, partial and show answer popup assets */
   setPopupAssets() {
+    this.isPartialPopup=false;
     console.log(this.feedbackAssets)
     console.log("check pop up type", "this.attemptType:", this.attemptType, "this.popupType:", this.popupType)
     this.autoClosePopupTimer = this.feedbackAssets.autoCloseSec * 1000;
