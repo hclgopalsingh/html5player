@@ -37,21 +37,6 @@ declare var $: any;
 export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked {
   private appModel: ApplicationmodelService;
   
-  /*Start: Theme Implementation(Template Changes)*/
-  controlHandler = {
-    isSubmitRequired: false,
-    isReplayRequired: false,
-    isTab: true
-  };
-  themePath: any;
-  fetchedcontent: any;
-  functionalityType: any;
-  showAnsTimeout: number;
-  selectedPositionIndex: number;
-  selectedPosition: string = "";
-  reverseOption: any;
-  reverseOptionIndex: number;
-  /*END: Theme Implementation(Template Changes)*/
 
   
   @ViewChild('correctAns') correctAns: any;
@@ -146,13 +131,29 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   tempTimer: any;
   PlayPauseFlag: boolean = true;
 
+  
+  /*Start: Theme Implementation(Template Changes)*/
+  controlHandler = {
+    isSubmitRequired: false,
+    isReplayRequired: false,
+    isTab: true
+  };
+  themePath: any;
+  fetchedcontent: any;
+  functionalityType: any;
+  showAnsTimeout: number;
+  selectedPositionIndex: number;
+  selectedPosition: string = "";
+  reverseOption: any;
+  reverseOptionIndex: number;
+  /*END: Theme Implementation(Template Changes)*/
+
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService ) {
     this.appModel = appModel;
     this.assetspath = this.appModel.assetsfolderpath;
     // this.assetsfolderlocation = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
     this.appModel.setLoader(true);
-    // this.appModel.setLoader(false);
     // if error occured during image loading loader wil stop after 5 seconds 
     this.loaderTimer = setTimeout(() => {
       this.appModel.setLoader(false);
@@ -187,7 +188,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
        
 
     // let fetchedData: any = this.appModel.content.contentData.data;
-    console.log("init--------------------------------->>>>>>>>>>>>>>>>>>>>:", this.appModel.content.contentData.data);
+    console.log("init---->>>>>>>>>>>>>>>>>>>>:", this.appModel.content.contentData.data);
 
     /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
@@ -309,6 +310,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       return this.appModel.content.id + '';
     }
   }
+
+  /*** Data set from content JSON ***/
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       let fetchedData: any = this.appModel.content.contentData.data;
@@ -340,7 +343,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
       this.question = fetchedData.ques;
       this.feedback = fetchedData.feedback;
-      this.correct_ans_url = fetchedData.feedback.correct_ans_url;
+      this.correct_ans_url = this.feedback.correct_ans_url;
       this.commonAssets = fetchedData.commonassets;
       this.quesInfo = fetchedData.commonassets;
       this.answers = fetchedData.answers;
@@ -383,11 +386,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
       }
 
-
-
-
-
-
       setTimeout(() => {
         if (this.navBlock && this.navBlock.nativeElement) {
           this.navBlock.nativeElement.className = "d-flex flex-row align-items-center justify-content-around";
@@ -426,10 +424,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     option.image = option.image_original;
     //this.ansBlock.nativeElement.className="";
     this.ansBlock.nativeElement.children[idx].className = "options";
-
-
-
   }
+
   onHoverhelp(option) {
     //console.log("in",option);
     this.appModel.notifyUserAction();
@@ -513,7 +509,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.notifyUserAction();
   }
 
-
   PlayPauseVideo() {
     if (this.PlayPauseFlag) {
       this.mainVideo.nativeElement.pause();
@@ -525,7 +520,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.quesObj.quesPlayPause = this.quesObj.quesPause;
       this.PlayPauseFlag = true;
     }
-
   }
 
   hoverSkip() {
@@ -700,9 +694,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
             }
           }
 
-
-
-
         })
 
       }
@@ -751,11 +742,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
 
 
-
   doRandomize(array) {
-
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
 
@@ -1075,7 +1063,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      // this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.narrator.nativeElement.src = this.quesObj.quesInstruction.url;
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableReplayBtn(false);
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
