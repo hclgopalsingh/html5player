@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
@@ -39,7 +39,7 @@ import {
 
 })
 
-export class Ntemplate18_1 implements OnInit, OnDestroy {
+export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -57,7 +57,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
         console.log('Component: constructor - data=', data);
         switch (data) {
           case PlayerConstants.CMS_PLAYER_CLOSE:
-            //console.log('VideoComponent: constructor - cmsPlayerClose');
             this.close();
             break;
 
@@ -74,15 +73,12 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   @ViewChild('optionAudio') optionAudio: any;
-  ////@ViewChild('maincontent') maincontent: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('submitModalRef') submitModalRef: any;
   @ViewChild('infoModalRef') infoModalRef: any;
   @ViewChild('modalRef') modalRef: any;
-  ////@ViewChild('mainmodalRef') mainmodalRef: any;
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('popupBodyRef') popupBodyRef: any;
-  ////@ViewChild('popupImage') popupImage: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
   @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any;
@@ -95,52 +91,31 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
 
   audio = new Audio();
   blink: boolean = false;
-  ////currentIdx = 0;
   commonAssets: any = "";
-  ////optionslist: any = [];
-  ////optionslist_main: any = "";
-  ////myoption: any = [];
-  ////question: any = "";
   feedback: any = "";
   narratorAudio: any;
-  ////isLastActivity: any = "";
   checked: boolean = false;
-  ////selected: boolean = false;
-  ////bool: boolean = false;
   isQuesTypeImage: boolean = false;
-  ////isQuesTypeVideo: boolean = false;
-  ////showIntroScreen: boolean;
   attemptType: any;
-  ////helpAudio: any = "";
-  ////correctOpt: any;
-  ////idArray: any = [];
   noOfRightAnsClicked: number = 0;
   noOfWrongAnsClicked: number = 0;
   rightansArray: any = [];
   rightansArray1: any = [];
   rightansArray2: any = [];
-  ////wrongansArray1: any = [];
-  ////wrongansArray2: any = [];
   AnsObj: any = [];
   ansArray1: any = [];
-  ////Array2required: boolean = false;
-  ////partialpopupRequired: boolean = false;
   wrongansArray: any = [];
   isFirstQues: boolean;
   isLastQues: boolean = false;
-  ////isAutoplayOn: boolean;
   isLastQuesAct: boolean;
 
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
-  ////disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
   optionObj: any;
-  ////optArr1: any;
-  ////optArr2: any;
   optionCommonAssets: any;
   ques_control: any;
   feedbackObj: any;
@@ -167,7 +142,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
   blinkFlag: boolean = true;
   originalArray: any = [];
   refcpyArray: any = [];
-  ////currentIndex: number;
   moveTo: any;
   moveFrom: any;
   moveleft: any;
@@ -187,7 +161,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
   styleHeaderPopup: any;
   styleBodyPopup: any; quesFlag: boolean = false;
   PlayPauseFlag: boolean = true;
-
   fetchedcontent: any;
   functionalityType: any;
   themePath: any;
@@ -368,11 +341,11 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
     this.appModel.resetBlinkingTimer();
   }
 
-
   ngAfterViewChecked() {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
+  //Play instruction on click on question instruction
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused!) {
       console.log("narrator/instruction voice still playing");
@@ -963,7 +936,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
     }
   }
 
-  //wiith the use of set feedback function we assign all the images in popup according to submit option we assign header image in popup 
+  //with the use of set feedback function we assign all the images in popup according to submit option we assign header image in popup 
   setFeedback() {
     this.noOfRightAnsClicked = 0
     this.noOfWrongAnsClicked = 0
@@ -1132,6 +1105,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
       }
     } else {
       setTimeout(() => {
+        ////this.dontshowFeedback('submit-modal-id','no');
         this.appModel.enableReplayBtn(false);
         this.closeModal();
       }, this.showAnsTimeout)
@@ -1399,8 +1373,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy {
       }
       for (let x = 0; x < this.fetchAnswer.length; x++) {
         this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
-        //this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
-      }
+        }
     } else {
       this.appModel.notifyUserAction();
       this.disableSection = false;
