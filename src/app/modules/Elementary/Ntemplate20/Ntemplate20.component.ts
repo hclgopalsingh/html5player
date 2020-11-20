@@ -638,10 +638,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
-      this.fadeEverything();
-      // if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-      //   this.blinkOnLastQues();
-      // }
+      this.fadeEverything();      
+      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+        this.blinkOnLastQues();
+      }
     } else if (action == "feedbackDone") {
       if (this.responseType == "wrong") {
         this.appModel.feedbackType = "fullyIncorrect";
