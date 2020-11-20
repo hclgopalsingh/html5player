@@ -30,7 +30,7 @@
 }
 .modal .scaleBlock{
   top: 40%;
-  /* height: 19.4%; */
+  height: 13.5%;
 }
 #modalTemp20{
   background:rgba(0,0,0,.85);
@@ -80,17 +80,39 @@
 } */
 .placeholder:hover {
   opacity: 1;
-  cursor: pointer;
+  cursor: pointer ;
 }
+
+
 .placeholder {
   opacity: 0;
-  cursor: pointer;
+  cursor: default ;
 }
 
 .modal .placeholder:hover {
   opacity: 0;
   cursor: default;
 }
+.disablePlaceholder:hover {
+  opacity: 0;
+  cursor: default;
+}
+
+
+
+.lowerimages > .img-fluid.number_1.fixedGivenValue {
+  opacity: 1; cursor:default
+  }
+  .lowerimages > .img-fluid.number_2.fixedGivenValue {
+  opacity: 1; cursor:default
+  }
+  
+  .upperimages > .img-fluid.number_1.fixedGivenValue {
+  opacity: 1; cursor:default
+  }
+  .upperimages > .img-fluid.number_2.fixedGivenValue {
+  opacity: 1; cursor:default
+  }
 
 .placeholder.givenValue,
 .placeholder.correctAns,
@@ -104,16 +126,19 @@
 .placeholder.correctAns:hover,
 .placeholder.incorrectAns:hover{
   opacity: 1;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
-/** added pointer */
+
 
 .placeholder.givenValue div,
 .placeholder.correctAns div,
 .placeholder.incorrectAns div {
     display: contents;
 }
+
+
+
 .placeholder.givenValue div img:last-child,
 .placeholder.correctAns div img:last-child,
 .placeholder.incorrectAns div img:last-child {
@@ -307,7 +332,7 @@
 }
 /* .instructionBar .instructionBase {
   width: 50%;
-  position: relative;
+  position
 } */
 
 .instructionBar .instructionBase {
@@ -336,25 +361,24 @@
   align-items: center;
 }
 .modal-title{
-	/* max-width: 10%; */
-  /* max-height: 100%; */
-  margin-left: 1.5%;
+  /* margin-left: 1.5%; */
+  margin-left: 0.5%;
   height: 80%;
 }
 
-.close {
+/* .close {
 	width: auto;
 	height: 75%;
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   opacity: 1 !important;
-}
+} */
 @media (min-width: 1366px){
-	.close {
+	/* .close {
 		height: 95%;
     margin-right: .3%;
-	}
+	} */
 }
 .close:focus, .close:hover {
   color: #000;
@@ -607,16 +631,15 @@ button:focus {
 
 #confirmModal .modal-title,
 #infoModalId .modal-title {
-	margin-left: 3%;
+	margin-left: 0%;
 }
 
-#confirmModal .close,
+/* #confirmModal .close,
 #infoModalId .close {
-	/* width: 5%; */
 	margin: 0 1.6% 0 auto;
-}
+} */
 
-#confirmModal .modal-footer,
+/* #confirmModal .modal-footer,
 #infoModalId .modal-footer {
 	display: flex;
 	align-items: center;
@@ -626,19 +649,19 @@ button:focus {
 	position: absolute;
 	width: 100%;
 	bottom: 16%;
-}
+} */
 
-#confirmModal .modal-footer button,
+/* #confirmModal .modal-footer button,
 #infoModalId .modal-footer button {
 	width: 13%;
 	border: none;
 	background: transparent;
-}
+} */
 
-#confirmModal .popupModelBody,
+/* #confirmModal .popupModelBody,
 #infoModalId .popupModelBody {
 	padding: 0;
-}
+} */
 
 /*
 info modal modal
@@ -679,7 +702,7 @@ info modal modal
   }
 }
 
-.scaleOutAnimation {
+.scaleOutAnimation {    
   animation: scaleOut 0.5s linear;
   transform: scale(1.0);
 }
