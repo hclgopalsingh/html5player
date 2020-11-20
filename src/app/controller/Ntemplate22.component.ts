@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, Vi
 import { ApplicationmodelService } from '../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
+import { HttphandlerService } from '../model/httphandler.service';
 
 
 declare var $: any;
@@ -15,9 +16,10 @@ declare var $: any;
 
 export class Ntemplate22 implements OnInit {
   private appModel: ApplicationmodelService;
-
-  constructor(appModel: ApplicationmodelService) {
+  private httpHandler: HttphandlerService;
+  constructor(appModel: ApplicationmodelService, httpHandler: HttphandlerService) {
     this.appModel = appModel;
+    this.httpHandler = httpHandler;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
     this.appModel.setLoader(true);
@@ -219,6 +221,9 @@ export class Ntemplate22 implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
+  ngAfterViewInit(){
+    this.getJson();
+  }
   // OptionZoomOutAnimation(opt, i, j) {
   //   if (!this.checked && this.narrator.nativeElement.paused) {
   //     $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleOutAnimation");
@@ -412,6 +417,35 @@ export class Ntemplate22 implements OnInit {
       this.postWrongAttemplt();
     });
     this.appModel.resetBlinkingTimer();
+
+  }
+
+  getJson(){
+    this.httpHandler.get("./assets/Holiday/holiday_data.json" , this.holiday_json.bind(this), this.holiday_json_error.bind(this));
+  }
+
+  holidayData:any=[];
+
+  holiday_json(data){
+    this.holidayData = data.Holidays
+    console.log("./assets/Holiday/holiday_data",data)
+    this.findHolidayInJsonTodisplay('02','2022')
+  }
+
+  holiday_json_error(error){
+    console.log("Json_Error",error)
+  }
+
+  findHolidayInJsonTodisplay(id, year){
+   let correct_holiday =  this.holidayData.find(obj=> (obj.id ==  id && obj.year == year ))
+    console.log(correct_holiday,'correct_holiday')
+  }
+
+  showCurrentMonthHolidays(){
+    console.log("this.date",this.date, this.date.getMonth(), this.date.getFullYear())
+    var CurrentMonhtHolidays = this.holidayData.filter(item => (item.month== this.date.getMonth() && item.year == this.date.getFullYear()));
+    console.log("CurrentMonhtHolidays", CurrentMonhtHolidays)
+
   }
 
   postWrongAttemplt() {
@@ -569,6 +603,13 @@ export class Ntemplate22 implements OnInit {
       this.setselectedDisableinCalender();
       this.setCalender('');
     }
+  }
+
+  setCorrectAnswer(){
+    console.log(new Date().getFullYear())
+    console.log("this.feedback.yearAdjustment",this.feedback.yearAdjustment)
+    this.feedback.correct_year  = new Date().getFullYear() + this.quesObj.yearAdjustment
+    console.log(this.feedback.correct_year,"this.feedback.correct_year")
   }
 
   onClickCalender(item,flag) {
@@ -743,6 +784,7 @@ export class Ntemplate22 implements OnInit {
     } else {
       this.appModel.enableSubmitBtn(false);
     }
+    this.showCurrentMonthHolidays();
   }
 
   setCalender(from) {
@@ -898,13 +940,15 @@ export class Ntemplate22 implements OnInit {
       this.weekDaySelected=this.quesObj.weekdaySelected;
       //var date = new Date();
       this.setDatefromJSON();
+      if(this.quesObj.yearAdjustment){
+      this.setCorrectAnswer();
+      }
       this.confirmSubmitAssets = fetchedData.submit_confirm;
       this.quesAudio = this.commonAssets.QuestionAudio;
       this.CorrectAudio = this.commonAssets.CorrectAudio;
       this.WrongAudio = this.commonAssets.WrongAudio;
       this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
     }
-
   }
 
   getBasePath() {
