@@ -610,8 +610,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         setTimeout(() => {
           this.appModel.notifyUserAction();
           if (flag == "ok") {
-            this.blinkOnLastQues();
-            this.fadeEverything();
+            // this.blinkOnLastQues();
+            // this.fadeEverything();
           }
         }, 1000)
       }
@@ -639,9 +639,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
       this.fadeEverything();
-      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-        this.blinkOnLastQues();
-      }
+      // if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+      //   this.blinkOnLastQues();
+      // }
     } else if (action == "feedbackDone") {
       if (this.responseType == "wrong") {
         this.appModel.feedbackType = "fullyIncorrect";
@@ -665,14 +665,14 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       if (action == "fadeEverything") {
         this.appModel.notifyUserAction();
-        this.blinkOnLastQues();
+        // this.blinkOnLastQues();
       }
       if (action === undefined || action == "undefined") {
         this.appModel.notifyUserAction();
       }
     }
     if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-      this.blinkOnLastQues();
+      // this.blinkOnLastQues();
     }
 
   }
@@ -1024,8 +1024,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.feedbackPopupAudio.nativeElement.onended = () => {
           setTimeout(() => {
             this.appModel.notifyUserAction();
-            // this.blinkOnLastQues();
-            // this.appModel.blinkForLastQues();
           }, 1000)
         }
       } else if (this.resultType == "wrong") {
@@ -1188,8 +1186,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.feedbackPopupAudio.nativeElement.play();
     this.feedbackPopupAudio.nativeElement.onended = () => {
       setTimeout(() => {
-        // this.appModel.notifyUserAction();
-        // this.blinkOnLastQues();
         this.fadeEverything();
       }, 1000)
     }
