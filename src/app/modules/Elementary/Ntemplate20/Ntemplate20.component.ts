@@ -610,8 +610,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         setTimeout(() => {
           this.appModel.notifyUserAction();
           if (flag == "ok") {
-            // this.blinkOnLastQues();
-            // this.fadeEverything();
+            this.blinkOnLastQues();
+            this.fadeEverything();
           }
         }, 1000)
       }
@@ -665,15 +665,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       if (action == "fadeEverything") {
         this.appModel.notifyUserAction();
-        // this.blinkOnLastQues();
+        this.blinkOnLastQues();
       }
       if (action === undefined || action == "undefined") {
         this.appModel.notifyUserAction();
       }
     }
-    if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-      // this.blinkOnLastQues();
-    }
+    // if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+    //   this.blinkOnLastQues();
+    // }
 
   }
 
