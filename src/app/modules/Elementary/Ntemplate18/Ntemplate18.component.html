@@ -2,7 +2,7 @@
   <audio #narrator [src]="quesInfo?.narrator?.url"></audio>
 
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
-  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" #instructionBarTop>
+  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" [ngClass]="{'disable_div':disableinstructionBar}" #instructionBarTop>
     <div class="instructionBase" [ngClass]="{'disable_div':disableSection}"
       [ngStyle]="{'cursor': disableSection ? 'default' : 'pointer' }">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
