@@ -1,0 +1,27 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="31px" height="26px" viewBox="0 0 31 26">
+<defs>
+<g id="Symbol_1_0_Layer0_0_FILL">
+<path fill="#FDFDFD" stroke="none" d="
+M -8.25 -7.5
+L -15.3 -7.5 -15.3 7.5 -8.25 7.5 3.5 12.55 3.5 -12.5 -8.25 -7.5
+M 6.35 -8.1
+L 5.4 -7.5
+Q 8.45 -4.7 8.45 0.1 8.45 2.2 7.75 4 7.15 5.55 5.75 7.5
+L 6.35 8.15
+Q 9.45 4.85 9.45 0.1 9.45 -4.75 6.35 -8.1
+M 15.25 -0.25
+Q 15.25 -6.05 12.15 -10.75
+L 10.75 -9.8
+Q 13.5 -5.9 13.5 0.1 13.5 5.55 10.5 9.85
+L 12.15 10.05
+Q 15.25 5.4 15.25 -0.25 Z"/>
+</g>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 15.5,13) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_1_0_Layer0_0_FILL"/>
+</g>
+</g>
+</svg>

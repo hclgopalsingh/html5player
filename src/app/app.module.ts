@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Injector } from '@angular/core';
+// import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { SignalrCustomModule } from './common/signalr';
 import { NouisliderModule } from 'ng2-nouislider';
@@ -47,7 +48,9 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		NgxPaginationModule,
     EvaModule,
     ElementaryModule
+    // CommonModule
   ],
+  exports: [  ],
   providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, ParentcommunicationService],
   // entryComponents: [AppComponent]
   bootstrap: [AppComponent]
