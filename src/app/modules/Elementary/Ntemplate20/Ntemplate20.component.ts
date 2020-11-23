@@ -655,8 +655,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
-      this.fadeEverything();
-      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+      this.fadeEverything();      
+      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
         this.blinkOnLastQues();
       }
     } else if (action == "feedbackDone") {
@@ -688,9 +688,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.appModel.notifyUserAction();
       }
     }
-    if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-      this.blinkOnLastQues();
-    }
+    // if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+    //   this.blinkOnLastQues();
+    // }
 
   }
 
@@ -1041,8 +1041,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.feedbackPopupAudio.nativeElement.onended = () => {
           setTimeout(() => {
             this.appModel.notifyUserAction();
-            // this.blinkOnLastQues();
-            // this.appModel.blinkForLastQues();
           }, 1000)
         }
       } else if (this.resultType == "wrong") {
@@ -1205,8 +1203,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.feedbackPopupAudio.nativeElement.play();
     this.feedbackPopupAudio.nativeElement.onended = () => {
       setTimeout(() => {
-        // this.appModel.notifyUserAction();
-        // this.blinkOnLastQues();
         this.fadeEverything();
       }, 1000)
     }

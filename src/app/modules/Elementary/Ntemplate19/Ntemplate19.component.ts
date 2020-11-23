@@ -158,6 +158,8 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   quesSkip: boolean = false;
   confirmReplayAssets: any;
   timerDelayActs: any;
+  partialCorrectArr: any = [];
+  partialIncorrectArr: any = [];
 
   ngOnInit() {
     if (this.appModel.isNewCollection) {
@@ -202,6 +204,8 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
         this.popupTxtRequired = this.feedbackObj.showAnswer_style_title.required;
         this.noOfRightAnsClicked = 0;
         this.noOfWrongAnsClicked = 0;
+        this.partialCorrectArr = [];
+        this.partialIncorrectArr = [];
         this.setFeedback();
       }
     })
@@ -477,9 +481,13 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     this.placeholder.nativeElement.children[idx].style.pointerEvents = "none";
     if (opt.correctOptionId && opt.correctOptionId === this.optionObj[this.index1].id) {
       this.noOfRightAnsClicked++;
+      this.partialCorrectArr.push(this.optionObj[this.index1].imgsrc_audio);
+      this.partialCorrectArr[this.partialCorrectArr.length-1]["index"] = idx;
       this.feedbackArr[idx].imgsrc = this.optionObj[this.index1].imgsrc_right;
     } else {
       this.noOfWrongAnsClicked++;
+      this.partialIncorrectArr.push(this.optionObj[this.index1].imgsrc_audio);
+      this.partialIncorrectArr[this.partialIncorrectArr.length-1]["index"] = idx;
       this.feedbackArr[idx].imgsrc = this.optionObj[this.index1].imgsrc_wrong;
     }
 
@@ -791,8 +799,47 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     }
   }
 
+  /****** set partial feedback individual options VO ******/
+  setPartialFeedbackAudio(num, voType) {
+    if (voType === "partialCorrectVO" && this.partialCorrectArr[num].url) {
+      let no = num;
+      this.feedbackPopupAudio.nativeElement.src = this.partialCorrectArr[num].url;
+      this.feedbackPopupAudio.nativeElement.play();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        no++;
+        if (no >= this.partialCorrectArr.length) {
+          this.setPartialFeedbackAudio(0, "partialIncorrectVO");
+        } else {
+          this.setPartialFeedbackAudio(no, "partialCorrectVO");
+        }
+      }
+    } else {
+      let no = num;
+      if (this.partialIncorrectArr[num].url) {
+        this.feedbackPopupAudio.nativeElement.src = this.partialIncorrectArr[num].url;
+        this.feedbackPopupAudio.nativeElement.play();
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          no++;
+          if (no === this.partialIncorrectArr.length) {
+            this.startCount = 0;
+            this.showAnssetTimeout = setTimeout(() => {
+              if (!this.manualClickedonCrossbtn) {
+                this.closeModal();
+              }
+            }, this.showAnsTimeout);
+            this.appModel.notifyUserAction();
+          }
+          else {
+            this.setPartialFeedbackAudio(no, "partialIncorrectVO");
+          }
+        }
+      }
+    }
+  }
+
   /****** setting feedback ******/
   setFeedback() {
+    let playGeneralizedOptVO = true;
     if (this.isShow) {   //Show answer feedback
       this.feedbackAudio = this.feedbackObj.right_ans_popup.showAnsfeedback_audio;
       this.feedbackObj.style_header = this.feedbackObj.right_style_header;
@@ -804,7 +851,16 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.feedbackObj.style_body = this.feedbackObj.right_style_body;
       this.feedbackObj.feedback_title = this.feedbackObj.right_style_title;
     } else if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {   // partial correct answer feedback
-      this.feedbackAudio = this.feedbackObj.partial_correct_popup;
+      if (this.optionObj[0].imgsrc_audio && this.optionObj[0].imgsrc_audio.url) {
+        playGeneralizedOptVO = false;
+        this.partialCorrectArr.sort((a, b) => (a.index < b.index ? -1 : 1));
+        this.partialIncorrectArr.sort((a, b) => (a.index < b.index ? -1 : 1));
+        this.partialCorrectArr.push(this.feedbackObj.correctVO_placeholder);
+        this.partialIncorrectArr.push(this.feedbackObj.incorrectVO_placeholder);
+        this.setPartialFeedbackAudio(0, "partialCorrectVO");
+      } else {
+        this.feedbackAudio = this.feedbackObj.partial_correct_popup;
+      }
       this.feedbackObj.style_header = this.feedbackObj.partial_style_header;
       this.feedbackObj.style_body = this.feedbackObj.partial_style_body;
       this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
@@ -816,17 +872,19 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.feedbackObj.feedback_title = this.feedbackObj.wrong_style_title;
       this.appModel.feedbackType = "fullyIncorrect";
     }
-    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-    this.feedbackPopupAudio.nativeElement.play();
+    if(playGeneralizedOptVO) {
+      this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackPopupAudio.nativeElement.play();
 
-    this.feedbackPopupAudio.nativeElement.onended = () => {
-      this.startCount = 0;
-      this.showAnssetTimeout = setTimeout(() => {
-        if (!this.manualClickedonCrossbtn) {
-          this.closeModal();
-        }
-      }, this.showAnsTimeout);
-      this.appModel.notifyUserAction();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        this.startCount = 0;
+        this.showAnssetTimeout = setTimeout(() => {
+          if (!this.manualClickedonCrossbtn) {
+            this.closeModal();
+          }
+        }, this.showAnsTimeout);
+        this.appModel.notifyUserAction();
+      }
     }
   }
 
@@ -850,6 +908,8 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     this.appModel.enableReplayBtn(true);
     this.noOfRightAnsClicked = 0;
     this.noOfWrongAnsClicked = 0;
+    this.partialCorrectArr = [];
+    this.partialIncorrectArr = [];
     this.optionsAfterFive = 4;
     this.manualClickedonCrossbtn = false;
     this.bodyContentDisable = false;
@@ -896,6 +956,8 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.isShow = true;
       this.noOfRightAnsClicked = 0;
       this.noOfWrongAnsClicked = 0;
+      this.partialIncorrectArr = [];
+      this.partialCorrectArr = [];
 
       this.showAnssetTimeout = setTimeout(() => {
         this.feedbackArr = this.showAnswerFeedbackArr;
