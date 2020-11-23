@@ -1,7 +1,7 @@
 <div #container class="container-fluid ele temp11" id="container" *ngIf="!showIntroScreen && !isPlayVideo">
 	<audio #narrator [src]="commonAssets?.narrator?.url"></audio>
 
-	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.urlglobal" (load)="checkImgLoaded();" /></div>
+	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.url" (load)="checkImgLoaded();" /></div>
 	<div #maincontent>
 		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="cursor: pointer;">
 			<div class="instructionBase">
@@ -21,8 +21,8 @@
 					<img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
 						(load)="checkImgLoaded();">
 					<img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid zclass"
-						id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)"
-						on-mouseout="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
+						id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url" (mousemove)="onHoverOptions(opts,idx)"
+						(mouseleave)="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
 				</div>
 			</div>
 		</div>

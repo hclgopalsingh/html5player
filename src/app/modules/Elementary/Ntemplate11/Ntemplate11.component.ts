@@ -6,13 +6,12 @@ import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-
 declare var $: any;
 
 @Component({
   selector: 'app-ntemplate11',
   templateUrl: './Ntemplate11.component.html',
-  styleUrls: ['./Ntemplate11.component.css', '../../../view/css/bootstrap.min.css'],
+  styleUrls: ['./Ntemplate11.component.css'],
   animations: [
     trigger('openClose', [
       state('open', style({
@@ -37,12 +36,10 @@ declare var $: any;
 export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked {
   private appModel: ApplicationmodelService;
   
-
-  
   @ViewChild('correctAns') correctAns: any;
   @ViewChild('wrongAns') wrongAns: any;
   @ViewChild('ans') ans: any;
-  @ViewChild('narrator_voice') narrator_voice: any;
+  // @ViewChild('narrator_voice') narrator_voice: any;
   @ViewChild('myAudiohelp') myAudiohelp: any;
   @ViewChild('audioEl') audioEl: any;
   @ViewChild('titleNavBtn') titleNavBtn: any;
@@ -104,7 +101,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
   assetspath: any;
-  assetsfolderlocation: string = "";
+  // assetsfolderlocation: string = "";
   common_assets: any = "";
   hasEventFired: boolean = false;
   feedbackPopup: any;
@@ -130,7 +127,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   replayconfirmAssets: any;
   tempTimer: any;
   PlayPauseFlag: boolean = true;
-
   
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -177,6 +173,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
 
   ngOnInit() {
+    this.assetspath = "";
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -184,12 +181,11 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.containgFolderPath = this.getBasePath();
 
     // this.assetspath = this.basePath;
-    this.appModel.functionone(this.templatevolume, this);
-       
-
+    // this.assetspath = this.containgFolderPath;
+    this.appModel.functionone(this.templatevolume, this);       
     // let fetchedData: any = this.appModel.content.contentData.data;
-    console.log("init---->>>>>>>>>>>>>>>>>>>>:", this.appModel.content.contentData.data);
-
+    console.log("init---->>>>>>>>>:", this.appModel.content.contentData.data);
+    
     /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));
@@ -203,8 +199,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     /*End: Theme Implementation(Template Changes)*/
     
     this.setData();
-    if (fetchedData.titleScreen) {
-      this.quesInfo = fetchedData;
+    if (this.fetchedcontent.titleScreen) {
+      this.quesInfo = this.fetchedcontent;
       this.showIntroScreen = true;
       this.noOfImgs = this.quesInfo.imgCount;
       //if(this.quesInfo.Instruction){
@@ -248,7 +244,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          $("#optionsBlock .options").addClass("disable_div");
+          // $("#optionsBlock .options").addClass("disable_div");
+          this.ansBlock.nativeElement.className = "disable_div";
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
         }
       }
@@ -314,17 +311,17 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   /*** Data set from content JSON ***/
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log("fetchedDatafetchedDatafetchedData", fetchedData);
-      if (fetchedData && fetchedData.titleScreen) {
+      // let fetchedData: any = this.appModel.content.contentData.data;
+      console.log("fetchedDatafetchedDatafetchedData", this.fetchedcontent);
+      if (this.fetchedcontent && this.fetchedcontent.titleScreen) {
           this.showIntroScreen = true;
       } else {
         this.showIntroScreen = false;
       }
-      this.speaker = fetchedData.speaker;
-      this.common_assets = fetchedData.commonassets;
-      this.myoption = JSON.parse(JSON.stringify(fetchedData.options));
-      this.quesObj = fetchedData.quesObj;
+      this.speaker = this.fetchedcontent.speaker;
+      this.common_assets = this.fetchedcontent.commonassets;
+      this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options));
+      this.quesObj = this.fetchedcontent.quesObj;
 
       
     /*Start: Theme Implementation(Template Changes)*/
@@ -340,25 +337,25 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     //   this.optionArr[i]['isOpen'] = true;
     // }
 
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.question = fetchedData.ques;
-      this.feedback = fetchedData.feedback;
+      // this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+      this.question = this.fetchedcontent.ques;
+      this.feedback = this.fetchedcontent.feedback;
       this.correct_ans_url = this.feedback.correct_ans_url;
-      this.commonAssets = fetchedData.commonassets;
-      this.quesInfo = fetchedData.commonassets;
-      this.answers = fetchedData.answers;
-      this.optionBlank = fetchedData.optionsBlank;
-      this.isFirstQues = fetchedData.isFirstQues;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      this.quesInfo = this.fetchedcontent.commonassets;
+      this.answers = this.fetchedcontent.answers;
+      this.optionBlank = this.fetchedcontent.optionsBlank;
+      this.isFirstQues = this.fetchedcontent.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       this.isAutoplayOn = this.appModel.autoPlay;
-      this.noOfImgs = fetchedData.imgCount;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.feedbackObj = fetchedData.feedback;
-      this.rightPopup = fetchedData.feedback.rightFeedback;
-      this.wrongPopup = fetchedData.feedback.wrongFeedback;
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      this.replayconfirmAssets = fetchedData.feedback.replay_confirm;
+      this.noOfImgs = this.fetchedcontent.imgCount;
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.feedbackObj = this.fetchedcontent.feedback;
+      this.rightPopup = this.fetchedcontent.feedback.rightFeedback;
+      this.wrongPopup = this.fetchedcontent.feedback.wrongFeedback;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+      this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
 
 
       if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
@@ -404,10 +401,10 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   onHoverOptions(option, idx) {
     //console.log("in",option);
     this.appModel.notifyUserAction();
-    if (!this.narrator_voice.nativeElement.paused) {
+    // if (!this.narrator_voice.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator voice still playing");
-    }
-    else {
+    } else {
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.pause();
@@ -429,7 +426,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   onHoverhelp(option) {
     //console.log("in",option);
     this.appModel.notifyUserAction();
-    if (!this.narrator_voice.nativeElement.paused) {
+    // if (!this.narrator_voice.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused) {
       this.helpbtn.nativeElement.className = "";
       console.log("narrator voice still playing");
     }
@@ -542,7 +540,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   helpSpeaker(el: HTMLAudioElement) {
-    if (!this.narrator_voice.nativeElement.paused) {
+    // if (!this.narrator_voice.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator voice still playing");
     }
     else {
@@ -561,6 +560,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   playHoverInstruction() {
+    // this.appModel.handlePostVOActivity(true); 
+    // this.appModel.enableReplayBtn(false);
     console.log("weare heree---------------------->>>>>>>>>>>>>>>>>>>");
     this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
     let that = this;
@@ -590,7 +591,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
   stopAllSounds(e) {
     //console.log("Event", e);
-    if (!this.narrator_voice.nativeElement.paused) {
+    // if (!this.narrator_voice.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused) {
       e.stopPropagation();
       console.log("narrator voice still playing");
     }
@@ -607,7 +609,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.myAudiohelp.nativeElement.pause();
       this.myAudiohelp.nativeElement.currentTime = 0;
     }
-    if (!this.narrator_voice.nativeElement.paused) {
+    // if (!this.narrator_voice.nativeElement.paused) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator voice still playing");
     }
     else {
@@ -641,7 +644,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
           }, 750)
           this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden';
           this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible';
-          this.ansArrangeBlock.nativeElement.children[2].src = this.containgFolderPath + "/" + option.imgsrc.url;
+          // this.ansArrangeBlock.nativeElement.children[2].src = this.containgFolderPath + "/" + option.imgsrc.url;
+          this.ansArrangeBlock.nativeElement.children[2].src = option.imgsrc.url;
           this.feedbackVoRef.nativeElement.onended = () => {
             this.timernextseg = setInterval(() => {
               // this.checkNextActivities();
@@ -682,7 +686,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         $(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
           this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden';
           this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible';
-          this.ansArrangeBlock.nativeElement.children[2].src = this.containgFolderPath + "/" + option.imgsrc.url;
+          // this.ansArrangeBlock.nativeElement.children[2].src = this.containgFolderPath + "/" + option.imgsrc.url;
+          this.ansArrangeBlock.nativeElement.children[2].src = option.imgsrc.url;
           setTimeout(() => {
             this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
             this.feedbackVoRef.nativeElement.play();
@@ -977,8 +982,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
   }
   templatevolume(vol, obj) {
-    if (obj.narrator_voice && obj.narrator_voice.nativeElement) {
-      obj.narrator_voice.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+    // if (obj.narrator_voice && obj.narrator_voice.nativeElement) {
+    if (obj.narrator && obj.narrator.nativeElement) {
+      obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.narrator && obj.narrator.nativeElement) {
       obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -1194,7 +1200,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   showAnswer() {
     this.attemptType = "hideAnimation"
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-    this.ans.nativeElement.src = this.assetspath + '/' + this.feedback.correct_ans_url;
+    this.ans.nativeElement.src = this.containgFolderPath + '/' + this.feedback.correct_ans_url;
     this.confirmModalRef.nativeElement.classList = "modal";
     this.ans.nativeElement.style.visibility = 'visible';
     let id: any;
