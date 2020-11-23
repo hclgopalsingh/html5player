@@ -360,6 +360,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.optionRef.nativeElement.children[idx].className = "scaleInAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleOutAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "100";
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
   }
 
   /***  On option leave functionality ***/
@@ -367,6 +368,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.optionRef.nativeElement.children[idx].className = "scaleOutAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleInAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "99";
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+
   }
 
   /*** Play VO on option hover ***/
@@ -374,6 +377,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.animationFlag) {
       return
     }
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
     if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
       if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
         this.playSound(opt.mouse_over_audio, idx);
@@ -387,11 +391,24 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.audio.src = soundAssets.url;
       this.audio.load();
       this.audio.play();
-      this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+      this.instructionBar.nativeElement.classList = "instructionBase disableDiv";    
+      this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
+      for (let i = 0; i < this.mainContainer.nativeElement.children[1].children[1].children.length; i++) {
+        if (i != idx) {
+          this.mainContainer.nativeElement.children[1].children[1].children[i].classList.add("disableDiv");
+        }
+      }
+
       this.audio.onended = () => {
         this.instructionBar.nativeElement.classList = "instructionBase";
+        for (let i = 0; i < this.mainContainer.nativeElement.children[1].children[1].children.length; i++) {
+          if (i != idx) {
+            this.mainContainer.nativeElement.children[1].children[1].children[i].classList.remove("disableDiv")
+          }
+        }
+        this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
       }
     }
   }
