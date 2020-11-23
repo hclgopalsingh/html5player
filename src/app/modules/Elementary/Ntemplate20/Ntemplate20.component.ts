@@ -49,6 +49,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
 
   optionBase: boolean = false;
+  mouseMoveFlag: boolean = false;
   isDisablePlaceholder: boolean = false;
   blinkingFlag: boolean = true;
   partialCorrectCase: boolean = false;
@@ -356,6 +357,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
+    this.mouseMoveFlag = true;
     this.appModel.notifyUserAction();
     this.optionRef.nativeElement.children[idx].className = "scaleInAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleOutAnimation');
@@ -377,12 +379,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.animationFlag) {
       return
     }
-    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
-    if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
-      if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
-        this.playSound(opt.mouse_over_audio, idx);
+    if (this.mouseMoveFlag == true) {
+      this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+      if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
+        if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
+          this.playSound(opt.mouse_over_audio, idx);
+        }
       }
     }
+    
 
   }
 
@@ -391,7 +396,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.audio.src = soundAssets.url;
       this.audio.load();
       this.audio.play();
-      this.instructionBar.nativeElement.classList = "instructionBase disableDiv";    
+      this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
       this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
@@ -409,6 +414,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
           }
         }
         this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+        // this.mouseMoveFlag = false;
       }
     }
   }
@@ -655,7 +661,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
-      this.fadeEverything();      
+      this.fadeEverything();
       if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
         this.blinkOnLastQues();
       }
