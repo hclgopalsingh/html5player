@@ -688,7 +688,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       if (action == "fadeEverything") {
         this.appModel.notifyUserAction();
-        this.blinkOnLastQues();
+        if (this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+          this.blinkOnLastQues();
+        }
       }
       if (action === undefined || action == "undefined") {
         this.appModel.notifyUserAction();
