@@ -222,7 +222,7 @@ export class Ntemplate22 implements OnInit {
   }
 
   ngAfterViewInit(){
-    this.getJson();
+    // this.getJson();
   }
   // OptionZoomOutAnimation(opt, i, j) {
   //   if (!this.checked && this.narrator.nativeElement.paused) {
@@ -429,7 +429,7 @@ export class Ntemplate22 implements OnInit {
   holiday_json(data){
     this.holidayData = data.Holidays
     console.log("./assets/Holiday/holiday_data",data)
-    this.findHolidayInJsonTodisplay('02','2022')
+    //this.findHolidayInJsonTodisplay('02','2022')
   }
 
   holiday_json_error(error){
@@ -437,8 +437,7 @@ export class Ntemplate22 implements OnInit {
   }
 
   findHolidayInJsonTodisplay(id, year){
-   let correct_holiday =  this.holidayData.find(obj=> (obj.id ==  id && obj.year == year ))
-    console.log(correct_holiday,'correct_holiday')
+   return this.holidayData.find(obj=> (obj.id ==  id && obj.year == year ))
   }
 
   showCurrentMonthHolidays(){
@@ -948,7 +947,37 @@ export class Ntemplate22 implements OnInit {
       this.CorrectAudio = this.commonAssets.CorrectAudio;
       this.WrongAudio = this.commonAssets.WrongAudio;
       this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
+      if(this.quesObj.Ques_scenario.type == "type_2"){
+        this.getJson();
+        //holidayID and year to pass
+        this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario[this.quesObj.Ques_scenario.type])
+      }
     }
+  }
+
+  handleScenario(typ, qObj){
+
+    //Handle HOliday Scenario
+    if(typ == "type_2"){
+      console.log(qObj)
+      if(qObj.year_type == "localMachine")
+        var Holiday_year = new Date().getFullYear() + qObj.yearAdjustment;
+        let holiday_obj =  this.findHolidayInJsonTodisplay(qObj.holiday_id,Holiday_year)
+        console.log(holiday_obj,"holiday_obj")
+      }
+      else{
+        if(qObj.year && qObj.year.length > 0){
+         let holiday_obj = this.findHolidayInJsonTodisplay(qObj.holiday_id, qObj.qObj.year)
+         console.log(holiday_obj,"holiday_obj")
+        }
+      }
+  }
+
+  setFeedback(holiday_obj){
+    this.feedback.correct_year = holiday_obj.year
+    this.feedback.correct_month = holiday_obj.month_name
+    this.feedback.correct_weekDay = holiday_obj.day
+    this.feedback.correct_date = holiday_obj.date
   }
 
   getBasePath() {
