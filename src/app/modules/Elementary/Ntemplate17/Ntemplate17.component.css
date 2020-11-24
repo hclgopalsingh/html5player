@@ -22,18 +22,9 @@ button:focus {
   font-family: 'Arial';
 }
 
-#inputKeyboard{
-  font-size: 3.8vmax;/*5vmax*/
-}
-
 .nonHindiInput{
   font-family: "Arial";
 }
-
-#boxWord{
-  font-size: 1.30vmax;
-}
-
 
 .vowels{
   width: 7.5%;
@@ -321,15 +312,6 @@ button:focus {
   justify-content: center;
   align-items: center;
 }
-.optionsList div span{
-  position: absolute;
-  font-size: 0.70vmax;
-  white-space: nowrap;
-}
-.modal .optionsList div span{
-  font-size: .85vmax;
-  white-space: nowrap;
-}
 
 .modal .optionsList img{
     margin: 1% 7.3%;
@@ -363,22 +345,7 @@ button:focus {
 	position: absolute;
 	max-width: 63% !important;
 }
-.bodyContent .refQues {
-	width: 23%;/*23.7%*/
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.bodyContent .refQues span {
-  position: absolute;
-  font-size: 2.5vmax;
-  cursor:pointer;
-}
-.bodyContent .refQues img {
-	/* max-width: 93%; */
-}
-#optionsBlock {
+optionsBlock {
     margin-top: 2%;
     opacity: 0;
 }
@@ -407,13 +374,6 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-}
-
-.refQuesImg {
-  position: absolute;
-  width: 22%;
-  top: 5%;
-  left: 2.5%;
 }
 
 .waveAnimation img{
@@ -1115,18 +1075,6 @@ html [type=button] {
 	outline: none;
 }
 
-.addBtn{
-	text-align: center;
-  width: 7%;
-    /* padding: 0.5% 2%; */
-}
-
-.addBtn img{
-	/* max-width: 93%; */
-	/* width: 80%; */
-	/* font-size: 2.25rem; */
-}
-
 .refBase{
     width: 96.4%;
 	position: relative;
@@ -1417,7 +1365,7 @@ cursor: pointer
 }
 
 .optionPlace{
-    display: inline-flex;
+    display: block;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -1664,20 +1612,6 @@ cursor: pointer
 .modal .instructionBase img {
   max-width: none !important;
   max-height: 7vmin;
-}
-
-.closepopup_btn{
-  text-align: center; 
-  clear:both; 
-  width: 100%; 
-  margin: 0 0 1% 0;
-  position: absolute;
-  bottom: 0%;
-}
-.closepopup_btn img{
-  width: 9%; 
-  cursor: pointer;
-  max-width: 10.4%;
 }
 
 .mathTop{

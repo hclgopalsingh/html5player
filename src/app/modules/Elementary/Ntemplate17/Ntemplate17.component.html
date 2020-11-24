@@ -140,13 +140,13 @@
 
 		<span (mousemove)="hoverquesArea()">
 		<div class="quesContainer d-flex flex-row justify-content-center align-items-center" #quesContainer>
-			<div class="refQues" #refques>
+			<div #refques>
 				<!-- [ngStyle]="quesObj?.bgColor"-->
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
 				<ng-template [ngIf]="_questionAreaImageFlag">
 					<div class="audio-container">
-					<img class="img-fluid refQuesImg" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
+					<img class="img-fluid" [src]="_questionAreaImage?.questionAreaImg?.url" (click)="onclickImageorVideo();">
 					<img class="img-fluid" [src]="_questionAreaImage?.bgImg?.url"  (load)="checkImgLoaded();">
 				</div>
 				</ng-template>
@@ -290,7 +290,7 @@
 				</div>
 			</div>
 			<!-- end here-->
-			<div class="addBtn" #addBtnRef>
+			<div #addBtnRef>
 				<img class="img-fluid" [src]="addBtn?.add_btn?.url"
 				 (load)="checkImgLoaded();" (click)="addWord();" [ngClass]="{'disablePointer':inputVal==''}" [ngStyle]="{'cursor': inputVal!=='' ? 'pointer' : 'default' }"(mousemove)="addBtnHover()"
 				 (mouseleave)="addBtnLeave()" />
