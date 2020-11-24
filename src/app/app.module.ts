@@ -25,6 +25,7 @@ import { ContainerComponent } from './modules/Global/container/container.compone
 import { createCustomElement } from '@angular/elements';
 import { ParentcommunicationService } from './common/services/parentcommunication.service';
 import { ElementaryModule } from './modules/Elementary/elementary.module';
+import { VideoComponent } from './modules/Global/video/video.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
     ControlsComponent,
     QuesControllerComponent,
     NTitleComponent,
+    VideoComponent,
     ContainerComponent
   ],
   imports: [
@@ -48,7 +50,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		NgxPaginationModule,
     EvaModule,
     ElementaryModule
-    // CommonModule
   ],
   exports: [  ],
   providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, ParentcommunicationService],
