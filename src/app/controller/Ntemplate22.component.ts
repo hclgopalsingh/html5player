@@ -319,6 +319,7 @@ export class Ntemplate22 implements OnInit {
     //this.duplicateGroupArray = [];
 	  //this.QuesRef.nativeElement.style.opacity = 0;
     this.setData();
+    this.getNthDayDate();
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -980,6 +981,30 @@ export class Ntemplate22 implements OnInit {
 
 
   }
+
+
+
+  getNthDayDate(){
+    let Day = 0;
+    let n = 3;
+    let date =  new Date()
+    date.setDate(1)
+    let currentDate = date.getDate();
+    let currentWeekDay = date.getDay();
+    let factor = Day - currentWeekDay;
+    let dateArrayOfReqDay = [];
+    currentDate = (currentDate + factor) ; 
+
+    for( currentDate; currentDate < 30 ; currentDate = currentDate + 7 ){
+      if(currentDate > 0  && currentDate < 30){
+      dateArrayOfReqDay.push(currentDate)
+      }
+    }
+     
+   // dateArrayOfReqDay.sort(function(a, b){return a - b})
+    console.log(dateArrayOfReqDay, 'dateArrayOfReqDay')
+  }
+
 
   setFeedback(holiday_obj){
     this.feedbackObj.correct_year = holiday_obj.year
