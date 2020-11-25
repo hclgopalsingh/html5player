@@ -377,7 +377,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       console.log('narrator/instruction voice still playing');
     } else {
       this.appModel.notifyUserAction();
-      clearInterval(this.blinkTimeInterval);
+      ////clearInterval(this.blinkTimeInterval);
       this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;
       //this.startCount = 0;
       console.log("play on Instruction");
@@ -386,6 +386,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.instruction.nativeElement.play();
         this.disableSection = true;
         this.instruction.nativeElement.onended = () => {
+          clearInterval(this.blinkTimeInterval);
           this.startActivity();
           this.disableSection = false;
         }
@@ -502,10 +503,25 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // execute this function on option click
   onClickoption(idx, placed, opt) {
+    this.disableoptionsBlock = true;
+    setTimeout(() => {
+      this.disableoptionsBlock = false;
+    }, 1000);
     for (let i = 0; i < this.refQuesObj.length; i++) {
-      this.refQuesObj[i].isOpen = true;
-      this.refQuesObj[i].leftPos = 0 + 'px';
-      this.refQuesObj[i].topPos = 0 + 'px';
+
+      if (this.refQuesObj[i].position != "top" && opt.placed && this.refQuesObj[i].sequenceNo == opt.sequenceNo) {
+        this.refQuesObj[i].isOpen = !this.refQuesObj[i].isOpen;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
+
+      } else if (this.refQuesObj[i].position != "top") {
+        this.refQuesObj[i].isOpen = true;
+      } else {
+        this.refQuesObj[i].isOpen = true;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
+      }
+
     }
 
     if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
@@ -626,6 +642,23 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   }
   houtSkip() {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+  }
+
+  hoverPlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
+    }
+  }
+  leavePlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+    }
   }
 
   //this is function to execute the blink
@@ -1484,6 +1517,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
+    for (let i = 0; i < this.refQuesObj.length; i++) {
+      this.refQuesObj[i].isOpen = true;
+      this.refQuesObj[i].leftPos = 0 + 'px';
+      this.refQuesObj[i].topPos = 0 + 'px';
+    }
+   //// this.appModel.enableReplayBtn(false);
     for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
       this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList.value = '';
     }

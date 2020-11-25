@@ -136,7 +136,8 @@ export class Ntemplate22 implements OnInit {
   yearfromLocalMachine:boolean=true;
   
 
-  
+  filterData:any;
+  filterObj:any;
 
 
   playHoverInstruction() {
@@ -439,8 +440,9 @@ export class Ntemplate22 implements OnInit {
   }
 
   findHolidayInJsonTodisplay(id, year){
+    this.filterData = this.holidayData[year]
     console.log(this.holidayData,  "this.holidayData")
-   return this.holidayData.find(obj=> (obj.id ==  id && obj.year == year ))
+   return this.filterData[id];
   }
 
   showCurrentMonthHolidays(){
