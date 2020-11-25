@@ -138,7 +138,7 @@ export class Ntemplate22 implements OnInit {
 
   filterData:any;
   filterObj:any;
-
+  QueScenarioData:any;
 
   playHoverInstruction() {
    if (!this.narrator.nativeElement.paused) {
@@ -320,7 +320,7 @@ export class Ntemplate22 implements OnInit {
     //this.duplicateGroupArray = [];
 	  //this.QuesRef.nativeElement.style.opacity = 0;
     this.setData();
-    this.getNthDayDate();
+    
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -954,6 +954,9 @@ export class Ntemplate22 implements OnInit {
       this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
       if( this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_2"){
         this.getJson();
+      }else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_3"){
+        this.QueScenarioData = this.quesObj.Ques_scenario.type_3;
+        this.getNthDayDate();
       }
     }
   }
@@ -987,12 +990,38 @@ export class Ntemplate22 implements OnInit {
 
 
   getNthDayDate(){
-    let Day = 0;
-    let n = 3;
+    let Day = this.QueScenarioData.day;
+    let n = this.QueScenarioData.daynumber;
+    let Month = new Array();
+    Month[0] = "January";
+    Month[1] = "February";
+    Month[2] = "March";
+    Month[3] = "April";
+    Month[4] = "May";
+    Month[5] = "June";
+    Month[6] = "July";
+    Month[7] = "August";
+    Month[8] = "September";
+    Month[9] = "October";
+    Month[10] = "November";
+    Month[11] = "December";
+
+    let DayName = new Array();
+    DayName[0] = "Sunday";
+    DayName[1] = "Monday";
+    DayName[2] = "Tuesday";
+    DayName[3] = "Wednesday";
+    DayName[4] = "Thursday";
+    DayName[5] = "Friday";
+    DayName[5] = "Saturday";
+    
+    
     let date =  new Date()
     date.setDate(1)
     let currentDate = date.getDate();
     let currentWeekDay = date.getDay();
+    let currentYear = date.getFullYear();
+    let currentMonth = date.getMonth();
     let factor = Day - currentWeekDay;
     let dateArrayOfReqDay = [];
     currentDate = (currentDate + factor) ; 
@@ -1004,7 +1033,18 @@ export class Ntemplate22 implements OnInit {
     }
      
    // dateArrayOfReqDay.sort(function(a, b){return a - b})
-    console.log(dateArrayOfReqDay, 'dateArrayOfReqDay')
+    console.log(dateArrayOfReqDay, 'dateArrayOfReqDay');
+let Year = currentYear;
+let month = Month[currentMonth];
+let day = DayName[Day];
+let AnsDate = dateArrayOfReqDay[n-1] ;
+
+    let feedbackObj = {};
+    feedbackObj['year'] = Year ;
+    feedbackObj['month_name'] = month ;
+    feedbackObj['day'] = day ;
+    feedbackObj['date'] = AnsDate ;
+    this.setFeedback(feedbackObj);
   }
 
 
