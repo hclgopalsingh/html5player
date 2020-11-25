@@ -49,6 +49,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
 
   optionBase: boolean = false;
+  mouseMoveFlag: boolean = false;
   isDisablePlaceholder: boolean = false;
   blinkingFlag: boolean = true;
   partialCorrectCase: boolean = false;
@@ -356,10 +357,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
+    this.mouseMoveFlag = true;
     this.appModel.notifyUserAction();
     this.optionRef.nativeElement.children[idx].className = "scaleInAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleOutAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "100";
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
   }
 
   /***  On option leave functionality ***/
@@ -367,6 +370,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.optionRef.nativeElement.children[idx].className = "scaleOutAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleInAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "99";
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+
   }
 
   /*** Play VO on option hover ***/
@@ -374,11 +379,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.animationFlag) {
       return
     }
-    if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
-      if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
-        this.playSound(opt.mouse_over_audio, idx);
+    if (this.mouseMoveFlag == true) {
+      this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+      if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
+        if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
+          this.playSound(opt.mouse_over_audio, idx);
+        }
       }
     }
+    
 
   }
 
@@ -388,10 +397,24 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.audio.load();
       this.audio.play();
       this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+      this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
+      for (let i = 0; i < this.mainContainer.nativeElement.children[1].children[1].children.length; i++) {
+        if (i != idx) {
+          this.mainContainer.nativeElement.children[1].children[1].children[i].classList.add("disableDiv");
+        }
+      }
+
       this.audio.onended = () => {
         this.instructionBar.nativeElement.classList = "instructionBase";
+        for (let i = 0; i < this.mainContainer.nativeElement.children[1].children[1].children.length; i++) {
+          if (i != idx) {
+            this.mainContainer.nativeElement.children[1].children[1].children[i].classList.remove("disableDiv")
+          }
+        }
+        this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+        // this.mouseMoveFlag = false;
       }
     }
   }
@@ -610,8 +633,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         setTimeout(() => {
           this.appModel.notifyUserAction();
           if (flag == "ok") {
-            // this.blinkOnLastQues();
-            // this.fadeEverything();
+            this.blinkOnLastQues();
+            this.fadeEverything();
           }
         }, 1000)
       }
@@ -639,9 +662,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
       this.fadeEverything();
-      // if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-      //   this.blinkOnLastQues();
-      // }
+      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+        this.blinkOnLastQues();
+      }
     } else if (action == "feedbackDone") {
       if (this.responseType == "wrong") {
         this.appModel.feedbackType = "fullyIncorrect";
@@ -665,15 +688,17 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       if (action == "fadeEverything") {
         this.appModel.notifyUserAction();
-        // this.blinkOnLastQues();
+        if (this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+          this.blinkOnLastQues();
+        }
       }
       if (action === undefined || action == "undefined") {
         this.appModel.notifyUserAction();
       }
     }
-    if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-      // this.blinkOnLastQues();
-    }
+    // if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+    //   this.blinkOnLastQues();
+    // }
 
   }
 
