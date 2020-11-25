@@ -203,8 +203,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   SkipLoad: boolean = false;
   disableoptions: boolean = false;
   disableoptionsBlock: boolean = false;
-  
-
+  disableinstructionBar:boolean = false;
   popupHeader: any;
   ngOnDestroy() {
     clearTimeout(this.showAnsTimer);
@@ -259,23 +258,24 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.setRightFeedback();
         }
       } else if (mode == 'auto') {
+        this.appModel.enableSubmitBtn(false);
         this.matched = true;
         for (let x = 0; x < this.fetchAnswer.length; x++) {
           this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
          //// this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
         }
-        if (this.feedbackObj.rightAnswerpopupTxt.required) {
+        if (this.feedbackObj.showAnswerpopupTxt.required) {
           this.AnswerpopupTxt = true;
-          this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
-  
+          this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
         } else {
-          this.AnswerpopupTxt = false; 
+          this.AnswerpopupTxt = false;
         }
         //show modal of auto
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           this.disableSection = true;
           this.instructionBar.nativeElement.style.opacity = 0.3;
+          this.disableinstructionBar = true;
           this.disableBody = true;
           this.bodyContentSection.nativeElement.style.opacity = 0.3;
           this.checked = true;
@@ -309,7 +309,14 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == 'uttarDikhayein') {
-
+        ////this.appModel.resetReplayBtn(true);
+        for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {        
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;        
+      }
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {       
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';        
+      }
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
@@ -321,6 +328,13 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
       if (action == 'submitAnswer') {
+        for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {         
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;         
+      }
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {       
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';        
+      }
         if (!this.instruction.nativeElement.paused) {
           this.ifStopped = true;
           this.instruction.nativeElement.pause();
@@ -329,13 +343,21 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.submitModalRef.nativeElement.classList = 'displayPopup modal';
       }
       if (action == 'replayVideo') {
+       //// this.appModel.resetReplayBtn(true);
+        for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {        
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
+          this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;        
+      }
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {       
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';        
+      }
         this.SkipLoad = true;
         if (!this.instruction.nativeElement.paused) {
           this.ifStopped = true;
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
         }
-        this.appModel.videoStraming(true);
+       
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.disableoptions = true;
           this.confirmReplayRef.nativeElement.classList = 'displayPopup modal';
@@ -378,7 +400,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       console.log('narrator/instruction voice still playing');
     } else {
       this.appModel.notifyUserAction();
-      clearInterval(this.blinkTimeInterval);
+      ////clearInterval(this.blinkTimeInterval);
       this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;
       //this.startCount = 0;
       console.log("play on Instruction");
@@ -387,6 +409,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.instruction.nativeElement.play();
         this.disableSection = true;
         this.instruction.nativeElement.onended = () => {
+          clearInterval(this.blinkTimeInterval);
           this.startActivity();
           this.disableSection = false;
         }
@@ -403,7 +426,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
 //Hover options to run the hover functanality 
   playHoverOption(opt, i) {
-    this.disableSection = false;
+    //this.disableSection = false;
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.pause();
       this.instruction.nativeElement.currentTime = 0;
@@ -422,13 +445,14 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       }
       this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].volume = this.appModel.isMute ? 0 : this.appModel.volumeValue;
       this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].play();
-
+      this.disableSection = true;
       for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
         if (x != i) {
           this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = 'none';
         }
       }
       this.optionsBlock.nativeElement.children[0].children[i].children[0].children[1].onended = () => {
+        this.disableSection = false;
         for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
           if (x != i) {
             this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';
@@ -503,10 +527,25 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // execute this function on option click
   onClickoption(idx, placed, opt) {
+    this.disableoptionsBlock = true;
+    setTimeout(() => {
+      this.disableoptionsBlock = false;
+    }, 1000);
     for (let i = 0; i < this.refQuesObj.length; i++) {
-      this.refQuesObj[i].isOpen = true;
-      this.refQuesObj[i].leftPos = 0 + 'px';
-      this.refQuesObj[i].topPos = 0 + 'px';
+
+      if (this.refQuesObj[i].position != "top" && opt.placed && this.refQuesObj[i].sequenceNo == opt.sequenceNo) {
+        this.refQuesObj[i].isOpen = !this.refQuesObj[i].isOpen;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
+
+      } else if (this.refQuesObj[i].position != "top") {
+        this.refQuesObj[i].isOpen = true;
+      } else {
+        this.refQuesObj[i].isOpen = true;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
+      }
+
     }
 
     if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
@@ -629,6 +668,23 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
   }
 
+  hoverPlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
+    }
+  }
+  leavePlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+    }
+  }
+
   //this is function to execute the blink
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -731,7 +787,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + '?someRandomSeed=' + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableSubmitBtn(false);
-
+      this.appModel.enableReplayBtn(false);
       this.disableBody = true;
       this.narrator.nativeElement.play();
       this.disableoptions = true;
@@ -1133,6 +1189,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.disableSection = true;
           
           this.instructionBar.nativeElement.style.opacity = 0.3;
+          this.disableinstructionBar = true;
           this.bodyContentSection.nativeElement.style.opacity = 0.3;
           this.disableBody = true;
           this.appModel.enableSubmitBtn(false);
@@ -1418,6 +1475,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
       this.disableSection = true;
       this.instructionBar.nativeElement.style.opacity = 0.3;
+      this.disableinstructionBar = true;
       this.checked = true;
       if (this.feedbackObj.showAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
@@ -1450,7 +1508,9 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.notifyUserAction();
     if (flag === 'yes') {
       if (action === 'replay') {
+        this.appModel.videoStraming(true);
         this.replayVideo();
+
       }
     } else if (flag === 'no') {
       this.appModel.videoStraming(false);
@@ -1485,6 +1545,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
+    for (let i = 0; i < this.refQuesObj.length; i++) {
+      this.refQuesObj[i].isOpen = true;
+      this.refQuesObj[i].leftPos = 0 + 'px';
+      this.refQuesObj[i].topPos = 0 + 'px';
+    }
+   //// this.appModel.enableReplayBtn(false);
     for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
       this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList.value = '';
     }
@@ -1492,6 +1558,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.matched = true;
       this.disableSection = true;
       this.instructionBar.nativeElement.style.opacity = 0.3;
+      this.disableinstructionBar = true;
       this.bodyContentSection.nativeElement.style.opacity = 0.3;
       this.disableBody = true;
       this.appModel.enableSubmitBtn(false);
