@@ -295,6 +295,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   /****** Option mouse hover functionality ******/
   optionHover(opt, i) {
     if (i == this.index1) {
+      this.optionsBlock.nativeElement.children[1].children[i].style.cursor = "pointer";
       this.optionsBlock.nativeElement.children[1].children[i].classList.add('scaleInAnimation');
     }
   }
