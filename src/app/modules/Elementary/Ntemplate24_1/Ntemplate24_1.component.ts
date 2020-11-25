@@ -792,6 +792,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   /*Load the popup assets for show answer and feedback popup*/
   setPopupAssets() {
+    this.isPartialPopup = false;
     console.log(this.feedbackAssets);
     console.log("check pop up type", "this.attemptType:", "this.popupType:", this.popupType);
     this.autoClosePopupTimer = this.feedbackAssets.autoCloseSec * 1000;
