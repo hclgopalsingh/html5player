@@ -21,7 +21,7 @@ import { TemplatethirteenComponent } from '../controller/templatethirteen.compon
 import {Template12Component} from '../controller/template12.component';
 import {Ntemplate2} from './Elementary/Ntemplate2/Ntemplate2.component';
 import { Ntemplate18 } from '../modules/Elementary/Ntemplate18/Ntemplate18.component';
-import { Ntemplate18_1 } from '../controller/Ntemplate18_1.component';
+import { Ntemplate18_1 } from '../modules/Elementary/Ntemplate18_1/Ntemplate18_1.component';
 import {Ntemplate8} from '../modules/Elementary/Ntemplate8/Ntemplate8.component';
 import { Ntemplate3 } from '../modules/Elementary/Ntemplate3/Ntemplate3.component';
 import {Ntemplate4} from '../modules/Elementary/Ntemplate4/Ntemplate4.component';

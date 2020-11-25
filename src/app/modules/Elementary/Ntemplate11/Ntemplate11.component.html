@@ -21,8 +21,8 @@
 					<img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
 						(load)="checkImgLoaded();">
 					<img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid zclass"
-						id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)"
-						on-mouseout="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
+						id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url" (mousemove)="onHoverOptions(opts,idx)"
+						(mouseleave)="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
 				</div>
 			</div>
 		</div>

@@ -40,7 +40,7 @@ button:focus {
 .refQues {
   width: 30%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /*space-around;*/
   align-items: center;
 }
 
@@ -59,28 +59,40 @@ button:focus {
   height: 73%;
 }
 
-#playPauseBtn {
-  position: absolute;
-  top: 85%;
-  right: 16%;
+#playPauseBtn{
+  /*position: absolute;
+  top: 96.5%;
+  right: 1.7%;
   cursor: pointer;
-  width: 1.5%;
+  width: 16%;*/
+  position: absolute;
+  top: 86.2%;
+  right: .7%;/*-3.7%*/
+  cursor: pointer;
+  width: 3.5%;/*16%*/
 }
 #playPauseBtn img {
-  width: 200%;
-  filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
+  /* width: 200%; */
+  /* filter: drop-shadow(2px 4px 6px black); */
+  /* max-width: none; */
 }
 
+
 #SkipBtn{
-  position: absolute;
-  top: 83.7%;
-  right: -3.7%;
+  /*position: absolute;
+  top: 98%;
+  right: 18%;
   cursor: pointer;
-  width: 16%;
+  width: 1.5%;*/
+  position: absolute;
+  top: 86.2%;/*85%*/
+  right: 5%;/*16%*/
+  cursor: pointer;
+  width: 3.5%;/*1.5%*/
 }
+
 #SkipBtn img {
-  max-width: 70%;
+  /* max-width: 70%; */
 }
 
 .quesImage .optItempopUp {
@@ -100,6 +112,7 @@ button:focus {
 
 .refQues div {
   width: 15%;
+  margin: 0 2.5%;
   display: flex;
   align-items: center;
   border: solid 0px transparent;
@@ -136,12 +149,14 @@ button:focus {
   max-width: 100%;
   cursor: pointer;
 }
-
+.videoMainContainer{
+  width:99.8%;
+}
 #optionsBlock #option img,
 .optionsBlock #option img {
   position: relative;
   max-width: 100%;
-  cursor: default;
+  cursor: pointer;
 }
 
 #optionsBlock #dropBox img,
@@ -167,6 +182,7 @@ button:focus {
 #optionsBlock .options {
   /* flex-wrap: wrap; */
   height: 100%;
+  left: 4.3%;
 }
 
   #optionsBlock .options div {
@@ -347,7 +363,7 @@ button:focus {
 }
 
 #instructionBar .instructionBase {
-  width: 70%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
@@ -589,14 +605,8 @@ button:focus {
 	width: 85%;
 }
 
-#confirmModal .modal-title {
-	margin-left: 3%;
-}
-
-#confirmModal .close {
-	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
-}
+ 
+ 
 
 #confirmModal .modal-footer {
 	display: flex;
@@ -649,7 +659,7 @@ button:focus {
   }
 
 .modal-dialog {
-  width: 66% !important;
+  width: 92% !important;/*66%*/
   height: 74%;
 }
 
@@ -693,11 +703,7 @@ button:focus {
   top: 0;
 }
 
-.modal-title {
-  margin-left: 1.5%;
-  /*height: 80%;*/
-  max-width: 30%;
-}
+ 
 
 .close {
   width: auto;
@@ -755,7 +761,7 @@ button:focus {
 
 .modal .quesImage {
   align-self: center;
-  margin: 1% auto !important;
+  /* margin: 1% auto !important; */
 }
 
 #modalTemp5 .quesImage {
@@ -778,12 +784,13 @@ html [type=button] {
 
 .modal #optionsBlock .options,
 .modal .optionsBlock .options {
-  width: 97%;
-  margin: .5% 0;
+  width: 60%;/*97%*/
+  margin: 2.5% 0 0;/*.5% 0*/
+  left: 0;
 }
 
 #container .modal #optionsBlock {
-  margin-top: 0;
+  margin: 6% 0 2%; /*0*/
   height: 100%;
 }
 
@@ -845,3 +852,6 @@ html [type=button] {
     transform: scale(1.1)
   }
 }
+
+.options  #dropBox{pointer-events: none;}
+.options #option{cursor: pointer;}

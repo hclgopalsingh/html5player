@@ -14,7 +14,8 @@ import { Ntemplate1Component } from './Ntemplate1/Ntemplate1.component';
 import { Ntemplate9Component } from './Ntemplate9/Ntemplate9.component';
 import { Ntemplate24 } from './Ntemplate24/Ntemplate24.component';
 import { Ntemplate18 } from './Ntemplate18/Ntemplate18.component';
-import { Ntemplate24_1 } from './Ntemplate24_1/Ntemplate24_1.component';
+import { Ntemplate18_1 } from './Ntemplate18_1/Ntemplate18_1.component';
+import { Ntemplate24_1 } from './Ntemplate24_1/Ntemplate24_1.component'
 import { Ntemplate20Component } from './Ntemplate20/Ntemplate20.component';
 import { Ntemplate19Component } from './Ntemplate19/Ntemplate19.component';
   
@@ -43,6 +44,7 @@ import { Ntemplate19Component } from './Ntemplate19/Ntemplate19.component';
   Ntemplate24_1,
   Ntemplate20Component,
   Ntemplate19Component,
+  Ntemplate18_1
   ],
   providers: []
 })
