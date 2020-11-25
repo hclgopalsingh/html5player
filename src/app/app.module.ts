@@ -86,7 +86,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		LoaderComponent,
 		Phase3T01V01,
 		Ntemplate23_1,
-		Ntemplate18_1,
 		Ntemplate19,
 		Ntemplate21,
 		Ntemplate10,
