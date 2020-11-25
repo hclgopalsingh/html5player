@@ -5,22 +5,25 @@
 		"year":"2020",
 		"id": "01",
 		"month":"10",
+		"month_name": "November",
 		"date": "14",
-		"day": "saturday" 
+		"day": "Saturday" 
 		},
 		{
 		"name":"Holi",
 		"year":"2021",
 		"id": "02",
 		"month":"02",
+		"month_name": "March",
 		"date": "18",
-		"day": "saturday" 
+		"day": "Saturday" 
 		},
 		{
 		"name":"Holi",
 		"year":"2022",
 		"id": "02",
 		"month":"02",
+		"month_name": "March",	
 		"date": "18",
 		"day": "saturday" 
 		},
@@ -29,6 +32,7 @@
 		"year":"2023",
 		"id": "02",
 		"month":"02",
+		"month_name": "March",
 		"date": "18",
 		"day": "saturday" 
 		},
@@ -36,9 +40,10 @@
 		"name":"Holi",
 		"year":"2024",
 		"id": "02",
+		"month_name": "March",
 		"month":"02",
 		"date": "18",
-		"day": "saturday" 
+		"day": "Saturday" 
 		}
 	]
 }
