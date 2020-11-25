@@ -792,9 +792,11 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.disableBody = true;
       this.narrator.nativeElement.play();
       this.disableoptions = true;
+      this.disableinstructionBar = true;
       this.narrator.nativeElement.onended = () => {
         this.InstructionVo = true;
         this.disableBody = false;
+        this.disableinstructionBar = false;
         this.isQuesTypeImage = true;
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
