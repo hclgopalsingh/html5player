@@ -259,6 +259,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.setRightFeedback();
         }
       } else if (mode == 'auto') {
+        this.appModel.enableSubmitBtn(false);
         this.matched = true;
         for (let x = 0; x < this.fetchAnswer.length; x++) {
           this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
@@ -309,6 +310,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == 'uttarDikhayein') {
+        ////this.appModel.resetReplayBtn(true);
         for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {        
           this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
           this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;        
@@ -342,7 +344,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.submitModalRef.nativeElement.classList = 'displayPopup modal';
       }
       if (action == 'replayVideo') {
-           
+       //// this.appModel.resetReplayBtn(true);
         for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {        
           this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
           this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;        
@@ -356,7 +358,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
         }
-        this.appModel.videoStraming(true);
+       
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.disableoptions = true;
           this.confirmReplayRef.nativeElement.classList = 'displayPopup modal';
@@ -1507,7 +1509,9 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.notifyUserAction();
     if (flag === 'yes') {
       if (action === 'replay') {
+        this.appModel.videoStraming(true);
         this.replayVideo();
+
       }
     } else if (flag === 'no') {
       this.appModel.videoStraming(false);

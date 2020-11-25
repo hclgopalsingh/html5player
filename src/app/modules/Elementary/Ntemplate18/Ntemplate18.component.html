@@ -99,7 +99,7 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
           <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
-          <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
             (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
@@ -120,8 +120,8 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
           <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
-          <img class="close" [src]="replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
-            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
+          (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="replayconfirmAssets?.confirm_text?.url"></div>
