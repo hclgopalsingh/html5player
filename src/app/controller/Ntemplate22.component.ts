@@ -956,7 +956,7 @@ export class Ntemplate22 implements OnInit {
         this.getJson();
       }else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_3"){
         this.QueScenarioData = this.quesObj.Ques_scenario.type_3;
-        this.getNthDayDate();
+        this.handleScenario(this.quesObj.Ques_scenario.type, this.QueScenarioData);
       }
     }
   }
@@ -979,19 +979,9 @@ export class Ntemplate22 implements OnInit {
          this.setFeedback(holiday_obj)
         }
       }
-    }
-
-
-
-
-
-  }
-
-
-
-  getNthDayDate(){
-    let Day = this.QueScenarioData.day;
-    let n = this.QueScenarioData.daynumber;
+    } else if(typ == "type_3"){
+      let Day = this.QueScenarioData.day;
+    let n = this.QueScenarioData.weekNumber;
     let Month = new Array();
     Month[0] = "January";
     Month[1] = "February";
@@ -1014,9 +1004,18 @@ export class Ntemplate22 implements OnInit {
     DayName[4] = "Thursday";
     DayName[5] = "Friday";
     DayName[5] = "Saturday";
+    let date;
+
+    if(this.QueScenarioData.year_type == "localMachineDate"){
+      date =  new Date();
+    } else{
+      date =  new Date();
+      date.setYear(this.QueScenarioData.year);
+      date.setMonth(this.QueScenarioData.month);
+      
+    }
     
-    
-    let date =  new Date()
+
     date.setDate(1)
     let currentDate = date.getDate();
     let currentWeekDay = date.getDay();
@@ -1034,10 +1033,10 @@ export class Ntemplate22 implements OnInit {
      
    // dateArrayOfReqDay.sort(function(a, b){return a - b})
     console.log(dateArrayOfReqDay, 'dateArrayOfReqDay');
-let Year = currentYear;
-let month = Month[currentMonth];
-let day = DayName[Day];
-let AnsDate = dateArrayOfReqDay[n-1] ;
+      let Year = currentYear;
+      let month = Month[currentMonth];
+      let day = DayName[Day];
+      let AnsDate = dateArrayOfReqDay[n-1] ;
 
     let feedbackObj = {};
     feedbackObj['year'] = Year ;
@@ -1045,7 +1044,16 @@ let AnsDate = dateArrayOfReqDay[n-1] ;
     feedbackObj['day'] = day ;
     feedbackObj['date'] = AnsDate ;
     this.setFeedback(feedbackObj);
+    }
+
+
+
+
+
   }
+
+
+ 
 
 
   setFeedback(holiday_obj){
