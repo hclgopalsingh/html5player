@@ -17,8 +17,7 @@
         <img [src]="refQues?.imgsrc?.url"
           [@openClose]="{value: refQues.isOpen ? 'open' : 'closed', params: {leftPos: refQues.leftPos , topPos: refQues.topPos}}"
           (load)="checkImgLoaded();">
- 
-      </div>
+          </div>
     </div>
     <!-- Below class row has been removed due to issue in allignment  -->
     <div class="mx-0" id="optionsBlock" #optionsBlock [ngClass]="{'disable_div':disableoptionsBlock}">
