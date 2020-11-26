@@ -37,6 +37,7 @@ button:focus {
 }
 
 .refQues {
+  pointer-events: none;
   width: 42%;
   display: flex;
   justify-content: space-around;
