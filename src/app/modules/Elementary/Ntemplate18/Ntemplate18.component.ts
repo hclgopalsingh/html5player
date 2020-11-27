@@ -665,6 +665,13 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   endedHandleronSkip() {
     this.isPlayVideo = false;
     this.disableoptions = false;
+    for (let i = 0; i < this.refQuesObj.length; i++) {
+
+      if (this.refQuesObj[i].position == "down") {
+    this.appModel.enableSubmitBtn(true);
+      }
+    }
+
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
@@ -1563,6 +1570,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
+        for (let i = 0; i < this.refQuesObj.length; i++) {
+
+      if (this.refQuesObj[i].position == "down") {
+    this.appModel.enableSubmitBtn(true);
+      }
+    }
         this.disableoptions = false;
         this.disableSection = false;
         this.appModel.navShow = 2;
