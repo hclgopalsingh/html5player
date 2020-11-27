@@ -42,7 +42,7 @@
 .placeholderContainer img {
   position: absolute;
   width: 14%;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .modal .placeholderContainer img {
   cursor: default;
