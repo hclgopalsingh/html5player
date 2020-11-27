@@ -37,7 +37,7 @@ import {
       })
       ),
       transition('wordBox => actionBox', [
-        animate('0.5s')
+        animate('0.4s')
       ]),
     ]),
     trigger('wordTestbox', [
@@ -53,7 +53,7 @@ import {
       }),{ params: { toTestBoxleft: 'auto', toTestBoxtop: 'auto' } }
       ),
       transition('actionBox => testBox', [
-        animate('0.5s')
+        animate('0.4s')
       ]),
     ])
   ],
@@ -1072,7 +1072,7 @@ else {
       this.showTestScreen();
       setTimeout(()=>{
         this.moveToBox(0,undefined);
-      },3000);
+      },1000);
       // $("#instructionBar").addClass("disable_div");
       this.instructionDisable = true
       this.appModel.enableReplayBtn(false);
@@ -1392,7 +1392,7 @@ else {
     if(this.wordArr.length !== this.counter){
      this.moveToBox(this.counter,undefined);
     }
-    },3000);
+    },500);
   }
   }
 
@@ -1462,9 +1462,9 @@ else {
 
     }
 
-    this.feedbackAudio = this.feedbackObj.right_sound;
-    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-    this.feedbackPopupAudio.nativeElement.play();
+    // this.feedbackAudio = this.feedbackObj.right_sound;
+    // this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+    // this.feedbackPopupAudio.nativeElement.play();
 
   }
 
@@ -1478,9 +1478,9 @@ else {
         this.openModal();
       }, 3000)
     }
-    this.feedbackAudio = this.feedbackObj.wrong_sound;
-    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-    this.feedbackPopupAudio.nativeElement.play();
+    // this.feedbackAudio = this.feedbackObj.wrong_sound;
+    // this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+    // this.feedbackPopupAudio.nativeElement.play();
 
   }
 
