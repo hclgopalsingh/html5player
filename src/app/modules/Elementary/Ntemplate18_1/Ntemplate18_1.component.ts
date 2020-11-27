@@ -467,6 +467,8 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   //this is option click function
   onClickoption(idx, placed, opt) {
+    this.disableoptionsBlock = true;
+
     for (let i = 0; i < this.refQuesObj.length; i++) {
 
       if (this.refQuesObj[i].position != "top" && opt.placed && this.refQuesObj[i].sequenceNo == opt.sequenceNo) {
@@ -550,7 +552,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.countofAnimation++;
           if (this.countofAnimation > 0) {
             this.appModel.enableSubmitBtn(true);
-            this.appModel.enableReplayBtn(false);
+            ////this.appModel.enableReplayBtn(false);
           }
           this.prevOptIdx = idx;
 
@@ -561,6 +563,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
             this.index1 = 0;
           }
           this.blinkHolder();
+
           setTimeout(() => {
             (document.getElementsByClassName('bodyContent')[0] as HTMLElement).style.pointerEvents = '';
             this.refQues.nativeElement.children[a].children[0].style.visibility = 'hidden';
@@ -569,6 +572,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
         }, 400)
       }
+      setTimeout(() => {
+        this.disableoptionsBlock = false;
+      }, 1000);
       this.appModel.notifyUserAction();
     }
   }
@@ -702,7 +708,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.disableBody = true;
       this.narrator.nativeElement.play();
       this.appModel.enableReplayBtn(false);
+      this.disableSection = true;
       this.narrator.nativeElement.onended = () => {
+        this.disableSection = false;
         this.disableBody = false;
         this.isQuesTypeImage = true;
         this.startActivity();
@@ -1373,7 +1381,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       }
       for (let x = 0; x < this.fetchAnswer.length; x++) {
         this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
-        }
+      }
     } else {
       this.appModel.notifyUserAction();
       this.disableSection = false;
