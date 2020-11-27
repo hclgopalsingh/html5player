@@ -338,6 +338,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   placeholderHover(idx, opt) {
     if (!opt.isAnswered) {
       opt.imgsrc = opt.imgsrc_hover;
+      this.placeholder.nativeElement.children[idx].style.cursor="pointer";
     }
   }
 
@@ -345,6 +346,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   placeholderLeave(idx, opt) {
     if (!opt.isAnswered) {
       opt.imgsrc = opt.imgsrc_original;
+      this.placeholder.nativeElement.children[idx].style.cursor="";
     }
   }
 
