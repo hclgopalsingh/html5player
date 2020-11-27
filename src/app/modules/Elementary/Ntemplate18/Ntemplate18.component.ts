@@ -638,7 +638,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.countofAnimation++;
           if (this.countofAnimation > 0) {
             this.appModel.enableSubmitBtn(true);
-            this.appModel.enableReplayBtn(false);
+            ////this.appModel.enableReplayBtn(false);
           }
           this.prevOptIdx = idx;
 
