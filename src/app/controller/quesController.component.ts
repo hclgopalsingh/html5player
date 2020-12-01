@@ -20,6 +20,8 @@ declare var $: any;
 export class QuesController implements OnInit {
   @ViewChild("quesBlockChild") quesBlockChild: any;
   @ViewChild('nextBtn') nextBtn: any;
+  @ViewChild('ansBtnElem') ansBtnElem: any;
+  @ViewChild('replayBtnElem') replayBtnElem: any;
   appModel: ApplicationmodelService;
   subscriptionQuesNos: Subscription;
   subscriptionQuesIndex: Subscription;
@@ -57,6 +59,7 @@ export class QuesController implements OnInit {
   disableReplay: boolean;
   ReplaybtnFromContent:boolean=false;
   tempReplayBtn:any;
+
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
 
@@ -335,10 +338,12 @@ export class QuesController implements OnInit {
   }
 
   hoverUttarDikhayein() {
+    this.ansBtnElem.nativeElement.style.cursor="pointer";
     this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
   }
 
   houtUttarDikhayein() {
+    this.ansBtnElem.nativeElement.style.cursor="";
     this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
   }
 
@@ -441,11 +446,13 @@ export class QuesController implements OnInit {
 
 
   hoverReplayBtn() {
+    this.replayBtnElem.nativeElement.style.cursor="pointer";
     this.quesCtrl.replay_btn = this.quesCtrl.replay_btn_hover;
   }
 
   houtReplayBtn() {
     if (!this.isVideoPlaying) {
+      this.replayBtnElem.nativeElement.style.cursor="";
       this.quesCtrl.replay_btn = this.quesCtrl.replay_btn_original;
     }
   }

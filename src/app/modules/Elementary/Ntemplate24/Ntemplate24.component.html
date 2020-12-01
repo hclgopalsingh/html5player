@@ -11,7 +11,7 @@
     <!-- Below class row has been removed due to issue in allignment  -->
     <div class="mx-0" id="optionsBlock">
       <div class="my-auto quesImage">
-        <div class="options"
+        <div class="options" [ngClass]="{'disableDiv':disableOpt}"
           *ngFor="let option of optionObjCopy.optionArray;let idx=index; let first=first; let last=last;">
           <img class="img-fluid" [src]="option?.selected ? option?.imgsrc_active?.url : option?.imgsrc?.url"
             (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)"
