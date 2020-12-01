@@ -4,7 +4,7 @@
 	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.url" (load)="checkImgLoaded();" /></div>
 	<div #maincontent>
 		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="cursor: pointer;">
-			<div class="instructionBase">
+			<div class="instructionBase"  #instructionBar></div>
 				<img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
 					(load)="checkImgLoaded();" />
 				<audio #instruction [src]="commonAssets?.quesInstruction?.url"></audio>
@@ -14,10 +14,6 @@
 			<div #ansBlock class="d-flex flex-row justify-content-around pointer " id="ansBlock">
 				<div class="options" *ngFor="let opts of myoption;let idx = index"
 					(click)="checkAnswer(opts,$event, idx)">
-					<!-- <img [src]="refQues?.imgsrc?.url"
-					[@openClose]="{value: refQues.isOpen ? 'open' : 'closed', params: {leftPos: refQues.leftPos , topPos: refQues.topPos}}"
-					(load)="checkImgLoaded();"> -->
-
 					<img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
 						(load)="checkImgLoaded();">
 					<img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid zclass"
