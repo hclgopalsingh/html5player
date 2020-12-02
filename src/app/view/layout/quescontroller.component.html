@@ -11,10 +11,10 @@
   </div>
 </div>
 <div class="d-flex align-items-center justify-content-between" id="navBlock" [ngClass]="{'disableBtn':enableNavBtns}">
-    <img style="cursor: auto !important;" class="img-fluid ansBtn mr-auto" [src]="quesCtrl?.uttar_dikhayein?.url" (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayein()" (mouseleave)="houtUttarDikhayein()" [ngClass]="{'disableBtn':disableUttarDikhayeinBtn,'invisible': hideShowAnswer==false}" #ansBtnElem> 
+    <img id="ele_ansBtn" class="img-fluid ansBtn mr-auto" [src]="quesCtrl?.uttar_dikhayein?.url" (click)="confirmAction('uttarDikhayein')" (mousemove)="hoverUttarDikhayein()" (mouseleave)="houtUttarDikhayein()" [ngClass]="{'disableBtn':disableUttarDikhayeinBtn,'invisible': hideShowAnswer==false}" #ansBtnElem> 
 
     <img class="img-fluid submitBtn" *ngIf ="quesCtrl?.submit_btn && quesCtrl?.submit_btn?.url" [src]="quesCtrl?.submit_btn?.url" (click)="confirmAction('submitAnswer')" (mousemove)="hoverSubmitBtn()" (mouseleave)="houtSubmitBtn()" [ngClass]="{'disableBtn':!enableSubmitBtn, 'hideit': disableSubmit==false}">
-    <img style="cursor: auto !important;" class="img-fluid replayBtn" *ngIf ="quesCtrl?.replay_btn && quesCtrl?.replay_btn?.url" [src]="quesCtrl?.replay_btn?.url" (click)="confirmAction('replayVideo')" (mousemove)="hoverReplayBtn()" (mouseleave)="houtReplayBtn()" [ngClass]="{'disableBtn':!enableReplayBtn, 'disablePointer':isVideoPlaying,'hideit': disableReplay ==false}" #replayBtnElem>
+    <img id="ele_replayBtn" class="img-fluid replayBtn" *ngIf ="quesCtrl?.replay_btn && quesCtrl?.replay_btn?.url" [src]="quesCtrl?.replay_btn?.url" (click)="confirmAction('replayVideo')" (mousemove)="hoverReplayBtn()" (mouseleave)="houtReplayBtn()" [ngClass]="{'disableBtn':!enableReplayBtn, 'disablePointer':isVideoPlaying,'hideit': disableReplay ==false}" #replayBtnElem>
     <img class="img-fluid prevBtn" [src]="quesCtrl?.peechey_jayein?.url" (click)="previous()" (mousemove)="hoverPreBtn()" (mouseleave) = "hleavePreBtn()" [ngClass]="{'disableBtn': isFirstQuestion || disablePrev==false}">
     <img class="img-fluid nextBtn" [src]="quesCtrl?.aagey_badhein?.url" (click)="next()" (mousemove)="hoverNextBtn()" (mouseleave) = "hleaveNextBtn()" [ngClass]="{'disableBtn': disableNext==false}">
 </div>
