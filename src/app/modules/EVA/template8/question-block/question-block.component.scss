@@ -1,0 +1,83 @@
+.questionBase, 
+.questionStatement, 
+.questionBlinkingBlue,
+.questionBlinkingPink, 
+.questionAnswer  {
+	position: absolute;
+    top: 0%;
+    height: 100%;
+    width: 100%;
+    left: 0%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.right_wrong_popup {
+    top: auto !important;
+    width: 80%;
+    left: auto;
+}
+
+/* Firefox old*/
+@-moz-keyframes blink_question {
+    25% {
+        opacity:0;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+
+@-webkit-keyframes blink_question {
+    25% {
+        opacity:0;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+/* IE */
+@-ms-keyframes blink_question {
+    25% {
+        opacity:0;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+/* Opera and prob css3 final iteration */
+@keyframes blink_question {
+    25% {
+        opacity:0;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+.blink-image {
+    -moz-animation: blink_question normal 1.5s infinite ease-in-out; /* Firefox */
+    -webkit-animation: blink_question normal 1.5s infinite ease-in-out; /* Webkit */
+    -ms-animation: blink_question normal 1.5s infinite ease-in-out; /* IE */
+    animation: blink_question normal 1.5s infinite ease-in-out; /* Opera and prob css3 final iteration */
+}
+
+.show {
+    display: flex !important;
+}
+
+.hide {
+    display: none;
+}

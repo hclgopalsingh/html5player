@@ -1,0 +1,285 @@
+{
+	"quesTabs": [
+		{
+			"ques_tab": {
+				"tabbody": {
+					"urlglobal": "global/tabs/tab1/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"urlglobal": "global/tabs/tab1/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"urlglobal": "global/tabs/tab1/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"urlglobal": "global/tabs/tab1/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"urlglobal": "global/tabs/tab1/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"urlglobal": "global/tabs/tab1/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"urlglobal": "global/tabs/tab1/tabIdx.png",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"urlglobal": "global/tabs/tab2/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"urlglobal": "global/tabs/tab2/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"urlglobal": "global/tabs/tab2/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"urlglobal": "global/tabs/tab2/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"urlglobal": "global/tabs/tab2/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"urlglobal": "global/tabs/tab2/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"urlglobal": "global/tabs/tab2/tabIdx.png",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"urlglobal": "global/tabs/tab3/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"urlglobal": "global/tabs/tab3/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"urlglobal": "global/tabs/tab3/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"urlglobal": "global/tabs/tab3/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"urlglobal": "global/tabs/tab3/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"urlglobal": "global/tabs/tab3/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"urlglobal": "global/tabs/tab3/tabIdx.png",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"urlglobal": "global/tabs/tab4/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"urlglobal": "global/tabs/tab4/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"urlglobal": "global/tabs/tab4/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"urlglobal": "global/tabs/tab4/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"urlglobal": "global/tabs/tab4/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"urlglobal": "global/tabs/tab4/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"urlglobal": "global/tabs/tab4/tabIdx.png",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"urlglobal": "global/tabs/tab5/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"urlglobal": "global/tabs/tab5/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"urlglobal": "global/tabs/tab5/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"urlglobal": "global/tabs/tab5/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"urlglobal": "global/tabs/tab5/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"urlglobal": "global/tabs/tab5/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"urlglobal": "global/tabs/tab5/tabIdx.png",
+					"location": "theme"
+				}
+			}
+		}
+	],
+	"aagey_badhein": {
+		"urlglobal": "global/buttons/aagey.svg",
+		"location": "theme"
+	},
+	"aagey_badhein_original": {
+		"urlglobal": "global/buttons/aagey.svg",
+		"location": "theme"
+	},
+	"aagey_badhein_hover": {
+		"urlglobal": "global/buttons/aageyHover.svg",
+		"location": "theme"
+	},
+	"blink_btn1": {
+		"urlglobal": "global/buttons/blink_btn1.svg",
+		"location": "theme"
+	},
+	"blink_btn2": {
+		"urlglobal": "global/buttons/blink_btn2.svg",
+		"location": "theme"
+	},
+	"peechey_jayein": {
+		"urlglobal": "global/buttons/peechey.svg",
+		"location": "theme"
+	},
+	"peechey_jayein_original": {
+		"urlglobal": "global/buttons/peechey.svg",
+		"location": "theme"
+	},
+	"peechey_jayein_hover": {
+		"urlglobal": "global/buttons/peecheyHover.svg",
+		"location": "theme"
+	},
+	"uttar_dikhayein": {
+		"urlglobal": "global/buttons/uttarBtn.svg",
+		"location": "theme"
+	},
+	"uttar_dikhayein_original": {
+		"urlglobal": "global/buttons/uttarBtn.svg",
+		"location": "theme"
+	},
+	"uttar_dikhayein_hover": {
+		"urlglobal": "global/buttons/uttarBtnHover.svg",
+		"location": "theme"
+	},
+	"submit_btn": {
+		"urlglobal": "global/buttons/submit_btn.png",
+		"location": "theme"
+	},
+	"submit_btn_hover": {
+		"urlglobal": "global/buttons/submit_btn_hover.png",
+		"location": "theme"
+	},
+	"submit_btn_original": {
+		"urlglobal": "global/buttons/submit_btn.png",
+		"location": "theme"
+	},
+	"replay_btn": {
+		"urlglobal": "global/buttons/video_btn.png",
+		"location": "theme"
+	},
+	"replay_btn_hover": {
+		"urlglobal": "global/buttons/video_stream_btn.png",
+		"location": "theme"
+	},
+	"replay_btn_original": {
+		"urlglobal": "global/buttons/video_btn.png",
+		"location": "theme"
+	},
+	"blink_btn3": {
+		"urlglobal": "global/buttons/blink_btn3.svg",
+		"location": "theme"
+	},
+	"blink_btn4": {
+		"urlglobal": "global/buttons/blink_btn4.svg",
+		"location": "theme"
+	},
+	"rightAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/Happyanimation.gif",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/clap.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
+	"wrongAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/Sadanimation.gif",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/shake.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
+	"partialIncorrectAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/Sadanimation.gif",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/shake.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
+	"partialCorrectAnimationAssets": {
+		"img": {
+			"urlglobal": "global/animations/Happyanimation.gif",
+			"location": "theme"
+		},
+		"audio": {
+			"urlglobal": "global/animations/clap.ogg",
+			"location": "theme"
+		},
+		"timeout": 5000
+	},
+	"showAnsTimeout": 5000
+}

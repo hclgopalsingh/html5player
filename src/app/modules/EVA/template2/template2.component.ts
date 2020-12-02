@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 
 @Component({
   selector: 'app-template2',
   templateUrl: './template2.component.html',
-  styleUrls: ['./template2.component.css']
+  styleUrls: ['./template2.component.scss']
 })
-export class Template2Component implements OnInit {
+export class Template2Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   blink: boolean = false;
   commonAssets: any = "";
   rightPopup: any;
@@ -68,10 +68,11 @@ export class Template2Component implements OnInit {
   videoonshowAnspopUp: any;
   showAnswerRef: any;
   showAnswerfeedback: any;
+  disableMainContent: boolean = true;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
-  @ViewChild('sprite') sprite: any;
+  @ViewChild('sprite', {static: true}) sprite: any;
   @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('ansPopup') ansPopup: any;
   // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
@@ -80,7 +81,6 @@ export class Template2Component implements OnInit {
   @ViewChild('rightFeedback') rightFeedback: any;
   @ViewChild('disableSpeaker') disableSpeaker: any;
   @ViewChild('myAudiospeaker') myAudiospeaker: any;
-  @ViewChild('maincontent') maincontent: any;
   @ViewChild('footerNavBlock') footerNavBlock: any;
   @ViewChild('ansBlock') ansBlock: any;
   @ViewChild('clapSound') clapSound: any;
@@ -137,7 +137,6 @@ export class Template2Component implements OnInit {
   }
 
   ngOnInit() {
-    this.sprite.nativeElement.style = "display:none";
     this.Sharedservice.setShowAnsEnabled(false);
     this.Sharedservice.setLastQuesAageyBadheStatus(false);
     this.attemptType = "";
@@ -232,6 +231,10 @@ export class Template2Component implements OnInit {
     clearTimeout(this.rightTimer);
     clearTimeout(this.celebrationTimer);
     this.audio.pause();
+  }
+
+  ngAfterViewInit() {
+    this.sprite.nativeElement.style = "display:none";
   }
 
   ngAfterViewChecked() {
@@ -345,15 +348,11 @@ export class Template2Component implements OnInit {
         el.pause();
         el.currentTime = 0;
         el.play();
-        if (this.maincontent) {
-          this.maincontent.nativeElement.className = "disableDiv";
-        }
+        this.disableMainContent = true;
         el.onended = () => {
-          if (this.maincontent) {
-            this.maincontent.nativeElement.className = "";
-            this.sprite.nativeElement.style = "display:none";
-            (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-          }
+          this.disableMainContent = false;
+          this.sprite.nativeElement.style = "display:none";
+          (document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
         }
 
       }
@@ -392,6 +391,7 @@ export class Template2Component implements OnInit {
   }
 
   showCelebrations() {
+    this.appModel.storeVisitedTabs();
     let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement;
     this.celebrationTimer = setTimeout(() => {
       if (this.multiCorrectFeedback && this.multiCorrectFeedback.nativeElement) {
@@ -402,7 +402,7 @@ export class Template2Component implements OnInit {
     this.multiCorrectFeedback.nativeElement.onended = () => {
       this.ansBlock.nativeElement.className = "optionsBlock";
       this.disableSpeaker.nativeElement.classList.remove("disableDiv");
-      this.maincontent.nativeElement.className = "disableDiv";
+      this.disableMainContent = true;
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
         document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
@@ -467,7 +467,7 @@ export class Template2Component implements OnInit {
 
     } else {
       this.ifWrongAns = true;
-      this.maincontent.nativeElement.className = "disableDiv";
+      this.disableMainContent = true;
       this.ansBlock.nativeElement.className = "optionsBlock disableDiv";
       this.disableSpeaker.nativeElement.classList.add("disableDiv");
       this.appModel.stopAllTimer();
@@ -484,7 +484,7 @@ export class Template2Component implements OnInit {
           for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
             document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
           }
-          this.maincontent.nativeElement.className = "";
+          this.disableMainContent = false;
         }
       });
     }
@@ -644,12 +644,12 @@ export class Template2Component implements OnInit {
       this.instruction.nativeElement.src = this.questionObj.quesInstruction.location == "content"
         ? this.containgFolderPath + "/" + this.questionObj.quesInstruction.url : this.assetsPath + "/" + this.questionObj.quesInstruction.url
       this.appModel.handlePostVOActivity(true);
-      this.maincontent.nativeElement.className = "disableDiv";
+      this.disableMainContent = true;
       this.instruction.nativeElement.play();
       this.appModel.setLoader(false);
       this.instruction.nativeElement.onended = () => {
         this.appModel.handlePostVOActivity(false);
-        this.maincontent.nativeElement.className = "";
+        this.disableMainContent = false;
       }
     } else {
       this.appModel.handlePostVOActivity(false);

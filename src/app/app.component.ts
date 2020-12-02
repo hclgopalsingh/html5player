@@ -1,49 +1,47 @@
-import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy, EventEmitter, Output, Input, SimpleChange } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
-import {ApplicationmodelService} from './model/applicationmodel.service';
-import { SharedserviceService } from './services/sharedservice.service';
-import { Subscription } from 'rxjs';
-
+import { ApplicationmodelService } from './common/services/applicationmodel.service';
+import { SharedserviceService } from './common/services/sharedservice.service';
+import { Subscription, Observable } from 'rxjs';
+import { ParentcommunicationService } from './common/services/parentcommunication.service';
 
 @Component({
-	selector: 'app-root',
+	selector: 'app-root-player',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css', './view/css/bootstrap.min.css'],
+	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-	private appModel: ApplicationmodelService;
-	constructor(appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService) {
+export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
+	title = 'shiksha-player';
+	constructor(public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
-
-
-
-		this.subscription = this.Sharedservice.getData().subscribe(data => { this.Template = data.data.TemplateType; 
-			if(this.Template === 'EVA'){
-			  this.EVA = true;
-			}else{
-			  this.EVA = false;
+		this.subscription = this.Sharedservice.getData().subscribe(data => {
+			this.Template = data.data.TemplateType;
+			if (this.Template === 'EVA') {
+				this.EVA = true;
+			} else {
+				this.EVA = false;
 			}
-	  
-		  });
+
+		});
 	}
-	title = 'app';
 	@ViewChild('contentHolder') contentHolder: any;
 	@ViewChild('loaderHolder') loaderHolder: any;
 	@ViewChild('checkForAutoplayRef') checkForAutoplayRef: any;
-	@ViewChild('animationRef') animationRef:any;
+	@ViewChild('animationRef') animationRef: any;
+	@Input() initData:Observable<any>;
 	resizeFlag: boolean = false;
 	playerPreview: boolean = false;
 	navUrl: string;
 	isTitleScreenActive: boolean = true;
 	animationAssts: any;
-	happyAssetsFix: any = "./assets/images/happyFixedAnimation.webp";
-	sadAssetsFix: any = "./assets/images/sadFixedAnimation.gif";
-	animationType: string = "";
+	happyAssetsFix: any = './assets/images/happyFixedAnimation.webp';
+	sadAssetsFix: any = './assets/images/sadFixedAnimation.gif';
+	animationType: string = '';
 	autoplay: boolean = true;
-	audioSrc:any = "";
-	timeout:number = 5000;
-	timer:any;
-	EVA:boolean = false;
+	audioSrc: any = '';
+	timeout: number = 5000;
+	timer: any;
+	EVA: boolean = false;
 	subscription: Subscription;
 	Template: any;
 	isVideo: boolean = false;
@@ -60,9 +58,26 @@ export class AppComponent {
 		if (!this.resizeFlag) {
 			setTimeout(() => {
 				this.resizeContainer();
-			}, 0)
+			}, 0);
 		}
 	}
+	ngOnChanges(changes: { [property: string]: SimpleChange }){
+		// Extract changes to the input property by its name
+		let change: SimpleChange = changes['initData']; 
+		this.parentCommunication.setInitData(change.currentValue);
+		this.appModel.initializeApp(change.currentValue);
+	 // Whenever the data in the parent changes, this method gets triggered. You 
+	 // can act on the changes here. You will have both the previous value and the 
+	 // current value here.
+	 }
+	// ngAfterViewInit() {
+
+	// 	console.log("parenttitle inside ngAfterviewInit",this.parentTitle);
+	// 	this.parentTitle.subscribe((event) => {
+	// 		this.parentCommunication.setInitData(event);
+	// 		console.log("from parent to child inside ngAfterViewInit",event);
+	// 	});
+	// }
 
 	ngOnInit() {
 		window.onresize = (e) => {
@@ -70,7 +85,21 @@ export class AppComponent {
 			this.resizeContainer();
 		}
 		this.appModel.getPreviewMode(this);
-		console.log("appModel.navShow",this.appModel.navShow)
+		console.log("parent title",this.initData);
+		// this.parentTitle.subscribe((event) => {
+		// 	debugger;
+		// 	console.log("from parent to child",event);
+		// });
+		// console.log("parenttitle inside ngOnInit",this.parentTitle);
+		// this.parentTitle.subscribe((event) => {
+		// 	console.log("from parent to child inside ngOnInit",event);
+		// });
+		this.appModel.eventSubject.subscribe(event => {
+			// this.playerEvent.emit(event);
+			// console.log("parent title inside subscription",this.parentTitle);
+			console.log("app component event",event);
+		});
+		console.log('appModel.navShow', this.appModel.navShow);
 		this.router.events.subscribe((event: Event) => {
 			this.isVideo = false;
 			if (event instanceof NavigationStart) {
@@ -78,7 +107,7 @@ export class AppComponent {
 			}
 			if (event instanceof NavigationEnd) {
 				this.resizeFlag = false;
-				if (event && event.url == "/video" || event && event.url == "/videoext") {
+				if (event && event.url === '/video' || event && event.url === '/videoext') {
 					this.isVideo = true;
 					/* this.navUrl= event.url;
 					 let resizeTimer = setInterval(()=>{
@@ -90,7 +119,7 @@ export class AppComponent {
 							}
 						  },100)	*/
 
-				} else if (event && event.url != "/") {
+				} else if (event && event.url != '/') {
 					/*this.navUrl= event.url;
 						let resizeTimer = setInterval(()=>{
 						if (this.appModel && !(this.appModel.getLoaderFlag)) {
@@ -102,77 +131,75 @@ export class AppComponent {
 					  },100)*/
 				}
 			}
-        });
+		});
 
 		this.appModel.isVideoLoaded.subscribe(() => {
 			this.timer = setTimeout(() => {
 				this.resizeFlag = true;
-			}, 2000)
-		})
+			}, 2000);
+		});
 
 		this.appModel.isTempLoaded.subscribe(() => {
 			setTimeout(() => {
 				this.resizeFlag = true;
-			}, 2000)
-		})
+			}, 2000);
+		});
 		this.appModel.animationAssets.subscribe((assets) => {
-			this.animationType = "right";
+			this.animationType = 'right';
 			if (assets) {
-				this.animationAssts = assets.animationImg!=""? assets.animationImg:this.happyAssetsFix;
-				this.audioSrc =  assets.audio;
-				this.timeout = assets.timer ? assets.timer:5000;
+				this.animationAssts = assets.animationImg !== '' ? assets.animationImg : this.happyAssetsFix;
+				this.audioSrc = assets.audio;
+				this.timeout = assets.timer ? assets.timer : 5000;
 			} else {
 				this.animationAssts = this.happyAssetsFix;
 			}
 
-			if(this.audioSrc){
+			if (this.audioSrc) {
 				this.animationRef.animationAudio.nativeElement.src = this.audioSrc;
 				this.animationRef.animationAudio.nativeElement.load();
 				this.animationRef.animationAudio.nativeElement.play();
-				this.animationRef.animationAudio.nativeElement.onended = () =>{
-				this.timer = setTimeout(()=>{
+				this.animationRef.animationAudio.nativeElement.onended = () => {
+					this.timer = setTimeout(() => {
 						this.postAnimationActs();
-					},2000)
-				}
-			}else{
-				this.timer = 	setTimeout(() =>{
+					}, 2000);
+				};
+			} else {
+				this.timer = setTimeout(() => {
 					this.postAnimationActs();
-				},this.timeout)
+				}, this.timeout);
 			}
-		})
+		});
 
 		this.appModel.wrongAnimationAsts.subscribe((assts) => {
-			this.animationType = "wrong";
+			this.animationType = 'wrong';
 			if (assts) {
-				this.animationAssts = assts.animationImg !="" ? assts.animationImg:this.sadAssetsFix;
-				this.audioSrc =  assts.audio;
-				this.timeout = assts.timer ? assts.timer:5000;
+				this.animationAssts = assts.animationImg !== '' ? assts.animationImg : this.sadAssetsFix;
+				this.audioSrc = assts.audio;
+				this.timeout = assts.timer ? assts.timer : 5000;
 			} else {
 				this.animationAssts = this.sadAssetsFix;
 			}
-			if(this.audioSrc){
+			if (this.audioSrc) {
 				this.animationRef.animationAudio.nativeElement.src = this.audioSrc;
 				this.animationRef.animationAudio.nativeElement.load();
 				this.animationRef.animationAudio.nativeElement.play();
-				this.animationRef.animationAudio.nativeElement.onended = () =>{
-				this.timer = setTimeout(()=>{
+				this.animationRef.animationAudio.nativeElement.onended = () => {
+					this.timer = setTimeout(() => {
 						this.postAnimationActs();
-					},2000)
+					}, 2000)
 				}
-			}else{
-				this.timer = 	setTimeout(() =>{
+			} else {
+				this.timer = setTimeout(() => {
 					this.postAnimationActs();
-				},this.timeout)
+				}, this.timeout)
 			}
-		})
-
-
-		this.appModel.autoPlayBtn.subscribe(()=>{
+		});
+		this.appModel.autoPlayBtn.subscribe(() => {
 			this.autoplay = false;
-		})
+		});
 	}
 
-	ngOnDestroy(){
+	ngOnDestroy() {
 		clearTimeout(this.timer);
 	}
 
@@ -208,21 +235,23 @@ export class AppComponent {
 
 	postAnimationActs() {
 		clearTimeout(this.timer);
-		console.log("output event....");
-		if (this.animationType == "right") {
+		console.log('output event....');
+		if (this.animationType === 'right') {
 			this.appModel.moveNextQues();
-		} else if (this.animationType == "wrong") {
+		} else if (this.animationType === 'wrong') {
 			//emit handle post wrong feedback
 			this.appModel.handlePostWrongFeedback();
 		}
 		this.animationAssts = undefined;
-		this.animationType = "";
-
+		this.animationType = '';
 	}
 
-	startApplication(){
+	startApplication() {
 		this.autoplay = true;
 		this.appModel.startApplication();
 	}
 
 }
+
+
+

@@ -1,22 +1,22 @@
 
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
-import { SharedserviceService } from '../../../services/sharedservice.service';
 import { Subscription } from 'rxjs';
-import { DataService } from '../../../model/eva/template8/data.service';
-import { Constants } from '../../../model/eva/template8/constants';
-import { QuestionBlockVO } from '../../../model/eva/template8/questionblockVO';
-import { AssetVO } from '../../../model/eva/template8/assetVO';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
+import { DataService } from '../../../common/services/eva/template8/data.service';
+import { Constants } from '../../../common/services/eva/template8/constants';
+import { QuestionBlockVO } from '../../../common/services/eva/template8/questionblockVO';
+import { AssetVO } from '../../../common/services/eva/template8/assetVO';
 
 
 @Component({
     selector: 'app-template8',
     templateUrl: './template8.component.html',
-    styleUrls: ['./template8.component.css']
+    styleUrls: ['./template8.component.scss']
 })
-export class Template8Component implements OnInit {
+export class Template8Component implements OnInit,AfterViewInit, AfterViewChecked, OnDestroy {
     blink: boolean = false;
     commonAssets: any = "";
     ques: any = "";
@@ -94,7 +94,7 @@ export class Template8Component implements OnInit {
 
     @ViewChild('instruction') instruction: any;
     @ViewChild('audioEl') audioEl: any;
-    @ViewChild('sprite') sprite: any;
+    @ViewChild('sprite', {static: true}) sprite: any;
     @ViewChild('speakerNormal') speakerNormal: any;
     @ViewChild('ansPopup') ansPopup: any;
     // @ViewChild('showAnswerfeedback') showAnswerfeedback: any;
@@ -116,7 +116,7 @@ export class Template8Component implements OnInit {
     @ViewChild('feedbackPopupSelectedOption') feedbackPopupSelectedOption: any;
     @ViewChild('showAnswerPopupSelectedOption') showAnswerPopupSelectedOption: any;
 
-    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, private dataService: DataService) {
+    constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService, public dataService: DataService) {
         
          //subscribing common popup from shared service to get the updated event and values of speaker
          this.Sharedservice.showAnsRef.subscribe(showansref => {
@@ -160,7 +160,6 @@ export class Template8Component implements OnInit {
     }
 
     ngOnInit() {
-        this.sprite.nativeElement.style = "display:none";
         this.ifRightAns = false;
         this.attemptType = "";
         this.setTemplateType();
@@ -282,6 +281,10 @@ export class Template8Component implements OnInit {
         this.templatevolume(this.appModel.volumeValue, this);
     }
 
+    ngAfterViewInit() {
+        this.sprite.nativeElement.style = "display:none";
+    }
+
     /******Set template type for EVA******/
     setTemplateType(): void {
         this.ActivatedRoute.data.subscribe(data => {
@@ -396,7 +399,7 @@ export class Template8Component implements OnInit {
                 if (this.rightFeedback && this.rightFeedback.nativeElement) {
                     //option.image = option.img_hover;
                     this.clapSound.nativeElement.play();
-
+                    this.appModel.storeVisitedTabs();
                     this.clapTimer = setTimeout(() => {
                         this.clapSound.nativeElement.pause();
                         this.clapSound.nativeElement.currentTime = 0;

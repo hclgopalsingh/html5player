@@ -1,0 +1,113 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #narrator_voice [src]="common_assets?.instruction?.location=='content' ? contentgFolderPath + '/' +common_assets?.instruction.url: assetsfolderlocation + '/'+ common_assets?.instruction.url"></audio>
+<div class="" [ngClass]="{'fadeContainer':isOverlay}"></div>
+    <div class="container-fluid eva" id="container"><!--style="width: 1168px;" -->
+        <div class="headerBar">
+            <img class="img-fluid" [src]="common_assets?.header_bar?.location =='content' ? contentgFolderPath + '/' + common_assets?.header_bar?.url : assetsfolderlocation + '/' + common_assets?.header_bar?.url" />
+        </div>
+        <div id="bgImage">
+            <img class="img-fluid" [src]="common_assets?.background?.location =='content' ? contentgFolderPath + '/' + common_assets?.background?.url : assetsfolderlocation + '/' + common_assets?.background?.url" />  
+        </div>
+        <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? contentgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
+        <div #maincontent>
+        <div id="instructionBar">
+            <div class="instructionBase">
+            <img class="img-fluid" [src]="common_assets?.instruction_bg
+                ?.location =='content' ? contentgFolderPath + '/' + common_assets?.instruction_bg?.url : assetsfolderlocation + '/' + common_assets?.instruction_bg?.url"/>
+                 <span class="instructionText">{{instructiontext}}</span>
+            </div>
+        </div>
+        <div id="optionsBlock" #optionsBlock >
+            <div class="options" #optionRef [ngClass]="{'disableBtn' : disableOption }">
+                <div *ngFor= "let item of myoption;let idx = index" (mouseenter)="playOptionHover(item,idx)">
+                    <img class="img-fluid"  [src]="item?.imgsrc?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc?.url : assetsfolderlocation + '/' + item?.imgsrc?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="clickAkshar(item)" >
+                    <span class="subOpt" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)" (click)="clickAkshar(item)" >{{item.value}}</span>
+                    <!-- <img class="img-fluid zoom subOpt" [src]="item?.imgsrc_letter?.location=='content' ? contentgFolderPath + '/' + item?.imgsrc_letter?.url : assetsfolderlocation + '/' + item?.imgsrc_letter?.url" (mousemove)="onHoverOptions(item,idx)" (mouseleave)="onHoveroutOptions(item,idx)"  (click)="clickAkshar(item)" (load)="checkImgLoaded();"> -->
+                </div>
+            </div>
+            <div class="stageVideo">
+                <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
+                <div class="fillerBlock">
+                    <div class= "filler" *ngFor= "let item of ansArray;let idx = index" [ngClass]="{'disableBtn' : item.disabled }">
+                        <div class="refreshBlock" (click)="refreshClicked(item,idx)" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
+                            <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
+                        </div>
+                        <div class="inputField disableBtn">
+                            <img class="img-fluid"  [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                            <input type="text" [(ngModel)]= item.value id= {{item.id}} (blur)= "focusAuto()" onkeydown="return false">
+                        </div>
+                        <div class="lockBlock" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
+                            <img *ngIf="item.locked" class="img-fluid" [src]="item?.lock?.location=='content' ? contentgFolderPath + '/' + item?.lock?.url : assetsfolderlocation + '/' + item?.lock?.url"/>
+                            <img *ngIf="!item.locked" class="img-fluid" [src]="item?.unlock?.location=='content' ? contentgFolderPath + '/' + item?.unlock?.url : assetsfolderlocation + '/' + item?.unlock?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" (click)="lockClicked(item,idx)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-Globalspeaker (clickSpeaker)="onSpeakerClicked()" class="speaker_block"></app-Globalspeaker>
+ 
+        </div> 
+        <div class="textNote">
+            <span style="font-size: 2vmax; color: red;">*</span> ध्यान दें % कम से कम <span>1</span> और अध&zwj;िकतम <span>6</span> अक्षर चुनें
+        </div> 
+
+
+
+        <!-- <div id="spkrBtn" class="speakerBtn">
+            <img class="img-fluid"  [src]="speaker?.imgsrc?.location=='content' ? contentgFolderPath + '/' + speaker?.imgsrc?.url : assetsfolderlocation + '/' + speaker?.imgsrc?.url"  (mousemove)="onHoverSpeaker(item,idx)" (mouseleave)="onHoveroutSpeaker(item,idx)" (click)="playSpeaker()" title="स्पीकर"/>
+            <div class="waveAnimation" #sprite>
+                <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?contentgFolderPath + '/' +speaker?.wave1.url: assetsfolderlocation + '/'+ speaker?.wave1.url">
+                <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?contentgFolderPath + '/' +speaker?.wave2.url: assetsfolderlocation + '/'+ speaker?.wave2.url">
+                <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?contentgFolderPath + '/' +speaker?.wave3.url: assetsfolderlocation + '/'+ speaker?.wave3.url">
+            </div> 
+            <audio #speakerVolume [src]="speaker?.sound?.location=='content' ? contentgFolderPath + '/' + speaker?.sound?.url: assetsfolderlocation + '/' + speaker?.sound?.url"></audio>
+        </div> -->
+    </div>
+             <!-- Right/Wrong Popup  -->
+     <div class="modal" id="modalTemp17" #ansPopup>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex align-items-center">
+                    <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsfolderlocation +'/'+ popupAssets?.pop_up_base?.url">
+                    <div class="stageVideo popRW">
+                        <img class="img-fluid"  [src]="common_assets?.animationBox?.location=='content' ? contentgFolderPath + '/' + common_assets?.animationBox?.url : assetsfolderlocation + '/' + common_assets?.animationBox?.url" />
+                        <div class="fillerBlock">
+                            <div class= "filler" *ngFor= "let item of ansArray;let idx = index" [ngClass]="{'disableBtn' : item.disabled }">
+                                <!-- <div class="refreshBlock" (click)="refreshClicked(item,idx)" [ngClass]="{'disableBtn' : !(item.value && item.value.length) }">
+                                    <img class="img-fluid"  [src]="item?.refresh?.location=='content' ? contentgFolderPath + '/' + item?.refresh?.url : assetsfolderlocation + '/' + item?.item?.url" (mousemove)="onHoverRefresh(item,idx)" (mouseleave)="onHoverOutRefresh(item,idx)" />
+                                </div> -->
+                                <div class="inputField disableBtn inputPop">
+                                    <img class="img-fluid" [src]="item?.typing_box?.location=='content' ? contentgFolderPath + '/' + item?.typing_box?.url : assetsfolderlocation + '/' + item?.typing_box?.url" (mousemove)="onHoverLock(item,idx)" (mouseleave)="onHoverOutLock(item,idx)" />
+                                    <input type="text" class= "in-pop" [(ngModel)]= item.value (blur)= "focusAuto()" onkeydown="return false">
+                                </div>
+                                <div class="rightWrongBlock disableBtn" >
+                                    <img *ngIf="item.isRight" class="img-fluid" [src]="popupAssets?.right_icon?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.right_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.right_icon?.url"/>
+                                    <img *ngIf="!item.isRight" class="img-fluid" [src]="popupAssets?.wrong_icon?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.wrong_icon?.url :  assetsfolderlocation +'/'+ popupAssets?.wrong_icon?.url"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <!-- <div class="rightWrongAns">
+                        <img class="img-fluid" [src]="popupIconLocation=='content' ? contentgFolderPath +'/'+ popupIcon :  assetsfolderlocation +'/'+ popupIcon">
+                    </div> -->
+                    <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
+                    (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+                 </div>
+            </div>
+        </div>
+    </div>
+  
+    <!-- submit confirmation pop-up -->
+    <app-confirmation (closeConfirmationChild)="closePopup($event);"></app-confirmation>
+
+  
+   <!-- show answer Popup  -->
+   <app-showanswer (closePopupChild)="closePopup('showanswer');"></app-showanswer>
+
+    </div>
+
+     <!-- Popup Modal Audios -->
+  <audio #repeatFeedback [src]="repeatSound?.path?.location=='content'? contentgFolderPath + '/' +  repeatSound?.path?.url : assetsfolderlocation +'/'+ repeatSound?.path?.url"></audio>
+  <audio #partialFeedback [src]="partialPopup?.path?.location=='content'? contentgFolderPath + '/' +  partialPopup?.path?.url : assetsfolderlocation +'/'+ partialPopup?.path?.url"></audio>
+  <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio>
+  <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio>
+  <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? contentgFolderPath + '/' + feedback?.right_ans_clap_sound?.url: assetsfolderlocation +'/'+feedback?.right_ans_clap_sound?.url"></audio>	

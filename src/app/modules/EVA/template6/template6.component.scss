@@ -1,0 +1,254 @@
+@keyframes shrinkIt {
+	0% {
+		transform: scale(1.0);
+	}
+	100% {
+		transform: scale(0.7);
+	}
+}
+/* in-flight clone */
+/* high-performance display:none; helper */
+/* added to mirrorContainer (default = body) while dragging */
+/* added to the source element while its mirror is dragged */
+#container {
+	#optionsBlock {
+		position: absolute;
+		top: 12%;
+		width: 100%;
+		height: 71.3%;
+		left: 0%;
+		align-items: center;
+	}
+	.speakerBtn {
+		width: 10%;
+		margin: 0 3%;
+		display: inline-block;
+		position: relative;
+		margin-top: 8%;
+	}
+}
+.options {
+	width: 100%;
+	z-index: 1;
+	left: 10.5%;
+	top: 0.1%;
+	text-align: center;
+	flex-direction: column;
+	align-items: left;
+	justify-content: center;
+	align-content: space-around;
+	img {
+		margin: 5.9% 0;
+		width: 100%;
+		cursor: pointer;
+	}
+	div {
+		position: relative;
+		width: 12%;
+		display: inline-block;
+		transition: transform .6s;
+		margin: 1% 1% 0 1%;
+		.subOpt {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+	.playBtn {
+		position: absolute;
+		right: 6%;
+		bottom: 8%;
+		max-width: 16%;
+	}
+}
+.stageVideo {
+	width: 100%;
+	padding: 0 5%;
+	top: 1.7%;
+	justify-content: center;
+	align-items: center;
+	img {
+		max-width: 100%;
+		width: 100%;
+	}
+}
+#mainVideo {
+	width: 97%;
+	height: auto;
+	border: solid 1px red;
+	position: absolute;
+	left: .9%;
+	top: 1.1%;
+	clip-path: inset(1.7% 1% 1% 1% round 4vmax);
+}
+.speakerBtn {
+	img {
+		cursor: pointer;
+	}
+}
+.disable_div {
+	pointer-events: none;
+}
+.disableBtn {
+	opacity: 0.5;
+	pointer-events: none;
+}
+.filler {
+	position: absolute;
+	width: 35% !important;
+}
+#modalTemp17 {
+	.stageVideo {
+		position: absolute;
+		width: 48%;
+		right: 27%;
+		top: 8.7%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+}
+#showAnswer {
+	.stageVideo {
+		position: absolute;
+		width: 48%;
+		right: 27%;
+		top: 17%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+}
+.rightWrongAns {
+	position: absolute;
+	bottom: 8.5%;
+	width: 97.4%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.matchBlock {
+	display: flex;
+	justify-content: center;
+	align-items: initial;
+	margin: .5% 0;
+}
+.matchHolder {
+	width: 39%;
+	position: relative;
+}
+.optSelectedHidden {
+	position: absolute;
+	text-align: center;
+	top: 15%;
+	bottom: 0;
+	left: 10px;
+	right: 10px;
+	.rightIcon {
+		position: absolute;
+		left: 43%;
+		width: 14%;
+		bottom: -35%;
+	}
+	.img-fluid {
+		width: 32%;
+		position: absolute;
+		&:nth-child(1) {
+			left: 0;
+		}
+		&:nth-child(2) {
+			right: 0;
+		}
+		&:nth-child(3) {
+			bottom: 0;
+			left: 33%;
+		}
+	}
+	.subOpt {
+		&:nth-child(1) {
+			left: 0;
+			position: absolute;
+		}
+		&:nth-child(2) {
+			right: 0%;
+			position: absolute;
+		}
+		&:nth-child(3) {
+			bottom: 0;
+			left: 33%;
+			position: absolute;
+		}
+	}
+}
+.controlCursor {
+	cursor: default;
+	visibility: hidden;
+}
+.shrink_it {
+	animation: shrinkIt 0.5s linear;
+	pointer-events: none;
+}
+.section_title {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.disableDiv1 {
+	pointer-events: none;
+}
+.showAnsMatchBlock {
+	position: absolute;
+	left: 0;
+	width: 97.4%;
+}
+.showanswerSpacer {
+	width: 3%;
+	position: relative;
+	.rightIcon {
+		width: 150%;
+		bottom: -30%;
+		position: absolute;
+		left: -25%;
+	}
+}
+.gu-mirror {
+	position: fixed !important;
+	margin: 0 !important;
+	z-index: 9999 !important;
+	opacity: 0.8;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	pointer-events: none;
+	cursor: move;
+}
+.gu-hide {
+	left: -9999px !important;
+}
+.gu-unselectable {
+	cursor: move;
+	-webkit-user-select: none !important;
+	-moz-user-select: none !important;
+	-ms-user-select: none !important;
+	user-select: none !important;
+}
+.gu-transit {
+	cursor: move !important;
+	opacity: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+}

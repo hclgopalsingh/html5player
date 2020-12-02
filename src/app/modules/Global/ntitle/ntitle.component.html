@@ -1,0 +1,31 @@
+<div *ngIf="quesInfo.templateType === 'EVA'" class="EvaTitle container-fluid temp5" #container id="container">
+	<div id="bgImage"><img [src]="quesInfo?.background?.location=='content' ? containgFolderPath + '/' + quesInfo?.background?.url : assetsPath + '/' +  quesInfo?.background?.url" (load)="checkImgLoaded();"/></div>
+	<div class="d-flex align-items-center justify-content-center" id="activity">
+		<img class="img-fluid" *ngIf="quesInfo?.krikalapText?.location !=''" [src] ="quesInfo?.krikalapText?.location=='content' ? containgFolderPath + '/' + quesInfo?.krikalapText?.url : assetsPath + '/' +  quesInfo?.krikalapText?.url" (load)="checkImgLoaded();" />
+	</div>
+	<div class="d-flex align-items-center justify-content-center" id="activityTitle">
+		<img class="img-fluid" *ngIf="quesInfo?.titleText?.location !=''" [src] ="quesInfo?.titleText?.location=='content' ? containgFolderPath + '/' + quesInfo?.titleText?.url : assetsPath + '/' +  quesInfo?.titleText?.url" (load)="checkImgLoaded();" />
+	</div>			
+	<div class="d-flex justify-content-end hideit" [ngStyle]="jariRakheinBtnposition" #titleNavBtn id="zaariRakheinId">
+		<div class="zaariRakheinBtn" (click)="closeTitleScreen()" on-mouseenter="onHoverZaariRakhein()" (mouseleave)="onHoverOutZaariRakhein()"><img [src]="quesInfo.jariRakheinBtn.location=='content' ? containgFolderPath + '/' + quesInfo.jariRakheinBtn.url : quesInfo.jariRakheinBtn.url" ></div>
+	</div>
+	
+	<audio #titleAudio [src]="quesInfo?.narrator?.location=='content' ? containgFolderPath + '/' + quesInfo?.narrator?.url: assetsPath + '/' + quesInfo?.narrator?.url" autoplay="autoplay"></audio>
+</div>
+
+<div *ngIf="quesInfo.templateType != 'EVA'" class="ElementryTitle container-fluid temp5" #container id="container">
+	<div id="bgImage"><img [src]="fetchedcontent.background.url" (load)="checkImgLoaded();"/></div>
+	<div class="d-flex align-items-center justify-content-center w-100">
+		<div class="d-flex align-items-center justify-content-center" [ngStyle]="titleTextposition" id="activity">
+			<img class="img-fluid"  [src] ="fetchedcontent.krikalapText.url" (load)="checkImgLoaded();" />
+		</div>	
+	</div>
+	<div class="d-flex align-items-center justify-content-center" [ngStyle]="krikalapTextposition" id="activityTitle">
+		<img class="img-fluid" [src] ="fetchedcontent.titleText.url" (load)="checkImgLoaded();" />
+	</div>			
+	<div class="d-flex justify-content-end hideit" [ngStyle]="jariRakheinBtnposition"  #titleNavBtn id="zaariRakheinId">
+		<div class="zaariRakheinBtn"  (click)="closeTitleScreen()" on-mouseenter="onHoverZaariRakhein()" (mouseleave)="onHoverOutZaariRakhein()"><img [src]="fetchedcontent.jariRakheinBtn.url" ></div>
+	</div>
+	<audio #titleAudio [src]="fetchedcontent.narrator.url" autoplay="autoplay"></audio>
+</div>
+

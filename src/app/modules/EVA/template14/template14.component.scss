@@ -1,0 +1,754 @@
+/* use below classes to pass value as 'Text' */
+/*
+  <div>
+      <img class="img-fluid" src="../../assets/images/Template-22/English/Images English/Days/DaysBlankBox.png">
+      <span>1</span>
+  </div>
+  */
+/************************************#########$$$$$$$$$$$#########*************************************/
+@keyframes shake {
+	10%,90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+	20%,80% {
+		transform: translate3d(2px, 0, 0);
+	}
+	30%,50%,70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+	40%,60% {
+		transform: translate3d(4px, 0, 0);
+	}
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(.9);
+		opacity: .0;
+	}
+	90% {
+		transform: scale(1.1);
+		opacity: .7;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+@keyframes moveLeft {
+	0% {
+		left: 3.2%;
+	}
+	100% {
+		left: 2%;
+	}
+}
+@keyframes moveRight {
+	0% {
+		right: 3.3%;
+	}
+	100% {
+		right: 2%;
+	}
+}
+/*.options:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+  }*/
+/* Modal classes */
+/*confirm modal*/
+@keyframes scaleIn {
+	0% {
+		transform: scale(1.0);
+	}
+	100% {
+		transform: scale(1.2);
+	}
+}
+@keyframes scaleOut {
+	0% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1.0);
+	}
+}
+.eva14 {
+	.opacityZero {
+		opacity: 0;
+		pointer-events: none !important;
+	}
+	.hideit {
+		display: none !important;
+	}
+	.showit {
+		display: block !important;
+	}
+	.dispFlex {
+		display: flex !important;
+	}
+	button {
+		&:focus {
+			outline: none !important;
+			outline: none;
+		}
+	}
+	#optionsBlock {
+		.leftBlock {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 12.37%;
+			height: 100%;
+			.blockContent {
+				div {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+		.topBlock {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 85.5%;
+			left: 14%;
+			height: 9.8%;
+			.blockContent {
+				align-items: center;
+				flex-wrap: nowrap;
+				div {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+		.rightBlock {
+			position: absolute;
+			right: 0;
+			top: 11.5%;
+			width: 85.9%;
+			.weekDays {
+				.blockContent {
+					display: block !important;
+				}
+			}
+		}
+		.blockContent {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-content: center;
+			img {
+				max-width: 91%;
+				cursor: pointer;
+			}
+		}
+		.monthDates {
+			.blockContent {
+				align-content: flex-start !important;
+				justify-content: flex-start !important;
+				display: flex;
+			}
+		}
+		>img {
+			position: relative;
+			max-width: 100%;
+		}
+		.refTxt {
+			position: absolute;
+			bottom: 0%;
+			left: 0%;
+			z-index: 2;
+		}
+	}
+	.rightBlock {
+		.weekDays {
+			position: absolute;
+			width: 100%;
+			top: 1.7%;
+			left: 0.6%;
+		}
+	}
+	.leftBlock {
+		.blockContent {
+			img {
+				margin: 0;
+			}
+			img.monthName {
+				position: absolute;
+			}
+		}
+	}
+	.topBlock {
+		.blockContent {
+			img {
+				margin: 0 .43%;
+				max-width: 13.4% !important;
+			}
+			img.yearBase {
+				max-width: 94% !important;
+				margin: 0;
+			}
+			img.yearLabel {
+				position: absolute;
+				margin: 0;
+			}
+		}
+	}
+	.weekDays {
+		.blockContent {
+			img {
+				margin: 0 .43%;
+				max-width: 13.4% !important;
+			}
+		}
+	}
+	.monthDates {
+		position: absolute;
+		top: 13%;
+		width: 100%;
+		.blockContent {
+			img {
+				margin: -0.5% 1.89%;
+				max-width: 90.5% !important;
+			}
+			img[src=''] {
+				visibility: hidden;
+				width: 10.5%;
+			}
+			div {
+				display: flex;
+				width: 13%;
+				margin: 0.27% .64%;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				span {
+					position: absolute;
+					font-size: 2.5vmax;
+					font-weight: bold;
+					font-family: Kruti Dev !important;
+					top: -6.5%;
+				}
+			}
+		}
+	}
+	.modal {
+		.monthDates {
+			top: 13.8%;
+			.blockContent {
+				div {
+					span {
+						font-size: 2vmax;
+					}
+				}
+			}
+		}
+		#optionsBlock {
+			.rightBlock {
+				.weekDays {
+					.blockContent {
+						display: flex !important;
+						flex-wrap: nowrap;
+						height: auto;
+						width: 98.5%;
+						justify-content: space-between;
+					}
+				}
+				top: 13.7%;
+				left: 12.4%;
+				width: 79.2%;
+			}
+			.leftBlock {
+				width: 11.98%;
+			}
+			.topBlock {
+				width: 79.5%;
+				left: 12%;
+			}
+		}
+		.weekDays {
+			.blockContent {
+				div {
+					width: 14%;
+					position: relative;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				.day {
+					position: absolute;
+				}
+				img {
+					margin: 0;
+					max-width: 100% !important;
+				}
+			}
+		}
+		position: absolute !important;
+		width: 100%;
+		height: 94.2%;
+		z-index: 100 !important;
+		justify-content: center;
+		align-items: center;
+		padding-left: 0px;
+		.quesImage {
+			align-self: center;
+			margin: 1% auto !important;
+		}
+	}
+	#hoverques {
+		position: absolute;
+	}
+	#clickques {
+		position: absolute;
+	}
+	#navBlock {
+		.prevBtn {
+			width: 19.6%;
+			img {
+				cursor: pointer;
+			}
+		}
+		.nextBtn {
+			width: 19.6%;
+			img {
+				cursor: pointer;
+			}
+		}
+	}
+	.animation-shake {
+		animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
+		perspective: 1000px;
+		animation-iteration-count: infinite;
+	}
+	#correctAns {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: #000;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		background-size: contain;
+		animation: scaleit 0.2s ease-in;
+		img {
+			position: absolute;
+			width: 70%;
+		}
+	}
+	.rightAnsBg {
+		animation: scaleit 0.2s ease-in;
+	}
+	.disable-state {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+	.selected-state {
+		pointer-events: none;
+	}
+	#burst {
+		position: absolute;
+		z-index: 101;
+		width: 100%;
+		height: 100%;
+	}
+	.speakerBlock {
+		.speakerBtn {
+			width: 100% !important;
+		}
+	}
+	.disable_div {
+		pointer-events: none;
+	}
+	.options {
+		.desc {
+			position: relative;
+		}
+	}
+	.speaker_block {
+		position: absolute;
+		right: 0;
+		top: 86%;
+		right: 1%;
+		width: 5%;
+	}
+	.right {
+		width: 20%;
+		position: absolute !important;
+		z-index: 3;
+		left: 40%;
+		bottom: -70%;
+		display: none;
+	}
+	.wrong {
+		width: 20%;
+		position: absolute !important;
+		z-index: 3;
+		left: 40%;
+		bottom: -70%;
+		display: none;
+	}
+	#customModal {
+		display: block !important;
+		.optionsBlock {
+			width: 44%;
+		}
+		.modal-body {
+			height: 91%;
+			padding: 0 15px;
+		}
+		.options {
+			position: relative;
+			margin: .7% 0;
+			div {
+				position: absolute;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				img {
+					width: 48%;
+				}
+			}
+		}
+	}
+	#modalTemp22 {
+		.modal-body {
+			.actionButtons {
+				text-align: center;
+				position: absolute;
+				bottom: 0;
+				margin-bottom: 1.5%;
+				width: 55%;
+				img {
+					max-width: 80%;
+				}
+			}
+			-webkit-box-flex: 0 !important;
+			-ms-flex: none !important;
+			flex: none !important;
+			padding: 0% !important;
+			height: 96.1%;
+		}
+		background: rgba(0,0,0,.85);
+		.modal-dialog {
+			width: 84% !important;
+			max-width: 100%;
+		}
+		.modal-header {
+			top: 0;
+			.close {
+				margin-left: auto;
+			}
+		}
+		#optionsBlock {
+			left: 4%;
+			top: 10%;
+			pointer-events: none;
+			.leftBlock {
+				.blockContent {
+					img {
+						width: 92%;
+					}
+				}
+			}
+		}
+	}
+	.actionButtonOk {
+		text-align: center;
+		position: absolute;
+		bottom: 0;
+		margin-bottom: 1.5%;
+		width: 8%;
+		button {
+			background: transparent;
+			border: transparent;
+			padding: 0;
+		}
+	}
+	.confirm_modal_content {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		background-color: transparent;
+		background-clip: padding-box;
+		border: none;
+		border-radius: 0;
+		outline: 0;
+		width: 100%;
+		height: 100%;
+		box-shadow: none;
+	}
+	#confirmModal {
+		background: rgba(0,0,0,.85);
+		.modal-dialog {
+			width: 50% !important;
+			max-width: 100%;
+			height: 36%;
+			display: flex;
+			justify-content: center;
+		}
+		.modal-content {
+			height: auto;
+			min-width: auto;
+			min-height: auto;
+		}
+		.modal-body {
+			padding: 0;
+			margin: 0;
+			flex: 0 !important;
+			.msgImage {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin: 3% 0;
+				img {
+					width: 100% !important;
+					max-width: 100% !important;
+				}
+			}
+			.actionButtons {
+				text-align: center;
+				margin-bottom: 2%;
+				button {
+					border: none;
+					background: transparent;
+					padding: 0;
+					margin: 0;
+					width: 20%;
+				}
+				img {
+					width: 100%;
+				}
+			}
+		}
+		.modal-header {
+			top: 0;
+		}
+		.bodyText {
+			position: absolute;
+			top: 30%;
+			width: 100%;
+			img {
+				width: 85%;
+			}
+		}
+		.modal-title {
+			margin-left: 3%;
+		}
+		.close {
+			margin: 0 1.6% 0 auto;
+		}
+		.modal-footer {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0 15px;
+			border-top: none;
+			position: absolute;
+			width: 100%;
+			bottom: 16%;
+			button {
+				width: 13%;
+				border: none;
+				background: transparent;
+			}
+		}
+		.popupModelBody {
+			padding: 0;
+		}
+	}
+	.displayPopup {
+		display: -webkit-box !important;
+	}
+	.modal.show {
+		display: -webkit-box !important;
+	}
+	.modal-dialog {
+		max-width: 80%;
+		width: 43% !important;
+		height: auto;
+	}
+	.modal-content {
+		background: transparent !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 100%;
+		min-width: 450px;
+		min-height: 350px;
+	}
+	.modal-header {
+		padding: .5% !important;
+		height: 7vmin;
+		position: relative;
+		top: -12.8%;
+		width: 100%;
+		border-bottom: none !important;
+		margin-bottom: -1px;
+	}
+	.modal-title {
+		margin-left: 1.5%;
+		height: 80%;
+	}
+	.close {
+		width: auto;
+		height: 75%;
+		margin-right: 0%;
+		margin-top: -.1%;
+		-webkit-appearance: inherit !important;
+		cursor: pointer;
+		opacity: 1;
+	}
+	.modal-body {
+		padding: 2%;
+		border-top: none;
+		flex: auto !important;
+		img {
+			max-width: 77%;
+			max-width: 100%;
+		}
+	}
+	.adjustment {
+		max-width: 100% !important;
+		padding-top: 8%;
+	}
+	.modalBodyContent {
+		background: #afdec0;
+		margin: -1px;
+	}
+	.scaleInAnimation {
+		animation: scaleIn 0.5s linear;
+		transform: scale(1.2);
+	}
+	.scaleOutAnimation {
+		animation: scaleOut 0.5s linear;
+		transform: scale(1.0);
+	}
+	nav {
+		position: absolute;
+		bottom: 0;
+		margin: auto;
+		display: flex !important;
+		justify-content: center;
+		width: 100%;
+	}
+	.rightWrongAns {
+		bottom: 10%;
+		img {
+			width: 6%;
+		}
+	}
+	#showAnswer {
+		.modal-content {
+			height: 20%;
+			min-width: 200%;
+			margin-left: -51%;
+		}
+	}
+	.pointing {
+		cursor: pointer;
+	}
+}
+.eva14#container {
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	#optionsBlock {
+		position: absolute;
+		top: 14.5%;
+		width: 96%;
+		left: 2%;
+		height: 65%;
+	}
+	#navBlock {
+		position: absolute;
+		bottom: 0;
+		left: 0%;
+		width: 100%;
+		.navBase {
+			position: relative;
+			margin: auto;
+			width: 64%;
+		}
+		.prevBtn {
+			position: absolute;
+			top: 17%;
+			cursor: pointer;
+			left: 3.2%;
+			&:hover {
+				-webkit-animation-name: moveLeft;
+				-webkit-animation-duration: .3s;
+				animation-name: moveLeft;
+				animation-duration: .3s;
+				animation-iteration-count: infinite;
+			}
+		}
+		.nextBtn {
+			position: absolute;
+			top: 17%;
+			cursor: pointer;
+			right: 3.3%;
+			&:hover {
+				-webkit-animation-name: moveLeft;
+				-webkit-animation-duration: .3s;
+				animation-name: moveLeft;
+				animation-duration: .3s;
+				animation-iteration-count: infinite;
+				-webkit-animation-name: moveRight;
+				animation-name: moveRight;
+			}
+		}
+		.ansBtn {
+			position: absolute;
+			top: 17%;
+			cursor: pointer;
+			left: 22.8%;
+			width: 15.2%;
+		}
+		.quesBlock {
+			position: absolute;
+			top: 17%;
+			left: 38.1%;
+			width: 39%;
+			img {
+				cursor: pointer;
+			}
+		}
+	}
+	.speakerBlock {
+		width: 6%;
+		top: 75%;
+		right: .5%;
+		padding: 0;
+		z-index: 1;
+	}
+}
+html {
+	[type=button] {
+		-webkit-appearance: none;
+	}
+}
+@media (min-width: 1366px) {
+	.close {
+		height: 95%;
+		margin-right: .3%;
+	}
+}

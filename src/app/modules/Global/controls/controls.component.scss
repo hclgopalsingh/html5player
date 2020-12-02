@@ -1,0 +1,143 @@
+@import "~nouislider/distribute/nouislider.min.css";
+/*Volume Slider*/
+/*Video Slider and Tooltip*/
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+#slider {
+	.noUi-connects {
+		background: #bababa;
+	}
+}
+.volumeslider {
+	&::-webkit-slider-thumb {
+		height: 20px;
+		width: 20px;
+		border-radius: 50%;
+		background: #F90;
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: 0px;
+	}
+	cursor: pointer;
+	left: -30% !important;
+}
+.volumesliderDisable {
+	&::-webkit-slider-thumb {
+		height: 20px;
+		width: 20px;
+		border-radius: 50%;
+		background-color: rgba(192,192,192,192);
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: 0px;
+	}
+	cursor: pointer;
+	left: -30% !important;
+	cursor: default;
+}
+#controlsContainer {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	clear: both;
+	position: absolute;
+	height: 6.08%;
+	width: 100%;
+	z-index: 1200;
+	opacity: .9;
+	bottom: 0;
+	background: #000;
+}
+.slider.slider-horizontal {
+	.slider-track {
+		height: 8px !important;
+		margin-top: -4px !important;
+	}
+}
+.slider-handle {
+	top: -2px !important;
+	width: 25px !important;
+	height: 25px !important;
+}
+.slider {
+	.tooltip.top {
+		margin-top: -28px !important;
+	}
+}
+.tooltip.top {
+	.tooltip-arrow {
+		display: none !important;
+	}
+}
+.tooltip-inner {
+	padding: 0px 8px !important;
+	background-color: transparent !important;
+	font-size: 1.3rem !important;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.5s linear;
+}
+#autoPlayOnOffContainer {
+	width: 9.2% !important;
+	padding: 0 !important;
+	position: absolute;
+	right: 9%;
+}
+#volumeContainer {
+	position: absolute !important;
+	right: 2.5%;
+	cursor: pointer;
+}
+div#MuteVarTemp {
+	&::after {
+		content: '';
+		background: rgba(0, 0, 0,.7) !important;
+		border-radius: 3vmin;
+		height: 321%;
+		width: 100%;
+		position: absolute;
+		left: 1%;
+		bottom: -13%;
+		z-index: -1;
+		cursor: default;
+	}
+}
+.hideAutoplay {
+	visibility: hidden !important;
+	pointer-events: none;
+}
+@media (max-width: 954px) {
+	#autoPlayOnOffContainer {
+		label {
+			font-size: .7em !important;
+		}
+	}
+}
+@media (max-width: 800px) {
+	#autoPlayOnOffContainer {
+		label {
+			font-size: .5em !important;
+		}
+	}
+}
+@media (min-width: 576px) {
+	.col-sm-1 {
+		flex: none;
+	}
+}

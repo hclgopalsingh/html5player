@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-import { Base } from '../../../controller/base';
-import { SharedserviceService } from '../../../services/sharedservice.service';
+import { Component, OnInit, ViewChild, OnDestroy,AfterViewChecked, AfterViewInit } from '@angular/core';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+// import { Base } from '../../../controller/base';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,12 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
 	selector: 'app-template3',
 	templateUrl: './template3.component.html',
-	styleUrls: ['./template3.component.css']
+	styleUrls: ['./template3.component.scss']
 })
-export class Template3Component extends Base implements OnInit {
+export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, AfterViewInit {
 
 	constructor(private appModel: ApplicationmodelService, private ActivatedRoute: ActivatedRoute, private Sharedservice: SharedserviceService) {
-		super();
+		// super();
 		//subscribing common popup from shared service to get the updated event and values of speaker
         this.Sharedservice.showAnsRef.subscribe(showansref => {
             this.showAnswerRef = showansref;
@@ -61,7 +61,7 @@ export class Template3Component extends Base implements OnInit {
 	@ViewChild('fireworks') fireworks: any;
 	@ViewChild('ansBlock') ansBlock: any;
 	@ViewChild('helpbtn') helpbtn: any;
-	@ViewChild('sprite') sprite: any;
+	@ViewChild('sprite', {static: true}) sprite: any;
 	@ViewChild('speakerNormal') speakerNormal: any;
 	@ViewChild('disableSpeaker') disableSpeaker: any;
 	@ViewChild('navBlock') navBlock: any;
@@ -73,14 +73,14 @@ export class Template3Component extends Base implements OnInit {
 	@ViewChild('videoStage') videoStage: any;
 	@ViewChild('optionsBlock') optionsBlock: any;
 	@ViewChild('showAnswerfeedback') showAnswerfeedback: any;
-	@ViewChild('showAnswerRef') showAnswerRef: any;
+	@ViewChild('showAnswerRef', {static: true}) showAnswerRef: any;
 	@ViewChild('ansPopup') ansPopup: any;
 	@ViewChild('rightFeedback') rightFeedback: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
 	@ViewChild('speakerVolume') speakerVolume: any;
 	@ViewChild('videoStageonpopUp') videoStageonpopUp: any;
 	@ViewChild('showAnswerVO') showAnswerVO: any;
-	@ViewChild('videoonshowAnspopUp') videoonshowAnspopUp: any;
+	@ViewChild('videoonshowAnspopUp', {static: true}) videoonshowAnspopUp: any;
 	@ViewChild('overlay') overlay: any;
 	@ViewChild('optionRef') optionRef: any;
 
@@ -282,6 +282,7 @@ export class Template3Component extends Base implements OnInit {
 			setTimeout(() => {
 				if (this.rightFeedback && this.rightFeedback.nativeElement) {
 					this.clapSound.nativeElement.play();
+					this.appModel.storeVisitedTabs();
 					this.clapTimer=	setTimeout(() => {
 						this.clapSound.nativeElement.pause();
 						this.clapSound.nativeElement.currentTime = 0;
@@ -385,12 +386,12 @@ export class Template3Component extends Base implements OnInit {
 			randomIndex = Math.floor(Math.random() * currentIndex);
 			currentIndex -= 1;
 			var img_hover1 = array[currentIndex].imgsrc_hover;
-			var text1 = array[currentIndex].imgsrc_letter;
+			// var text1 = array[currentIndex].imgsrc_letter;
 			var text1copy = array[currentIndex].image_original;
 			var optionBg1 = array[currentIndex].image_original;
 
 			var img_hover2 = array[randomIndex].imgsrc_hover;
-			var text2 = array[randomIndex].imgsrc_letter;
+			// var text2 = array[randomIndex].imgsrc_letter;
 			var text2copy = array[randomIndex].image_original;
 			var optionBg2 = array[randomIndex].image_original;
 			// And swap it with the current element.
@@ -399,12 +400,12 @@ export class Template3Component extends Base implements OnInit {
 			array[randomIndex] = temporaryValue;
 
 			array[currentIndex].imgsrc_hover = img_hover1;
-			array[currentIndex].imgsrc_letter = text1;
+			// array[currentIndex].imgsrc_letter = text1;
 			array[currentIndex].image_original = text1copy;
 			array[currentIndex].imgsrc = optionBg1;
 
 			array[randomIndex].imgsrc_hover = img_hover2;
-			array[randomIndex].imgsrc_letter = text2;
+			// array[randomIndex].imgsrc_letter = text2;
 			array[randomIndex].image_original = text2copy;
 			array[randomIndex].imgsrc = optionBg2;
 
@@ -473,7 +474,6 @@ export class Template3Component extends Base implements OnInit {
 		this.Sharedservice.setLastQuesAageyBadheStatus(true); 
 		this.attemptType = "";
 		this.setTemplateType();
-		this.sprite.nativeElement.style = "display:none";
 		this.contentgFolderPath = this.basePath;
 		this.appModel.functionone(this.templatevolume, this);//start end
 
@@ -547,6 +547,10 @@ export class Template3Component extends Base implements OnInit {
 		}
 		this.templatevolume(this.appModel.volumeValue, this);
 	}
+
+	ngAfterViewInit() {
+        this.sprite.nativeElement.style = "display:none";
+    }
 
 	  //**Function to stop all sounds */
 	  stopAllSounds(clickStatus?) {

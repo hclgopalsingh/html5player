@@ -3,10 +3,7 @@
 		<div class="outerMostParent" #contentHolder id="contentHolder">
 			<img src="assets/images/watermark.svg" *ngIf="playerPreview" class="previewImg">
 			<quesCtrl [style.visibility]="(appModel.navShow==2 && !isTitleScreenActive) ? 'visible':'hidden'"></quesCtrl>
-
-			
-			<router-outlet></router-outlet>
-			
+			<router-outlet></router-outlet>			
 			<quesCtrl [style.visibility]="(EVA && !isTitleScreenActive && !isVideo) ? 'visible':'hidden'"></quesCtrl>
 			<controls class="bottomPlace" *ngIf="appModel.navShow==1 || appModel.navShow==2"></controls>
 		</div>
@@ -14,7 +11,7 @@
 			<loader-component class="loaderTest" id="loaderTestId"></loader-component>
 		</div>
 		<div [ngClass]="{'showAnimation container-fluid': animationAssts, 'hideAnimation container-fluid':animationAssts==undefined}">
-			<animation-component #animationRef [animationAssets]="animationAssts" [audioAssets]="audioSrc" (closeAnimationEvent)="postAnimationActs($event)"></animation-component>
+			<animation-component #animationRef [animationAssets]="animationAssts" [audioAssets]="audioSrc" (closeAnimationEvent)="postAnimationActs()"></animation-component>
 		</div>
 	</div>
 </checkIdol>
