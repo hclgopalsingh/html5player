@@ -61,29 +61,7 @@ button:focus {
   border:solid 0px transparent;
 }
 
-/* #playPauseBtn {
-  position: absolute;
-  top: 85%;
-  right: 16%;
-  cursor: pointer;
-  width: 1.5%;
-}
-#playPauseBtn img {
-  width: 200%;
-  filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
-}
 
-#SkipBtn{
-  position: absolute;
-  top: 83.7%;
-  right: -3.7%;
-  cursor: pointer;
-  width: 16%;
-}
-#SkipBtn img {
-  max-width: 70%;
-} */
 #playPauseBtn {
   position: absolute;
   top: 86%;
@@ -158,6 +136,10 @@ button:focus {
 	width: auto;
 	/* height: 100%; */
 }
+#optionsBlock .leftArrow,
+#optionsBlock .rightArrow{
+  cursor: pointer;
+}
 .leftArrow {
   position: absolute !important;
   left: 0;
@@ -230,19 +212,17 @@ button:focus {
 .quesTab img{
 	vertical-align: text-bottom;
 }
-#container #navBlock .prevBtn,
+/* #container #navBlock .prevBtn,
 #container #navBlock .nextBtn,
 #container #navBlock .ansBtn,
 #container .quesBlock img,
 .bodyContent .speaker img,
-#optionsBlock img,
-.optionsBlock img,
 #navBlock .prevBtn,
 #navBlock .nextBtn,
 #navBlock .submitBtn,
 .close {
 	cursor:pointer;
-}
+} */
 #container #navBlock .ansBtn{
   margin-left: .7%;
 	width: 3.5%;
@@ -546,16 +526,15 @@ button:focus {
 	width: 85%;
 }
 
-#confirmModal .modal-title {
+/* #confirmModal .modal-title {
 	margin-left: 3%;
-}
+} */
 
-#confirmModal .close {
-	/* width: 5%; */
+/* #confirmModal .close {
 	margin: 0 1.6% 0 auto;
-}
+} */
 
-#confirmModal .modal-footer {
+/* #confirmModal .modal-footer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -570,13 +549,13 @@ button:focus {
 	width: 13%;
 	border: none;
 	background: transparent;
-}
+} */
 
 #confirmModal .popupModelBody {
 	padding: 0;
 }
 
-.close {
+/* .close {
 	width: auto;
 	height: 75%;
   margin-right: .5%;
@@ -595,7 +574,7 @@ button:focus {
   color: #000;
   text-decoration: none;
   opacity: 1 !important;
-}
+} */
 /* Modal */
 
 /* .videoMainContainer{

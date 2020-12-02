@@ -31,7 +31,7 @@ import {
         animate('0.5s')
       ]),
       transition('closed => open', [
-        animate('0.5s')
+        animate('0s')
       ]),
     ]),
   ],
@@ -138,7 +138,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   rightanspopUpheader_img: boolean = false;
   showanspopUpheader_img: boolean = false;
   PlayPauseFlag: boolean = true;
-  instructionDisable: boolean = false;
+  instructionDisable: boolean = true;
   clickedIndex: any;
   optionPlaceholders: any;
   showAnswerFeedbackArr: any;
@@ -149,7 +149,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   displaymainPopup: boolean = false;
   showAnssetTimeout: any;
   bodyContentOpacity: boolean = false;
-  bodyContentDisable: boolean = false;
+  bodyContentDisable: boolean = true;
   instructionOpacity: boolean = false;
   rightAnsTimeout: any;
   popupTxtRequired: any;
@@ -268,6 +268,8 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   }
 
   ngOnDestroy() {
+    this.narrator.nativeElement.pause();
+		this.narrator.nativeElement.currentTime = 0;
     if (this.audio && !this.audio.paused) {
       this.audio.pause();
       this.audio.currentTime = 0;
@@ -338,6 +340,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   placeholderHover(idx, opt) {
     if (!opt.isAnswered) {
       opt.imgsrc = opt.imgsrc_hover;
+      this.placeholder.nativeElement.children[idx].style.cursor="pointer";
     }
   }
 
@@ -345,6 +348,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   placeholderLeave(idx, opt) {
     if (!opt.isAnswered) {
       opt.imgsrc = opt.imgsrc_original;
+      this.placeholder.nativeElement.children[idx].style.cursor="";
     }
   }
 
@@ -658,8 +662,6 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
-      this.bodyContentDisable = true;
-      this.instructionDisable = true;
       this.appModel.enableReplayBtn(false);
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
