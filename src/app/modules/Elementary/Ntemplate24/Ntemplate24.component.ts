@@ -541,6 +541,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
+    this.disableOpt=true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
@@ -569,6 +570,9 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.isPlayVideo = false;
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
+    setTimeout(()=>{
+      this.disableOpt=false;
+    },1000)
   }
 
   /* Toggle play and pause for video */
