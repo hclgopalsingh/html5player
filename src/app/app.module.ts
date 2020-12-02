@@ -51,7 +51,6 @@ import { Ntemplate12 } from './controller/Ntemplate12.component';
 import { Ntemplate16 } from './controller/Ntemplate16.component';
 import { Ntemplate23 } from './controller/Ntemplate23.component';
 import { Ntemplate15 } from './controller/Ntemplate15.component';
-import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 import { NtemplateMap } from './controller/NtemplateMap.component';
 import { EvaModule } from './modules/EVA/eva.module';
@@ -97,7 +96,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		Ntemplate16,
 		Ntemplate23,
 		Ntemplate15,
-		Ntemplate22,
 		Ntemplate14,
 		NTitleComponent,
 		QuesController,

@@ -45,7 +45,7 @@ import { Ntemplate12 } from '../controller/Ntemplate12.component';
 import { Ntemplate16 } from '../controller/Ntemplate16.component';
 import { Ntemplate23 } from '../controller/Ntemplate23.component';
 import { Ntemplate15 } from '../controller/Ntemplate15.component';
-import { Ntemplate22 } from '../controller/Ntemplate22.component';
+import { Ntemplate22 } from '../modules/Elementary/Ntemplate22/Ntemplate22.component';
 import { Ntemplate14 } from '../controller/Ntemplate14.component';
 
 import {Template15Component } from '../modules/EVA/template15/template15.component';

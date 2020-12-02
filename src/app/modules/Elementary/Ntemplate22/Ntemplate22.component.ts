@@ -1,23 +1,25 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
-import { HttphandlerService } from '../model/httphandler.service';
+import { HttphandlerService } from '../../../model/httphandler.service';
+import { ThemeConstants } from '../../../common/themeconstants';
+import { SharedserviceService } from '../../../services/sharedservice.service';
 
 
 declare var $: any;
 
 @Component({
   selector: 'Ntemplate22',
-  templateUrl: '../view/layout/Ntemplate22.component.html',
-  styleUrls: ['../view/css/Ntemplate22.component.css', '../view/css/bootstrap.min.css'],
+  templateUrl: './Ntemplate22.component.html',
+  styleUrls: ['./Ntemplate22.component.css', '../../../view/css/bootstrap.min.css'],
   encapsulation: ViewEncapsulation.None
 })
 
 export class Ntemplate22 implements OnInit {
   private appModel: ApplicationmodelService;
   private httpHandler: HttphandlerService;
-  constructor(appModel: ApplicationmodelService, httpHandler: HttphandlerService) {
+  constructor(appModel: ApplicationmodelService, httpHandler: HttphandlerService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.httpHandler = httpHandler;
     this.assetsPath = this.appModel.assetsfolderpath;
@@ -139,7 +141,10 @@ export class Ntemplate22 implements OnInit {
   filterData:any;
   filterObj:any;
   QueScenarioData:any;
-
+  fetchedcontent: any;
+  functionalityType: any;
+  themePath: any;
+  showAnsTimeout: any;
   playHoverInstruction() {
    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
@@ -318,7 +323,24 @@ export class Ntemplate22 implements OnInit {
   ngOnInit() {
 	  //this.groupArray = [];
     //this.duplicateGroupArray = [];
-	  //this.QuesRef.nativeElement.style.opacity = 0;
+    //this.QuesRef.nativeElement.style.opacity = 0;
+    
+    this.containgFolderPath = this.getBasePath();
+    ////this.appModel.functionone(this.templatevolume, this);
+    ////this.appModel.functionone(this.templatevolume, this);//start end
+    //getting path
+    this.containgFolderPath = this.getBasePath();
+    let fetchedData: any = this.appModel.content.contentData.data;
+    this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
+    this.functionalityType = this.appModel.content.contentLogic.functionalityType;
+    this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
+    this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, this.functionalityType);
+    this.appModel.globalJsonData.subscribe(data => {
+      this.showAnsTimeout = data.showAnsTimeout;
+    });
+    this.checkquesTab();
+
+
     this.setData();
     
     if (this.appModel.isNewCollection) {
@@ -421,7 +443,13 @@ export class Ntemplate22 implements OnInit {
     this.appModel.resetBlinkingTimer();
 
   }
-
+ checkquesTab() {
+    if (this.fetchedcontent.commonassets.ques_control != undefined) {
+      this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+    } else {
+      this.appModel.getJson();
+    }
+  }
   getJson(){
     this.httpHandler.get("./assets/Holiday/holiday_data.json" , this.holiday_json.bind(this), this.holiday_json_error.bind(this));
   }
@@ -913,21 +941,21 @@ export class Ntemplate22 implements OnInit {
   setData() {
     this.appModel.enableSubmitBtn(false);
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-      let fetchedData: any = this.appModel.content.contentData.data;
-      console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
-      this.commonAssets = fetchedData.commonassets;
-      let monthsArr = fetchedData.monthsArr;
+     // let fetchedData: any = this.appModel.content.contentData.data;
+      console.log(this.fetchedcontent);
+      this.feedback = this.fetchedcontent.feedback;
+      this.commonAssets = this.fetchedcontent.commonassets;
+      let monthsArr = this.fetchedcontent.monthsArr;
       this.monthsArr = JSON.parse(JSON.stringify(monthsArr));
-      let ArrweekDays = fetchedData.ArrweekDays;
+      let ArrweekDays = this.fetchedcontent.ArrweekDays;
       this.ArrweekDays=JSON.parse(JSON.stringify(ArrweekDays));
-      let Arryears = fetchedData.Arryears;
+      let Arryears = this.fetchedcontent.Arryears;
       this.Arryears = JSON.parse(JSON.stringify(Arryears));
-      let datesArr = fetchedData.datesArr;
+      let datesArr = this.fetchedcontent.datesArr;
       this.datesArr = JSON.parse(JSON.stringify(datesArr));
-      this.narratorAudio = fetchedData.commonassets.narrator;
-      this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
-      this.ques_control = fetchedData.commonassets.ques_control;
+      this.narratorAudio = this.fetchedcontent.commonassets.narrator;
+     //// this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
+      this.ques_control = this.fetchedcontent.commonassets.ques_control;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
@@ -935,9 +963,9 @@ export class Ntemplate22 implements OnInit {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      this.feedbackObj = fetchedData.feedback;
-      this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.quesObj = fetchedData.quesObj[0];
+      this.feedbackObj = this.fetchedcontent.feedback;
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.quesObj = this.fetchedcontent.quesObj[0];
       this.yearSelected= this.quesObj.yearSelected;
       this.monthSelected = this.quesObj.monthSelected;
       this.dateSelected = this.quesObj.dateSelected;
@@ -947,7 +975,7 @@ export class Ntemplate22 implements OnInit {
       if(this.quesObj.yearAdjustment){
       this.setCorrectAnswer();
       }
-      this.confirmSubmitAssets = fetchedData.submit_confirm;
+      this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
       this.quesAudio = this.commonAssets.QuestionAudio;
       this.CorrectAudio = this.commonAssets.CorrectAudio;
       this.WrongAudio = this.commonAssets.WrongAudio;
@@ -1125,7 +1153,7 @@ export class Ntemplate22 implements OnInit {
     if(this.isCorrectMonth && this.isCorrectYear && this.isCorrectweekDay && this.isCorrectDate) {
       //fully correct
       this.checked = true;
-      this.feedbackPopupAudio.nativeElement.src= this.commonAssets.CorrectAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.CorrectAudio.url : this.assetsPath +"/"+ this.commonAssets.CorrectAudio.url;
+      this.feedbackPopupAudio.nativeElement.src= this.commonAssets.CorrectAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended=()=> {
@@ -1140,7 +1168,7 @@ export class Ntemplate22 implements OnInit {
       }
     } else  {
       //fully incorrect
-      this.feedbackPopupAudio.nativeElement.src= this.commonAssets.WrongAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.WrongAudio.url : this.assetsPath +"/"+ this.commonAssets.WrongAudio.url;
+      this.feedbackPopupAudio.nativeElement.src= this.commonAssets.WrongAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended=()=> {
