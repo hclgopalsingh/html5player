@@ -4,7 +4,7 @@
 		 (load)="checkImgLoaded();" />
 	</div>
 	<div class="d-flex flex-row justify-content-around instructionBar" #instructionBar id="instructionBar">
-		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable && isSecondScreen}" >
+		<div class="instructionBase" [ngClass]="{'disable_div':instructionDisable || isSecondScreen}" >
 			<img class="img-fluid" [src]="commonAssets?.instruction_img?.url"
 			 (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 			<audio #instruction [src]="commonAssets?.instruction_vo?.url"></audio>
@@ -138,8 +138,9 @@
 			</div>
 		</div>
 
+		<span (mousemove)="hoverquesArea()">
 		<div class="quesContainer d-flex flex-row justify-content-center align-items-center" #quesContainer>
-			<div class="refQues">
+			<div class="refQues" #refques>
 				<!-- [ngStyle]="quesObj?.bgColor"-->
 				<!--<img class="img-fluid fadeOut" [src]="quesObj?.quesImg?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImg?.url : quesObj?.quesImg?.url">-->
 
@@ -161,7 +162,7 @@
 					</ng-template>
 
 					<ng-template [ngIf]="_questionAreaAudioFlag">
-						<div class="audio-container" (click)="questionAudioPlay();" [ngClass]="{'disable_div':speakerdisable}">
+						<div class="audio-container" (click)="questionAudioPlay();">
 						<img class="img-fluid" [src]="_questionAreaAudio?.bgImg?.url"  (load)="checkImgLoaded();">
 						<img class="img-fluid refQuesImg" [src]="_questionAreaAudio?.speaker?.url" (load)="checkImgLoaded();">
 						<div *ngIf="displayWave" class="waveAnimation">
@@ -266,8 +267,8 @@
 					<div class="hg-button hg-standardBtn" (click)="operatorClick('÷')">
 						<span>÷</span>
 					</div>
-					<div class="hg-button hg-standardBtn" (click)="numberClick('⋅')">
-						<span>⋅</span>
+					<div class="hg-button hg-standardBtn" (click)="numberClick('.')">
+						<span>.</span>
 					</div>
 					<div class="hg-button hg-standardBtn" (click)="operatorClick('<')">
 						<span>&lt;</span>
@@ -295,6 +296,7 @@
 				 (mouseleave)="addBtnLeave()" />
 			</div>
 		</div>
+		</span>
 		<div class="row mx-0 d-flex justify-content-around" id="optionsBlock" #optionsBlock>
 			<div class="refBase">
 				<img class="img-fluid" [src]="refBase?.url" (load)="checkImgLoaded();"/>

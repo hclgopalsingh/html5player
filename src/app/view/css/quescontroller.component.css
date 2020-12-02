@@ -245,3 +245,7 @@
 	opacity: 0.5;
 	pointer-events: none;
 }
+#ele_replayBtn,
+#ele_ansBtn{
+	cursor: auto !important;
+}

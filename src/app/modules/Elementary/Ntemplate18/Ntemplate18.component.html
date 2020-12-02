@@ -2,7 +2,7 @@
   <audio #narrator [src]="quesInfo?.narrator?.url"></audio>
 
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
-  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" #instructionBarTop>
+  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" [ngClass]="{'disable_div':disableinstructionBar}" #instructionBarTop>
     <div class="instructionBase" [ngClass]="{'disable_div':disableSection}"
       [ngStyle]="{'cursor': disableSection ? 'default' : 'pointer' }">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
@@ -17,8 +17,7 @@
         <img [src]="refQues?.imgsrc?.url"
           [@openClose]="{value: refQues.isOpen ? 'open' : 'closed', params: {leftPos: refQues.leftPos , topPos: refQues.topPos}}"
           (load)="checkImgLoaded();">
-
-      </div>
+          </div>
     </div>
     <!-- Below class row has been removed due to issue in allignment  -->
     <div class="mx-0" id="optionsBlock" #optionsBlock [ngClass]="{'disable_div':disableoptionsBlock}">
@@ -82,8 +81,8 @@
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoveronSubmitConfirm()"
-              (mouseleave)="houtonSubmitConfirm()"><img class="img-fluid"
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverConfirm()"
+            (mouseleave)="houtConfirm()"><img class="img-fluid"
                 [src]="confirmPopupAssets?.confirm_btn?.url"></button>
             <button type="button" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverDecline()"
               (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
@@ -99,7 +98,7 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
           <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
-          <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
             (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
@@ -120,8 +119,8 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
           <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
-          <img class="close" [src]="replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
-            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
+          (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="replayconfirmAssets?.confirm_text?.url"></div>
@@ -193,7 +192,7 @@
     <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
   </video>
 
-  <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()" /></div>
+  <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
 

@@ -37,14 +37,12 @@ import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
 import { Ntemplate23_1 } from './controller/Ntemplate23_1.component';
 import { Ntemplate19 } from './controller/Ntemplate19.component';
-import { Ntemplate24 } from './controller/Ntemplate24.component';
 import { Ntemplate21 } from './controller/Ntemplate21.component';
 import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
 import { InactivityTimerComponent } from './controller/inactivity-timer-component'
 import { Ntemplate10 } from './modules/Elementary/Ntemplate10/Ntemplate10.component';
-import { Ntemplate11 } from './controller/Ntemplate11.component';
 import { Ntemplate17Component } from './modules/Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
 import { Ntemplate12 } from './controller/Ntemplate12.component';
@@ -88,11 +86,9 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		LoaderComponent,
 		Phase3T01V01,
 		Ntemplate23_1,
-		Ntemplate24,
 		Ntemplate19,
 		Ntemplate21,
 		Ntemplate10,
-		Ntemplate11,
 		Ntemplate12,
 		Ntemplate16,
 		Ntemplate23,
