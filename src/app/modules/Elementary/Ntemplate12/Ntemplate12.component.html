@@ -1,17 +1,17 @@
 <div #container class="container-fluid temp9" id="container" *ngIf="!showIntroScreen">
 	<audio #narrator_voice
-		[src]="question?.narrator_voice?.location=='content' ? assetspath + '/' +question?.narrator_voice.url: assetsfolderlocation + '/'+ question?.narrator_voice.url"
+		[src]="question?.narrator_voice.url"
 		autoplay="autoplay" autoplay="autoplay"></audio>
 
 		<audio #narrator
-		[src]="commonAssets?.narrator?.location=='content' ? containgFolderPath + '/' + commonAssets?.narrator?.url:quesInfo?.narrator?.url"></audio>
+		[src]="quesInfo?.narrator?.url"></audio>
 
 	<audio #buzzerSound
-		[src]="feedback?.wrong_ans_sound?.path?.location=='content' ? assetspath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+		[src]="feedback?.wrong_ans_sound?.path?.url"></audio>
 	<audio #feedbackVoRef></audio>
 
 	<div id="bgImage"><img
-			[src]="commonassets?.background?.location=='content' ? assetspath + '/' +commonassets?.background?.url: assetsfolderlocation + '/'+ commonassets?.background?.url"
+			[src]="commonassets?.background?.url"
 			(load)="checkImgLoaded();" /></div>
 
 	<div #maincontent>
@@ -19,10 +19,10 @@
 		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
 				<div class="instructionBase">
 					<img class="img-fluid"
-						[src]="commonassets?.instruction_bg?.location=='content' ? assetspath + '/' + commonassets?.instruction_bg?.url : commonassets?.instruction_bg?.url"
+						[src]="commonassets?.instruction_bg?.url"
 						(click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 					<audio #instruction
-						[src]="commonassets?.instruction?.location=='content' ? assetspath + '/' + commonassets?.instruction?.url:quesInfo?.instruction?.url"></audio>
+						[src]="quesInfo?.instruction?.url"></audio>
 				</div>
 		</div>
 
@@ -30,11 +30,11 @@
 		<div class="d-flex flex-row justify-content-around" id="answerBlock" #answerBlock>
 			<div class="ansBase">
 				<img class="img-fluid"
-					[src]="commonassets?.quesBase?.location=='content' ? assetspath + '/'+ commonassets?.quesBase?.url: assetsfolderlocation + '/'+ commonassets?.quesBase?.url"
+					[src]="commonassets?.quesBase?.url"
 					(load)="checkImgLoaded();">
 
 				<img #ans class="img-fluid quesText"
-					[src]="question?.img_sentence?.location=='content' ? assetspath + '/' +question?.img_sentence.url: assetsfolderlocation + '/'+ question?.img_sentence.url"
+					[src]="question?.img_sentence.url"
 					(load)="checkImgLoaded();">
 					<img *ngIf = "!ansShow" class="img-fluid" 
 					[src]="myoption[itemid]?.imgsrc?.location=='content' ?assetspath + '/' +myoption[itemid]?.imgsrc?.url: assetsfolderlocation + '/'+ myoption[itemid]?.imgsrc?.url" style="visibility:hidden" [ngStyle]='question.ansclass' >
