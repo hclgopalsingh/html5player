@@ -633,9 +633,16 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   postWrongAttempt() {
+    this.disableoptionsBlock = true;
     this.resetAttempt();
     this.appModel.notifyUserAction();
     this.appModel.enableSubmitBtn(false)
+    setTimeout(() => {
+      this.disableoptionsBlock = false;
+      
+    }, 1000);
+    
+
   }
 
   //this function checks all images has been loaded on screen
