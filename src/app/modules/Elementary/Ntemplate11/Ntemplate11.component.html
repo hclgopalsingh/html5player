@@ -1,10 +1,10 @@
-<div #container class="container-fluid ele temp11" id="container" *ngIf="!showIntroScreen && !isPlayVideo">
+<div #container class="container-fluid ele" id="container" *ngIf="!showIntroScreen && !isPlayVideo">
 	<audio #narrator [src]="commonAssets?.narrator?.url"></audio>
 
 	<div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.url" (load)="checkImgLoaded();" /></div>
 	<div #maincontent>
-		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" style="cursor: pointer;">
-			<div class="instructionBase"  #instructionBar></div>
+		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+			<div class="instructionBase" #instructionBar>
 				<img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
 					(load)="checkImgLoaded();" />
 				<audio #instruction [src]="commonAssets?.quesInstruction?.url"></audio>
@@ -38,15 +38,15 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<!-- Modal Header -->
-			<div class="modal-header" [ngStyle]="feedbackPopup?.style_header">
-				<img class="modal-title" [src]="feedbackPopup?.headerTxt_img?.url">
-				<img class="close" [src]="feedbackPopup?.close_btn?.url" (click)="sendFeedback(feedbackModalRef,'no');"
+			<div class="modal-header" [ngStyle]="rightPopup?.style_header">
+				<img class="modal-title" [src]="rightPopup?.headerTxt_img?.url">
+				<img class="close" [src]="rightPopup?.close_btn?.url" (click)="sendFeedback(feedbackModalRef,'no');"
 					(mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
 			</div>
 
 			<!-- Modal body -->
 
-			<div class="modal-body d-flex align-items-center" [ngStyle]="feedbackPopup?.style_body">
+			<div class="modal-body d-flex align-items-center" [ngStyle]="rightPopup?.style_body">
 				<img class="img-fluid quesText" [src]="question?.img_sentence?.url">
 				<img class="img-fluid ansText" [src]="feedback?.write_ans_popup?.image?.url">
 				<!-- content -->
@@ -104,7 +104,7 @@
 		<div class="modal-content" #modalRef>
 			<div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
 				<img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
-				<img class="close" [src]="replayconfirmAssets?.close_btn?.url"
+				<img class="close" [src]="confirmPopupAssets?.close_btn?.url"
 					(click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoverCloseConfirm()"
 					(mouseleave)="houtCloseConfirm()">
 			</div>

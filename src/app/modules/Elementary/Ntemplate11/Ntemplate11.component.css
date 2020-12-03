@@ -15,7 +15,10 @@
 	width: 100%;
 	left: 0%;
 }
-#container #optBlock {top: 52%;}
+#container #optBlock {
+  /* top: 52%; */
+  top: 51%;
+}
 #container #ansBlock {
     width: 93%;
 }
@@ -407,8 +410,7 @@
 	  margin-left: 3%;
 	}
 
-	#confirmModal .close {
-	  /* width: 5%; */
+	/* #confirmModal .close {
 	  margin: 0 1.6% 0 auto;
 	}
 
@@ -431,7 +433,7 @@
 
 	#confirmModal .popupModelBody {
 	  padding: 0;
-	}
+	} */
 
   .displayPopup {
     display: -webkit-box !important;
@@ -837,7 +839,7 @@
 }
 .modal-header{
 	padding: .5%;
-	height: 7vmin;/*56px;*/
+	height: 7vmin;
   position: relative;
   top: 0;
   width: 100%;
@@ -916,7 +918,8 @@
 
   #instructionBar .instructionBase {
 	width: 50%;
-	position: relative;
+  position: relative;
+  cursor: pointer;
   }
 
   .instructionBase .instructionText {
