@@ -733,6 +733,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.enableSubmitBtn(false);
       this.disableBody = true;
       this.narrator.nativeElement.play();
+      this.disableoptions = true;
       this.appModel.enableReplayBtn(false);
       this.disableSection = true;
       this.narrator.nativeElement.onended = () => {
@@ -743,6 +744,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
+         setTimeout(() => {
+          this.disableoptions = false;
+         }, 500)
       }
     } else {
       this.startActivity();
@@ -1434,7 +1438,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.notifyUserAction();
     if (flag == "yes") {
       if (action == "replay") {
-        this.appModel.videoStraming(true);
+          this.appModel.videoStraming(true);
         this.replayVideo();
       }
     } else if (flag == "no") {
@@ -1469,6 +1473,12 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.isPlayVideo = false;
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
+        this.disableoptions = true;
+        this.disableinstructionBar = true;
+        setTimeout(() => {
+        this.disableoptions = false;
+        this.disableinstructionBar = false;
+      }, 500)
       }
     }, 500)
   }
