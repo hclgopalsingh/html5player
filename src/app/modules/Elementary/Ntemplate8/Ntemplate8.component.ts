@@ -887,7 +887,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.mainVideo.nativeElement.onended = () => {
 				this.endedVideoHandler();
 			}
-		}, 500)
+		}, 10)
 	}
 	endedVideoHandler(){
 		this.appModel.enableSubmitBtn(true);
