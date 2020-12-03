@@ -930,7 +930,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 */
 	checkAnswer(teamName, opt, index) {
 		console.log(this.appModel.getLiveScoreObj());
-		this.disableReplayBtn = true;
+		// this.disableReplayBtn = true;
 		if (this.audio && !this.audio.paused) {
 			this.audio.pause();
 			this.audio.currentTime = 0;
@@ -1017,7 +1017,7 @@ export class Ntemplate8 implements OnInit, AfterViewChecked, OnDestroy {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instructionDisable = false;
 		}		
-		this.disableReplayBtn = true;
+		// this.disableReplayBtn = true;
 		ref.src = this.otherAssets.pass_btn_red.url;
 		ref.classList.add("disableDiv");
 		if (teamName == "teamup") {
