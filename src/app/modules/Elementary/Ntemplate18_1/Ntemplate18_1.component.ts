@@ -1485,7 +1485,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
         this.disableoptions = false;
         this.disableinstructionBar = false;
-      }, 500)
+      }, 1000)
       }
     }, 500)
   }
