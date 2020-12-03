@@ -384,7 +384,7 @@ export class Ntemplate22 implements OnInit {
       this.popupRef.nativeElement.classList="displayPopup modal";
 		  //this.grayOverTimer();
 		  //this.showAnswer();		 
-      this.feedbackPopupAudio.nativeElement.src=this.commonAssets.showAnsAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.showAnsAudio.url : this.assetsPath +"/"+ this.commonAssets.showAnsAudio.url;
+      this.feedbackPopupAudio.nativeElement.src= this.commonAssets.showAnsAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
@@ -498,7 +498,7 @@ export class Ntemplate22 implements OnInit {
 
   checkforQVO(){
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-			this.narrator.nativeElement.src = this.quesObj.quesInstruction.location=="content" ? this.containgFolderPath+ "/" + this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36):this.assetsPath + "/" + this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
+			this.narrator.nativeElement.src = this.quesObj.quesInstruction.url+"?someRandomSeed="+ Math.random().toString(36);
       //this.appModel.handlePostVOActivity(true);
       let instruction: HTMLElement = document.getElementsByClassName("instructionBase")[0] as HTMLElement;
       instruction.style.pointerEvents="none"
@@ -567,7 +567,7 @@ export class Ntemplate22 implements OnInit {
         this.instruction.nativeElement.pause();
       }
       if(!this.datesArr[ev.target.id].selected) {
-      ev.target.src = this.datesArr[ev.target.id].hoverdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[ev.target.id].hoverdateImg.url : this.assetsPath +"/"+ this.datesArr[ev.target.id].hoverdateImg.url;
+      ev.target.src = this.datesArr[ev.target.id].hoverdateImg.url;
       }
     }
   }
@@ -576,7 +576,7 @@ export class Ntemplate22 implements OnInit {
     if(ev != undefined && ev.target.id!="") {
       this.appModel.notifyUserAction();
       if(!this.datesArr[ev.target.id].selected) {
-      ev.target.src = this.datesArr[ev.target.id].dateOriginalImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[ev.target.id].dateOriginalImg.url : this.assetsPath +"/"+ this.datesArr[ev.target.id].dateOriginalImg.url;
+      ev.target.src =  this.datesArr[ev.target.id].dateOriginalImg.url;
       }
     }
   }
@@ -715,13 +715,13 @@ export class Ntemplate22 implements OnInit {
         let previousItem=this.datesArr.filter((item) => item.selected == true)[0];
         previousItem.selected = false;
         if(this.previousItemevent!=undefined) {
-          this.previousItemevent.src = previousItem.dateImg.location=="content" ? this.containgFolderPath +"/"+ previousItem.dateImg.url : this.assetsPath +"/"+ previousItem.dateImg.url;
+          this.previousItemevent.src = previousItem.dateImg.url;
           this.previousItemevent.style.pointerEvents="";
         }
         //previousItem.dateImg = previousItem.dateOriginalImg;
       }
       //itemDate.dateImg = itemDate.selecteddateImg;
-      item.target.src = itemDate.selecteddateImg.location=="content" ? this.containgFolderPath +"/"+ itemDate.selecteddateImg.url : this.assetsPath +"/"+ itemDate.selecteddateImg.url;
+      item.target.src = itemDate.selecteddateImg.url;
       this.previousItemevent = item.target;
       item.target.style.pointerEvents = "none";
       itemDate.selected = true;
@@ -873,21 +873,21 @@ export class Ntemplate22 implements OnInit {
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         if(i+1 == this.clickedID && this.clickedID == this.feedbackObj.correct_date) {
            if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
-            this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
+            this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.url;
            }
            else {
-             this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
+             this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.url;
            }
           this.startIndex++;
           continue;
         } else {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
         }
         if(i == this.clickedID-1 && this.clickedID != this.feedbackObj.correct_date) {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.url;
         } else {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
         }
         this.startIndex++;
       }
@@ -904,11 +904,11 @@ export class Ntemplate22 implements OnInit {
         }
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
         if(i+1 == this.feedbackObj.correct_date) {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].rightdateImg.url : this.assetsPath +"/"+ this.datesArr[i].rightdateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.url;
           //this.startIndex++;
           //continue;
         } else {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
           //this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].wrongdateImg.url : this.assetsPath +"/"+ this.datesArr[i].wrongdateImg.url;
         }
         this.startIndex++;
@@ -932,7 +932,7 @@ export class Ntemplate22 implements OnInit {
         if(this.datesArr[i].disable) {
           this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
-          this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.location=="content" ? this.containgFolderPath +"/"+ this.datesArr[i].dateImg.url : this.assetsPath +"/"+ this.datesArr[i].dateImg.url;
+          this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
         this.startIndex++;
       }
     }
@@ -1295,7 +1295,7 @@ export class Ntemplate22 implements OnInit {
         this.styleBodyPopup = this.feedbackObj.style_body;
       this.popupRef.nativeElement.classList="displayPopup modal";
       this.appModel.notifyUserAction();
-      this.feedbackPopupAudio.nativeElement.src=this.commonAssets.showAnsAudio.location=="content" ? this.containgFolderPath +"/"+ this.commonAssets.showAnsAudio.url : this.assetsPath +"/"+ this.commonAssets.showAnsAudio.url;
+      this.feedbackPopupAudio.nativeElement.src= this.commonAssets.showAnsAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
