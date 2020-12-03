@@ -84,7 +84,7 @@
             <img class="img-fluid" [src]="questionObj?.quesImg?.imgsrc?.url">
             <audio #quesVORef [src]="questionObj?.quesImg?.quesAudio?.url" (ended)="audioEnded()"></audio>
           </div>
-          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" style="max-width: 100%"
+          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" 
             [poster]="questionObj?.videoPoster?.url">
             <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
           </video>
