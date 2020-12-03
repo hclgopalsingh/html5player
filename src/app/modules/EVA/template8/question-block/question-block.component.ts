@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { QuestionBlockVO } from 'projects/shiksha-player/src/app/common/services/eva/template8/questionblockVO';
-import { Constants } from 'projects/shiksha-player/src/app/common/services/eva/template8/constants';
+import { QuestionBlockVO } from '../../../../common/services/eva/template8/questionblockVO';
+import { Constants } from '../../../../common/services/eva/template8/constants';
 
 
 @Component({
