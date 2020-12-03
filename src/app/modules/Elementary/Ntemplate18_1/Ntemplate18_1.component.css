@@ -704,7 +704,7 @@ button:focus {
 }
 
  
-
+/* 
 .close {
   width: auto;
   height: 75%;
@@ -713,7 +713,7 @@ button:focus {
   -webkit-appearance: inherit !important;
   cursor: pointer;
   opacity: 1;
-}
+} */
 
 @media (min-width: 1366px) {
   .close {
