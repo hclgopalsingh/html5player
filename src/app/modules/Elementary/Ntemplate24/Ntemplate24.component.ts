@@ -294,6 +294,9 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(()=>{
           this.disableOpt=false;
         },1000)
+        if(this.optionObjCopy.optionArray[0]){
+          this.selectOpt(0,this.optionObjCopy.optionArray[0])
+        }
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
       }
