@@ -958,7 +958,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.disableoptionsBlock = true;
       setTimeout(() => {
         this.disableoptionsBlock = false;
-      }, 1000);
+      }, 500);
     }
     if (flag == "yes") {
       if (this.countofAnimation != this.originalArray.length) {
@@ -992,7 +992,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       setTimeout(() => {
         this.disableoptionsBlock = false;
         this.disableinstructionBar = false;
-      }, 1000);
+      }, 500);
   }
 
   //with the use of set feedback function we assign all the images in popup according to submit option we assign header image in popup 
@@ -1444,7 +1444,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       setTimeout(() => {
         this.disableinstructionBar = false;
         this.disableoptionsBlock = false;
-      }, 1000);
+      }, 500);
       this.appModel.notifyUserAction();
       this.disableSection = false;
     }
@@ -1499,7 +1499,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
         this.disableoptions = false;
         this.disableinstructionBar = false;
-      }, 1000)
+      }, 500)
       }
     }, 500)
   }
