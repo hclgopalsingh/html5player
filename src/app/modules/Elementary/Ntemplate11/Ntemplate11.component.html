@@ -13,7 +13,7 @@
 		<div class="d-flex align-items-center justify-content-around" id="optBlock">
 			<div #ansBlock class="d-flex flex-row justify-content-around pointer " id="ansBlock">
 				<div class="options" *ngFor="let opts of myoption;let idx = index"
-					(click)="checkAnswer(opts,$event, idx)">
+					(click)="checkAnswer(opts,$event, idx)" >
 					<img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
 						(load)="checkImgLoaded();">
 					<img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid zclass"
@@ -24,7 +24,7 @@
 		</div>
 		<div class="d-flex flex-row justify-content-around" id="answerBlock">
 			<div class="ansBase" id="ansArrangeBlock" #ansArrangeBlock>
-				<img class="img-fluid" [src]="common_assets?.quesBasetemp?.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="common_assets?.quesBasetemp?.url" style="visibility: hidden;" (load)="checkImgLoaded();">
 				<img class="img-fluid quesText" [src]="question?.img_sentence?.url" (load)="checkImgLoaded();">
 				<img [ngClass]="{'wrongImageStyle': isAnsWrong}" #ans class="img-fluid" [ngStyle]='question.ansclass'
 					[src]="assetspath + '/' + correct_ans_url" style="visibility: hidden;">

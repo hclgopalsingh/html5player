@@ -1107,7 +1107,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       setTimeout(() => {
         // $("#instructionBar").removeClass("disable_div");
         this.instructionBar.nativeElement.classList = "instructionBase";
-        $("#optionsBlock .options").removeClass("disable_div");
+        // $("#optionsBlock .options").removeClass("disable_div");
       }, 1000);
     }
   }
@@ -1116,7 +1116,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
-    $("#optionsBlock .options").addClass("disable_div");
+    // $("#optionsBlock .options").addClass("disable_div");
     // $(".instructionBase").addClass("disable_div");
     this.instructionBar.nativeElement.classList = "instructionBase disable_div";
     this.appModel.navShow = 1;
