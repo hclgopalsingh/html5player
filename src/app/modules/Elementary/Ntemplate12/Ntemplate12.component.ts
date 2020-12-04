@@ -83,7 +83,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 	speaker: any = "";
 	myoption: any = [];
 	question: any = "";
-	questionn: any = "";
+	// questionn: any = "";
 	feedback: any = "";
 	answers: any = "";
 	optionBlank: any = "";
@@ -118,7 +118,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 	controlHandler = {
 		isTab:true,
 		isSubmitRequired: false,
-		isReplayRequired: true
+		isReplayRequired: false
 	 };
 	  /*Start: Theme Implementation(Template Changes)*/
 	  
@@ -218,6 +218,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 			this.postWrongAttemplt();
 		});
 		this.appModel.resetBlinkingTimer();
+		this.appModel.handleController(this.controlHandler);
 	}
 	ngAfterViewChecked() {
 		if (this.titleAudio && this.titleAudio.nativeElement) {
@@ -237,18 +238,18 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 			this.commonassets = this.fetchedcontent.commonassets;
 			this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options));
 			console.log("myoption : " + this.myoption);
-			this.questionn = this.fetchedcontent.quess;
+			// this.questionn = this.fetchedcontent.quess;
 			this.question = this.fetchedcontent.ques;
 			this.feedback = this.fetchedcontent.feedback;
 			this.answers = this.fetchedcontent.answers;
 			this.optionBlank = this.fetchedcontent.optionsBlank;
-			this.isFirstQues = this.fetchedcontent.isFirstQues;
+			this.isFirstQues = this.commonassets.isFirstQues;
+			this.noOfImgs = this.commonassets.imgCount;
 			this.isLastQues = this.appModel.isLastSection;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			this.quesObj = this.fetchedcontent.quesObj;
 			//this.isAutoplayOn = this.appModel.autoPlay;
 			this.feedbackObj = this.fetchedcontent.feedback;
-			this.noOfImgs = this.fetchedcontent.imgCount;
 			this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
 			if (this.fetchedcontent) {
 				var optionsBlock = document.getElementById("optionsBlock")
