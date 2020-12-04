@@ -634,6 +634,9 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.optionObjCopy = JSON.parse(JSON.stringify(this.optionObj));
     this.appModel.enableReplayBtn(true);
     this.appModel.enableSubmitBtn(true);
+    if(this.optionObjCopy.optionArray[0]){
+      this.selectOpt(0,this.optionObjCopy.optionArray[0])
+    }
   }
 
   /*On selecting an option make it active */
