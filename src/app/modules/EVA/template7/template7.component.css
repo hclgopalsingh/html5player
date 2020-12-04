@@ -1,0 +1,231 @@
+#container #optionsBlock {
+    position: absolute;
+    top: 12%;
+	width: 100%;
+	height: 71%;
+    left: 0%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.options {
+	width: 12.8%;
+    height: 100%;
+    margin-right: 8.8%;
+    position: relative;
+    z-index: 1;
+	/* left: 10.5%; */
+	/* top: 0.1%; */
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: space-around;
+}
+.options img {
+	/* width: 25.5%; */
+	margin: 0;
+	width: 100%;
+}
+.options div {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* transition: transform .1s; */
+}
+
+.options div .subOpt {
+    position: absolute;
+    top: 11.5%;
+    font-family: Kruti Dev!important;
+    font-weight: normal;
+    font-size: 6vmax;
+    /* left: 26%; */
+    cursor: pointer;
+}
+
+.options div:hover{
+    transform: scale(1.1);
+	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
+}
+
+
+.options .playBtn {
+ position: absolute;
+ right: 7%;
+ bottom: 7%;
+ max-width: 16%;
+}
+.stageVideo {
+	position: relative;
+    width: 54%;
+    /* right: 12.6%; */
+	/* top: 15.7%; */
+    display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.stageVideo img {
+	max-width: 100%;
+	width: 100%;
+}
+#mainVideo {
+	width: 97%;
+	height: auto;
+	border: solid 1px red;
+    position: absolute;
+    left: .9%;
+	top: 1.1%;
+	clip-path: inset(1.7% .5% 1% 1% round 4vmax);
+}
+
+
+.options img
+{
+	cursor:pointer;
+}
+
+.disable_div {
+	pointer-events: none;
+}
+
+.disableBtn {
+    opacity: 0.9;
+    pointer-events: none;
+}
+.fillerBlock{
+	position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+.filler {
+	/* position: absolute; */
+    width: 95.5%!important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5% 0;
+}
+.refreshBlock,
+.lockBlock{
+    width: 11%;
+    cursor: pointer;
+}
+
+.rightWrongBlock{
+    width: 10%;
+    cursor: pointer;
+    /* right: 115%; */
+    margin-right: 4%;
+}
+
+.inputField{
+    width: 77%;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    position: relative; 
+}
+.inputField input{
+    position: absolute;
+    color: black;
+    width: 96%;
+    border: none;
+    font-family: Kruti Dev!important;
+    font-weight: 500;
+    font-size: 2.3vmax !important;
+}
+input:focus {
+    outline: none;
+}
+#modalTemp17 .stageVideo {
+    position: absolute;
+    width: 48%;
+    right: 27%;
+    top: 8.7%;
+    display: flex;
+    justify-content: center;
+	align-items: center;
+}
+
+#showAnswer .stageVideo {
+    position: absolute;
+    width: 48%;
+    right: 27%;
+    top: 17%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+	align-items: center;
+}
+
+.rightWrongAns{
+    position: absolute;
+    bottom: 8.5%;
+    width: 97.4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.displayPopup {
+    display: -webkit-box !important;
+    /* transition: all 2s ease-in-out;
+    transform: scale(1.2); */
+  }
+
+  .popRW{
+    width: 74% !important;
+    left: 12%;
+    top: 15% !important;
+  }
+
+  .inputPop{
+    left:5% 
+  }
+
+  .in-pop{
+    text-align: center;
+    font-size: 3vmax !important;
+    color: black;
+    font-weight: 500 !important;
+  }
+
+  .speaker_block{
+    position: absolute;
+    right: 0;
+    top: 86%;
+    right: 1%;
+    width: 5%;
+  }
+.textNote {
+    position: absolute;
+    width: 86.7%;
+    left: -1%;
+    top: 67%;
+    z-index: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    pointer-events: none;
+    font-family: Kruti Dev!important;
+    font-size: 1.05vmax;
+    color: black;
+}
+.textNote span {
+    font-family: arial;
+    display: inline-block;
+    margin: 0 .4vmin;
+    margin-top: -0.3%;
+}

@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, ViewEncapsulation, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationmodelService } from 'src/app/common/services/applicationmodel.service';
-import { SharedserviceService } from 'src/app/common/services/sharedservice.service';
+import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
+import { SharedserviceService } from '../../../common/services/sharedservice.service';
 
 @Component({
   selector: 'app-template14',

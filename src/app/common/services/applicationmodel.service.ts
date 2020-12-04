@@ -316,7 +316,8 @@ export class ApplicationmodelService {
 
     if (data.environment.lms.enabled) {
       console.log('ApplicationmodelService: initLoaded - environment.lms.enabled = true');
-      this.dataHandler = this.externalCommunication;
+      // this.dataHandler = this.externalCommunication;
+      this.dataHandler = this.parentCommunication;
       this.dataHandler.loadData(data.environment.lms, this.listener.bind(this), this.baseLoaded.bind(this), this.baseFailed.bind(this));
     } else if (data.environment.standalone.enabled) {
       console.log('ApplicationmodelService: initLoaded - environment.standalone.enabled = true');
@@ -328,11 +329,10 @@ export class ApplicationmodelService {
     }
   }
 
-  // initializeApp(initData) {
-  //   this.dataHandler = this.parentCommunication;
-  //     //this.parentCommunication.setInitData('{"homePath": "home","forwardEnabled": true,"sessionId":"kdfjddfk43243kjfkj","playerPreview": false, "files":[{"startAt": 0,"segmentId": 123,"file": "http://localhost:8080/contentEVA-10/"}]}');    
-  //     this.dataHandler.loadData(true, this.listener.bind(this), this.baseLoaded.bind(this), this.baseFailed.bind(this));
-  // }
+  initializeApp(initData) {
+    this.dataHandler = this.parentCommunication;   
+      this.dataHandler.loadData(true, this.listener.bind(this), this.baseLoaded.bind(this), this.baseFailed.bind(this));
+  }
   private baseLoaded(data): void {
     console.log('ApplicationmodelService: baseLoaded - data = ', data);
     this.initValues = data;

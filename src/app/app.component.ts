@@ -6,11 +6,12 @@ import { Subscription, Observable } from 'rxjs';
 import { ParentcommunicationService } from './common/services/parentcommunication.service';
 
 @Component({
-	selector: 'app-root',
+	selector: 'app-root-player',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
+	title = 'shiksha-player';
 	constructor(public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
 		this.subscription = this.Sharedservice.getData().subscribe(data => {
@@ -23,11 +24,11 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 
 		});
 	}
-	title = 'app';
 	@ViewChild('contentHolder') contentHolder: any;
 	@ViewChild('loaderHolder') loaderHolder: any;
 	@ViewChild('checkForAutoplayRef') checkForAutoplayRef: any;
 	@ViewChild('animationRef') animationRef: any;
+	@Input() initData:Observable<any>;
 	resizeFlag: boolean = false;
 	playerPreview: boolean = false;
 	navUrl: string;
@@ -44,8 +45,6 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 	subscription: Subscription;
 	Template: any;
 	isVideo: boolean = false;
-	@Input() initData:Observable<any>;
-	@Output() playerEvent = new EventEmitter<any>();
 
 
 	/*@HostListener('document:keyup', ['$event'])
@@ -62,16 +61,15 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 			}, 0);
 		}
 	}
-	// ngOnChanges(changes: { [property: string]: SimpleChange }){
-	// 	// Extract changes to the input property by its name
-	// 	let change: SimpleChange = changes['initData']; 
-	// 	console.log("change",change);
-	// 	this.parentCommunication.setInitData(change.currentValue);
-	// 	this.appModel.initializeApp(change.currentValue);
-	//  // Whenever the data in the parent changes, this method gets triggered. You 
-	//  // can act on the changes here. You will have both the previous value and the 
-	//  // current value here.
-	//  }
+	ngOnChanges(changes: { [property: string]: SimpleChange }){
+		// Extract changes to the input property by its name
+		let change: SimpleChange = changes['initData']; 
+		this.parentCommunication.setInitData(change.currentValue);
+		this.appModel.initializeApp(change.currentValue);
+	 // Whenever the data in the parent changes, this method gets triggered. You 
+	 // can act on the changes here. You will have both the previous value and the 
+	 // current value here.
+	 }
 	// ngAfterViewInit() {
 
 	// 	console.log("parenttitle inside ngAfterviewInit",this.parentTitle);
@@ -97,7 +95,7 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 		// 	console.log("from parent to child inside ngOnInit",event);
 		// });
 		this.appModel.eventSubject.subscribe(event => {
-			this.playerEvent.emit(event);
+			// this.playerEvent.emit(event);
 			// console.log("parent title inside subscription",this.parentTitle);
 			console.log("app component event",event);
 		});
