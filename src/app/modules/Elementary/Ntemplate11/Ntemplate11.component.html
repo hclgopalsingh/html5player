@@ -18,7 +18,7 @@
 						(load)="checkImgLoaded();">
 					<img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid zclass"
 						id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url" (mousemove)="onHoverOptions(opts,idx)"
-						(mouseleave)="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
+						(mouseleave)="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();" [ngStyle]="{'opacity':blurTwoOptions  == true ? 0.3 : 1}">
 				</div>
 			</div>
 		</div>
@@ -57,6 +57,7 @@
 </div>
 
 <!-- The Confirmation Modal -->
+<div class="ele">
 <div class="modal" id="confirmModal" #confirmModalRef>
 	<div class="modal-dialog">
 		<div class="modal-content" #modalRef>
@@ -84,6 +85,7 @@
 		</div>
 	</div>
 </div>
+</div>
 
 <audio #titleHelpAudio [src]="quesInfo?.narrator?.url "></audio>
 <div class="videoMainContainer" *ngIf="isPlayVideo">
@@ -92,13 +94,15 @@
 		(ended)="endedHandler()">
 		<source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
 	</video>
+	<div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()"
+		(mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
 	<div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()" />
 	</div>
-	<div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.urlOgv" (click)="endedHandleronSkip()"
-			(mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
+	
 </div>
 
 <!-- The replayConfirmPopup Modal -->
+<div class="ele">
 <div class="modal" id="confirmModal" #confirmReplayRef>
 	<div class="modal-dialog">
 		<div class="modal-content" #modalRef>
@@ -121,4 +125,5 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
