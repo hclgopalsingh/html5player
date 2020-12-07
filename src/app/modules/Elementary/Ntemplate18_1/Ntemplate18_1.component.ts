@@ -301,6 +301,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
       if (action == "submitAnswer") {
+        this.disableSection = false;
         this.resetBlinker();
         this.closeClicked = false;
         if (!this.instruction.nativeElement.paused) {
