@@ -66,23 +66,6 @@ audio {
 	position:relative;
 }
 
-/* filling bar */
-#playBar{
-    width: 18px;
-    height: 4px;
-    border-radius: 15%;
-    margin-top: 0px;
-    background: rgba(0, 204, 255,1);
-}
-
-#audioTime{
-	width:100%;
-	position:absolute;
-	left:0;
-	top:250%;
-	color:rgba(0, 204, 255,1);
-	font-size: 1.7vmax;
-}
 .start, .finish {
     position: absolute;
 }
@@ -520,7 +503,7 @@ audio::-webkit-media-controls-time-remaining-display{
 
   #tracktime{
     color: turquoise;
-    min-width: 18%;
+    min-width: 9.5%;
     font-size: 1.2em;
     padding-left: 2%;
   }

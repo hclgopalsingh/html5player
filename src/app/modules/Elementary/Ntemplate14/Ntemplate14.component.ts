@@ -142,7 +142,6 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnInit() {
-		let that = this;
 		this.appModel.functionone(this.templatevolume, this);//start end
 		this.containgFolderPath = this.getBasePath();
 		if (this.appModel.isNewCollection) {
@@ -187,27 +186,26 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		let that = this;
-		document.getElementById("audioplay").addEventListener("play", function () {
-			that.appModel.stopAllTimer();
-			if (!that.instruction.nativeElement.paused) {
-				that.instruction.nativeElement.pause();
-				that.instruction.nativeElement.currentTime = 0;
+		document.getElementById("audioplay").addEventListener("play", () => {
+			this.appModel.stopAllTimer();
+			if (!this.instruction.nativeElement.paused) {
+				this.instruction.nativeElement.pause();
+				this.instruction.nativeElement.currentTime = 0;
 			}
 		});
-		document.getElementById("audioplay").addEventListener("pause", function () {
-			if (that.isFirstTrial) {
-				that.appModel.moveNextQues("noBlink");
+		document.getElementById("audioplay").addEventListener("pause", () => {
+			if (this.isFirstTrial) {
+				this.appModel.moveNextQues("noBlink");
 			}
 			else {
-				that.appModel.moveNextQues();
+				this.appModel.moveNextQues();
 			}
 		});
-		document.getElementById("audioplay").addEventListener("ended", function () {
+		document.getElementById("audioplay").addEventListener("ended", () => {
 			console.log("enddedd");
-			if (that.isFirstTrial && that.playClicked) {
-				that.appModel.moveNextQues();
-				that.isFirstTrial = false;
+			if (this.isFirstTrial && this.playClicked) {
+				this.appModel.moveNextQues();
+				this.isFirstTrial = false;
 			}
 		});
 	}
@@ -221,18 +219,22 @@ export class Ntemplate14Component implements OnInit {
 		this.appModel.resetBlinkingTimer();
 	}
 
+	/****** hover on ok button of info popup ******/
 	hoverOK() {
 		this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
 	}
 
+	/****** hover out ok button of info popup ******/
 	houtOK() {
 		this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
 	}
 
+	/****** hover on close button of info popup ******/
 	hoverCloseOk() {
 		this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
 	}
 
+	/****** hover out close button of info popup ******/
 	houtCloseOk() {
 		this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
 	}
@@ -274,7 +276,7 @@ export class Ntemplate14Component implements OnInit {
 		}
 	}
 
-	//start recording the sound
+	/***** start recording the sound *****/
 	startRecording() {
 		this.isStop = false;
 		this.isRecord = true;
@@ -344,12 +346,10 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	handleTimer() {
-		let that = this;
 		this.lastPopUptimer = setTimeout(() => {
-			console.log("here also");
-			that.blinkOnLastQues();
-			that.InfoModalRef.nativeElement.classList = "modal";
-			that.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+			this.blinkOnLastQues();
+			this.InfoModalRef.nativeElement.classList = "modal";
+			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 
 		}, 300000);
 	}
@@ -382,6 +382,7 @@ export class Ntemplate14Component implements OnInit {
 		}
 	}
 
+	/****** Check if all images are loaded *******/
 	checkImgLoaded() {
 		if (!this.loadFlag) {
 			this.noOfImgsLoaded++;
