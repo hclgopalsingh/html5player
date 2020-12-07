@@ -180,6 +180,7 @@ export class Ntemplate17Component implements OnInit {
   selectedOptionArr: any = {};
   rightListArr: any = [];
   wrongListArr: any = [];
+  selectedListArr: any =[];
   videoStartTimer: any;
   btnPressed: number = 0;
   prevEntry: string = "";
@@ -223,6 +224,7 @@ export class Ntemplate17Component implements OnInit {
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
   _playInstructionFlag: boolean = false;
+  currentPlaying:any;
   disablebtnarrEng=['{tab}','{enter}','[',']','{','}','|','>','<','?','/','\\','{space}',"{shift}"];
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -1485,6 +1487,15 @@ else {
   }
 
   openModal() {
+    if(this.rightListArr && this.rightListArr.length==0){
+      this.currentPlaying="wrongList";
+      this.selectedListArr=this.wrongListArr;
+      this.feedbackObj.showBox=this.feedbackObj.incorrect_box;
+    }else{
+      this.currentPlaying="rightList";
+      this.selectedListArr=this.rightListArr;
+      this.feedbackObj.showBox=this.feedbackObj.corect_box;
+    }
     this.feedbackModal.nativeElement.classList = "modal displayPopup";
     this.infoModal = false;
     this.stopInstructionVO();
@@ -2045,5 +2056,76 @@ else {
         this.refques.nativeElement.style.cursor="pointer";
       }
   }
+  prevFeedback() {
+    this.currentPlaying="rightList";
+    this.selectedListArr=this.rightListArr;
+    this.feedbackObj.showBox=this.feedbackObj.corect_box;
+  }
+  nextFeedback() {
+    this.currentPlaying="wrongList";
+    this.selectedListArr=this.wrongListArr;
+    this.feedbackObj.showBox=this.feedbackObj.incorrect_box;
+    // clearTimeout(this.nextFeedbackTimer);
+    // clearInterval(this.nextBtnInterval);
+    // this.closeFeedbackPopup2=setTimeout(() => {
+    //     this.setFeedbackAndPlayCorrect(0);
+    // }, 500)
+    // this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
+    // this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
+}
+
+// prevFeedback() {
+//     this.isShowOk = false;
+//     clearTimeout(this.closeFeedbackmodalTimer);
+//     if (this.feedbackAudio && this.feedbackAudio.nativeElement && !this.feedbackAudio.nativeElement.paused) {
+//         this.feedbackAudio.nativeElement.pause();
+//         this.feedbackAudio.nativeElement.currentTime = 0;
+//         if (this.currentFeedbackElem) {
+//             this.currentFeedbackElem.classList = "img-fluid";
+//         }
+//     }
+//     this.currentFeedbackPlaying = "categoryA";
+//     this.category = JSON.parse(JSON.stringify(this.categoryA));
+
+//     if (this.showAnswerClicked) {
+//         this.feedbackAssets = this.fetchedcontent.showans_1
+//         this.popupTxtRequired=this.fetchedcontent.showans_1.popTitleTxt_img.required;
+//         this.isRightWrong = true;
+//         this.isPartial = false;
+//     }
+//     else {
+//         this.feedbackAssets = this.fetchedcontent.category_1;
+//         if (this.categoryA.correct.length == this.optionHolder.left_random_index.length) {
+//             this.feedbackAssets.style_header = this.fetchedcontent.category_1.right_style_header;
+//             this.feedbackAssets.style_body = this.fetchedcontent.category_1.right_style_body;
+//             this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.right_style_title;
+//             this.popupTxtRequired=this.fetchedcontent.category_1.right_style_title.required;
+//             this.isRightWrong = true;
+//             this.isPartial = false;
+
+//         } else if (this.categoryA.correct.length == 0) {
+//             this.feedbackAssets.style_header = this.fetchedcontent.category_1.wrong_style_header;
+//             this.feedbackAssets.style_body = this.fetchedcontent.category_1.wrong_style_body;
+//             this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.wrong_style_title;
+//             this.popupTxtRequired=this.fetchedcontent.category_1.wrong_style_title.required;
+//             this.isRightWrong = true;
+//             this.isPartial = false;
+
+//         } else {
+//             this.feedbackAssets.style_header = this.fetchedcontent.category_1.partial_style_header;
+//             this.feedbackAssets.style_body = this.fetchedcontent.category_1.partial_style_body;
+//             this.feedbackAssets.popTitleTxt_img = this.fetchedcontent.category_1.partial_style_title;
+//             this.popupTxtRequired=this.fetchedcontent.category_1.partial_style_title.required;
+//             this.isRightWrong = false;
+//             this.isPartial = true;
+
+//         }
+//     }
+//     setTimeout(() => {
+//         this.setFeedbackAndPlayCorrect(0);
+//     }, 500)
+//     this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
+//     this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
+// }
 
 }

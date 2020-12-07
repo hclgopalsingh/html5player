@@ -98,6 +98,12 @@ button:focus {
   /* margin-top: 8%; */
   margin: 7% 0 7.5% 0;
 }
+.categoryBox{
+	width: 26.5%;/*23.6%;*/
+  position: relative;
+  top: 1.5%;
+  margin: auto;
+}
 .correctBox,
 .incorrectBox{
 	width: 26.5%;/*23.6%;*/
@@ -1702,4 +1708,16 @@ cursor: pointer
     /* float: right; */
     position: absolute;
     cursor: pointer;
+}
+#modalTemp17 .navigate {
+  position: absolute;
+  width: 96%;
+  bottom: 3%;
+  /* margin-top: 1%; */
+}
+
+.navigate img {
+  margin-left: 1.2%;
+  cursor: pointer;
+  max-width: 5.5%;
 }
