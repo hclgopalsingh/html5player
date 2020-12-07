@@ -301,6 +301,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
       if (action == "submitAnswer") {
+        this.disableSection = false;
         this.resetBlinker();
         this.closeClicked = false;
         if (!this.instruction.nativeElement.paused) {
@@ -955,6 +956,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackInfoAudio.nativeElement.pause();
         this.feedbackInfoAudio.nativeElement.currentTime = 0;
       }
+      this.disableoptionsBlock = true;
+      setTimeout(() => {
+        this.disableoptionsBlock = false;
+      }, 500);
     }
     if (flag == "yes") {
       if (this.countofAnimation != this.originalArray.length) {
@@ -984,6 +989,11 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.refQues.nativeElement.children[i].children[0].src = this.refcpyArray[i].imgsrc_original.url;
       }
      }
+     this.disableoptionsBlock = true;
+      setTimeout(() => {
+        this.disableoptionsBlock = false;
+        this.disableinstructionBar = false;
+      }, 500);
   }
 
   //with the use of set feedback function we assign all the images in popup according to submit option we assign header image in popup 
@@ -1431,6 +1441,11 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
       }
     } else {
+      this.disableoptionsBlock = true;
+      setTimeout(() => {
+        this.disableinstructionBar = false;
+        this.disableoptionsBlock = false;
+      }, 500);
       this.appModel.notifyUserAction();
       this.disableSection = false;
     }
@@ -1485,7 +1500,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
         this.disableoptions = false;
         this.disableinstructionBar = false;
-      }, 1000)
+      }, 500)
       }
     }, 500)
   }

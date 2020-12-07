@@ -790,7 +790,7 @@ html [type=button] {
 }
 
 #container .modal #optionsBlock {
-  margin: 6% 0 2%; /*0*/
+  margin: 7% 0 2%; /*6% 0 2%;*/
   height: 100%;
 }
 
