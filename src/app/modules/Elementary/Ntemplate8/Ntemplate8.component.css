@@ -297,7 +297,6 @@ button:focus {
 #instructionBar .instructionBase {
   width: 60%;
   position: relative;
-  cursor: pointer;
 }
 
 .instructionBase .instructionText {
@@ -666,8 +665,8 @@ button:focus {
   cursor: pointer;
   opacity: 1;
   position: absolute;
-  top: 1%;
-  right: 0.5%;
+  top: 2%;
+  right: 1.5%;
   z-index: 1;
 }
 
@@ -930,6 +929,7 @@ button:focus {
 }
 #mainVideo{
   clip-path: inset(0.1% 0.1% 0.5% 0% round 1vmax);
+  width: 100.07%;
 }
 .showDisabled{
   opacity:0.5;

@@ -31,8 +31,9 @@ button:focus {
 }
 
 #boxWord{
-  font-size: 1.5vmax;
+  font-size: 1.30vmax;
 }
+
 
 .vowels{
   width: 7.5%;
@@ -309,6 +310,7 @@ button:focus {
     position: absolute;
     top: 18%;
     width: 95%;
+    left: 2.2%;
 }
 .optionsList div{
   /*max-width: 32%;
@@ -321,10 +323,12 @@ button:focus {
 }
 .optionsList div span{
   position: absolute;
-  font-size: 0.9vmax;
+  font-size: 0.70vmax;
+  white-space: nowrap;
 }
 .modal .optionsList div span{
-  font-size: 1.05vmax;
+  font-size: .85vmax;
+  white-space: nowrap;
 }
 
 .modal .optionsList img{
@@ -419,7 +423,7 @@ button:focus {
 }
 
 .audio-container{
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 
@@ -839,7 +843,8 @@ button:focus {
 
 #confirmModal .close {
 	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
+  margin: 0 1.6% 0 auto;
+  right: 0.3vmin !important;
 }
 
 #confirmModal .modal-footer {
@@ -1144,7 +1149,8 @@ html [type=button] {
 }
 
 .wordBlock .wordItem {
-	width: 16%;
+  width: 16%;
+  white-space: nowrap;
     position: relative;
     margin: .27% 0;
 	margin-right: .8%;
@@ -1364,7 +1370,7 @@ input {
   color: #fff;
 } */
 .hg-button span {
-  font-size: 1.25vmax !important;
+  font-size: 1.22vmax !important;
   font-weight: 500;
   color: #fff;
 }
@@ -1429,7 +1435,8 @@ cursor: pointer
 
 .optionPlace span {
   position: absolute;
-	font-size: 2.6vmax;
+  font-size: 2.5vmax;
+  white-space: nowrap;
 }
 .displayPopup {
   display: block;
@@ -1473,6 +1480,7 @@ cursor: pointer
 #infoModalId {
 	/* display: flex;*/
 	background: rgba(0,0,0,.85);
+  z-index: 102 !important;
 }
 
 #infoModalId .modal-dialog {
@@ -1543,7 +1551,8 @@ cursor: pointer
 
 #infoModalId .close {
 	/* width: 5%; */
-	margin: 0 1.6% 0 auto;
+  margin: 0 1.6% 0 auto;
+  right: 0.3vmin !important
 }
 
 #infoModalId .modal-footer {
@@ -1666,11 +1675,31 @@ cursor: pointer
   bottom: 0%;
 }
 .closepopup_btn img{
-  width: 10.4%; 
+  width: 9%; 
   cursor: pointer;
   max-width: 10.4%;
 }
 
 .mathTop{
   top: 120%;
+}
+
+.closeBtn_keyb{
+  width: 3.2%;
+  top: 91%;
+  right: 9.5%;
+  z-index: 101;
+  position: absolute;
+  cursor: pointer;
+}
+
+.closeBtn_keyb_math{
+    width: 3.2%;
+    top: 111%;
+    right: 9.4%;
+    z-index: 101;
+    /* overflow-y: auto; */
+    /* float: right; */
+    position: absolute;
+    cursor: pointer;
 }

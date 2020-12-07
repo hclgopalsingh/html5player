@@ -73,7 +73,7 @@ button:focus{
 	color: #fff;
 	font-family: Kruti Dev!important;
 	font-weight: normal;
-	font-size: 1.4vmax;
+	font-size: 1.8vmax;
 	line-height: 2;
     width: 98%;
     position: absolute;
@@ -246,7 +246,7 @@ button:focus{
     width: 100% !important;
     text-align: center !important;
     top: 2.5vmin!important;
-    display: none;
+    /* display: none; */
 }
 .rightWrongAns{
     position: absolute;
@@ -451,8 +451,9 @@ button:focus{
 	position: absolute;
     width: 100%;
     text-align: center;
-    top: 2.5vmin!important;
-    /* display: none; */
+	top: 2.5vmin!important;
+	left:0;
+	/* display: none; */
 }
 
 
