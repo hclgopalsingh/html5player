@@ -73,10 +73,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   @ViewChild('ansBlock') ansBlock: any;
   @ViewChild('mainVideo') mainVideo: any;
 
-  // @ViewChild('wrongAns') wrongAns: any;
-  // @ViewChild('narrator_voice') narrator_voice: any;
-  // @ViewChild('container') containerBlock: any;
-
   isPlayVideo: boolean;
   narratorAudio: any;
   disableHelpBtn: boolean = false;
@@ -131,10 +127,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   PlayPauseFlag: boolean = true;
   SkipLoad: boolean = false;
 
-  // optimage: any;
-  // opttext: any;
-  // resizeFlag: boolean;
-  // assetsfolderlocation: string = "";
 
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -165,7 +157,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         console.log('Component: constructor - data=', data);
         switch (data) {
           case PlayerConstants.CMS_PLAYER_CLOSE:
-            //console.log('VideoComponent: constructor - cmsPlayerClose');
             this.close();
             break;
           default:
@@ -232,7 +223,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         this.appModel.videoStraming(true);
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          // this.ansBlock.nativeElement.className = "disable_div d-flex align-items-center justify-content-around";
           this.ansBlock.nativeElement.className = "d-flex align-items-center justify-content-around";
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
         }
@@ -264,11 +254,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   ngOnDestroy() {
-    // clearTimeout(this.showAnsTimer);
-    // clearInterval(this.blinkTimeInterval)
-      this.blurTwoOptions = false;
-    
+      this.blurTwoOptions = false;    
   }
+  
   ngAfterViewChecked() {
     if (this.titleAudio && this.titleAudio.nativeElement) {
       this.titleAudio.nativeElement.onended = () => {
@@ -418,7 +406,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   helpSpeaker(el: HTMLAudioElement) {
-    // if (!this.narrator_voice.nativeElement.paused) {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator voice still playing");
     }
@@ -467,8 +454,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
 
   /*Start-Template Functions*/
-
-
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -503,7 +488,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.myoption[i]['isOpen'] = true;
       }
 
-
       /*Start: Theme Implementation(Template Changes)*/
       this.controlHandler = {
         isSubmitRequired: this.quesObj.submitRequired,
@@ -531,7 +515,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.wrongPopup = this.fetchedcontent.feedback.wrongFeedback;
       this.narratorAudio = this.fetchedcontent.commonassets.narrator;
       this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
-
       if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
         this.isPlayVideo = true;
       } else {
@@ -590,7 +573,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     else { }
   }
 
-
   checkAnswer(option, event, id) {
     this.disableHelpBtn = true;
     this.controlHandler.isTab = false;
@@ -621,18 +603,16 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.appModel.enableReplayBtn(false);
 
         // this.myoption[id]['isOpen'] = false;
-        // this.myoption[id]['leftPos'] = (this.moveleft) + "px";
-        // this.myoption[id]['topPos'] =  (this.movetop) + "px";
-        // this.myoption[id]['optWidth'] = this.moveTo.width + "px";
+        // this.myoption[id]['leftPos'] = (this.moveleft);
+        // this.myoption[id]['topPos'] =  (this.movetop);
+        // this.myoption[id]['optWidth'] = this.moveTo.width;
 
-        $(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
-          
+        $(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {          
           console.log("animation completed")
           this.blurTwoOptions = true;
           setTimeout(() => {
             this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-            this.feedbackVoRef.nativeElement.play();
-            
+            this.feedbackVoRef.nativeElement.play();            
           }, 750)
           this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden';
           this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible';
@@ -640,7 +620,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
           this.ansArrangeBlock.nativeElement.children[2].src = option.imgsrc.url;
           this.feedbackVoRef.nativeElement.onended = () => {
             this.timernextseg = setInterval(() => {
-              // this.checkNextActivities();
               this.removeEvents();
               this.blinkOnLastQues()
               this.blurTwoOptions = false;
@@ -648,13 +627,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
               this.controlHandler.isTab = true;
               this.appModel.handleController(this.controlHandler);
             }, 200)
-            // this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
-            // this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible';
           }
         });
-      
-        // }
-
        
       } else {
         this.blurTwoOptions = false;
@@ -673,7 +647,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         // this.myoption[id]['isOpen'] = false;
         // this.myoption[id]['leftPos'] = this.moveleft;
         // this.myoption[id]['topPos'] =  this.movetop;
-
         $(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop }, 1000, () => {
           this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden';
           this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'visible';
@@ -1009,7 +982,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     } else {
       this.appModel.moveNextQues(this.attemptType);
     }
-    // this.blurTwoOptions = false;
   }
 
   showReplay(ref, flag: string, action?: string) {
@@ -1048,8 +1020,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.isPlayVideo = false;
         //this.appModel.enableSubmitBtn(true);
         this.appModel.navShow = 2;
-        //remove $("#optionsBlock .options").removeClass("disable_div");
-        // $(".instructionBase").removeClass("disable_div");
         this.instructionBar.nativeElement.classList = "instructionBase";
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
@@ -1096,8 +1066,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
   showAnswer() {
     this.attemptType = "hideAnimation"
-    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-   
+    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";   
     this.ans.nativeElement.src = this.containgFolderPath + '/' + this.feedback.correct_ans_url;
     this.confirmModalRef.nativeElement.classList = "modal";
     this.ans.nativeElement.style.visibility = 'visible';
@@ -1109,8 +1078,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       if(element.id != this.feedback.correct_ans_index){
         this.blurTwoOptions = true;
       }
-    });
-    
+    });    
     console.log("id", id)
     this.myoption[id].imgsrc.url = "";
     this.appModel.resetBlinkingTimer();
