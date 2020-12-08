@@ -96,10 +96,10 @@ button:focus {
 	height: auto;
   justify-content: space-around !important;
   /* margin-top: 8%; */
-  margin: 7% 0 7.5% 0;
+  margin: 7% 0 0.7% 0;/*7% 0 7.5% 0;*/
 }
 .categoryBox{
-	width: 26.5%;/*23.6%;*/
+	width: 82.5%;/*26.5%;*/
   position: relative;
   top: 1.5%;
   margin: auto;
@@ -314,9 +314,9 @@ button:focus {
 }
 .modal .optionsList {
     position: absolute;
-    top: 18%;
+    top: 19.7%;/*18%;*/
     width: 95%;
-    left: 2.2%;
+    left: 2.5%;/*2.2%;*/
 }
 .optionsList div{
   /*max-width: 32%;
@@ -333,7 +333,7 @@ button:focus {
   white-space: nowrap;
 }
 .modal .optionsList div span{
-  font-size: .85vmax;
+  font-size: 1.7vmax;/*1.85vmax*/
   white-space: nowrap;
 }
 
@@ -341,8 +341,9 @@ button:focus {
     margin: 1% 7.3%;
 }
 .modal .optionsList div{
-    margin: .7% 6%;
-}
+    margin: 0% 2%;/*.7% 6%;*/
+    max-width: 27%;
+  }
 .actionBox {
     width: 39%;
     margin: 0 5%;
@@ -903,7 +904,7 @@ button:focus {
 
 .modal-dialog {
   max-width: 80%;
-  width: 90% !important;
+  width: 92% !important;/*90%*/
   height: auto;/*60%*/
 }
 
