@@ -58,20 +58,6 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('feedbackPopupRef') feedbackPopupRef: any;
   @ViewChild('feedbackOption') feedbackOption: any;
   @ViewChild('feedbackAudio') feedbackAudio: any;
-  // @ViewChild('instructionBar') instructionBar: any;
-  // @ViewChild('instruction') instruction: any;
-  // @ViewChild('maincontent') maincontent: any;  
-  // @ViewChild('submitModalRef') submitModalRef: any;  
-  // @ViewChild('modalRef') modalRef: any;
-  // @ViewChild('mainmodalRef') mainmodalRef: any;
-  // @ViewChild('popupRef') popupRef: any;
-  // @ViewChild('popupBodyRef') popupBodyRef: any;
-  // @ViewChild('popupImage') popupImage: any;
-  // @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  // @ViewChild('partialpopupRef') partialpopupRef: any;
-  // @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
-  // @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any;  
-  // @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
 
 
   audio = new Audio();
@@ -81,11 +67,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   fetchedcontent: any;
   functionalityType: any;
   narratorAudio: any;
-  // checked: boolean = false;
-  // showIntroScreen: boolean;
   popupType: string = "";
-  // partialpopupRequired: boolean = false;
-  // wrongansArray: any = [];
   isFirstQues: boolean;
   isLastQues: boolean = false;
   isAutoplayOn: boolean;
@@ -93,13 +75,10 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   noOfImgs: number;
   noOfImgsLoaded: number = 0;
   loaderTimer: any;
-  // disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
   optionObj: any;
-  // optArr1: any;
-  // optArr2: any;
   optionCommonAssets: any;
   ques_control: any;
   feedbackObj: any;
@@ -145,9 +124,10 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   autoClosePopupTimer: number;
   isPartialPopup: boolean = false;
   disableInstruction: boolean = true;
-  disableOpt: boolean = false;
+  disableOpt: boolean = true;
   greyOutInstruction: boolean = false;
   greyOutOpt: boolean = false;
+
 
   ngOnInit() {
     // let that = this;
@@ -209,6 +189,8 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
         }
       } else if (val == "replayVideo") {
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+          this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
+          this.confirmReplayAssets.decline_btn = this.confirmReplayAssets.decline_btn_original;
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
           this.PlayPauseFlag = true;
@@ -308,16 +290,19 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.handlePostVOActivity(true);
       this.quesVORef.nativeElement.onended = () => {
         this.mainContainer.nativeElement.classList = "bodyContent";
-        // this.instructionBar.nativeElement.classList = "instructionBase";
         this.disableInstruction = false;
+        setTimeout(()=>{
+          this.disableOpt=false;
+        },1000)
+        if(this.optionObjCopy.optionArray[0]){
+          this.selectOpt(0,this.optionObjCopy.optionArray[0])
+        }
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
-        //this.appModel.enableSubmitBtn(true);
       }
     } else {
       this.appModel.handlePostVOActivity(false);
       this.appModel.enableReplayBtn(true);
-      //this.appModel.enableSubmitBtn(true);
     }
   }
   /*Mute Functionality handle*/
@@ -559,6 +544,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
+    this.disableOpt=true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
@@ -587,6 +573,9 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.isPlayVideo = false;
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
+    setTimeout(()=>{
+      this.disableOpt=false;
+    },1000)
   }
 
   /* Toggle play and pause for video */
@@ -645,12 +634,15 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.optionObjCopy = JSON.parse(JSON.stringify(this.optionObj));
     this.appModel.enableReplayBtn(true);
     this.appModel.enableSubmitBtn(true);
+    if(this.optionObjCopy.optionArray[0]){
+      this.selectOpt(0,this.optionObjCopy.optionArray[0])
+    }
   }
 
   /*On selecting an option make it active */
   selectOpt(idx, opt) {
     this.appModel.notifyUserAction();
-    this.appModel.enableReplayBtn(false);
+    // this.appModel.enableReplayBtn(false);
     for (let i in this.optionObjCopy.optionArray) {
       this.optionObjCopy.optionArray[i].selected = false;
     }
@@ -812,6 +804,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   optionHover(idx, opt) {
+    this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].style.cursor="pointer";
     this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.add("scaleInAnimation");
   }
   playOptionHover(idx, opt) {
@@ -821,6 +814,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   optionLeave(idx, opt) {
+    this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].style.cursor="";
     this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.add("scaleOutAnimation");
     setTimeout(() => {
       this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleOutAnimation");
