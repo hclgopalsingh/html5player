@@ -1,4 +1,4 @@
-<div class="container-fluid temp14" id="container">
+<div class="container-fluid ele temp14" id="container">
   <audio #narrator></audio>
   <!--
       <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
@@ -157,15 +157,15 @@
   <div class="modal" id="confirmModal" #confirmSubmitRef>
     <div class="modal-dialog">
         <div class="modal-content" #modalRef>
-          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
-            <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.url">
-            <img class="close" [src]="confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.info_popup?.style_header">
+            <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
+            <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
           </div>
-          <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
+          <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
             <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.url"></div>
             <div class="actionButtons">
-              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.url"></button>
-              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.url"></button>
+              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
             </div>
           </div>
         </div>

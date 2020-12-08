@@ -137,7 +137,10 @@ export class Ntemplate22 implements OnInit {
   monthfromLocalMachine:boolean=true;
   yearfromLocalMachine:boolean=true;
   
-
+  controlHandler = {
+    isSubmitRequired: false,
+    isReplayRequired: false
+  };
   filterData:any;
   filterObj:any;
   QueScenarioData:any;
@@ -436,10 +439,11 @@ export class Ntemplate22 implements OnInit {
 					this.appModel.event = {'action': 'exit'};
 				}
     });
-    
+
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
+    this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
 
   }
@@ -970,6 +974,10 @@ export class Ntemplate22 implements OnInit {
       this.monthSelected = this.quesObj.monthSelected;
       this.dateSelected = this.quesObj.dateSelected;
       this.weekDaySelected=this.quesObj.weekdaySelected;
+      this.controlHandler = {
+        isSubmitRequired: this.quesObj.submitRequired,
+        isReplayRequired: this.quesObj.replayRequired
+      }
       //var date = new Date();
       this.setDatefromJSON();
       if(this.quesObj.yearAdjustment){

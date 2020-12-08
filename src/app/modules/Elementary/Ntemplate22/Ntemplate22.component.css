@@ -408,12 +408,7 @@ position: absolute;
   min-width: auto;
   min-height: auto;
 }
-#confirmModal .modal-body {
-  padding: 0;
-  margin: 0;
-	flex: 0 !important;
-	/* flex-wrap: wrap; */
-}
+ 
 #confirmModal .modal-body .msgImage {
 	display: flex;
   justify-content: center;
@@ -452,13 +447,8 @@ button:focus {
 #confirmModal .bodyText img {
   width: 85%;
 }
-#confirmModal .modal-title {
-  margin-left: 3%;
-}
-#confirmModal .close {
-  /* width: 5%; */
-  margin: 0 1.6% 0 auto;
-}
+ 
+ 
 #confirmModal .modal-footer {
   display: flex;
   align-items: center;
@@ -532,21 +522,8 @@ button:focus {
 	margin-left: 1.5%;
 	height: 80%;
 }
-.close {
-	width: auto;
-	height: 75%;
-  margin-right: 0%;
-	margin-top: -.1%;
-  -webkit-appearance: inherit !important;
-  cursor: pointer;
-  opacity: 1;
-}
-@media (min-width: 1366px){
-	.close {
-		height: 95%;
-    margin-right: .3%;
-	}
-}
+ 
+ 
 #modalTemp22 .modal-header .close {
   margin-left:auto;
 }
