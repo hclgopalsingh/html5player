@@ -512,3 +512,16 @@ audio::-webkit-media-controls-time-remaining-display{
     width: 68% !important;
     margin-bottom: 4%;
   }
+  audio::-webkit-media-controls-timeline {
+    -webkit-appearance: media-slider;
+    display: flex;
+    flex: 1 1 auto;
+    /* height: 8px; */
+    margin: 0 15px 0 0;
+    padding: 0;
+    background-color: white;
+    /* min-width: 25px; */
+    border: initial;
+    color: inherit;
+    filter: brightness(3);
+  }
