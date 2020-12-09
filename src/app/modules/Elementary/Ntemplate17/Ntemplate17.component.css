@@ -1722,3 +1722,15 @@ cursor: pointer
   cursor: pointer;
   max-width: 5.5%;
 }
+.d-show {
+  display: block !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.disableBtn{
+  pointer-events: none;
+  opacity: 0.5;
+}
