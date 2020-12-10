@@ -929,6 +929,7 @@ button:focus {
 }
 #mainVideo{
   clip-path: inset(0.1% 0.1% 0.5% 0% round 1vmax);
+  width: 100.07%;
 }
 .showDisabled{
   opacity:0.5;
