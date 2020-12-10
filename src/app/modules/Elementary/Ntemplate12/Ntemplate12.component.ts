@@ -408,7 +408,6 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 				this.movetop = this.moveTo.top - this.moveFrom.top;
 				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div ";
 				$(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
-					console.log("animation completed")
 					this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
 					this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
 					
@@ -592,8 +591,6 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 			if (this.ifRightAns) {
 				this.removeEvents();
 				this.ifRightAns = false;
-				this.disableInstruction=true;
-				this.disableMainContent=true;				
 				// $("#ansBlock .options").css("opacity", "0.3");
 				// $("#ansBlock .options").addClass("disable_div");
 				// $("#ansBlock").css("pointer-events", 'none');
