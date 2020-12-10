@@ -96,7 +96,13 @@ button:focus {
 	height: auto;
   justify-content: space-around !important;
   /* margin-top: 8%; */
-  margin: 7% 0 7.5% 0;
+  margin: 7% 0 0.7% 0;/*7% 0 7.5% 0;*/
+}
+.categoryBox{
+	width: 77%;/*26.5%;*/
+  position: relative;
+  top: 1.5%;
+  margin: auto;
 }
 .correctBox,
 .incorrectBox{
@@ -308,9 +314,9 @@ button:focus {
 }
 .modal .optionsList {
     position: absolute;
-    top: 18%;
+    top: 19.7%;/*18%;*/
     width: 95%;
-    left: 2.2%;
+    left: 2.5%;/*2.2%;*/
 }
 .optionsList div{
   /*max-width: 32%;
@@ -327,16 +333,17 @@ button:focus {
   white-space: nowrap;
 }
 .modal .optionsList div span{
-  font-size: .85vmax;
+  font-size: 1.5vmax;/*1.85vmax*/
   white-space: nowrap;
 }
 
 .modal .optionsList img{
-    margin: 1% 7.3%;
+    margin: 1.3% 7.3%;
 }
 .modal .optionsList div{
-    margin: .7% 6%;
-}
+    margin: 0% 3%;/*.7% 6%;*/
+    max-width: 26.5%;
+  }
 .actionBox {
     width: 39%;
     margin: 0 5%;
@@ -897,7 +904,7 @@ button:focus {
 
 .modal-dialog {
   max-width: 80%;
-  width: 90% !important;
+  width: 92% !important;/*90%*/
   height: auto;/*60%*/
 }
 
@@ -1702,4 +1709,28 @@ cursor: pointer
     /* float: right; */
     position: absolute;
     cursor: pointer;
+}
+#modalTemp17 .navigate {
+  position: absolute;
+  width: 98%;/*96%*/
+  bottom: 2%;/*3%*/
+  /* margin-top: 1%; */
+}
+
+.navigate img {
+  margin-left: 0.7%;/*1.2%;*/
+  cursor: pointer;
+  max-width: 3.8%;/*5.5%;*/
+}
+.d-show {
+  display: block !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.disableBtn{
+  pointer-events: none;
+  opacity: 0.5;
 }
