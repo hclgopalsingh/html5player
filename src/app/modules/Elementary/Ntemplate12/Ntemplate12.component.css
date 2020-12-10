@@ -589,11 +589,13 @@
 
   /* Modal Classes End */
 
-
-
   .ansText {
     position: absolute;
     top: 4%;
     left: 6%;
 	  width: 21%;
+}
+.disableSection{
+  pointer-events: none;
+  opacity: 0.3;
 }
