@@ -1,4 +1,4 @@
-<div #container class="container-fluid temp9" id="container" *ngIf="!showIntroScreen">
+<div #container class="container-fluid temp9 ele" id="container" *ngIf="!showIntroScreen">
 	<audio #narrator_voice
 		[src]="question?.narrator_voice.url"
 		autoplay="autoplay" autoplay="autoplay"></audio>
@@ -14,15 +14,15 @@
 			[src]="commonassets?.background?.url"
 			(load)="checkImgLoaded();" /></div>
 
-	<div #maincontent>
+	<div #maincontent [ngClass]="{'disableSection':disableMainContent}">
 
-		<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+		<div [ngClass]="{'disable_div':disableInstruction}" class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
 				<div class="instructionBase">
 					<img class="img-fluid"
 						[src]="commonassets?.instruction_bg?.url"
 						(click)="playHoverInstruction()" (load)="checkImgLoaded();" />
 					<audio #instruction
-						[src]="quesInfo?.instruction?.url"></audio>
+						[src]="commonassets?.instruction?.url"></audio>
 				</div>
 		</div>
 
@@ -71,8 +71,8 @@
 		</div>
 	</div>
 	
-	<audio #myAudiohelp #audioEl
-		[src]="question?.helpsound.url"></audio>
+	<!-- <audio #myAudiohelp #audioEl
+		[src]="question?.helpsound.url"></audio> -->
 
 
 	<div class="container-fluid temp5" #container id="container" *ngIf="showIntroScreen">

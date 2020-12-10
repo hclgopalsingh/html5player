@@ -127,6 +127,8 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 	  functionalityType: any;
 	  showAnsTimeout: number;
 	  /*END: Theme Implementation(Template Changes)*/
+	  disableInstruction:boolean=false;
+	  disableMainContent:boolean=true;
 	get basePath(): any {
 		// console.log('temponeComponent: path=', this.appModel.content.id + '/' + this.appModel.content.contentData.data['path']);
 		if (this.appModel && this.appModel.content) {
@@ -186,6 +188,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 				if (!this.instruction.nativeElement.paused) {
 					this.instruction.nativeElement.currentTime = 0;
 					this.instruction.nativeElement.pause();
+					this.disableInstruction=false;
 				}
 
 				if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
@@ -200,7 +203,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 				//show modal for manual
 				this.appModel.notifyUserAction();
 				if (this.correctAns && this.correctAns.nativeElement) {
-					$("#instructionBar").addClass("disable_div");
+					this.disableInstruction=true;
 					this.correctAns.nativeElement.classList = "displayPopup modal";
 					// this.setFeedbackAudio(mode);
 				}
@@ -332,9 +335,9 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 	}
 	playSound(sound) {
 		// plays a sound
-		if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
-			this.myAudiohelp.nativeElement.pause();
-		}
+		// if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
+		// 	this.myAudiohelp.nativeElement.pause();
+		// }
 		this.audio.src = sound;
 		this.audio.load();
 		this.audio.play();
@@ -374,19 +377,20 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 	movetop: any;
 
 	checkAnswer(option, event) {
-		$( "#navBlock" ).addClass("disableNavBtn")
+		// $( "#navBlock" ).addClass("disableNavBtn")
 		this.controlHandler.isTab = false;
     	this.appModel.handleController(this.controlHandler);
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.pause();
+			this.disableInstruction=false;
 		}
 		// Analytics called for attempt counter & first option is clicked
 		this.appModel.notifyUserAction();
-		if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
-			this.myAudiohelp.nativeElement.pause();
-			this.myAudiohelp.nativeElement.currentTime = 0;
-		}
+		// if (this.myAudiohelp && this.myAudiohelp.nativeElement) {
+		// 	this.myAudiohelp.nativeElement.pause();
+		// 	this.myAudiohelp.nativeElement.currentTime = 0;
+		// }
 		if (!this.narrator_voice.nativeElement.paused) {
 			console.log("narrator voice still playing");
 		}
@@ -420,7 +424,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
     					this.appModel.handleController(this.controlHandler);
 						this.removeEvents();
 						this.blinkOnLastQues()
-						$( "#navBlock" ).removeClass("disableNavBtn")
+						// $( "#navBlock" ).removeClass("disableNavBtn")
 					}, 200)
 					setTimeout(() => {
 						this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
@@ -460,17 +464,19 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 		if (!this.narrator_voice.nativeElement.paused) {
 			console.log("narrator/instruction voice still playing");
 		} else {
+			this.appModel.notifyUserAction();
 			console.log("play on Instruction");
 			if (this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.currentTime = 0;
+				this.disableInstruction=true;
 				this.instruction.nativeElement.play();
 				this.instruction.nativeElement.onended = () => {
-					$("#ansBlock .options").removeClass("disable_div");
-					$("#ansBlock").css("pointer-events", 'auto');
+					this.disableInstruction=false;					
 				}
-				$(".instructionBase img").css("cursor", "pointer");
-				// $("#ansBlock .options").addClass("disable_div");
-				// $("#ansBlock").css("pointer-events", 'none');
+				// if (!this.optionAudio.nativeElement.paused) {
+				// 	this.instruction.nativeElement.currentTime = 0;
+				// 	this.instruction.nativeElement.pause();
+				// }				
 			}
 
 		}
@@ -586,18 +592,19 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 			if (this.ifRightAns) {
 				this.removeEvents();
 				this.ifRightAns = false;
-				$("#instructionBar").addClass("disable_div");
-				$("#ansBlock .options").css("opacity", "0.3");
-				$("#ansBlock .options").addClass("disable_div");
-				$("#ansBlock").css("pointer-events", 'none');
-				$("#instructionBar").css("opacity", "0.3");
-				$("#quesImage").css("opacity", "0.3");
-				$("#quesImage").css("pointer-events", 'none');
-				$("#answerBlock").css("opacity", "0.3");
+				this.disableInstruction=true;
+				this.disableMainContent=true;				
+				// $("#ansBlock .options").css("opacity", "0.3");
+				// $("#ansBlock .options").addClass("disable_div");
+				// $("#ansBlock").css("pointer-events", 'none');
+				// $("#instructionBar").css("opacity", "0.3");
+				// $("#quesImage").css("opacity", "0.3");
+				// $("#quesImage").css("pointer-events", 'none');
+				// $("#answerBlock").css("opacity", "0.3");
 
 			}
 			this.appModel.notifyUserAction();
-			$("#instructionBar").removeClass("disable_div");
+			this.disableInstruction=true;
 		}
 	}
 
@@ -698,8 +705,8 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 	reset() {
 		// will reset all what user performed
 		this.audio.pause()
-		if (this.myAudiohelp && this.myAudiohelp.nativeElement)
-			this.myAudiohelp.nativeElement.pause();
+		// if (this.myAudiohelp && this.myAudiohelp.nativeElement)
+		// 	this.myAudiohelp.nativeElement.pause();
 		var popup = document.getElementById("correctAns")
 		if (popup) {
 			popup.className = "d-flex align-items-center justify-content-center hideit";
@@ -728,7 +735,7 @@ export class Ntemplate12 implements OnInit, AfterViewChecked {
 		this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'hidden';
 		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
 			console.log("stuffs to do after wornog answer pop-up")
-			$( "#navBlock" ).removeClass("disableNavBtn")
+			// $( "#navBlock" ).removeClass("disableNavBtn")
 			this.controlHandler.isTab = true;
 			this.appModel.handleController(this.controlHandler);
 			this.ansBlock.nativeElement.children[this.itemid].children[1].style.height = 'auto'
