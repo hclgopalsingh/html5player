@@ -524,4 +524,8 @@ audio::-webkit-media-controls-time-remaining-display{
     border: initial;
     color: inherit;
     filter: brightness(3);
+    border-radius: 30px;
+  }
+  audio::-webkit-media-controls-play-button{
+    cursor: pointer;
   }
