@@ -184,7 +184,7 @@ button {
 		color: #fff;
 		font-family: Kruti Dev !important;
 		font-weight: normal;
-		font-size: 1.4vmax;
+		font-size: 1.8vmax;
 		line-height: 2;
 		width: 98%;
 		position: absolute;
@@ -384,7 +384,6 @@ button {
 			width: 100% !important;
 			text-align: center !important;
 			top: 2.5vmin !important;
-			display: none;
 		}
 	}
 }
@@ -419,7 +418,7 @@ button {
 		width: 100%;
 		text-align: center;
 		top: 2.5vmin !important;
-		display: none;
+		left: 0;
 	}
 }
 .speakerBlock {
@@ -499,7 +498,7 @@ button {
 		width: 100%;
 		text-align: center;
 		top: 2.5vmin !important;
-		display: none;
+		left: 0;
 	}
 }
 @media only screen and (min-width: 1025px) and (max-height: 767px) {

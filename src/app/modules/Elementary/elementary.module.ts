@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragulaModule } from 'ng2-dragula';
-import { Ntemplate1Component } from './Ntemplate1/Ntemplate1.component';
 import { ElementaryRoutingModule } from './ele-routing.module';
+import { Ntemplate3 } from './Ntemplate3/Ntemplate3.component';
 
  
 @NgModule({
@@ -12,7 +12,7 @@ import { ElementaryRoutingModule } from './ele-routing.module';
     DragulaModule.forRoot()
   ],
   declarations: [
-  Ntemplate1Component
+  Ntemplate3
   ],
   providers: []
 })
