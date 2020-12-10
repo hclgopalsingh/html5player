@@ -15,7 +15,10 @@
 	width: 100%;
 	left: 0%;
 }
-#container #optBlock {top: 52%;}
+#container #optBlock {
+  /* top: 52%; */
+  top: 50%;
+}
 #container #ansBlock {
     width: 93%;
 }
@@ -311,7 +314,7 @@
 
   /*confirm modal*/
 
-  .confirm_modal_content {
+  /* .confirm_modal_content {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -323,7 +326,7 @@
     width: 100%;
     height: 100%;
     box-shadow: none;
-  }
+  } */
 
 	#confirmModal {
 	  /* display: flex;*/
@@ -403,12 +406,11 @@
 	  width: 85%;
 	}
 
-	#confirmModal .modal-title {
+	/* #confirmModal .modal-title {
 	  margin-left: 3%;
-	}
+	} */
 
-	#confirmModal .close {
-	  /* width: 5%; */
+	/* #confirmModal .close {
 	  margin: 0 1.6% 0 auto;
 	}
 
@@ -431,7 +433,7 @@
 
 	#confirmModal .popupModelBody {
 	  padding: 0;
-	}
+	} */
 
   .displayPopup {
     display: -webkit-box !important;
@@ -646,8 +648,8 @@
   }
 
 
-/* wrongAns pop up */
-.wrongAns{
+/* Ans pop up */
+.Ans{
     position:absolute;
     left:0;
     top:0;
@@ -659,14 +661,14 @@
     align-items:center !important;
     }
 
-#wrongAns img {
+#Ans img {
     position: absolute;
     width: 85%;
     top: auto;
     left: 23px;
   }
 
-#wrongAns img {
+#Ans img {
     position: absolute;
     width: 70%;
 }
@@ -837,7 +839,7 @@
 }
 .modal-header{
 	padding: .5%;
-	height: 7vmin;/*56px;*/
+	height: 7vmin;
   position: relative;
   top: 0;
   width: 100%;
@@ -916,7 +918,8 @@
 
   #instructionBar .instructionBase {
 	width: 50%;
-	position: relative;
+  position: relative;
+  cursor: pointer;
   }
 
   .instructionBase .instructionText {
@@ -934,8 +937,21 @@
 
 .wrongImageStyle {
 		border: solid 5px red;
-		border-radius: 9%;
+    border-radius: 9%;
+    height:115px;
+    width: 120px;
+    margin-left:-10px;
+    margin-top:12px
  }
+
+ /* .bgBlank {
+position: absolute;
+    top: 5%;
+    width: 85%;
+    text-align: center;
+    left: 5%;
+
+ } */
 
  .zclass{
    z-index: 99;
@@ -973,26 +989,34 @@
 
 #playPauseBtn {
   position: absolute;
-  top: 85%;
-  right: 16%;
+  top: 86%;
+  right: .7%;
   cursor: pointer;
-  width: 1.5%;
+  width: 3.5%;
 }
 #playPauseBtn img {
-  width: 200%;
+  /* width: 200%;
   filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
+  max-width: none; */
 }
 
 #SkipBtn{
-  position: absolute;
+  /* position: absolute;
   top: 83.7%;
   right: -3.7%;
   cursor: pointer;
-  width: 16%;
+  width: 16%; */
+  position: absolute;
+  top: 86%;
+  /*85%*/
+  right: 5%;
+  /*16%*/
+  cursor: pointer;
+  width: 3.5%;
+  /*1.5%*/
 }
 #SkipBtn img {
-  max-width: 70%;
+  /* max-width: 70%; */
 }
 button:focus {
   outline: none !important;
