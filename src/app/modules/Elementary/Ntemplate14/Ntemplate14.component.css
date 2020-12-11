@@ -625,6 +625,7 @@ audio::-webkit-media-controls-timeline {
   color: inherit;
   filter: brightness(3);
   border-radius: 30px;
+  clip-path: circle(70.6%);
   cursor: pointer;
 }
 
