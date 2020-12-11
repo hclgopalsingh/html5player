@@ -455,5 +455,7 @@ button:focus{
 	left:0;
 	/* display: none; */
 }
-
+.modal .instructionBase {
+	max-width: 93% !important;
+}
 
