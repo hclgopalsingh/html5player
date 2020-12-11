@@ -630,7 +630,6 @@ button:focus {
 
 .instructionBar .instructionBase {
   width: 60%;
-  /*86%;*/
   position: relative;
 }
 
@@ -917,17 +916,17 @@ html [type=button] {
 }
 
 .modal .instructionBase {
-  width: 100% !important;
+  width: 93% !important;
   position: relative;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   cursor: default;
 }
 
-.modal .instructionBase img {
+/* .modal .instructionBase img {
   max-width: none !important;
   max-height: 7vmin;
-}
+} */
 
 /***** video container style *****/
 .videoMainContainer {
