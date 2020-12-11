@@ -90,9 +90,9 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   leftTo: any;
   topTo: any;
   attemptType: string = "";
-  rightanspopUpheader_img = false;
-  wronganspopUpheader_img = false;
-  showanspopUpheader_img = false;
+  // rightanspopUpheader_img = false;
+  // wronganspopUpheader_img = false;
+  // showanspopUpheader_img = false;
   tempOpt: any;
   tj: any;
   instructionDisable: boolean = false;
@@ -105,7 +105,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   displaymainPopup: boolean = false;
   disableremovalTimer:any;
   initialDisableTimer:any;
-  popupTxtRequired:boolean=false;
+  // popupTxtRequired:boolean=false;
   manualClickedonCrossbtn:boolean=false
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
@@ -178,13 +178,13 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
 
         //show modal of auto
         this.appModel.notifyUserAction();
-        this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
+        // this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
         this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
         this.instructionDisable = true;
         this.checked = true;
         this.attemptType = "auto";
-        this.rightanspopUpheader_img = false;
-        this.showanspopUpheader_img = true;
+        // this.rightanspopUpheader_img = false;
+        // this.showanspopUpheader_img = true;
         this.displayconfirmPopup = false;
         this.displaymainPopup = true;
         if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
@@ -202,7 +202,6 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
 
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
-      this.optionObj[this.index1].imgsrc=this.optionObj[this.index1].imgsrc_original;
       clearTimeout(this.showAnssetTimeout);
       if (action == "uttarDikhayein") {
         this.instructionDisable = false;
@@ -216,13 +215,13 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     });
 
     this.appModel.questionEvent.subscribe(() => {
-      if (this.rightanspopUp) {
-        console.log("timer still exist");
-        clearTimeout(this.rightanspopUp);
-      }
-      if (this.wronganspopUp) {
-        clearTimeout(this.wronganspopUp);
-      }
+      // if (this.rightanspopUp) {
+      //   console.log("timer still exist");
+      //   clearTimeout(this.rightanspopUp);
+      // }
+      // if (this.wronganspopUp) {
+      //   clearTimeout(this.wronganspopUp);
+      // }
     });
 
     this.appModel.nextBtnEvent().subscribe(() => {
@@ -486,11 +485,11 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     if (flag == "yes") {
       this.manualClickedonCrossbtn=false;      
       this.showAnssetTimeout = setTimeout(() => {
-        this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
+        // this.popupTxtRequired=this.feedbackObj.showAnswerpopupTxt.required;
         this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
         this.attemptType = "auto";
-        this.rightanspopUpheader_img = false;
-        this.showanspopUpheader_img = true;
+        // this.rightanspopUpheader_img = false;
+        // this.showanspopUpheader_img = true;
         this.appModel.invokeTempSubject('showModal', 'manual');
         this.appModel.resetBlinkingTimer();
       }, 100);
