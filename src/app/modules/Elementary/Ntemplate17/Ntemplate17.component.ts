@@ -354,6 +354,7 @@ export class Ntemplate17Component implements OnInit {
   ]
   totalChar: any = 17;
   currentChar: any = 0;
+  loadQuestionInterval:any;
 
 
   //angular life-cycle funtions
@@ -484,6 +485,7 @@ export class Ntemplate17Component implements OnInit {
       this.mainVideo.nativeElement.currentTime = 0;
       clearTimeout(this.videoStartTimer);
     }
+    clearInterval(this.loadQuestionInterval);
     clearInterval(this.blinkTimer);
     clearInterval(this.feedbackTimer);
     clearTimeout(this.videoPlaytimer);
@@ -821,7 +823,7 @@ export class Ntemplate17Component implements OnInit {
 
         this.isQuesTypeVideo = false;
         this.appModel.navShow = 2;
-        setTimeout(() => {
+        this.loadQuestionInterval=setTimeout(() => {
           this.isPlayVideo = false;
           //if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
           this.quesVORef.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "? someRandomSeed=" + Math.random().toString(36);
