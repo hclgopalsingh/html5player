@@ -331,6 +331,7 @@ export class Ntemplate14Component implements OnInit {
 		this.showstop = false
 		this.removeBtn = false;
 		this.showPlay = true;
+		this.instructionDisable = false;
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
