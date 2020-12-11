@@ -504,8 +504,8 @@ audio::-webkit-media-controls-time-remaining-display{
   #tracktime{
     color: turquoise;
     min-width: 9.5%;
-    font-size: 1.2em;
-    padding-left: 2%;
+    font-size: 1.85vmin;
+    padding-left: 2.5%;
   }
 
   .setImage{
