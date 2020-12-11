@@ -1665,7 +1665,7 @@ cursor: pointer
 .modal .instructionBase {
   max-width: 96%;
   position: relative;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
 }
 /* .modal .instructionBase img {
