@@ -89,6 +89,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('bodyContent') bodyContentSection: any;
   @ViewChild('onlyOneAttemptModalRef') onlyOneAttemptModalRef: any;
   @ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
+  @ViewChild('modaldialog') modaldialog: any;
+  
   attemptType: any;
   audio = new Audio();
   blink: boolean = false;
@@ -1084,16 +1086,23 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         }
       } 
       if (this.noOfRightAnsClicked == this.feedbackObj.correct_ans_index.length && this.noOfWrongAnsClicked == 0) {
+        //modaldialog
         //this.openWrong = true
         this.setFeedback();
         this.popupRef.nativeElement.classList = 'displayPopup modal';
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked >= 2) {
+        if(this.noOfWrongAnsClicked == 2){
+          this.modaldialog.nativeElement.classList.add('twoCount');
+        }
         this.openWrong = true
         this.setFeedback();
         this.popupRef.nativeElement.classList = 'displayPopup modal';
       }
       if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
+        if(this.noOfRightAnsClicked==1 && this.noOfWrongAnsClicked ==1){
+          this.modaldialog.nativeElement.classList.add('twoCount');
+        }
         //this.openWrong = true
         this.setFeedback();
         this.popupRef.nativeElement.classList = 'displayPopup modal';
@@ -1712,6 +1721,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
+    this.modaldialog.nativeElement.classList.remove('twoCount');
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
