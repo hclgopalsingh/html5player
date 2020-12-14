@@ -101,9 +101,32 @@
           <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
         </div>
       </div>
-      <span *ngFor="let holiday of holidayCal; let idx = index">
-<span>{{holiday.date}}-{{holiday.name}}</span>
-      </span>
+      <div class="holidayList">
+        <div>
+          <span class="hDate">2</span>
+          <span class="hName">Gandhi Jyanti</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Laxmi Puja</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Maharishi Valmiki Birthday</span>  
+        </div>
+        <div>
+          <span class="hDate">2</span>
+          <span class="hName">Gandhi Jyanti</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Laxmi Puja</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Maharishi Valmiki Birthday</span>  
+        </div>
+      </div>
     </div>
   </div>
 

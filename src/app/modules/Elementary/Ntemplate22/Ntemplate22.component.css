@@ -634,3 +634,34 @@ nav {
 /* .btn-secondary.focus, .btn-secondary:focus {
   box-shadow: none !important;
 } */
+
+.holidayList{
+  position: absolute;
+  bottom: -15.5%;
+  color: #fff;
+  width: 82%;
+}
+.holidayList div{
+  width: 16%;
+  border-right: solid 1px #fff;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1%;
+  font-family: arial;
+  font-weight: normal;
+}
+.holidayList div .hDate{
+  font-size: 3vmin;
+  padding-right: 3%;
+}
+.holidayList div .hName{
+  display:  inline-flex;
+  flex-wrap: wrap;
+  line-height: 1.2;
+  font-size: 1.6vmin;
+}
+@media (max-width: 1024px) {
+  .holidayList div .hName{
+    font-size: 1.2vmin;
+  }  
+}
