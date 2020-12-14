@@ -767,6 +767,12 @@ button:focus {
   text-decoration: none;
   opacity: 1;*/
 }
+.modal-dialog.twoCount #optionsBlock .options {
+  width: 26%;
+  }
+  #modalTemp5 .modal-dialog.twoCount {
+    max-width: 57%; 
+   }
 
 html [type=button] {
   -webkit-appearance: none;
