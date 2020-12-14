@@ -148,6 +148,15 @@ export class Ntemplate22 implements OnInit {
   functionalityType: any;
   themePath: any;
   showAnsTimeout: any;
+  currentYear:any;
+  currentMonth:any;
+  holidayCal:any;
+  AnswerpopupTxt: boolean = false;
+  popupHeader: any;
+  rightanspopUpheader_img: boolean = false;
+  wronganspopUpheader_img: boolean = false;
+  showanspopUpheader_img: boolean = false;
+  partialCorrectheaderTxt_img: boolean = false;
   playHoverInstruction() {
    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
@@ -362,16 +371,29 @@ export class Ntemplate22 implements OnInit {
     //this.setData();
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
+        this.rightanspopUpheader_img = false;
+        this.wronganspopUpheader_img = false;
+        this.showanspopUpheader_img = true;
+        this.partialCorrectheaderTxt_img = false;
+        this.styleHeaderPopup = this.feedbackObj.style_header;
+        this.styleBodyPopup = this.feedbackObj.style_body;
         //show modal for manual
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
          // this.popupRef.nativeElement.classList = "displayPopup modal";
-		 console.log("No-1");
+		      console.log("No-1");
           
           //this.setFeedbackAudio();
         }
       } else if (mode == "auto") {
+        if (this.feedbackObj.rightAnswerpopupTxt.required) {
+          this.AnswerpopupTxt = true;
+          this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
+  
+        } else {
+          this.AnswerpopupTxt = false; 
+        }
         this.checked = true;
         //show modal of auto
         this.appModel.notifyUserAction();
@@ -380,8 +402,12 @@ export class Ntemplate22 implements OnInit {
           //this.popupRef.nativeElement.classList = "displayPopup modal";
 		  console.log("No-2");
       this.showAnswerFeedback();
-        this.styleHeaderPopup = this.feedbackObj.style_header;
-        this.styleBodyPopup = this.feedbackObj.style_body;
+      this.rightanspopUpheader_img = false;
+      this.wronganspopUpheader_img = false;
+      this.showanspopUpheader_img = true;
+      this.partialCorrectheaderTxt_img = false;
+      this.styleHeaderPopup = this.feedbackObj.style_header;
+      this.styleBodyPopup = this.feedbackObj.style_body;
         this.confirmModalRef.nativeElement.classList="modal";
         this.confirmSubmitRef.nativeElement.classList="modal";
       this.popupRef.nativeElement.classList="displayPopup modal";
@@ -405,6 +431,22 @@ export class Ntemplate22 implements OnInit {
 
     this.appModel.getConfirmationPopup().subscribe((val) => {
             if (val == "uttarDikhayein") {
+
+              this.rightanspopUpheader_img = false;
+            this.wronganspopUpheader_img = false;
+            this.showanspopUpheader_img = true;
+            this.partialCorrectheaderTxt_img = false;
+              this.styleHeaderPopup = this.feedbackObj.style_header;
+              this.styleBodyPopup = this.feedbackObj.style_body;
+              if (this.feedbackObj.ShowAnsHeader.required) {
+                this.AnswerpopupTxt = true;
+                this.popupHeader = this.feedbackObj.ShowAnsHeader.url;
+        
+              } else {
+                this.AnswerpopupTxt = false; 
+              }
+
+
               this.instruction.nativeElement.currentTime = 0;
               this.instruction.nativeElement.pause();
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
@@ -463,7 +505,9 @@ export class Ntemplate22 implements OnInit {
   holiday_json(data){
     this.holidayData = data.Holidays
     console.log("./assets/Holiday/holiday_data",data)
+    if(this.quesObj.Ques_scenario.type!=""){
     this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario[this.quesObj.Ques_scenario.type])
+    }
     //this.findHolidayInJsonTodisplay('02','2022')
   }
 
@@ -478,9 +522,20 @@ export class Ntemplate22 implements OnInit {
   }
 
   showCurrentMonthHolidays(){
-    console.log("this.date",this.date, this.date.getMonth(), this.date.getFullYear())
-    var CurrentMonhtHolidays = this.holidayData.filter(item => (item.month== this.date.getMonth() && item.year == this.date.getFullYear()));
-    console.log("CurrentMonhtHolidays", CurrentMonhtHolidays)
+    console.log("this.date",this.date, this.date.getMonth(), this.date.getFullYear());
+    var abc=[];
+    var a = this.holidayData[this.date.getFullYear()];
+    var objectLenght = Object.keys(a).length;
+    for(var i=0; i<objectLenght; i++){
+      var aa = Object.keys(a)[i];
+      var bb= a[aa];
+      if(bb.month == this.date.getMonth()+1){
+       abc.push({'date':bb.date,'name':bb.name});
+       }
+       this.holidayCal = abc;
+      
+    }
+    console.log("CurrentMonhtHolidays", abc)
 
   }
 
@@ -622,6 +677,24 @@ export class Ntemplate22 implements OnInit {
         this.datesArr.filter((item) => item.selected != true).map((item) => item.disable = true);
       }
     }
+    this.getCurrentMonth();
+  }
+  getCurrentMonth(){
+    // currentYear:any;
+    //currentMonth:any;
+    this.Arryears.filter((years) =>{
+      if( years.selected == true){
+        this.currentYear = years.id;
+      }
+    });
+    this.monthsArr.filter((months) =>{
+      if( months.selected == true){
+        this.currentMonth = months.id;
+      }
+    });
+    console.log('current selected Year is ->' +  this.currentYear);
+    console.log('current selected Month is ->' +  this.currentMonth);
+
   }
   
   setDatefromJSON() {
@@ -988,6 +1061,11 @@ export class Ntemplate22 implements OnInit {
       this.CorrectAudio = this.commonAssets.CorrectAudio;
       this.WrongAudio = this.commonAssets.WrongAudio;
       this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
+      this.getJson();
+      setTimeout(() => {
+        this.showCurrentMonthHolidays();
+       }, 1000);
+      
       if( this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_2"){
         this.getJson();
       }else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_3"){
@@ -1295,6 +1373,10 @@ export class Ntemplate22 implements OnInit {
       }
     }
     if(id == "showAnswer-modal-id" && flag == "answer") {
+      this.rightanspopUpheader_img = false;
+            this.wronganspopUpheader_img = false;
+            this.showanspopUpheader_img = true;
+            this.partialCorrectheaderTxt_img = false;
       this.checked=true;
       this.attemptType = "auto";
       this.confirmModalRef.nativeElement.classList = "modal";
@@ -1323,11 +1405,23 @@ export class Ntemplate22 implements OnInit {
     }
     if (flag == "yes") {
       //this.onSubmit();
+      
             this.setCalender("popup");            
             this.attemptType = "manual";
             if(this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
+            this.rightanspopUpheader_img = false;
+            this.wronganspopUpheader_img = false;
+            this.showanspopUpheader_img = true;
+            this.partialCorrectheaderTxt_img = false;
               this.styleHeaderPopup = this.feedbackObj.style_header;
               this.styleBodyPopup = this.feedbackObj.style_body;
+              if (this.feedbackObj.rightAnswerpopupTxt.required) {
+                this.AnswerpopupTxt = true;
+                this.popupHeader = this.feedbackObj.rightAnswerpopupTxt.url;
+        
+              } else {
+                this.AnswerpopupTxt = false; 
+              }
               if(!this.quesObj.disableweekDay) {
                 if(this.ArrweekDays.filter((item)=>item.selected == true)[0]!=undefined) {
                   this.ArrweekDays.filter((item)=>item.selected == true)[0].weekDayImginpopUp = this.ArrweekDays.filter((item)=>item.selected == true)[0].rightweekDayImg;
@@ -1344,6 +1438,18 @@ export class Ntemplate22 implements OnInit {
                 } 
               }
             } else {
+              if (this.feedbackObj.wrongAnswerpopupTxt.required) {
+                this.AnswerpopupTxt = true;
+                this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
+        
+              } else {
+                this.AnswerpopupTxt = false;
+        
+              }
+              this.rightanspopUpheader_img = false;
+            this.wronganspopUpheader_img = true;
+            this.showanspopUpheader_img = false;
+            this.partialCorrectheaderTxt_img = false;
               this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
               this.styleBodyPopup = this.feedbackObj.wrong_style_body;
               // if(!this.quesObj.disableDate) {
@@ -1367,6 +1473,8 @@ export class Ntemplate22 implements OnInit {
                 } 
               }              
             }
+            
+        
             this.popupRef.nativeElement.classList = "displayPopup modal";
             this.playFeedback();
       //}
