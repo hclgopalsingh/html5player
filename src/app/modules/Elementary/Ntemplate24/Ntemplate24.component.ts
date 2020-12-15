@@ -553,7 +553,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
         if(this.submitEnable){
-          console.log('this.submitEnable' + this.submitEnable);
+          
           this.appModel.enableSubmitBtn(true);
         }
         this.loadTemplateAfterVideo();
@@ -575,7 +575,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   endedHandleronSkip() {
     this.appModel.navShow = 2;
     if(this.submitEnable){
-      console.log('endedHandleronSkip' + this.submitEnable);
+      
       this.appModel.enableSubmitBtn(true);
     }
     this.loadTemplateAfterVideo();
