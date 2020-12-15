@@ -104,9 +104,9 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   itemid: any = 0;
   manualClickedonCrossbtn: boolean = false;
   styleArray = [
-    {'position': 'absolute', 'top': '-293%', 'left': '-41.5%', 'width': '130%', 'max-width': '130%'},
-    {'position': 'absolute', 'top': '-293%', 'left': '-164%', 'width': '130%', 'max-width': '130%'},
-    {'position': 'absolute', 'top': '-293%', 'left': '-285.5%', 'width': '130%', 'max-width': '130%'}
+    {'left': '-22.5%', 'top': '-256%', 'width': '130%', 'max-width': '130%'},
+    {'left': '-144%', 'top': '-256%', 'width': '130%', 'max-width': '130%'},
+    {'left': '-266%', 'top': '-256%', 'width': '130%', 'max-width': '130%'}
   ]
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
