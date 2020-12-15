@@ -599,3 +599,7 @@
   pointer-events: none;
   opacity: 0.3;
 }
+
+.classOpacity {
+  opacity: 0.3;
+}

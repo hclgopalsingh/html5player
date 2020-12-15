@@ -50,6 +50,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   // @ViewChild("optionsBlock") optionsBlock: any;
+  @ViewChild('ans') ans: any;
   @ViewChild('ansBlock') ansBlock: any;
   @ViewChild('answerBlock') answerBlock: any;
   @ViewChild('feedbackVoRef') feedbackVoRef: any;
@@ -80,10 +81,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
-  optionObj: any;
-  feedbackObj: any;
   confirmPopupAssets: any;
-  rightAnspopupAssets: any;
   tempSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
@@ -305,11 +303,11 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   }
 
   hoverClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
+    this.feedback.popup_commmon_imgs.close_btn = this.feedback.popup_commmon_imgs.close_btn_hover;
   }
 
   houtClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
+    this.feedback.popup_commmon_imgs.close_btn = this.feedback.popup_commmon_imgs.close_btn_original;
   }
 
   onHoverOptions(option, idx) {
@@ -461,8 +459,8 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
       this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options));
 			console.log("myoption : " + this.myoption);
 			this.question = this.fetchedcontent.ques;
-      this.feedbackObj = this.fetchedcontent.feedback;
-      this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
+      this.feedback = this.fetchedcontent.feedback;
+      // this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
       this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
       this.quesObj = this.fetchedcontent.quesObj;
       /*Start: Theme Implementation(Template Changes)*/
@@ -486,18 +484,19 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   sendFeedback(id: string, flag: string) {
     this.displayconfirmPopup = false;
     if (flag == "yes") {
-      this.manualClickedonCrossbtn=false;      
-      this.showAnssetTimeout = setTimeout(() => {
-        // this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
-        this.attemptType = "auto";
-        this.appModel.invokeTempSubject('showModal', 'manual');
-        this.appModel.resetBlinkingTimer();
-      }, 100);
+      this.showAnswer();
+      // this.manualClickedonCrossbtn=false;      
+      // this.showAnssetTimeout = setTimeout(() => {
+      //   this.instructionBarFeedback.nativeElement.children[0].children[0].src=this.feedbackObj.showAnswerpopupTxt.url;
+      //   this.attemptType = "auto";
+      //   this.appModel.invokeTempSubject('showModal', 'manual');
+      //   this.appModel.resetBlinkingTimer();
+      // }, 100);
 
-      this.instructionDisable = true;
-      this.bodyContentOpacity = true;
-      this.instructionOpacity = true;
-      this.checked = true;
+      // this.instructionDisable = true;
+      // this.bodyContentOpacity = true;
+      // this.instructionOpacity = true;
+      // this.checked = true;
     }else {
       this.appModel.notifyUserAction();
       
@@ -516,44 +515,42 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     this.bodyContentOpacity = true;
     this.bodyContentDisable = true;
     this.appModel.notifyUserAction();
-    this.blinkOnLastQues();
-    // if (!this.checked) {
-    //   setTimeout(() => {
-    //     this.instructionDisable = false;        
-    //   }, 1000);
-    // }
+    this.blinkOnLastQues();    
   }
-  // showAnswer() {
-	// 	this.attemptType = "hideAnimation";
-	// 	this.ansShow = true;
-	// 	this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-	// 	//this.checkAnswer(obj,obj)
-	// 	this.ans.nativeElement.src = this.assetspath + '/' + this.feedback.correct_ans_url;
-	// 	this.confirmModalRef.nativeElement.classList="modal";
-	// 	this.ans.nativeElement.style.visibility = 'visible';
-	// 	let id: any;
-	// 	this.myoption.forEach((element, i) => {
-	// 		if (element.id == this.feedback.correct_ans_index) {
-	// 			id = i;
-	// 		}
-	// 	});
-	// 	console.log("id", id)
-	// 	this.myoption[id].imgsrc.url = "";
-	// 	this.appModel.resetBlinkingTimer();
-	// 	setTimeout(() => {
-	// 		this.feedbackVoRef.nativeElement.src = this.commonassets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-	// 		this.feedbackVoRef.nativeElement.play();
-	// 	}, 750)
-	// 	this.feedbackVoRef.nativeElement.onended=()=>{	
-	// 		setTimeout(() => {
-	// 			// this.checkNextActivities();
-	// 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-	// 			this.removeEvents();
-	// 			this.blinkOnLastQues()
-	// 		}, 3000)
-	// 	}
+  showAnswer() {
+		this.attemptType = "hideAnimation";
+		this.ansShow = true;
+		// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
+    this.bodyContentDisable=true;
+    //this.checkAnswer(obj,obj)
+		this.ans.nativeElement.src = this.containgFolderPath + "/" + this.feedback.correct_ans_url;
+    // this.confirmModalRef.nativeElement.classList="modal";
+    this.displayconfirmPopup=false;
+		this.ans.nativeElement.style.visibility = 'visible';
+		let id: any;
+		this.myoption.forEach((element, i) => {
+			if (element.id == this.feedback.correct_ans_index) {
+				id = i;
+			}
+		});
+		console.log("id", id)
+		this.myoption[id].imgsrc.url = "";
+		this.appModel.resetBlinkingTimer();
+		setTimeout(() => {
+			this.feedbackVoRef.nativeElement.src = this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+			this.feedbackVoRef.nativeElement.play();
+		}, 750)
+		this.feedbackVoRef.nativeElement.onended=()=>{	
+			setTimeout(() => {
+        // this.checkNextActivities();
+        this.bodyContentOpacity=true;
+				// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+				// this.removeEvents();
+				this.blinkOnLastQues()
+			}, 3000)
+		}
 		
-  // }
+  }
   stopAllSounds(e) {
 		//console.log("Event", e);
 		if (!this.instruction.nativeElement.paused) {

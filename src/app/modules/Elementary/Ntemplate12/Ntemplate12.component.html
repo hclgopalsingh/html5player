@@ -60,13 +60,13 @@
   <div class="modal" id="confirmModal" #confirmModalRef [ngClass]="{'displayPopup':displayconfirmPopup}">
     <div class="modal-dialog">
       <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
-          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedback?.confirm_popup?.style_header">
+          <img class="modal-title" [src]="feedback?.confirm_popup?.headerTxt_img?.url">
           <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');"
             (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
-        <div class="modal-body" [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+        <div class="modal-body" [ngStyle]="feedback?.confirm_popup?.style_body">
           <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
           <div class="actionButtons">
             <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()"
