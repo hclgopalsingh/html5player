@@ -46,7 +46,7 @@ import { Ntemplate12 } from './Ntemplate12/Ntemplate12.component';
   Ntemplate20Component,
   Ntemplate19Component,
   Ntemplate18_1,
-  Ntemplate14Component
+  Ntemplate14Component,
   Ntemplate12
   ],
   providers: []

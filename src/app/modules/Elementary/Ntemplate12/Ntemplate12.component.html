@@ -9,8 +9,50 @@
         <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
       </div>
     </div>
+    <audio #feedbackVoRef></audio>
     <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
-     
+      <div class="d-flex flex-row justify-content-around" id="answerBlock" #answerBlock>
+        <div class="ansBase">
+          <img class="img-fluid"
+            [src]="commonAssets?.quesBase?.url"
+            (load)="checkImgLoaded();">
+  
+          <img #ans class="img-fluid quesText"
+            [src]="question?.img_sentence.url"
+            (load)="checkImgLoaded();">
+            <img *ngIf = "!ansShow" class="img-fluid" 
+            [src]="myoption[itemid]?.imgsrc?.url" style="visibility:hidden" [ngStyle]='question.ansclass' >
+        </div>
+      </div>
+      <div class="optParent">
+        <div class="d-flex align-items-center justify-content-center" id="optionsBlock">
+          <div id="quesImage">
+    
+            <img class="img-fluid"
+              [src]="commonAssets?.refBase?.url"
+              (load)="checkImgLoaded();">
+    
+            <img class="img-fluid" id="refImage"
+              [src]="question?.image.url"
+              (load)="checkImgLoaded();">
+          </div>
+        </div>
+  
+        <div class="d-flex align-items-center justify-content-around" id="optBlock">
+          <div class="d-flex flex-row justify-content-around options" [ngClass]="{'pointer':optionCursorPointer}" id="ansBlock" #ansBlock>
+            <div class="options" *ngFor="let opts of myoption;let idx = index" (click)="opts['idx']=idx ;checkAnswer(opts,$event)">
+              <img class="img-fluid backgroundBlank" id="{{'optblank'+idx}}"
+                [src]="opts?.image?.url"
+                (load)="checkImgLoaded();">
+              <img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}"
+                [src]="opts?.imgsrc?.url"
+                on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
+                (load)="checkImgLoaded();">
+            </div>
+          </div>
+        </div>
+          
+      </div>
     </div>
   </div>
   <!-- The Confirmation Modal -->
@@ -37,5 +79,4 @@
       </div>
     </div>
   </div>
-  <audio #feedbackVO></audio>
 </div>
