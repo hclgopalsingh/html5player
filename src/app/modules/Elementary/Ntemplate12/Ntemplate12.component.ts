@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
@@ -21,18 +21,15 @@ declare var $: any;
   animations: [
     trigger('openClose', [
       state('open', style({
-        'left': '{{leftPos}}',
-        'top': '{{topPos}}',
-        'position': '{{optPos}}',
-        'width': '{{optWidth}}'
-      }), { params: { leftPos: 'auto', topPos: 'auto', optPos: 'absolute', optWidth: 'auto' } }),
-      state('closed', style({
-        'left': '{{leftPos}}',
-        'top': '{{topPos}}',
-        'position': '{{optPos}}',
-        'width': '{{optWidth}}'
 
-      }), { params: { leftPos: 'auto', topPos: 'auto', optPos: 'absolute', optWidth: 'auto' } }),
+      })),
+      state('closed', style({
+        'position': '{{optPos}}',
+        'left': '{{leftPos}}',
+        'top': '{{topPos}}',
+        'width': '{{optWidth}}',
+        'max-width': '{{optMaxWidth}}'
+      }), { params: { leftPos: 'auto', topPos: 'auto', optPos: 'absolute', optWidth: 'auto', optMaxWidth: 'auto' } }),
       transition('open => closed', [
         animate('0.8s')
       ]),
@@ -44,7 +41,7 @@ declare var $: any;
   templateUrl: './Ntemplate12.component.html',
   styleUrls: ['./Ntemplate12.component.css']
 })
-export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
+export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
 
 
   @ViewChild('narrator') narrator: any;
@@ -86,11 +83,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   rightanspopUp: any;
   wronganspopUp: any;
   quesObj: any;
-  index1: number = 0;
-  index2: number = 0;
   attemptType: string = "";
-  tempOpt: any;
-  tj: any;
   instructionDisable: boolean = false;
   instructionOpacity: boolean = false;
   rightAnsTimeout: any;
@@ -99,18 +92,22 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   bodyContentDisable: boolean = true;
   displayconfirmPopup: boolean = false;
   displaymainPopup: boolean = false;
-  disableremovalTimer:any;
-  initialDisableTimer:any;
+  initialDisableTimer: any;
   ansShow: boolean = false;
   myoption: any = [];
   question: any = "";
-  optionCursorPointer:boolean =false;
+  optionCursorPointer: boolean = false;
   moveTo: any;
-	moveFrom: any;
-	moveleft: any;
+  moveFrom: any;
+  moveleft: any;
   movetop: any;
   itemid: any = 0;
-  manualClickedonCrossbtn:boolean=false
+  manualClickedonCrossbtn: boolean = false;
+  styleArray = [
+    {'position': 'absolute', 'top': '-293%', 'left': '-41.5%', 'width': '130%', 'max-width': '130%'},
+    {'position': 'absolute', 'top': '-293%', 'left': '-164%', 'width': '130%', 'max-width': '130%'},
+    {'position': 'absolute', 'top': '-293%', 'left': '-285.5%', 'width': '130%', 'max-width': '130%'}
+  ]
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -144,7 +141,6 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
     this.containgFolderPath = this.getBasePath();
-    clearInterval(this.disableremovalTimer);
     /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
     this.fetchedcontent = JSON.parse(JSON.stringify(fetchedData));;
@@ -177,7 +173,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
         //     }
         //   }, this.showAnsTimeout);
         // }
-      }else if (mode == "auto") {
+      } else if (mode == "auto") {
 
         //show modal of auto
         this.appModel.notifyUserAction();
@@ -247,11 +243,10 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     clearInterval(this.rightAnsTimeout);
     clearInterval(this.showAnssetTimeout);
     clearInterval(this.initialDisableTimer);
-    this.index1 = 0;
-    if(this.narrator.nativeElement!=undefined){
+    if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
-      this.narrator.nativeElement.currentTime=0;
-    }    
+      this.narrator.nativeElement.currentTime = 0;
+    }
   }
 
   ngAfterViewChecked() {
@@ -264,7 +259,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
-    }else {
+    } else {
       console.log("play on Instruction");
       this.appModel.notifyUserAction();
       if (this.instruction.nativeElement.paused) {
@@ -278,7 +273,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     }
   }
 
-  
+
   hoverConfirm() {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
@@ -311,35 +306,35 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   }
 
   onHoverOptions(option, idx) {
-		//console.log("in",option);
-		if (!this.instruction.nativeElement.paused) {
-			console.log("narrator voice still playing");
-		}
-		else {
-			option.image = option.image_hover;
+    //console.log("in",option);
+    if (!this.instruction.nativeElement.paused) {
+      console.log("narrator voice still playing");
+    }
+    else {
+      option.image = option.image_hover;
       // this.ansBlock.nativeElement.children[idx].className = "options pointer";
-      this.optionCursorPointer=true;
-		}
-	}
-
-	onHoveroutOptions(option, idx) {
-		//console.log("out",option);
-		option.image = option.image_original;
-    // this.ansBlock.nativeElement.children[idx].className = "options";
-    this.optionCursorPointer=false;
-	}
-  onAnimationEvent(event: AnimationEvent, opt, j) {
-  if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") { 
-
-
-  }else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
-   
+      this.optionCursorPointer = true;
+    }
   }
-}
+
+  onHoveroutOptions(option, idx) {
+    //console.log("out",option);
+    option.image = option.image_original;
+    // this.ansBlock.nativeElement.children[idx].className = "options";
+    this.optionCursorPointer = false;
+  }
+  onAnimationEvent(event: AnimationEvent, opt, j) {
+    if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
+
+
+    } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
+
+    }
+  }
   /*End-Template click and hover events*/
 
 
-  
+
   /******Blinking of next Button *******/
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -355,31 +350,28 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
         }
       }
       console.log("Segment Ends");
-    }else {
+    } else {
       this.appModel.moveNextQues(this.attemptType);
     }
   }
 
-/******Wrong or Partial Incorrect post anmination functionality *******/
+  /******Wrong or Partial Incorrect post anmination functionality *******/
   postWrongAttemplt() {
     this.ansBlock.nativeElement.children[this.itemid].children[1].style.visibility = 'visible'
-		this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'hidden';
-		$(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
-			console.log("stuffs to do after wornog answer pop-up")
-			// $( "#navBlock" ).removeClass("disableNavBtn")
-			// this.controlHandler.isTab = true;
-			// this.appModel.handleController(this.controlHandler);
-			this.ansBlock.nativeElement.children[this.itemid].children[1].style.height = 'auto'
-			this.ansBlock.nativeElement.children[this.itemid].children[1].style.width = 'auto'
-      // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-      this.bodyContentDisable=false;
-		})  
+    this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'hidden';
+    // $(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
+    console.log("stuffs to do after wornog answer pop-up")
+    this.myoption[this.itemid].isOpen = true;
+    // this.ansBlock.nativeElement.children[this.itemid].children[1].style.height = 'auto'
+    // this.ansBlock.nativeElement.children[this.itemid].children[1].style.width = 'auto'
+    this.bodyContentDisable = false;
+    // })  
   }
   /******Checking of existance of quesTab in content JSON *******/
   checkquesTab() {
     if (this.fetchedcontent.commonassets.ques_control != undefined) {
       this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
-    }else {
+    } else {
       this.appModel.getJson();
     }
   }
@@ -406,7 +398,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
   }
 
-/******loading of Templates *******/
+  /******loading of Templates *******/
   checkImgLoaded() {
     if (!this.loadFlag) {
       this.noOfImgsLoaded++;
@@ -418,34 +410,34 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
       }
     }
   }
-/******Question Auto Instruction check as per content JSON *******/
+  /******Question Auto Instruction check as per content JSON *******/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
-      this.appModel.handlePostVOActivity(true);      
+      this.appModel.handlePostVOActivity(true);
       //this.bodyContentDisable = true;
       this.instructionDisable = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
-        this.initialDisableTimer=setTimeout(()=>{
-        this.instructionDisable = false;
-        this.bodyContentDisable = false;       
-        this.startActivity();
-        this.appModel.handlePostVOActivity(false);      
+        this.initialDisableTimer = setTimeout(() => {
+          this.instructionDisable = false;
+          this.bodyContentDisable = false;
+          this.startActivity();
+          this.appModel.handlePostVOActivity(false);
         }, 1000)
       }
-    }else {
+    } else {
       this.startActivity();
       this.appModel.handlePostVOActivity(false);
     }
   }
 
-/******After completion of Auto Instruction Activity start functionality *******/
+  /******After completion of Auto Instruction Activity start functionality *******/
   startActivity() {
-    
+
   }
 
 
-/******Data set from content JSON *******/
+  /******Data set from content JSON *******/
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.commonAssets = this.fetchedcontent.commonassets;
@@ -455,12 +447,10 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
-      // this.optionObj = this.fetchedcontent.optionObj;     
       this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options));
-			console.log("myoption : " + this.myoption);
-			this.question = this.fetchedcontent.ques;
+      console.log("myoption : " + this.myoption);
+      this.question = this.fetchedcontent.ques;
       this.feedback = this.fetchedcontent.feedback;
-      // this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
       this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
       this.quesObj = this.fetchedcontent.quesObj;
       /*Start: Theme Implementation(Template Changes)*/
@@ -469,10 +459,13 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
         isReplayRequired: this.quesObj.replayRequired
       }
       /*End: Theme Implementation(Template Changes)*/
+      for (let i = 0; i < this.myoption.length; i++) {
+        this.myoption[i].isOpen = true;
+      }
     }
   }
 
-/******content folder path set *******/
+  /******content folder path set *******/
   getBasePath() {
     if (this.appModel && this.appModel.content) {
       return this.appModel.content.id + '';
@@ -480,7 +473,7 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
   }
 
 
-/******Show Answer Functionality after click on Yes *******/
+  /******Show Answer Functionality after click on Yes *******/
   sendFeedback(id: string, flag: string) {
     this.displayconfirmPopup = false;
     if (flag == "yes") {
@@ -497,15 +490,15 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
       // this.bodyContentOpacity = true;
       // this.instructionOpacity = true;
       // this.checked = true;
-    }else {
+    } else {
       this.appModel.notifyUserAction();
-      
+
     }
   }
 
-/******Popup close functionality *******/
+  /******Popup close functionality *******/
   closeModal() {
-    this.manualClickedonCrossbtn=true;
+    this.manualClickedonCrossbtn = true;
     // if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
     //   this.feedbackPopupAudio.nativeElement.pause();
     //   this.feedbackPopupAudio.nativeElement.currentTime = 0;
@@ -515,129 +508,137 @@ export class Ntemplate12 implements OnInit, OnDestroy,AfterViewChecked {
     this.bodyContentOpacity = true;
     this.bodyContentDisable = true;
     this.appModel.notifyUserAction();
-    this.blinkOnLastQues();    
+    this.blinkOnLastQues();
   }
   showAnswer() {
-		this.attemptType = "hideAnimation";
-		this.ansShow = true;
-		// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
-    this.bodyContentDisable=true;
+    this.attemptType = "hideAnimation";
+    this.ansShow = true;
+    // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
+    this.bodyContentDisable = true;
     //this.checkAnswer(obj,obj)
-		this.ans.nativeElement.src = this.containgFolderPath + "/" + this.feedback.correct_ans_url;
+    this.ans.nativeElement.src = this.containgFolderPath + "/" + this.feedback.correct_ans_url;
     // this.confirmModalRef.nativeElement.classList="modal";
-    this.displayconfirmPopup=false;
-		this.ans.nativeElement.style.visibility = 'visible';
-		let id: any;
-		this.myoption.forEach((element, i) => {
-			if (element.id == this.feedback.correct_ans_index) {
-				id = i;
-			}
-		});
-		console.log("id", id)
-		this.myoption[id].imgsrc.url = "";
-		this.appModel.resetBlinkingTimer();
-		setTimeout(() => {
-			this.feedbackVoRef.nativeElement.src = this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-			this.feedbackVoRef.nativeElement.play();
-		}, 750)
-		this.feedbackVoRef.nativeElement.onended=()=>{	
-			setTimeout(() => {
+    this.displayconfirmPopup = false;
+    this.ans.nativeElement.style.visibility = 'visible';
+    let id: any;
+    this.myoption.forEach((element, i) => {
+      if (element.id == this.feedback.correct_ans_index) {
+        id = i;
+      }
+    });
+    console.log("id", id)
+    this.myoption[id].imgsrc.url = "";
+    this.appModel.resetBlinkingTimer();
+    setTimeout(() => {
+      this.feedbackVoRef.nativeElement.src = this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackVoRef.nativeElement.play();
+    }, 750)
+    this.feedbackVoRef.nativeElement.onended = () => {
+      setTimeout(() => {
         // this.checkNextActivities();
-        this.bodyContentOpacity=true;
-				// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-				// this.removeEvents();
-				this.blinkOnLastQues()
-			}, 3000)
-		}
-		
+        this.bodyContentOpacity = true;
+        // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+        // this.removeEvents();
+        this.blinkOnLastQues()
+      }, 3000)
+    }
+
   }
   stopAllSounds(e) {
-		//console.log("Event", e);
-		if (!this.instruction.nativeElement.paused) {
-			e.stopPropagation();
-			console.log("narrator voice still playing");
-		}
-		else { }
+    //console.log("Event", e);
+    if (!this.instruction.nativeElement.paused) {
+      e.stopPropagation();
+      console.log("narrator voice still playing");
+    }
+    else { }
   }
   checkAnswer(option, event) {
-		// $( "#navBlock" ).addClass("disableNavBtn")
-		// this.controlHandler.isTab = false;
-    	// this.appModel.handleController(this.controlHandler);
-		if (!this.instruction.nativeElement.paused) {
-			this.instruction.nativeElement.currentTime = 0;
-			this.instruction.nativeElement.pause();
-			this.instructionDisable=false;
-		}
-		// Analytics called for attempt counter & first option is clicked
-		this.appModel.notifyUserAction();		
-		if (!this.instruction.nativeElement.paused) {
-			console.log("narrator voice still playing");
-		}
-		else {
-			// this.disableHelpBtn = true;
-			// logic to check what user has done is correct
-			if (option.id == this.feedback.correct_ans_index) {
-				let id = option.idx;
-				this.attemptType = "manual";
-				this.moveTo = this.answerBlock.nativeElement.children[0].children[2].getBoundingClientRect();
-				this.moveFrom = this.ansBlock.nativeElement.children[id].children[1].getBoundingClientRect();
-				console.log("this.moveTo", this.moveTo)
-				this.itemid = option.idx;
-				this.moveleft = this.moveTo.left - this.moveFrom.left + 25;
-        this.movetop = this.moveTo.top - this.moveFrom.top;
-        this.bodyContentDisable=true;
-				// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div ";
-				$(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
-					this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
-					this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
-					
-					setTimeout(() => {
-						this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-						this.feedbackVoRef.nativeElement.play();
-					}, 750)
-					
-					this.feedbackVoRef.nativeElement.onended=()=>{	
-					setTimeout(() => {
-						// this.checkNextActivities();
-						// this.controlHandler.isTab = true;
-    				// 	this.appModel.handleController(this.controlHandler);
-						// this.removeEvents();
-						this.blinkOnLastQues()
-						// $( "#navBlock" ).removeClass("disableNavBtn")
-					}, 200)
-					setTimeout(() => {
-            this.bodyContentOpacity=true;
-						// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-					}, 5000)
-				}
-				});
-			}
-			else {
+    // $( "#navBlock" ).addClass("disableNavBtn")
+    // this.controlHandler.isTab = false;
+    // this.appModel.handleController(this.controlHandler);
+    if (!this.instruction.nativeElement.paused) {
+      this.instruction.nativeElement.currentTime = 0;
+      this.instruction.nativeElement.pause();
+      this.instructionDisable = false;
+    }
+    // Analytics called for attempt counter & first option is clicked
+    this.appModel.notifyUserAction();
+    if (!this.instruction.nativeElement.paused) {
+      console.log("narrator voice still playing");
+    }
+    else {
+      // this.disableHelpBtn = true;
+      // logic to check what user has done is correct
+      if (option.id == this.feedback.correct_ans_index) {
+        let id = option.idx;
+        this.attemptType = "manual";
+        // this.moveTo = this.answerBlock.nativeElement.children[0].children[2].getBoundingClientRect();
+        // this.moveFrom = this.ansBlock.nativeElement.children[id].children[1].getBoundingClientRect();
+        console.log("this.moveTo", this.moveTo)
         this.itemid = option.idx;
-        this.bodyContentDisable=true;
-				// this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div ";
-				this.moveTo = this.answerBlock.nativeElement.children[0].children[2].getBoundingClientRect();
-				this.moveFrom = this.ansBlock.nativeElement.children[this.itemid].children[1].getBoundingClientRect();
-				this.moveleft = this.moveTo.left - this.moveFrom.left + 25;
-				this.movetop = this.moveTo.top - this.moveFrom.top;
-				let id = option.idx;
-				$(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
-						this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
-						this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
-					
-						setTimeout(() => {
-							this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-							this.feedbackVoRef.nativeElement.play();
-						}, 750)
-						this.feedbackVoRef.nativeElement.onended=()=>{							
-						this.appModel.wrongAttemptAnimation();
-					}
+        // this.moveleft = this.moveTo.left - this.moveFrom.left + 25;
+        // this.movetop = this.moveTo.top - this.moveFrom.top;
+        this.bodyContentDisable = true;
+        // $(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
+        // this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
+        // this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
+        option.optPos = this.styleArray[option.idx]['position'];
+        option.leftPos = this.styleArray[option.idx]['left'];
+        option.topPos = this.styleArray[option.idx]['top'];
+        option.optWidth = this.styleArray[option.idx]['width'];
+        option.optMaxWidth = this.styleArray[option.idx]['max-width'];
+        option.isOpen = false;
+        setTimeout(() => {
+          this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVoRef.nativeElement.play();
+        }, 750)
 
-				});
+        this.feedbackVoRef.nativeElement.onended = () => {
+          setTimeout(() => {
+            // this.checkNextActivities();
+            // this.controlHandler.isTab = true;
+            // 	this.appModel.handleController(this.controlHandler);
+            // this.removeEvents();
+            this.blinkOnLastQues()
+            // $( "#navBlock" ).removeClass("disableNavBtn")
+          }, 200)
+          setTimeout(() => {
+            this.bodyContentOpacity = true;
+          }, 5000)
+        }
+        // });
+      }
+      else {
+        this.itemid = option.idx;
+        this.bodyContentDisable = true;
+        // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div ";
+        // this.moveTo = this.answerBlock.nativeElement.children[0].children[2].getBoundingClientRect();
+        // this.moveFrom = this.ansBlock.nativeElement.children[this.itemid].children[1].getBoundingClientRect();
+        // this.moveleft = this.moveTo.left - this.moveFrom.left + 25;
+        // this.movetop = this.moveTo.top - this.moveFrom.top;
+        let id = option.idx;
+        // $(this.ansBlock.nativeElement.children[id].children[1]).animate({ left: this.moveleft, top: this.movetop, height: this.moveTo.height, width: this.moveTo.width }, 1000, () => {
+        // this.ansBlock.nativeElement.children[id].children[1].style.visibility = 'hidden'
+        // this.answerBlock.nativeElement.children[0].children[2].style.visibility = 'visible';
+        option.optPos = this.styleArray[option.idx]['position'];
+        option.leftPos = this.styleArray[option.idx]['left'];
+        option.topPos = this.styleArray[option.idx]['top'];
+        option.optWidth = this.styleArray[option.idx]['width'];
+        option.optMaxWidth = this.styleArray[option.idx]['max-width'];
+        option.isOpen = false;
+        setTimeout(() => {
+          this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVoRef.nativeElement.play();
+        }, 750)
+        this.feedbackVoRef.nativeElement.onended = () => {
+          this.appModel.wrongAttemptAnimation();
+        }
 
-			}
-		}
-	}
+        // });
+
+      }
+    }
+  }
   /*End-Template Functions*/
 }
 
