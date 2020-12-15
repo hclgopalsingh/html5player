@@ -127,6 +127,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   disableOpt: boolean = true;
   greyOutInstruction: boolean = false;
   greyOutOpt: boolean = false;
+  submitEnable:boolean = false;
 
 
   ngOnInit() {
@@ -401,7 +402,8 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.instructionVO.nativeElement.currentTime = 0;
       this.disableInstruction = false;
     }
-    this.appModel.enableSubmitBtn(true)
+    this.appModel.enableSubmitBtn(true);
+    this.submitEnable = true;
     this.appModel.notifyUserAction();
     if (idx - 1 != -1) {
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
@@ -419,7 +421,8 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
       this.disableInstruction = false;
     }
     this.appModel.notifyUserAction();
-    this.appModel.enableSubmitBtn(true)
+    this.appModel.enableSubmitBtn(true);
+    this.submitEnable = true;
     if (idx + 1 <= this.optionObj.optionArray.length - 1) {
       let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
       let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();
@@ -491,6 +494,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   }
   /*To check user's feedback and perform action accordingly */
   sendFeedback(ref, flag: string, action?: string) {
+    
     this.appModel.notifyUserAction();
     this.isPartialPopup = false;
     this.mainContainer.nativeElement.children[0].style.pointerEvents = "none";
@@ -513,7 +517,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     } else if (action == "resetActivity") {
       //this.resetActivity();
     } else if (action == "feedbackDone") {
-      this.removeClassOptAnimate();
+       this.removeClassOptAnimate();
       if (this.feedbackAudio && this.feedbackAudio.nativeElement && !this.feedbackAudio.nativeElement.paused) {
         this.feedbackAudio.nativeElement.pause();
         this.feedbackAudio.nativeElement.currentTime = 0;
@@ -548,6 +552,10 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
+        if(this.submitEnable){
+          console.log('this.submitEnable' + this.submitEnable);
+          this.appModel.enableSubmitBtn(true);
+        }
         this.loadTemplateAfterVideo();
       }
     }, 500)
@@ -566,6 +574,10 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
   /* Function on video ends on skip*/
   endedHandleronSkip() {
     this.appModel.navShow = 2;
+    if(this.submitEnable){
+      console.log('endedHandleronSkip' + this.submitEnable);
+      this.appModel.enableSubmitBtn(true);
+    }
     this.loadTemplateAfterVideo();
   }
 
@@ -604,6 +616,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
 
   /*Close all popups */
   closeModel() {
+    
     //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
     this.infoModalRef.nativeElement.classList = "modal"
     this.confirmReplayRef.nativeElement.classList == "modal"
@@ -631,6 +644,7 @@ export class Ntemplate24 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.notifyUserAction();
   }
   resetActivity() {
+    this.submitEnable = false;
     this.optionObjCopy = JSON.parse(JSON.stringify(this.optionObj));
     this.appModel.enableReplayBtn(true);
     this.appModel.enableSubmitBtn(true);
