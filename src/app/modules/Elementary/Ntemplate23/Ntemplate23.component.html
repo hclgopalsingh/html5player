@@ -1,4 +1,4 @@
-<div class="container-fluid temp14" id="container">
+<div class="container-fluid ele" id="container">
   <audio #narrator></audio>
   <!--
       <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
@@ -30,18 +30,18 @@
   <div class="row mx-0" id="optionsBlock" #optionsBlock>
 
     <div class="listBlock">
-      <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
+      <img class="img-fluid" [src]="commonAssets?.listBg?.url" />
       <div class="listHeader">
-        <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
+        <img class="img-fluid" [src]="listCategoryHeader?.url" />
+        <img class="img-fluid" [src]="listSubCategoryHeader?.url" />
       </div>
       <ul class="listNames">
-        <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 12, currentPage: p }">
+        <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 6, currentPage: p }">
           <span>
-            <img [src]="item?.state?.url">
+            <img [src]="item?.category?.url">
           </span>
           <span>
-            <img [hidden]="!item?.imgcapital" [src]="item?.imgcapital?.url">
+            <img [hidden]="!item?.imgSubCategory" [src]="item?.imgSubCategory?.url">
           </span>
         </li>
       </ul>
@@ -79,7 +79,7 @@
 
     <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
     <div id="maintooltip">
-      <div id={{index.tooltipID}} class="tooltipHidden" *ngFor="let index of myStates">
+      <div id={{index.tooltipID}} class="tooltipHidden" *ngFor="let index of mySVGArr">
         <img class="img-fluid" [src]="commonAssets?.tooltipImg?.url"
         />
       </div>
@@ -88,7 +88,7 @@
     <div id="dropdownviaTooltip">
       <div class="btn-group parentGroup" role="group" aria-label="Button group with nested dropdown">
         <p>{{DropDownTitleUpper}}
-          <span class="capitalName">{{selectedStateinTooltip}}</span>
+          <span class="capitalName">{{selectedCategoryinTooltip}}</span>
         </p>
         <img class="dropdownCloseBtn" (click)="onTooltipclick()" src="../../assets/images/Template-23/dropdownCloseBtn.png">
       </div>
@@ -102,7 +102,7 @@
 
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" *ngFor="let capital of copiedstates" (click)="stateName($event.target)">{{capital}}</a>
+            <a class="dropdown-item" *ngFor="let subCat of copiedCategories" (click)="categoryName($event.target)">{{subCat}}</a>
           </div>
         </div>
       </div>
@@ -112,8 +112,8 @@
     </svg>
 
     <audio id="playerAudioId" #playerAudio></audio>
-    <!-- <div class="stateName" #stateId>
-	    <select class="form-control" value="" (change)="stateName($event.target)" [disabled]="isValid" id = "MySelect" #mySelect>
+    <!-- <div class="categoryName" #stateId>
+	    <select class="form-control" value="" (change)="categoryName($event.target)" [disabled]="isValid" id = "MySelect" #mySelect>
          <option value="">Please select</option>
          <option *ngFor="let state of myDropDownStates" [value]="state?.textField" >{{state?.textField}}</option>
         </select>
@@ -124,10 +124,10 @@
         Select
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" *ngFor="let capital of copiedstates" (click)="stateName($event.target)">{{capital}}</a>
+        <a class="dropdown-item" *ngFor="let subCat of copiedCategories" (click)="categoryName($event.target)">{{subCat}}</a>
       </div>
     </div>
-    <!-- <ngx-select-dropdown id="dropdown" class = "dropdownhidden"(change)="stateName($event)"  [(ngModel)]="dataModel" [config]="this.config" [options]="this.options"></ngx-select-dropdown> -->
+    <!-- <ngx-select-dropdown id="dropdown" class = "dropdownhidden"(change)="categoryName($event)"  [(ngModel)]="dataModel" [config]="this.config" [options]="this.options"></ngx-select-dropdown> -->
   </div>
 
   <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.url"></audio>
@@ -226,11 +226,7 @@
         <div class="modal-header" [ngStyle]="styleHeaderPopup">
           <!-- <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url"> -->
 
-          <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
-          <img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.url">
-          <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
-          <img *ngIf="partialCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialCorrectheaderTxt_img?.url">
-          <img *ngIf="partialInCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialInCorrectheaderTxt_img?.url">
+          <img class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
 
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
@@ -241,115 +237,46 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
-          <div class="row mx-0 optionsBlock" *ngIf="tableofOne">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-                <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of paginationArray">
-                  <span>
-                    <img [src]="item?.stateStatus?.url">
-                  </span>
-                  <span>
-                    <img [hidden]="!item?.capitalStatus" [src]="item?.capitalStatus?.url">
-                  </span>
-                </li>
-              </ul>
+          <div class="flex-row justify-content-around dispFlex instructionBar" id="instructionBarFeedback"
+            #instructionBarFeedback>
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="feedbackObj?.feedback_title?.url" />
             </div>
           </div>
-          <div class="row mx-0 optionsBlock" *ngIf="tableofTwo">
+          <div class="row mx-0 optionsBlock">
             <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
+              <img class="img-fluid" [src]="commonAssets?.listBg?.url" />
               <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
+                <img class="img-fluid" [src]="listCategoryHeader?.url" />
+                <img class="img-fluid" [src]="listSubCategoryHeader?.url" />
               </div>
               <ul class="listNames">
-                <li *ngFor="let item of table1">
+                <li *ngFor="let item of feedbackArr">
                   <span>
-                    <img [src]="item?.stateStatus?.url">
+                    <img [src]="item?.categoryStatus?.url">
                   </span>
                   <span>
-                    <img [src]="item?.capitalStatus?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table2">
-                  <span>
-                    <img [src]="item?.stateStatus?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.capitalStatus?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="row mx-0 optionsBlock" *ngIf="tableofThree">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table1">
-                  <span>
-                    <img [src]="item?.stateStatus?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.capitalStatus?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table2">
-                  <span>
-                    <img [src]="item?.stateStatus?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.capitalStatus?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table3">
-                  <span>
-                    <img [src]="item?.stateStatus?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.capitalStatus?.url">
+                    <img [hidden]="!item?.subCategoryStatus" [src]="item?.subCategoryStatus?.url">
                   </span>
                 </li>
               </ul>
             </div>
           </div>
           <audio #feedbackPopupAudio></audio>
+          <div class="d-flex align-items-center justify-content-end navigate">
+            <img class="img-fluid back"
+            [ngClass]="{'disableBtn': currentPageNo === 1,'d-none': endPageNo === 1}"
+              [src]="feedbackObj?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
+              (mouseleave)="hleaveFeedbackPre()">
+            <img class="img-fluid forward"
+            [ngClass]="{'d-none': currentPageNo === endPageNo || endPageNo === 1}"
+              [src]="feedbackObj?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
+              (mouseleave)="hleaveFeedbackNxt()">
+            <img class="img-fluid"
+              [ngClass]="{'d-none': currentPageNo !== endPageNo}"
+              [src]="feedbackObj?.ok_btn?.url" (click)="showFeedback(popupRef,'no','feedbackDone');"
+              (mousemove)="hoverFeedbackOK()" (mouseleave)="houtFeedbackOK()">
+          </div>
         </div>
       </div>
     </div>
@@ -362,7 +289,7 @@
 
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="feedbackObj?.style_header">
-          <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.url">
+          <img class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
           <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url"
@@ -372,115 +299,46 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.style_body">
-          <div class="row mx-0 optionsBlock" *ngIf="showtableofOne">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of showAnswerarray">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
+          <div class="flex-row dispFlex justify-content-around instructionBar" id="instructionBarFeedback"
+            #instructionBarFeedback>
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="feedbackObj?.feedback_title?.url" />
             </div>
           </div>
-          <div class="row mx-0 optionsBlock" *ngIf="showtableofTwo">
+          <div class="row mx-0 optionsBlock">
             <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
+              <img class="img-fluid" [src]="commonAssets?.listBg?.url" />
               <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
+                <img class="img-fluid" [src]="listCategoryHeader?.url" />
+        <img class="img-fluid" [src]="listSubCategoryHeader?.url" />
               </div>
               <ul class="listNames">
-                <li *ngFor="let item of table1">
+                <li *ngFor="let item of feedbackArr">
                   <span>
-                    <img [src]="item?.correctstateTxtimg?.url">
+                    <img [src]="item?.correctCategoryTxtimg?.url">
                   </span>
                   <span>
-                    <img [src]="item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table2">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="row mx-0 optionsBlock" *ngIf="showtableofThree">
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-        <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table1">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-                <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table2">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.url">
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="listBlock">
-              <img class="img-fluid" src="../../assets/images/Template-23/listBlockBg.png" />
-              <div class="listHeader">
-                <img class="img-fluid" [src]="listStateHeader" />
-                <img class="img-fluid" [src]="listCapitalHeader" />
-              </div>
-              <ul class="listNames">
-                <li *ngFor="let item of table3">
-                  <span>
-                    <img [src]="item?.correctstateTxtimg?.url">
-                  </span>
-                  <span>
-                    <img [src]="item?.correctcapitalTxtimg?.url">
+                    <img [src]="item?.correctSubCategoryTxtimg?.url">
                   </span>
                 </li>
               </ul>
             </div>
           </div>
           <audio #feedbackshowPopupAudio></audio>
+          <div class="d-flex align-items-center justify-content-end navigate">
+            <img class="img-fluid back"
+              [ngClass]="{'disableBtn': currentPageNo === 1,'d-none': endPageNo === 1}"
+              [src]="feedbackObj?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
+              (mouseleave)="hleaveFeedbackPre()">
+            <img class="img-fluid forward"
+              [ngClass]="{'d-none': currentPageNo === endPageNo || endPageNo === 1}"
+              [src]="feedbackObj?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
+              (mouseleave)="hleaveFeedbackNxt()">
+            <img class="img-fluid"
+              [ngClass]="{'d-none': currentPageNo !== endPageNo}"
+              [src]="feedbackObj?.ok_btn?.url" (click)="showFeedback(showAnswerRef,'no','feedbackDone');"
+              (mousemove)="hoverFeedbackOK()" (mouseleave)="houtFeedbackOK()">
+          </div>
         </div>
       </div>
     </div>

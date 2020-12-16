@@ -456,17 +456,17 @@ button:focus {
   background: rgba(0,0,0,.85);
 }
 #modalTemp23 .modal-dialog {
-  width: 76%;
+  width: 93%;
   max-width: 100%;
-  height: 84%;
+  height: 93%;
 }
 .modal-content {
 	background: transparent !important;
 	border: none !important;
 	box-shadow: none !important;
   height: 100%;
-  min-width: 450px; /*640px;*/
-  min-height: 350px; /*198px;*/
+  /* min-width: 450px;
+  min-height: 350px; */
 }
 
 .modal-header {
@@ -534,9 +534,9 @@ button:focus {
 }
 
 #modalTemp23 .listBlock{
-	width: 30%;
+	width: 38%;
   position: relative;
-	top: 0;
+	top: 12%;
   left: 0;
 }
 
@@ -664,13 +664,16 @@ html [type=button] {
 	height: 88%;
   overflow: auto;
 }
+#modalTemp23 .listBlock .listNames {
+  height: 89%;
+}
 #modalTemp23 .listBlock .listHeader,
 #modalTemp23 .listBlock .listNames {
-	top: 3%;
+	/* top: 3%; */
 	justify-content: space-around;
 }
 #modalTemp23 .listBlock .listNames {
-	top: 11%;
+	top: 8%;
 }
 .listNames li{
 	display: contents;/*flex*/
@@ -686,7 +689,7 @@ html [type=button] {
 	display: table-cell; /*change for Barebon*/
 }
 #modalTemp23 .listNames span {
-	margin-bottom: 1.5%;
+	margin-bottom: 0.5%;
 }
 .listBlock .listHeader img,
 .listBlock .listNames img {
@@ -701,7 +704,7 @@ html [type=button] {
   max-width: 42% !important;
 }
 #modalTemp23 .listBlock .listNames img {
-  max-width: 83% !important;
+  max-width: 97% !important;
 }
 nav {
 	position: absolute;
@@ -1011,4 +1014,29 @@ nav {
     border-radius: .25rem;
     -webkit-transition: all .15s ease-in-out;
     transition: all .15s ease-in-out;
+}
+.navigate {
+  position: absolute;
+  bottom: 2%;
+  /* width: 92%; */
+}
+#modalTemp23 .navigate {
+  /* width: 96%; */
+  bottom: 1%;
+  right: 2%;
+    width: 4.5%;
+  /* margin-top: 1%; */
+}
+
+.navigate img {
+  margin-left: 12.2%;
+  cursor: pointer;
+  max-width: 5.5%;
+}
+.disableBtn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.dispFlex {
+  display: flex !important;
 }
