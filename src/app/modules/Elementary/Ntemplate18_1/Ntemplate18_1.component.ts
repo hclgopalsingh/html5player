@@ -180,8 +180,8 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     isSubmitRequired: false,
     isReplayRequired: false
   };
-  disableinstructionBar:boolean = true;
-  closeClicked:boolean = false;
+  disableinstructionBar: boolean = true;
+  closeClicked: boolean = false;
 
 
 
@@ -254,6 +254,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         }
         this.startCount = 0;
         //show modal of auto
+        //alert('3');
         this.bodyContentSection.nativeElement.style.opacity = 0.3;
         this.instructionBar.nativeElement.style.opacity = 0.3;
         this.appModel.notifyUserAction();
@@ -302,7 +303,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (action == "uttarDikhayein") {
         this.resetBlinker();
         this.closeClicked = false;
-         this.disableinstructionBar = true;
+        this.disableinstructionBar = true;
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
@@ -331,7 +332,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.instruction.nativeElement.pause();
           this.instruction.nativeElement.currentTime = 0;
         }
-        
+
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.disableoptions = true;
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
@@ -531,8 +532,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (placed) {
         this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
         this.refQues.nativeElement.children[this.optionObject[idx].sequenceNo - 1].children[0].style.visibility = "";
-        ////this.disableoptions = true;
-        this.isAllowed = false;
+         this.isAllowed = false;
 
         setTimeout(() => {
           this.refQuesObj[this.index1].isOpen = false;
@@ -561,7 +561,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.moveTo = this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].getBoundingClientRect();
         this.moveleft = this.moveTo.left - this.moveFrom.left;
         this.movetop = this.moveTo.top - this.moveFrom.top;
-        ////this.disableoptions = true;
         this.isAllowed = false;
         opt.isOpen = true;
         opt.leftPos = 0 + 'px';
@@ -577,6 +576,12 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.isAllowed = true;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
 
+          for (var k = 0; k < this.fetchAnswer.length; k++) {
+            if (this.fetchAnswer[k].id == this.refcpyArray[this.index1].id) {
+               this.fetchAnswer[k] = {};
+            }
+          }
+
           this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
           this.optionObject[idx].placed = true;
           this.refcpyArray[this.index1].placedInOption = idx;
@@ -586,8 +591,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.countofAnimation++;
           if (this.countofAnimation > 0) {
             this.appModel.enableSubmitBtn(true);
-            ////this.appModel.enableReplayBtn(false);
-          }
+         }
           this.prevOptIdx = idx;
 
           this.refcpyArray[this.index1].position = 'down';
@@ -652,9 +656,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.enableSubmitBtn(false)
     setTimeout(() => {
       this.disableoptionsBlock = false;
-      
+
     }, 1000);
-    
+
 
   }
 
@@ -700,7 +704,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   endedHandleronSkip() {
     for (let i = 0; i < this.refQuesObj.length; i++) {
       if (this.refQuesObj[i].position == "down") {
-          this.appModel.enableSubmitBtn(true);
+        this.appModel.enableSubmitBtn(true);
       }
     }
     this.disableoptions = false;
@@ -764,9 +768,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
-         setTimeout(() => {
+        setTimeout(() => {
           this.disableoptions = false;
-         }, 500)
+        }, 500)
       }
     } else {
       this.startActivity();
@@ -857,7 +861,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackObj = this.fetchedcontent.feedback;
       this.correctImg = this.feedbackObj.popup_commmon_imgs.correctimg;
       this.incorrectImg = this.feedbackObj.popup_commmon_imgs.incorrectimg;
-       this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
+      this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
       this.infoPopupAssets = this.fetchedcontent.feedback.info_popup;
       this.submitPopupAssets = this.fetchedcontent.feedback.submit_popup;
       this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
@@ -977,6 +981,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     this.noOfWrongAnsClicked = 0;
 
     if (id == "oneAttempt-modal-id") {
+      document.getElementById('optionsBlock').style.pointerEvents = 'none';
+      setTimeout(() => {
+        document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+      }, 1000);
       this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
       if (this.feedbackoneAttemptAudio && !this.feedbackoneAttemptAudio.nativeElement.paused) {
         this.feedbackoneAttemptAudio.nativeElement.pause();
@@ -985,7 +993,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.disableoptionsBlock = false;
       this.disableoptions = false;
       this.blinkHolder();
-      document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+
     }
     if (flag == 'yes') {
       this.noOfRightAnsClicked = 0;
@@ -1013,11 +1021,11 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         if (this.fetchAnswer[x].id == undefined) {
           console.log('');
         } else if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id && this.fetchAnswer[x].position == "down") {
-           this.fetchAnswer[x].status = "right";
+          this.fetchAnswer[x].status = "right";
         } else if (this.fetchAnswer[x].position == "down") {
-           this.fetchAnswer[x].status = "wrong";
+          this.fetchAnswer[x].status = "wrong";
         }
-      } 
+      }
       if (this.noOfRightAnsClicked == this.feedbackObj.correct_ans_index.length && this.noOfWrongAnsClicked == 0) {
         //modaldialog
         //this.openWrong = true
@@ -1025,22 +1033,18 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.popupRef.nativeElement.classList = 'displayPopup modal';
       }
       if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked >= 2) {
-        if(this.noOfWrongAnsClicked == 2){
-         //// this.modaldialog.nativeElement.classList.add('twoCount');
-        }
+
         this.openWrong = true
         this.setFeedback();
         this.popupRef.nativeElement.classList = 'displayPopup modal';
       }
       if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
-        if(this.noOfRightAnsClicked==1 && this.noOfWrongAnsClicked ==1){
-        ////  this.modaldialog.nativeElement.classList.add('twoCount');
-        }
+
         //this.openWrong = true
         this.setFeedback();
         this.popupRef.nativeElement.classList = 'displayPopup modal';
       }
- 
+
       if ((this.noOfRightAnsClicked + this.noOfWrongAnsClicked) >= 0 && (this.noOfRightAnsClicked + this.noOfWrongAnsClicked) < 2) {
         this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
         let oneAttemptFeedbackAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
@@ -1088,12 +1092,12 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       for (let i = 0; i < this.refcpyArray.length; i++) {
         this.refQues.nativeElement.children[i].children[0].src = this.refcpyArray[i].imgsrc_original.url;
       }
-     }
-     this.disableoptionsBlock = true;
-      setTimeout(() => {
-        this.disableoptionsBlock = false;
-        this.disableinstructionBar = false;
-      }, 500);
+    }
+    this.disableoptionsBlock = true;
+    setTimeout(() => {
+      this.disableoptionsBlock = false;
+      this.disableinstructionBar = false;
+    }, 500);
   }
 
   //with the use of set feedback function we assign all the images in popup according to submit option we assign header image in popup 
@@ -1117,7 +1121,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.optionObject[x].status = "wrong";
         }
       }
- 
+
       for (let x = this.optionObject.length - 1; x >= 0; x--) {
         if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
           this.optionObject.splice(x, 1);
@@ -1166,7 +1170,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     } else if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-      ////else if (this.fetchAnswer.length == this.noOfWrongAnsClicked) {
+
       for (let x = 0; x < this.fetchAnswer.length; x++) {
         if (this.fetchAnswer[x].id == undefined) {
           //alert();
@@ -1207,7 +1211,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     }
     this.setplayFeedbackAudio(0);
   }
-  
+
 
   setRightFeedback() {
     for (let x = 0; x < this.feedbackObj.correct_ans_index.length; x++) {
@@ -1275,9 +1279,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
               this.closeModal();
               this.appModel.notifyUserAction();
               this.disableSection = true;
-
+              debugger;
               this.instructionBar.nativeElement.style.opacity = 0.3;
               this.disableinstructionBar = true;
+
               this.bodyContentSection.nativeElement.style.opacity = 0.3;
               this.disableBody = true;
               this.appModel.enableSubmitBtn(false);
@@ -1431,33 +1436,34 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   //Post submit we reset all the options using this function
   resetAttempt() {
     this.optionObject = [...this.optionObjOriginal];
-     this.fetchAnswer = [];
-      for (var i = 0; i < this.refcpyArray.length; i++) {
-        this.fetchAnswer.push(i);
-      }
+    this.fetchAnswer = [];
+    for (var i = 0; i < this.refcpyArray.length; i++) {
+      this.fetchAnswer.push(i);
+    }
+    for (let i = 0; i < this.refQuesObj.length; i++) {
+      delete this.optionObject[i]['sequenceNo'];
+    }
+    for (let i = 0; i < this.refcpyArray.length; i++) {
+      this.optionObject[i].placed = false;
+      this.refcpyArray[i].position = 'top';
+      this.refQues.nativeElement.children[i].children[0].style.visibility = '';
+      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
+      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
       for (let i = 0; i < this.refQuesObj.length; i++) {
-        delete this.optionObject[i]['sequenceNo'];
+        this.refQuesObj[i].isOpen = true;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
       }
-      for (let i = 0; i < this.refcpyArray.length; i++) {
-        this.optionObject[i].placed = false;
-        this.refcpyArray[i].position = 'top';
-        this.refQues.nativeElement.children[i].children[0].style.visibility = '';
-        this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
-        this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
-         for (let i = 0; i < this.refQuesObj.length; i++) {
-          this.refQuesObj[i].isOpen = true;
-          this.refQuesObj[i].leftPos = 0 + 'px';
-          this.refQuesObj[i].topPos = 0 + 'px';
-        }
-      }
-      this.appModel.enableReplayBtn(true);
-      this.appModel.enableSubmitBtn(false);
-      this.countofAnimation = 0;
-      this.noOfRightAnsClicked = 0;
-      clearInterval(this.blinkTimeInterval);
-      this.index1 = 0;
-      this.startCount = 1;
-      this.blinkHolder();  
+    }
+    this.appModel.enableReplayBtn(true);
+    this.appModel.enableSubmitBtn(false);
+    this.countofAnimation = 0;
+    this.noOfRightAnsClicked = 0;
+    clearInterval(this.blinkTimeInterval);
+    clearTimeout(this.showAnsTimer);
+    this.index1 = 0;
+    this.startCount = 1;
+    this.blinkHolder();
   }
 
   //this is for playing feedback audio after submitting the options 
@@ -1603,7 +1609,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.notifyUserAction();
     if (flag == "yes") {
       if (action == "replay") {
-          this.appModel.videoStraming(true);
+        this.appModel.videoStraming(true);
         this.replayVideo();
       }
     } else if (flag == "no") {
@@ -1629,7 +1635,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.mainVideo.nativeElement.onended = () => {
         for (let i = 0; i < this.refQuesObj.length; i++) {
           if (this.refQuesObj[i].position == "down") {
-              this.appModel.enableSubmitBtn(true);
+            this.appModel.enableSubmitBtn(true);
           }
         }
         this.disableoptions = false;
@@ -1641,9 +1647,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.disableoptions = true;
         this.disableinstructionBar = true;
         setTimeout(() => {
-        this.disableoptions = false;
-        this.disableinstructionBar = false;
-      }, 500)
+          this.disableoptions = false;
+          this.disableinstructionBar = false;
+        }, 500)
       }
     }, 500)
   }
@@ -1655,22 +1661,19 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   //this function will trigger every time whwn any modal will close
   closeModal() {
-   //// this.modaldialog.nativeElement.classList.remove('twoCount');
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
-    ////this.optionObject = [...this.optionObjOriginal];
-
+     
     for (let i = 0; i < this.refQuesObj.length; i++) {
       this.refQuesObj[i].isOpen = true;
       this.refQuesObj[i].leftPos = 0 + 'px';
       this.refQuesObj[i].topPos = 0 + 'px';
     }
-    ////for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
-    ////  this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList.value = '';
-    ////}
+    
     if (this.countofAnimation === this.noOfRightAnsClicked) {
+      debugger;
       this.matched = true;
       this.disableSection = true;
       this.instructionBar.nativeElement.style.opacity = 0.3;
