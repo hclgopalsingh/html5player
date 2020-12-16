@@ -298,6 +298,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.styleBodyPopup = this.feedbackObj.style_body;
           this.confirmModalRef.nativeElement.classList = 'modal';
           this.confirmReplayRef.nativeElement.classList = 'modal';
+          this.onlyOneAttemptModalRef.nativeElement.classList = 'modal';
           this.submitModalRef.nativeElement.classList = 'modal';
           this.popupRef.nativeElement.classList = 'displayPopup modal';
           this.noOfRightAnsClicked = 0;
@@ -1045,6 +1046,10 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
     if (id == "oneAttempt-modal-id") {
       this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
+      document.getElementById('optionsBlock').style.pointerEvents = 'none';
+      setTimeout(() => {
+        document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+      }, 1000);
       if (this.feedbackoneAttemptAudio && !this.feedbackoneAttemptAudio.nativeElement.paused) {
         this.feedbackoneAttemptAudio.nativeElement.pause();
         this.feedbackoneAttemptAudio.nativeElement.currentTime = 0;
@@ -1052,7 +1057,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.disableoptionsBlock = false;
       this.disableoptions = false;
       this.blinkHolder();
-      document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+     // document.getElementById('optionsBlock').style.pointerEvents = 'auto';
     }
     if (flag == 'yes') {
       this.noOfRightAnsClicked = 0;
@@ -1500,33 +1505,34 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   resetAttempt() {
-    this.fetchAnswer = [];
-    for (var i = 0; i < this.refcpyArray.length; i++) {
-      this.fetchAnswer.push(i);
-    }
-    for (let i = 0; i < this.refQuesObj.length; i++) {
-      delete this.optionObject[i]['sequenceNo'];
-    }
-    for (let i = 0; i < this.refcpyArray.length; i++) {
-      this.optionObject[i].placed = false;
-      this.refcpyArray[i].position = 'top';
-      this.refQues.nativeElement.children[i].children[0].style.visibility = '';
-      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
-      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
-       for (let i = 0; i < this.refQuesObj.length; i++) {
-        this.refQuesObj[i].isOpen = true;
-        this.refQuesObj[i].leftPos = 0 + 'px';
-        this.refQuesObj[i].topPos = 0 + 'px';
+    this.optionObject = [...this.optionObjOriginal];
+     this.fetchAnswer = [];
+      for (var i = 0; i < this.refcpyArray.length; i++) {
+        this.fetchAnswer.push(i);
       }
-    }
-    this.appModel.enableReplayBtn(true);
-    this.appModel.enableSubmitBtn(false);
-    this.countofAnimation = 0;
-    this.noOfRightAnsClicked = 0;
-    clearInterval(this.blinkTimeInterval);
-    this.index1 = 0;
-    this.startCount = 1;
-    this.blinkHolder();
+      for (let i = 0; i < this.refQuesObj.length; i++) {
+        delete this.optionObject[i]['sequenceNo'];
+      }
+      for (let i = 0; i < this.refcpyArray.length; i++) {
+        this.optionObject[i].placed = false;
+        this.refcpyArray[i].position = 'top';
+        this.refQues.nativeElement.children[i].children[0].style.visibility = '';
+        this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
+        this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
+         for (let i = 0; i < this.refQuesObj.length; i++) {
+          this.refQuesObj[i].isOpen = true;
+          this.refQuesObj[i].leftPos = 0 + 'px';
+          this.refQuesObj[i].topPos = 0 + 'px';
+        }
+      }
+      this.appModel.enableReplayBtn(true);
+      this.appModel.enableSubmitBtn(false);
+      this.countofAnimation = 0;
+      this.noOfRightAnsClicked = 0;
+      clearInterval(this.blinkTimeInterval);
+      this.index1 = 0;
+      this.startCount = 1;
+      this.blinkHolder();  
   }
 
   playFeedbackAudio(i, j, flag) {
@@ -1713,8 +1719,13 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.disableSection = false;
         this.appModel.navShow = 2;
         this.isPlayVideo = false;
+        document.getElementById('outer').style.pointerEvents = 'none';
+        setTimeout(() => {
+          document.getElementById('outer').style.pointerEvents = 'auto';
+        }, 1000);
+        
         this.appModel.videoStraming(false);
-        this.appModel.notifyUserAction();
+        this.appModel.notifyUserAction();       
       };
     }, 500);
   }
@@ -1726,7 +1737,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
-    this.optionObject = [...this.optionObjOriginal];
+    ////this.optionObject = [...this.optionObjOriginal];
 
     for (let i = 0; i < this.refQuesObj.length; i++) {
       this.refQuesObj[i].isOpen = true;
@@ -1768,6 +1779,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (!this.matched) {
+      this.optionObject = [...this.optionObjOriginal];
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
         //this.resetAttempt();
@@ -1781,7 +1793,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.disableoptions = false;
       }, 1000);
     }
-
+    this.appModel.enableReplayBtn(false);
   }
 }
 
