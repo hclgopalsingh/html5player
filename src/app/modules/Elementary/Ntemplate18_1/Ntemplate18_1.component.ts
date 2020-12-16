@@ -1279,7 +1279,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
               this.closeModal();
               this.appModel.notifyUserAction();
               this.disableSection = true;
-              debugger;
               this.instructionBar.nativeElement.style.opacity = 0.3;
               this.disableinstructionBar = true;
 
@@ -1673,7 +1672,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     }
     
     if (this.countofAnimation === this.noOfRightAnsClicked) {
-      debugger;
       this.matched = true;
       this.disableSection = true;
       this.instructionBar.nativeElement.style.opacity = 0.3;
