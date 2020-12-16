@@ -14,35 +14,32 @@
       <div class="d-flex flex-row justify-content-around" id="answerBlock" #answerBlock>
         <div class="ansBase">
           <img class="img-fluid" [src]="commonAssets?.quesBase?.url" (load)="checkImgLoaded();">
-
           <img #ans class="img-fluid quesText" [src]="question?.img_sentence.url" (load)="checkImgLoaded();">
-          <img *ngIf="!ansShow" class="img-fluid" [src]="myoption[itemid]?.imgsrc?.url" style="visibility:hidden"
-            [ngStyle]='question.ansclass'>
+          <!-- <img *ngIf="!ansShow" class="img-fluid" [src]="myoption[itemid]?.imgsrc?.url" style="visibility:hidden"
+            [ngStyle]='question.ansclass'> -->
         </div>
       </div>
       <div class="optParent">
         <div class="d-flex align-items-center justify-content-center" id="optionsBlock">
           <div id="quesImage">
-
             <img class="img-fluid" [src]="commonAssets?.refBase?.url" (load)="checkImgLoaded();">
-
             <img class="img-fluid" id="refImage" [src]="question?.image.url" (load)="checkImgLoaded();">
           </div>
         </div>
 
-        <div class="d-flex align-items-center justify-content-around" id="optBlock">
-          <div class="d-flex flex-row justify-content-around options" [ngClass]="{'pointer':optionCursorPointer}"
-            id="ansBlock" #ansBlock>
+        <div class="d-flex align-items-center justify-content-around" id="optBlock" #optionRef>
+          <div class="d-flex flex-row justify-content-around options" [ngClass]="{'pointer':optionCursorPointer,'disable_div':isOptionDisabled}"
+            id="ansBlock">
             <div class="options" *ngFor="let opts of myoption;let idx = index"
               (click)="opts['idx']=idx ;checkAnswer(opts,$event)">
               <img class="img-fluid backgroundBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
                 (load)="checkImgLoaded();">
-              <img
-                [@openClose]="{value: opts.isOpen ? 'open' : 'closed', params: {leftPos: opts.leftPos , topPos: opts.topPos , optPos: opts.optPos, optWidth: opts.optWidth, optMaxWidth: opts.optMaxWidth}}"
+              <img [ngClass]="{'colorWhite':opts.optFilter}"
+                [@openClose]="{value: opts.isOpen ? 'open' : 'closed', params: {leftPos: opts.leftPos , topPos: opts.topPos , optWidth: opts.optWidth, optMaxWidth: opts.optMaxWidth}}"
                 (@openClose.start)="onAnimationEvent($event,opts,idx)"
                 (@openClose.done)="onAnimationEvent($event,opts,idx)" *ngIf="opts.imgsrc.url"
                 (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url"
-                on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
+                on-mouseenter="playOptionHover(idx,opts)" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
                 (load)="checkImgLoaded();">
             </div>
           </div>
