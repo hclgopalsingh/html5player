@@ -1,3 +1,4 @@
+<div id="outer">
 <div class="container-fluid ele temp14" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
   <audio #narrator [src]="quesInfo?.narrator?.url"></audio>
 
@@ -216,4 +217,5 @@
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
 
+</div>
 </div>
