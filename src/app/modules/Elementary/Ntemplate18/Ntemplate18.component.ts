@@ -1506,8 +1506,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   }
   resetAttempt() {
     this.optionObject = [...this.optionObjOriginal];
-    setTimeout(() => {
-      this.fetchAnswer = [];
+     this.fetchAnswer = [];
       for (var i = 0; i < this.refcpyArray.length; i++) {
         this.fetchAnswer.push(i);
       }
@@ -1533,10 +1532,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       clearInterval(this.blinkTimeInterval);
       this.index1 = 0;
       this.startCount = 1;
-      this.blinkHolder();
-    }, 0);
-    
-    
+      this.blinkHolder();  
   }
 
   playFeedbackAudio(i, j, flag) {
