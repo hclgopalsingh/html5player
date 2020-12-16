@@ -301,6 +301,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.onlyOneAttemptModalRef.nativeElement.classList = 'modal';
           this.submitModalRef.nativeElement.classList = 'modal';
           this.popupRef.nativeElement.classList = 'displayPopup modal';
+          document.getElementById('optionsBlock').style.pointerEvents = '';
           this.noOfRightAnsClicked = 0;
           this.noOfWrongAnsClicked = 0;
           this.setRightFeedback();
