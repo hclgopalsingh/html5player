@@ -511,10 +511,10 @@
   }
 
   @media (min-width: 1366px) {
-    .close {
+    /* .close {
       height: 95%;
       margin-right: .3%;
-    }
+    } */
   }
 
   #modalTemp5 .modal-header .close {
@@ -801,22 +801,22 @@
 .modal-title{
 	/* max-width: 10%; */
   /* max-height: 100%; */
-  margin-left: 1.5%;
+  margin-left: 0.5%;
   height: 80%;
 }
-.close {
+/* .close {
 	width: auto;
 	height: 75%;
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   opacity: 1;
-}
+} */
 @media (min-width: 1366px){
-	.close {
-		height: 95%;
-    margin-right: .3%;
-	}
+	/* .close { */
+		/* height: 95%;
+    margin-right: .3%; */
+	/* } */
 }
 .close:focus, .close:hover {
   color: #000;
@@ -916,11 +916,13 @@
 	text-align: center;
   }
 
-  #instructionBar .instructionBase {
-	width: 50%;
-  position: relative;
-  cursor: pointer;
+  .instructionBar .instructionBase {
+    width: 60% !important;
+    /*86%;*/
+    position: relative;
+    cursor: pointer;
   }
+  
 
   .instructionBase .instructionText {
 	position: absolute;
