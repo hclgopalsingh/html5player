@@ -213,6 +213,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   oneAttemptPopupAssets: any;
   partialCase: boolean = false;
   feedbackaudioTimeout: any;
+  closeStatus:boolean = false;
   ngOnDestroy() {
     clearTimeout(this.showAnsTimer);
     clearInterval(this.blinkTimeInterval);
@@ -557,7 +558,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // execute this function on option click
   onClickoption(idx, placed, opt) {
-
+    this.closeStatus = false;
     this.disableoptionsBlock = true;
     setTimeout(() => {
       this.disableoptionsBlock = false;
@@ -1300,7 +1301,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.partialCase = false;
       let current = i;
 
-      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObject.length) {
+      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObject.length && !this.closeStatus) {
 
         if (this.optionObject[i].status == "right") {
 
@@ -1521,7 +1522,6 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
         this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
          for (let i = 0; i < this.refQuesObj.length; i++) {
-          this.refQuesObj[i].isOpen = true;
           this.refQuesObj[i].leftPos = 0 + 'px';
           this.refQuesObj[i].topPos = 0 + 'px';
         }
@@ -1531,6 +1531,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.countofAnimation = 0;
       this.noOfRightAnsClicked = 0;
       clearInterval(this.blinkTimeInterval);
+      clearTimeout(this.showAnsTimer);
       this.index1 = 0;
       this.startCount = 1;
       this.blinkHolder();  
@@ -1733,6 +1734,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
+    this.closeStatus = true;
     this.modaldialog.nativeElement.classList.remove('twoCount');
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
@@ -1741,7 +1743,6 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     ////this.optionObject = [...this.optionObjOriginal];
 
     for (let i = 0; i < this.refQuesObj.length; i++) {
-      this.refQuesObj[i].isOpen = true;
       this.refQuesObj[i].leftPos = 0 + 'px';
       this.refQuesObj[i].topPos = 0 + 'px';
     }
@@ -1762,6 +1763,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
       if (!this.matched) {
+        
         this.appModel.wrongAttemptAnimation();
         setTimeout(() => {
           this.resetAttempt();
@@ -1780,7 +1782,16 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (!this.matched) {
+    
       this.optionObject = [...this.optionObjOriginal];
+      setTimeout(() => {
+        for (let i = 0; i < this.refcpyArray.length; i++) {
+          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
+          this.refQues.nativeElement.children[i].children[0].style.visibility ="visible";
+        }
+
+      }, 10);
+      
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
         //this.resetAttempt();
