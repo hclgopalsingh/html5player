@@ -528,9 +528,10 @@ button:focus {
 }
 
 #modalTemp23 .optionsBlock {
-  width: 100%;
-  height: 100%;
-	justify-content: space-around;
+  width: 94%;
+  /* height: 100%; */
+  justify-content: space-around;
+  margin: 0% 0 2.7%;
 }
 
 #modalTemp23 .listBlock{
@@ -641,8 +642,8 @@ html [type=button] {
   height: 93%;
 }
 .listBlock img {
-  height: 100%;
-  width: 123%;
+  /* height: 100%; */
+  /* width: 123%; */
 }
 
 .listBlock .listHeader,
@@ -654,7 +655,7 @@ html [type=button] {
 	align-items: flex-start;
   flex-wrap: wrap;
 	position: absolute;
-	top: .5%;
+	top: 0%;
 	padding: 0;
 	list-style: none;
 }
@@ -665,7 +666,8 @@ html [type=button] {
   overflow: auto;
 }
 #modalTemp23 .listBlock .listNames {
-  height: 89%;
+  height: 95%;
+  overflow: hidden;
 }
 #modalTemp23 .listBlock .listHeader,
 #modalTemp23 .listBlock .listNames {
@@ -697,7 +699,7 @@ html [type=button] {
 }
 .listBlock .listNames img {
 	/* cursor: pointer; */
-	max-width: 100% !important;/*92.5% !important;*/
+	max-width: 98% !important;/*92.5% !important;*/
 }
 #modalTemp23 .listBlock .listHeader img,
 #modalTemp23 .listBlock .listNames img {
@@ -740,7 +742,7 @@ nav {
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 2%;
+  bottom: 1.3%;
   margin-bottom: 0 !important;
   padding: 0;
   font-size: .6vmax;
@@ -858,7 +860,7 @@ nav {
   right: 35% !important;
 }
 .dropdown-toggle::after {
-  top: 45% !important;
+  top: 40% !important;
 }
 #dropdown .btn-secondary,
 #dropdown .btn-secondary:hover,
@@ -871,7 +873,7 @@ nav {
 #dropdownviaTooltip .btn {
   width: 100% !important;
   height: 100%;
-  font-size: 1vmax !important;
+  font-size: 1.5vmax !important;
 }
 #dropdown .btn:focus,
 #dropdown .btn.focus,
@@ -882,7 +884,7 @@ nav {
 #dropdown .dropdown-menu,
 #dropdownviaTooltip .dropdown-menu{
 	width: 100% !important;
-	height: 14vmax;/*8vmax*/
+	height: 13vmax;/*14vmax*/
   overflow: auto;
 	background-color: #fff !important;
   top: 93% !important;
@@ -957,7 +959,8 @@ nav {
     /* margin-left: 65%; */
     vertical-align: 18%;
     content: "";
-    border-top: .3em solid;
+    color: #fff;
+    border-top: .4em solid;
     border-right: .3em solid transparent;
     border-left: .3em solid transparent;
 }
@@ -982,6 +985,9 @@ nav {
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
 }
+#dropdown .dropdown-menu {
+  font-size: 1.3vmax !important;
+}
 .dropdown-item {
     display: block;
     width: 100%;
@@ -999,7 +1005,7 @@ nav {
 #dropdown .btn
   {
     display: inline-block;
-    font-weight: 400;
+    font-weight: bold;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -1009,6 +1015,7 @@ nav {
     user-select: none;
     border: 1px solid transparent;
     padding: 0.5rem 4.10rem!important;
+    padding-right: 35%!important;
     font-size: 1rem;
     line-height: 1.25;
     border-radius: .25rem;
@@ -1039,4 +1046,11 @@ nav {
 }
 .dispFlex {
   display: flex !important;
+}
+.dropdownArrowBg{
+    width: 14.5%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    background:#c90;
 }
