@@ -938,22 +938,22 @@
 }
 
 .wrongImageStyle {
-		border: solid 5px red;
+		/* border: solid 5px red;
     border-radius: 9%;
     height:115px;
     width: 120px;
     margin-left:-10px;
-    margin-top:12px
+    margin-top:12px */
+    opacity: 1;
+    left: 50%;
+    top: -84%;
+    width: 50%;
+    padding: 0;
+    visibility: visible;
+    border: solid .5vmin red;
+    border-radius: 1.5vmin;
  }
 
- /* .bgBlank {
-position: absolute;
-    top: 5%;
-    width: 85%;
-    text-align: center;
-    left: 5%;
-
- } */
 
  .zclass{
    z-index: 99;

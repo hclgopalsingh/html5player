@@ -632,7 +632,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.movetop = this.moveTo.top - this.moveFrom.top;
 
         this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div ";
-        this.appModel.enableReplayBtn(true);
+        this.appModel.enableReplayBtn(false);
         // this.myoption[id]['isOpen'] = false;
         // this.myoption[id]['leftPos'] = (this.moveleft);
         // this.myoption[id]['topPos'] =  (this.movetop);
@@ -715,6 +715,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     if (flag == "yes") {
       this.showAnswer();
     } else {
+      this.appModel.handlePostVOActivity(false);
       console.log("closing modal");
       //close modal
       if (this.clapSound && this.clapSound.nativeElement) {
@@ -725,6 +726,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       }
       this.appModel.notifyUserAction();
       this.instructionBar.nativeElement.classList = "instructionBase";
+      // this.appModel.handlePostVOActivity(true);
     }
   }
 
@@ -1030,6 +1032,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         //this.isPlayVideo = true;
         this.SkipLoad = true;
         this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
+        this.appModel.videoStraming(true);
         this.replayVideo();
       }
     } else if (flag == "no") {
@@ -1056,11 +1059,10 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.isPlayVideo = false;
         this.appModel.navShow = 2;
         this.instructionBar.nativeElement.classList = "instructionBase";
-        // this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
-        //  this.navBlock.nativeElement.children[3].classList = "img-fluid replayBtn ng-star-inserted";
+        this.appModel.enableReplayBtn(true);
+        this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
         this.appModel.startPreviousTimer();
         this.appModel.videoStraming(false);
-        this.appModel.enableReplayBtn(true);
         this.appModel.notifyUserAction();
       }
     }, 500)
@@ -1104,8 +1106,12 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       }, this.quesInfo.formatTimeout)
     } else {
       
-      console.log("replay else=========")
-
+      // console.log("replay else=========")
+      this.appModel.videoStraming(false);
+      this.appModel.startPreviousTimer();
+      this.appModel.notifyUserAction();
+      this.appModel.enableReplayBtn(true); 
+      
     }
   }
 
@@ -1131,6 +1137,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     setTimeout(() => {
       this.feedbackVoRef.nativeElement.src = this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
       this.feedbackVoRef.nativeElement.play();
+      this.appModel.enableReplayBtn(false);
 
     }, 750)
     setTimeout(() => {
