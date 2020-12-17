@@ -84,7 +84,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   question: any = "";
   optionCursorPointer: boolean = false;
   itemid: any = 0;
-  isOptionDisabled: boolean = false;  
+  isOptionDisabled: boolean = false;
+  blinkTimer: any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -187,6 +188,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   ngOnDestroy() {
     clearInterval(this.showAnssetTimeout);
     clearInterval(this.initialDisableTimer);
+    clearInterval(this.blinkTimer);
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
@@ -301,9 +303,9 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   }
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
-      opt.optFilter=true;
+      opt.optFilter = true;
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
-      opt.optFilter=false;
+      opt.optFilter = false;
     }
   }
   /*End-Template click and hover events*/
@@ -434,7 +436,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       /*End: Theme Implementation(Template Changes)*/
       for (let i = 0; i < this.myoption.length; i++) {
         this.myoption[i].isOpen = true;
-        this.myoption[i].optFilter=false;
+        this.myoption[i].optFilter = false;
       }
     }
   }
@@ -486,7 +488,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackVoRef.nativeElement.play();
     }, 750)
     this.feedbackVoRef.nativeElement.onended = () => {
-      setTimeout(() => {
+      this.blinkTimer = setTimeout(() => {
         // this.checkNextActivities();
         this.bodyContentOpacity = true;
         this.instructionOpacity = true;
@@ -533,7 +535,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         let id = option.idx;
         this.attemptType = "manual";
         this.itemid = option.idx;
-        this.bodyContentDisable = true;        
+        this.bodyContentDisable = true;
         option.leftPos = this.quesObj.styleArray[option.idx]['left'];
         option.topPos = this.quesObj.styleArray[option.idx]['top'];
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
@@ -545,17 +547,10 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         }, 750)
 
         this.feedbackVoRef.nativeElement.onended = () => {
-          setTimeout(() => {
-            // this.checkNextActivities();
-            // this.controlHandler.isTab = true;
-            // 	this.appModel.handleController(this.controlHandler);
-            // this.removeEvents();
-            this.blinkOnLastQues()
-            // $( "#navBlock" ).removeClass("disableNavBtn")
-          }, 200)
-          setTimeout(() => {
+          this.blinkTimer = setTimeout(() => {
             this.bodyContentOpacity = true;
             this.instructionOpacity = true;
+            this.blinkOnLastQues()
           }, 5000)
         }
       }
