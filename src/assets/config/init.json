@@ -6,9 +6,9 @@
 		},
 		"lms": {
 			"enabled": false,
-			"version": {
-				"flashPlayer": "1.0.1.0",
-				"htmlPlayer": "1.0.25.0"
+			"version":{
+				"flashPlayer":"1.0.1.0",
+				"htmlPlayer":"1.0.25.0"
 			}
 		}
 	}

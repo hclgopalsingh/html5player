@@ -1,3 +1,4 @@
+<div id="outer">
 <div class="container-fluid ele temp14" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
   <audio #narrator [src]="quesInfo?.narrator?.url"></audio>
 
@@ -139,7 +140,7 @@
 
   <!-- The Modal -->
   <div class="modal" id="modalTemp5" #popupRef>
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" #modaldialog>
       <!-- <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url"> -->
       <div class="modal-content">
 
@@ -216,4 +217,5 @@
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
 
+</div>
 </div>
