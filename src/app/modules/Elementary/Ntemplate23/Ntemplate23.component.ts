@@ -83,7 +83,7 @@ export class Ntemplate23Component implements OnInit {
    /*Start: Theme Implementation(Template Changes)*/
    controlHandler = {
     isSubmitRequired: true,
-    isReplayRequired: true
+    isReplayRequired: false
   };
   themePath: any;
   fetchedcontent: any;
