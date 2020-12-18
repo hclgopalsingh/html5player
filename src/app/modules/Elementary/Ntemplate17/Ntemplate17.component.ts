@@ -354,6 +354,7 @@ export class Ntemplate17Component implements OnInit {
   ]
   totalChar: any = 17;
   currentChar: any = 0;
+  loadQuestionInterval:any;
 
 
   //angular life-cycle funtions
@@ -478,20 +479,31 @@ export class Ntemplate17Component implements OnInit {
     /*End: Theme Implementation(Template Changes)*/
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() {    
     if (this.mainVideo && this.mainVideo.nativeElement && !this.mainVideo.nativeElement.paused) {
       this.mainVideo.nativeElement.pause();
       this.mainVideo.nativeElement.currentTime = 0;
       clearTimeout(this.videoStartTimer);
     }
+    clearInterval(this.loadQuestionInterval);
     clearInterval(this.blinkTimer);
     clearInterval(this.feedbackTimer);
     clearTimeout(this.videoPlaytimer);
     this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
-    if (this.QuestionAudio) {
+    if (this.QuestionAudio && this.QuestionAudio.nativeElement) {
       this.QuestionAudio.nativeElement.src = "";
       this.QuestionAudio.nativeElement.pause();
       this.QuestionAudio.nativeElement.currentTime = 0;
+    }
+    if(!this.quesVORef.nativeElement.paused){
+      this.quesVORef.nativeElement.src="";
+      this.quesVORef.nativeElement.pause();
+      this.quesVORef.nativeElement.currentTime=0;
+    }
+    if(!this.instruction.nativeElement.paused){
+      this.instruction.nativeElement.src="";
+      this.instruction.nativeElement.pause();
+      this.instruction.nativeElement.currentTime=0;
     }
     this.displayWave = false;
     this.speakerdisable = false;
@@ -811,7 +823,7 @@ export class Ntemplate17Component implements OnInit {
 
         this.isQuesTypeVideo = false;
         this.appModel.navShow = 2;
-        setTimeout(() => {
+        this.loadQuestionInterval=setTimeout(() => {
           this.isPlayVideo = false;
           //if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
           this.quesVORef.nativeElement.src = this.quesObj.quesInstruction.location == "content" ? this.containgFolderPath + "/" + this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + this.quesObj.quesInstruction.url + "? someRandomSeed=" + Math.random().toString(36);
@@ -1884,9 +1896,9 @@ export class Ntemplate17Component implements OnInit {
 
   QuestionLoaded() {
     if (this.inputVal == "" && !this.videoReplayd) {
-      if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {
-        this.instruction.nativeElement.play();
+      if (this.quesObj.quesInstruction && this.quesObj.quesInstruction.autoPlay) {        
         //this.quesContainer.nativeElement.style.pointerEvents="none";
+        this.instruction.nativeElement.play();
         this.questAreaDisable = true;
 
         this.instruction.nativeElement.onended = () => {

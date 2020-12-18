@@ -47,9 +47,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   @ViewChild('modalfeedback20') modalfeedback20: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+  @ViewChild('onlyOneAttemptModalRef') onlyOneAttemptModalRef: any;
+  @ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
 
   optionBase: boolean = false;
   mouseMoveFlag: boolean = false;
+  oneAttemptPopupAssets: any;
   isDisablePlaceholder: boolean = false;
   blinkingFlag: boolean = true;
   partialCorrectCase: boolean = false;
@@ -346,6 +349,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.confirmAssets = this.feedback.confirm_popup;
     this.confirmSubmitAssets = this.feedback.submit_popup;
     this.confirmReplayAssets = this.feedback.replay_confirm;
+    this.oneAttemptPopupAssets = this.feedback.oneAttempt_popup;
   }
 
   /***Set the content folder path ***/
@@ -387,7 +391,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }
       }
     }
-    
+
 
   }
 
@@ -609,6 +613,23 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_original;
   }
 
+
+  hoveroneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_hover;
+  }
+
+  houtoneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_original;
+  }
+
+  hoveroneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
+  }
+
+  houtoneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
+  }
+
   /*** Show Answer and submit Functionality after click on Yes ***/
   sendFeedback(ref, flag: string, action?: string) {
 
@@ -639,19 +660,33 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }, 1000)
       }
     } else if (action == "submitAnswer") {
-      if (this.submitButtonCounter != this.optionArr.length) {
+      if (this.submitButtonCounter == 1) {
+        this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
+        let feedbackoneAttemptAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
+        this.feedbackoneAttemptAudio.nativeElement.src = feedbackoneAttemptAudio.url;
+        this.feedbackoneAttemptAudio.nativeElement.play();
+      } else if (this.submitButtonCounter > 1 && (this.submitButtonCounter != this.optionArr.length)
+        && (this.wrongCounter == 0) && this.responseType != "partialAttempt" && this.responseType != "" && this.responseType != "wrongAttempt") {
+        //look for more option
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
         this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
         this.feedbackInfoAudio.nativeElement.play();
+        // this.resultType = "";
         // this.appModel.stopAllTimer();
-        //look for more option
       } else {
         this.popupTopAssts = [];
         this.popupDownAssts = [];
         this.checkResponseType();
         this.appModel.enableSubmitBtn(false);
         this.appModel.enableReplayBtn(true);
+      }
+    } else if (action == "oneAttempt-modal-id") {
+      this.infoModalRef.nativeElement.classList = "modal";
+      if (this.onlyOneAttemptModalRef && this.feedbackoneAttemptAudio.nativeElement && !this.feedbackoneAttemptAudio.nativeElement.paused) {
+        this.feedbackoneAttemptAudio.nativeElement.pause();
+        this.feedbackoneAttemptAudio.nativeElement.currentTime = 0;
+        this.appModel.notifyUserAction();
       }
     } else if (action == "partialFeedback") {
       if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement && !this.partialFeedbackRef.nativeElement.paused) {
@@ -1042,9 +1077,11 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       if (this.optIndxArr.length == 0 && this.resultType == "correct") {
         this.responseType = "allCorrect";
         console.log("all Correct congratessssss");
+        if (this.submitButtonCounter == this.optionArr.length) {
         this.feedbackAudio = this.feedbackObj.correctAudio;
         this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
         this.feedbackPopupAudio.nativeElement.play();
+        }
         this.attemptType = "manual";
         this.feedbackPopupAudio.nativeElement.onended = () => {
           setTimeout(() => {
@@ -1098,7 +1135,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       this.confirmModalRef.nativeElement.classList = "modal";
       this.confirmSubmitRef.nativeElement.classList = "modal";
-      this.modalfeedback20.nativeElement.classList = "modal displayPopup";
+      // if (this.submitButtonCounter == this.optionArr.length) {
+        this.modalfeedback20.nativeElement.classList = "modal displayPopup";
+      // }
       this.setPopupAssets();
     }
   }
@@ -1551,7 +1590,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.popUpFeedbackMsgUrl = this.feedbackObj.partialIncorrAnswerpopupTxt.url;
       // this.appModel.stopAllTimer();
     }
-    if (this.popupType == "correct") {
+    if (this.popupType == "correct" && this.submitButtonCounter == this.optionArr.length) {
       this.partialCorrectCase = false;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
@@ -1562,6 +1601,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.popUpFeedbackMsgUrl = this.feedbackObj.rightAnswerpopupTxt.url;
       // this.appModel.stopAllTimer();
     }
+    if (this.popupType == "correct" && this.submitButtonCounter != this.optionArr.length) {
+      this.modalfeedback20.nativeElement.classList = "modal";
+      this.infoModalRef.nativeElement.classList = "displayPopup modal";
+      let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
+      this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
+      this.feedbackInfoAudio.nativeElement.play();
+      // lookFOrMore case
+    }
+
     if (this.popupType == "showanswer") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;

@@ -56,6 +56,7 @@ export class Ntemplate14Component implements OnInit {
 	showstop = false;
 	playClicked = false;
 	instructionDisable: boolean = true;
+	isDestroyed: boolean = false;
 	lastPopUptimer: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -188,6 +189,7 @@ export class Ntemplate14Component implements OnInit {
 	ngAfterViewInit() {
 		document.getElementById("audioplay").addEventListener("play", () => {
 			this.appModel.stopAllTimer();
+			this.instructionDisable = false;
 			if (!this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.pause();
 				this.instruction.nativeElement.currentTime = 0;
@@ -198,7 +200,9 @@ export class Ntemplate14Component implements OnInit {
 				this.appModel.moveNextQues("noBlink");
 			}
 			else {
-				this.appModel.moveNextQues();
+				if (!this.isDestroyed) {
+					this.appModel.moveNextQues();
+				}
 			}
 		});
 		document.getElementById("audioplay").addEventListener("ended", () => {
@@ -215,6 +219,7 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnDestroy() {
+		this.isDestroyed = true;
 		this.appModel.stopAllTimer();
 		this.appModel.resetBlinkingTimer();
 	}
@@ -326,6 +331,7 @@ export class Ntemplate14Component implements OnInit {
 		this.showstop = false
 		this.removeBtn = false;
 		this.showPlay = true;
+		this.instructionDisable = false;
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
@@ -335,7 +341,7 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		this.appModel.moveNextQues("noBlink")
+		this.appModel.moveNextQues("noBlink");
 		setTimeout(() => {
 			this.audioT.nativeElement.currentTime = 0;
 		}, 500)
@@ -370,6 +376,9 @@ export class Ntemplate14Component implements OnInit {
 		}
 		if (obj.audioT && obj.audioT.nativeElement) {
 			obj.audioT.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.feedbackInfoAudio && obj.feedbackInfoAudio.nativeElement) {
+			obj.feedbackInfoAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 	}
 
