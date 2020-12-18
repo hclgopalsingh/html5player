@@ -87,7 +87,10 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('refQues') refQues: any;
   @ViewChild('instructionBarTop') instructionBar: any
   @ViewChild('bodyContent') bodyContentSection: any;
-
+  @ViewChild('onlyOneAttemptModalRef') onlyOneAttemptModalRef: any;
+  @ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
+  @ViewChild('modaldialog') modaldialog: any;
+  
   attemptType: any;
   audio = new Audio();
   blink: boolean = false;
@@ -135,7 +138,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
-  optionObj: any;
+  optionObject: any;
+  optionObjOriginal: any;
   optArr1: any;
   optArr2: any;
   optionCommonAssets: any;
@@ -205,9 +209,14 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   disableoptionsBlock: boolean = false;
   disableinstructionBar: boolean = false;
   popupHeader: any;
+  openWrong: any;
+  oneAttemptPopupAssets: any;
+  partialCase: boolean = false;
+  feedbackaudioTimeout: any;
   ngOnDestroy() {
     clearTimeout(this.showAnsTimer);
     clearInterval(this.blinkTimeInterval);
+    clearInterval(this.feedbackaudioTimeout);
     this.startCount = 0;
     for (let i = 0; i < this.refcpyArray.length; i++) {
       this.refQues.nativeElement.children[i].children[0].src = this.refcpyArray[i].imgsrc_original.url;
@@ -261,7 +270,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.enableSubmitBtn(false);
         this.matched = true;
         for (let x = 0; x < this.fetchAnswer.length; x++) {
-          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
           //// this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
         }
         if (this.feedbackObj.showAnswerpopupTxt.required) {
@@ -289,8 +298,10 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.styleBodyPopup = this.feedbackObj.style_body;
           this.confirmModalRef.nativeElement.classList = 'modal';
           this.confirmReplayRef.nativeElement.classList = 'modal';
+          this.onlyOneAttemptModalRef.nativeElement.classList = 'modal';
           this.submitModalRef.nativeElement.classList = 'modal';
           this.popupRef.nativeElement.classList = 'displayPopup modal';
+          document.getElementById('optionsBlock').style.pointerEvents = '';
           this.noOfRightAnsClicked = 0;
           this.noOfWrongAnsClicked = 0;
           this.setRightFeedback();
@@ -299,7 +310,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           this.disableSection = true;
-          this.setFeedback();
+          ////this.setFeedback();
           this.popupRef.nativeElement.classList = 'displayPopup modal';
         }
       }
@@ -546,6 +557,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
   // execute this function on option click
   onClickoption(idx, placed, opt) {
+
     this.disableoptionsBlock = true;
     setTimeout(() => {
       this.disableoptionsBlock = false;
@@ -571,6 +583,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
     }
 
+
     if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
       console.log('narrator/instruction voice still playing');
     } else {
@@ -579,26 +592,20 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;
       if (placed) {
         this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = 'img-fluid optItem';
-        this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0].style.visibility = '';
+        this.refQues.nativeElement.children[this.optionObject[idx].sequenceNo - 1].children[0].style.visibility = '';
         this.isAllowed = false;
-        ////$(this.refQues.nativeElement.children[this.optionObj[idx].sequenceNo - 1].children[0]).animate({ left: 0, top: 0 }, 800, () => {
-
-
+      
         setTimeout(() => {
-
-          //this.refQuesObj[this.index1].isOpen = false;
-          //this.refQuesObj[this.index1].leftPos = 5 + 'px';
-          //this.refQuesObj[this.index1].topPos = 5 + 'px';
-          clearInterval(this.blinkTimeInterval);
+        clearInterval(this.blinkTimeInterval);
           this.isAllowed = true
           this.countofAnimation--;
           if (this.countofAnimation == 0) {
             this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(true);
           }
-          this.optionObj[idx].placed = false;
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObj[idx].dropBoxImg_original.url;
-          this.refcpyArray[this.optionObj[idx].sequenceNo - 1].position = 'top';
+          this.optionObject[idx].placed = false;
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImg_original.url;
+          this.refcpyArray[this.optionObject[idx].sequenceNo - 1].position = 'top';
           this.prevIdx = this.index1;
           this.startCount = 1;
           this.blinkHolder();
@@ -630,11 +637,11 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
 
           this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
-          this.optionObj[idx].placed = true;
+          this.optionObject[idx].placed = true;
           this.refcpyArray[this.index1].placedInOption = idx;
-          this.optionObj[idx].sequenceNo = this.refcpyArray[this.index1].sequenceNo;
+          this.optionObject[idx].sequenceNo = this.refcpyArray[this.index1].sequenceNo;
           this.refQues.nativeElement.children[this.index1].children[0].style.cursor = 'pointer';
-          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObj[idx].dropBoxImgHover.url;
+          this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImgHover.url;
           this.countofAnimation++;
           if (this.countofAnimation > 0) {
             this.appModel.enableSubmitBtn(true);
@@ -668,7 +675,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     for (let i = 0; i < this.refQuesObj.length; i++) {
 
       if (this.refQuesObj[i].position == "down") {
-    this.appModel.enableSubmitBtn(true);
+        this.appModel.enableSubmitBtn(true);
       }
     }
 
@@ -909,9 +916,11 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.indexArray.push(i);
         this.fetchAnswer.push(i);
       }
-      this.optionObj = this.fetchedcontent.optionObj;
-      for (let x = 0; x < this.optionObj.length; x++) {
-        this.optionObj[x].placed = false;
+
+      this.optionObjOriginal = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
+      this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
+      for (let x = 0; x < this.optionObject.length; x++) {
+        this.optionObject[x].placed = false;
       }
       this.optionCommonAssets = this.fetchedcontent.option_common_assets;
       console.log(this.optionCommonAssets);
@@ -923,6 +932,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.infoPopupAssets = this.fetchedcontent.feedback.info_popup;
       this.submitPopupAssets = this.fetchedcontent.feedback.submit_popup;
       this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
+      this.oneAttemptPopupAssets = this.fetchedcontent.feedback.oneAttempt_popup;
       this.quesObj = this.fetchedcontent.quesObj;
       this.controlHandler = {
         isSubmitRequired: this.quesObj.submitRequired,
@@ -1017,19 +1027,107 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   houtOK() {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
   }
+  hoveroneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
+  }
 
+  houtoneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
+  }
+  hoveroneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_hover;
+  }
+
+  houtoneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_original;
+  }
   showFeedback(id: string, flag: string) {
+    this.noOfRightAnsClicked = 0;
+    this.noOfWrongAnsClicked = 0;
+
+    if (id == "oneAttempt-modal-id") {
+      this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
+      document.getElementById('optionsBlock').style.pointerEvents = 'none';
+      setTimeout(() => {
+        document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+      }, 1000);
+      if (this.feedbackoneAttemptAudio && !this.feedbackoneAttemptAudio.nativeElement.paused) {
+        this.feedbackoneAttemptAudio.nativeElement.pause();
+        this.feedbackoneAttemptAudio.nativeElement.currentTime = 0;
+      }
+      this.disableoptionsBlock = false;
+      this.disableoptions = false;
+      this.blinkHolder();
+     // document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+    }
     if (flag == 'yes') {
-      if (this.countofAnimation != this.originalArray.length) {
+      this.noOfRightAnsClicked = 0;
+      this.noOfWrongAnsClicked = 0;
+
+      for (let x = 0; x < this.fetchAnswer.length; x++) {
+
+        if (this.fetchAnswer[x].id == undefined) {
+          console.log('noooooooooo setFeedback');
+        } else if (this.fetchAnswer[x].id == this.feedbackObj.correct_ans_index[x].id && this.fetchAnswer[x].position == "down") {
+          console.log('RIGHT ANSWER');
+          this.noOfRightAnsClicked++;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.correctImg.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = 'img-fluid optItempopUp';
+        } else if (this.fetchAnswer[x].position == "down") {
+          console.log('WRONG ANSWER');
+          this.noOfWrongAnsClicked++;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.incorrectImg.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = 'img-fluid optItempopUp';
+        }
+      }
+      for (let x = 0; x < this.fetchAnswer.length; x++) {
+        if (this.fetchAnswer[x].id == undefined) {
+          console.log('');
+        } else if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id && this.fetchAnswer[x].position == "down") {
+           this.fetchAnswer[x].status = "right";
+        } else if (this.fetchAnswer[x].position == "down") {
+           this.fetchAnswer[x].status = "wrong";
+        }
+      } 
+      if (this.noOfRightAnsClicked == this.feedbackObj.correct_ans_index.length && this.noOfWrongAnsClicked == 0) {
+        //modaldialog
+        //this.openWrong = true
+        this.setFeedback();
+        this.popupRef.nativeElement.classList = 'displayPopup modal';
+      }
+      if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked >= 2) {
+        if(this.noOfWrongAnsClicked == 2){
+          this.modaldialog.nativeElement.classList.add('twoCount');
+        }
+        this.openWrong = true
+        this.setFeedback();
+        this.popupRef.nativeElement.classList = 'displayPopup modal';
+      }
+      if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
+        if(this.noOfRightAnsClicked==1 && this.noOfWrongAnsClicked ==1){
+          this.modaldialog.nativeElement.classList.add('twoCount');
+        }
+        //this.openWrong = true
+        this.setFeedback();
+        this.popupRef.nativeElement.classList = 'displayPopup modal';
+      }
+ 
+      if ((this.noOfRightAnsClicked + this.noOfWrongAnsClicked) >= 0 && (this.noOfRightAnsClicked + this.noOfWrongAnsClicked) < 2) {
+        this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
+        let oneAttemptFeedbackAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
+        // this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.location == "content" ? this.containgFolderPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36) : this.assetsPath + "/" + oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackoneAttemptAudio.nativeElement.src = oneAttemptFeedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackoneAttemptAudio.nativeElement.play();
+        this.appModel.notifyUserAction();
+
+      } else if (this.noOfWrongAnsClicked == 0 && this.noOfRightAnsClicked < this.feedbackObj.correct_ans_index.length) {
         this.infoModalRef.nativeElement.classList = 'displayPopup modal';
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
         this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
         this.feedbackInfoAudio.nativeElement.play();
         this.appModel.notifyUserAction();
-      } else {
-
-        this.appModel.invokeTempSubject('showModal', 'submit');
-
       }
     } else {
       this.appModel.notifyUserAction();
@@ -1079,33 +1177,28 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   setFeedback() {
-    this.noOfRightAnsClicked = 0;
-    this.noOfWrongAnsClicked = 0;
-    for (let x = 0; x < this.fetchAnswer.length; x++) {
-      if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id) {
-        console.log('RIGHT ANSWER');
-        this.noOfRightAnsClicked++;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.correctImg.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = 'img-fluid optItempopUp';
-      } else {
-        console.log('WRONG ANSWER');
-        this.noOfWrongAnsClicked++;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[0].src = this.incorrectImg.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].classList.value = 'img-fluid optItempopUp';
-      }
-    }
+
     if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
       for (let x = 0; x < this.fetchAnswer.length; x++) {
-        if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id) {
+        delete this.optionObject[x]['status'];
+        if (this.fetchAnswer[x].id == undefined) {
+          console.log('noooooooooo setFeedback');
+        } else if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id && this.fetchAnswer[x].position == "down") {
           console.log('RIGHT ANSWER');
-          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_right.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_right.url;
           this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_right.url;
-        } else {
+          this.optionObject[x].status = "right";
+        } else if (this.fetchAnswer[x].position == "down") {
           console.log('WRONG ANSWER');
-          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_wrong.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_wrong.url;
           this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_wrong.url;
+          this.optionObject[x].status = "wrong";
+        }
+      }
+ 
+      for (let x = this.optionObject.length - 1; x >= 0; x--) {
+        if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
+          this.optionObject.splice(x, 1);
         }
       }
     }
@@ -1128,9 +1221,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleHeaderPopup = this.feedbackObj.partial_style_header;
       this.styleBodyPopup = this.feedbackObj.partial_style_body;
     } else if (this.fetchAnswer.length == this.noOfRightAnsClicked) {
+
+
       for (let x = 0; x < this.fetchAnswer.length; x++) {
-        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+        this.optionObject[x].status = "right";
       }
       if (this.feedbackObj.rightAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
@@ -1147,10 +1243,21 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.attemptType = 'manual';
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
-    } else if (this.fetchAnswer.length == this.noOfWrongAnsClicked) {
+    } else if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
+      ////else if (this.fetchAnswer.length == this.noOfWrongAnsClicked) {
       for (let x = 0; x < this.fetchAnswer.length; x++) {
-        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
-        this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+        if (this.fetchAnswer[x].id == undefined) {
+          //alert();
+        } else if (this.fetchAnswer[x].position == "down") {
+          this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
+          this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
+          this.optionObject[x].status = "wrong";
+        }
+      }
+      for (let x = this.optionObject.length - 1; x >= 0; x--) {
+        if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
+          this.optionObject.splice(x, 1);
+        }
       }
       if (this.feedbackObj.wrongAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
@@ -1189,49 +1296,75 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   setplayFeedbackAudio(i: number) {
-    let current = i;
-    if (this.fetchAnswer[i] && (this.fetchAnswer[i].correctAudio || this.fetchAnswer[i].incorrectAudio)) {
-      if (this.feedbackObj.correct_ans_index[i].id == this.fetchAnswer[i].id) {
-        if (this.fetchAnswer[i] && this.fetchAnswer[i].correctAudio) {
-          this.feedbackAudio = this.fetchAnswer[i].correctAudio;
+    this.feedbackaudioTimeout = setTimeout(() => {
+      this.partialCase = false;
+      let current = i;
+
+      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObject.length) {
+
+        if (this.optionObject[i].status == "right") {
+
+          for (var j = 0; j < this.fetchAnswer.length; j++) {
+            if (this.fetchAnswer[j].sequenceNo == this.optionObject[i].sequenceNo) {
+              this.feedbackAudio = this.fetchAnswer[j].correctAudio;
+            }
+          }
+
           this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
+
+          this.feedbackPopupAudio.nativeElement.play();
+          if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i].children[0]) {
+            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'optionAnimate';
+          }
+          this.feedbackPopupAudio.nativeElement.onended = () => {
+            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+            ++current;
+            this.setplayFeedbackAudio(current);
+          }
+        } else if (this.optionObject[i].status == "wrong") {
+
+          for (var j = 0; j < this.fetchAnswer.length; j++) {
+            if (this.fetchAnswer[j].sequenceNo == this.optionObject[i].sequenceNo) {
+              this.feedbackAudio = this.fetchAnswer[j].incorrectAudio;
+            }
+          }
+          this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
+          console.log(this.feedbackPopupAudio.nativeElement.src);
+
+          this.feedbackPopupAudio.nativeElement.play();
+          if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i].children[0]) {
+            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'optionAnimate';
+          }
+          this.feedbackPopupAudio.nativeElement.onended = () => {
+            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+            ++current;
+            this.setplayFeedbackAudio(current);
+
+          }
         }
       } else {
-        if (this.fetchAnswer[i] && this.fetchAnswer[i].incorrectAudio) {
-          this.feedbackAudio = this.fetchAnswer[i].incorrectAudio;
-          this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
-          console.log(this.feedbackPopupAudio.nativeElement.src);
-        }
-      }
-      this.feedbackPopupAudio.nativeElement.play();
-      if (this.popupBodyRef && this.popupBodyRef.nativeElement && this.popupBodyRef.nativeElement.children[0].children[i].children[0]) {
-        this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'optionAnimate';
-      }
-      this.feedbackPopupAudio.nativeElement.onended = () => {
-        this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
-        ++current;
-        this.setplayFeedbackAudio(current);
-      }
-    } else {
-      this.showAnsTimer = setTimeout(() => {
-        if (this.countofAnimation == this.noOfRightAnsClicked) {
-          this.startCount = 0;
-          this.matched = true;
-          this.closeModal();
-          this.appModel.notifyUserAction();
-          this.disableSection = true;
+        if (this.countofAnimation > 0) {
+          this.showAnsTimer = setTimeout(() => {
+            if (this.countofAnimation == this.noOfRightAnsClicked) {
+              this.startCount = 0;
+              this.matched = true;
+              this.closeModal();
+              this.appModel.notifyUserAction();
+              this.disableSection = true;
 
-          this.instructionBar.nativeElement.style.opacity = 0.3;
-          this.disableinstructionBar = true;
-          this.bodyContentSection.nativeElement.style.opacity = 0.3;
-          this.disableBody = true;
-          this.appModel.enableSubmitBtn(false);
-        } else {
-          this.closeModal();
+              this.instructionBar.nativeElement.style.opacity = 0.3;
+              this.disableinstructionBar = true;
+              this.bodyContentSection.nativeElement.style.opacity = 0.3;
+              this.disableBody = true;
+              this.appModel.enableSubmitBtn(false);
+            } else {
+              this.closeModal();
+            }
+          }, this.showAnsTimeout)
         }
-      }, this.showAnsTimeout)
-    }
+      }
+    }, 1000)
   }
 
   setplayrightFeedbackAudio(i: number) {
@@ -1373,27 +1506,34 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   resetAttempt() {
-    for (let i = 0; i < this.refcpyArray.length; i++) {
-      this.optionObj[i].placed = false;
-      this.refcpyArray[i].position = 'top';
-      this.refQues.nativeElement.children[i].children[0].style.visibility = '';
-      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
-      this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObj[i].dropBoxImg_original.url;
-      //// $(this.refQues.nativeElement.children[i].children[0]).animate({ left: 0, top: 0 }, 1000);
-      for (let i = 0; i < this.refQuesObj.length; i++) {
-        this.refQuesObj[i].isOpen = true;
-        this.refQuesObj[i].leftPos = 0 + 'px';
-        this.refQuesObj[i].topPos = 0 + 'px';
+    this.optionObject = [...this.optionObjOriginal];
+     this.fetchAnswer = [];
+      for (var i = 0; i < this.refcpyArray.length; i++) {
+        this.fetchAnswer.push(i);
       }
-    }
-    this.appModel.enableReplayBtn(true);
-    this.appModel.enableSubmitBtn(false);
-    this.countofAnimation = 0;
-    this.noOfRightAnsClicked = 0;
-    clearInterval(this.blinkTimeInterval);
-    this.index1 = 0;
-    this.startCount = 1;
-    this.blinkHolder();
+      for (let i = 0; i < this.refQuesObj.length; i++) {
+        delete this.optionObject[i]['sequenceNo'];
+      }
+      for (let i = 0; i < this.refcpyArray.length; i++) {
+        this.optionObject[i].placed = false;
+        this.refcpyArray[i].position = 'top';
+        this.refQues.nativeElement.children[i].children[0].style.visibility = '';
+        this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
+        this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
+         for (let i = 0; i < this.refQuesObj.length; i++) {
+          this.refQuesObj[i].isOpen = true;
+          this.refQuesObj[i].leftPos = 0 + 'px';
+          this.refQuesObj[i].topPos = 0 + 'px';
+        }
+      }
+      this.appModel.enableReplayBtn(true);
+      this.appModel.enableSubmitBtn(false);
+      this.countofAnimation = 0;
+      this.noOfRightAnsClicked = 0;
+      clearInterval(this.blinkTimeInterval);
+      this.index1 = 0;
+      this.startCount = 1;
+      this.blinkHolder();  
   }
 
   playFeedbackAudio(i, j, flag) {
@@ -1511,7 +1651,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.AnswerpopupTxt = false;
       }
       for (let x = 0; x < this.fetchAnswer.length; x++) {
-        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObj[x].imgsrc_original.url;
+        this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
         //this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
       }
     } else {
@@ -1572,28 +1712,39 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.mainVideo.nativeElement.onended = () => {
         for (let i = 0; i < this.refQuesObj.length; i++) {
 
-      if (this.refQuesObj[i].position == "down") {
-    this.appModel.enableSubmitBtn(true);
-      }
-    }
+          if (this.refQuesObj[i].position == "down") {
+            this.appModel.enableSubmitBtn(true);
+          }
+        }
         this.disableoptions = false;
         this.disableSection = false;
         this.appModel.navShow = 2;
         this.isPlayVideo = false;
+        document.getElementById('outer').style.pointerEvents = 'none';
+        setTimeout(() => {
+          document.getElementById('outer').style.pointerEvents = 'auto';
+        }, 1000);
+        
         this.appModel.videoStraming(false);
-        this.appModel.notifyUserAction();
+        this.appModel.notifyUserAction();       
       };
     }, 500);
   }
 
   // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
+    this.modaldialog.nativeElement.classList.remove('twoCount');
+    if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
+      this.feedbackPopupAudio.nativeElement.pause();
+      this.feedbackPopupAudio.nativeElement.currentTime = 0;
+    }
+    ////this.optionObject = [...this.optionObjOriginal];
+
     for (let i = 0; i < this.refQuesObj.length; i++) {
       this.refQuesObj[i].isOpen = true;
       this.refQuesObj[i].leftPos = 0 + 'px';
       this.refQuesObj[i].topPos = 0 + 'px';
     }
-    //// this.appModel.enableReplayBtn(false);
     for (let i = 0; i < this.popupBodyRef.nativeElement.children[0].children.length; i++) {
       this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList.value = '';
     }
@@ -1629,6 +1780,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (!this.matched) {
+      this.optionObject = [...this.optionObjOriginal];
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
         //this.resetAttempt();
@@ -1642,7 +1794,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.disableoptions = false;
       }, 1000);
     }
-
+    this.appModel.enableReplayBtn(false);
   }
 }
 

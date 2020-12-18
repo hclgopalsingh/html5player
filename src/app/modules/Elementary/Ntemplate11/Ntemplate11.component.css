@@ -511,10 +511,10 @@
   }
 
   @media (min-width: 1366px) {
-    .close {
+    /* .close {
       height: 95%;
       margin-right: .3%;
-    }
+    } */
   }
 
   #modalTemp5 .modal-header .close {
@@ -801,22 +801,22 @@
 .modal-title{
 	/* max-width: 10%; */
   /* max-height: 100%; */
-  margin-left: 1.5%;
+  margin-left: 0.5%;
   height: 80%;
 }
-.close {
+/* .close {
 	width: auto;
 	height: 75%;
   margin-right: .5%;
 	margin-top: -.1%;
   -webkit-appearance: inherit !important;
   opacity: 1;
-}
+} */
 @media (min-width: 1366px){
-	.close {
-		height: 95%;
-    margin-right: .3%;
-	}
+	/* .close { */
+		/* height: 95%;
+    margin-right: .3%; */
+	/* } */
 }
 .close:focus, .close:hover {
   color: #000;
@@ -916,11 +916,13 @@
 	text-align: center;
   }
 
-  #instructionBar .instructionBase {
-	width: 50%;
-  position: relative;
-  cursor: pointer;
+  .instructionBar .instructionBase {
+    width: 60% !important;
+    /*86%;*/
+    position: relative;
+    cursor: pointer;
   }
+  
 
   .instructionBase .instructionText {
 	position: absolute;
@@ -936,22 +938,22 @@
 }
 
 .wrongImageStyle {
-		border: solid 5px red;
+		/* border: solid 5px red;
     border-radius: 9%;
     height:115px;
     width: 120px;
     margin-left:-10px;
-    margin-top:12px
+    margin-top:12px */
+    opacity: 1;
+    left: 50%;
+    top: -84%;
+    width: 50%;
+    padding: 0;
+    visibility: visible;
+    border: solid .5vmin red;
+    border-radius: 1.5vmin;
  }
 
- /* .bgBlank {
-position: absolute;
-    top: 5%;
-    width: 85%;
-    text-align: center;
-    left: 5%;
-
- } */
 
  .zclass{
    z-index: 99;

@@ -96,7 +96,7 @@ button:focus {
 	height: auto;
   justify-content: space-around !important;
   /* margin-top: 8%; */
-  margin: 7% 0 0.7% 0;/*7% 0 7.5% 0;*/
+  margin: 8.5% 0 0.7% 0;/*7% 0 7.5% 0;*/
 }
 .categoryBox{
 	width: 77%;/*26.5%;*/
@@ -937,10 +937,10 @@ button:focus {
   top: 0;
 }
 
-.modal-title {
+/* .modal-title {
   margin-left: 1.5%;
   height: 80%;
-}
+} */
 
 .close {
   width: auto;
@@ -955,7 +955,7 @@ button:focus {
 @media (min-width: 1366px) {
   .close {
     height: 95%;
-    margin-right: .3%;
+    /* margin-right: .3%; */
   }
 }
 
@@ -1663,15 +1663,15 @@ cursor: pointer
 }
 
 .modal .instructionBase {
-  width: 100%;
+  max-width: 96%;
   position: relative;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
 }
-.modal .instructionBase img {
+/* .modal .instructionBase img {
   max-width: none !important;
   max-height: 7vmin;
-}
+} */
 
 .closepopup_btn{
   text-align: center; 
