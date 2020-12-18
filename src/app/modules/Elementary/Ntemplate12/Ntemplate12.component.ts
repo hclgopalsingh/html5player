@@ -135,7 +135,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       if (mode == "manual") {
         //show modal for manual
         this.appModel.notifyUserAction();
-        this.instructionDisable = true;
+        // this.instructionDisable = true;
 
       } else if (mode == "auto") {
 
@@ -471,6 +471,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     this.attemptType = "hideAnimation";
     // this.ansShow = true;
     this.bodyContentDisable = true;
+    this.bodyContentOpacity = false;
+    this.instructionOpacity = false;
     this.ans.nativeElement.src = this.containgFolderPath + "/" + this.feedback.correct_ans_url;
     this.displayconfirmPopup = false;
     this.ans.nativeElement.style.visibility = 'visible';
@@ -493,7 +495,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.bodyContentOpacity = true;
         this.instructionOpacity = true;
         this.blinkOnLastQues()
-      }, 3000)
+      }, this.showAnsTimeout)
     }
 
   }
