@@ -36,10 +36,11 @@
 #ansBlock #optimage3,
 #ansBlock #optimage4{
 	position: absolute;
-    top: 5%;
-    width: 85%;
+    /* top: 5%; */
+    top: 3%;
+    width: 95%;
     text-align: center;
-    left: 5%;
+    left: 2%;
 }
 #quesImage{
     width: 25%;
