@@ -94,9 +94,9 @@
 		(ended)="endedHandler()">
 		<source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
 	</video>
-	<div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()"
+	<div id="SkipBtn" ><img  *ngIf="SkipLoad" class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()"
 		(mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
-	<div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (click)="PlayPauseVideo()" />
+	<div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" />
 	</div>
 	
 </div>
