@@ -632,7 +632,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.movetop = this.moveTo.top - this.moveFrom.top;
 
         this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div ";
-        this.appModel.enableReplayBtn(false);
+        // this.appModel.enableReplayBtn(false);
         // this.myoption[id]['isOpen'] = false;
         // this.myoption[id]['leftPos'] = (this.moveleft);
         // this.myoption[id]['topPos'] =  (this.movetop);
@@ -657,6 +657,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
               this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
               this.controlHandler.isTab = true;
               this.appModel.handleController(this.controlHandler);
+                this.appModel.enableReplayBtn(false);
             }, 200)
 
             this.appModel.handlePostVOActivity(false);
