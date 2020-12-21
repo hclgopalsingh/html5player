@@ -34,7 +34,7 @@
               (click)="opts['idx']=idx ;checkAnswer(opts,$event)">
               <img class="img-fluid backgroundBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
                 (load)="checkImgLoaded();">
-              <img [ngClass]="{'colorWhite':opts.optFilter}"
+              <img [ngClass]="{'colorWhite':opts.optFilter,'classOpacity':opts.showDisable}"
                 [@openClose]="{value: opts.isOpen ? 'open' : 'closed', params: {leftPos: opts.leftPos , topPos: opts.topPos , optWidth: opts.optWidth, optMaxWidth: opts.optMaxWidth}}"
                 (@openClose.start)="onAnimationEvent($event,opts,idx)"
                 (@openClose.done)="onAnimationEvent($event,opts,idx)" *ngIf="opts.imgsrc.url"
