@@ -233,13 +233,13 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
 
   ngOnDestroy() {
     this.blurTwoOptions = false;
+   setTimeout(() => {
     this.appModel.resetBlinkingTimer();
-    // clearTimeout(this.loaderTimer);
+   }, 1000);
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
     }
-
   }
 
   ngAfterViewChecked() {
@@ -267,9 +267,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       option.image = option.image_hover;
       this.instructionBar.nativeElement.classList = "instructionBase";
       this.instructionBar.nativeElement.style.cursor = "pointer";
-
-      // this.ansBlock.nativeElement.className="d-flex flex-row justify-content-around pointer";
-      // this.ansBlock.nativeElement.classList = "d-flex flex-row justify-content-around pointer";
       this.ansBlock.nativeElement.children[idx].className = "options pointer";
     }
   }
@@ -454,9 +451,10 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
           this.ansBlock.nativeElement.className = "d-flex flex-row justify-content-around";
           this.instructionBar.nativeElement.classList = "instructionBase";
           this.instructionBar.nativeElement.style.cursor = "pointer";
-          for (let i = 0; i < this.myoption.length; i++) {  
+          for (let i = 0; i < this.myoption.length; i++) {
             this.ansBlock.nativeElement.children[i].className = "options";
           }
+          // this.appModel.handlePostVOActivity(false); 
         }
 
       }
@@ -661,6 +659,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.correctAns.nativeElement.classList = "modal";
     this.appModel.enableReplayBtn(true);
     this.appModel.handlePostVOActivity(true);
+  
     this.feedbackVoRef.nativeElement.pause();
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
