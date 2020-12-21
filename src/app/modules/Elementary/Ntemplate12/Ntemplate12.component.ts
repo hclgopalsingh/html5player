@@ -304,6 +304,30 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
       opt.optFilter = true;
+      if (opt.id == this.feedback.correct_ans_index) {   
+        for (let i = 0; i < this.myoption.length; i++) {
+          if(this.myoption[i].id!=opt.id){
+            this.myoption[i].showDisable = true;
+          }          
+        }     
+        this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVoRef.nativeElement.play();
+
+        this.feedbackVoRef.nativeElement.onended = () => {
+          this.blinkTimer = setTimeout(() => {
+            this.bodyContentOpacity = true;
+            this.instructionOpacity = true;
+            this.blinkOnLastQues()
+          }, 5000)
+        }
+      }
+      else {
+          this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVoRef.nativeElement.play();
+        this.feedbackVoRef.nativeElement.onended = () => {
+          this.appModel.wrongAttemptAnimation();
+        }
+      }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
       opt.optFilter = false;
     }
@@ -437,6 +461,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       for (let i = 0; i < this.myoption.length; i++) {
         this.myoption[i].isOpen = true;
         this.myoption[i].optFilter = false;
+        this.myoption[i].showDisable = false;
       }
     }
   }
@@ -469,7 +494,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   }
   showAnswer() {
     this.attemptType = "hideAnimation";
-    // this.ansShow = true;
     this.bodyContentDisable = true;
     this.bodyContentOpacity = false;
     this.instructionOpacity = false;
@@ -480,6 +504,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     this.myoption.forEach((element, i) => {
       if (element.id == this.feedback.correct_ans_index) {
         id = i;
+      }else{
+        element.showDisable=true;
       }
     });
     console.log("id", id)
@@ -543,18 +569,18 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
         option.optMaxWidth = this.quesObj.styleArray[option.idx]['max-width'];
         option.isOpen = false;
-        setTimeout(() => {
-          this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-          this.feedbackVoRef.nativeElement.play();
-        }, 750)
+        // setTimeout(() => {
+        //   this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+        //   this.feedbackVoRef.nativeElement.play();
+        // }, 750)
 
-        this.feedbackVoRef.nativeElement.onended = () => {
-          this.blinkTimer = setTimeout(() => {
-            this.bodyContentOpacity = true;
-            this.instructionOpacity = true;
-            this.blinkOnLastQues()
-          }, 5000)
-        }
+        // this.feedbackVoRef.nativeElement.onended = () => {
+        //   this.blinkTimer = setTimeout(() => {
+        //     this.bodyContentOpacity = true;
+        //     this.instructionOpacity = true;
+        //     this.blinkOnLastQues()
+        //   }, 5000)
+        // }
       }
       else {
         this.itemid = option.idx;
@@ -565,13 +591,13 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
         option.optMaxWidth = this.quesObj.styleArray[option.idx]['max-width'];
         option.isOpen = false;
-        setTimeout(() => {
-          this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-          this.feedbackVoRef.nativeElement.play();
-        }, 750)
-        this.feedbackVoRef.nativeElement.onended = () => {
-          this.appModel.wrongAttemptAnimation();
-        }
+        // setTimeout(() => {
+        //   this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+        //   this.feedbackVoRef.nativeElement.play();
+        // }, 750)
+        // this.feedbackVoRef.nativeElement.onended = () => {
+        //   this.appModel.wrongAttemptAnimation();
+        // }
       }
     }
   }
