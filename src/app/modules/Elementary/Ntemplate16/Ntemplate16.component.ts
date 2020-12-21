@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
-import { PlayerConstants } from '../common/playerconstants';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { PlayerConstants } from '../../../common/playerconstants';
 import 'jquery';
 import { Subscription } from 'rxjs'
 import { setInterval, clearInterval } from 'timers';
@@ -10,8 +10,8 @@ declare var $: any;
 
 @Component({
 	selector: 'temp16',
-	templateUrl: '../view/layout/Ntemplate16.component.html',
-	styleUrls: ['../view/css/Ntemplate16.component.css', '../view/css/bootstrap.min.css'],
+	templateUrl: './Ntemplate16.component.html',
+	styleUrls: ['./Ntemplate16.component.css'],
 
 })
 
