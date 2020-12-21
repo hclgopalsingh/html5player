@@ -40,7 +40,6 @@ import {
 })
 export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
 
-
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   @ViewChild('ans') ans: any;
@@ -79,7 +78,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   bodyContentDisable: boolean = true;
   displayconfirmPopup: boolean = false;
   initialDisableTimer: any;
-  // ansShow: boolean = false;
   myoption: any = [];
   question: any = "";
   optionCursorPointer: boolean = false;
@@ -135,7 +133,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       if (mode == "manual") {
         //show modal for manual
         this.appModel.notifyUserAction();
-        // this.instructionDisable = true;
 
       } else if (mode == "auto") {
 
@@ -409,7 +406,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.appModel.handlePostVOActivity(true);
-      //this.bodyContentDisable = true;
       this.instructionDisable = true;
       this.isOptionDisabled = true;
       this.narrator.nativeElement.play();
@@ -517,7 +513,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     }, 750)
     this.feedbackVoRef.nativeElement.onended = () => {
       this.blinkTimer = setTimeout(() => {
-        // this.checkNextActivities();
         this.bodyContentOpacity = true;
         this.instructionOpacity = true;
         this.blinkOnLastQues()
@@ -534,9 +529,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     else { }
   }
   checkAnswer(option, event) {
-    // $( "#navBlock" ).addClass("disableNavBtn")
-    // this.controlHandler.isTab = false;
-    // this.appModel.handleController(this.controlHandler);
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
@@ -557,7 +549,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       console.log("narrator voice still playing");
     }
     else {
-      // this.disableHelpBtn = true;
       // logic to check what user has done is correct
       if (option.id == this.feedback.correct_ans_index) {
         let id = option.idx;
@@ -568,36 +559,16 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         option.topPos = this.quesObj.styleArray[option.idx]['top'];
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
         option.optMaxWidth = this.quesObj.styleArray[option.idx]['max-width'];
-        option.isOpen = false;
-        // setTimeout(() => {
-        //   this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-        //   this.feedbackVoRef.nativeElement.play();
-        // }, 750)
-
-        // this.feedbackVoRef.nativeElement.onended = () => {
-        //   this.blinkTimer = setTimeout(() => {
-        //     this.bodyContentOpacity = true;
-        //     this.instructionOpacity = true;
-        //     this.blinkOnLastQues()
-        //   }, 5000)
-        // }
+        option.isOpen = false;        
       }
       else {
         this.itemid = option.idx;
         this.bodyContentDisable = true;
-        // let id = option.idx;       
         option.leftPos = this.quesObj.styleArray[option.idx]['left'];
         option.topPos = this.quesObj.styleArray[option.idx]['top'];
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
         option.optMaxWidth = this.quesObj.styleArray[option.idx]['max-width'];
-        option.isOpen = false;
-        // setTimeout(() => {
-        //   this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-        //   this.feedbackVoRef.nativeElement.play();
-        // }, 750)
-        // this.feedbackVoRef.nativeElement.onended = () => {
-        //   this.appModel.wrongAttemptAnimation();
-        // }
+        option.isOpen = false;        
       }
     }
   }
