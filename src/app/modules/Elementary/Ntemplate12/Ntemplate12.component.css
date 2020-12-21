@@ -24,12 +24,7 @@
 	width: 100%;
 	left: 0%;  */
 }
-#container #optBlock {
-  /*top: 70%;/*63%;*/
-}
-#container #ansBlock {
-    /* width: 93%; */
-}
+
 #ansBlock .options{
 	text-align:right;
 	width:100%;
@@ -56,85 +51,6 @@
 #quesImage img{
 	/*cursor:pointer;*/
 }
-#container #navBlock {
-    position: absolute;
-    top: 83%;
-    left: 0%;
-    width: 100%;
-}
-#container #navBlock .prevBtn{
-    margin-left: 4%;
-	text-align:right;
-}
-#container #navBlock .nextBtn{
-	position:relative;
-    margin-right: 4%;
-}
-#navBlock .prevBtn, #navBlock .nextBtn{
-	width:8%;
-}
-#navBlock .prevBtn img, #navBlock .nextBtn img{
-	cursor:pointer;
-}
-
-#help{
-	position: absolute;
-	width: 4%;
-	/*right: 0.5%;*/
-	left:0.5%;
-	top: 82%;
-
-}
-.temp5 .speakerBtn{
-	width:18%;
-	position:absolute;
-	right:-3%;
-	top:-39%;
-}
-.temp5 .speakerBtn img{
-	cursor:pointer;
-}
-.temp5 #placeholders{
-	position:absolute;
-	top:26%;
-    width: 97%;
-    left: 1.4%;
-}
-.temp5 #placeholders img{
-	max-width:70%;
-}
-.temp5 .placeholder1,
-.temp5 .placeholder2,
-.temp5 .placeholder3,
-.temp5 .placeholder4,
-.temp5 .placeholder5{
-	text-align: center;
-}
-.animation-shake {
-	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-	transform: translate3d(0, 0, 0);
-	backface-visibility: hidden;
-	perspective: 1000px;
-	animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
 #correctAns{
 	position:absolute;
 	left:0;
@@ -159,15 +75,10 @@
 		transform: scale(1);
 	  }
 }
-#burst{
-	position:absolute;
-	z-index:101;
-	width:100%;
-	height:100%;
-}
+
 #container #answerBlock {
     position: absolute;
-    top: 19%;/*51%;*/
+    top: 21%;
     width: 100%;
 }
 #answerBlock .ansBase{
@@ -186,77 +97,7 @@
     top: 0%;
 	left:0%;
 }
-@media (min-width: 800px) and (max-width: 1299px){
-#navBlock .prevBtn, #navBlock .nextBtn{
-	/*width:90px;
-	height:35px;*/
-}
-}
-@media (min-width: 1520px) and (max-width: 1920px){
-.temp5 #placeholders img {
-    max-width: 90%;
-}
-}
 
-.aagebadho {
-   /* background: url(../../../assets/images/aagey.svg) no-repeat;
-    background-size: 100% 100%;
-    height: 40px !important;*/
-}
-.aagebadho:hover {
-   /* background: url('../../../assets/images/aageyHover.svg') no-repeat;
-	background-size: 100% 100%;
-     height: 40px !important;
-	cursor:pointer;*/
-}
-.peechejao {
-	width:4%
-    /*background: url(../../../assets/images/peechey.svg) no-repeat;
-    background-size: 100% 100%;
-     height: 40px !important;*/
-}
-.peechejao:hover {
-	width:4%
-    /*background: url('../../../assets/images/peecheyHover.svg') no-repeat;
-	background-size: 100% 100%;
-     height: 40px !important;
-	cursor:pointer;*/
-}
-
-
-#container #zaariRakheinId {
-    position: absolute;
-    top: 80%;
-    left: 0%;
-    width: 100%;
-}
-#zaariRakheinId .zaariRakheinBtn {
-   width: 16%;
-    margin-top: .5%;
-    margin-right: 7.5%;
-    float: right;
-    cursor: pointer;
-}
-
-#container #activity {
-                position: absolute;
-                width: 100%;
-                top: 10%;
-}
-#container  #activityTitle {
-                top: 0;
-                left:0;
-                position: absolute;
-                width: 100%;
-}
-
-.title_class{
-	font-size: 50px;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    font-family: sans-serif;
-}
 
 .disable{
 	pointer-events:none;
@@ -269,43 +110,10 @@
 	visibility:hidden;
 }
 
-@-webkit-keyframes blinker {
-  from {opacity: 1.0;}
-  to {opacity: 0.0;}
-}
-.blink_btn{
-	/*background: url(../../../assets/images/aageyBlink.svg) no-repeat;
-    background-size: 100% 100%!important;
-    height: 40px!important;
-	width: 100%;
-    top: 0;
-    left: 0;*/
-	position: absolute;
-    top: 0;
-    left: 0;
-	display:none;
-	width:100%;
-	cursor: pointer;
-}
-.blink{
-	display:block!important;
-	position: absolute;
-	text-decoration: blink;
-	-webkit-animation-name: blinker;
-	-webkit-animation-duration: 0.6s;
-	-webkit-animation-iteration-count:infinite;
-	-webkit-animation-timing-function:ease-in-out;
-	-webkit-animation-direction: alternate;
-}
 .disable_div{
 	pointer-events:none;
 }
-#autoPlayOnOffContainer{
-	width:15%;
-	position:absolute;
-	right:0.5%;
-	bottom:1%;
-}
+
 .fadeInAnimation {
     opacity: 1;
     animation: fadeIn 0.3s linear;
@@ -336,10 +144,11 @@
     top: 10%;
     width: 100%;
     text-align: center;
+    line-height: 0;
   }
 
   #instructionBar .instructionBase {
-    width: 58%;
+    width: 60%;
     position: relative;
     cursor:pointer
   }
@@ -445,32 +254,6 @@
 	  width: 85%;
 	}
 
-	#confirmModal .modal-title {
-	  margin-left: 3%;
-	}
-
-	#confirmModal .close {
-	  /* width: 5%; */
-	  margin: 0 1.6% 0 auto;
-	}
-
-	#confirmModal .modal-footer {
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  padding: 0 15px;
-	  border-top: none;
-	  position: absolute;
-	  width: 100%;
-	  bottom: 16%;
-	}
-
-	#confirmModal .modal-footer button {
-	  width: 13%;
-	  border: none;
-	  background: transparent;
-	}
-
 	#confirmModal .popupModelBody {
 	  padding: 0;
 	}
@@ -490,12 +273,6 @@
     padding-left: 0px;
   }
 
-    /*.modal-dialog {
-    width: 30%;
-    min-height: 49%;
-    width: 100%;
-    height: 88%;
-  }*/
     .modal.show {
       display: -webkit-box !important;
     }
@@ -522,21 +299,6 @@
     width: 100%;
     border-bottom: none !important;
     margin-bottom: -1px;
-  }
-
-    .modal-title {
-    margin-left: 1.5%;
-    height: 80%;
-  }
-
-  .close {
-    width: auto;
-    height: 75%;
-    margin-right: 0%;
-    margin-top: -.1%;
-    -webkit-appearance: inherit !important;
-    cursor: pointer;
-    opacity: 1;
   }
 
   .modal-body {
@@ -580,12 +342,6 @@
 		max-width: 70% !important;
 	}
 }
-@media (min-width: 1366px) {
-	.close {
-	  height: 95%;
-	  margin-right: .3%;
-	}
-}
 
   /* Modal Classes End */
 
@@ -598,4 +354,12 @@
 .disableSection{
   pointer-events: none;
   opacity: 0.3;
+}
+
+.classOpacity {
+  opacity: 0.3;
+}
+
+.colorWhite{
+  filter:invert(1);
 }
