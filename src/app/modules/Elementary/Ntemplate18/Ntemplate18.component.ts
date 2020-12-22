@@ -1790,7 +1790,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.refQues.nativeElement.children[i].children[0].style.visibility ="visible";
         }
 
-      }, 10);
+      }, 5);
       
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
