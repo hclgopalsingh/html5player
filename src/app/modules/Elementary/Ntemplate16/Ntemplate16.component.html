@@ -15,14 +15,14 @@
 
   <div #maincontent>
     <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-      <div class="instructionBase">
+      <div class="instructionBase" [ngClass]="{'disable-click':instructionOpacity,'disable_div':disableInstruction}">
         <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
           (load)="checkImgLoaded();" />
         <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
 
       </div>
     </div>
-    <div id="optionsBlock">
+    <div id="optionsBlock" [ngClass]="{'disable-click':optOpacity}">
       <div class="d-flex align-items-center justify-content-center" id="quesImage">
         <div class="maincontent_inner">
           <img class="img-fluid" [src]="question?.imgsrc.url" (load)="checkImgLoaded();">
@@ -36,7 +36,7 @@
           <img [src]="quesInfo.option_base.url" (load)="checkImgLoaded();">
           <div class="option_inner">
             <div class="option_block d-flex align-items-center justify-content-center" id="optionImage" #optionImage>
-              <div class="options" *ngFor="let opt of myoption;let idx = index" [ngClass]="{'disableDiv': !opt.imgsrc}">
+              <div class="options" *ngFor="let opt of myoption;let idx = index" [ngClass]="{'disable_div': disableAllOpt || opt.disableOpt || !opt.imgsrc,'disable-click': this.actComplete && opt.imgsrc}">
                 <img class="img-fluid" [src]="opt?.bgImgsrc?.url" (load)="checkImgLoaded();">
                 <img class="img-fluid option_img" *ngIf="opt.imgsrc" [src]="opt?.imgsrc?.url "
                   on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"
