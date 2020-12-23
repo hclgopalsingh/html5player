@@ -57,6 +57,7 @@ export class Ntemplate14Component implements OnInit {
 	playClicked = false;
 	instructionDisable: boolean = true;
 	isDestroyed: boolean = false;
+	autostopplayer:boolean=false;
 	lastPopUptimer: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -303,6 +304,7 @@ export class Ntemplate14Component implements OnInit {
 		//this.stopButton.nativeElement.src = this.question.stop.url;
 		setTimeout(() => {
 			if (!this.isStop) {
+				this.autostopplayer=true;
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
@@ -322,7 +324,15 @@ export class Ntemplate14Component implements OnInit {
 		this.removeBtn = false;
 		this.playClicked = true;
 		this.audioT.nativeElement.load();
-		this.audioT.nativeElement.play();
+		 this.audioT.nativeElement.play();
+		 this.audioT.nativeElement.onended = () => {
+			 if(this.autostopplayer){
+this.appModel.moveNextQues("noBlink");
+			 }
+		}
+		 
+		
+
 	}
 
 	/****** Stop recording on click of stop recorder button ******/
@@ -341,7 +351,14 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		this.appModel.moveNextQues("noBlink");
+		if(!this.autostopplayer){
+			this.appModel.moveNextQues("noBlink");
+		}else{
+			setTimeout(() => {
+				this.listen();
+			}, 5000)
+		}
+		
 		setTimeout(() => {
 			this.audioT.nativeElement.currentTime = 0;
 		}, 500)
