@@ -158,6 +158,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   selectedPosition: string = "";
   reverseOption: any;
   reverseOptionIndex: number;
+  lookformore:boolean = false;
   /*END: Theme Implementation(Template Changes)*/
 
 
@@ -679,7 +680,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.popupTopAssts = [];
         this.popupDownAssts = [];
         this.checkResponseType();
-        this.appModel.enableSubmitBtn(false);
+        if(!this.lookformore){
+          this.appModel.enableSubmitBtn(false);
+        }
+        
         this.appModel.enableReplayBtn(true);
       }
     } else if (action == "oneAttempt-modal-id") {
@@ -1266,6 +1270,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   resetOptions() {
+    this.lookformore = false;
+    this.appModel.enableSubmitBtn(false);
     this.animationFlag = true;
     this.isDisablePlaceholder = false;
     for (let i = 0; i < this.optionArr.length; i++) {
@@ -1402,6 +1408,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.popupType == "correct" && this.submitButtonCounter != this.optionArr.length) {
       this.modalfeedback20.nativeElement.classList = "modal";
       this.infoModalRef.nativeElement.classList = "displayPopup modal";
+      this.lookformore = true;
       let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
       this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
       this.feedbackInfoAudio.nativeElement.play();
