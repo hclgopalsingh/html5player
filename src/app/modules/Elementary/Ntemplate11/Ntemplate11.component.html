@@ -10,8 +10,8 @@
 				<audio #instruction [src]="commonAssets?.quesInstruction?.url"></audio>
 			</div>
 		</div>
-		<div class="d-flex align-items-center justify-content-around" id="optBlock">
-			<div #ansBlock class="d-flex flex-row justify-content-around pointer " id="ansBlock">
+		<div #optBlock class="d-flex align-items-center justify-content-around " id="optBlock">
+			<div #ansBlock class="d-flex flex-row justify-content-around" id="ansBlock">
 				<div class="options" *ngFor="let opts of myoption;let idx = index"
 					(click)="checkAnswer(opts,$event, idx)" >
 					<img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
