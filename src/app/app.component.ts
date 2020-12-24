@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy, EventEmitter, Output, Input, SimpleChange } from '@angular/core';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { Router, ActivatedRoute, Params, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ApplicationmodelService } from './common/services/applicationmodel.service';
 import { SharedserviceService } from './common/services/sharedservice.service';
 import { Subscription, Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { ParentcommunicationService } from './common/services/parentcommunicatio
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
-	constructor(public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
+	constructor(private activatedRoute: ActivatedRoute, public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
 		this.subscription = this.Sharedservice.getData().subscribe(data => {
 			this.Template = data.data.TemplateType;
@@ -21,6 +21,14 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 				this.EVA = false;
 			}
 
+		});
+		this.activatedRoute.queryParams.subscribe((params: Params) => {
+			const playContent = params["pInitJson"];
+			if (playContent) {
+				this.parentCommunication.setInitData(playContent);
+				this.appModel.initializeApp(playContent);
+			}
+			console.log("params value is",params);
 		});
 	}
 	title = 'app';
@@ -46,7 +54,6 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 	isVideo: boolean = false;
 	@Input() initData:Observable<any>;
 	@Output() playerEvent = new EventEmitter<any>();
-
 
 	/*@HostListener('document:keyup', ['$event'])
 	@HostListener('document:click', ['$event'])
