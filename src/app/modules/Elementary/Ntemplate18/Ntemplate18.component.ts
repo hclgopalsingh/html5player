@@ -438,8 +438,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.instruction.nativeElement.play();
         this.disableSection = true;
         this.instruction.nativeElement.onended = () => {
-          clearInterval(this.blinkTimeInterval);
-          this.startActivity();
+          ////clearInterval(this.blinkTimeInterval);
+        ////  this.startActivity();
           this.disableSection = false;
         }
         this.InstructionVo = true;
@@ -597,7 +597,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.isAllowed = false;
       
         setTimeout(() => {
-        clearInterval(this.blinkTimeInterval);
+        ////clearInterval(this.blinkTimeInterval);
           this.isAllowed = true
           this.countofAnimation--;
           if (this.countofAnimation == 0) {
@@ -633,7 +633,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.refQuesObj[this.index1].leftPos = this.moveleft + 'px';
           this.refQuesObj[this.index1].topPos = this.movetop + 'px';
 
-          clearInterval(this.blinkTimeInterval);
+          ////clearInterval(this.blinkTimeInterval);
           this.isAllowed = true;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
 
@@ -673,8 +673,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   endedHandleronSkip() {
    
     setTimeout(() => {
-          clearInterval(this.blinkTimeInterval);
-          this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;    
+         //// clearInterval(this.blinkTimeInterval);
+         //// this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;    
     }, 500);
     this.isPlayVideo = false;
     this.disableoptions = false;
@@ -794,7 +794,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.setLoader(false);
         this.loadFlag = true;
         clearTimeout(this.loaderTimer);
-        clearTimeout(this.blinkTimeInterval);
+        ////clearTimeout(this.blinkTimeInterval);
         this.startCount = 0;
         this.checkforQVO();
       }
@@ -1161,7 +1161,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   dontshowFeedback(id: string, flag: string) {
     this.blinkHolder();
     if (this.ifStopped) {
-      this.startActivity();
+     //// this.startActivity();
     }
     this.ifStopped = false;
     if (id == 'submit-modal-id') {
@@ -1536,7 +1536,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.enableSubmitBtn(false);
       this.countofAnimation = 0;
       this.noOfRightAnsClicked = 0;
-      clearInterval(this.blinkTimeInterval);
+      ////clearInterval(this.blinkTimeInterval);
       clearTimeout(this.showAnsTimer);
       this.index1 = 0;
       this.startCount = 1;
@@ -1668,11 +1668,11 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         document.getElementById('optionsBlock').style.pointerEvents = '';
       }, 1000);
     }
-    this.blinkHolder();
+   ////this.blinkHolder();
     document.getElementById('optionsBlock').style.pointerEvents = 'none';
     this.confirmModalRef.nativeElement.classList = 'modal';
     if (this.ifStopped) {
-      this.startActivity();
+      ////this.startActivity();
     }
     this.ifStopped = false;
     this.noOfRightAnsClicked = 0;
@@ -1683,7 +1683,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   showReplay(ref, flag: string, action?: string) {
     this.blinkHolder();
     if (this.ifStopped) {
-      this.startActivity();
+      ////this.startActivity();
     }
     this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
     this.ifStopped = false;
