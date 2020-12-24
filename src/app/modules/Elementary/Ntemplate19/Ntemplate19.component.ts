@@ -163,6 +163,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   partialIncorrectArr: any = [];
   videoReplayDone: boolean = false;
   clickedPlaceholderArr: any = [];
+  submitCount=0;
 
   ngOnInit() {
     if (this.appModel.isNewCollection) {
@@ -483,6 +484,10 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
 
   /****** placeholder click functionality ******/
   onClickPlaceholder(opt, idx) {
+    this.submitCount +=1;
+    if(this.submitCount == this.optionObj.length){
+      this.appModel.enableReplayBtn(false);
+    }
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.pause();
@@ -555,7 +560,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.optionPlaceholders[this.clickedIndex].imgsrc = movedObj[0].imgsrc_original;
       this.startCount = 1;
       this.getRandomIndex(this.refcpyArray.length);
-      if (this.refcpyArray.length === 1) {
+      if (this.refcpyArray.length === 0) {
         this.appModel.enableReplayBtn(false);
       }
     }
@@ -923,6 +928,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
 
   /****** Reset all values on wrong attempt ******/
   resetAttempt() {
+    this.submitCount =0;
     this.optionPlaceholders = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
     this.feedbackArr = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
 
