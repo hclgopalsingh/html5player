@@ -136,9 +136,13 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		} else {
 			console.log("play on Instruction");
 			if (this.instruction.nativeElement.paused) {
+				this.disableInstruction=true;
+				clearTimeout(this.autoFillTime);
 				this.instruction.nativeElement.currentTime = 0;
 				this.instruction.nativeElement.play();
 				this.instruction.nativeElement.onended = () => {
+					this.disableInstruction=false;
+					this.startAutoFillTimer();
 				}
 			}
 
