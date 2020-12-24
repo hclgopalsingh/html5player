@@ -3,6 +3,8 @@ import { ApplicationmodelService } from '../../../model/applicationmodel.service
 import { PlayerConstants } from '../../../common/playerconstants';
 import { Subscription } from 'rxjs'
 import { setInterval, clearInterval } from 'timers';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
 
@@ -128,53 +130,54 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	instructionOpacity: boolean = false;
 	optOpacity: boolean = false;
 	quesSkip: boolean = false;
+	timerSubscription: Subscription;
+	displayAnswerTimer:number = 1;
 	/*END: Theme Implementation(Template Changes)*/
 	playHoverInstruction() {
+		this.resetTimerForAnswer();
 		this.appModel.notifyUserAction();
 		if (!this.narrator.nativeElement.paused) {
 			console.log("narrator/instruction voice still playing");
 		} else {
 			console.log("play on Instruction");
 			if (this.instruction.nativeElement.paused) {
-				this.disableInstruction=true;
-				clearTimeout(this.autoFillTime);
+				this.disableInstruction = true;
 				this.instruction.nativeElement.currentTime = 0;
 				this.instruction.nativeElement.play();
 				this.instruction.nativeElement.onended = () => {
-					this.disableInstruction=false;
-					this.startAutoFillTimer();
+					this.disableInstruction = false;
 				}
 			}
 
 		}
 	}
 	PlayPauseVideo() {
-        if (this.PlayPauseFlag) {
-            this.mainVideo.nativeElement.pause();
-            this.quesObj.quesPlayPause = this.quesObj.quesPlay;
-            this.PlayPauseFlag = false;
-        } else {
-            this.mainVideo.nativeElement.play();
-            this.quesObj.quesPlayPause = this.quesObj.quesPause;
-            this.PlayPauseFlag = true;
-        }
+		if (this.PlayPauseFlag) {
+			this.mainVideo.nativeElement.pause();
+			this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+			this.PlayPauseFlag = false;
+		} else {
+			this.mainVideo.nativeElement.play();
+			this.quesObj.quesPlayPause = this.quesObj.quesPause;
+			this.PlayPauseFlag = true;
+		}
 
-    }
-    hoverPlayPause() {
-        if (this.PlayPauseFlag) {
-            this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
-        } else {
-            this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
-        }
-    }
+	}
+	hoverPlayPause() {
+		if (this.PlayPauseFlag) {
+			this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+		} else {
+			this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
+		}
+	}
 
-    leavePlayPause() {
-        if (this.PlayPauseFlag) {
-            this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
-        } else {
-            this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
-        }
-    }
+	leavePlayPause() {
+		if (this.PlayPauseFlag) {
+			this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+		} else {
+			this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+		}
+	}
 	hoverSkip() {
 		// this.skipFlag = false;
 		this.quesObj.quesSkip = this.quesObj.quesSkipHover;
@@ -204,7 +207,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	houtCloseConfirm() {
 		this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
 	}
-	
+
 	houtonReplayDecline() {
 		this.replayconfirmAssets.decline_btn = this.replayconfirmAssets.decline_btn_original;
 	}
@@ -256,18 +259,19 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	stopOptionHoverAudio() {
 		this.disableInstruction = false;
 		for (let i = 0; i < this.myoption.length; i++) {
-			if (this.myoption[i].disableOpt==true) {
+			if (this.myoption[i].disableOpt == true) {
 				this.myoption[i].disableOpt = false;
 			}
 		}
 	}
 	optionHover(opt, i) {
 		this.appModel.notifyUserAction();
+		this.resetTimerForAnswer();
 		if (this.instruction && this.instruction.nativeElement.play) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
 		}
-		this.disableInstruction = true;
+		this.disableInstruction = false;
 		this.optionImage.nativeElement.children[i].classList.add("scaleInAnimation");
 		this.optionImage.nativeElement.children[i].children[1].style.cursor = "pointer";
 	}
@@ -342,7 +346,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.titleHelpAudio.nativeElement.pause();
 			this.titleHelpAudio.nativeElement.currentTime = 0;
 		}
-		
+
 		// remove blinking if exist
 		this.blink = false;
 		this.appModel.previousSection();
@@ -406,8 +410,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	checkAnswer(opt, index) {
-		clearTimeout(this.autoFillTime);
+		this.timerSubscription.unsubscribe();;
 		this.stopOptionHoverAudio();
+		this.disableAllOpt=true;
 		this.maincontent.nativeElement.className = "disable_div";
 		this.onHoverOptionOut(opt, index);
 		this.appModel.notifyUserAction();
@@ -424,11 +429,10 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.blinkState2 = "";
 			this.noOfRightAns++;
 			this.ansList.push(opt);
-			//Analytics
+			//Analyticsz
 			if (this.noOfRightAns == this.feedback.correct_ans_index.length) {
 				this.actComplete = true;
 				this.appModel.enableReplayBtn(false)
-				// this.appModel.handleController(this.controlHandler);
 				//highlight options
 				this.appModel.handlePostVOActivity(true)
 				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
@@ -482,6 +486,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 					// this.appModel.handleController(this.controlHandler);
 					this.maincontent.nativeElement.className = "";
 					this.optionBlock.nativeElement.className = "optionsBlock";
+					setTimeout(() => {
+						this.disableAllOpt = false;
+					}, 1000)
 					if (this.blinkIndex < this.feedback.correct_ans_index.length) {
 						let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
 						for (var i in this.myoption) {
@@ -497,7 +504,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		} else {
 			//new code
 
-			// var rightOption = this.myoption[this.feedback.correct_ans_index[this.blinkIndex]]
 			this.popUpObj = opt;
 			this.ifWrongAns = true;
 			this.feedbackPopup = this.wrongPopup;
@@ -520,15 +526,13 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.wrongFeedback.nativeElement.onended = () => {
 
 				this.wrongTimer = setTimeout(() => {
-					this.correctAns.nativeElement.classList = "modal";
-					this.appModel.notifyUserAction();
+					this.correctAns.nativeElement.classList = "modal";					
 					if (!this.closed) {
-						this.appModel.wrongAttemptAnimation();
+						this.appModel.wrongAttemptAnimation();						
+						this.resetTimerForAnswer();
 						this.maincontent.nativeElement.className = "";
-						this.appModel.handlePostVOActivity(false);
+						// this.appModel.handlePostVOActivity(false);
 						this.appModel.enableReplayBtn(true);
-						// this.controlHandler.isTab = true;
-						// this.appModel.handleController(this.controlHandler);
 					}
 				}, 2000);
 
@@ -611,7 +615,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 
-	
+
 	ngOnInit() {
 		// let that = this;
 		// $( "#navBlock" ).click(function() {
@@ -673,7 +677,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.getConfirmationPopup().subscribe((val) => {
 
 			if (val == "uttarDikhayein") {
-				clearTimeout(this.autoFillTime);
+				if (this.timerSubscription != undefined) {
+					this.timerSubscription.unsubscribe();
+				}
 				if (this.instruction && !this.instruction.nativeElement.paused) {
 					this.instruction.nativeElement.currentTime = 0;
 					this.instruction.nativeElement.pause();
@@ -685,7 +691,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				}
 			}
 			if (val == "replayVideo") {
-				clearTimeout(this.autoFillTime);
+				if (this.timerSubscription != undefined) {
+					this.timerSubscription.unsubscribe();
+				}
 				this.appModel.videoStraming(true);
 				if (this.instruction && !this.instruction.nativeElement.paused) {
 					this.instruction.nativeElement.currentTime = 0;
@@ -711,6 +719,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	postWrongAttempt() {
 		this.optionBlock.nativeElement.className = "optionsBlock";
 		this.maincontent.nativeElement.className = "";
+		setTimeout(() => {
+			this.disableAllOpt = false;
+		}, 1000)
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.enableReplayBtn(true);
 		// this.controlHandler.isTab = true;
@@ -864,24 +875,59 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			}
 		}
 	}
-	startAutoFillTimer(){
-		let save;
-		for(let i=0;i<this.myoption.length;i++){
-			if(this.optionToSelect===this.myoption[i]){
-				save=i;
-			}
+	// refreshAutoFillTimer() {
+	// 	clearTimeout(this.autoFillTime);
+	// 	this.startAutoFillTimer();
+	// }
+	// startAutoFillTimer() {
+	// 	let save;
+	// 	for (let i = 0; i < this.myoption.length; i++) {
+	// 		if (this.optionToSelect === this.myoption[i]) {
+	// 			save = i;
+	// 		}
+	// 	}
+	// 	this.autoFillTime = setTimeout(() => {
+	// 		this.checkAnswer(this.optionToSelect, save);
+	// 	}, 500 * 60)
+	// }
+	resetTimerForAnswer() {
+		if (this.timerSubscription) {
+			this.timerSubscription.unsubscribe();
 		}
-		this.autoFillTime = setTimeout(() => {
-			this.checkAnswer(this.optionToSelect, save);
-		}, 500 * 60)
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const showAnsInterval = this.displayAnswerTimer * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+			take(showAnsInterval)
+		).subscribe(value =>
+			this.removeSubscription((showAnsInterval - +value) * interval),
+			err => {
+				//console.log("error occuered....");
+			},
+			() => {
+				let save;
+				for (let i = 0; i < this.myoption.length; i++) {
+					if (this.optionToSelect === this.myoption[i]) {
+						save = i;
+					}
+				}
+				this.timerSubscription.unsubscribe();
+				this.appModel.startPreviousTimer();
+				this.checkAnswer(this.optionToSelect, save);
+			}
+		)
 	}
-	startBlinkState() {		
+
+	removeSubscription(timer) {
+		console.log("waiting for autoselect", timer / 1000);
+	}
+	startBlinkState() {
 		setTimeout(() => {
 			this.blinkState1 = this.optionToSelect.blink_state1;
 			this.blinkState2 = this.optionToSelect.blink_state2;
 		}, 200)
 		this.aksharOnDisplay = this.optionToSelect.aksharImg.url;
-		this.startAutoFillTimer();
+		this.resetTimerForAnswer();
 	}
 	checkNextActivities() {
 		if (this.isPaused()) {
@@ -913,7 +959,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		if (flag == "yes") {
 			this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
 			if (action == "replay") {
-				this.quesSkip=true;
+				this.quesSkip = true;
 				this.replayVideo();
 			}
 		} else if (flag == "no") {
@@ -922,7 +968,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			setTimeout(() => {
 				this.disableAllOpt = false;
 				this.disableInstruction = false;
-				this.startAutoFillTimer();
+				this.resetTimerForAnswer();
 			}, 1000);
 		}
 	}
@@ -945,17 +991,17 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				this.appModel.handlePostVOActivity(false);
 				this.appModel.enableReplayBtn(true);
 				this.startBlinkState();
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.disableAllOpt = false;
-				},1000)
+				}, 1000)
 			}
 		} else {
 			this.appModel.handlePostVOActivity(false);
 			this.appModel.enableReplayBtn(true);
 			this.startBlinkState();
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.disableAllOpt = false;
-			},1000)
+			}, 1000)
 		}
 	}
 
@@ -983,6 +1029,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		} else {
 
 			//do nothing
+			this.resetTimerForAnswer();
 		}
 	}
 
@@ -1017,17 +1064,17 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 
 
 	showAnswer() {
+		this.actComplete=true;
 		this.ansList.length = 0;
 		this.blinkState1 = "";
 		this.blinkState2 = "";
 		this.optionBlock.nativeElement.className = "optionsBlock disable_div";
-		// this.controlHandler.isTab = false;
-		//this.controlHandler.isShowAns = true;
-		// this.appModel.handleController(this.controlHandler);
-		this.appModel.handlePostVOActivity(true)
+		document.getElementById("ele_ansBtn").classList.add("disableBtn");
+		// this.appModel.handlePostVOActivity(true)
 		this.appModel.enableReplayBtn(false);
 		this.maincontent.nativeElement.className = "disable_div";
 		this.optOpacity = false;
+		this.instructionOpacity=false;
 		this.feedback.correct_ans_index.forEach(element1 => {
 			this.myoption.forEach(element2 => {
 				if (element2.custom_id == element1) {
@@ -1043,15 +1090,13 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.confirmReplayRef.nativeElement.classList = "modal";
 		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
+			document.getElementById("ele_ansBtn").classList.remove("disableBtn");
 			this.disableInstruction = true;
 			this.instructionOpacity = true;
 			this.optOpacity = true;
 			this.disableAllOpt = true;
-			// this.optionBlock.nativeElement.className = "optionsBlock disable_div disable-click";
-			this.blinkOnLastQues()
-			// this.controlHandler.isTab = true;
-			// this.appModel.handleController(this.controlHandler);
-			this.appModel.handlePostVOActivity(false)
+			this.blinkOnLastQues();
+			// this.appModel.handlePostVOActivity(false)
 
 		}, 5000)
 	}
@@ -1094,8 +1139,8 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				}, 5000)
 				this.appModel.enableReplayBtn(true);
 			}, this.quesInfo.formatTimeout)
-		}else{
-			this.startAutoFillTimer();
+		} else {
+			this.resetTimerForAnswer();
 		}
 	}
 
@@ -1103,7 +1148,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.videoReplayd = true;
 		this.activityStarted = true;
 		this.isPlayVideo = true;
-		this.appModel.enableSubmitBtn(false);
 		this.disableAllOpt = true;
 		this.disableInstruction = true;
 		this.appModel.navShow = 1;
@@ -1116,7 +1160,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				this.isPlayVideo = false;
 				this.appModel.videoStraming(false);
 				this.appModel.notifyUserAction();
-				this.startAutoFillTimer();
+				this.resetTimerForAnswer();
 			}
 		}, 500)
 	}
@@ -1151,16 +1195,17 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				}, 5000)
 
 			}, this.quesInfo.formatTimeout)
-		}else{
-			this.startAutoFillTimer();
+		} else {
+			this.resetTimerForAnswer();
 		}
 	}
 	ngOnDestroy() {
 		console.log("current template is being destroyed");
 		clearTimeout(this.tempTimer);
 		clearTimeout(this.wrongTimer);
-		clearTimeout(this.autoFillTime);
-
+		if (this.timerSubscription != undefined) {
+            this.timerSubscription.unsubscribe();
+        }
 	}
 
 
