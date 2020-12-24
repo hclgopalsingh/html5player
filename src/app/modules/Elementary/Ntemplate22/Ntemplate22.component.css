@@ -554,9 +554,17 @@ button:focus {
 }
 
 #modalTemp22 #optionsBlock {
-  top: 3.5%;
+  top: 20.5%;
   pointer-events: none;
   /* height: 65%; */
+}
+
+#modalTemp22 #optionsBlock{
+  position: absolute;
+  top: 18.5%;
+  width: 81%;
+  left: 9%;
+  height: 65%;
 }
 
 #modalTemp22 #optionsBlock .leftBlock .blockContent img {
@@ -642,7 +650,7 @@ nav {
   width: 82%;
 }
 .holidayList div{
-  width: 16%;
+  width: 18%;
   border-right: solid 1px #fff;
   display: inline-flex;
   align-items: center;
@@ -658,7 +666,7 @@ nav {
   display:  inline-flex;
   flex-wrap: wrap;
   line-height: 1.2;
-  font-size: 1.6vmin;
+  font-size: 2.3vmin;
 }
 @media (max-width: 1024px) {
   .holidayList div .hName{

@@ -157,6 +157,9 @@ export class Ntemplate22 implements OnInit {
   wronganspopUpheader_img: boolean = false;
   showanspopUpheader_img: boolean = false;
   partialCorrectheaderTxt_img: boolean = false;
+  MonthNames:any = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+  DayNames:any = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",  "Friday","Saturday"];
+
   playHoverInstruction() {
    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
@@ -438,7 +441,7 @@ export class Ntemplate22 implements OnInit {
             this.partialCorrectheaderTxt_img = false;
               this.styleHeaderPopup = this.feedbackObj.style_header;
               this.styleBodyPopup = this.feedbackObj.style_body;
-              if (this.feedbackObj.ShowAnsHeader.required) {
+              if (this.feedbackObj.ShowAnsHeader && this.feedbackObj.ShowAnsHeader.required) {
                 this.AnswerpopupTxt = true;
                 this.popupHeader = this.feedbackObj.ShowAnsHeader.url;
         
@@ -1071,6 +1074,13 @@ export class Ntemplate22 implements OnInit {
       }else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_3"){
         this.QueScenarioData = this.quesObj.Ques_scenario.type_3;
         this.handleScenario(this.quesObj.Ques_scenario.type, this.QueScenarioData);
+      }else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_4"){
+        this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario.type_4);
+      }else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_5"){
+        this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario.type_5);
+      }
+      else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_6"){
+        this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario.type_6);
       }
     }
   }
@@ -1081,7 +1091,7 @@ export class Ntemplate22 implements OnInit {
     if(typ == "type_2"){
       console.log(qObj)
       if(qObj.year_type == "localMachine"){
-        var Holiday_year = new Date().getFullYear() + qObj.yearAdjustment;
+        var Holiday_year = new Date().getFullYear() + Number(qObj.yearAdjustment);
         let holiday_obj =  this.findHolidayInJsonTodisplay(qObj.holiday_id,Holiday_year)
         console.log(holiday_obj,"setFeedbacksetFeedback")
         this.setFeedback(holiday_obj)
@@ -1122,6 +1132,9 @@ export class Ntemplate22 implements OnInit {
 
     if(this.QueScenarioData.year_type == "localMachineDate"){
       date =  new Date();
+      if(qObj.yearAdjustment && qObj.yearAdjustment.length){
+        date.setFullYear(Number(date.getFullYear()) + Number(qObj.yearAdjustment))
+      }
     } else{
       date =  new Date();
       date.setYear(this.QueScenarioData.year);
@@ -1159,10 +1172,125 @@ export class Ntemplate22 implements OnInit {
     feedbackObj['date'] = AnsDate ;
     this.setFeedback(feedbackObj);
     }
+    else if(typ == "type_4"){
+      //leap year type, cal
+      this.feedbackObj.correct_year = ""
+      this.feedbackObj.correct_month = ""
+      this.feedbackObj.correct_weekDay = ""
+      this.feedbackObj.correct_date = ""
+      console.log('qobj',qObj)
+      let leapYear = [];
+      this.Arryears.forEach(element => {
+        let year = element.id;
+        if(((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)){
+          leapYear.push(year)
+        }
+      });
+      console.log('leapYear',leapYear);
+      if(qObj.graterThn && qObj.graterThn.length){
+        if(qObj.graterThn == "localMachineDate"){
+          qObj.graterThn = (new Date().getFullYear()).toString();
+        }
+        leapYear.forEach(element => {
+          if(element > qObj.graterThn ){
+            this.feedbackObj.correct_year = element
+          }
+        });
+      }
+      else if(qObj.lessThn && qObj.lessThn.length){
+        if(qObj.lessThn == "localMachineDate"){
+          qObj.lessThn = new Date().getFullYear().toString();;
+        }
+        leapYear.forEach(element => {
+          if(element <= qObj.lessThn ){
+            this.feedbackObj.correct_year = element
+          }
+        });
+        
+      }
+      else{
+        this.feedbackObj.correct_year = leapYear[0];
+        
+      }
+    }
+    else if(typ == "type_5"){
+      //for fixed type date
+      let date = new Date(); 
+      let after_days = qObj.after_days
+      if(qObj.year !== "localMachine"){
+          date.setFullYear(qObj.year);
+      }
+      if(qObj.year == "localMachine"){
+        let y = date.getFullYear();
+        if(qObj.yearAdjustment && qObj.yearAdjustment !=""){
+          date.setFullYear(Number(y) + Number(qObj.yearAdjustment));
+        }
+      }
+      //set month
+      if(qObj.month !== "localMachine"){
+        date.setMonth(qObj.month)
+      }
+      if(qObj.month == "localMachine"){
+        if(qObj.monthAdjustment && qObj.monthAdjustment !=""){
+          date.setMonth(date.getMonth() + Number(qObj.monthAdjustment))
+        }
+      }
+      if(qObj.date !== "localMachine"){
+      date.setDate(Number(qObj.date) + Number(after_days));
+      }
+      else{
+        if(qObj.dateAdjustment && qObj.dateAdjustment !="" ){
+          date.setDate(Number(date.getDate())+ Number(qObj.dateAdjustment))
+        }
+        date.setDate(Number(date.getDate()) + Number(after_days));
+      }
+      console.log(date,"type_5_date")
 
+      let Year = date.getFullYear();
+      let month = this.MonthNames[date.getMonth()];
+      let day = this.DayNames[date.getDay()];
+      let AnsDate = date.getDate();
 
+      let feedbackObj = {};
+      feedbackObj['year'] = Year ;
+      feedbackObj['month_name'] = month ;
+      feedbackObj['day'] = day ;
+      feedbackObj['date'] = AnsDate ;
+      this.setFeedback(feedbackObj);
+    }
+    else if(typ == "type_6"){
+      let date = new Date();  
+      if(qObj.yearAdjustment && qObj.yearAdjustment !=""){
+        let y = date.getFullYear();
+        date.setFullYear(Number(y) + Number(qObj.yearAdjustment));
+      }
+      
+      //set month
+      
+      if(qObj.monthAdjustment && qObj.monthAdjustment !=""){
+        date.setMonth(date.getMonth() + Number(qObj.monthAdjustment))
+      }
+      
+      //set date
 
+      if(qObj.dateAdjustment && qObj.dateAdjustment !="" ){
+        date.setDate(Number(date.getDate())+ Number(qObj.dateAdjustment))
+      }
+      
+      console.log(date,"type_5_date")
 
+      let Year = date.getFullYear();
+      let month = this.MonthNames[date.getMonth()];
+      let day = this.DayNames[date.getDay()];
+      let AnsDate = date.getDate();
+
+      let feedbackObj = {};
+      feedbackObj['year'] = Year ;
+      feedbackObj['month_name'] = month ;
+      feedbackObj['day'] = day ;
+      feedbackObj['date'] = AnsDate ;
+      this.setFeedback(feedbackObj);
+    }
 
   }
 
@@ -1374,9 +1502,10 @@ export class Ntemplate22 implements OnInit {
     }
     if(id == "showAnswer-modal-id" && flag == "answer") {
       this.rightanspopUpheader_img = false;
-            this.wronganspopUpheader_img = false;
-            this.showanspopUpheader_img = true;
-            this.partialCorrectheaderTxt_img = false;
+      this.wronganspopUpheader_img = false;
+      this.showanspopUpheader_img = true;
+      this.partialCorrectheaderTxt_img = false;
+      this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
       this.checked=true;
       this.attemptType = "auto";
       this.confirmModalRef.nativeElement.classList = "modal";

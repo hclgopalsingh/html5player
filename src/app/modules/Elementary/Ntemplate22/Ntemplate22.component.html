@@ -102,11 +102,11 @@
         </div>
       </div>
       <div class="holidayList">
-        <div>
-          <span class="hDate">2</span>
-          <span class="hName">Gandhi Jyanti</span>  
+        <div *ngFor="let holiday of holidayCal; let idx = index">
+          <span class="hDate">{{holiday.date}}</span>
+          <span class="hName">{{holiday.name}}</span>  
         </div>
-        <div>
+        <!-- <div>
           <span class="hDate">8</span>
           <span class="hName">Laxmi Puja</span>  
         </div>
@@ -125,7 +125,7 @@
         <div>
           <span class="hDate">8</span>
           <span class="hName">Maharishi Valmiki Birthday</span>  
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
