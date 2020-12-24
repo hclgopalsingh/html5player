@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+ 
 declare const MediaRecorder: any;
 declare const navigator: any;
 @Component({
@@ -62,6 +63,8 @@ export class Ntemplate14Component implements OnInit {
 	playRecordingTime = 5;
 	clearautoplay:any;
 	timerId:any;
+	recordTimer:any;
+	recordTime:any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -147,6 +150,7 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnInit() {
+		
 		this.appModel.functionone(this.templatevolume, this);//start end
 		this.containgFolderPath = this.getBasePath();
 		if (this.appModel.isNewCollection) {
@@ -223,9 +227,13 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnDestroy() {
+		clearInterval(this.recordTimer);
+		clearInterval(this.timerId);
+		clearTimeout(this.clearautoplay);
 		this.isDestroyed = true;
 		this.appModel.stopAllTimer();
 		this.appModel.resetBlinkingTimer();
+		
 	}
 
 	/****** hover on ok button of info popup ******/
@@ -300,6 +308,13 @@ export class Ntemplate14Component implements OnInit {
 		this.recordButton.nativeElement.src = this.question.recordActive.url;
 		if (this.mediaRecorder) {
 			this.mediaRecorder.start();
+			var recordTime = JSON.parse(this.autoStop)/1000.0;
+			this.recordTimer = setInterval(function() {
+				console.log('recording time remaining ' + recordTime-- + ' sec');
+				if(recordTime == 0){
+					clearInterval(this.recordTimer);
+				}
+			 }, 1000);
 		}
 		else {
 			console.log("Microphone access is not allowed")
@@ -342,6 +357,7 @@ this.appModel.moveNextQues("noBlink");
 
 	/****** Stop recording on click of stop recorder button ******/
 	stopRecording() {
+		clearInterval(this.recordTimer);
 		this.isRecording = false;
 		this.showstop = false
 		this.removeBtn = false;
