@@ -60,6 +60,8 @@ export class Ntemplate14Component implements OnInit {
 	autostopplayer:boolean=false;
 	lastPopUptimer: any;
 	playRecordingTime = 5;
+	clearautoplay:any;
+	timerId:any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -313,6 +315,8 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Play recorded audio on click of Play button ******/
 	listen() {
+		clearInterval(this.timerId);
+		clearTimeout(this.clearautoplay);
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
@@ -355,8 +359,13 @@ this.appModel.moveNextQues("noBlink");
 		if(!this.autostopplayer){
 			this.appModel.moveNextQues("noBlink");
 		}else{
-			setTimeout(() => {
+			let a = 300;
+			this.timerId = setInterval(function() {
+				console.log('play time remaining ' + a-- + ' sec');
+			 }, 1000);
+			this.clearautoplay = setTimeout(() => {
 				this.listen();
+				clearInterval(this.timerId);
 			}, this.playRecordingTime * 60000 )
 		}
 		
