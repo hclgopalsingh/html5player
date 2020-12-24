@@ -321,7 +321,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == 'uttarDikhayein') {
-        this.resetBlinker();
+
         ////this.appModel.resetReplayBtn(true);
         for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
           this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
@@ -671,8 +671,14 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   endedHandleronSkip() {
+   
+    setTimeout(() => {
+          clearInterval(this.blinkTimeInterval);
+          this.refcpyArray[this.index1].imgsrc = this.refcpyArray[this.index1].imgsrc_original;    
+    }, 500);
     this.isPlayVideo = false;
     this.disableoptions = false;
+    this.disableSection = false;
     for (let i = 0; i < this.refQuesObj.length; i++) {
 
       if (this.refQuesObj[i].position == "down") {
