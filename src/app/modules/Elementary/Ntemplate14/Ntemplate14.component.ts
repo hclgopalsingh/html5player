@@ -59,6 +59,7 @@ export class Ntemplate14Component implements OnInit {
 	isDestroyed: boolean = false;
 	autostopplayer:boolean=false;
 	lastPopUptimer: any;
+	playRecordingTime = 5;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -356,7 +357,7 @@ this.appModel.moveNextQues("noBlink");
 		}else{
 			setTimeout(() => {
 				this.listen();
-			}, 5000)
+			}, this.playRecordingTime * 60000 )
 		}
 		
 		setTimeout(() => {
