@@ -131,7 +131,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	optOpacity: boolean = false;
 	quesSkip: boolean = false;
 	timerSubscription: Subscription;
-	displayAnswerTimer:number = 1;
+	displayAnswerTimer: number = 1;
 	/*END: Theme Implementation(Template Changes)*/
 	playHoverInstruction() {
 		this.resetTimerForAnswer();
@@ -258,6 +258,10 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 	stopOptionHoverAudio() {
 		this.disableInstruction = false;
+		if (this.audio && !this.audio.paused) {
+			this.audio.pause();
+			this.audio.currentTime = 0;
+		}
 		for (let i = 0; i < this.myoption.length; i++) {
 			if (this.myoption[i].disableOpt == true) {
 				this.myoption[i].disableOpt = false;
@@ -412,7 +416,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	checkAnswer(opt, index) {
 		this.timerSubscription.unsubscribe();;
 		this.stopOptionHoverAudio();
-		this.disableAllOpt=true;
+		this.disableAllOpt = true;
 		this.maincontent.nativeElement.className = "disable_div";
 		this.onHoverOptionOut(opt, index);
 		this.appModel.notifyUserAction();
@@ -526,9 +530,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.wrongFeedback.nativeElement.onended = () => {
 
 				this.wrongTimer = setTimeout(() => {
-					this.correctAns.nativeElement.classList = "modal";					
+					this.correctAns.nativeElement.classList = "modal";
 					if (!this.closed) {
-						this.appModel.wrongAttemptAnimation();						
+						this.appModel.wrongAttemptAnimation();
 						this.resetTimerForAnswer();
 						this.maincontent.nativeElement.className = "";
 						// this.appModel.handlePostVOActivity(false);
@@ -1064,7 +1068,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 
 
 	showAnswer() {
-		this.actComplete=true;
+		this.actComplete = true;
 		this.ansList.length = 0;
 		this.blinkState1 = "";
 		this.blinkState2 = "";
@@ -1074,7 +1078,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.enableReplayBtn(false);
 		this.maincontent.nativeElement.className = "disable_div";
 		this.optOpacity = false;
-		this.instructionOpacity=false;
+		this.instructionOpacity = false;
 		this.feedback.correct_ans_index.forEach(element1 => {
 			this.myoption.forEach(element2 => {
 				if (element2.custom_id == element1) {
@@ -1204,8 +1208,16 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		clearTimeout(this.tempTimer);
 		clearTimeout(this.wrongTimer);
 		if (this.timerSubscription != undefined) {
-            this.timerSubscription.unsubscribe();
-        }
+			this.timerSubscription.unsubscribe();
+		}
+		if (this.narrator && this.narrator.nativeElement) {
+			this.narrator.nativeElement.pause();
+			this.narrator.nativeElement.currentTime = 0;
+		}
+		if (this.audio && !this.audio.paused) {
+			this.audio.pause();
+			this.audio.currentTime = 0;
+		}
 	}
 
 
