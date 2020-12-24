@@ -48,15 +48,6 @@ export class Ntemplate23Component implements OnInit {
   @ViewChild('infoModalRef') infoModalRef: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
 
-
-
-
-
-
-
-
-
-
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -72,7 +63,6 @@ export class Ntemplate23Component implements OnInit {
   selected: boolean = false;
   bool: boolean = false;
   showIntroScreen: boolean;
-
   helpAudio: any = "";
   correctOpt: any;
   idArray: any = [];
@@ -80,8 +70,8 @@ export class Ntemplate23Component implements OnInit {
   isLastQues: boolean = false;
   isAutoplayOn: boolean;
   isLastQuesAct: boolean;
-   /*Start: Theme Implementation(Template Changes)*/
-   controlHandler = {
+  /*Start: Theme Implementation(Template Changes)*/
+  controlHandler = {
     isSubmitRequired: true,
     isReplayRequired: false
   };
@@ -119,25 +109,19 @@ export class Ntemplate23Component implements OnInit {
   stateCounter: number = 0;
   maharashtraCounter: number = 0;
   Id: any;
-
   Jammu: any;
   Rajasthan: any;
   Maharashtra: any;
   MadhyaPradesh: any;
-
   Index_1: any;
   Index_2: any;
-
   storeHtml: any;
   storeEvent: any;
   elseCounter: any;
-  currentState: any;
-
+  currentCategory: any;
   triangle: any;
   mainShape: any;
-
   mySVGArr: any = [];
-
   i: number = 0;
   j: number = 0;
   noOfSVG: number;
@@ -190,7 +174,7 @@ export class Ntemplate23Component implements OnInit {
   options: any = [];
   config: any = {};
   coloronHover: string;
-  originalcolor: string;
+  originalcolor: any = [];
   submittedArray: any = [];
   tempObj = <any>{};
   p: number = 1;
@@ -205,7 +189,7 @@ export class Ntemplate23Component implements OnInit {
   table1: any;
   table2: any;
   table3: any;
-  selectedStateinTooltip: any;
+  selectedCategoryinTooltip: any;
   rightstateCounter: number = 0;
   rightcapitalCounter: number = 0;
   wrongstateCounter: number = 0;
@@ -222,15 +206,21 @@ export class Ntemplate23Component implements OnInit {
   styleBodyPopup: any;
   popupType: any = "";
   optionSelected: any;
-  singleClicknotAllowed:boolean=false;
+  singleClicknotAllowed: boolean = false;
   listCategoryHeader: any;
   listSubCategoryHeader: any;
-  DropDownTitleUpper:any;
-  DropDownTitleLower:any;
+  DropDownTitleUpper: any;
+  DropDownTitleLower: any;
   feedbackArr: any = [];
   currentPageNo: number = 1;
+  endPage: boolean = false;
   endPageNo: number = Infinity;
+  pageNo: number = 1;
   isShowAnsOpen: boolean = false;
+  outOfScopeArr: any = [];
+  correctIncorrectArr: any = [];
+  noOfPages: number = 1;
+  nextBtnInterval: any;
 
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -242,12 +232,6 @@ export class Ntemplate23Component implements OnInit {
       this.appModel.setLoader(false);
       this.checkforQVO();
     }, 5000);
-
-    //this.rightFeedbackVO.nativeElement.currentTime = 0;
-    //this.rightFeedbackVO.nativeElement.src = "";
-    //this.wrongFeedbackVO.nativeElement.src = "";
-    // this.wrongFeedbackVO.nativeElement.pause();
-    //this.wrongFeedbackVO.nativeElement.currentTime = 0;
   }
 
   ngOnInit() {
@@ -268,18 +252,7 @@ export class Ntemplate23Component implements OnInit {
     /*End: Theme Implementation(Template Changes)*/
     this.setData();
     this.appModel.notifyUserAction();
-    //for(let i = 0;i< this.fileUrls.length;i++) {
     this.getFileLoaded(this.mainSvgfile);
-    //}
-
-    //setTimeout(() => {			
-
-
-
-    // }, 500);
-
-
-    //this.appModel.functionone(this.templatevolume,this);
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
@@ -299,10 +272,7 @@ export class Ntemplate23Component implements OnInit {
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
-          // this.popupRef.nativeElement.classList = "displayPopup modal";
           console.log("No-1");
-
-          //this.setFeedbackAudio();
         }
       } else if (mode == "auto") {
         this.checked = true;
@@ -312,45 +282,22 @@ export class Ntemplate23Component implements OnInit {
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
-          //this.popupRef.nativeElement.classList = "displayPopup modal";
           console.log("No-2");
           this.showAnswerFeedback();
           this.showAnswerRef.nativeElement.classList = "displayPopup modal";
           this.popupType = "showanswer";
-          this.setPopupAssets();
-          //this.grayOverTimer();
-          //this.showAnswer();		 
+          this.setPopupAssets();	 
           this.feedbackshowPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.url;
           this.feedbackshowPopupAudio.nativeElement.load();
           this.feedbackshowPopupAudio.nativeElement.play();
           this.feedbackshowPopupAudio.nativeElement.onended = () => {
             this.closeModal();
-
           }
           $("#optionsBlock").css("opacity", "0.3");
           $("#instructionBar").css("opacity", "0.3");
-          //this.appModel.handlePostVOActivity(true);
-          // if (!this.rightFeedbackVO.nativeElement.paused || !this.wrongFeedbackVO.nativeElement.paused || !this.narrator.nativeElement.paused || !this.instruction.nativeElement.paused) {//|| !this.optionAudio.nativeElement.paused
-          //   this.rightFeedbackVO.nativeElement.pause();
-          //   this.wrongFeedbackVO.nativeElement.pause();
-          //   this.narrator.nativeElement.pause();
-          //   //this.instruction.nativeElement.pause();
-          //   this.optionAudio.nativeElement.pause();
-          // }
           this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
           $("#instructionBar").addClass("disable_div");
         }
-        // this.rightFeedbackVO.nativeElement.onended = () => {
-        //   setTimeout(() => {
-        //     this.closeModal();			
-        //   }, 2000);
-
-        //   this.blinkOnLastQues();
-        //   this.appModel.moveNextQues();
-        //   //this.appModel.notifyUserAction();
-        // }
-
-        // this.setFeedbackAudio();
       }
     })
 
@@ -362,8 +309,8 @@ export class Ntemplate23Component implements OnInit {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
-          this.setPopupAssets();
           this.popupType = "showanswer";
+          this.setPopupAssets();
         }
       } else if (val == "submitAnswer") {
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
@@ -412,169 +359,12 @@ export class Ntemplate23Component implements OnInit {
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
-        //this.QuesRef.nativeElement.style.pointerEvents = "none";
         $(".instructionBase img").css("cursor", "pointer");
         this.instruction.nativeElement.onended = () => {
-          //this.QuesRef.nativeElement.style.pointerEvents = "";
         }
       }
-
-    }
-    // this.questionAudio.nativeElement.src = this.quesAudio.location=="content" ? this.containgFolderPath +"/"+ this.quesAudio.url : this.assetsPath +"/"+ this.quesAudio.url;
-    //  this.questionAudio.nativeElement.load();
-    //  this.questionAudio.nativeElement.play();
-  }
-
-  optionHover(opt, i, j) {
-    // $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
-  }
-
-  onHoverOption(opt, i, j) {
-    if (opt && opt != undefined) {
-      if (this.narrator.nativeElement.paused) {
-        $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleInAnimation");
-        //opt.imgsrc = opt.imgsrc_hover;
-        //if (opt.imgsrc && opt.imgsrc.location == "content") {
-        //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-        //}
-        //else {
-        //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-        //}
-        /*if (this.optionCommonAssets.option_base_hover && this.optionCommonAssets.option_base_hover.location == "content") {
-          this.optionsBlock.nativeElement.children[i].children[j].children[1].children[0].src = this.containgFolderPath + "/" + this.optionCommonAssets.option_base_hover.url;
-        } else {
-          this.optionsBlock.nativeElement.children[i].children[j].children[1].children[0].src = this.assetsPath + "/" + this.optionCommonAssets.option_base_hover.url;
-        }*/
-        //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-      }
     }
   }
-
-  playHoverOption(opt, i, j) {
-    if (this.optionsBlock.nativeElement.children[i].children[j].children[1].paused && this.narrator.nativeElement.paused) {
-      // if (opt.imgsrc_audio && opt.imgsrc_audio.location == "content") {
-        this.optionsBlock.nativeElement.children[i].children[j].children[1].src = opt.imgsrc_audio.url;
-      // } else {
-      //   this.optionsBlock.nativeElement.children[i].children[j].children[1].src = this.assetsPath + "/" + opt.imgsrc_audio.url;
-      // }
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].load();
-      if (!this.instruction.nativeElement.paused) {
-        // this.instruction.nativeElement.pause();
-      }
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].play();
-      if (i == 0) {
-        this.optionsBlock.nativeElement.children[1].style.pointerEvents = "none";
-      } else {
-        this.optionsBlock.nativeElement.children[0].style.pointerEvents = "none";
-      }
-      for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
-        if (x != j) {
-          this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "none";
-        }
-      }
-      //this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
-      this.optionsBlock.nativeElement.children[i].children[j].children[1].onended = () => {
-        if (i == 0) {
-          this.optionsBlock.nativeElement.children[1].style.pointerEvents = "";
-        } else {
-          this.optionsBlock.nativeElement.children[0].style.pointerEvents = "";
-        }
-        for (let x = 0; x < this.optionsBlock.nativeElement.children[i].children.length; x++) {
-          if (x != j) {
-            this.optionsBlock.nativeElement.children[i].children[x].style.pointerEvents = "";
-          }
-        }
-      }
-      this.onHoverOption(opt, i, j);
-    }
-  }
-  onHoverOptionOut(opt, i, j) {
-    if (opt && opt != undefined) {
-      this.OptionZoomOutAnimation(opt, i, j);
-    }
-  }
-
-  OptionZoomOutAnimation(opt, i, j) {
-    if (!this.checked && this.narrator.nativeElement.paused) {
-      $(this.optionsBlock.nativeElement.children[i].children[j]).addClass("scaleOutAnimation");
-      setTimeout(() => {
-        $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleInAnimation");
-        $(this.optionsBlock.nativeElement.children[i].children[j]).removeClass("scaleOutAnimation");
-      }, 500);
-      //opt.imgsrc = opt.imgsrc_original;
-      //if (opt.imgsrc && opt.imgsrc.location == "content") {
-      //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.containgFolderPath + "/" + opt.imgsrc.url;
-      //} else {
-      //  this.optionsBlock.nativeElement.children[i].children[j].children[0].src = this.assetsPath + "/" + opt.imgsrc.url;
-      //}
-      //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "none";
-      //this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "";
-    }
-  }
-
-  // checkAnswer(opt, i, j) {
-  //   if (!this.narrator.nativeElement.paused! || !this.instruction.nativeElement.paused) {
-  //     console.log("narrator/instruction voice still playing");
-  //   } else {
-  //     this.optionsBlock.nativeElement.className += " disable_div";
-  //     if (opt.id == this.feedback.correct_ans_index) {
-  //       this.checked = true;
-  //       this.selected = true;
-  //       //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[2].style.display = "block";
-  //       this.optionsBlock.nativeElement.className += " disable_div";
-  //       $("#instructionBar").addClass("disable_div");
-  //       //console.log(this.popupImage);
-  //       // if (opt.imgsrc && opt.imgsrc.location == "content") {
-  //         this.popupImage.nativeElement.src = opt.imgsrc.url;
-  //       // } else {
-  //       //   this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
-  //       // }
-  //       this.rightanspopUp = setTimeout(() => {
-  //         //this.popupRef.nativeElement.classList = "displayPopup modal";
-  //         //this.optionsBlock.nativeElement.style = "opacity:0.3";
-  //         $("#optionsBlock .options").css("opacity", "0.3");
-  //         $("#instructionBar").css("opacity", "0.3");
-  //         this.rightFeedbackVO.nativeElement.play();
-
-  //       }, 700);
-  //       this.rightFeedbackVO.nativeElement.onended = () => {
-  //         setTimeout(() => {
-  //           this.closeModal();
-  //         }, 2000);
-  //       }
-
-  //     } else {
-  //       this.checked = true;
-  //       this.selected = false;
-  //       //this.optionsBlock.nativeElement.children[i].children[j].children[1].children[3].style.display = "block";
-  //       this.optionsBlock.nativeElement.children[i].children[j].className += " disable_div";
-  //       $("#instructionBar").addClass("disable_div");
-  //       // if (opt.imgsrc && opt.imgsrc.location == "content") {
-  //         this.popupImage.nativeElement.src = opt.imgsrc.url;
-  //       // } else {
-  //       //   this.popupImage.nativeElement.src = this.assetsPath + "/" + opt.imgsrc.url;
-  //       // }
-  //       this.wronganspopUp = setTimeout(() => {
-  //         //this.appModel.openModal("success-modal-id", this.popupAssets,'');
-  //         //this.popupRef.nativeElement.classList = "displayPopup modal";
-
-  //         this.optionsBlock.nativeElement.classList.value = "row mx-0";
-  //         this.optionsBlock.nativeElement.children[i].children[j].style = "opacity:0.3";
-  //         this.wrongFeedbackVO.nativeElement.play();
-  //       }, 700);
-
-  //       this.checked = false;
-  //       this.wrongFeedbackVO.nativeElement.onended = () => {
-  //         setTimeout(() => {
-  //           this.closeModal();
-  //           $("#optionsBlock .options").removeClass("disable_div");
-  //           $("#optionsBlock .options").css("opacity", "unset");
-  //         }, 2000);
-  //       }
-  //     }
-  //     this.optionsBlock.nativeElement.children[i].children[j].style.transform = "none";
-  //   }
-  // }
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
@@ -595,67 +385,37 @@ export class Ntemplate23Component implements OnInit {
   }
 
   MouseOver(event) {
-      //var MyTextField = (document.getElementById("lfname") as HTMLInputElement);
-      this.appModel.notifyUserAction();
-      this.Id = event.target.getAttribute('xlink:href');
-      if(this.Id!= null) {
-      if(!this.instruction.nativeElement.paused) {
+    //var MyTextField = (document.getElementById("lfname") as HTMLInputElement);
+    this.appModel.notifyUserAction();
+    this.Id = event.target.getAttribute('xlink:href');
+    if (this.Id != null) {
+      if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.pause();
       }
-      }
-      console.log("this.Id = "+this.Id);
-
+    }
+    console.log("this.Id = " + this.Id);
     if (this.Id == null) {
       if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
-        
-        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.originalcolor);
-        //this.QuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML = this.storeHtml;
+        for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+        }
       }
     }
     let idFound = this.mySVGArr.find(element => element.id == this.Id || element.strokeId == this.Id);
     if (idFound && !idFound.clicked) {
-      if (this.originalcolor != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
-        //this.QuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML = this.storeHtml;
-        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.originalcolor);
+      if (this.originalcolor.length > 0 && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
+        for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+        }
       }
       this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-      //console.log(categoryIndex);
       this.originalcolor = document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].getAttribute("fill");
-      //this.storeHtml = this.QuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML;
       if (this.categoryIndex != -1) {
-        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.mainSvgfile.hoverColor);
-        //this.QuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML = this.hoverQuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML;
-        //this.play(this.categoryIndex);
+        for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.mainSvgfile.hoverColor);
+        }
       }
     }
-
-    //   for(let i = 0; i<this.mySVGArr.length; i++)
-    //   {	
-    // if(this.Id == this.mySVGArr[i].id && this.mySVGArr[i].id != undefined)
-    //  {
-    // 	 this.Id = this.mySVGArr[i].strokeId;
-    // 	 this.storeEvent = $(event.target);		
-    // 	 this.strokeOver();		 
-    // 	 this.stateCounter = 0;
-    //        this.currentState = $($($(event.target).parent().parent().last().siblings()[this.mySVGArr.length].children[0].children[0]).attr("xlink:href"));	 
-    // 	 this.reset();		 	 
-    // 	 if(this.currentState != undefined)
-    // 	 {
-    // 	 this.currentState.attr("stroke-width", "2");
-    // 	 this.currentState.attr("stroke", "#000000");		
-    // 	// MyTextField.value += this.mySVGArr[i].textField;
-    // 	 this.answer = MyTextField.value;
-    // 	 this.play(i);
-    // 	 }
-    //       break;		 
-    //  } 	
-    //   else {	     
-    // 	 //this.reset();	
-    //        //MyTextField.value = "";	
-    //        //this.answer = MyTextField.value;		 
-    //  }
-    //  }
-
   }
 
   play(i) {
@@ -665,48 +425,28 @@ export class Ntemplate23Component implements OnInit {
     this.myAudio.nativeElement.src = this.mySVGArr[i].audio;
     this.myAudio.nativeElement.load();
     this.myAudio.nativeElement.play();
-    //this.QuesRef.nativeElement.style.pointerEvents = "none";
-    //this.QuesRef.nativeElement.style.pointerEvents = "none";
     this.myAudio.nativeElement.onended = () => {
-      //this.optionsBlock.nativeElement.style.pointerEvents = "auto";
-      //this.QuesRef.nativeElement.style.pointerEvents = "auto";
     }
   }
 
 
   MouseOut(event) {
     if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
-      document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.originalcolor);
-      //this.QuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML = this.storeHtml;
+      for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+      }
     }
-    // if(this.mouseOutFlag == true)
-    // {		
-    //  this.reset();
-    // }
   }
 
   onTooltipclick() {
     console.log("tooltip closed");
     this.appModel.enableSubmitBtn(true);
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
-    //document.getElementById('dropdownviaTooltip').style.zIndex="unset";
     document.getElementById('dropdownviaTooltip').style.left = "0%";
     document.getElementById('dropdownviaTooltip').style.top = "0%";
   }
 
   public get sortedArray() {
-    // this.copiedCategories = this.mySVGArr.slice();
-    // return this.copiedCategories.sort(function(a, b) {
-    //   var nameA = a.capital.toUpperCase(); 
-    //   var nameB = b.capital.toUpperCase(); 
-    //   if (nameA < nameB) {
-    //     return -1;
-    //   }
-    //   if (nameA > nameB) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // });
     let arr = [];
     for (let i = 0; i < this.mySVGArr.length; i++) {
       arr.push(this.mySVGArr[i].subCategory);
@@ -715,176 +455,83 @@ export class Ntemplate23Component implements OnInit {
     return this.copiedCategories;
   }
 
-   onClick(event)
-  {	 
-    if(!this.singleClicknotAllowed) {
-      if(this.categoryIndex!= undefined && this.mySVGArr[this.categoryIndex]!=undefined && !this.mySVGArr[this.categoryIndex].clicked) {
-        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill",this.originalcolor);
-        //this.QuesRef.nativeElement.children[0].children[this.categoryIndex+1].innerHTML = this.storeHtml;
+  onClick(event) {
+    if (!this.singleClicknotAllowed) {
+      if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
+        for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+        }
       }
-      this.appModel.enableSubmitBtn(false);  
       this.clickedId = event.target.getAttribute('xlink:href');
-      console.log("this.Id = "+this.clickedId);
+      console.log("this.Id = " + this.clickedId);
       let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
-      if(idFound!=undefined) {
+      if (idFound != undefined) {
         this.optionSelected = idFound.optionSelected;
+        this.appModel.enableSubmitBtn(false);
       }
-      this.categoryIndex =this.mySVGArr.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
-      if(idFound && !idFound.clicked) {
+      this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
+      if (idFound && !idFound.clicked) {
         this.appModel.notifyUserAction();
         this.countofClick++;
-        document.getElementById("dropdown").style.opacity="1";
-        document.getElementById("dropdown").style.pointerEvents="";
+        document.getElementById("dropdown").style.opacity = "1";
+        document.getElementById("dropdown").style.pointerEvents = "";
         document.getElementById('dropdownviaTooltip').style.opacity = "0";
         console.log("clicked");
         idFound.clicked = true;
         this.submittedArray.push(idFound);
-        this.tempObj=<any>{};
+        this.tempObj = <any>{};
         this.tempObj.category = idFound.categoryTxtimg;
         this.checkCategoryStatus(idFound);
-        //this.tempObj.capital = "";
         this.paginationArray.push(this.tempObj);
-        if(this.countofClick > this.commonAssets.itemsperPage) {
+        if (this.countofClick > this.commonAssets.itemsperPage) {
           this.countofClick = 1;
-          //this.commonAssets.itemsperPage=this.commonAssets.itemsperPage+10;
           this.p++;
         }
-        //let tooltipDom = document.getElementById('tooltip'+(this.categoryIndex+1));
-        //tooltipDom.classList.value="tooltipshow";
-        $("#tooltip"+(this.categoryIndex+1)).removeClass("tooltipHidden");
-        $("#tooltip"+(this.categoryIndex+1)).addClass("tooltipshow");
-        document.getElementById("tooltip"+(this.categoryIndex+1)).style.pointerEvents= "none";
-        //this.Tooltip.nativeElement.style.opacity = 1;
-        document.getElementById("tooltip"+(this.categoryIndex+1)).style.left = this.mySVGArr[this.categoryIndex].left+"%";
-        document.getElementById("tooltip"+(this.categoryIndex+1)).style.top = this.mySVGArr[this.categoryIndex].top+"%";
-        //let colorofState= $(document.getElementById("clickques").children[0].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].getAttribute("fill");
-        //$(document.getElementById("mainques").children[0].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",idFound.onclickColor);
-        document.querySelector(document.getElementById("mainques").children[1].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill",idFound.onclickColor);
+        $("#tooltip" + (this.categoryIndex + 1)).removeClass("tooltipHidden");
+        $("#tooltip" + (this.categoryIndex + 1)).addClass("tooltipshow");
+        document.getElementById("tooltip" + (this.categoryIndex + 1)).style.pointerEvents = "none";
+        document.getElementById("tooltip" + (this.categoryIndex + 1)).style.left = this.mySVGArr[this.categoryIndex].left + "%";
+        document.getElementById("tooltip" + (this.categoryIndex + 1)).style.top = this.mySVGArr[this.categoryIndex].top + "%";
+        for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", idFound.onclickColor);
+        }
         //$(document.getElementById("mainques").children[0].children[this.categoryIndex+1]).css("pointer-events","none");
         document.getElementById('dropdown').style.pointerEvents = "";
         document.getElementById("dropdown").classList.remove("dropdownhidden");
         var statebound = document.getElementById("dropdown").children[0].getBoundingClientRect();
-      
-      if($( window ).width() > $("#container").width()+100)
-      {
-        var stateboundX = statebound.left/($("#container").width()/0.9)*100;
-        var stateboundY = statebound.top/($("#container").height()*1.1)*100;
-      }
-      else{
-        var stateboundX = statebound.left/($("#container").width())*100;
-        var stateboundY = statebound.top/($("#container").height()*1.1)*100;
-      }
-      
-      
-      
-        document.getElementById("line0").setAttribute("x1",(stateboundX*1 +2)+"%");
-        document.getElementById("line0").setAttribute("y1",stateboundY*0.8+"%");
-        document.getElementById("line0").setAttribute("x2",parseInt(this.mySVGArr[this.categoryIndex].left)+"%");
-        document.getElementById("line0").setAttribute("y2",parseInt(this.mySVGArr[this.categoryIndex].top)+"%");
-        document.getElementById("line0").style.opacity = "1";	
-        //document.getElementById("dropdown")[0].className = "dropdown";
-        //document.getElementById("mainques").style.pointerEvents = "none";
-        for(let i =0;i<document.getElementById("mainques").children[1].children.length;i++) {
-          if(i != (this.categoryIndex+1)) {
-          (document.getElementById("mainques").children[1].children[i] as HTMLElement).style.pointerEvents="none";
+
+        if ($(window).width() > $("#container").width() + 100) {
+          var stateboundX = statebound.left / ($("#container").width() / 0.9) * 100;
+          var stateboundY = statebound.top / ($("#container").height() * 1.1) * 100;
+        }
+        else {
+          var stateboundX = statebound.left / ($("#container").width()) * 100;
+          var stateboundY = statebound.top / ($("#container").height() * 1.1) * 100;
+        }
+        document.getElementById("line0").setAttribute("x1", (stateboundX * 1 + 2) + "%");
+        document.getElementById("line0").setAttribute("y1", stateboundY * 0.8 + "%");
+        document.getElementById("line0").setAttribute("x2", parseInt(this.mySVGArr[this.categoryIndex].left) + "%");
+        document.getElementById("line0").setAttribute("y2", parseInt(this.mySVGArr[this.categoryIndex].top) + "%");
+        document.getElementById("line0").style.opacity = "1";
+        for (let i = 0; i < document.getElementById("mainques").children[1].children.length; i++) {
+          if (i != (this.categoryIndex + 1)) {
+            (document.getElementById("mainques").children[1].children[i] as HTMLElement).style.pointerEvents = "none";
           } else {
-            this.singleClicknotAllowed= true;
+            this.singleClicknotAllowed = true;
           }
-          }  
+        }
       } else {
-        if(idFound!=undefined) {
+        if (idFound != undefined) {
           console.log("new dropdown will open");
           this.appModel.enableSubmitBtn(false);
-          this.selectedStateinTooltip = idFound.textField;
-          //this.appModel.enableSubmitBtn(true); 
-          //document.getElementById('dropdownviaTooltip').style.zIndex = "999";
-          document.getElementById('dropdownviaTooltip').style.pointerEvents="";
+          this.selectedCategoryinTooltip = idFound.textField;
+          document.getElementById('dropdownviaTooltip').style.pointerEvents = "";
           document.getElementById('dropdownviaTooltip').style.opacity = "1";
           document.getElementById('dropdown').style.pointerEvents = "none";
-          document.getElementById('dropdownviaTooltip').style.left = this.mySVGArr[this.categoryIndex].ddTooltipleft+"%";
-          document.getElementById('dropdownviaTooltip').style.top = this.mySVGArr[this.categoryIndex].ddTooltiptop+"%";
+          document.getElementById('dropdownviaTooltip').style.left = this.mySVGArr[this.categoryIndex].ddTooltipleft + "%";
+          document.getElementById('dropdownviaTooltip').style.top = this.mySVGArr[this.categoryIndex].ddTooltiptop + "%";
         }
-      }
-        
-      
-      
-    //       this.edited = true;
-    // 	this.onClickFlag = true;
-    // 	//let Linee = this.Line.nativeElement.getBoundingClientRect();
-    // 	 if(this.onClickFlag)
-    //  {
-    //  var MyTextField = (document.getElementById("lfname") as HTMLInputElement);
-    //  this.Id = $(event.target).attr('xlink:href');
-    //   for(let x = 0; x<this.mySVGArr.length; x++)
-    // {	
-    // if(this.Id == this.mySVGArr[x].id && this.mySVGArr[x].id != undefined && this.mySVGArr[x].working == "true")
-    //  {
-    // 	this.MySelect.nativeElement.style.pointerEvents = "auto";
-    // 	this.clickEv = true;
-    // 	this.mouseOutFlag = false;
-    // 	 this.MySelect.nativeElement.selectedIndex = 0;
-    // 	 this.questionAudio.nativeElement.pause();
-    // 	 this.selectedOutlineCounter += 1;
-    // 	 this.mySVGArr[x].working = "false";
-    //        this.currentindex = x;		 
-    // 	 this.autoTimer = false;
-    // 	 this.QuesRef.nativeElement.style.pointerEvents = "none";
-    // 	 this.appModel.notifyUserAction();
-    // 	 this.Tooltip.nativeElement.style.pointerEvents = "none";
-    // 	this.Tooltip.nativeElement.style.opacity = 1;
-    // 	this.Id = this.mySVGArr[x].strokeId;
-    // 	this.Tooltip.nativeElement.style.left = this.mySVGArr[x].left+"%";
-    // 	this.Tooltip.nativeElement.style.top = this.mySVGArr[x].top+"%"; 
-    // 	this.StateId.nativeElement.style.opacity = 1;
-    // 	var statebound = this.StateId.nativeElement.getBoundingClientRect();
-      
-    // 	if($( window ).width() > $("#container").width()+100)
-    // 	{
-    // 		var stateboundX = statebound.left/($("#container").width()/0.9)*100;
-    // 		var stateboundY = statebound.top/($("#container").height()*1.1)*100;
-    // 	}
-    // 	else{
-    // 		var stateboundX = statebound.left/($("#container").width())*100;
-    // 		var stateboundY = statebound.top/($("#container").height()*1.1)*100;
-    // 	}
-      
-      
-      
-    // 	document.getElementById("line0").setAttribute("x1",stateboundX*1+"%");
-    //     document.getElementById("line0").setAttribute("y1",stateboundY*0.8+"%");
-    //     document.getElementById("line0").setAttribute("x2",parseInt(this.mySVGArr[x].left)+"%");
-    //     document.getElementById("line0").setAttribute("y2",parseInt(this.mySVGArr[x].top)+"%");	
-       
-    // 	 this.rightAnswer.push(this.mySVGArr[x].textField);
-    // 	 this.storeEvent = $(event.target);
-    // 	 this.selectedFillPart.push($($(this.storeEvent.parent().parent().last())));
-    //         if(!this.overState)
-    // 	  {
-    // 		  	this.strokeOver(); 
-    // 	  }			  
-       
-    // 	 this.stateCounter = 0;
-    //        this.currentState = $($($(event.target).parent().parent().last().siblings()[this.mySVGArr.length].children[0].children[0]).attr("xlink:href"));		 
-          
-    // 	 if(this.currentState != undefined)
-    // 	 { 
-    // 	 this.currentState.attr("stroke-width", "2");
-    // 	 this.currentState.attr("stroke", "#000000");		
-    // 	 MyTextField.value += this.mySVGArr[x].textField+", ";
-    // 	 this.textFeildValue.push(this.mySVGArr[x].textField);
-    // 	 this.answer = MyTextField.value;
-    // 	 //this.play(x);
-    // 	 this.overState = false;
-    // 	 }
-    //       break;		 
-    //  } 	
-    //   else {	     
-    // 	// this.reset();	
-    //       // MyTextField.value = "";	
-    //        this.answer = MyTextField.value;		 
-    //  }
-    //  }
-    // }      
+      }    
     }
   }
 
@@ -894,67 +541,62 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.subCatOfSelectedCategory = category.subCategory;
       this.tempObj.imgSubCatOfSelectedCategory = category.correctSubCategoryTxtimg;
       this.tempObj.isCategoryCorrect = true;
+      // this.correctCategoryArr.push(this.tempObj);
     } else {
       this.tempObj.categoryStatus = category.incorrectCategoryTxtimg;
       this.tempObj.subCatOfSelectedCategory = category.subCategory;
       this.tempObj.imgSubCatOfSelectedCategory = category.incorrectSubCategoryTxtimg;
       this.tempObj.isCategoryCorrect = false;
+      // this.incorrectCategory
     }
   }
 
-   ondblClick(event) {
+  ondblClick(event) {
     //alert("double click");
-    document.getElementById('dropdownviaTooltip').style.pointerEvents="none";
-    document.getElementById('dropdownviaTooltip').style.opacity="0";
-    //if(this.paginationArray.length<=1) {
-      
-
-    // } else {
-    //   document.getElementById("line0").style.opacity = "1";
-    //   this.appModel.enableSubmitBtn(true);
-    // }
-    //this.Tooltip.nativeElement.style.opacity = 0;
-    // let tooltipDom = (document.getElementById("tooltip"+(this.categoryIndex+1)) as HTMLInputElement)
-    // tooltipDom.classList.value="tooltipHidden";
+    document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
+    document.getElementById('dropdownviaTooltip').style.opacity = "0";
     this.Id = event.target.getAttribute('xlink:href');
-    console.log("this.Id = "+this.Id);
-    if(this.Id!=null) {
-      $("#tooltip"+(this.categoryIndex+1)).removeClass("tooltipshow");
-      $("#tooltip"+(this.categoryIndex+1)).addClass("tooltipHidden");
+    console.log("this.Id = " + this.Id);
+    if (this.Id != null) {
+      $("#tooltip" + (this.categoryIndex + 1)).removeClass("tooltipshow");
+      $("#tooltip" + (this.categoryIndex + 1)).addClass("tooltipHidden");
       let idFound = this.mySVGArr.find(element => element.id == this.Id || element.strokeId == this.Id);
-      this.categoryIndex =this.mySVGArr.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-      if(this.categoryIndex!=-1) {
+      this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
+      if (this.categoryIndex != -1) {
         document.getElementById("line0").style.opacity = "0";
         //this.appModel.enableSubmitBtn(true);
-        document.getElementById("dropdown").style.opacity="0";
-    document.getElementById("dropdown").style.pointerEvents="none";
-        for(let i =0;i<document.getElementById("mainques").children[1].children.length;i++) {
-          if(i != (this.categoryIndex+1)) {
-          (document.getElementById("mainques").children[1].children[i] as HTMLElement).style.pointerEvents="";
+        document.getElementById("dropdown").style.opacity = "0";
+        document.getElementById("dropdown").style.pointerEvents = "none";
+        for (let i = 0; i < document.getElementById("mainques").children[1].children.length; i++) {
+          if (i != (this.categoryIndex + 1)) {
+            (document.getElementById("mainques").children[1].children[i] as HTMLElement).style.pointerEvents = "";
           }
-          }
-          this.singleClicknotAllowed=false;
+        }
+        this.singleClicknotAllowed = false;
       }
-      if(idFound) {
+      if (idFound) {
         this.countofClick--;
-        $(document.getElementById("mainques").children[1].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
+        for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+        }
+        // $(document.getElementById("mainques").children[1].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
         idFound.clicked = false;
       }
       let indexinSubmitArr = this.submittedArray.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-      if(indexinSubmitArr!=-1) {
-        this.submittedArray.splice(indexinSubmitArr,1);
-        this.paginationArray.splice(indexinSubmitArr,1);
-        if(this.paginationArray.length == 0) {
+      if (indexinSubmitArr != -1) {
+        this.submittedArray.splice(indexinSubmitArr, 1);
+        this.paginationArray.splice(indexinSubmitArr, 1);
+        if (this.paginationArray.length == 0) {
           this.appModel.enableSubmitBtn(false);
         } else {
           this.appModel.enableSubmitBtn(true);
         }
-        if(this.countofClick == 0 && this.countofClick < this.commonAssets.itemsperPage) {
+        if (this.countofClick == 0 && this.countofClick < this.commonAssets.itemsperPage) {
           this.countofClick = 12;
           this.p--;
         }
       }
-    } 
+    }
   }
 
   strokeOver() {
@@ -969,19 +611,46 @@ export class Ntemplate23Component implements OnInit {
   }
 
   checkSubCategoryStatus(index) {
-    if (this.paginationArray[index].subCatOfSelectedCategory == this.paginationArray[index].subCategory) {
-      console.log("correct capital ");
-      this.paginationArray[index].isSubCategorycorrect = true;
-      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-    } else {
+    if (this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory !== this.paginationArray[index].subCategory) {
       console.log("incorrect capital");
       this.paginationArray[index].isSubCategorycorrect = false;
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
+      this.tempObj.isSubCategorycorrect = false;
+      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
+      this.correctIncorrectArr.push(this.tempObj);
+
+    } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
+      console.log("out of scope correct ");
+      this.paginationArray[index].isSubCategorycorrect = true;
+      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
+      this.paginationArray[index]["isOutOfScopeAndCorrect"] = true;
+      let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
+      this.tempObj.categoryStatus = idFound.correctCategoryTxtimg;
+      this.tempObj.isSubCategorycorrect = true;
+      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
+      this.tempObj["isOutOfScopeAndCorrect"] = true;
+      this.outOfScopeArr.push(this.tempObj);
+    } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory !== this.paginationArray[index].subCategory) {
+      console.log("out of scope incorrect ");
+      this.paginationArray[index].isSubCategorycorrect = false;
+      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).incorrectSubCategoryTxtimg;
+      this.paginationArray[index]["isOutOfScopeAndIncorrect"] = true;
+      this.tempObj.isSubCategorycorrect = false;
+      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
+      this.tempObj["isOutOfScopeAndIncorrect"] = true;
+      this.outOfScopeArr.push(this.tempObj);
+    }
+    else if (this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
+      console.log("correct capital ");
+      this.paginationArray[index].isSubCategorycorrect = true;
+      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
+      this.tempObj.isSubCategorycorrect = true;
+      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
+      this.correctIncorrectArr.push(this.tempObj);
     }
   }
 
   categoryName(category) {
-    //this.questionAudio.nativeElement.pause();
     this.appModel.notifyUserAction();
     let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
     if (indexinSubmitArr != -1) {
@@ -991,117 +660,334 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[indexinSubmitArr].imgSubCategory = this.mySVGArr.find(element => element.subCategory == category.text).subCategoryTxtimg;
       this.paginationArray[indexinSubmitArr].subCategory = this.mySVGArr.find(element => element.subCategory == category.text).subCategory;
       this.checkSubCategoryStatus(indexinSubmitArr);
-      //let imgsrc = this.containgFolderPath + "/" + this.paginationArray[indexinSubmitArr].subCategory.url;
-      //document.getElementsByClassName("listNames")[0].children[indexinSubmitArr].children[1].children[0].setAttribute('src',imgsrc);
-      //$('.listNames')[0].children[0].children[1].children[0]
     }
-    //this.stateValue.push(state.text);  
     this.submitFlag = false;
     for (let i = 0; i < document.getElementById("mainques").children[1].children.length; i++) {
       if (i != (this.categoryIndex + 1)) {
         (document.getElementById("mainques").children[1].children[i] as HTMLElement).style.pointerEvents = "";
       }
     }
-    this.singleClicknotAllowed=false;
-  document.getElementById("mainques").style.pointerEvents = " ";
-  this.QuesRef.nativeElement.style.pointerEvents = "auto";
-  //this.Tooltip.nativeElement.style.pointerEvents = "none";
-  this.appModel.enableSubmitBtn(true);
-  document.getElementById("dropdown").style.opacity="0";
-  document.getElementById("dropdown").style.pointerEvents="none";
-  document.getElementById("line0").style.opacity="0";
+    this.singleClicknotAllowed = false;
+    document.getElementById("mainques").style.pointerEvents = " ";
+    this.QuesRef.nativeElement.style.pointerEvents = "auto";
+    //this.Tooltip.nativeElement.style.pointerEvents = "none";
+    this.appModel.enableSubmitBtn(true);
+    document.getElementById("dropdown").style.opacity = "0";
+    document.getElementById("dropdown").style.pointerEvents = "none";
+    document.getElementById("line0").style.opacity = "0";
   }
 
   onSubmit() {
 
     if (!this.submitFlag) {
-      this.endPageNo = Math.ceil(this.paginationArray.length/this.commonAssets.itemsperPage);
-      if (this.paginationArray.length <= this.commonAssets.itemsperPage) {
-        this.feedbackArr = JSON.parse(JSON.stringify(this.paginationArray));
-      } else {
-        this.feedbackArr = this.paginationArray.slice(0, this.commonAssets.itemsperPage);
+      if ((this.correctIncorrectArr.length <= this.commonAssets.itemsperPage && this.outOfScopeArr.length === 0) || (this.correctIncorrectArr.length === 0 && this.outOfScopeArr.length <= this.commonAssets.itemsperPage)) {
+        this.noOfPages = 1;
+        this.endPage = true;
+      }
+      else {
+        if (this.correctIncorrectArr.length > 0) {
+          this.noOfPages = Math.ceil(this.correctIncorrectArr.length / this.commonAssets.itemsperPage);
+        }
+        if (this.outOfScopeArr.length > 0) {
+          this.noOfPages = this.noOfPages + Math.ceil(this.outOfScopeArr.length / this.commonAssets.itemsperPage);
+        }
       }
     }
   }
 
-  nextFeedback() {
-    let currentContextArr = this.isShowAnsOpen ? this.showAnswerarray : this.paginationArray;
-    this.currentPageNo++;
-    this.feedbackArr = currentContextArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo-1), this.commonAssets.itemsperPage * this.currentPageNo);
+  setPopupAssets() {
+    console.log("this.popupType------------->", this.popupType)
+    if (this.popupType === "correct" && this.outOfScopeArr.length === 0) {
+      this.checked = true;
+      $("#optionsBlock").css("opacity", "0.3");
+      $("#optionsBlock").css("pointer-events", "none");
+      document.getElementById("mainques").style.pointerEvents = "none";
+      $("#instructionBar").css("opacity", "0.3");
+      $("#instructionBar").css("pointer-events", "none");
+      this.appModel.enableSubmitBtn(false);
+    }
+    if (this.popupType === "wrong") {
+      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
+      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
+      this.feedbackObj.feedback_title = this.feedbackObj.wrong_style_title;
+      if (this.currentPageNo === 1) {
+        this.feedbackArr = this.correctIncorrectArr.slice(0, this.commonAssets.itemsperPage);
+        // this.currentPageNo++;
+        // if(this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
+        //   this.currentPageNo++;
+        // }
+      }
+      // this.popupType = "wrong";
+      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.WrongAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      this.feedbackPopupAudio.nativeElement.play();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        // this.closeModal();
+        //this.resetActivity();
+      }
+    }
+    if (this.popupType === "partialCorrect") {
+      this.styleHeaderPopup = this.feedbackObj.partial_style_header;
+      this.styleBodyPopup = this.feedbackObj.partial_style_body;
+      this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
+    }
+    if (this.popupType === "partialIncorrect") {
+      this.styleHeaderPopup = this.feedbackObj.partial_style_header;
+      this.styleBodyPopup = this.feedbackObj.partial_style_body;
+      this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
+      if (this.currentPageNo === 1) {
+        this.feedbackArr = this.correctIncorrectArr.slice(0, this.commonAssets.itemsperPage);
+        // if(this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
+        //   this.currentPageNo++;
+        // }
+      }
+      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.moreOptCorrectAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      this.feedbackPopupAudio.nativeElement.play();
+      this.popupType = "partialIncorrect";
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        // this.closeModal();
+
+        //this.resetActivity();
+      }
+    }
+    if (this.popupType === "correct") {
+      this.styleHeaderPopup = this.feedbackObj.right_style_header;
+      this.styleBodyPopup = this.feedbackObj.right_style_body;
+      this.feedbackObj.feedback_title = this.feedbackObj.right_style_title;
+      if (this.currentPageNo === 1) {
+        this.feedbackArr = this.correctIncorrectArr.slice(0, this.commonAssets.itemsperPage);
+        // if(this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
+        //   this.currentPageNo++;
+        // }
+      }
+      // this.checked = true;
+      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.CorrectAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      this.feedbackPopupAudio.nativeElement.play();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        // this.closeModal();
+        // $("#optionsBlock").css("opacity", "0.3");
+        // $("#optionsBlock").css("pointer-events", "none");
+        // document.getElementById("mainques").style.pointerEvents = "none";
+        // $("#instructionBar").css("opacity", "0.3");
+        // $("#instructionBar").css("pointer-events", "none");
+        // this.appModel.enableSubmitBtn(false);
+        //this.appModel.handlePostVOActivity(true);
+      }
+    }
+    if (this.popupType === "outOfScope") {
+      this.styleHeaderPopup = this.feedbackObj.outofscope_style_header;
+      this.styleBodyPopup = this.feedbackObj.outofscope_style_body;
+      if (this.currentPageNo === 1) {
+        this.feedbackArr = this.outOfScopeArr.slice(0, this.commonAssets.itemsperPage);
+        // this.currentPageNo++;
+        // if(this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
+        //   this.currentPageNo++;
+        // }
+      }
+      this.feedbackObj.feedback_title = this.feedbackObj.outofscope_style_title;
+      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.outOfScopeAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      this.feedbackPopupAudio.nativeElement.play();
+      // this.popupType = "outOfScope";
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        // this.closeModal();
+
+        //this.resetActivity();
+      }
+    }
+    if (this.popupType === "showanswer") {
+      this.styleHeaderPopup = this.feedbackObj.right_style_header;
+      this.styleBodyPopup = this.feedbackObj.right_style_body;
+      this.feedbackObj.feedback_title = this.feedbackObj.showAnswer_style_title;
+      // if(this.showAnswerarray.length < this.commonAssets.itemsperPage) {
+
+      // }
+      if(this.currentPageNo === 1) {
+        this.feedbackArr = this.showAnswerarray.slice(0, this.commonAssets.itemsperPage);
+      }
+      // this.setBlinkOnNextBtn();
+      // if (this.showAnswerClicked) {
+      //   this.timerFeedback = this.fetchedcontent.Showans_feedback_next_timer;
+      // } else {
+      //   this.timerFeedback = this.fetchedcontent.feedback_next_timer;
+      // }
+      // this.nextFeedbackTimer = setTimeout(() => {
+      //   this.nextFeedback();
+      // }, this.timerFeedback * 1000)
+    }
+  }
+
+  nextFeedback(noIncrement?) {
+    let currentContextArr = [];
+    this.pageNo++;
+    if (this.isShowAnsOpen) {
+      currentContextArr = this.showAnswerarray;
+      if (this.showAnswerarray.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo + 1).length > 0) {
+        this.currentPageNo++;
+        this.feedbackArr = this.showAnswerarray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+        if (this.currentPageNo === Math.ceil(this.showAnswerarray.length / this.commonAssets.itemsperPage)) {
+          this.endPage = true;
+        }
+      } else {
+        this.endPage = true;
+      }
+
+
+      this.playShowAnswerFeedback();
+    } else if (this.popupType === "correct" || this.popupType === "wrong" || this.popupType === "partialIncorrect") {
+      this.currentPageNo++;
+      if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length > 0) {
+        // this.currentPageNo++;
+        this.feedbackArr = this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+        if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo + 1).length === 0) {
+          if (this.outOfScopeArr.length > 0) {
+            this.popupType = "outOfScope";
+            this.currentPageNo = 1;
+            this.nextFeedback(true);
+          } else {
+            this.endPage = true;
+          }
+        }
+        // else {
+        //   this.currentPageNo++;
+        // }
+      } else if (this.outOfScopeArr.length > 0) {
+        this.popupType = "outOfScope";
+        this.currentPageNo = 1;
+        this.nextFeedback(true);
+      }
+      else {
+        this.endPage = true;
+      }
+    } else if (this.popupType === "outOfScope") {
+      if (!noIncrement) {
+        this.currentPageNo++;
+      }
+      if (this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length > 0) {
+        this.feedbackArr = this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+        if (this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo + 1).length === 0) {
+          this.endPage = true;
+        }
+      } else {
+        this.endPage = true;
+        this.currentPageNo = 1;
+      }
+    }
+    this.setPopupAssets();
+    clearInterval(this.nextBtnInterval);
   }
 
   prevFeedback() {
-    let currentContextArr = this.isShowAnsOpen ? this.showAnswerarray : this.paginationArray;
-    this.currentPageNo--;
-    this.feedbackArr = currentContextArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo-1), this.commonAssets.itemsperPage * this.currentPageNo);
-  }
-
-  grayOver() {
-    this.Index_1 = $($(this.storeEvent.parent().parent().last().siblings()[1]));
-    this.Index_2 = $($(this.storeEvent.parent().parent().last().siblings()[(this.mySVGArr.length) - this.selectedOutlineCounter]));
-    this.Index_1.insertAfter(this.Index_2);
-    for (let i = 0; i < this.selectedOutlineCounter; i++) {
-      this.Index_1 = this.selectedFillPart[i];
-      this.Index_2 = $($(this.storeEvent.parent().parent().last().siblings()[(this.mySVGArr.length) - this.selectedOutlineCounter]));
-      this.Index_1.insertAfter(this.Index_2);
-    }
-
-
-  }
-
-  grayOverTimer() {
-    for (let c = 1; c <= this.mySVGArr.length + 1; c++) {
-      this.redColorArray.push($($(this.QuesRef.nativeElement.children[0].children[c].children[0].children[0]).attr("xlink:href")));
-      this.redColorArray[c - 1].attr("stroke", "#FFFFFF");
-      this.Tooltip.nativeElement.style.opacity = 0;
-      document.getElementById("line0").setAttribute("x1", 0 + "%");
-      document.getElementById("line0").setAttribute("y1", 0 + "%");
-      document.getElementById("line0").setAttribute("x2", 0 + "%");
-      document.getElementById("line0").setAttribute("y2", 0 + "%");
-      if ($($(this.QuesRef.nativeElement.children[0].children[c].children[0].children[0]).attr("xlink:href")).attr("data") == "gray") {
-        this.Index_1 = $(this.QuesRef.nativeElement.children[0].children[c]);
-        this.Index_2 = $(this.QuesRef.nativeElement.children[0].children[this.mySVGArr.length + 1]);
-        this.Index_1.insertAfter(this.Index_2);
-
-
+    this.pageNo--;
+    let currentContextArr = [];
+    if (this.isShowAnsOpen) {
+      currentContextArr = this.showAnswerarray;
+      if (this.showAnswerarray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length > 0) {
+        this.currentPageNo--;
+        this.feedbackArr = this.showAnswerarray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
       }
-    }
-  }
-
-  reset() {
-    if (this.currentState != undefined) {
-      this.currentState.attr("stroke-width", "2");
-      this.currentState.attr("stroke", "#FFFFFF");
-    }
-  }
-
-  showAnswer() {
-
-    for (let a = 0; a <= this.mySVGArr.length + 1; a++) {
-      this.duplicateGroupArray[a].attr("stroke", "#FFFFFF");
-
-      for (let b = 0; b < this.myRightAnswer.length; b++) {
-        if (this.duplicateGroupArray[a].attr("data") == this.myRightAnswer[b] || this.duplicateGroupArray[a].attr("data") == this.RightSubmit[b]) {
-
-          var index1 = this.groupArray[a];
-          var index2 = $($(this.QuesRef.nativeElement.children[0].children[this.mySVGArr.length + 1]));
-          index1.insertAfter(index2);
-          this.duplicateGroupArray[a].attr("stroke", "#008000");
-          this.duplicateGroupArray[a].attr("stroke-width", "2");
-
+      if (this.showAnswerarray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length === 0) {
+        if (this.currentPageNo === 1) {
+          this.endPage = false;
+          this.pageNo = 1;
+        }
+      } else {
+        if (this.currentPageNo === 1) {
+          this.endPage = false;
+          this.pageNo = 1;
         }
       }
-
-
+      this.playShowAnswerFeedback();
+    } else if (this.popupType === "correct" || this.popupType === "wrong" || this.popupType === "partialIncorrect") {
+      if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length > 0) {
+        this.currentPageNo--;
+        this.feedbackArr = this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+      }
+      if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length === 0) {
+        if (this.currentPageNo === 1) {
+          this.endPage = false;
+          this.pageNo = 1;
+        }
+      } else {
+        if (this.currentPageNo === 1) {
+          this.endPage = false;
+          this.pageNo = 1;
+        }
+      }
+    } else if (this.popupType === "outOfScope") {
+      if (this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length > 0) {
+        this.currentPageNo--;
+        this.feedbackArr = this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+        this.endPage = false;
+        if (this.outOfScopeArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length === 0) {
+          if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter === 0) {
+            this.popupType = "correct";
+          } else if (this.rightAnswerCounter === 0 && this.wrongAnswerCounter > 0) {
+            this.popupType = "wrong";
+          } else if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter > 0) {
+            this.popupType = "partialIncorrect";
+          }
+          this.currentPageNo = Math.ceil(this.correctIncorrectArr.length / this.commonAssets.itemsperPage);
+          this.feedbackArr = this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+          if (this.currentPageNo === 1) {
+            this.endPage = false;
+            this.pageNo = 1;
+          }
+        } else {
+          // this.prevFeedback();
+          // this.currentPageNo++;
+        }
+      } else {
+        // if (this.currentPageNo === 1) {
+        this.currentPageNo = Math.ceil(this.correctIncorrectArr.length / this.commonAssets.itemsperPage);
+        this.feedbackArr = this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+        this.endPage = false;
+        this.pageNo = this.currentPageNo;
+        if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter === 0) {
+          this.popupType = "correct";
+        } else if (this.rightAnswerCounter === 0 && this.wrongAnswerCounter > 0) {
+          this.popupType = "wrong";
+        } else if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter > 0) {
+          this.popupType = "partialIncorrect";
+        }
+        // }
+      }
     }
-    this.myAudio.nativeElement.src = this.CorrectAudio.url;
-    this.myAudio.nativeElement.load();
-    this.myAudio.nativeElement.play();
-    this.QuesRef.nativeElement.style.pointerEvents = "none";
-    // this.optionsBlock.nativeElement.style.opacity = 0.3;
-    this.isValid = true;
-    this.appModel.enableSubmitBtn(false);
+    if (this.isShowAnsOpen) {
+      this.feedbackArr = currentContextArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+    }
+    this.setPopupAssets();
   }
+
+  // showAnswer() {
+
+  //   for (let a = 0; a <= this.mySVGArr.length + 1; a++) {
+  //     this.duplicateGroupArray[a].attr("stroke", "#FFFFFF");
+
+  //     for (let b = 0; b < this.myRightAnswer.length; b++) {
+  //       if (this.duplicateGroupArray[a].attr("data") == this.myRightAnswer[b] || this.duplicateGroupArray[a].attr("data") == this.RightSubmit[b]) {
+
+  //         var index1 = this.groupArray[a];
+  //         var index2 = $($(this.QuesRef.nativeElement.children[0].children[this.mySVGArr.length + 1]));
+  //         index1.insertAfter(index2);
+  //         this.duplicateGroupArray[a].attr("stroke", "#008000");
+  //         this.duplicateGroupArray[a].attr("stroke-width", "2");
+
+  //       }
+  //     }
+
+
+  //   }
+  //   this.myAudio.nativeElement.src = this.CorrectAudio.url;
+  //   this.myAudio.nativeElement.load();
+  //   this.myAudio.nativeElement.play();
+  //   this.QuesRef.nativeElement.style.pointerEvents = "none";
+  //   // this.optionsBlock.nativeElement.style.opacity = 0.3;
+  //   this.isValid = true;
+  //   this.appModel.enableSubmitBtn(false);
+  // }
 
 
   initiallyStoreGroups() {
@@ -1114,86 +1000,86 @@ export class Ntemplate23Component implements OnInit {
   }
 
 
-  reverseAfterWrong() {
-    for (let c = 1; c <= this.mySVGArr.length + 1; c++) {
-      this.duplicateGroupArray[c].attr("stroke", "#FFFFFF");
-      this.duplicateGroupArray[c].attr("stroke-width", "2");
-      this.Tooltip.nativeElement.style.opacity = 0;
-      document.getElementById("line0").setAttribute("x1", 0 + "%");
-      document.getElementById("line0").setAttribute("y1", 0 + "%");
-      document.getElementById("line0").setAttribute("x2", 0 + "%");
-      document.getElementById("line0").setAttribute("y2", 0 + "%");
-      if ($($(this.QuesRef.nativeElement.children[0].children[c].children[0].children[0]).attr("xlink:href")).attr("data") == "gray") {
-        this.Index_1 = $(this.QuesRef.nativeElement.children[0].children[c]);
-        this.Index_2 = $(this.QuesRef.nativeElement.children[0].children[0]);
-        this.Index_1.insertAfter(this.Index_2);
+  // reverseAfterWrong() {
+  //   for (let c = 1; c <= this.mySVGArr.length + 1; c++) {
+  //     this.duplicateGroupArray[c].attr("stroke", "#FFFFFF");
+  //     this.duplicateGroupArray[c].attr("stroke-width", "2");
+  //     this.Tooltip.nativeElement.style.opacity = 0;
+  //     document.getElementById("line0").setAttribute("x1", 0 + "%");
+  //     document.getElementById("line0").setAttribute("y1", 0 + "%");
+  //     document.getElementById("line0").setAttribute("x2", 0 + "%");
+  //     document.getElementById("line0").setAttribute("y2", 0 + "%");
+  //     if ($($(this.QuesRef.nativeElement.children[0].children[c].children[0].children[0]).attr("xlink:href")).attr("data") == "gray") {
+  //       this.Index_1 = $(this.QuesRef.nativeElement.children[0].children[c]);
+  //       this.Index_2 = $(this.QuesRef.nativeElement.children[0].children[0]);
+  //       this.Index_1.insertAfter(this.Index_2);
 
 
-      }
-    }
-    this.QuesRef.nativeElement.style.pointerEvents = "auto";
-    this.edited = false;
-    this.onClickFlag = false;
-    this.isValid = false;
-    this.StateId.nativeElement.style.opacity = 0;
+  //     }
+  //   }
+  //   this.QuesRef.nativeElement.style.pointerEvents = "auto";
+  //   this.edited = false;
+  //   this.onClickFlag = false;
+  //   this.isValid = false;
+  //   this.StateId.nativeElement.style.opacity = 0;
 
-    for (let x = 0; x < this.mySVGArr.length; x++) {
-      if (this.mySVGArr[x].id != undefined) {
-        this.mySVGArr[x].working = "true";
+  //   for (let x = 0; x < this.mySVGArr.length; x++) {
+  //     if (this.mySVGArr[x].id != undefined) {
+  //       this.mySVGArr[x].working = "true";
 
-      }
-    }
-    for (let ab = 0; ab < this.myDropDownStates.length + 1; ab++) {
-      this.MySelect.nativeElement.options[ab].style.backgroundColor = "";
-    }
-
-
-
-    this.rightAnswer = [];
-    if (this.partiallyCorrectFlag) {
-      this.mySVGArr[this.currentindex].working = "false";
-      this.mouseOutFlag = false;
-      this.clickEv = true;
-
-      for (let a = 0; a <= this.mySVGArr.length; a++) {
-        //this.redColorArray.push($($(this.storeEvent.parent().parent().last().siblings()[a].children[0].children[0]).attr("xlink:href")));
-        //this.redColorArray[a].attr("stroke", "#FF0000"); 	
-        for (let b = 0; b < this.myRightAnswer.length; b++) {
-          if (this.redColorArray[a].attr("data") == this.stateValue[b]) {
-            this.redColorArray[a].attr("stroke", "#008000");
-            this.redColorArray[a].attr("stroke-width", "2");
-
-          }
-        }
+  //     }
+  //   }
+  //   for (let ab = 0; ab < this.myDropDownStates.length + 1; ab++) {
+  //     this.MySelect.nativeElement.options[ab].style.backgroundColor = "";
+  //   }
 
 
-      }
-    } else {
-      this.mouseOutFlag = true;
-      this.clickEv = false;
-      this.redColorArray = [];
-      this.stateValue = [];
-      this.selectedOutlineCounter = 0;
-      this.overState = true;
-      this.edited = false;
-      this.submitFlag = true;
-      this.checkCounter = 0;
-      this.onClickFlag = false;
-      this.storeState = [];
-      this.Submitcounter = 0;
-      this.selectedFillPart = [];
-      this.rightAnswerCounter = 0;
-      this.greenColorArray = [];
-      this.wrongAnswerCounter = 0;
-      this.greenColorCounter = 0;
-      this.textFeildValue = [];
-      this.showAnswerCounter = 0;
-      this.autoTimer = true;
-      this.autoShowAnswerCounter = 1;
-      this.isValid = false;
-    }
 
-  }
+  //   this.rightAnswer = [];
+  //   if (this.partiallyCorrectFlag) {
+  //     this.mySVGArr[this.currentindex].working = "false";
+  //     this.mouseOutFlag = false;
+  //     this.clickEv = true;
+
+  //     for (let a = 0; a <= this.mySVGArr.length; a++) {
+  //       //this.redColorArray.push($($(this.storeEvent.parent().parent().last().siblings()[a].children[0].children[0]).attr("xlink:href")));
+  //       //this.redColorArray[a].attr("stroke", "#FF0000"); 	
+  //       for (let b = 0; b < this.myRightAnswer.length; b++) {
+  //         if (this.redColorArray[a].attr("data") == this.stateValue[b]) {
+  //           this.redColorArray[a].attr("stroke", "#008000");
+  //           this.redColorArray[a].attr("stroke-width", "2");
+
+  //         }
+  //       }
+
+
+  //     }
+  //   } else {
+  //     this.mouseOutFlag = true;
+  //     this.clickEv = false;
+  //     this.redColorArray = [];
+  //     this.stateValue = [];
+  //     this.selectedOutlineCounter = 0;
+  //     this.overState = true;
+  //     this.edited = false;
+  //     this.submitFlag = true;
+  //     this.checkCounter = 0;
+  //     this.onClickFlag = false;
+  //     this.storeState = [];
+  //     this.Submitcounter = 0;
+  //     this.selectedFillPart = [];
+  //     this.rightAnswerCounter = 0;
+  //     this.greenColorArray = [];
+  //     this.wrongAnswerCounter = 0;
+  //     this.greenColorCounter = 0;
+  //     this.textFeildValue = [];
+  //     this.showAnswerCounter = 0;
+  //     this.autoTimer = true;
+  //     this.autoShowAnswerCounter = 1;
+  //     this.isValid = false;
+  //   }
+
+  // }
 
   postWrongAttemplt() {
 
@@ -1216,7 +1102,7 @@ export class Ntemplate23Component implements OnInit {
       });
     let loadImage = setInterval(() => {
       // if ($(this.QuesRef.nativeElement.children[0]).attr("id") == "mySvg") {
-        if(document.getElementById("mainques") && document.getElementById("mainques").children[1]) {
+      if (document.getElementById("mainques") && document.getElementById("mainques").children[1]) {
         var svgElement = document.getElementById("mainques").children[1];
         svgElement.setAttribute("width", "100%");
         svgElement.setAttribute("height", "100%");
@@ -1324,7 +1210,7 @@ export class Ntemplate23Component implements OnInit {
       for (let i = 0; i < this.mySVGArr.length; i++) {
         arr.push(this.mySVGArr[i].subCategory);
       }
-      let filteredarray = arr.filter((item,index) => arr.indexOf(item) === index);
+      let filteredarray = arr.filter((item, index) => arr.indexOf(item) === index);
       this.copiedCategories = filteredarray.filter(function (el) {
         return el != "";
       });
@@ -1416,56 +1302,52 @@ export class Ntemplate23Component implements OnInit {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
   }
 
-  playFeedback() {
-    if ((this.rightAnswerCounter == this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0) {
-      //fully correct
-      this.checked = true;
-      this.popupType = "correct";
-      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.CorrectAudio.url;
-      this.feedbackPopupAudio.nativeElement.load();
-      this.feedbackPopupAudio.nativeElement.play();
-      this.feedbackPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-        $("#optionsBlock").css("opacity", "0.3");
-        $("#optionsBlock").css("pointer-events", "none");
-        document.getElementById("mainques").style.pointerEvents = "none";
-        $("#instructionBar").css("opacity", "0.3");
-        $("#instructionBar").css("pointer-events", "none");
-        this.appModel.enableSubmitBtn(false);
-        //this.appModel.handlePostVOActivity(true);
-      }
-    } else if (this.rightAnswerCounter == 0) {
-      //fully incorrect
-      this.popupType = "wrong";
-      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.WrongAudio.url;
-      this.feedbackPopupAudio.nativeElement.load();
-      this.feedbackPopupAudio.nativeElement.play();
-      this.feedbackPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-        //this.resetActivity();
-      }
-    } else if ((this.rightAnswerCounter < this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0) {
-      //partially correct
-      this.feedbackInfoAudio.nativeElement.src = this.commonAssets.PartiallyCorrectAudio.url;
-      this.feedbackInfoAudio.nativeElement.load();
-      this.feedbackInfoAudio.nativeElement.play();
-      this.popupType = "partialCorrect";
+  playShowAnswerFeedback() {
+    this.feedbackshowPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.url;
+    this.feedbackshowPopupAudio.nativeElement.load();
+    this.feedbackshowPopupAudio.nativeElement.play();
+    this.feedbackshowPopupAudio.nativeElement.onended = () => {
+      // this.closeModal();
     }
-    else {
-      //partiallyincorrect
-      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.moreOptCorrectAudio.url;
-      this.feedbackPopupAudio.nativeElement.load();
-      this.feedbackPopupAudio.nativeElement.play();
-      this.popupType = "partialIncorrect";
-      this.feedbackPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-
-        //this.resetActivity();
-      }
-    }
-    this.setPopupAssets();
-
   }
+
+  /****** set partial feedback individual options VO ******/
+  // setPartialFeedbackAudio(num, voType) {
+  //   if (voType === "partialCorrectVO" && this.partialCorrectArr[num].url) {
+  //     let no = num;
+  //     this.feedbackPopupAudio.nativeElement.src = this.partialCorrectArr[num].url;
+  //     this.feedbackPopupAudio.nativeElement.play();
+  //     this.feedbackPopupAudio.nativeElement.onended = () => {
+  //       no++;
+  //       if (no >= this.partialCorrectArr.length) {
+  //         this.setPartialFeedbackAudio(0, "partialIncorrectVO");
+  //       } else {
+  //         this.setPartialFeedbackAudio(no, "partialCorrectVO");
+  //       }
+  //     }
+  //   } else {
+  //     let no = num;
+  //     if (this.partialIncorrectArr[num].url) {
+  //       this.feedbackPopupAudio.nativeElement.src = this.partialIncorrectArr[num].url;
+  //       this.feedbackPopupAudio.nativeElement.play();
+  //       this.feedbackPopupAudio.nativeElement.onended = () => {
+  //         no++;
+  //         if (no === this.partialIncorrectArr.length) {
+  //           this.startCount = 0;
+  //           this.showAnssetTimeout = setTimeout(() => {
+  //             if (!this.manualClickedonCrossbtn) {
+  //               this.closeModal();
+  //             }
+  //           }, this.showAnsTimeout);
+  //           this.appModel.notifyUserAction();
+  //         }
+  //         else {
+  //           this.setPartialFeedbackAudio(no, "partialIncorrectVO");
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   resetActivity() {
     //this.submittedArray=[];
@@ -1478,10 +1360,17 @@ export class Ntemplate23Component implements OnInit {
       $("#" + this.submittedArray[i].tooltipID).removeClass("tooltipshow");
       $("#" + this.submittedArray[i].tooltipID).addClass("tooltipHidden");
       let index = this.mySVGArr.findIndex(element => element.id == this.submittedArray[i].id);
-      $(document.getElementById("mainques").children[1].children[index + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", this.originalcolor);
+      // for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
+      document.querySelector(this.QuesRef.nativeElement.children[1].children[index + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.originalcolor);
+      // }
+      // $(document.getElementById("mainques").children[1].children[index + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", this.originalcolor);
     }
     this.submittedArray = [];
     this.currentPageNo = 1;
+    this.correctIncorrectArr = [];
+    this.outOfScopeArr = [];
+    this.pageNo = 1;
+    this.endPage = false;
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
     document.getElementById('dropdown').style.opacity = "0";
     //document.getElementById('dropdownviaTooltip').style.zIndex = "0";
@@ -1495,9 +1384,9 @@ export class Ntemplate23Component implements OnInit {
         (document.getElementById("mainques").children[1].children[i] as HTMLElement).style.pointerEvents = "";
       }
     }
-    this.singleClicknotAllowed=false;
-    this.countofClick=0;
-    this.p=1;
+    this.singleClicknotAllowed = false;
+    this.countofClick = 0;
+    this.p = 1;
     document.getElementById("line0").setAttribute("x1", "0");
     document.getElementById("line0").setAttribute("x2", "0");
     document.getElementById("line0").setAttribute("y1", "0");
@@ -1509,6 +1398,19 @@ export class Ntemplate23Component implements OnInit {
     this.wrongAnswerCounter = 0;
   }
 
+  setBlinkOnNextBtn() {
+    let flag = true;
+    this.nextBtnInterval = setInterval(() => {
+        if (flag) {
+            this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_blink2;
+            flag = false;
+        } else {
+            this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_blink1;
+            flag = true;
+        }
+    }, 300)
+}
+
   showAnswerFeedback() {
     this.showAnswerarray = [];
     this.appModel.resetBlinkingTimer();
@@ -1516,7 +1418,13 @@ export class Ntemplate23Component implements OnInit {
       let findState = this.mySVGArr.find(element => element.textField == this.feedbackObj.correct_category[i]);
       this.showAnswerarray.push(findState);
     }
-    this.endPageNo = Math.ceil(this.showAnswerarray.length/this.commonAssets.itemsperPage);
+    this.endPageNo = Math.ceil(this.showAnswerarray.length / this.commonAssets.itemsperPage);
+    if (this.showAnswerarray.length <= this.commonAssets.itemsperPage) {
+      this.noOfPages = 1;
+      this.endPage = true;
+    } else {
+      this.noOfPages = Math.ceil(this.showAnswerarray.length / this.commonAssets.itemsperPage);
+    }
     if (this.showAnswerarray.length <= this.commonAssets.itemsperPage) {
       this.feedbackArr = JSON.parse(JSON.stringify(this.showAnswerarray));
     } else {
@@ -1549,7 +1457,7 @@ export class Ntemplate23Component implements OnInit {
   }
 
   showFeedback(id: string, flag: string, status?: string) {
-    if(status === "feedbackDone") {
+    if (status === "feedbackDone") {
       this.closeModal();
     }
     if (id == "submit-modal-id") {
@@ -1572,13 +1480,9 @@ export class Ntemplate23Component implements OnInit {
       this.showAnswerRef.nativeElement.classList = "displayPopup modal";
       this.popupType = "showanswer";
       this.setPopupAssets();
-      this.appModel.notifyUserAction();
-      this.feedbackshowPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.url;
-      this.feedbackshowPopupAudio.nativeElement.load();
-      this.feedbackshowPopupAudio.nativeElement.play();
-      this.feedbackshowPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-      }
+      //this.appModel.notifyUserAction();
+      this.appModel.stopAllTimer();
+      this.playShowAnswerFeedback();
       $("#optionsBlock").css("opacity", "0.3");
       $("#optionsBlock").css("pointer-events", "none");
       document.getElementById("mainques").style.pointerEvents = "none";
@@ -1593,20 +1497,30 @@ export class Ntemplate23Component implements OnInit {
     }
     if (flag == "yes") {
       this.onSubmit();
+      this.appModel.stopAllTimer();
       for (let i = 0; i < this.paginationArray.length; i++) {
         if (this.paginationArray[i].isCategoryCorrect && this.paginationArray[i].isSubCategorycorrect) {
           this.rightAnswerCounter++;
-        } else {
+        } else if (this.paginationArray[i].isCategoryCorrect && !this.paginationArray[i].isSubCategorycorrect && !this.paginationArray[i].isOutOfScopeAndCorrect && !this.paginationArray[i].isOutOfScopeAndIncorrect) {
           this.wrongAnswerCounter++;
         }
       }
-      if ((this.rightAnswerCounter < this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0) {
+      if ((this.rightAnswerCounter < this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0 && this.outOfScopeArr.length === 0) {
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
-        this.playFeedback();
+        this.setPopupAssets();
         //this.rightAnswerCounter=0;
       } else {
+        if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter === 0) {
+          this.popupType = "correct";
+        } else if (this.rightAnswerCounter === 0 && this.wrongAnswerCounter > 0) {
+          this.popupType = "wrong";
+        } else if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter > 0) {
+          this.popupType = "partialIncorrect";
+        } else {
+          this.popupType = "outOfScope";
+        }
         this.attemptType = "manual";
-        this.playFeedback();
+        this.setPopupAssets();
         this.popupRef.nativeElement.classList = "displayPopup modal";
       }
 
@@ -1632,8 +1546,9 @@ export class Ntemplate23Component implements OnInit {
     this.showAnswerRef.nativeElement.classList = "modal";
     this.popupRef.nativeElement.classList = "modal";
     this.currentPageNo = 1;
+    this.endPage = false;
     this.isShowAnsOpen = false;
-    //this.appModel.notifyUserAction();
+    this.appModel.notifyUserAction();
     if (this.checked) {
       this.blinkOnLastQues();
       $("#optionsBlock").css("opacity", "0.3");
@@ -1655,61 +1570,6 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
-  setPopupAssets() {
-
-    console.log("this.popupType------------->", this.popupType)
-    if (this.popupType === "wrong") {
-      this.rightanspopUpheader_img = false;
-      this.wronganspopUpheader_img = true;
-      this.showanspopUpheader_img = false;
-      this.partialCorrectheaderTxt_img = false;
-      this.partialInCorrectheaderTxt_img = false;
-      this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
-      this.styleBodyPopup = this.feedbackObj.wrong_style_body;
-      this.feedbackObj.feedback_title = this.feedbackObj.wrong_style_title;
-    }
-    if (this.popupType === "partialCorrect") {
-      // this.rightanspopUpheader_img = false;
-      // this.wronganspopUpheader_img = false;
-      // this.showanspopUpheader_img = false;
-      // this.partialCorrectheaderTxt_img = true;
-      // this.partialInCorrectheaderTxt_img = false;
-      this.styleHeaderPopup = this.feedbackObj.partial_style_header;
-      this.styleBodyPopup = this.feedbackObj.partial_style_body;
-      this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
-    }
-    if (this.popupType === "partialIncorrect") {
-      // this.rightanspopUpheader_img = false;
-      // this.wronganspopUpheader_img = false;
-      // this.showanspopUpheader_img = false;
-      // this.partialCorrectheaderTxt_img = true;
-      // this.partialInCorrectheaderTxt_img = false;
-      this.styleHeaderPopup = this.feedbackObj.partial_style_header;
-      this.styleBodyPopup = this.feedbackObj.partial_style_body;
-      this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
-    }
-    if (this.popupType === "correct") {
-      // this.rightanspopUpheader_img = true;
-      // this.wronganspopUpheader_img = false;
-      // this.showanspopUpheader_img = false;
-      // this.partialCorrectheaderTxt_img = false;
-      // this.partialInCorrectheaderTxt_img = false;
-      this.styleHeaderPopup = this.feedbackObj.right_style_header;
-      this.styleBodyPopup = this.feedbackObj.right_style_body;
-      this.feedbackObj.feedback_title = this.feedbackObj.right_style_title;
-    }
-    if (this.popupType === "showanswer") {
-      // this.rightanspopUpheader_img = false;
-      // this.wronganspopUpheader_img = false;
-      // this.showanspopUpheader_img = true;
-      // this.partialCorrectheaderTxt_img = false;
-      // this.partialInCorrectheaderTxt_img = false;
-      this.styleHeaderPopup = this.feedbackObj.right_style_header;
-      this.styleBodyPopup = this.feedbackObj.right_style_body;
-      this.feedbackObj.feedback_title = this.feedbackObj.showAnswer_style_title;
-    }
-  }
-
   closeModel() {
     //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
     this.infoModalRef.nativeElement.classList = "modal"
@@ -1718,5 +1578,32 @@ export class Ntemplate23Component implements OnInit {
     this.confirmModalRef.nativeElement.classList = "modal"
   }
 
+  hoverFeedbackOK() {
+    this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_hover;
+  }
+
+  houtFeedbackOK() {
+    this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_original;
+  }
+  hoverFeedbackClose() {
+    this.feedbackObj.close_btn = this.feedbackObj.close_btn_hover;
+  }
+
+  houtFeedbackClose() {
+    this.feedbackObj.close_btn = this.feedbackObj.close_btn_original;
+  }
+
+  hoverFeedbackNxt() {
+    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_hover;
+  }
+  hoverFeedbackPre() {
+    this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_hover;
+  }
+  hleaveFeedbackNxt() {
+    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+  }
+  hleaveFeedbackPre() {
+    this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
+  }
 
 }
