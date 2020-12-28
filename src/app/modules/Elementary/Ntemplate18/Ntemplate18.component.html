@@ -167,7 +167,7 @@
           </div>
           <div class="row mx-0" id="optionsBlock" #popupBodyRef>
             <div class="my-auto quesImage">
-              <div id="{{idx}}" class="options" *ngFor="let opt of optionObject;let idx = index">
+              <div id="{{idx}}" class="options" *ngFor="let opt of optionObjectpopup;let idx = index">
                 <div>
                   <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();">
                 </div>

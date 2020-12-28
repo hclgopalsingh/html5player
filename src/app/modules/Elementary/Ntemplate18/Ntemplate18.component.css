@@ -893,3 +893,4 @@ html [type=button] {
     transform: scale(1.1)
   }
 }
+#modalTemp5 .quesImage .optItem{visibility: visible!important;}
