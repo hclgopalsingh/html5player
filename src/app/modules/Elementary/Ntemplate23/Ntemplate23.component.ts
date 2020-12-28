@@ -221,6 +221,11 @@ export class Ntemplate23Component implements OnInit {
   correctIncorrectArr: any = [];
   noOfPages: number = 1;
   nextBtnInterval: any;
+  showAnswerClicked: boolean = false;
+  timerFeedback: any;
+  nextFeedbackTimer: any;
+  closeFeedback: any;
+  closeFeedbackmodalTimer: any;
 
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -712,18 +717,17 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackObj.feedback_title = this.feedbackObj.wrong_style_title;
       if (this.currentPageNo === 1) {
         this.feedbackArr = this.correctIncorrectArr.slice(0, this.commonAssets.itemsperPage);
-        // this.currentPageNo++;
-        // if(this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
-        //   this.currentPageNo++;
-        // }
       }
-      // this.popupType = "wrong";
       this.feedbackPopupAudio.nativeElement.src = this.commonAssets.WrongAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-        //this.resetActivity();
+        if(this.noOfPages !== 1 && !this.endPage) {
+          this.startNextFeedbackTimer();
+        }
+        else {
+          this.startCloseFeedbackTimer();
+        }
       }
     }
     if (this.popupType === "partialCorrect") {
@@ -737,18 +741,18 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
       if (this.currentPageNo === 1) {
         this.feedbackArr = this.correctIncorrectArr.slice(0, this.commonAssets.itemsperPage);
-        // if(this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
-        //   this.currentPageNo++;
-        // }
       }
       this.feedbackPopupAudio.nativeElement.src = this.commonAssets.moreOptCorrectAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.popupType = "partialIncorrect";
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-
-        //this.resetActivity();
+        if(this.noOfPages !== 1 && !this.endPage) {
+          this.startNextFeedbackTimer();
+        }
+        else {
+          this.startCloseFeedbackTimer();
+        }
       }
     }
     if (this.popupType === "correct") {
@@ -757,23 +761,17 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackObj.feedback_title = this.feedbackObj.right_style_title;
       if (this.currentPageNo === 1) {
         this.feedbackArr = this.correctIncorrectArr.slice(0, this.commonAssets.itemsperPage);
-        // if(this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length > 0) {
-        //   this.currentPageNo++;
-        // }
       }
-      // this.checked = true;
       this.feedbackPopupAudio.nativeElement.src = this.commonAssets.CorrectAudio.url;
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        // this.closeModal();
-        // $("#optionsBlock").css("opacity", "0.3");
-        // $("#optionsBlock").css("pointer-events", "none");
-        // document.getElementById("mainques").style.pointerEvents = "none";
-        // $("#instructionBar").css("opacity", "0.3");
-        // $("#instructionBar").css("pointer-events", "none");
-        // this.appModel.enableSubmitBtn(false);
-        //this.appModel.handlePostVOActivity(true);
+        if(this.noOfPages !== 1 && !this.endPage) {
+          this.startNextFeedbackTimer();
+        }
+        else {
+          this.startCloseFeedbackTimer();
+        }
       }
     }
     if (this.popupType === "outOfScope") {
@@ -792,6 +790,12 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       // this.popupType = "outOfScope";
       this.feedbackPopupAudio.nativeElement.onended = () => {
+        if(this.noOfPages !== 1 && !this.endPage) {
+          this.startNextFeedbackTimer();
+        }
+        else {
+          this.startCloseFeedbackTimer();
+        }
         // this.closeModal();
 
         //this.resetActivity();
@@ -807,19 +811,41 @@ export class Ntemplate23Component implements OnInit {
       if(this.currentPageNo === 1) {
         this.feedbackArr = this.showAnswerarray.slice(0, this.commonAssets.itemsperPage);
       }
-      // this.setBlinkOnNextBtn();
-      // if (this.showAnswerClicked) {
-      //   this.timerFeedback = this.fetchedcontent.Showans_feedback_next_timer;
-      // } else {
-      //   this.timerFeedback = this.fetchedcontent.feedback_next_timer;
-      // }
-      // this.nextFeedbackTimer = setTimeout(() => {
-      //   this.nextFeedback();
-      // }, this.timerFeedback * 1000)
     }
   }
 
+  startNextFeedbackTimer() {
+    this.setBlinkOnNextBtn();
+    if (this.isShowAnsOpen) {
+      this.timerFeedback = this.feedbackObj.Showans_feedback_next_timer;
+    } else {
+      this.timerFeedback = this.feedbackObj.feedback_next_timer;
+    }
+    this.nextFeedbackTimer = setTimeout(() => {
+      this.nextFeedback();
+    }, this.timerFeedback * 1000);
+  }
+
+  startCloseFeedbackTimer() {
+    if (this.isShowAnsOpen) {
+      this.closeFeedback = this.showAnsTimeout;
+    } else {
+      this.closeFeedback = this.feedbackObj.close_feedback_timer * 1000;
+    }
+    this.closeFeedbackmodalTimer = setTimeout(() => {
+      // this.feedbackPopupRef.nativeElement.classList = "modal";
+      // if (this.isWrongAttempted) {
+      //     this.appModel.wrongAttemptAnimation();
+      // } else if (this.isAllRight) {
+      //     this.disableScreen();
+      //     this.blinkOnLastQues();
+      // }
+      this.closeModal();
+    }, this.closeFeedback);
+  }
+
   nextFeedback(noIncrement?) {
+    clearTimeout(this.nextFeedbackTimer);
     let currentContextArr = [];
     this.pageNo++;
     if (this.isShowAnsOpen) {
@@ -875,11 +901,14 @@ export class Ntemplate23Component implements OnInit {
         this.currentPageNo = 1;
       }
     }
-    this.setPopupAssets();
     clearInterval(this.nextBtnInterval);
+    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+    this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
+    this.setPopupAssets();
   }
 
   prevFeedback() {
+    clearTimeout(this.closeFeedbackmodalTimer);
     this.pageNo--;
     let currentContextArr = [];
     if (this.isShowAnsOpen) {
@@ -958,6 +987,9 @@ export class Ntemplate23Component implements OnInit {
     if (this.isShowAnsOpen) {
       this.feedbackArr = currentContextArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
     }
+    clearInterval(this.nextBtnInterval);
+    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+    this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
     this.setPopupAssets();
   }
 
@@ -1308,6 +1340,12 @@ export class Ntemplate23Component implements OnInit {
     this.feedbackshowPopupAudio.nativeElement.play();
     this.feedbackshowPopupAudio.nativeElement.onended = () => {
       // this.closeModal();
+      if(this.noOfPages !== 1 && !this.endPage) {
+        this.startNextFeedbackTimer();
+      }
+      else {
+        this.startCloseFeedbackTimer();
+      }
     }
   }
 
@@ -1548,6 +1586,9 @@ export class Ntemplate23Component implements OnInit {
     this.currentPageNo = 1;
     this.endPage = false;
     this.isShowAnsOpen = false;
+    clearTimeout(this.nextFeedbackTimer);
+    clearTimeout(this.closeFeedbackmodalTimer);
+    clearInterval(this.nextBtnInterval);
     this.appModel.notifyUserAction();
     if (this.checked) {
       this.blinkOnLastQues();
