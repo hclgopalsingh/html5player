@@ -47,9 +47,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   @ViewChild('modalfeedback20') modalfeedback20: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+  @ViewChild('onlyOneAttemptModalRef') onlyOneAttemptModalRef: any;
+  @ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
 
   optionBase: boolean = false;
   mouseMoveFlag: boolean = false;
+  oneAttemptPopupAssets: any;
   isDisablePlaceholder: boolean = false;
   blinkingFlag: boolean = true;
   partialCorrectCase: boolean = false;
@@ -120,6 +123,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   RandomResizeIndex: number = 0;
   ArrPlaceHolder: any = [];
   wrongCounter: number = 0;
+  rightCounter: number = 0;
   Order: string = "";
   optionReverseTopPosition: number = 0;
   startActivityCounter: number = 0;
@@ -154,6 +158,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   selectedPosition: string = "";
   reverseOption: any;
   reverseOptionIndex: number;
+  lookformore:boolean = false;
   /*END: Theme Implementation(Template Changes)*/
 
 
@@ -346,6 +351,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.confirmAssets = this.feedback.confirm_popup;
     this.confirmSubmitAssets = this.feedback.submit_popup;
     this.confirmReplayAssets = this.feedback.replay_confirm;
+    this.oneAttemptPopupAssets = this.feedback.oneAttempt_popup;
   }
 
   /***Set the content folder path ***/
@@ -387,7 +393,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }
       }
     }
-    
+
 
   }
 
@@ -609,6 +615,23 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_original;
   }
 
+
+  hoveroneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_hover;
+  }
+
+  houtoneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_original;
+  }
+
+  hoveroneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
+  }
+
+  houtoneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
+  }
+
   /*** Show Answer and submit Functionality after click on Yes ***/
   sendFeedback(ref, flag: string, action?: string) {
 
@@ -639,19 +662,37 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }, 1000)
       }
     } else if (action == "submitAnswer") {
-      if (this.submitButtonCounter != this.optionArr.length) {
+      if (this.submitButtonCounter == 1) {
+        this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
+        let feedbackoneAttemptAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
+        this.feedbackoneAttemptAudio.nativeElement.src = feedbackoneAttemptAudio.url;
+        this.feedbackoneAttemptAudio.nativeElement.play();
+      } else if (this.submitButtonCounter > 1 && (this.submitButtonCounter != this.optionArr.length)
+        && (this.wrongCounter == 0) && this.responseType != "partialAttempt" && this.responseType != "" && this.responseType != "wrongAttempt") {
+        //look for more option
+
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
         this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
         this.feedbackInfoAudio.nativeElement.play();
+        // this.resultType = "";
         // this.appModel.stopAllTimer();
-        //look for more option
       } else {
         this.popupTopAssts = [];
         this.popupDownAssts = [];
         this.checkResponseType();
-        this.appModel.enableSubmitBtn(false);
+        if(!this.lookformore){
+          this.appModel.enableSubmitBtn(false);
+        }
+        
         this.appModel.enableReplayBtn(true);
+      }
+    } else if (action == "oneAttempt-modal-id") {
+      this.infoModalRef.nativeElement.classList = "modal";
+      if (this.onlyOneAttemptModalRef && this.feedbackoneAttemptAudio.nativeElement && !this.feedbackoneAttemptAudio.nativeElement.paused) {
+        this.feedbackoneAttemptAudio.nativeElement.pause();
+        this.feedbackoneAttemptAudio.nativeElement.currentTime = 0;
+        this.appModel.notifyUserAction();
       }
     } else if (action == "partialFeedback") {
       if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement && !this.partialFeedbackRef.nativeElement.paused) {
@@ -680,6 +721,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     }
     if (flag == "no") {
+      this.lookformore = false;
       if (this.blinkingFlag) {
         this.startBlinkOption();
       }
@@ -778,247 +820,44 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /*** Checks the response with input ***/
   checkResponseType() {
+    // let addedArr1 = this.optionObj.given_values.concat(this.optionArr);
+    let addedArr2 = this.optionArr;
+    let optCopy1 = JSON.parse(JSON.stringify(addedArr2));
+    this.sortedOptArr = optCopy1.sort((a, b) => {
+      if (this.Order == "ascending") {
+        return a.value - b.value;
+      }
+      if (this.Order == "descending") {
+        return b.value - a.value;
+      }
+    });
     clearInterval(this.blinkTimeInterval);
     this.attemptType = "manual";
-    var count: number = 0;
-    var kCount: number = 0;
     this.wrongCounter = 0;
-    var Range: number = 0;
+    this.rightCounter = 0;
     this.submittedArr = this.getSelectedArr();
+
     for (let i = 0; i < this.submittedArr.length; i++) {
       for (let j = 0; j < 2; j++) {
         if (this.submittedArr[i][j] != undefined) {
-          if (this.Order == "ascending") {
-            if (this.submittedArr[i][j].selected != undefined) {
-              if (this.optionObj.given_values[1] != undefined) {
-                if (i >= this.optionObj.given_values[1].index) {
-                  kCount = 1;
-                }
+          if (this.submittedArr[i][j].selected != undefined) {
+            if (this.sortedOptArr[i] != undefined) {
+              if (this.submittedArr[i][j].index == this.sortedOptArr[i].index) {
+                this.rightCounter += 1;
+                this.submittedArr[i][j].isAtCorrectPos = true;
+              } else {
+                this.wrongCounter += 1;
+                this.submittedArr[i][j].isAtCorrectPos = false;
               }
-
-              if (i < this.optionObj.given_values[kCount].index) {
-                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
-                  if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                    count = m + 1;
-                  }
-                  else {
-                    count = m;
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i > this.optionObj.given_values[kCount].index) {
-                if (kCount == 1) {
-                  Range = this.submittedArr.length;
-                }
-                else {
-                  if (this.optionObj.given_values[1] != undefined) {
-                    Range = this.optionObj.given_values[1].index;
-                  }
-                }
-
-                for (let m = i + 1; m < Range; m++) {
-                  if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                    count = m + 1;
-                  }
-                  else {
-                    count = m;
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-              if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                this.submittedArr[i][0].isAtCorrectPos = false;
-                this.submittedArr[i][1].isAtCorrectPos = false;
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = true;
-                }
-                //break;
-              }
-
-              if (this.submittedArr[i][j].isAtCorrectPos == false) {
-                if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                  this.wrongCounter += 1;
-                }
-                else {
-                  this.wrongCounter += 1;
-                }
-              }
-            }
-          }
-
-          if (this.Order == "descending") {
-            if (this.submittedArr[i][j].selected != undefined) {
-              if (this.optionObj.given_values[1] != undefined) {
-                if (i >= this.optionObj.given_values[1].index) {
-                  kCount = 1;
-                }
-              }
-
-              if (i < this.optionObj.given_values[kCount].index) {
-                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
-                  if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                    count = m + 1;
-                  }
-                  else {
-                    count = m;
-                  }
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i > this.optionObj.given_values[kCount].index) {
-                if (kCount == 1) {
-                  Range = this.submittedArr.length;
-                }
-                else {
-                  if (this.optionObj.given_values[1] != undefined) {
-                    Range = this.optionObj.given_values[1].index;
-                  }
-                }
-                for (let m = i + 1; m <= Range; m++) {
-                  if (this.submittedArr[m] != undefined) {
-                    if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                      count = m + 1;
-                    }
-
-                    else {
-                      count = m;
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
-                      if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
-                      if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-
-                }
-              }
-              if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                this.submittedArr[i][0].isAtCorrectPos = false;
-                this.submittedArr[i][1].isAtCorrectPos = false;
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = true;
-                }
-                //break;
-              }
-
-              if (this.submittedArr[i][j].isAtCorrectPos == false) {
-                if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                  this.wrongCounter += 1;
-                }
-                else {
-                  this.wrongCounter += 1;
-                }
-              }
+            } else {
+              this.wrongCounter += 1;
+              this.submittedArr[i][j].isAtCorrectPos = false;
             }
           }
         }
       }
     }
-
+    console.log('right Counter => ' + this.rightCounter + ' wrong Counter => ' + this.wrongCounter);
     if (this.wrongCounter == this.submitButtonCounter) {
       this.resultType = "wrong";
       this.popupType = "wrong"
@@ -1042,9 +881,11 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       if (this.optIndxArr.length == 0 && this.resultType == "correct") {
         this.responseType = "allCorrect";
         console.log("all Correct congratessssss");
-        this.feedbackAudio = this.feedbackObj.correctAudio;
-        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
-        this.feedbackPopupAudio.nativeElement.play();
+        if (this.submitButtonCounter == this.optionArr.length) {
+          this.feedbackAudio = this.feedbackObj.correctAudio;
+          this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
+          this.feedbackPopupAudio.nativeElement.play();
+        }
         this.attemptType = "manual";
         this.feedbackPopupAudio.nativeElement.onended = () => {
           setTimeout(() => {
@@ -1098,7 +939,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       this.confirmModalRef.nativeElement.classList = "modal";
       this.confirmSubmitRef.nativeElement.classList = "modal";
+      // if (this.submitButtonCounter == this.optionArr.length) {
       this.modalfeedback20.nativeElement.classList = "modal displayPopup";
+      // }
       this.setPopupAssets();
     }
   }
@@ -1429,6 +1272,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   resetOptions() {
+    this.lookformore = false;
+    this.appModel.enableSubmitBtn(false);
     this.animationFlag = true;
     this.isDisablePlaceholder = false;
     for (let i = 0; i < this.optionArr.length; i++) {
@@ -1551,7 +1396,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.popUpFeedbackMsgUrl = this.feedbackObj.partialIncorrAnswerpopupTxt.url;
       // this.appModel.stopAllTimer();
     }
-    if (this.popupType == "correct") {
+    if (this.popupType == "correct" && this.submitButtonCounter == this.optionArr.length) {
       this.partialCorrectCase = false;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
@@ -1562,6 +1407,16 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.popUpFeedbackMsgUrl = this.feedbackObj.rightAnswerpopupTxt.url;
       // this.appModel.stopAllTimer();
     }
+    if (this.popupType == "correct" && this.submitButtonCounter != this.optionArr.length) {
+      this.modalfeedback20.nativeElement.classList = "modal";
+      this.infoModalRef.nativeElement.classList = "displayPopup modal";
+      this.lookformore = true;
+      let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
+      this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
+      this.feedbackInfoAudio.nativeElement.play();
+      // lookFOrMore case
+    }
+
     if (this.popupType == "showanswer") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
@@ -1579,7 +1434,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     }
     if (this.actionType == "submitAnswer") {
-      this.appModel.stopAllTimer();
+      if(!this.lookformore){
+        this.appModel.stopAllTimer();
+      }
+      
     } else {
       this.appModel.notifyUserAction();
     }
