@@ -740,11 +740,11 @@ button:focus {
 }
 
   .modal-body img {
-    max-width: 91%; /*77%;*/
+    /* max-width: 91%;  */
   }
 
 #modalTemp5 .modal-body img {
-  max-width: 94%;
+  /* max-width: 94%; */
   /* width: 70%; */
 }
 
