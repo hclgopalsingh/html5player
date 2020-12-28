@@ -815,9 +815,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.quesObj = this.fetchedcontent.quesObj;
 			this.feedbackObj = this.fetchedcontent.feedback;
 			this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
-			//this.isAutoplayOn = this.appModel.autoPlay;
 			this.blinkIndex = 0;
 			let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
+			this.displayAnswerTimer = this.quesObj.autoFillTimer;
 			for (var i in this.myoption) {
 				this.myoption[i].disableOpt = false;
 				if (this.myoption[i].custom_id == rightOptIdx) {
@@ -879,21 +879,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			}
 		}
 	}
-	// refreshAutoFillTimer() {
-	// 	clearTimeout(this.autoFillTime);
-	// 	this.startAutoFillTimer();
-	// }
-	// startAutoFillTimer() {
-	// 	let save;
-	// 	for (let i = 0; i < this.myoption.length; i++) {
-	// 		if (this.optionToSelect === this.myoption[i]) {
-	// 			save = i;
-	// 		}
-	// 	}
-	// 	this.autoFillTime = setTimeout(() => {
-	// 		this.checkAnswer(this.optionToSelect, save);
-	// 	}, 500 * 60)
-	// }
+
 	resetTimerForAnswer() {
 		if (this.timerSubscription) {
 			this.timerSubscription.unsubscribe();
@@ -1040,9 +1026,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	wrongAnsClose() {
 		this.closed = true;
 		this.correctAns.nativeElement.classList = "modal";
-		this.correctAns.nativeElement.classList = "modal";
-		this.appModel.notifyUserAction();
+		this.correctAns.nativeElement.classList = "modal";		
 		this.appModel.wrongAttemptAnimation();
+		this.resetTimerForAnswer();
 
 	}
 
