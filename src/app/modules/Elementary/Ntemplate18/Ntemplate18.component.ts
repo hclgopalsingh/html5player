@@ -215,6 +215,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   partialCase: boolean = false;
   feedbackaudioTimeout: any;
   closeStatus:boolean = false;
+  closeModalPopup: boolean = false;
+
   ngOnDestroy() {
     clearTimeout(this.showAnsTimer);
     clearInterval(this.blinkTimeInterval);
@@ -607,7 +609,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           }
           this.optionObject[idx].placed = false;
          //// this.fetchAnswer[idx].position = 'top';
-          
+         this.fetchAnswer[idx].position ="top";
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImg_original.url;
           this.refcpyArray[this.optionObject[idx].sequenceNo - 1].position = 'top';
           this.prevIdx = this.index1;
@@ -639,8 +641,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           ////clearInterval(this.blinkTimeInterval);
           this.isAllowed = true;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
-
-          this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
+          let cloned = JSON.parse(JSON.stringify(this.refcpyArray[this.index1]));
+          this.fetchAnswer;
+          this.fetchAnswer[0];
+          this.fetchAnswer[idx]=cloned;
+          this.fetchAnswer[idx].position ="down";
+         //// this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
           this.refcpyArray[this.index1].position = 'down';
           this.optionObject[idx].placed = true;
           this.refcpyArray[this.index1].placedInOption = idx;
@@ -1080,7 +1086,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       for (let x = 0; x < this.fetchAnswer.length; x++) {
 
         if (this.fetchAnswer[x].id == undefined) {
-          console.log('noooooooooo setFeedback');
+          console.log('id is undefined');
         } else if (this.fetchAnswer[x].id == this.feedbackObj.correct_ans_index[x].id && this.fetchAnswer[x].position == "down") {
           console.log('RIGHT ANSWER');
           this.noOfRightAnsClicked++;
@@ -1097,7 +1103,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       }
       for (let x = 0; x < this.fetchAnswer.length; x++) {
         if (this.fetchAnswer[x].id == undefined) {
-          console.log('');
+          console.log('id is undefined');
         } else if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id && this.fetchAnswer[x].position == "down") {
            this.fetchAnswer[x].status = "right";
         } else if (this.fetchAnswer[x].position == "down") {
@@ -1195,7 +1201,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       for (let x = 0; x < this.fetchAnswer.length; x++) {
         delete this.optionObject[x]['status'];
         if (this.fetchAnswer[x].id == undefined) {
-          console.log('noooooooooo setFeedback');
+          console.log('id is undefined');
         } else if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id && this.fetchAnswer[x].position == "down") {
           console.log('RIGHT ANSWER');
           this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_right.url;
@@ -1301,10 +1307,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     }
-    console.log('setplayFeedbackAudio function');
-    console.log(this.optionObject);
     this.optionObjectpopup = [...this.optionObject];
-    console.log(this.optionObjectpopup);
     this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
     this.setplayFeedbackAudio(0);
   }
@@ -1320,13 +1323,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   setplayFeedbackAudio(i: number) {
-    console.log('ooooooooooo');
-    console.log(this.optionObject);
+     
     this.feedbackaudioTimeout = setTimeout(() => {
       this.partialCase = false;
       let current = i;
 
-      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObjectpopup.length && !this.closeStatus) {
+      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObjectpopup.length && !this.closeStatus && !this.closeModalPopup) {
 
         if (this.optionObjectpopup[i].status == "right") {
 
@@ -1372,7 +1374,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         if (this.countofAnimation > 0) {
           this.showAnsTimer = setTimeout(() => {
-            if (this.countofAnimation == this.noOfRightAnsClicked) {
+            if (this.countofAnimation == this.noOfRightAnsClicked && !this.closeModalPopup) {
               this.startCount = 0;
               this.matched = true;
               this.closeModal();
@@ -1385,7 +1387,9 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
               this.disableBody = true;
               this.appModel.enableSubmitBtn(false);
             } else {
-              this.closeModal();
+              if(!this.closeModalPopup){
+                this.closeModal();
+              }
             }
           }, this.showAnsTimeout)
         }
@@ -1532,6 +1536,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   resetAttempt() {
+    this.closeModalPopup = false;
     this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
     this.optionObjectpopup = [...this.optionObject];
      this.fetchAnswer = [];
@@ -1761,6 +1766,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
   // this function we use to close the modal popup this is a common function which we call to close all the popup based on conditions
   closeModal() {
     this.closeStatus = true;
+    this.closeModalPopup = true;
     this.modaldialog.nativeElement.classList.remove('twoCount');
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
