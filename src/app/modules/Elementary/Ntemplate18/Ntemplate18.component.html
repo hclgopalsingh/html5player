@@ -1,3 +1,4 @@
+<div id="outer">
 <div class="container-fluid ele temp14" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
   <audio #narrator [src]="quesInfo?.narrator?.url"></audio>
 
@@ -23,7 +24,7 @@
     <div class="mx-0" id="optionsBlock" #optionsBlock [ngClass]="{'disable_div':disableoptionsBlock}">
       <div class="my-auto quesImage">
         <div id="{{idx}}" class="options" [ngClass]="{'disable_div':disableoptions}"
-          *ngFor="let opt of optionObject;let idx = index">
+          *ngFor="let opt of optionObjOriginal;let idx = index">
           <div *ngIf="quesFlag">
             <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();"
               (click)="checkAllowed(idx,opt.placed,opt)" (mouseenter)="playHoverOption(opt,idx)"
@@ -216,4 +217,5 @@
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
 
+</div>
 </div>
