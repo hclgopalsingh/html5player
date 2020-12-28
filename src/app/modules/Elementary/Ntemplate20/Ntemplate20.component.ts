@@ -670,6 +670,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       } else if (this.submitButtonCounter > 1 && (this.submitButtonCounter != this.optionArr.length)
         && (this.wrongCounter == 0) && this.responseType != "partialAttempt" && this.responseType != "" && this.responseType != "wrongAttempt") {
         //look for more option
+
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
         this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
@@ -720,6 +721,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     }
     if (flag == "no") {
+      this.lookformore = false;
       if (this.blinkingFlag) {
         this.startBlinkOption();
       }
@@ -1432,7 +1434,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
     }
     if (this.actionType == "submitAnswer") {
-      this.appModel.stopAllTimer();
+      if(!this.lookformore){
+        this.appModel.stopAllTimer();
+      }
+      
     } else {
       this.appModel.notifyUserAction();
     }
