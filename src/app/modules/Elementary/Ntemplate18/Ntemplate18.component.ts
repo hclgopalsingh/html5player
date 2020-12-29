@@ -1276,6 +1276,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
           this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
           this.optionObject[x].status = "wrong";
+          this.optionObject[x].imgsrc.url=this.optionObject[x].imgsrc_wrong.url;
+          this.optionObject[x].samplerefquesImg.url=this.fetchAnswer[x].imgsrc_wrong.url;
         }
       }
       for (let x = this.optionObject.length - 1; x >= 0; x--) {
