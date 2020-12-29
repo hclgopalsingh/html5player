@@ -683,6 +683,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		})
 		this.appModel.postWrongAttempt.subscribe(() => {
 			this.postWrongAttempt()
+			this.resetTimerForAnswer();
 		});
 		this.appModel.resetBlinkingTimer();
 		this.appModel.handleController(this.controlHandler);
@@ -709,7 +710,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 	postWrongAttempt() {
-		this.resetTimerForAnswer();
 		this.optionBlock.nativeElement.className = "optionsBlock";
 		this.maincontent.nativeElement.className = "";
 		setTimeout(() => {
