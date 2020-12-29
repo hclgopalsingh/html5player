@@ -513,7 +513,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 					this.correctAns.nativeElement.classList = "modal";
 					if (!this.closed) {
 						this.appModel.wrongAttemptAnimation();
-						this.resetTimerForAnswer();
 						this.maincontent.nativeElement.className = "";
 						// this.appModel.handlePostVOActivity(false);
 						this.appModel.enableReplayBtn(true);
@@ -710,6 +709,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 	postWrongAttempt() {
+		this.resetTimerForAnswer();
 		this.optionBlock.nativeElement.className = "optionsBlock";
 		this.maincontent.nativeElement.className = "";
 		setTimeout(() => {
@@ -1011,7 +1011,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.correctAns.nativeElement.classList = "modal";
 		this.correctAns.nativeElement.classList = "modal";		
 		this.appModel.wrongAttemptAnimation();
-		this.resetTimerForAnswer();
 
 	}
 
