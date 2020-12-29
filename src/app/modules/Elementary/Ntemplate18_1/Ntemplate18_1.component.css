@@ -150,7 +150,8 @@ button:focus {
   cursor: pointer;
 }
 .videoMainContainer{
-  width:99.3%;/*99.8%;*/
+  width:99.8%;
+  height: 50.8vmax;
 }
 #optionsBlock #option img,
 .optionsBlock #option img {
