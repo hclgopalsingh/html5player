@@ -840,7 +840,7 @@ html [type=button] {
     width: 13%;
     margin: 0 .5%;
   }
-
+  #modalTemp5 .quesImage .optItem{visibility: visible!important;}
 @media (min-width: 576px) {
   .modal-dialog {
     margin: 0 auto !important;
