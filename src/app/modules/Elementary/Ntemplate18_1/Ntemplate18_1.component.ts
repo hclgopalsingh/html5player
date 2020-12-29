@@ -183,7 +183,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   disableinstructionBar: boolean = true;
   closeClicked: boolean = false;
 
-
+  closeModalPopup: boolean = false;
 
   optionObject: any;
   optionObjOriginal: any;
@@ -1227,7 +1227,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.partialCase = false;
       let current = i;
 
-      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObject.length) {
+      if (this.fetchAnswer && i < this.feedbackObj.correct_ans_index.length && current < this.optionObject.length && !this.closeModalPopup) {
 
         if (this.optionObject[i].status == "right") {
 
@@ -1273,7 +1273,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       } else {
         if (this.countofAnimation > 0) {
           this.showAnsTimer = setTimeout(() => {
-            if (this.countofAnimation == this.noOfRightAnsClicked) {
+            if (this.countofAnimation == this.noOfRightAnsClicked && !this.closeModalPopup) {
               this.startCount = 0;
               this.matched = true;
               this.closeModal();
@@ -1286,7 +1286,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
               this.disableBody = true;
               this.appModel.enableSubmitBtn(false);
             } else {
-              this.closeModal();
+              if(!this.closeModalPopup){
+                this.closeModal();
+              }
+              
             }
           }, this.showAnsTimeout)
         }
@@ -1434,6 +1437,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   //Post submit we reset all the options using this function
   resetAttempt() {
+    this.closeModalPopup = false;
     this.optionObject = [...this.optionObjOriginal];
     this.fetchAnswer = [];
     for (var i = 0; i < this.refcpyArray.length; i++) {
@@ -1660,6 +1664,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   //this function will trigger every time whwn any modal will close
   closeModal() {
+this.closeModalPopup = true;
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
