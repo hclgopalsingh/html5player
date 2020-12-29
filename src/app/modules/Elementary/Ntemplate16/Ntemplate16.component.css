@@ -648,11 +648,6 @@ button:focus {
   align-items: center;
 }
 
-.modal-body img {
-  max-width: 92%;
-  /*77%;*/
-}
-
 .modalBodyContent {
   background: #afdec0;
   margin: -1px;

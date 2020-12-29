@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { Subscription } from 'rxjs'
@@ -45,21 +45,19 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 	@ViewChild('correctAns') correctAns: any;
 	@ViewChild('optionBlock') optionBlock: any;
-	@ViewChild('container') containerBlock: any;
-	@ViewChild('titleNavBtn') titleNavBtn: any;
 	@ViewChild('maincontent') maincontent: any;
-	@ViewChild('titleAudio') titleAudio: any;
-	@ViewChild('titleHelpAudio') titleHelpAudio: any;
-	@ViewChild('clapSound') clapSound: any;
-	@ViewChild('buzzerSound') buzzerSound: any;
 	@ViewChild('navBlock') navBlock: any;
-	@ViewChild('wrongFeedback') wrongFeedback: any;
-	@ViewChild('narrator') narrator: any;
-	@ViewChild('instruction') instruction: any;
 	@ViewChild('confirmModalRef') confirmModalRef: any;
-	@ViewChild('mainVideo') mainVideo: any;
 	@ViewChild('confirmReplayRef') confirmReplayRef: any;
 	@ViewChild("optionImage") optionImage: any;
+	@ViewChild('titleHelpAudio') titleHelpAudio: any;
+	@ViewChild('clapSound') clapSound: any;
+	@ViewChild('buzzerSound') buzzerSound: any;	
+	@ViewChild('wrongFeedback') wrongFeedback: any;
+	@ViewChild('narrator') narrator: any;
+	@ViewChild('instruction') instruction: any;	
+	@ViewChild('mainVideo') mainVideo: any;
+	
 
 	countdown: number = 10;
 	audio = new Audio();
@@ -95,8 +93,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	hasEventFired: boolean = false;
 	wrongImgOption: any;
 	feedbackPopup: any;
-	rightPopup: any;
-	ifWrongAns: boolean = false;
 	wrongPopup: any;
 	popUpObj: any;
 	aksharOnDisplay; any;
@@ -135,7 +131,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	/*END: Theme Implementation(Template Changes)*/
 	playHoverInstruction() {
 		this.resetTimerForAnswer();
-		this.appModel.notifyUserAction();
+		// this.appModel.notifyUserAction();
 		if (!this.narrator.nativeElement.paused) {
 			console.log("narrator/instruction voice still playing");
 		} else {
@@ -269,7 +265,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 	optionHover(opt, i) {
-		this.appModel.notifyUserAction();
+		// this.appModel.notifyUserAction();
 		this.resetTimerForAnswer();
 		if (this.instruction && this.instruction.nativeElement.play) {
 			this.instruction.nativeElement.pause();
@@ -287,21 +283,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 
-	ngAfterViewChecked() {
-		if (this.titleAudio && this.titleAudio.nativeElement) {
-			this.titleAudio.nativeElement.onended = () => {
-				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
-			}
-		}
-		/* this.titleAudio.nativeElement.onvolumechange(()=>{
-			 
-			 console.log(this.titleAudio.nativeElement.volume);
-		 })*/
-		this.templatevolume(this.appModel.volumeValue, this);
-
-	}
-
-
+	
 	runCounter() {
 		console.log(document.getElementById("circle1"))
 		this.appModel.enableReplayBtn(false)
@@ -322,7 +304,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	closeTitleScreen() {
-		this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeOutAnimation";
 		setTimeout(() => {
 			this.next();
 		}, 200)
@@ -419,7 +400,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.disableAllOpt = true;
 		this.maincontent.nativeElement.className = "disable_div";
 		this.onHoverOptionOut(opt, index);
-		this.appModel.notifyUserAction();
+		// this.appModel.notifyUserAction();
 		this.disableHelpBtn = true;
 		this.titleHelpAudio.nativeElement.pause();
 		this.titleHelpAudio.nativeElement.currentTime = 0;
@@ -509,7 +490,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			//new code
 
 			this.popUpObj = opt;
-			this.ifWrongAns = true;
 			this.feedbackPopup = this.wrongPopup;
 			this.appModel.enableReplayBtn(false);
 			this.wrongImgOption = opt  //setting wrong image options
@@ -621,21 +601,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 
 
 	ngOnInit() {
-		// let that = this;
-		// $( "#navBlock" ).click(function() {
-		//     if (!that.instruction.nativeElement.paused)
-		//     {
-		//       that.instruction.nativeElement.pause();
-		//       that.instruction.nativeElement.currentTime = 0;
-		//     }
-		//   });
-		//this.appModel.handleController(this.controlHandler);
 		this.appModel.handlePostVOActivity(true);
 		this.appModel.enableReplayBtn(false);
 		this.appModel.functionone(this.templatevolume, this);//start end
-		/*window.onresize = (e) =>{
-		   this.resizeContainer();
-	   }*/
 
 		if (this.appModel.isNewCollection) {
 			//console.log("chck:",this.appModel.isNewCollection);
@@ -670,7 +638,8 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
 			if (mode == "manual") {
 				//show modal for manual
-				this.appModel.notifyUserAction();
+				// this.appModel.notifyUserAction();
+				this.resetTimerForAnswer();
 				console.log("mode manuall", mode)
 
 			} else if (mode == "auto") {
@@ -720,6 +689,26 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.handleController(this.controlHandler);
 	}
 
+	ngAfterViewChecked() {
+		this.templatevolume(this.appModel.volumeValue, this);
+	}
+
+	ngOnDestroy() {
+		console.log("current template is being destroyed");
+		clearTimeout(this.tempTimer);
+		clearTimeout(this.wrongTimer);
+		if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+		}
+		if (this.narrator && this.narrator.nativeElement) {
+			this.narrator.nativeElement.pause();
+			this.narrator.nativeElement.currentTime = 0;
+		}
+		if (this.audio && !this.audio.paused) {
+			this.audio.pause();
+			this.audio.currentTime = 0;
+		}
+	}
 	postWrongAttempt() {
 		this.optionBlock.nativeElement.className = "optionsBlock";
 		this.maincontent.nativeElement.className = "";
@@ -762,12 +751,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 		if (obj.buzzerSound && obj.buzzerSound.nativeElement) {
 			obj.buzzerSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.titleHelpAudio && obj.titleHelpAudio.nativeElement) {
-			obj.titleHelpAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.titleAudio && obj.titleAudio.nativeElement) {
-			obj.titleAudio.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 		if (obj.audio) {
 			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
@@ -945,7 +928,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 
 	showReplay(ref, flag: string, action?: string) {
 		ref.classList = "modal";
-		this.appModel.notifyUserAction();
+		// this.appModel.notifyUserAction();
 		if (flag == "yes") {
 			this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
 			if (action == "replay") {
@@ -1149,7 +1132,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				this.disableAllOpt = false;
 				this.isPlayVideo = false;
 				this.appModel.videoStraming(false);
-				this.appModel.notifyUserAction();
+				// this.appModel.notifyUserAction();
 				this.resetTimerForAnswer();
 			}
 		}, 500)
@@ -1189,22 +1172,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.resetTimerForAnswer();
 		}
 	}
-	ngOnDestroy() {
-		console.log("current template is being destroyed");
-		clearTimeout(this.tempTimer);
-		clearTimeout(this.wrongTimer);
-		if (this.timerSubscription != undefined) {
-			this.timerSubscription.unsubscribe();
-		}
-		if (this.narrator && this.narrator.nativeElement) {
-			this.narrator.nativeElement.pause();
-			this.narrator.nativeElement.currentTime = 0;
-		}
-		if (this.audio && !this.audio.paused) {
-			this.audio.pause();
-			this.audio.currentTime = 0;
-		}
-	}
+
 
 
 
