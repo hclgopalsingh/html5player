@@ -1082,6 +1082,9 @@ export class Ntemplate22 implements OnInit {
       else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_6"){
         this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario.type_6);
       }
+      else if(this.quesObj.Ques_scenario && this.quesObj.Ques_scenario.type == "type_7"){
+        this.handleScenario(this.quesObj.Ques_scenario.type, this.quesObj.Ques_scenario.type_7);
+      }
     }
   }
 
@@ -1291,7 +1294,34 @@ export class Ntemplate22 implements OnInit {
       feedbackObj['date'] = AnsDate ;
       this.setFeedback(feedbackObj);
     }
-
+    else if(typ == "type_7"){
+      //to find next month with 31/30 days
+      this.feedbackObj.correct_year = ""
+      this.feedbackObj.correct_month = ""
+      this.feedbackObj.correct_weekDay = ""
+      this.feedbackObj.correct_date = ""
+      let currentMonth = new Date().getMonth();
+      let c1 = currentMonth +1;
+      let c2 = currentMonth +2;
+      if(c1 > 11){
+        c1 = c1 -12
+      }
+      if(c2 > 11){
+        c2 = c2 -12
+      }
+      let monthWith30Days = [3,5,8,10];
+      let monthWith31Days = [0,2,4,6,7,9,11];
+      let arrTopick = (qObj.findNextMonths == "30") ? monthWith30Days : monthWith31Days ;
+      
+     if(arrTopick.indexOf(c1)>-1){
+      console.log("ans is c1")
+      this.feedbackObj.correct_month = this.MonthNames[c1]
+     }
+     if(arrTopick.indexOf(c2)>-1){
+      console.log("ans is c2")
+      this.feedbackObj.correct_month = this.MonthNames[c2]
+     }
+    }
   }
 
 
