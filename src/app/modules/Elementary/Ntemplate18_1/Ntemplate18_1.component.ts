@@ -985,7 +985,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     if (id == "oneAttempt-modal-id") {
       document.getElementById('optionsBlock').style.pointerEvents = 'none';
       setTimeout(() => {
-        document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+        document.getElementById('optionsBlock').style.pointerEvents = '';
       }, 1000);
       this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
       if (this.feedbackoneAttemptAudio && !this.feedbackoneAttemptAudio.nativeElement.paused) {

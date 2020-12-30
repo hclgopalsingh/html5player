@@ -1070,7 +1070,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
       document.getElementById('optionsBlock').style.pointerEvents = 'none';
       setTimeout(() => {
-        document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+       ///// document.getElementById('optionsBlock').style.pointerEvents = 'auto';
+       document.getElementById('optionsBlock').style.pointerEvents = '';
       }, 1000);
       if (this.feedbackoneAttemptAudio && !this.feedbackoneAttemptAudio.nativeElement.paused) {
         this.feedbackoneAttemptAudio.nativeElement.pause();
@@ -1764,7 +1765,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.isPlayVideo = false;
         document.getElementById('outer').style.pointerEvents = 'none';
         setTimeout(() => {
-          document.getElementById('outer').style.pointerEvents = 'auto';
+          /////document.getElementById('outer').style.pointerEvents = 'auto';
+          document.getElementById('outer').style.pointerEvents = '';
         }, 1000);
         
         this.appModel.videoStraming(false);
