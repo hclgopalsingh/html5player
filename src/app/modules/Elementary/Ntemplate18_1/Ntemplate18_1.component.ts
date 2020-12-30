@@ -191,6 +191,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   oneAttemptPopupAssets: any;
   partialCase: boolean = false;
   feedbackaudioTimeout: any;
+  allcorrect: boolean = false;
   ngOnDestroy() {
     clearTimeout(this.showAnsTimer);
     clearInterval(this.blinkTimeInterval);
@@ -223,7 +224,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (mode == "manual") {
         //show modal for manual
         this.matched = true;
-
+        this.allcorrect=true;
         this.rightanspopUpheader_img = false;
         this.wronganspopUpheader_img = false;
         this.showanspopUpheader_img = true;
@@ -241,6 +242,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.setRightFeedback();
         }
       } else if (mode == "auto" && !this.isPlayVideo) {
+        this.allcorrect=true;
         this.submitModalRef.nativeElement.classList = "modal";
         this.matched = true;
         for (let x = 0; x < this.fetchAnswer.length; x++) {
@@ -532,7 +534,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (placed) {
         this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].classList.value = "img-fluid optItem";
         this.refQues.nativeElement.children[this.optionObject[idx].sequenceNo - 1].children[0].style.visibility = "";
-         this.isAllowed = false;
+        this.isAllowed = false;
 
         setTimeout(() => {
           this.refQuesObj[this.index1].isOpen = false;
@@ -578,7 +580,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
           for (var k = 0; k < this.fetchAnswer.length; k++) {
             if (this.fetchAnswer[k].id == this.refcpyArray[this.index1].id) {
-               this.fetchAnswer[k] = {};
+              this.fetchAnswer[k] = {};
             }
           }
 
@@ -591,7 +593,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.countofAnimation++;
           if (this.countofAnimation > 0) {
             this.appModel.enableSubmitBtn(true);
-         }
+          }
           this.prevOptIdx = idx;
 
           this.refcpyArray[this.index1].position = 'down';
@@ -620,7 +622,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
-      this.appModel.blinkForLastQues();
+      this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
       if (!this.appModel.eventDone) {
         if (this.isLastQuesAct) {
@@ -1148,7 +1150,8 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleBodyPopup = this.feedbackObj.partial_style_body;
     } else if (this.fetchAnswer.length == this.noOfRightAnsClicked) {
 
-
+      console.log('all correct');
+      this.allcorrect = true;
       for (let x = 0; x < this.fetchAnswer.length; x++) {
         this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
         this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
@@ -1286,10 +1289,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
               this.disableBody = true;
               this.appModel.enableSubmitBtn(false);
             } else {
-              if(!this.closeModalPopup){
+              if (!this.closeModalPopup) {
                 this.closeModal();
               }
-              
+
             }
           }, this.showAnsTimeout)
         }
@@ -1437,6 +1440,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   //Post submit we reset all the options using this function
   resetAttempt() {
+    this.allcorrect = false;
     this.closeModalPopup = false;
     this.optionObject = [...this.optionObjOriginal];
     this.fetchAnswer = [];
@@ -1664,18 +1668,18 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   //this function will trigger every time whwn any modal will close
   closeModal() {
-this.closeModalPopup = true;
+    this.closeModalPopup = true;
     if (this.feedbackPopupAudio && !this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
-     
-    for (let i = 0; i < this.refQuesObj.length; i++) {
-      this.refQuesObj[i].isOpen = true;
-      this.refQuesObj[i].leftPos = 0 + 'px';
-      this.refQuesObj[i].topPos = 0 + 'px';
+    if (!this.allcorrect) {
+      for (let i = 0; i < this.refQuesObj.length; i++) {
+        this.refQuesObj[i].isOpen = true;
+        this.refQuesObj[i].leftPos = 0 + 'px';
+        this.refQuesObj[i].topPos = 0 + 'px';
+      }
     }
-    
     if (this.countofAnimation === this.noOfRightAnsClicked) {
       this.matched = true;
       this.disableSection = true;
@@ -1723,6 +1727,7 @@ this.closeModalPopup = true;
       }, 1000);
     }
     this.appModel.enableReplayBtn(false);
+    this.allcorrect = false;
   }
 }
 
