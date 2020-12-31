@@ -1,5 +1,5 @@
 <div class="container-fluid tempsix ele" #container id="container"
-  *ngIf="!showIntroScreen && !showFormat && !isPlayVideo">
+  *ngIf="!showFormat && !isPlayVideo">
   <div class="d-flex align-items-center justify-content-center selected_opt_outer">
     <div class="selected_opt">
       <img *ngIf="blinkState1" class="blink_state1" [src]="blinkState1.url">
@@ -117,7 +117,7 @@
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
           <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
           <img class="close" [src]="replayconfirmAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
-            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+            (mousemove)="hoverCloseReplay()" (mouseleave)="houtCloseReplay()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
           <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.url"></div>
@@ -134,7 +134,7 @@
     </div>
   </div>
 </div>
-<div class="container-fluid" #container id="container" *ngIf="!showIntroScreen && showFormat && !isPlayVideo">
+<div class="container-fluid" #container id="container" *ngIf="showFormat && !isPlayVideo">
   <div class="d-flex align-items-center justify-content-center">
     <img class="img-fluid adjust_top" [src]="question.filled_imgsrc.url" (load)="checkSingleImgLoaded();">
 
