@@ -1138,6 +1138,8 @@ export class Ntemplate22 implements OnInit {
       if(qObj.yearAdjustment && qObj.yearAdjustment.length){
         date.setFullYear(Number(date.getFullYear()) + Number(qObj.yearAdjustment))
       }
+      date.setMonth(this.QueScenarioData.month);        
+
     } else{
       date =  new Date();
       date.setYear(this.QueScenarioData.year);
@@ -1329,9 +1331,16 @@ export class Ntemplate22 implements OnInit {
 
 
   setFeedback(holiday_obj){
-    this.feedbackObj.correct_year = holiday_obj.year
-    this.feedbackObj.correct_month = holiday_obj.month_name
-    this.feedbackObj.correct_weekDay = holiday_obj.day
+    if(!this.yearSelected){
+      this.feedbackObj.correct_year = holiday_obj.year
+    }
+    if(!this.monthSelected){
+      this.feedbackObj.correct_month = holiday_obj.month_name
+    }
+    if(!this.weekDaySelected){
+      this.feedbackObj.correct_weekDay = holiday_obj.day
+    }
+    if(!this.dateSelected)
     this.feedbackObj.correct_date = holiday_obj.date
   }
 
