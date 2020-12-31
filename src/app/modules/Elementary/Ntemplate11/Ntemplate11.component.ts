@@ -103,7 +103,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   tempTimer: any;
   PlayPauseFlag: boolean = true;
   SkipLoad: boolean = false;
-
+  showAnsTimer :any;
 
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -232,6 +232,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   ngOnDestroy() {
+    clearTimeout(this.timernextseg);
+    clearTimeout(this.showAnsTimer);
     this.blurTwoOptions = false;
    setTimeout(() => {
     this.appModel.resetBlinkingTimer();
@@ -1078,7 +1080,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.appModel.enableReplayBtn(false);
 
     }, 750)
-    setTimeout(() => {
+    this.showAnsTimer=setTimeout(() => {
       this.blurTwoOptions = false;
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
       this.blinkOnLastQues();
