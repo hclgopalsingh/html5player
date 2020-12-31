@@ -31,7 +31,7 @@ import {
         animate('0.5s')
       ]),
       transition('closed => open', [
-        animate('0.5s')
+        animate('0s')
       ]),
     ]),
   ],
@@ -138,18 +138,19 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   rightanspopUpheader_img: boolean = false;
   showanspopUpheader_img: boolean = false;
   PlayPauseFlag: boolean = true;
-  instructionDisable: boolean = false;
+  instructionDisable: boolean = true;
   clickedIndex: any;
   optionPlaceholders: any;
   showAnswerFeedbackArr: any;
   feedbackArr: any;
   parentMatrixClass: any;
+  modalParentClass: any;
   displayconfirmPopup: boolean = false;
   displayReplayPopup: boolean = false;
   displaymainPopup: boolean = false;
   showAnssetTimeout: any;
   bodyContentOpacity: boolean = false;
-  bodyContentDisable: boolean = false;
+  bodyContentDisable: boolean = true;
   instructionOpacity: boolean = false;
   rightAnsTimeout: any;
   popupTxtRequired: any;
@@ -158,6 +159,11 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   quesSkip: boolean = false;
   confirmReplayAssets: any;
   timerDelayActs: any;
+  partialCorrectArr: any = [];
+  partialIncorrectArr: any = [];
+  videoReplayDone: boolean = false;
+  clickedPlaceholderArr: any = [];
+  submitCount=0;
 
   ngOnInit() {
     if (this.appModel.isNewCollection) {
@@ -202,6 +208,10 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
         this.popupTxtRequired = this.feedbackObj.showAnswer_style_title.required;
         this.noOfRightAnsClicked = 0;
         this.noOfWrongAnsClicked = 0;
+        this.partialCorrectArr = [];
+        this.partialIncorrectArr = [];
+        // this.clickedOptionIndexes = [];
+        this.clickedPlaceholderArr = [];
         this.setFeedback();
       }
     })
@@ -261,9 +271,25 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
+    if (this.videoReplayDone && this.optionsBlock && this.optionsBlock.nativeElement) {
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[1].children.length; x++) {
+        this.optionsBlock.nativeElement.children[1].children[x].style.display = "none";
+      }
+      this.refcpyArray.forEach(option => {
+        this.optionsBlock.nativeElement.children[1].children[option.id - 1].style.display = "flex";
+      });
+      for (let y = 0; y < this.placeholder.nativeElement.children.length; y++) {
+        if (this.clickedPlaceholderArr.indexOf(y) > -1) {
+          this.placeholder.nativeElement.children[y].style.pointerEvents = "none";
+        }
+      }
+      this.videoReplayDone = false;
+    }
   }
 
   ngOnDestroy() {
+    this.narrator.nativeElement.pause();
+    this.narrator.nativeElement.currentTime = 0;
     if (this.audio && !this.audio.paused) {
       this.audio.pause();
       this.audio.currentTime = 0;
@@ -291,6 +317,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   /****** Option mouse hover functionality ******/
   optionHover(opt, i) {
     if (i == this.index1) {
+      this.optionsBlock.nativeElement.children[1].children[i].style.cursor = "pointer";
       this.optionsBlock.nativeElement.children[1].children[i].classList.add('scaleInAnimation');
     }
   }
@@ -333,6 +360,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   placeholderHover(idx, opt) {
     if (!opt.isAnswered) {
       opt.imgsrc = opt.imgsrc_hover;
+      this.placeholder.nativeElement.children[idx].style.cursor = "pointer";
     }
   }
 
@@ -340,6 +368,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   placeholderLeave(idx, opt) {
     if (!opt.isAnswered) {
       opt.imgsrc = opt.imgsrc_original;
+      this.placeholder.nativeElement.children[idx].style.cursor = "";
     }
   }
 
@@ -455,13 +484,16 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
 
   /****** placeholder click functionality ******/
   onClickPlaceholder(opt, idx) {
+    this.submitCount +=1;
+    if(this.submitCount == this.optionObj.length){
+      this.appModel.enableReplayBtn(false);
+    }
     if (!this.instructionVO.nativeElement.paused) {
       this.instructionVO.nativeElement.currentTime = 0;
       this.instructionVO.nativeElement.pause();
     }
     this.clickedIndex = idx;
     this.appModel.handlePostVOActivity(true);
-    this.appModel.enableReplayBtn(false);
     this.bodyContentDisable = true;
     this.instructionDisable = true;
     opt['isAnswered'] = true;
@@ -475,11 +507,16 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     this.optionObj[this.index1].leftPos = this.moveleft + "px";
     this.optionObj[this.index1].topPos = this.movetop + "px";
     this.placeholder.nativeElement.children[idx].style.pointerEvents = "none";
+    this.clickedPlaceholderArr.push(idx);
     if (opt.correctOptionId && opt.correctOptionId === this.optionObj[this.index1].id) {
       this.noOfRightAnsClicked++;
+      this.partialCorrectArr.push(this.optionObj[this.index1].imgsrc_audio);
+      this.partialCorrectArr[this.partialCorrectArr.length - 1]["index"] = idx;
       this.feedbackArr[idx].imgsrc = this.optionObj[this.index1].imgsrc_right;
     } else {
       this.noOfWrongAnsClicked++;
+      this.partialIncorrectArr.push(this.optionObj[this.index1].imgsrc_audio);
+      this.partialIncorrectArr[this.partialIncorrectArr.length - 1]["index"] = idx;
       this.feedbackArr[idx].imgsrc = this.optionObj[this.index1].imgsrc_wrong;
     }
 
@@ -523,7 +560,9 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.optionPlaceholders[this.clickedIndex].imgsrc = movedObj[0].imgsrc_original;
       this.startCount = 1;
       this.getRandomIndex(this.refcpyArray.length);
-
+      if (this.refcpyArray.length === 0) {
+        this.appModel.enableReplayBtn(false);
+      }
     }
   }
 
@@ -616,10 +655,14 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.appModel.setLoader(true);
       this.appModel.startPreviousTimer();
     }
+    else {
+      this.videoReplayDone = true;
+    }
   }
 
   /****** click event on skip button ******/
   endedHandleronSkip() {
+    clearInterval(this.blinkTimeInterval);
     this.startCount = 1;
     this.blinkHolder();
     this.isPlayVideo = false;
@@ -627,6 +670,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     this.appModel.startPreviousTimer();
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
+    this.videoReplayDone = true;
   }
 
   /****** click event on play/pause button ******/
@@ -649,8 +693,6 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.narrator.nativeElement.src = this.quesObj.quesInstruction.url + "?someRandomSeed=" + Math.random().toString(36);
       this.appModel.handlePostVOActivity(true);
-      this.bodyContentDisable = true;
-      this.instructionDisable = true;
       this.appModel.enableReplayBtn(false);
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
@@ -665,7 +707,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
         this.startActivity();
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
-    }, 1000)
+      }, 1000)
     }
   }
 
@@ -757,14 +799,18 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       let refQuesObj = this.fetchedcontent.refQuesObj;
       if (refQuesObj.criteriaHeaders.length === 4 && refQuesObj.headers.length === 3) {
         this.parentMatrixClass = "matrix_5x3";
+        this.modalParentClass = "modal_5x3";
       } else if (refQuesObj.criteriaHeaders.length === 4 && refQuesObj.headers.length === 5) {
         this.parentMatrixClass = "matrix_5x5";
       } else if (refQuesObj.criteriaHeaders.length === 2 && refQuesObj.headers.length === 3) {
         this.parentMatrixClass = "matrix_3x3";
+        this.modalParentClass = "modal_3x3";
       } else if (refQuesObj.criteriaHeaders.length === 2 && refQuesObj.headers.length === 5) {
         this.parentMatrixClass = "matrix_3x5";
+        this.modalParentClass = "modal_3x5";
       } else if (refQuesObj.criteriaHeaders.length === 3 && refQuesObj.headers.length === 4) {
         this.parentMatrixClass = "matrix_4x4";
+        this.modalParentClass = "modal_4x4";
       }
       this.quesObj = this.fetchedcontent.quesObj;
       this.optionPlaceholders = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
@@ -791,8 +837,47 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     }
   }
 
+  /****** set partial feedback individual options VO ******/
+  setPartialFeedbackAudio(num, voType) {
+    if (voType === "partialCorrectVO" && this.partialCorrectArr[num].url) {
+      let no = num;
+      this.feedbackPopupAudio.nativeElement.src = this.partialCorrectArr[num].url;
+      this.feedbackPopupAudio.nativeElement.play();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        no++;
+        if (no >= this.partialCorrectArr.length) {
+          this.setPartialFeedbackAudio(0, "partialIncorrectVO");
+        } else {
+          this.setPartialFeedbackAudio(no, "partialCorrectVO");
+        }
+      }
+    } else {
+      let no = num;
+      if (this.partialIncorrectArr[num].url) {
+        this.feedbackPopupAudio.nativeElement.src = this.partialIncorrectArr[num].url;
+        this.feedbackPopupAudio.nativeElement.play();
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          no++;
+          if (no === this.partialIncorrectArr.length) {
+            this.startCount = 0;
+            this.showAnssetTimeout = setTimeout(() => {
+              if (!this.manualClickedonCrossbtn) {
+                this.closeModal();
+              }
+            }, this.showAnsTimeout);
+            this.appModel.notifyUserAction();
+          }
+          else {
+            this.setPartialFeedbackAudio(no, "partialIncorrectVO");
+          }
+        }
+      }
+    }
+  }
+
   /****** setting feedback ******/
   setFeedback() {
+    let playGeneralizedOptVO = true;
     if (this.isShow) {   //Show answer feedback
       this.feedbackAudio = this.feedbackObj.right_ans_popup.showAnsfeedback_audio;
       this.feedbackObj.style_header = this.feedbackObj.right_style_header;
@@ -804,7 +889,16 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.feedbackObj.style_body = this.feedbackObj.right_style_body;
       this.feedbackObj.feedback_title = this.feedbackObj.right_style_title;
     } else if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {   // partial correct answer feedback
-      this.feedbackAudio = this.feedbackObj.partial_correct_popup;
+      if (this.optionObj[0].imgsrc_audio && this.optionObj[0].imgsrc_audio.url) {
+        playGeneralizedOptVO = false;
+        this.partialCorrectArr.sort((a, b) => (a.index < b.index ? -1 : 1));
+        this.partialIncorrectArr.sort((a, b) => (a.index < b.index ? -1 : 1));
+        this.partialCorrectArr.push(this.feedbackObj.correctVO_placeholder);
+        this.partialIncorrectArr.push(this.feedbackObj.incorrectVO_placeholder);
+        this.setPartialFeedbackAudio(0, "partialCorrectVO");
+      } else {
+        this.feedbackAudio = this.feedbackObj.partial_correct_popup;
+      }
       this.feedbackObj.style_header = this.feedbackObj.partial_style_header;
       this.feedbackObj.style_body = this.feedbackObj.partial_style_body;
       this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
@@ -816,22 +910,25 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.feedbackObj.feedback_title = this.feedbackObj.wrong_style_title;
       this.appModel.feedbackType = "fullyIncorrect";
     }
-    this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
-    this.feedbackPopupAudio.nativeElement.play();
+    if (playGeneralizedOptVO) {
+      this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + "?someRandomSeed=" + Math.random().toString(36);
+      this.feedbackPopupAudio.nativeElement.play();
 
-    this.feedbackPopupAudio.nativeElement.onended = () => {
-      this.startCount = 0;
-      this.showAnssetTimeout = setTimeout(() => {
-        if (!this.manualClickedonCrossbtn) {
-          this.closeModal();
-        }
-      }, this.showAnsTimeout);
-      this.appModel.notifyUserAction();
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        this.startCount = 0;
+        this.showAnssetTimeout = setTimeout(() => {
+          if (!this.manualClickedonCrossbtn) {
+            this.closeModal();
+          }
+        }, this.showAnsTimeout);
+        this.appModel.notifyUserAction();
+      }
     }
   }
 
   /****** Reset all values on wrong attempt ******/
   resetAttempt() {
+    this.submitCount =0;
     this.optionPlaceholders = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
     this.feedbackArr = JSON.parse(JSON.stringify(this.fetchedcontent.refQuesObj.optionPlaceHolders));
 
@@ -850,6 +947,9 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
     this.appModel.enableReplayBtn(true);
     this.noOfRightAnsClicked = 0;
     this.noOfWrongAnsClicked = 0;
+    this.partialCorrectArr = [];
+    this.partialIncorrectArr = [];
+    this.clickedPlaceholderArr = [];
     this.optionsAfterFive = 4;
     this.manualClickedonCrossbtn = false;
     this.bodyContentDisable = false;
@@ -881,7 +981,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.confirmReplayAssets.confirm_btn = this.confirmReplayAssets.confirm_btn_original;
       this.replayVideo();
     } else if (action == "cancelReplay") {
-      if(!this.bodyContentDisable) {
+      if (!this.bodyContentDisable) {
         this.appModel.videoStraming(false);
         this.appModel.enableReplayBtn(true);
         this.instructionDisable = false;
@@ -896,6 +996,8 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.isShow = true;
       this.noOfRightAnsClicked = 0;
       this.noOfWrongAnsClicked = 0;
+      this.partialIncorrectArr = [];
+      this.partialCorrectArr = [];
 
       this.showAnssetTimeout = setTimeout(() => {
         this.feedbackArr = this.showAnswerFeedbackArr;
@@ -911,7 +1013,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
       this.instructionOpacity = true;
     } else {
       this.appModel.notifyUserAction();
-      if(!this.bodyContentDisable) {
+      if (!this.bodyContentDisable) {
         this.startCount = 1;
         this.blinkHolder();
         this.instructionDisable = false;

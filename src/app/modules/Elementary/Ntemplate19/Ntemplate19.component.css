@@ -42,7 +42,7 @@
 .placeholderContainer img {
   position: absolute;
   width: 14%;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .modal .placeholderContainer img {
   cursor: default;
@@ -113,12 +113,52 @@ top: 63%;
   left: 17.5%;
 }
 .modal .matrix_3x3 .contentBlock {
-  top: 14%;
+  top: 13%;
   height: 72%
 }
 .modal .matrix_3x3.bodyContent {
   top:24%;
   height: 76%;
+}
+.modal .matrix_3x3 .headerBlock {
+  top: 7%;
+}
+.modal .matrix_3x3 .headerBlock img{
+  width: 26%;
+}
+.modal_3x3 .contentBlock {
+  top: 13%;
+  height: 78%;
+}
+.modal_3x3 .quesContainer {
+  width: 96.5%;
+}
+.modal_3x3 .criteriaContainer #criteria1 {
+  top: 25%;
+  left: 13.5%;
+}
+.modal_3x3 .criteriaContainer #criteria2 {
+  top: 54%;
+  left: 13.5%;
+}
+.modal_3x3 .placeholderContainer img, .modal_3x3 .criteriaContainer img {
+  width: 22%;
+}
+.modal_3x3 .placeholderContainer #optPlaceholder1 {
+  top: 25%;
+  left: 38.6%;
+}
+.modal_3x3 .placeholderContainer #optPlaceholder2 {
+  top: 25%;
+  left: 64%;
+}
+.modal_3x3 .placeholderContainer #optPlaceholder3 {
+  top: 54%;
+  left: 38.6%;
+}
+.modal_3x3 .placeholderContainer #optPlaceholder4 {
+  top: 54%;
+  left: 64%;
 }
 
 /****** 3*3 matrix end ******/
@@ -182,6 +222,36 @@ top: 63%;
   top: 22%;
   height: 83%;
 }
+.modal .matrix_3x5 .headerBlock {
+  top: 12%;
+}
+.modal .matrix_3x5 .headerBlock img {
+  width: 18%;
+}
+.modal .matrix_3x5 .contentBlock {
+  height: 84%;
+}
+.modal .matrix_3x5 .quesContainer {
+  width: 90.3%;
+}
+.modal_3x5 .criteriaContainer #criteria1, .modal_3x5 .criteriaContainer #criteria2 {
+  left: 7%
+}
+.modal_3x5 .placeholderContainer img, .modal_3x5 .criteriaContainer img{
+  width: 15%;
+}
+.modal_3x5 .placeholderContainer #optPlaceholder1, .modal_3x5 .placeholderContainer #optPlaceholder5 {
+  left: 24.8%
+}
+.modal_3x5 .placeholderContainer #optPlaceholder2, .modal_3x5 .placeholderContainer #optPlaceholder6 {
+  left: 42.5%
+}
+.modal_3x5 .placeholderContainer #optPlaceholder3, .modal_3x5 .placeholderContainer #optPlaceholder7 {
+  left: 60.3%
+}
+.modal_3x5 .placeholderContainer #optPlaceholder4, .modal_3x5 .placeholderContainer #optPlaceholder8 {
+  left: 78%
+}
 
 /****** 3*5 matrix end ******/
 
@@ -199,11 +269,26 @@ top: 63%;
 .matrix_5x3 .criteriaContainer #criteria1 {
   top: 10%;
 }
+.modal .matrix_5x3 .criteriaContainer #criteria1,
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder1,
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder2 {
+  top: 5%;
+}
 .matrix_5x3 .criteriaContainer #criteria2 {
   top: 31.5%;
 }
+.modal .matrix_5x3 .criteriaContainer #criteria2,
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder3,
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder4 {
+  top: 28%;
+}
 .matrix_5x3 .criteriaContainer #criteria3 {
   top: 53%;
+}
+.modal .matrix_5x3 .criteriaContainer #criteria3,
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder5,
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder6 {
+  top: 51%;
 }
 .matrix_5x3 .criteriaContainer #criteria4 {
   top: 74%;
@@ -241,11 +326,38 @@ top: 63%;
   left: 60%;
 }
 .modal .matrix_5x3.bodyContent {
-  top: 22%;
+  top: 19%;/*22%;*/
   height: 83%;
 }
 .modal .matrix_5x3 .contentBlock {
-  top: 11.4%;
+  top: 18%;/*12%;*/
+}
+.modal .headerBlock img {
+  width: 25.6%;/*20%;*/
+}
+.modal .matrix_5x3 .criteriaContainer img {
+  left: 14%;/*22%;*/
+  width: 21%;/*17%;*/
+}
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder1, 
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder3, 
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder5, 
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder7 {
+  left: 39.5%;/*42%;*/
+}
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder2, 
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder4, 
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder6, 
+.modal .matrix_5x3 .placeholderContainer #optPlaceholder8 {
+  left: 64.7%;/*61%;*/
+}
+.modal .matrix_5x3 .placeholderContainer img {
+  width: 21%;/*16%;*/
+}
+.modal .matrix_5x3 .quesContainer {
+  width: 130%;/*100%;*/
+  height: 107%;/*98%;*/
+  max-width: none;
 }
 /****** 5*3 matrix end ******/
 
@@ -540,7 +652,6 @@ button:focus {
 
 .instructionBar .instructionBase {
   width: 60%;
-  /*86%;*/
   position: relative;
 }
 
@@ -721,7 +832,7 @@ button:focus {
   border: none !important;
   box-shadow: none !important;
   height: 100%;
-  min-width: 560px; /*450px;*/
+  /* min-width: 560px; */
   min-height: 50vmin; /*350px;*/
 }
 
@@ -734,7 +845,13 @@ button:focus {
   border-bottom: none !important;
   margin-bottom: -1px;
 }
-
+.modal_5x3, .modal_3x3{
+  max-width: 70% !important;
+  height: 83%;
+}
+.modal_3x5 {
+  height: 80%;
+}
 
 /* .modal-title {
   margin-left: 1.5%;
@@ -821,17 +938,17 @@ html [type=button] {
 }
 
 .modal .instructionBase {
-  width: 100% !important;
+  width: 93% !important;
   position: relative;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   cursor: default;
 }
 
-.modal .instructionBase img {
+/* .modal .instructionBase img {
   max-width: none !important;
   max-height: 7vmin;
-}
+} */
 
 /***** video container style *****/
 .videoMainContainer {

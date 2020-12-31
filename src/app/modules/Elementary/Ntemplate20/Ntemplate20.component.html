@@ -107,8 +107,10 @@
 			<!-- Modal body -->
 			<div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
 				<!-- popup text-msg ??? -->
-				<div class="instructionBase">
-					<img id="instructionBarFeedback" class="img-fluid" [src]="popUpFeedbackMsgUrl" />
+				<div  class="flex-row justify-content-around dispFlex" id="instructionBarFeedback">
+					<div class="instructionBaseFeedback">
+						<img class="img-fluid" [src]="popUpFeedbackMsgUrl" />
+					</div>
 				</div>
 				<div class="scaleBlock">
 					<img class="img-fluid" *ngIf="!partialCorrectCase" [src]="questionObj?.quesImg?.url"
@@ -254,4 +256,26 @@
 		</div>
 	</div>
 </div>
+
+<!-- Only one attempt infoPopup Modal -->
+<div class="modal" id="confirmModal" #onlyOneAttemptModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="oneAttemptPopupAssets?.style_header">
+          <img class="modal-title" [src]="feedbackObj?.oneAttempt_popup?.headerTxt_img?.url">
+          <img class="close" [src]="oneAttemptPopupAssets?.close_btn?.url" (click)="sendFeedback(onlyOneAttemptModalRef,'no', 'oneAttempt-modal-id');" (mousemove)="hoveroneAttemptClosePopup()" (mouseleave)="houtoneAttemptClosePopup()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.oneAttempt_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid" [src]="oneAttemptPopupAssets?.oneAttempt_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback(onlyOneAttemptModalRef,'no', 'oneAttempt-modal-id');" (mousemove)="hoveroneAttemptOK()" (mouseleave)="houtoneAttemptOK()"><img class="img-fluid" [src]="oneAttemptPopupAssets?.ok_btn?.url"></button>
+          </div>
+        </div>
+        <audio #feedbackoneAttemptAudio></audio>
+      </div>
+    </div>
+  </div>
+
+
 </div>

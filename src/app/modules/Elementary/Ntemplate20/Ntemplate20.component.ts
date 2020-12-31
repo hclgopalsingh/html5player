@@ -47,8 +47,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   @ViewChild('modalfeedback20') modalfeedback20: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
+  @ViewChild('onlyOneAttemptModalRef') onlyOneAttemptModalRef: any;
+  @ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
 
   optionBase: boolean = false;
+  mouseMoveFlag: boolean = false;
+  oneAttemptPopupAssets: any;
   isDisablePlaceholder: boolean = false;
   blinkingFlag: boolean = true;
   partialCorrectCase: boolean = false;
@@ -119,6 +123,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   RandomResizeIndex: number = 0;
   ArrPlaceHolder: any = [];
   wrongCounter: number = 0;
+  rightCounter: number = 0;
   Order: string = "";
   optionReverseTopPosition: number = 0;
   startActivityCounter: number = 0;
@@ -131,6 +136,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   styleHeaderPopup: any;
   styleBodyPopup: any;
   from: any;
+  actionType: any;
   popup_commmon_imgs: any;
   upperImagesNo1: boolean = false;
   upperImagesNo2: boolean = false;
@@ -139,7 +145,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   resetCounterFlag: boolean = true;
   animationFlag: boolean = false;
   tabLoadAnimationFlag: boolean = false;
-
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
     isSubmitRequired: false,
@@ -153,6 +158,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   selectedPosition: string = "";
   reverseOption: any;
   reverseOptionIndex: number;
+  lookformore:boolean = false;
   /*END: Theme Implementation(Template Changes)*/
 
 
@@ -211,11 +217,11 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         console.log("manual mode ", mode);
       } else if (mode == "auto") {
         console.log("auto mode", mode);
+        this.infoModalRef.nativeElement.classList = "modal";
         this.attemptType = "uttarDikhayein";
         this.popupType = "showanswer"
         this.setPopupAssets();
         this.getAnswer();
-        // this.appModel.stopAllTimer();
       }
     })
     this.appModel.getConfirmationPopup().subscribe((val) => {
@@ -245,9 +251,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.appModel.event = { 'action': 'end' };
       }
     })
-
     this.appModel.postWrongAttempt.subscribe(() => {
-      // this.resetActivity();
       this.appModel.notifyUserAction();
     })
     this.appModel.resetBlinkingTimer();
@@ -347,6 +351,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.confirmAssets = this.feedback.confirm_popup;
     this.confirmSubmitAssets = this.feedback.submit_popup;
     this.confirmReplayAssets = this.feedback.replay_confirm;
+    this.oneAttemptPopupAssets = this.feedback.oneAttempt_popup;
   }
 
   /***Set the content folder path ***/
@@ -358,10 +363,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
+    this.mouseMoveFlag = true;
     this.appModel.notifyUserAction();
     this.optionRef.nativeElement.children[idx].className = "scaleInAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleOutAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "100";
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
   }
 
   /***  On option leave functionality ***/
@@ -369,6 +376,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.optionRef.nativeElement.children[idx].className = "scaleOutAnimation";
     this.renderer.removeClass(this.optionRef.nativeElement.children[idx], 'scaleInAnimation');
     this.optionRef.nativeElement.children[idx].style.zIndex = "99";
+    this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+
   }
 
   /*** Play VO on option hover ***/
@@ -376,11 +385,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.animationFlag) {
       return
     }
-    if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
-      if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
-        this.playSound(opt.mouse_over_audio, idx);
+    if (this.mouseMoveFlag == true) {
+      this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+      if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
+        if (this.optionRef.nativeElement.children[idx].getBoundingClientRect().top != this.optionReverseTopPosition) {
+          this.playSound(opt.mouse_over_audio, idx);
+        }
       }
     }
+
 
   }
 
@@ -390,10 +403,24 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.audio.load();
       this.audio.play();
       this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
+      this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
+      for (let i = 0; i < this.mainContainer.nativeElement.children[1].children[1].children.length; i++) {
+        if (i != idx) {
+          this.mainContainer.nativeElement.children[1].children[1].children[i].classList.add("disableDiv");
+        }
+      }
+
       this.audio.onended = () => {
         this.instructionBar.nativeElement.classList = "instructionBase";
+        for (let i = 0; i < this.mainContainer.nativeElement.children[1].children[1].children.length; i++) {
+          if (i != idx) {
+            this.mainContainer.nativeElement.children[1].children[1].children[i].classList.remove("disableDiv")
+          }
+        }
+        this.optionRef.nativeElement.children[idx].style.cursor = "pointer";
+        // this.mouseMoveFlag = false;
       }
     }
   }
@@ -503,6 +530,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /***  Instruction VO plays ***/
   playInstruction() {
+    this.appModel.notifyUserAction();
     // this.appModel.handlePostVOActivity(true);
     if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
       this.instructionVO.nativeElement.play();
@@ -587,9 +615,28 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.confirmReplayAssets.close_btn = this.confirmReplayAssets.close_btn_original;
   }
 
+
+  hoveroneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_hover;
+  }
+
+  houtoneAttemptOK() {
+    this.oneAttemptPopupAssets.ok_btn = this.oneAttemptPopupAssets.ok_btn_original;
+  }
+
+  hoveroneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_hover;
+  }
+
+  houtoneAttemptClosePopup() {
+    this.oneAttemptPopupAssets.close_btn = this.oneAttemptPopupAssets.close_btn_original;
+  }
+
   /*** Show Answer and submit Functionality after click on Yes ***/
   sendFeedback(ref, flag: string, action?: string) {
 
+    this.actionType = "";
+    this.actionType = action;
     this.popUpFeedbackMsgUrl = '';
     this.instructionVO.nativeElement.pause();
     this.instructionVO.nativeElement.currentTime = 0;
@@ -614,38 +661,52 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
           }
         }, 1000)
       }
-      // this.appModel.stopAllTimer();
-      
     } else if (action == "submitAnswer") {
-      if (this.submitButtonCounter != this.optionArr.length) {
+      if (this.submitButtonCounter == 1) {
+        this.onlyOneAttemptModalRef.nativeElement.classList = "displayPopup modal";
+        let feedbackoneAttemptAudio = this.oneAttemptPopupAssets.oneAttemptAudio;
+        this.feedbackoneAttemptAudio.nativeElement.src = feedbackoneAttemptAudio.url;
+        this.feedbackoneAttemptAudio.nativeElement.play();
+      } else if (this.submitButtonCounter > 1 && (this.submitButtonCounter != this.optionArr.length)
+        && (this.wrongCounter == 0) && this.responseType != "partialAttempt" && this.responseType != "" && this.responseType != "wrongAttempt") {
+        //look for more option
+
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
         let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
         this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
         this.feedbackInfoAudio.nativeElement.play();
-      }
-      else {
+        // this.resultType = "";
+        // this.appModel.stopAllTimer();
+      } else {
         this.popupTopAssts = [];
         this.popupDownAssts = [];
         this.checkResponseType();
-        this.appModel.enableSubmitBtn(false);
+        if(!this.lookformore){
+          this.appModel.enableSubmitBtn(false);
+        }
+        
         this.appModel.enableReplayBtn(true);
       }
-    }
-    else if (action == "partialFeedback") {
+    } else if (action == "oneAttempt-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
-      if (this.feedbackInfoAudio && !this.feedbackInfoAudio.nativeElement.paused) {
-        this.feedbackInfoAudio.nativeElement.pause();
-        this.feedbackInfoAudio.nativeElement.currentTime = 0;
+      if (this.onlyOneAttemptModalRef && this.feedbackoneAttemptAudio.nativeElement && !this.feedbackoneAttemptAudio.nativeElement.paused) {
+        this.feedbackoneAttemptAudio.nativeElement.pause();
+        this.feedbackoneAttemptAudio.nativeElement.currentTime = 0;
+        this.appModel.notifyUserAction();
       }
-    }
-    else if (action == "fadeEverything") {
+    } else if (action == "partialFeedback") {
+      if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement && !this.partialFeedbackRef.nativeElement.paused) {
+        this.partialFeedbackRef.nativeElement.pause();
+        this.partialFeedbackRef.nativeElement.currentTime = 0;
+        this.appModel.notifyUserAction();
+      }
+    } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
       this.fadeEverything();
-        if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
-          this.blinkOnLastQues();
-        }
-    }
-    else if (action == "feedbackDone") {
+      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+        this.blinkOnLastQues();
+      }
+    } else if (action == "feedbackDone") {
       if (this.responseType == "wrong") {
         this.appModel.feedbackType = "fullyIncorrect";
         this.appModel.wrongAttemptAnimation();
@@ -653,29 +714,33 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.disableScreen();
         if (flag != "yes") {
           if (flag == "ok") {
+
             this.blinkOnLastQues();
           }
         }
       }
-    } else if (action == "replay") {
-
-    } else if (action == "resetActivity") {
-      // this.resetActivity();
-    } else if (action == "partialFeedback") {
-      if (this.partialFeedbackRef && this.partialFeedbackRef.nativeElement && !this.partialFeedbackRef.nativeElement.paused) {
-        this.partialFeedbackRef.nativeElement.pause();
-        this.partialFeedbackRef.nativeElement.currentTime = 0;
-      }
     }
     if (flag == "no") {
+      this.lookformore = false;
       if (this.blinkingFlag) {
         this.startBlinkOption();
       }
       if (this.attemptType != "") {
         this.disableOnInstruction();
       }
+      if (action == "fadeEverything") {
+        this.appModel.notifyUserAction();
+        if (this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+          this.blinkOnLastQues();
+        }
+      }
+      if (action === undefined || action == "undefined") {
+        this.appModel.notifyUserAction();
+      }
     }
-    
+    // if (flag == "ok" && action == "fadeEverything" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
+    //   this.blinkOnLastQues();
+    // }
 
   }
 
@@ -701,7 +766,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.feedbackPopupAudio.nativeElement.currentTime = 0;
     if (this.attemptTypeClose == "fadeEverything" || this.attemptTypeClose == "") {
       if (this.attemptType == "manual") {
-        // this.appModel.blinkForLastQues(this.attemptType);
+        this.appModel.blinkForLastQues(this.attemptType);
         this.resultType = "correct";
       } else if (this.attemptType == "wrong") {
         this.appModel.wrongAttemptAnimation();
@@ -755,247 +820,44 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /*** Checks the response with input ***/
   checkResponseType() {
+    // let addedArr1 = this.optionObj.given_values.concat(this.optionArr);
+    let addedArr2 = this.optionArr;
+    let optCopy1 = JSON.parse(JSON.stringify(addedArr2));
+    this.sortedOptArr = optCopy1.sort((a, b) => {
+      if (this.Order == "ascending") {
+        return a.value - b.value;
+      }
+      if (this.Order == "descending") {
+        return b.value - a.value;
+      }
+    });
     clearInterval(this.blinkTimeInterval);
     this.attemptType = "manual";
-    var count: number = 0;
-    var kCount: number = 0;
     this.wrongCounter = 0;
-    var Range: number = 0;
+    this.rightCounter = 0;
     this.submittedArr = this.getSelectedArr();
+
     for (let i = 0; i < this.submittedArr.length; i++) {
       for (let j = 0; j < 2; j++) {
         if (this.submittedArr[i][j] != undefined) {
-          if (this.Order == "ascending") {
-            if (this.submittedArr[i][j].selected != undefined) {
-              if (this.optionObj.given_values[1] != undefined) {
-                if (i >= this.optionObj.given_values[1].index) {
-                  kCount = 1;
-                }
+          if (this.submittedArr[i][j].selected != undefined) {
+            if (this.sortedOptArr[i] != undefined) {
+              if (this.submittedArr[i][j].index == this.sortedOptArr[i].index) {
+                this.rightCounter += 1;
+                this.submittedArr[i][j].isAtCorrectPos = true;
+              } else {
+                this.wrongCounter += 1;
+                this.submittedArr[i][j].isAtCorrectPos = false;
               }
-
-              if (i < this.optionObj.given_values[kCount].index) {
-                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
-                  if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                    count = m + 1;
-                  }
-                  else {
-                    count = m;
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i > this.optionObj.given_values[kCount].index) {
-                if (kCount == 1) {
-                  Range = this.submittedArr.length;
-                }
-                else {
-                  if (this.optionObj.given_values[1] != undefined) {
-                    Range = this.optionObj.given_values[1].index;
-                  }
-                }
-
-                for (let m = i + 1; m < Range; m++) {
-                  if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                    count = m + 1;
-                  }
-                  else {
-                    count = m;
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-              if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                this.submittedArr[i][0].isAtCorrectPos = false;
-                this.submittedArr[i][1].isAtCorrectPos = false;
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = true;
-                }
-                //break;
-              }
-
-              if (this.submittedArr[i][j].isAtCorrectPos == false) {
-                if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                  this.wrongCounter += 1;
-                }
-                else {
-                  this.wrongCounter += 1;
-                }
-              }
-            }
-          }
-
-          if (this.Order == "descending") {
-            if (this.submittedArr[i][j].selected != undefined) {
-              if (this.optionObj.given_values[1] != undefined) {
-                if (i >= this.optionObj.given_values[1].index) {
-                  kCount = 1;
-                }
-              }
-
-              if (i < this.optionObj.given_values[kCount].index) {
-                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
-                  if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                    count = m + 1;
-                  }
-                  else {
-                    count = m;
-                  }
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i > this.optionObj.given_values[kCount].index) {
-                if (kCount == 1) {
-                  Range = this.submittedArr.length;
-                }
-                else {
-                  if (this.optionObj.given_values[1] != undefined) {
-                    Range = this.optionObj.given_values[1].index;
-                  }
-                }
-                for (let m = i + 1; m <= Range; m++) {
-                  if (this.submittedArr[m] != undefined) {
-                    if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                      count = m + 1;
-                    }
-
-                    else {
-                      count = m;
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
-                      if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
-                    }
-                  }
-
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
-                      if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
-                    }
-                  }
-                }
-
-                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                }
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-
-                }
-              }
-              if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                this.submittedArr[i][0].isAtCorrectPos = false;
-                this.submittedArr[i][1].isAtCorrectPos = false;
-              }
-
-              if (i == this.optionObj.given_values[kCount].index) {
-                if (this.submittedArr[i][j].value == this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = true;
-                }
-                //break;
-              }
-
-              if (this.submittedArr[i][j].isAtCorrectPos == false) {
-                if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-                  this.wrongCounter += 1;
-                }
-                else {
-                  this.wrongCounter += 1;
-                }
-              }
+            } else {
+              this.wrongCounter += 1;
+              this.submittedArr[i][j].isAtCorrectPos = false;
             }
           }
         }
       }
     }
-
+    console.log('right Counter => ' + this.rightCounter + ' wrong Counter => ' + this.wrongCounter);
     if (this.wrongCounter == this.submitButtonCounter) {
       this.resultType = "wrong";
       this.popupType = "wrong"
@@ -1019,14 +881,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       if (this.optIndxArr.length == 0 && this.resultType == "correct") {
         this.responseType = "allCorrect";
         console.log("all Correct congratessssss");
-        this.feedbackAudio = this.feedbackObj.correctAudio;
-        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
-        this.feedbackPopupAudio.nativeElement.play();
+        if (this.submitButtonCounter == this.optionArr.length) {
+          this.feedbackAudio = this.feedbackObj.correctAudio;
+          this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
+          this.feedbackPopupAudio.nativeElement.play();
+        }
         this.attemptType = "manual";
         this.feedbackPopupAudio.nativeElement.onended = () => {
           setTimeout(() => {
             this.appModel.notifyUserAction();
-            // this.blinkOnLastQues();
           }, 1000)
         }
       } else if (this.resultType == "wrong") {
@@ -1076,7 +939,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       this.confirmModalRef.nativeElement.classList = "modal";
       this.confirmSubmitRef.nativeElement.classList = "modal";
+      // if (this.submitButtonCounter == this.optionArr.length) {
       this.modalfeedback20.nativeElement.classList = "modal displayPopup";
+      // }
       this.setPopupAssets();
     }
   }
@@ -1101,7 +966,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   blinkOnLastQues() {
-   
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -1190,8 +1054,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.feedbackPopupAudio.nativeElement.play();
     this.feedbackPopupAudio.nativeElement.onended = () => {
       setTimeout(() => {
-        this.appModel.notifyUserAction();
-        // this.blinkOnLastQues();
         this.fadeEverything();
       }, 1000)
     }
@@ -1221,7 +1083,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   /***  Click on placeholder to set blinking option ***/
   selectPosition(index, pos) {
     this.resetCounterFlag = true;
-    if(!this.isDisablePlaceholder){
+    if (!this.isDisablePlaceholder) {
       this.instructionVO.nativeElement.pause();
       this.instructionVO.nativeElement.currentTime = 0;
     }
@@ -1271,11 +1133,11 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       if (this.selectedPosition == 'down') {
         this.pushToDownPlaceHolder(this.selectedPositionIndex, this.from);
       } else if (this.selectedPosition == 'up') {
-        this.pushToUpPlaceHolder(this.selectedPositionIndex, this.from);        
+        this.pushToUpPlaceHolder(this.selectedPositionIndex, this.from);
       }
-      if(this.submitButtonCounter == this.optionArr.length){
+      if (this.submitButtonCounter == this.optionArr.length) {
         this.isDisablePlaceholder = true
-      }else{
+      } else {
         this.isDisablePlaceholder = false
       }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done" && this.resetCounterFlag == true) {
@@ -1347,7 +1209,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   reversePosition(opt, idx, pos) {
-
     this.reverseOption = opt;
     this.reverseOptionIndex = idx;
     this.instructionVO.nativeElement.pause();
@@ -1358,9 +1219,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.appModel.notifyUserAction();
     this.disableOnInstruction();
     this.mainContainer.nativeElement.classList = "bodyContent disableDiv";
-
-
-
     if (pos == 'up') {
       this.optionRef.nativeElement.children[opt.index].style.zIndex = "5";
       this.optionRef.nativeElement.children[opt.index].style.visibility = "visible";
@@ -1414,6 +1272,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   resetOptions() {
+    this.lookformore = false;
+    this.appModel.enableSubmitBtn(false);
     this.animationFlag = true;
     this.isDisablePlaceholder = false;
     for (let i = 0; i < this.optionArr.length; i++) {
@@ -1512,7 +1372,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   setPopupAssets() {
-    console.log(this.feedbackObj)
+    console.log(this.feedbackObj);
     console.log("check pop up type", "this.attemptType:", this.attemptType, "this.resultType:", this.resultType, "this.popupType:", this.popupType)
     if (this.popupType == "wrong") {
       this.partialCorrectCase = false;
@@ -1523,7 +1383,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.wrong_style_header;
       this.styleBodyPopup = this.feedbackObj.wrong_style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.wrongAnswerpopupTxt.url;
-      this.appModel.stopAllTimer();
+      // this.appModel.stopAllTimer();
     }
     if (this.popupType == "partialCorrect") {
       this.rightanspopUpheader_img = false;
@@ -1534,9 +1394,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.partial_style_header;
       this.styleBodyPopup = this.feedbackObj.partial_style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.partialIncorrAnswerpopupTxt.url;
-      this.appModel.stopAllTimer();
+      // this.appModel.stopAllTimer();
     }
-    if (this.popupType == "correct") {
+    if (this.popupType == "correct" && this.submitButtonCounter == this.optionArr.length) {
       this.partialCorrectCase = false;
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
@@ -1545,8 +1405,18 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.rightAnswerpopupTxt.url;
-      this.appModel.stopAllTimer();
+      // this.appModel.stopAllTimer();
     }
+    if (this.popupType == "correct" && this.submitButtonCounter != this.optionArr.length) {
+      this.modalfeedback20.nativeElement.classList = "modal";
+      this.infoModalRef.nativeElement.classList = "displayPopup modal";
+      this.lookformore = true;
+      let partialFeedbackAudio = this.infoPopupAssets.partialCorrectAudio;
+      this.feedbackInfoAudio.nativeElement.src = partialFeedbackAudio.url;
+      this.feedbackInfoAudio.nativeElement.play();
+      // lookFOrMore case
+    }
+
     if (this.popupType == "showanswer") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
@@ -1556,7 +1426,20 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.popUpFeedbackMsgUrl = this.feedbackObj.showAnswerpopupTxt.url;
-      this.appModel.stopAllTimer();
+
+      if (this.actionType == "showAnswer") {
+        this.appModel.stopAllTimer();
+      } else {
+        this.appModel.notifyUserAction();
+      }
+    }
+    if (this.actionType == "submitAnswer") {
+      if(!this.lookformore){
+        this.appModel.stopAllTimer();
+      }
+      
+    } else {
+      this.appModel.notifyUserAction();
     }
     // clearInterval(this.blinkTimeInterval);
   }
