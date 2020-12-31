@@ -4,6 +4,7 @@ import { ApplicationmodelService } from './common/services/applicationmodel.serv
 import { SharedserviceService } from './common/services/sharedservice.service';
 import { Subscription, Observable } from 'rxjs';
 import { ParentcommunicationService } from './common/services/parentcommunication.service';
+import { SignalRService } from './common/services/signal-r.service';
 
 @Component({
 	selector: 'app-root',
@@ -11,7 +12,7 @@ import { ParentcommunicationService } from './common/services/parentcommunicatio
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
-	constructor(private activatedRoute: ActivatedRoute, public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
+	constructor(private activatedRoute: ActivatedRoute, public signalRService: SignalRService, public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
 		this.subscription = this.Sharedservice.getData().subscribe(data => {
 			this.Template = data.data.TemplateType;
@@ -206,6 +207,7 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.autoPlayBtn.subscribe(() => {
 			this.autoplay = false;
 		});
+		this.signalRService.startConnection();
 	}
 
 	ngOnDestroy() {

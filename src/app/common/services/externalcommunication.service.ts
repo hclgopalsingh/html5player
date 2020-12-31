@@ -25,12 +25,12 @@ export class ExternalcommunicationService implements DataHandler {
   }
 
   connect() {
-    this.signalInstance.connect().then((c) => {
-      console.log('ExternalcommunicationService: connect - c=', c);
-      this.connection = c;
-      this.connected();
-      this.call('playerReady', null);
-    });
+    // this.signalInstance.connect().then((c) => {
+    //   console.log('ExternalcommunicationService: connect - c=', c);
+    //   this.connection = c;
+    //   this.connected();
+    //   this.call('playerReady', null);
+    // });
 
     /*const conx = this.connection = this.signalInstance.createConnection();
     this.connected();
