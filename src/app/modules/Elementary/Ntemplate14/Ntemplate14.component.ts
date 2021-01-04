@@ -65,6 +65,7 @@ export class Ntemplate14Component implements OnInit {
 	timerId:any;
 	recordTimer:any;
 	recordTime:any;
+	listenStatus:boolean=false;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -204,19 +205,22 @@ export class Ntemplate14Component implements OnInit {
 			}
 		});
 		document.getElementById("audioplay").addEventListener("pause", () => {
-			if (this.isFirstTrial) {
-				this.appModel.moveNextQues("noBlink");
+			if (this.isFirstTrial && this.listenStatus) {
+				this.appModel.moveNextQues();
 			}
 			else {
 				if (!this.isDestroyed) {
-					this.appModel.moveNextQues();
+					////this.appModel.moveNextQues();
 				}
 			}
 		});
 		document.getElementById("audioplay").addEventListener("ended", () => {
 			console.log("enddedd");
 			if (this.isFirstTrial && this.playClicked) {
-				this.appModel.moveNextQues();
+				if(this.listenStatus){
+					this.appModel.moveNextQues();	
+				}
+				
 				this.isFirstTrial = false;
 			}
 		});
@@ -330,6 +334,7 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Play recorded audio on click of Play button ******/
 	listen() {
+		
 		clearInterval(this.timerId);
 		clearTimeout(this.clearautoplay);
 		if (!this.instruction.nativeElement.paused) {
@@ -339,19 +344,36 @@ export class Ntemplate14Component implements OnInit {
 		this.showPlay = false;
 		this.isPlay = true;
 		this.audioT.nativeElement.currentTime = 0;
+		this.audioT.nativeElement.pause();
 		this.appModel.notifyUserAction();
 		this.audioT.nativeElement.className = "";
 		this.removeBtn = false;
 		this.playClicked = true;
 		this.audioT.nativeElement.load();
+		console.log('start playing');
 		 this.audioT.nativeElement.play();
 		 this.audioT.nativeElement.onended = () => {
-			 if(this.autostopplayer){
-this.appModel.moveNextQues("noBlink");
-			 }
+			console.log('end playing 1');
+			this.appModel.moveNextQues("noBlink");
+			// if(this.autostopplayer){
+			//	this.appModel.moveNextQues("noBlink");
+			// }
 		}
-		 
-		
+		this.appModel.moveNextQues("noBlink");
+		setTimeout(() => {
+			this.audioT.nativeElement.currentTime = 0;
+		this.audioT.nativeElement.pause();
+			this.audioT.nativeElement.play();
+		 this.audioT.nativeElement.onended = () => {
+			console.log('end playing 2');
+			this.listenStatus=true;
+			// if(this.autostopplayer){
+				 
+				this.appModel.moveNextQues();
+			// }
+		}
+			 
+		}, 200 )
 
 	}
 
