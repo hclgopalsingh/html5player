@@ -47,7 +47,6 @@ import { Ntemplate17Component } from './modules/Elementary/Ntemplate17/Ntemplate
 import { Ntemplate17_1 } from './controller/Ntemplate17_1.component';
 import { Ntemplate23 } from './controller/Ntemplate23.component';
 import { Ntemplate15 } from './controller/Ntemplate15.component';
-import { Ntemplate22 } from './controller/Ntemplate22.component';
 import { Ntemplate14 } from './controller/Ntemplate14.component';
 import { NtemplateMap } from './controller/NtemplateMap.component';
 import { EvaModule } from './modules/EVA/eva.module';
@@ -89,7 +88,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		Ntemplate10,
 		Ntemplate23,
 		Ntemplate15,
-		Ntemplate22,
 		Ntemplate14,
 		NTitleComponent,
 		QuesController,
