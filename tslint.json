@@ -3,6 +3,9 @@
   "rules": {
     "array-type": false,
     "arrow-parens": false,
+    "arrow-return-shorthand": false,
+    "only-arrow-functions": false,
+    "radix":false,
     "deprecation": {
       "severity": "warning"
     },
@@ -81,6 +84,7 @@
       "check-typecast"
     ],
     "prefer-for-of": false,
+    "forin": false,
     "triple-equals": false,
     "semicolon": false,
     "align":false,

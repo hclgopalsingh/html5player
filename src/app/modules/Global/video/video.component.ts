@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewEncapsulation, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation, ViewChild, HostListener, AfterViewChecked } from '@angular/core';
 // import { CommonModule } from '@angular/common';
 import {PlayerConstants} from '../../../common/playerconstants';
 import {ApplicationmodelService} from '../../../common/services/applicationmodel.service';
@@ -11,7 +11,7 @@ declare var Slider: any;
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss']
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, AfterViewChecked {
 
   public appModel: ApplicationmodelService;
   private previousElapsed;
@@ -62,11 +62,17 @@ export class VideoComponent implements OnInit {
   videoPlayedTime:any = 0;
   videoProgress:any;
   isVideoPlaying:boolean = true;
-	templateTypeEVA:boolean;
+  templateTypeEVA:boolean;
   root:any = document.documentElement;
   private previousStopPoint;
-	speakerPlayed:boolean;
-  
+  speakerPlayed:boolean;
+  assets:any;
+  assetsOnVideo:any;
+  cuePoints:any;
+  containgFolderPath:any = "";
+  assetsPath:string = "";
+  zarriRakheinBtn:any ="";
+
   @ViewChild('mainVideo') mainVideo;
   @ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer:any;
   @ViewChild('videoOuterMost') videoOuterMost:any;
@@ -105,12 +111,7 @@ export class VideoComponent implements OnInit {
 	  }
   }
   */
-  assets:any;
-  assetsOnVideo:any;
-  cuePoints:any;
-  containgFolderPath:any = "";
-  assetsPath:string = "";
-  zarriRakheinBtn:any ="";
+
 
   constructor(appModel: ApplicationmodelService) {
     this.appModel = appModel;

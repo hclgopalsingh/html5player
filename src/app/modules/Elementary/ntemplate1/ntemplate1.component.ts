@@ -1,18 +1,16 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
-import { Subject, Observable, Subscription } from 'rxjs'
-import { PlayerConstants } from '../../../common/playerconstants';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { SharedserviceService } from '../../../common/services/sharedservice.service';
+import { Subject, Observable, Subscription } from 'rxjs'
+import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 
-
 @Component({
-  selector: 'ntemp1',
-  templateUrl: './Ntemplate1.component.html',
-  styleUrls: ['./Ntemplate1.component.scss']
+  selector: 'app-ntemplate1',
+  templateUrl: './ntemplate1.component.html',
+  styleUrls: ['./ntemplate1.component.scss']
 })
-export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked {
-
+export class NTemplate1Component implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
@@ -29,17 +27,12 @@ export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked 
   @ViewChild('questionAudio') questionAudio: any;
   @ViewChild('wrongFeedbackAudio') wrongFeedbackAudio: any;
 
-
-
-
-
   audio = new Audio();
   commonAssets: any = "";
   feedback: any = "";
   checked: boolean = false;
   isQuesTypeImage: boolean = false;
   isQuesTypeVideo: boolean = false;
-
   noOfRightAnsClicked: number = 0;
   noOfWrongAnsClicked: number = 0;
   rightansArray: any = [];
@@ -87,6 +80,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked 
   styleHeaderPopup: any;
   styleBodyPopup: any;
   PlayPauseFlag: boolean = true;
+  videoType: any;
   controlHandler = {
     isSubmitRequired: false,
     isReplayRequired: false
@@ -1079,7 +1073,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked 
       this.rightanspopUpheader_img = true;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = false;
-      this.rightansArray.sort((a, b) =>  a.id - b.id);
+      this.rightansArray.sort((a, b) => { return a.id - b.id; });
       if (this.noOfRightAnsClicked > 4) {
         this.rightansArray1 = this.rightansArray.slice(0, 4);
         this.rightansArray2 = this.rightansArray.slice(4, this.rightansArray.length);
@@ -1103,7 +1097,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked 
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = true;
       this.showanspopUpheader_img = false;
-      this.wrongansArray.sort((a, b) => a.id - b.id);
+      this.wrongansArray.sort((a, b) => { return a.id - b.id; });
       if (this.noOfWrongAnsClicked > 4) {
         this.wrongansArray1 = this.wrongansArray.slice(0, 4);
         this.wrongansArray2 = this.wrongansArray.slice(4, this.wrongansArray.length);
@@ -1126,7 +1120,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked 
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
-      this.rightAnspopupAssets.sort((a, b) => a.id - b.id);
+      this.rightAnspopupAssets.sort((a, b) => { return a.id - b.id; });
       if (this.rightAnspopupAssets.length > 4) {
         this.rightansArray1 = this.rightAnspopupAssets.slice(0, 4);
         this.rightansArray2 = this.rightAnspopupAssets.slice(4, this.rightAnspopupAssets.length);
@@ -1148,14 +1142,15 @@ export class Ntemplate1Component implements OnInit, OnDestroy, AfterViewChecked 
     }
     if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
       this.partialpopupRequired = true;
-      this.rightansArray.sort((a, b) => a.id - b.id);
-      this.wrongansArray.sort((a, b) => a.id - b.id);
+      this.rightansArray.sort((a, b) => { return a.id - b.id; });
+      this.wrongansArray.sort((a, b) => { return a.id - b.id; });
       let checkDom = setInterval(() => {
         clearInterval(checkDom);
         this.playrightFeedbackAudioforPartialPopup(0);
       }, 100);
       this.appModel.enableSubmitBtn(false);
       this.bodyContentOpacity = false;
+      this.disableDiv
       if (this.commonAssets.noofOptions == 4) {
         this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour";
       } else {

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subject, Observable, Subscription } from 'rxjs'
@@ -10,11 +10,11 @@ declare var $: any;
 @Component({
   selector: 'ntemp3',
   templateUrl: './Ntemplate3.component.html',
-  styleUrls: ['./Ntemplate3.component.css'],
+  styleUrls: ['./Ntemplate3.component.scss'],
 
 })
 
-export class Ntemplate3 implements OnInit {
+export class NTemplate3Component implements OnInit, OnDestroy, AfterViewChecked  {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
