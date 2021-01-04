@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NTemplate1Component } from './ntemplate1.component';
+import { Ntemplate10Component } from './ntemplate10.component';
 
-describe('NTemplate1Component', () => {
-  let component: NTemplate1Component;
-  let fixture: ComponentFixture<NTemplate1Component>;
+describe('Ntemplate10Component', () => {
+  let component: Ntemplate10Component;
+  let fixture: ComponentFixture<Ntemplate10Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NTemplate1Component ]
+      declarations: [ Ntemplate10Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NTemplate1Component);
+    fixture = TestBed.createComponent(Ntemplate10Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
