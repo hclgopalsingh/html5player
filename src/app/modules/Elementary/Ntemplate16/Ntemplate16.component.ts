@@ -490,6 +490,8 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			}
 		})
 		this.appModel.getConfirmationPopup().subscribe((val) => {
+			this.blinkState1 = "";
+			this.blinkState2 = "";
 			if (this.audio && !this.audio.paused) {
 				this.audio.pause();
 				this.audio.currentTime = 0;
@@ -559,7 +561,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}, 1000)
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.enableReplayBtn(true);
-		// this.controlHandler.isTab = true;
 		setTimeout(() => {
 			this.closed = false;
 		}, 2000)
@@ -752,6 +753,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				this.appModel.setLoader(false);
 				this.loadFlag = true;
 				clearTimeout(this.loaderTimer);
+				this.appModel.navShow = 2;
 				this.checkforQVO();
 
 			}
@@ -770,6 +772,15 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		} else if (flag == "no") {
 			this.appModel.videoStraming(false);
 			this.appModel.enableReplayBtn(true);
+			if (this.blinkIndex < this.feedback.correct_ans_index.length) {
+				let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
+				for (var i in this.myoption) {
+					if (this.myoption[i].custom_id == rightOptIdx) {
+						this.optionToSelect = this.myoption[i];
+					}
+				}
+				this.startBlinkState();
+			}
 			setTimeout(() => {
 				this.disableAllOpt = false;
 				this.disableInstruction = false;
@@ -811,6 +822,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	checkSingleImgLoaded() {
+		this.appModel.navShow = 1;
 		this.appModel.setLoader(false);
 	}
 
@@ -833,7 +845,15 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.showAnswer();
 		} else {
 
-			//do nothing
+			if (this.blinkIndex < this.feedback.correct_ans_index.length) {
+				let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
+				for (var i in this.myoption) {
+					if (this.myoption[i].custom_id == rightOptIdx) {
+						this.optionToSelect = this.myoption[i];
+					}
+				}
+				this.startBlinkState();
+			}
 		}
 	}
 
@@ -1004,6 +1024,15 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.isPlayVideo = false;
 		this.appModel.videoStraming(false);
 		// this.appModel.notifyUserAction();
+		if (this.blinkIndex < this.feedback.correct_ans_index.length) {
+			let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
+			for (var i in this.myoption) {
+				if (this.myoption[i].custom_id == rightOptIdx) {
+					this.optionToSelect = this.myoption[i];
+				}
+			}
+			this.startBlinkState();
+		}
 		this.resetTimerForAnswer();
 	}
 

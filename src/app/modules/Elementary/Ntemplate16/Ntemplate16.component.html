@@ -136,7 +136,7 @@
 </div>
 <div class="container-fluid" #container id="container" *ngIf="showFormat && !isPlayVideo">
   <div class="d-flex align-items-center justify-content-center">
-    <img class="img-fluid adjust_top" [src]="question.filled_imgsrc.url" (load)="checkSingleImgLoaded();">
+    <img class="img-fluid" [src]="question.filled_imgsrc.url" (load)="checkSingleImgLoaded();">
 
   </div>
   <div class="countdownModule">
