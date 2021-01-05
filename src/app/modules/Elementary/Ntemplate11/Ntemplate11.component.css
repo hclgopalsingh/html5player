@@ -287,6 +287,9 @@
 .disable_div{
 	pointer-events:none;
 }
+.classOpacity {
+  opacity: 0.3;
+}
 .fadeInAnimation {
     opacity: 1;
     animation: fadeIn 0.3s linear;
