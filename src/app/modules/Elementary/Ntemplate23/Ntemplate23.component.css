@@ -538,9 +538,10 @@ button:focus {
 }
 
 #modalTemp23 .modal-dialog {
-  width: 93%;
-  max-width: 100%;
-  height: 93%;
+  width: auto;/*93%;*/
+  max-width: 70%;/*100%;*/
+  min-height: 60%;
+  /* height: 93%; */
 }
 
 .modal-content {
@@ -565,11 +566,6 @@ button:focus {
 
 #modalTemp23 .modal-header {
   top: 0;
-}
-
-.modal-title {
-  margin-left: 1.5%;
-  height: 80%;
 }
 
 .close {
@@ -623,14 +619,21 @@ button:focus {
   width: 94%;
   /* height: 100%; */
   justify-content: space-around;
-  margin: 0% 0 2.7%;
+  /* margin: 0% 0 2.7%; */
+  margin: 5.5% 0 0%;
+  min-height: 35vmin;
+  display: flex;
+  align-items: center;
 }
 
 #modalTemp23 .listBlock {
-  width: 38%;
+  width: 50%;/*38%;*/
   position: relative;
-  top: 12%;
+  /* top: 12%; */
   left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 .modalBodyContent {
@@ -766,19 +769,31 @@ html [type=button] {
   overflow: auto;
 }
 
+#modalTemp23 .listBlock > img {
+  display: none;
+}
+
 #modalTemp23 .listBlock .listNames {
-  height: 95%;
+  top: 8%;
+  height: auto;/*95%;*/
   overflow: hidden;
+  background: #fff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#modalTemp23 .listBlock .listHeader{
+background: #ff0;
+border: solid 2px #fff;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
 }
 
 #modalTemp23 .listBlock .listHeader,
 #modalTemp23 .listBlock .listNames {
   /* top: 3%; */
   justify-content: space-around;
-}
-
-#modalTemp23 .listBlock .listNames {
-  top: 8%;
+  position: initial;
 }
 
 .listNames li {
