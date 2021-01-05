@@ -399,10 +399,12 @@ export class Ntemplate23Component implements OnInit {
       }
     }
     console.log("this.Id = " + this.Id);
+    console.log("target",event.target);
     if (this.Id == null) {
+      // this.Id = event.target.getAttribute("")
       if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
         }
       }
     }
@@ -410,14 +412,15 @@ export class Ntemplate23Component implements OnInit {
     if (idFound && !idFound.clicked) {
       if (this.originalcolor.length > 0 && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
         }
       }
       this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-      this.originalcolor = document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].getAttribute("fill");
+      this.originalcolor[this.categoryIndex] = document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].getAttribute("fill");
       if (this.categoryIndex != -1) {
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
           document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.mainSvgfile.hoverColor);
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].style.cursor = "pointer";
         }
       }
     }
@@ -438,7 +441,7 @@ export class Ntemplate23Component implements OnInit {
   MouseOut(event) {
     if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
       for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+        document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
       }
     }
   }
@@ -464,7 +467,7 @@ export class Ntemplate23Component implements OnInit {
     if (!this.singleClicknotAllowed) {
       if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
         }
       }
       this.clickedId = event.target.getAttribute('xlink:href');
@@ -499,6 +502,7 @@ export class Ntemplate23Component implements OnInit {
         document.getElementById("tooltip" + (this.categoryIndex + 1)).style.top = this.mySVGArr[this.categoryIndex].top + "%";
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
           document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", idFound.onclickColor);
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].style.cursor = "";
         }
         //$(document.getElementById("mainques").children[0].children[this.categoryIndex+1]).css("pointer-events","none");
         document.getElementById('dropdown').style.pointerEvents = "";
@@ -582,7 +586,7 @@ export class Ntemplate23Component implements OnInit {
       if (idFound) {
         this.countofClick--;
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor);
+          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
         }
         // $(document.getElementById("mainques").children[1].children[this.categoryIndex+1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill",this.originalcolor);
         idFound.clicked = false;
@@ -734,6 +738,9 @@ export class Ntemplate23Component implements OnInit {
       this.styleHeaderPopup = this.feedbackObj.partial_style_header;
       this.styleBodyPopup = this.feedbackObj.partial_style_body;
       this.feedbackObj.feedback_title = this.feedbackObj.partial_style_title;
+      this.feedbackInfoAudio.nativeElement.src = this.commonAssets.PartiallyCorrectAudio.url;
+      this.feedbackInfoAudio.nativeElement.load();
+      this.feedbackInfoAudio.nativeElement.play();
     }
     if (this.popupType === "partialIncorrect") {
       this.styleHeaderPopup = this.feedbackObj.partial_style_header;
@@ -867,7 +874,7 @@ export class Ntemplate23Component implements OnInit {
       if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length > 0) {
         // this.currentPageNo++;
         this.feedbackArr = this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
-        if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo + 1).length === 0) {
+        if (this.correctIncorrectArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo).length === 0) {
           if (this.outOfScopeArr.length > 0) {
             this.popupType = "outOfScope";
             this.currentPageNo = 1;
@@ -1169,6 +1176,13 @@ export class Ntemplate23Component implements OnInit {
           this.QuesRef.nativeElement.style.pointerEvents = "";
           document.getElementById('instructionBar').style.pointerEvents = "";
         }
+        console.log("quesrefbefore",this.QuesRef.nativeElement.children[1]);
+        for (let i=1; i < this.QuesRef.nativeElement.children[1].children.length; i++) {
+          for (let j=1; j < this.QuesRef.nativeElement.children[1].children[i].children.length; j++) {
+            this.QuesRef.nativeElement.children[1].children[i].children[j].style.pointerEvents = "none";
+          }
+        }
+        console.log("quesrefafter",this.QuesRef.nativeElement.children[1]);
         console.log("AA gaya");
         clearInterval(loadImage);
       }
@@ -1399,7 +1413,7 @@ export class Ntemplate23Component implements OnInit {
       $("#" + this.submittedArray[i].tooltipID).addClass("tooltipHidden");
       let index = this.mySVGArr.findIndex(element => element.id == this.submittedArray[i].id);
       // for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-      document.querySelector(this.QuesRef.nativeElement.children[1].children[index + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.originalcolor);
+      document.querySelector(this.QuesRef.nativeElement.children[1].children[index + 1].children[0].children[0].getAttribute("xlink:href")).children[0].setAttribute("fill", this.originalcolor[index]);
       // }
       // $(document.getElementById("mainques").children[1].children[index + 1].children[0].children[0].getAttribute("xlink:href"))[0].children[0].setAttribute("fill", this.originalcolor);
     }
@@ -1545,6 +1559,7 @@ export class Ntemplate23Component implements OnInit {
       }
       if ((this.rightAnswerCounter < this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0 && this.outOfScopeArr.length === 0) {
         this.infoModalRef.nativeElement.classList = "displayPopup modal";
+        this.popupType = "partialCorrect";
         this.setPopupAssets();
         //this.rightAnswerCounter=0;
       } else {
