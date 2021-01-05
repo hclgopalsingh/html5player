@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+ 
 declare const MediaRecorder: any;
 declare const navigator: any;
 @Component({
@@ -57,7 +58,14 @@ export class Ntemplate14Component implements OnInit {
 	playClicked = false;
 	instructionDisable: boolean = true;
 	isDestroyed: boolean = false;
+	autostopplayer:boolean=false;
 	lastPopUptimer: any;
+	playRecordingTime = 5;
+	clearautoplay:any;
+	timerId:any;
+	recordTimer:any;
+	recordTime:any;
+	listenStatus:boolean=false;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -143,6 +151,7 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnInit() {
+		
 		this.appModel.functionone(this.templatevolume, this);//start end
 		this.containgFolderPath = this.getBasePath();
 		if (this.appModel.isNewCollection) {
@@ -196,19 +205,22 @@ export class Ntemplate14Component implements OnInit {
 			}
 		});
 		document.getElementById("audioplay").addEventListener("pause", () => {
-			if (this.isFirstTrial) {
-				this.appModel.moveNextQues("noBlink");
+			if (this.isFirstTrial && this.listenStatus) {
+				this.appModel.moveNextQues();
 			}
 			else {
 				if (!this.isDestroyed) {
-					this.appModel.moveNextQues();
+					////this.appModel.moveNextQues();
 				}
 			}
 		});
 		document.getElementById("audioplay").addEventListener("ended", () => {
 			console.log("enddedd");
 			if (this.isFirstTrial && this.playClicked) {
-				this.appModel.moveNextQues();
+				if(this.listenStatus){
+					this.appModel.moveNextQues();	
+				}
+				
 				this.isFirstTrial = false;
 			}
 		});
@@ -219,9 +231,13 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnDestroy() {
+		clearInterval(this.recordTimer);
+		clearInterval(this.timerId);
+		clearTimeout(this.clearautoplay);
 		this.isDestroyed = true;
 		this.appModel.stopAllTimer();
 		this.appModel.resetBlinkingTimer();
+		
 	}
 
 	/****** hover on ok button of info popup ******/
@@ -296,6 +312,13 @@ export class Ntemplate14Component implements OnInit {
 		this.recordButton.nativeElement.src = this.question.recordActive.url;
 		if (this.mediaRecorder) {
 			this.mediaRecorder.start();
+			var recordTime = JSON.parse(this.autoStop)/1000.0;
+			this.recordTimer = setInterval(function() {
+				console.log('recording time remaining ' + recordTime-- + ' sec');
+				if(recordTime == 0){
+					clearInterval(this.recordTimer);
+				}
+			 }, 1000);
 		}
 		else {
 			console.log("Microphone access is not allowed")
@@ -303,6 +326,7 @@ export class Ntemplate14Component implements OnInit {
 		//this.stopButton.nativeElement.src = this.question.stop.url;
 		setTimeout(() => {
 			if (!this.isStop) {
+				this.autostopplayer=true;
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
@@ -310,6 +334,9 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Play recorded audio on click of Play button ******/
 	listen() {
+		
+		clearInterval(this.timerId);
+		clearTimeout(this.clearautoplay);
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
@@ -317,16 +344,42 @@ export class Ntemplate14Component implements OnInit {
 		this.showPlay = false;
 		this.isPlay = true;
 		this.audioT.nativeElement.currentTime = 0;
+		this.audioT.nativeElement.pause();
 		this.appModel.notifyUserAction();
 		this.audioT.nativeElement.className = "";
 		this.removeBtn = false;
 		this.playClicked = true;
 		this.audioT.nativeElement.load();
-		this.audioT.nativeElement.play();
+		console.log('start playing');
+		 this.audioT.nativeElement.play();
+		 this.audioT.nativeElement.onended = () => {
+			console.log('end playing 1');
+			this.appModel.moveNextQues("noBlink");
+			// if(this.autostopplayer){
+			//	this.appModel.moveNextQues("noBlink");
+			// }
+		}
+		this.appModel.moveNextQues("noBlink");
+		setTimeout(() => {
+			this.audioT.nativeElement.currentTime = 0;
+		this.audioT.nativeElement.pause();
+			this.audioT.nativeElement.play();
+		 this.audioT.nativeElement.onended = () => {
+			console.log('end playing 2');
+			this.listenStatus=true;
+			// if(this.autostopplayer){
+				 
+				this.appModel.moveNextQues();
+			// }
+		}
+			 
+		}, 200 )
+
 	}
 
 	/****** Stop recording on click of stop recorder button ******/
 	stopRecording() {
+		clearInterval(this.recordTimer);
 		this.isRecording = false;
 		this.showstop = false
 		this.removeBtn = false;
@@ -341,7 +394,19 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		this.appModel.moveNextQues("noBlink");
+		if(!this.autostopplayer){
+			this.appModel.moveNextQues("noBlink");
+		}else{
+			let a = 300;
+			this.timerId = setInterval(function() {
+				console.log('play time remaining ' + a-- + ' sec');
+			 }, 1000);
+			this.clearautoplay = setTimeout(() => {
+				this.listen();
+				clearInterval(this.timerId);
+			}, this.playRecordingTime * 60000 )
+		}
+		
 		setTimeout(() => {
 			this.audioT.nativeElement.currentTime = 0;
 		}, 500)

@@ -42,10 +42,10 @@ import { Phase3T01V01 } from '../controller/phase3/template01/variant01.componen
 import { Ntemplate13 } from '../modules/Elementary/Ntemplate13/Ntemplate13.component';
 import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate12 } from '../modules/Elementary/Ntemplate12/Ntemplate12.component';
-import { Ntemplate16 } from '../controller/Ntemplate16.component';
+import { Ntemplate16 } from '../modules/Elementary/Ntemplate16/Ntemplate16.component';
 import { Ntemplate23 } from '../controller/Ntemplate23.component';
 import { Ntemplate15 } from '../controller/Ntemplate15.component';
-import { Ntemplate22 } from '../controller/Ntemplate22.component';
+import { Ntemplate22 } from '../modules/Elementary/Ntemplate22/Ntemplate22.component';
 import { Ntemplate14 } from '../controller/Ntemplate14.component';
 
 import {Template15Component } from '../modules/EVA/template15/template15.component';

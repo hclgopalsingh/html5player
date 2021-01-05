@@ -453,9 +453,15 @@ button:focus{
     text-align: center;
 	top: 2.5vmin!important;
 	left:0;
-	/* display: none; */
+	display: flex;
 }
-.modal .instructionBase {
+.modal .instructionBase,
+.modal .instructionBaseFeedback {
 	max-width: 91% !important;
 }
+/* .modal .instructionBase img,
+.modal .instructionBaseFeedback img {
+	height: 4.8vmax !important;
+} */
+
 
