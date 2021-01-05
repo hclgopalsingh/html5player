@@ -4,15 +4,14 @@ import { ApplicationmodelService } from './common/services/applicationmodel.serv
 import { SharedserviceService } from './common/services/sharedservice.service';
 import { Subscription, Observable } from 'rxjs';
 import { ParentcommunicationService } from './common/services/parentcommunication.service';
-import { SignalRService } from './common/services/signal-r.service';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
-	constructor(private activatedRoute: ActivatedRoute, public signalRService: SignalRService, public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
+export class AppComponent implements OnInit, OnDestroy {
+	constructor(private activatedRoute: ActivatedRoute, public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
 		this.subscription = this.Sharedservice.getData().subscribe(data => {
 			this.Template = data.data.TemplateType;
@@ -56,57 +55,13 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 	@Input() initData:Observable<any>;
 	@Output() playerEvent = new EventEmitter<any>();
 
-	/*@HostListener('document:keyup', ['$event'])
-	@HostListener('document:click', ['$event'])
-	@HostListener('document:wheel', ['$event'])
-	resetTimer() {
-	  this.appModel.notifyUserAction();
-	}*/
-
-	ngAfterViewChecked() {
-		if (!this.resizeFlag) {
-			setTimeout(() => {
-				this.resizeContainer();
-			}, 0);
-		}
-	}
-	// ngOnChanges(changes: { [property: string]: SimpleChange }){
-	// 	// Extract changes to the input property by its name
-	// 	let change: SimpleChange = changes['initData']; 
-	// 	console.log("change",change);
-	// 	this.parentCommunication.setInitData(change.currentValue);
-	// 	this.appModel.initializeApp(change.currentValue);
-	//  // Whenever the data in the parent changes, this method gets triggered. You 
-	//  // can act on the changes here. You will have both the previous value and the 
-	//  // current value here.
-	//  }
-	// ngAfterViewInit() {
-
-	// 	console.log("parenttitle inside ngAfterviewInit",this.parentTitle);
-	// 	this.parentTitle.subscribe((event) => {
-	// 		this.parentCommunication.setInitData(event);
-	// 		console.log("from parent to child inside ngAfterViewInit",event);
-	// 	});
-	// }
-
 	ngOnInit() {
 		window.onresize = (e) => {
 			this.triggerWindowsResize();
-			this.resizeContainer();
 		}
 		this.appModel.getPreviewMode(this);
-		console.log("parent title",this.initData);
-		// this.parentTitle.subscribe((event) => {
-		// 	debugger;
-		// 	console.log("from parent to child",event);
-		// });
-		// console.log("parenttitle inside ngOnInit",this.parentTitle);
-		// this.parentTitle.subscribe((event) => {
-		// 	console.log("from parent to child inside ngOnInit",event);
-		// });
 		this.appModel.eventSubject.subscribe(event => {
 			this.playerEvent.emit(event);
-			// console.log("parent title inside subscription",this.parentTitle);
 			console.log("app component event",event);
 		});
 		console.log('appModel.navShow', this.appModel.navShow);
@@ -119,26 +74,6 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 				this.resizeFlag = false;
 				if (event && event.url === '/video' || event && event.url === '/videoext') {
 					this.isVideo = true;
-					/* this.navUrl= event.url;
-					 let resizeTimer = setInterval(()=>{
-							if (this.appModel && this.appModel.getVideoLoaded) {
-								clearInterval(resizeTimer);
-								setTimeout(()=>{
-									this.resizeFlag = true;
-								},200)
-							}
-						  },100)	*/
-
-				} else if (event && event.url != '/') {
-					/*this.navUrl= event.url;
-						let resizeTimer = setInterval(()=>{
-						if (this.appModel && !(this.appModel.getLoaderFlag)) {
-							clearInterval(resizeTimer);
-							setTimeout(()=>{
-								this.resizeFlag = true;
-							},200)
-						}
-					  },100)*/
 				}
 			}
 		});
@@ -207,30 +142,10 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.autoPlayBtn.subscribe(() => {
 			this.autoplay = false;
 		});
-		this.signalRService.startConnection();
 	}
 
 	ngOnDestroy() {
 		clearTimeout(this.timer);
-	}
-
-	resizeContainer() {
-		// if (this.contentHolder && this.contentHolder.nativeElement) {
-		// 	let contentHolder: HTMLElement = this.contentHolder.nativeElement as HTMLElement
-		// 	contentHolder.style.width = "initial";
-		// 	let targetHeight = window.innerHeight;
-		// 	let containerHeight = contentHolder.clientHeight;
-		// 	let containerWidth = contentHolder.clientWidth;
-		// 	if (containerHeight > targetHeight) {
-		// 		while (containerHeight > targetHeight) {
-		// 			containerHeight = containerHeight - (containerHeight * .01);
-		// 			containerWidth = containerWidth - (containerWidth * .01);
-		// 		}
-		// 		contentHolder.style.width = containerWidth + "px";
-		// 	} else {
-		// 	}
-		// }
-
 	}
 
 	setPreviewMode(previewMode) {

@@ -14,6 +14,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SharedserviceService } from '../services/sharedservice.service';
 import { ThemeConstants } from '../themeconstants';
 import { ParentcommunicationService } from './parentcommunication.service';
+import { SignalRService } from './signal-r.service';
 
 
 declare var $: any;
@@ -88,7 +89,7 @@ export class ApplicationmodelService {
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     
-    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
+    dataLoader: DataloaderService, externalCommunication: ExternalcommunicationService, private http: HttpClient, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService, private signalRService: SignalRService) {
     this.httpHandler = httpHandler;
     this.commonLoader = commonLoader;
     this.router = router;
@@ -303,6 +304,7 @@ export class ApplicationmodelService {
   }
 
   private initLoaded(data): void {
+    this.externalCommunication.setInitData(data);
     console.log('ApplicationmodelService: initLoaded - data = ', data);
     if (
       data == null
@@ -320,6 +322,8 @@ export class ApplicationmodelService {
         this.dataHandler = this.externalCommunication;
         // this.dataHandler = this.parentCommunication;
         this.dataHandler.loadData(data.environment.lms, this.listener.bind(this), this.baseLoaded.bind(this), this.baseFailed.bind(this));
+      } else {
+        this.signalRService.startConnection();
       }
     } else if (data.environment.standalone.enabled) {
       console.log('ApplicationmodelService: initLoaded - environment.standalone.enabled = true');

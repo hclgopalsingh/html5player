@@ -14,6 +14,7 @@ export class ExternalcommunicationService implements DataHandler {
   private listener;
   private success;
   private failure;
+  private initData;
 
   private connection: any;
 
@@ -23,14 +24,18 @@ export class ExternalcommunicationService implements DataHandler {
     this.signalInstance = signalInstance;
     console.log("this.signalInstance is " + this.signalInstance);
   }
-
+  setInitData(initData) {
+    this.initData = initData;
+  }
   connect() {
-    // this.signalInstance.connect().then((c) => {
-    //   console.log('ExternalcommunicationService: connect - c=', c);
-    //   this.connection = c;
-    //   this.connected();
-    //   this.call('playerReady', null);
-    // });
+    if(this.initData && !this.initData.environment.lms.contentInParam) {
+      this.signalInstance.connect().then((c) => {
+        console.log('ExternalcommunicationService: connect - c=', c);
+        this.connection = c;
+        this.connected();
+        this.call('playerReady', null);
+      });
+    }
 
     /*const conx = this.connection = this.signalInstance.createConnection();
     this.connected();
