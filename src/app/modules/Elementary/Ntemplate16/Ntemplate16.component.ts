@@ -200,6 +200,12 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	houtConfirm() {
 		this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
 	}
+	hoverCloseFeedback() {
+		this.feedbackPopup.close_btn = this.feedbackPopup.close_btn_hover;
+	}
+	houtCloseFeedback() {
+		this.feedbackPopup.close_btn = this.feedbackPopup.close_btn_original;
+	}
 	hoverCloseConfirm() {
 		this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
 	}
@@ -845,7 +851,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.showAnswer();
 		} else {
 
-			if (this.blinkIndex < this.feedback.correct_ans_index.length) {
+			if (!this.actComplete && this.blinkIndex < this.feedback.correct_ans_index.length) {
 				let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
 				for (var i in this.myoption) {
 					if (this.myoption[i].custom_id == rightOptIdx) {
