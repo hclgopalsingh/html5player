@@ -126,7 +126,7 @@ export class Ntemplate22 implements OnInit {
   partialCorrectheaderTxt_img: boolean = false;
   MonthNames: any = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   DayNames: any = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
+  showHolidays:boolean = true;
 
   ngAfterViewChecked() {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
@@ -933,6 +933,7 @@ export class Ntemplate22 implements OnInit {
       this.feedbackObj = this.fetchedcontent.feedback;
       this.confirmPopupAssets = this.fetchedcontent.feedback.confirm_popup;
       this.quesObj = this.fetchedcontent.quesObj[0];
+      this.showHolidays = this.quesObj.displayHolidays
       this.yearSelected = this.quesObj.yearSelected;
       this.monthSelected = this.quesObj.monthSelected;
       this.dateSelected = this.quesObj.dateSelected;

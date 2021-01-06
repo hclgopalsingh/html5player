@@ -360,7 +360,7 @@ position: absolute;
 	text-align: center;
   position: absolute;
   bottom: 0;
-  margin-bottom: 1%;
+  margin-bottom: 0.5%;
   width: 8%;
 }
 
@@ -545,7 +545,7 @@ button:focus {
 #modalTemp22 .modal-body {
   flex: none !important;
 	padding: 3% !important;
-	height: 89.1%;
+	height: 91.1%;
 }
 
 #modalTemp22 .modal-body img {
@@ -562,9 +562,9 @@ button:focus {
 #modalTemp22 #optionsBlock{
   position: absolute;
   top: 18.5%;
-  width: 81%;
-  left: 9%;
-  height: 65%;
+  width: 88%;
+  left: 6%;
+  height: 57%;
 }
 
 #modalTemp22 #optionsBlock .leftBlock .blockContent img {
@@ -650,17 +650,17 @@ nav {
   width: 82%;
 }
 .holidayList div{
-  width: 18%;
+  /* width: 18%; */
   border-right: solid 1px #fff;
   display: inline-flex;
   align-items: center;
-  padding: 0 1%;
+  padding: 0 2%;
   font-family: arial;
   font-weight: normal;
 }
 .holidayList div .hDate{
   font-size: 3vmin;
-  padding-right: 3%;
+  padding-right: 8%;
 }
 .holidayList div .hName{
   display:  inline-flex;
@@ -672,4 +672,12 @@ nav {
   .holidayList div .hName{
     font-size: 1.2vmin;
   }  
+}
+
+.ele .modal-title{
+  left: -0.5vmin;
+}
+
+.ele .modal-title, .ele #confirmModal .modal-title{
+  left: -0.5vmin;
 }
