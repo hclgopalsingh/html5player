@@ -285,7 +285,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
 		}
-		this.disableInstruction = true;
+		this.disableInstruction = false;
 		this.optionImage.nativeElement.children[i].classList.add("scaleInAnimation");
 		this.optionImage.nativeElement.children[i].children[1].style.cursor = "pointer";
 	}
@@ -326,12 +326,13 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	checkAnswer(opt, index) {
+		this.blinkState1 = "";
+		this.blinkState2 = "";
 		this.timerSubscription.unsubscribe();;
 		this.stopOptionHoverAudio();
 		this.disableAllOpt = true;
 		this.maincontent.nativeElement.className = "disable_div";
 		this.onHoverOptionOut(opt, index);
-		// this.appModel.notifyUserAction();
 		this.disableHelpBtn = true;
 		this.titleHelpAudio.nativeElement.pause();
 		this.titleHelpAudio.nativeElement.currentTime = 0;
@@ -339,8 +340,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.enableReplayBtn(false);
 		// logic to check what user has done is correct or wrong
 		if (this.checkRightAnswer(opt)) {
-			this.blinkState1 = "";
-			this.blinkState2 = "";
 			this.noOfRightAns++;
 			this.ansList.push(opt);
 			//Analyticsz
@@ -350,11 +349,11 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				//highlight options
 				this.appModel.handlePostVOActivity(true)
 				this.optionBlock.nativeElement.className = "optionsBlock disable_div";
-				{
-					this.ansList.forEach(element => {
-						element.filled_img = element.filled_img_green
-					});
-				}
+				// {
+				// 	this.ansList.forEach(element => {
+				// 		element.filled_img = element.filled_img_green
+				// 	});
+				// }
 				opt.bgImgsrc = opt.bgImgsrc_empty;
 				opt.imgsrc = "";
 				//fireworks 
@@ -422,7 +421,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 			let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
 			correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
 
-			//this.appModel.stopAllTimer();
 			//play wrong feed back audio
 
 			setTimeout(() => {
@@ -498,6 +496,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.getConfirmationPopup().subscribe((val) => {
 			this.blinkState1 = "";
 			this.blinkState2 = "";
+			if (this.timerSubscription != undefined) {
+				this.timerSubscription.unsubscribe();
+			}
 			if (this.audio && !this.audio.paused) {
 				this.audio.pause();
 				this.audio.currentTime = 0;
@@ -508,14 +509,12 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				this.instruction.nativeElement.pause();
 				this.disableInstruction = false;
 			}
-			if (this.timerSubscription != undefined) {
-				this.timerSubscription.unsubscribe();
-			}
+			this.appModel.handlePostVOActivity(false);
 			if (val == "uttarDikhayein") {
 				if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
 					console.log("confirmPopupAssets", this.confirmPopupAssets, this.assetsPath, this.getBasePath())
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-					this.appModel.notifyUserAction();
+					
 				}
 			}
 			if (val == "replayVideo") {
@@ -560,6 +559,15 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 	}
 	postWrongAttempt() {
+		if (this.blinkIndex < this.feedback.correct_ans_index.length) {
+			let rightOptIdx = this.feedback.correct_ans_index[this.blinkIndex];
+			for (var i in this.myoption) {
+				if (this.myoption[i].custom_id == rightOptIdx) {
+					this.optionToSelect = this.myoption[i];
+				}
+			}
+			this.startBlinkState();
+		}
 		this.optionBlock.nativeElement.className = "optionsBlock";
 		this.maincontent.nativeElement.className = "";
 		setTimeout(() => {
@@ -624,7 +632,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	/******Data set from content JSON *******/
 	setData() {
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-			console.log(this.fetchedcontent);			
+			console.log(this.fetchedcontent);
 			this.showFormat = true;
 			this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options))
 			console.log(this.myoption);
@@ -683,7 +691,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 					this.loaderTimer = setTimeout(() => {
 						this.appModel.setLoader(false);
 					}, 5000)
-					
+
 				}, this.quesInfo.formatTimeout)
 
 			}
