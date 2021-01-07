@@ -125,7 +125,7 @@
 
 }*/
 
-.ele17 .videoMainContainer{
+.videoMainContainer{
   width:99.9%;
   height:100%;
   position:absolute;
@@ -142,7 +142,7 @@
   width: 3.4%;
 }*/
 
-.ele17 #playPauseBtn{
+#playPauseBtn{
   /*position: absolute;
   top: 96.5%;
   right: 1.7%;
@@ -160,7 +160,7 @@
   max-width: none;*/
 }
 
-.ele17 #SkipBtn{
+#SkipBtn{
   /*position: absolute;
   top: 98%;
   right: 18%;
@@ -173,7 +173,7 @@
   width: 3.5%;/*1.5%*/
 }
 
-.ele17 #closeBtn{
+#closeBtn{
   /*position: absolute;
   top: 96.5%;
   right: 1.7%;
