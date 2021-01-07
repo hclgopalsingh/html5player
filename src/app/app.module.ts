@@ -37,7 +37,6 @@ import { LoaderComponent } from './controller/loader.component';
 import { Phase3T01V01 } from './controller/phase3/template01/variant01.component';
 import { Ntemplate23_1 } from './controller/Ntemplate23_1.component';
 import { Ntemplate19 } from './controller/Ntemplate19.component';
-import { Ntemplate21 } from './controller/Ntemplate21.component';
 import { NTitleComponent } from './controller/NTitle.component';
 import { QuesController } from './controller/quesController.component'
 import { AnimationComponent } from './controller/animation.component'
@@ -84,7 +83,6 @@ import { ElementaryModule } from './modules/Elementary/elementary.module';
 		Phase3T01V01,
 		Ntemplate23_1,
 		Ntemplate19,
-		Ntemplate21,
 		Ntemplate10,
 		Ntemplate23,
 		Ntemplate15,

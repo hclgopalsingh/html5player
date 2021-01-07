@@ -52,6 +52,7 @@
 						<img class="img-fluid" [src]="number?.location=='content' ? containgFolderPath + '/' + number?.url : assetsPath + '/' +number?.url"
 						/>
 					</ng-container>
+					
 				</div>
 			</div>
 			<img class="img-fluid liquidContainer" [src]="otherAssets?.givenValue?.location=='content' ? containgFolderPath + '/' + otherAssets?.givenValue?.url : assetsPath + '/' +otherAssets?.givenValue?.url"
@@ -100,6 +101,12 @@
 
 				<!-- Modal body -->
 				<div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
+					
+					<span class="span1"></span>
+					<span class="span2"></span>
+					<span class="span3"></span>
+					<span class="span4"></span>
+					<span class="span5"></span>					
 					<div id="inputBlock">
 						<div class="value1">
 							<ng-container *ngFor="let no of firstNoAssets; let idx = index">
@@ -129,10 +136,12 @@
 						<div class="filler">
 							<img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.location=='content' ? containgFolderPath + '/' + otherAssets?.filler?.url : assetsPath + '/' +otherAssets?.filler?.url"
 								 />
+								
 							<div class="fillValue">
+								<p class="text-center fillText">90</p>
 								<ng-container *ngFor="let no of resultNoAssets; let idx = index">
 									<img class="img-fluid" [src]="no?.location=='content' ? containgFolderPath + '/' + no?.url : assetsPath + '/' +no?.url" />
-								</ng-container>
+					    		</ng-container>
 							</div>
 							<img *ngIf="isExcess" class="img-fluid overflow" [src]="feedbackAssets?.overflow?.location=='content' ? containgFolderPath + '/' + feedbackAssets?.overflow?.url : assetsPath + '/' + feedbackAssets?.overflow?.url">
 						</div>
