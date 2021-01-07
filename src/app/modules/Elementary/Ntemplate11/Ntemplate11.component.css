@@ -990,6 +990,22 @@
   left: 15%;
   width: 21%;
 }
+.videoMainContainer {
+  width: 100%;
+}
+
+.videoWrapper {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.videoMainContainer .videoBg {
+  opacity: 0;
+}
 
 #playPauseBtn {
   position: absolute;
@@ -998,29 +1014,13 @@
   cursor: pointer;
   width: 3.5%;
 }
-#playPauseBtn img {
-  /* width: 200%;
-  filter: drop-shadow(2px 4px 6px black);
-  max-width: none; */
-}
 
-#SkipBtn{
-  /* position: absolute;
-  top: 83.7%;
-  right: -3.7%;
-  cursor: pointer;
-  width: 16%; */
+#SkipBtn {
   position: absolute;
   top: 86%;
-  /*85%*/
   right: 5%;
-  /*16%*/
   cursor: pointer;
   width: 3.5%;
-  /*1.5%*/
-}
-#SkipBtn img {
-  /* max-width: 70%; */
 }
 button:focus {
   outline: none !important;
