@@ -104,7 +104,7 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('mainVideo') mainVideo: any;
-  // @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
+  @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('quesContainer') quesContainer: any;
   @ViewChild('testContainer') testContainer: any;
   @ViewChild('wordBlockRef') wordBlockRef: any;
@@ -229,7 +229,8 @@ export class Ntemplate17Component implements OnInit {
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
     isSubmitRequired: false,
-    isReplayRequired: false
+    isReplayRequired: false,
+    isShowAns :false
   };
   themePath: any;
   fetchedcontent: any;
@@ -755,6 +756,8 @@ export class Ntemplate17Component implements OnInit {
 
       }
       this.InfoModalRef.nativeElement.classList = "displayPopup modal";
+      this.feedbackInfoAudio.nativeElement.src = this.infoPopupAssets.info_sound.url ;
+      this.feedbackInfoAudio.nativeElement.play();
       clearInterval(this.blinkTimer);
 
       // if (this.quesObj.lang != 'math') {
@@ -765,6 +768,8 @@ export class Ntemplate17Component implements OnInit {
         if (this.quesObj.lang == 'math') {
           this.disableScreen();
           this.InfoModalRef.nativeElement.classList = "modal";
+          this.feedbackInfoAudio.nativeElement.pause();
+          this.feedbackInfoAudio.nativeElement.currentTime = 0;
           console.log("inMiliSecond = " + this.nextQuestionTimerForLastQuestioninMiliSec);
           this.appModel.moveNextQues();
         }
@@ -779,7 +784,8 @@ export class Ntemplate17Component implements OnInit {
             if (this.InfoModalRef != undefined) {
               // this.appModel.moveNextQues();
               this.InfoModalRef.nativeElement.classList = "displayPopup modal";
-
+              this.feedbackInfoAudio.nativeElement.src = this.infoPopupAssets.info_sound.url ;
+              this.feedbackInfoAudio.nativeElement.play();
             }
 
           }
@@ -859,7 +865,8 @@ export class Ntemplate17Component implements OnInit {
       /*Start: Theme Implementation(Template Changes)*/
       this.controlHandler = {
         isSubmitRequired: this.quesObj.submitRequired,
-        isReplayRequired: this.quesObj.replayRequired
+        isReplayRequired: this.quesObj.replayRequired,
+        isShowAns: false
       }
       /*End: Theme Implementation(Template Changes)*/
       this.addBtn = this.fetchedcontent.other_assets.addBtn;
@@ -881,7 +888,6 @@ export class Ntemplate17Component implements OnInit {
       // }
       this._questionAreaTextFlag = this.commonAssets.questionArea[0].text.flag;
       this._questionAreaAudioFlag = this.commonAssets.questionArea[0].audio.flag;
-
       // alert(this._questionAreaFlag);
       if (this.quesObj.lang == "hindi") {
         this.totalChar = 17;
@@ -1114,6 +1120,8 @@ export class Ntemplate17Component implements OnInit {
       //this.postShowAnswer();
     }
     else if (action == 'partialFeedback') {
+      this.feedbackInfoAudio.nativeElement.pause();
+      this.feedbackInfoAudio.nativeElement.currentTime = 0;
       if (this.charLeft == this.totalChar
         && this.wordArr.length < 12) {
         this.blinkTextBox();
@@ -1385,6 +1393,8 @@ export class Ntemplate17Component implements OnInit {
 
   //showing second test screen
   showTestScreen() {
+    this.controlHandler.isSubmitRequired = false;
+    this.appModel.handleController(this.controlHandler);
     this.isSecondScreen = true;
     this.noAttempts = this.wordArr.length;
     this.testContainerDisable = true;
@@ -1973,10 +1983,24 @@ export class Ntemplate17Component implements OnInit {
       this.inputDivRef.nativeElement.classList = "inputDiv";
     } else if (this._questionAreaImageFlag || this._questionAreaTextFlag) {
       //this.quesContainer.nativeElement.style.pointerEvents="";
-      this.inputDivRef.nativeElement.classList = "inputDiv";
-      this.questAreaDisable = false;
-      this.instructionDisable = false;
-      this.blinkTextBox();
+      this.appModel.stopAllTimer();
+      this.fullImage.nativeElement.parentElement.style.visibility = "visible";
+      this.instruction.nativeElement.pause();
+      this.instruction.nativeElement.currentTime = 0;
+      this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
+      this.videoPlaytimer = setTimeout(() => {
+        this.appModel.handlePostVOActivity(false);
+        this.blinkTextBox();
+        this.instructionDisable = false;
+        this.questAreaDisable = false;
+        this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+        this.inputDivRef.nativeElement.classList = "inputDiv";
+      }, this.quesObj.timegapImage);
+
+      // this.inputDivRef.nativeElement.classList = "inputDiv";
+      // this.questAreaDisable = false;
+      // this.instructionDisable = false;
+      // this.blinkTextBox();
     }
     //this.blinkOnLastQues();
     this.appModel.handlePostVOActivity(false);

@@ -30,23 +30,15 @@
 .modal .options div{
 	width: 44%;
 }
-.options div:hover{
+.optionHover {
 	transform: scale(1.1);
-	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
+	cursor:pointer;
 }
-/* @keyframes scaleit{
-	0%{
-		transform: scale(1.1);
-	}
-	100%{
-		transform: scale(1.1);
-	}
-} */
 .options div .subOpt{
     position: absolute;
     top: 0;
     left: 0;
 }
-.options img{
+/* .options img{
 	cursor:pointer;
-}
+} */
