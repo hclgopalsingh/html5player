@@ -525,31 +525,38 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
       opt.isOptSelect = true;
-      // if (opt.id == this.feedback.correct_ans_index) {
-      //   for (let i = 0; i < this.myoption.length; i++) {
-      //     if (this.myoption[i].id != opt.id) {
-      //       this.myoption[i].showDisable = true;
-      //     }
-      //   }
-      //   this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-      //   this.feedbackVoRef.nativeElement.play();
-
-      //   this.feedbackVoRef.nativeElement.onended = () => {
-      //     this.blinkTimer = setTimeout(() => {
-      //       this.bodyContentOpacity = true;
-      //       this.instructionOpacity = true;
-      //       document.getElementById("ele_ansBtn").classList.remove("disableBtn");
-      //       this.blinkOnLastQues()
-      //     }, 2000)
-      //   }
-      // }
-      // else {
-      //   this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-      //   this.feedbackVoRef.nativeElement.play();
-      //   this.feedbackVoRef.nativeElement.onended = () => {
-      //     this.appModel.wrongAttemptAnimation();
-      //   }
-      // }      
+      if (opt.id == this.feedback.correct_ans_index) {
+        this.blurTwoOptions = true;
+        this.rightFeedbackTimer = setTimeout(() => {
+          this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVoRef.nativeElement.play();
+        }, 750)
+        this.feedbackVoRef.nativeElement.onended = () => {
+          this.timernextseg = setInterval(() => {
+            this.removeEvents();
+            this.blinkOnLastQues()
+            this.blurTwoOptions = false;
+            this.bodyContentOpacity = true;
+            this.appModel.enableReplayBtn(false);
+          }, 200)
+          this.appModel.handlePostVOActivity(false);
+        }
+      } else {
+        this.blurTwoOptions = false;
+        console.log("when wrong answer clicked");
+        this.isAnsWrong = true;
+        this.appModel.handlePostVOActivity(true);
+        this.wrongFeedbackTimer = setTimeout(() => {
+          this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+          this.feedbackVoRef.nativeElement.play();
+        }, 750)
+        this.feedbackVoRef.nativeElement.onended = () => {
+          if (this.isAnsWrong) {
+            this.appModel.wrongAttemptAnimation();
+            this.appModel.handlePostVOActivity(true);
+          }
+        }
+      }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
       opt.isOptSelect = false;
       // document.getElementById("ele_ansBtn").classList.remove("disableBtn");
@@ -557,6 +564,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
   checkAnswer(option, event, idx) {
     this.disableHelpBtn = true;
+    this.itemid=idx;
     this.appModel.enableReplayBtn(false);
     this.appModel.handlePostVOActivity(true);
     if (!this.instruction.nativeElement.paused) {
@@ -730,13 +738,13 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   postWrongAttemplt() {
-    //wrong-right ans
-    //shake options    
+    this.myoption[this.itemid].isOptSelect = false;
+    this.myoption[this.itemid].isOpen = true;
     this.appModel.enableReplayBtn(true);
     this.isAnsWrong = false
-    this.ansBlock.nativeElement.children[this.itemid].children[1].style.visibility = 'visible';
-    this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'hidden';
-    $(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
+    // this.ansBlock.nativeElement.children[this.itemid].children[1].style.visibility = 'visible';
+    // this.ansArrangeBlock.nativeElement.children[2].style.visibility = 'hidden';
+    // $(this.ansBlock.nativeElement.children[this.itemid].children[1]).animate({ left: 0, top: 0 }, 1000, () => {
       console.log("stuffs to do wrong answer pop-up")
       this.appModel.enableReplayBtn(true);
       this.appModel.handlePostVOActivity(false);
@@ -744,7 +752,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       setTimeout(() => {
         this.isOptionDisabled = false;
       }, 1000)
-    })
+    // })
   }
 
   getBasePath() {
