@@ -41,7 +41,7 @@
                 <img class="img-fluid" [src]="opt?.bgImgsrc?.url" (load)="checkImgLoaded();">
                 <img class="img-fluid option_img" *ngIf="opt.imgsrc" [src]="opt?.imgsrc?.url "
                   on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"
-                  (mousemove)="optionHover(opt,idx)" (click)="checkAnswer(opt,idx)" (load)="checkImgLoaded();">
+                  (mousemove)="optionHover(opt,idx)" (click)="checkAnswer(opt,idx,'manualSelect')" (load)="checkImgLoaded();">
               </div>
             </div>
           </div>

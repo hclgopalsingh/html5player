@@ -290,21 +290,6 @@
 }
 
 /* css update ends - 27 March */
-@media (min-width: 800px) and (max-width: 1299px) {
-
-  #navBlock .prevBtn,
-  #navBlock .nextBtn {
-    /*width:90px;
-	height:35px;
-	position:relative;*/
-  }
-}
-
-@media (min-width: 1520px) and (max-width: 1920px) {
-  /*.temp5 #placeholders img {
-    max-width: 90%;
-}*/
-}
 
 .selected_opt_outer {
   height: auto;
