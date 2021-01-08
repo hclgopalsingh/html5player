@@ -38,7 +38,7 @@
                         <img class="img-fluid" [src]="opt?.background?.location=='content' ? containgFolderPath + '/' + opt?.background?.url : opt?.background?.location=='assets' ? assetsPath + '/' +opt?.background?.url:''"
                         (load)="checkImgLoaded();">
                         <img class="img-fluid" [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : opt?.image?.location=='assets' ? assetsPath + '/' +opt?.image?.url:''"
-                        (load)="checkImgLoaded();" on-mouseenter='playOptionHover(opt,idx)' (click)="selectOpt(opt,idx)">
+                        (load)="checkImgLoaded();" on-mousemove='playOptionHover(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="selectOpt(opt,idx)">
                     </ng-template>                    
                 </div>
                 
