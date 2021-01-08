@@ -52,7 +52,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	@ViewChild("optionImage") optionImage: any;
 	@ViewChild('titleHelpAudio') titleHelpAudio: any;
 	@ViewChild('clapSound') clapSound: any;
-	@ViewChild('buzzerSound') buzzerSound: any;
 	@ViewChild('wrongFeedback') wrongFeedback: any;
 	@ViewChild('narrator') narrator: any;
 	@ViewChild('instruction') instruction: any;
@@ -518,7 +517,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 				}
 			}
 			if (val == "replayVideo") {
-				this.appModel.videoStraming(true);
+				// this.appModel.videoStraming(true);
 				this.activityStarted = true;
 				if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
 					this.disableAllOpt = true;
@@ -605,9 +604,6 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	templatevolume(vol, obj) {
 		if (obj.clapSound && obj.clapSound.nativeElement) {
 			obj.clapSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.buzzerSound && obj.buzzerSound.nativeElement) {
-			obj.buzzerSound.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 		if (obj.audio) {
 			obj.audio.volume = obj.appModel.isMute ? 0 : vol;
@@ -982,6 +978,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	replayVideo() {
+		this.appModel.stopAllTimer();
 		this.videoReplayd = true;
 		this.activityStarted = true;
 		this.isPlayVideo = true;
@@ -1034,7 +1031,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	onVideoEnd() {
 		this.appModel.navShow = 2;
 		this.disableInstruction = false;
-		this.disableAllOpt = false;
+		setTimeout(() => {
+			this.disableAllOpt = false;
+		}, 1000)
 		this.isPlayVideo = false;
 		this.appModel.videoStraming(false);
 		// this.appModel.notifyUserAction();

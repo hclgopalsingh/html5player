@@ -11,7 +11,6 @@
 
   <div id="bgImage"><img class="img-fluid" [src]="quesInfo.background.url" (load)="checkImgLoaded();"></div>
   <audio #clapSound [src]="quesInfo?.right_sound?.url"></audio>
-  <audio #buzzerSound [src]="quesInfo?.wrong_sound?.url"></audio>
 
 
   <div #maincontent>
@@ -84,7 +83,7 @@
       </div>
     </div>
   </div>
-  <audio #wrongFeedback [src]="quesInfo?.wrong_sound?.url"></audio>
+  <audio #wrongFeedback [src]="feedbackPopup?.feedbackVo?.url"></audio>
 
   <div class="modal" id="confirmModal" #confirmModalRef>
     <div class="modal-dialog">
