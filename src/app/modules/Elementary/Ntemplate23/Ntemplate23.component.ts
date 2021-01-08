@@ -1,7 +1,7 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { ThemeConstants } from '../../../common/themeconstants';
-import { Subject, Observable, Subscription } from 'rxjs'
+import { Subscription } from 'rxjs'
 import 'jquery';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
@@ -283,7 +283,7 @@ export class Ntemplate23Component implements OnInit {
         this.checked = true;
         this.isShowAnsOpen = true;
         //show modal of auto
-        this.closeModel()
+        this.closeModal();
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
@@ -399,7 +399,6 @@ export class Ntemplate23Component implements OnInit {
       }
     }
     console.log("this.Id = " + this.Id);
-    console.log("target",event.target);
     if (this.Id == null) {
       // this.Id = event.target.getAttribute("")
       if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
@@ -488,6 +487,7 @@ export class Ntemplate23Component implements OnInit {
         idFound.clicked = true;
         this.submittedArray.push(idFound);
         this.tempObj = <any>{};
+        this.tempObj.id = this.categoryIndex;
         this.tempObj.category = idFound.categoryTxtimg;
         this.checkCategoryStatus(idFound);
         this.paginationArray.push(this.tempObj);
@@ -626,7 +626,12 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       this.tempObj.isSubCategorycorrect = false;
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      this.correctIncorrectArr.push(this.tempObj);
+      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
+      if(tempObjIndex > -1) {
+        this.correctIncorrectArr[index] = this.tempObj;
+      } else {
+        this.correctIncorrectArr.push(this.tempObj);
+      }
 
     } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
       console.log("out of scope correct ");
@@ -638,7 +643,12 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.isSubCategorycorrect = true;
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       this.tempObj["isOutOfScopeAndCorrect"] = true;
-      this.outOfScopeArr.push(this.tempObj);
+      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
+      if(tempObjIndex > -1) {
+        this.outOfScopeArr[index] = this.tempObj;
+      } else {
+        this.outOfScopeArr.push(this.tempObj);
+      }
     } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory !== this.paginationArray[index].subCategory) {
       console.log("out of scope incorrect ");
       this.paginationArray[index].isSubCategorycorrect = false;
@@ -647,7 +657,12 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.isSubCategorycorrect = false;
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       this.tempObj["isOutOfScopeAndIncorrect"] = true;
-      this.outOfScopeArr.push(this.tempObj);
+      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
+      if(tempObjIndex > -1) {
+        this.outOfScopeArr[index] = this.tempObj;
+      } else {
+        this.outOfScopeArr.push(this.tempObj);
+      }
     }
     else if (this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
       console.log("correct capital ");
@@ -655,7 +670,12 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       this.tempObj.isSubCategorycorrect = true;
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      this.correctIncorrectArr.push(this.tempObj);
+      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
+      if(tempObjIndex > -1) {
+        this.correctIncorrectArr[index] = this.tempObj;
+      } else {
+        this.correctIncorrectArr.push(this.tempObj);
+      }
     }
   }
 
@@ -840,13 +860,6 @@ export class Ntemplate23Component implements OnInit {
       this.closeFeedback = this.feedbackObj.close_feedback_timer * 1000;
     }
     this.closeFeedbackmodalTimer = setTimeout(() => {
-      // this.feedbackPopupRef.nativeElement.classList = "modal";
-      // if (this.isWrongAttempted) {
-      //     this.appModel.wrongAttemptAnimation();
-      // } else if (this.isAllRight) {
-      //     this.disableScreen();
-      //     this.blinkOnLastQues();
-      // }
       this.closeModal();
     }, this.closeFeedback);
   }
@@ -1176,13 +1189,11 @@ export class Ntemplate23Component implements OnInit {
           this.QuesRef.nativeElement.style.pointerEvents = "";
           document.getElementById('instructionBar').style.pointerEvents = "";
         }
-        console.log("quesrefbefore",this.QuesRef.nativeElement.children[1]);
         for (let i=1; i < this.QuesRef.nativeElement.children[1].children.length; i++) {
           for (let j=1; j < this.QuesRef.nativeElement.children[1].children[i].children.length; j++) {
             this.QuesRef.nativeElement.children[1].children[i].children[j].style.pointerEvents = "none";
           }
         }
-        console.log("quesrefafter",this.QuesRef.nativeElement.children[1]);
         console.log("AA gaya");
         clearInterval(loadImage);
       }
@@ -1511,6 +1522,7 @@ export class Ntemplate23Component implements OnInit {
   showFeedback(id: string, flag: string, status?: string) {
     if (status === "feedbackDone") {
       this.closeModal();
+      this.appModel.notifyUserAction();
     }
     if (id == "submit-modal-id") {
       this.confirmSubmitRef.nativeElement.classList = "modal";
@@ -1581,10 +1593,8 @@ export class Ntemplate23Component implements OnInit {
     }
     else if (id == "showAnswer-modal-id" && flag == "no") {
       this.showAnswerRef.nativeElement.classList = "modal";
+      this.appModel.notifyUserAction();
     }
-    //  else {
-    //   this.appModel.notifyUserAction();
-    // }
   }
 
   closeModal() {
@@ -1598,6 +1608,9 @@ export class Ntemplate23Component implements OnInit {
     }
     this.showAnswerRef.nativeElement.classList = "modal";
     this.popupRef.nativeElement.classList = "modal";
+    this.infoModalRef.nativeElement.classList = "modal";
+    this.confirmSubmitRef.nativeElement.classList = "modal";
+    this.confirmModalRef.nativeElement.classList = "modal";
     this.currentPageNo = 1;
     this.endPage = false;
     this.isShowAnsOpen = false;
@@ -1618,6 +1631,8 @@ export class Ntemplate23Component implements OnInit {
     if (!this.checked) {
       this.resetActivity();
       this.appModel.wrongAttemptAnimation();
+      this.appModel.notifyUserAction();
+      
       setTimeout(() => {
         // $("#instructionBar").removeClass("disable_div");
       }, 1000);
@@ -1626,13 +1641,13 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
-  closeModel() {
-    //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
-    this.infoModalRef.nativeElement.classList = "modal"
-    this.infoModalRef.nativeElement.classList = "modal"
-    this.confirmSubmitRef.nativeElement.classList = "modal"
-    this.confirmModalRef.nativeElement.classList = "modal"
-  }
+  // closeModel() {
+  //   //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
+  //   this.infoModalRef.nativeElement.classList = "modal"
+  //   this.infoModalRef.nativeElement.classList = "modal"
+  //   this.confirmSubmitRef.nativeElement.classList = "modal"
+  //   this.confirmModalRef.nativeElement.classList = "modal"
+  // }
 
   hoverFeedbackOK() {
     this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_hover;

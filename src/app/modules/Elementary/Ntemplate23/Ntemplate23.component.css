@@ -471,14 +471,9 @@ button:focus {
   width: 85%;
 }
 
-#confirmModal .modal-title {
+/* #confirmModal .modal-title {
   margin-left: 3%;
-}
-
-#confirmModal .close {
-  /* width: 5%; */
-  margin: 0 1.6% 0 auto;
-}
+} */
 
 #confirmModal .modal-footer {
   display: flex;
@@ -568,6 +563,11 @@ button:focus {
   top: 0;
 }
 
+/* .modal-title {
+  margin-left: 1.5%;
+  height: 80%;
+} */
+
 .close {
   width: auto;
   height: 75%;
@@ -583,10 +583,6 @@ button:focus {
     height: 95%;
     margin-right: .3%;
   }
-}
-
-#modalTemp23 .modal-header .close {
-  margin-left: auto;
 }
 
 .modal-body {
@@ -982,8 +978,8 @@ nav {
 
 .parentGroup {
   width: 100%;
-  background: #ccc;
-  border: solid .15vmax #fff;
+  background: #50e6e5;
+  border: solid .25vmax #fff;
   display: flex !important;
 }
 
@@ -1016,6 +1012,10 @@ nav {
   color: black;
 }
 
+#dropdownviaTooltip .btn-secondary,
+#dropdownviaTooltip .btn-secondary:hover {
+  background-color: #32a4a3 !important;
+}
 #dropdown .btn,
 #dropdownviaTooltip .btn {
   width: 100% !important;
@@ -1123,7 +1123,11 @@ nav {
   border-right: .3em solid transparent;
   border-left: .3em solid transparent;
 }
-
+#dropdownviaTooltip .dropdown-toggle::after {
+  border-top: .3em solid;
+  border-right: .22em solid transparent;
+  border-left: .22em solid transparent;
+}
 .dropdown-menu {
   position: absolute;
   transform: none !important;
@@ -1154,6 +1158,7 @@ nav {
   display: block;
   width: 100%;
   padding: .25vmin 1vmin !important;
+  border-bottom: 1px solid lightgray !important;
   clear: both;
   font-weight: 400;
   color: #212529;
@@ -1221,4 +1226,5 @@ nav {
   position: absolute;
   right: 0;
   background: #c90;
+  pointer-events: none;
 }
