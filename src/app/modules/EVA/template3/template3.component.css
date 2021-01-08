@@ -38,12 +38,6 @@
     left: 0;
 }
 
-.options div:hover{
-    transform: scale(1.1);
-	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
-}
-
-
 .options .playBtn {
  position: absolute;
  right: 7%;
@@ -81,11 +75,13 @@
 	right: 1.8%;
 }
 
-.options img,
 .speakerBtn img {
 	cursor:pointer;
 }
-
+.optionHover {
+    transform: scale(1.1);
+    cursor:pointer;
+}
 .disable_div {
 	pointer-events: none;
 }

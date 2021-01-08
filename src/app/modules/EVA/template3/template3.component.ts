@@ -182,6 +182,7 @@ export class Template3Component extends Base implements OnInit {
 
 
 	onHoverOptions(option, index) {
+		this.optionRef.nativeElement.children[index].classList.add("optionHover");
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
 			speakerEle.pause();
@@ -196,6 +197,7 @@ export class Template3Component extends Base implements OnInit {
 
 	onHoveroutOptions(option, index) {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
+		this.optionRef.nativeElement.children[index].classList.remove("optionHover");
 	}
 	onHoverPlay(option, index) {
 		if (!this.videoPlayed) {
