@@ -536,22 +536,22 @@ button:focus {
 
 .optionsBlock {
   width: 100%;
-  height: 20.5%;
+  /* height: 20.5%; */
   position: absolute;
-  bottom: 0;
+  bottom: 1%;/*0;*/
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .optionBase {
-  height: 100%;
+  /* height: 100%; */
   max-width: 84%!important;
 }
 
 .options {
-  width: 82%;
-  height: 66%;
+  width: 82.5%;/*82%*/
+  height: 69%;/*66%;*/
   position: absolute;
   /*overflow: hidden;*/
   white-space: nowrap;
