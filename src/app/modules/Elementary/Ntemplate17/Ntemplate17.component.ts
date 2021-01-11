@@ -252,6 +252,7 @@ export class Ntemplate17Component implements OnInit {
   questAreaDisable: boolean = true;
   nextFeedbackBlinkTimer:any;
   nextBtnInterval: any;
+  firstLoad: boolean = true;
   rightPosArray: any = [
     {
       "left": "-2%",
@@ -1867,6 +1868,18 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronClose() {
+    if(this.firstLoad){
+      console.log("first time wala h")
+      this.firstLoad = false;
+      clearTimeout(this.videoPlaytimer)
+      this.appModel.handlePostVOActivity(false);
+      this.blinkTextBox();
+      this.firstLoad = false;
+      this.instructionDisable = false;
+      this.questAreaDisable = false;
+      this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+      this.inputDivRef.nativeElement.classList = "inputDiv";
+    }
     this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
     this.quesObj.close_btn = this.quesObj.close_btn_original;
@@ -1991,6 +2004,7 @@ export class Ntemplate17Component implements OnInit {
       this.videoPlaytimer = setTimeout(() => {
         this.appModel.handlePostVOActivity(false);
         this.blinkTextBox();
+        this.firstLoad = false;
         this.instructionDisable = false;
         this.questAreaDisable = false;
         this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
