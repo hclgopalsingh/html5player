@@ -4,13 +4,13 @@
     <img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" />
   </div>
   <div class="d-flex flex-row justify-content-around" id="instructionBar">
-    <div class="instructionBase">
+    <div class="instructionBase" [ngClass]="{'disableDiv':instructionDisable,'classOpacity':instructionOpacity}">
       <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (load)="checkImgLoaded();"
         (click)="playHoverInstruction()" />
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
     </div>
   </div>
-  <div class="row mx-0" id="optionsBlock" #optionsBlock>
+  <div class="row mx-0" id="optionsBlock" #optionsBlock [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
     <div class="listBlock">
       <img class="img-fluid" [src]="commonAssets?.listBg?.url" />
       <div class="listHeader">

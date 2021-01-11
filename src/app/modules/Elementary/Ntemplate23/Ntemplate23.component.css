@@ -235,6 +235,14 @@ button:focus {
   left: 0;
 }
 
+.instructionBase img {
+  cursor: pointer;
+}
+.modal .instructionBase img {
+  cursor: default;
+  pointer-events: none;
+}
+
 @keyframes scaleit {
   0% {
     transform: scale(.9);
@@ -1227,4 +1235,7 @@ nav {
   right: 0;
   background: #c90;
   pointer-events: none;
+}
+.classOpacity {
+  opacity: 0.3;
 }
