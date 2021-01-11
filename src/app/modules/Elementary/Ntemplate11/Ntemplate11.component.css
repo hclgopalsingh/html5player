@@ -1133,7 +1133,11 @@ button:focus {
 }
 
 .selectedOpt {
-  transform: scale(.55);
+  transform: scale(.55);  
+}
+.wrongOpt{
   border: solid .5vmin red;
   border-radius: 1.5vmin;
 }
+
+

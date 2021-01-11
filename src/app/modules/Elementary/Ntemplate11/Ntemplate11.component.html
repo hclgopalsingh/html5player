@@ -1,4 +1,4 @@
-<div #container class="container-fluid ele" id="container" *ngIf="!showIntroScreen && !isPlayVideo">
+<div #container class="container-fluid ele" id="container" *ngIf="!isPlayVideo">
   <audio #narrator [src]="commonAssets?.narrator?.url"></audio>
 
   <div id="bgImage"><img class="img-fluid" [src]="common_assets?.background?.url" (load)="checkImgLoaded();" /></div>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div #optionRef class="d-flex align-items-center justify-content-around " id="optBlock">
-      <div #ansBlock class="d-flex flex-row justify-content-around" id="ansBlock"
+      <div class="d-flex flex-row justify-content-around" id="ansBlock"
         [ngClass]="{'disable_div':isOptionDisabled}">
         <div class="options" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts,$event, idx)">
           <img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url" (load)="checkImgLoaded();">
@@ -20,13 +20,13 @@
             (mouseleave)="onHoveroutOptions(opts,idx)"
             [@openClose]="{value: opts.isOpen ? 'open' : 'closed', params: {leftPos: opts.leftPos , topPos: opts.topPos , optWidth: opts.optWidth, optMaxWidth: opts.optMaxWidth}}"
             (@openClose.start)="onAnimationEvent($event,opts,idx)" (@openClose.done)="onAnimationEvent($event,opts,idx)"
-            (load)="checkImgLoaded();" [ngStyle]="{'opacity':blurTwoOptions  == true ? 0.3 : 1}"
-            [ngClass]="{'selectedOpt':opts.isOptSelect}">
+            (load)="checkImgLoaded();" [ngStyle]="{'opacity':opts.blurOptions  == true ? 0.3 : 1}"
+            [ngClass]="{'selectedOpt':opts.isOptSelect, 'wrongOpt':opts.wrongSelected}">
         </div>
       </div>
     </div>
     <div class="d-flex flex-row justify-content-around" id="answerBlock">
-      <div class="ansBase" id="ansArrangeBlock" #ansArrangeBlock>
+      <div class="ansBase" id="ansArrangeBlock">
         <img class="img-fluid" [src]="common_assets?.quesBasetemp?.url" style="visibility: hidden;"
           (load)="checkImgLoaded();">
         <img class="img-fluid quesText" [src]="question?.img_sentence?.url" (load)="checkImgLoaded();">
@@ -98,6 +98,6 @@
     <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
         (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
     <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="quesSkip"
-        (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
+        (click)="videoEndedHandler()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
   </div>
 </div>
