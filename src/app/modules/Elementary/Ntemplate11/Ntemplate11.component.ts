@@ -759,6 +759,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.startPreviousTimer();
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
+    setTimeout(() => {
+      this.isOptionDisabled = false;
+    }, 1000)
   }
 
   PlayPauseVideo() {
