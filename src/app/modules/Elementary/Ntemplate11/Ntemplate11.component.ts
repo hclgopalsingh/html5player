@@ -203,18 +203,19 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         }
       }
       if (val == "uttarDikhayein") {
+        this.isOptionDisabled = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
         }
       }
       if (val == "replayVideo") {
         console.log("replaying video");
-        this.appModel.enableReplayBtn(true);
+        // this.appModel.enableReplayBtn(true);
+        this.isOptionDisabled = true;
         this.PlayPauseFlag = true;
         this.quesObj.quesPlayPause = this.quesObj.quesPause;
         this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
-          // this.ansBlock.nativeElement.className = "d-flex align-items-center justify-content-around";
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
         }
       }
@@ -562,6 +563,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       console.log("closing modal");
       //close modal          
       this.appModel.notifyUserAction();
+      setTimeout(() => {
+        this.isOptionDisabled = false;
+      }, 1000)
     }
   }
 
@@ -705,13 +709,15 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.notifyUserAction();
     if (flag == "yes") {
       if (action == "replay") {
-        //this.isPlayVideo = true;
         this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
         this.appModel.videoStraming(true);
-        this.quesSkip = true;
+        this.quesSkip = true;        
         this.replayVideo();
       }
     } else if (flag == "no") {
+      setTimeout(() => {
+        this.isOptionDisabled = false;
+      }, 1000)
       this.appModel.videoStraming(false);
       this.appModel.enableReplayBtn(true);
     }
@@ -725,8 +731,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.appModel.stopAllTimer();
     }
   }
-  replayVideo() {
-    this.isOptionDisabled = true;
+  replayVideo() {    
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
