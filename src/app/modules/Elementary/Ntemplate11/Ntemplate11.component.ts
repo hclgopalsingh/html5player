@@ -630,6 +630,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     if (obj.mainVideo && obj.mainVideo.nativeElement) {
       obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
+    if (obj.audio) {
+      obj.audio.volume = obj.appModel.isMute ? 0 : vol;
+    }
   }
 
   postWrongAttemplt() {
@@ -711,7 +714,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       if (action == "replay") {
         this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
         this.appModel.videoStraming(true);
-        this.quesSkip = true;        
+        this.quesSkip = true;
         this.replayVideo();
       }
     } else if (flag == "no") {
@@ -731,7 +734,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.appModel.stopAllTimer();
     }
   }
-  replayVideo() {    
+  replayVideo() {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
