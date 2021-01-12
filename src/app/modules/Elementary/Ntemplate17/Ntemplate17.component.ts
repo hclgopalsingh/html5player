@@ -1880,6 +1880,7 @@ export class Ntemplate17Component implements OnInit {
       this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
       this.inputDivRef.nativeElement.classList = "inputDiv";
     }
+    clearTimeout(this.videoPlaytimer)
     this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
     this.quesObj.close_btn = this.quesObj.close_btn_original;
@@ -2052,6 +2053,11 @@ export class Ntemplate17Component implements OnInit {
       this.fullImage.nativeElement.parentElement.style.visibility = "visible";
       this.instruction.nativeElement.pause();
       this.instruction.nativeElement.currentTime = 0;
+      this.videoPlaytimer = setTimeout(() => {
+        this.appModel.startPreviousTimer();
+        this.appModel.notifyUserAction();
+        this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+      }, this.quesObj.timegapImage);
     }
   }
 
