@@ -664,7 +664,7 @@ html [type=button] {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 70% !important;
+    max-width: 81% !important;/*70%*/
   }
 }
 
