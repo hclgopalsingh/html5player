@@ -47,10 +47,9 @@
 
 #ansBlock .options {
   text-align: right;
-  /*width:19.7%;*/
   position: relative;
-  /*margin-bottom:20%;*/
   float: left;
+  margin: 0 0.2%;
 }
 
 .option_img {
@@ -163,7 +162,7 @@
 #optionImage {
   width: 100%;
   height: 100%;
-  padding: 0px 3% 0px 2.8%;
+  padding: 0px 2%;
   ;
 }
 
@@ -291,21 +290,6 @@
 }
 
 /* css update ends - 27 March */
-@media (min-width: 800px) and (max-width: 1299px) {
-
-  #navBlock .prevBtn,
-  #navBlock .nextBtn {
-    /*width:90px;
-	height:35px;
-	position:relative;*/
-  }
-}
-
-@media (min-width: 1520px) and (max-width: 1920px) {
-  /*.temp5 #placeholders img {
-    max-width: 90%;
-}*/
-}
 
 .selected_opt_outer {
   height: auto;
@@ -608,12 +592,6 @@ button:focus {
   padding-left: 0px;
 }
 
-/*.modal-dialog {
-    width: 30%;
-    min-height: 49%;
-    width: 100%;
-    height: 88%;
-  }*/
 .modal.show {
   display: -webkit-box !important;
 }
@@ -664,7 +642,7 @@ html [type=button] {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 70% !important;
+    max-width: 81% !important;/*70%*/
   }
 }
 
