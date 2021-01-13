@@ -44,10 +44,9 @@ import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate12 } from '../modules/Elementary/Ntemplate12/Ntemplate12.component';
 import { Ntemplate16 } from '../modules/Elementary/Ntemplate16/Ntemplate16.component';
 import { Ntemplate23 } from '../controller/Ntemplate23.component';
-import { Ntemplate15 } from '../controller/Ntemplate15.component';
+import { Ntemplate15 } from '../modules/Elementary/Ntemplate15/Ntemplate15.component';
 import { Ntemplate22 } from '../modules/Elementary/Ntemplate22/Ntemplate22.component';
 import { Ntemplate14 } from '../controller/Ntemplate14.component';
-
 import {Template15Component } from '../modules/EVA/template15/template15.component';
 import { Template3Component } from './EVA/template3/template3.component';
 import { Template1Component } from '../modules/EVA/template1/template1.component';

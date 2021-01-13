@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
-import { ApplicationmodelService } from '../model/applicationmodel.service';
-import { PlayerConstants } from '../common/playerconstants';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ApplicationmodelService } from '../../../model/applicationmodel.service';
+import { PlayerConstants } from '../../../common/playerconstants';
 import { Subscription } from 'rxjs'
 
 
@@ -11,8 +11,8 @@ declare var $: any;
 
 @Component({
 	selector: 'Ntemplate15',
-	templateUrl: '../view/layout/Ntemplate15.component.html',
-	styleUrls: ['../view/css/Ntemplate15.component.css', '../view/css/bootstrap.min.css'],
+	templateUrl: './Ntemplate15.component.html',
+	styleUrls: ['./Ntemplate15.component.css'],
 
 })
 
