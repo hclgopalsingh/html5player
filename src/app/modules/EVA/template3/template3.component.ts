@@ -202,11 +202,13 @@ export class Template3Component extends Base implements OnInit {
 	onHoverPlay(option, index) {
 		if (!this.videoPlayed) {
 			this.myoption[index].play_button_normal = this.myoption[index].play_button_hover;
+			this.onHoverOptions(option, index);
 		}
 	}
 	onHoveroutPlay(option, index) {
 		if (!this.videoPlayed) {
 			this.myoption[index].play_button_normal = this.myoption[index].play_button_original;
+			this.onHoveroutOptions(option, index);
 		}
 	}
 
@@ -364,6 +366,7 @@ export class Template3Component extends Base implements OnInit {
 
 	playVideo(option, index) {
 		this.videoPlayed = true;
+		this.onHoveroutOptions(option, index);
 		this.myoption[index].play_button_normal = this.myoption[index].play_button_selected;
 		this.videoStage.nativeElement.style.opacity = 1;
 		this.videoStage.nativeElement.src = this.myoption[index].videosrc.location == "content" ? this.contentgFolderPath + "/" + this.myoption[index].videosrc.url : this.assetsfolderlocation + "/" + this.myoption[index].videosrc.url;
