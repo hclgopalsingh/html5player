@@ -29,9 +29,7 @@
       <div class="ansBase" id="ansArrangeBlock">
         <img class="img-fluid" [src]="common_assets?.quesBasetemp?.url" style="visibility: hidden;"
           (load)="checkImgLoaded();">
-        <img class="img-fluid quesText" [src]="question?.img_sentence?.url" (load)="checkImgLoaded();">
-        <!-- <img [ngClass]="{'wrongImageStyle': isAnsWrong}" #ans class="img-fluid" [ngStyle]='question.ansclass'
-          [src]="assetspath + '/' + correct_ans_url" style="visibility: hidden;"> -->
+        <img class="img-fluid quesText" [src]="question?.img_sentence?.url" (load)="checkImgLoaded();">        
       </div>
     </div>
   </div>

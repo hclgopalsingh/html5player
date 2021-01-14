@@ -574,39 +574,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     return this.audio.paused;
   }
 
-  // checkNextActivities() {
-  //   if (this.isPaused()) {
-  //     this.removeEvents();
-  //     //disable click on options and speaker
-  //     var optionsBlock = document.getElementById("ansBlock");
-  //     if (optionsBlock) {
-  //       optionsBlock.className = optionsBlock.className.concat(" disable");
-  //     }
-
-  //     if (!this.isAutoplayOn && !this.isLastQues && this.isLastQuesAct) {
-  //       this.blink = true;
-  //     }
-  //     if ((this.isAutoplayOn && !this.isLastQues) || !((this.isLastQuesAct)) || ((this.isLastQuesAct && this.isAutoplayOn && !this.isLastQuesAct))) {
-  //       // this.next();
-  //     } else {
-  //       //disable all the option
-  //       //this.optionBlock.nativeElement.className= "disable_div";
-  //     }
-  //     if (!this.hasEventFired) {
-  //       if (this.isLastQuesAct) {
-  //         this.hasEventFired = true;
-  //         this.appModel.event = { 'action': 'segmentEnds' };
-  //       }
-  //       if (this.isLastQues) {
-  //         this.appModel.event = { 'action': 'end' };
-  //       }
-  //     }
-  //   }
-  //   else {
-  //     console.log("feedback_audio still playing");
-  //   }
-  // }
-
   removeEvents() {
     // remove event handlers for all clickable items in the dom
     // this.blink = false;
