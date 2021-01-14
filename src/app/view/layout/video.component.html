@@ -93,8 +93,8 @@
 						<label style="color:#ff9900; position:relative; top:90%; font-size: .8em; margin-bottom:0;">Mute</label>
 					</div>
 					<input class="volumeslider" type="range" #volumeBar id="volume-bar" min="0" max="1" step="0.1" value="{{appModel.volumeValue}}"
-					 (change)="updateVolume($event)" [ngStyle]="{'visibility': displayVolume ? 'visible' : 'hidden'}" style="-webkit-appearance: none; margin: 0; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -o-transform: rotate(-90deg); -ms-transform: rotate(-90deg); transform: rotate(-90deg); position: absolute; top: -260%; left:-27%; width: 6rem !important; height:5px; background-color:rgba(192,192,192,192) !important; outline:none;" />
-					<!--&#128266;-->
+					 (change)="updateVolume($event)" [ngStyle]="{'visibility': displayVolume ? 'visible' : 'hidden'}" style="-webkit-appearance: none; margin: 0; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -o-transform: rotate(-90deg); -ms-transform: rotate(-90deg); transform: rotate(-90deg); position: absolute; top: -260%; left:-33% !important; width: 6rem !important; height:5px; background-color:rgba(192,192,192,192) !important; outline:none;" />
+					<!--&#128266; left:-27%;-->
 				</div>
 				<!--<div id="closeContainer" class="col-sm-1" (click)="close($event)"
 				style="background: #ddd; margin: 0; display: grid; align-items: center; justify-items: center; text-align: center;">
