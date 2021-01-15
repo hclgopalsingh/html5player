@@ -273,9 +273,11 @@ div#MuteVar::after {
     background: rgba(0, 0, 0,.7) !important;
     border-radius: 3vmin;
     height: 692%;
-    width: 105%;
+    width: 100%;
+    /* width: 105%; */
     position: absolute;
-    left: 1%;
+    left: -2%;
+    /* left: 1%; */
     bottom: -128%;
     z-index: -1;
 }

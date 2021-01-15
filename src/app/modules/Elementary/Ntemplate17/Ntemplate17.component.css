@@ -103,6 +103,7 @@
   position: relative;
   top: 1.5%;
   margin: auto;
+  cursor: default;
 }
 .ele17 .correctBox,
 .ele17 .incorrectBox{
@@ -1733,4 +1734,8 @@ cursor: pointer
 .ele17 .disableBtn{
   pointer-events: none;
   opacity: 0.5;
+}
+
+#inputDivRef{
+  cursor: default;
 }

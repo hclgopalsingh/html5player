@@ -252,6 +252,7 @@ export class Ntemplate17Component implements OnInit {
   questAreaDisable: boolean = true;
   nextFeedbackBlinkTimer:any;
   nextBtnInterval: any;
+  firstLoad: boolean = true;
   rightPosArray: any = [
     {
       "left": "-2%",
@@ -1500,6 +1501,7 @@ export class Ntemplate17Component implements OnInit {
     this.rightListArr[this.currentRightListIdx] = copyTxt;
     this.currentRightListIdx++;
     if (this.noAttempts == 0) {
+      this.testContainerDisable = true;
       this.feedbackTimer = setTimeout(() => {
         this.openModal();
       }, 3000)
@@ -1518,6 +1520,7 @@ export class Ntemplate17Component implements OnInit {
     this.wrongListArr[this.currentWrongListIdx] = copyTxt;
     this.currentWrongListIdx++;
     if (this.noAttempts == 0) {
+      this.testContainerDisable = true;
       this.feedbackTimer = setTimeout(() => {
         this.openModal();
       }, 3000)
@@ -1867,6 +1870,19 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronClose() {
+    if(this.firstLoad){
+      console.log("first time wala h")
+      this.firstLoad = false;
+      clearTimeout(this.videoPlaytimer)
+      this.appModel.handlePostVOActivity(false);
+      this.blinkTextBox();
+      this.firstLoad = false;
+      this.instructionDisable = false;
+      this.questAreaDisable = false;
+      this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+      this.inputDivRef.nativeElement.classList = "inputDiv";
+    }
+    clearTimeout(this.videoPlaytimer)
     this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
     this.quesObj.close_btn = this.quesObj.close_btn_original;
@@ -1955,6 +1971,8 @@ export class Ntemplate17Component implements OnInit {
           this.allEnabledwhilequestionVideoPlay();
           this.mainVideo.nativeElement.pause();
           this.mainVideo.nativeElement.currentTime = 0;
+          this.quesContainer.nativeElement.style.pointerEvents = "none";      
+
           //this.QuestionVideo.nativeElement.load();
         }
       }, this.quesObj.timegap);
@@ -1965,11 +1983,13 @@ export class Ntemplate17Component implements OnInit {
       setTimeout(() => {
         this.displayWave = true;
         this.QuestionAudio.nativeElement.play();
+        this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
         this.QuestionAudio.nativeElement.onended = () => {
           this.displayWave = false;
           this.blinkTextBox();
           this.instructionDisable = false;
-          this.inputDivRef.nativeElement.classList = "inputDiv";
+          this.inputDivRef.nativeElement.classList = "inputDiv";  
+          this.quesContainer.nativeElement.style.pointerEvents = "none";      
           //this.instructionBar.nativeElement.classList = "instructionBase";
           //this.quesContainer.nativeElement.style.pointerEvents="";
           this.questAreaDisable = false;
@@ -1980,7 +2000,11 @@ export class Ntemplate17Component implements OnInit {
       this.QuestionVideo.nativeElement.play();
       this.appModel.handlePostVOActivity(false);
       this.alldisabledwhilequestionVideoPlay();
-      this.inputDivRef.nativeElement.classList = "inputDiv";
+      this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
+      this.QuestionVideo.nativeElement.onended = () => {
+        this.inputDivRef.nativeElement.classList = "inputDiv";
+        this.quesContainer.nativeElement.style.pointerEvents = "none";      
+      }
     } else if (this._questionAreaImageFlag || this._questionAreaTextFlag) {
       //this.quesContainer.nativeElement.style.pointerEvents="";
       this.appModel.stopAllTimer();
@@ -1991,10 +2015,12 @@ export class Ntemplate17Component implements OnInit {
       this.videoPlaytimer = setTimeout(() => {
         this.appModel.handlePostVOActivity(false);
         this.blinkTextBox();
+        this.firstLoad = false;
         this.instructionDisable = false;
         this.questAreaDisable = false;
         this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
         this.inputDivRef.nativeElement.classList = "inputDiv";
+        this.quesContainer.nativeElement.style.pointerEvents = "none";      
       }, this.quesObj.timegapImage);
 
       // this.inputDivRef.nativeElement.classList = "inputDiv";
@@ -2030,6 +2056,8 @@ export class Ntemplate17Component implements OnInit {
         this.appModel.notifyUserAction();
         this.mainVideo.nativeElement.currentTime = 0;
         this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+        this.quesContainer.nativeElement.style.pointerEvents = "none";      
+
       }
     }
     else {
@@ -2038,6 +2066,12 @@ export class Ntemplate17Component implements OnInit {
       this.fullImage.nativeElement.parentElement.style.visibility = "visible";
       this.instruction.nativeElement.pause();
       this.instruction.nativeElement.currentTime = 0;
+      this.videoPlaytimer = setTimeout(() => {
+        this.appModel.startPreviousTimer();
+        this.appModel.notifyUserAction();
+        this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+        this.quesContainer.nativeElement.style.pointerEvents = "none";      
+      }, this.quesObj.timegapImage);
     }
   }
 
@@ -2116,6 +2150,12 @@ export class Ntemplate17Component implements OnInit {
       this.refques.nativeElement.style.cursor = "pointer";
     }
   }
+
+  hoverInputArea(){
+    console.log("hovering input area")
+    this.quesContainer.nativeElement.style.pointerEvents = "";
+  }
+
   prevFeedback() {
     this.currentPlaying = "rightList";
     this.selectedListArr = this.rightListArr;
@@ -2149,6 +2189,15 @@ export class Ntemplate17Component implements OnInit {
             flag = true;
         }
     }, 300)
+}
+
+hoverInput(){
+  if(this.keyBoardOpen){
+    this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
+  }
+  else{
+    this.inputDivRef.nativeElement.classList = "inputDiv ";
+  }
 }
 
 }
