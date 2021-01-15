@@ -1207,11 +1207,8 @@ export class Ntemplate15 implements OnInit {
 		correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
 		this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 		$("#instructionBar").css("pointer-events", 'none');
-
 		this.feedbackVoRef.nativeElement.src = this.assetspath + "/" + this.question.narrator_voice.url
-
 		this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
-		
 		this.appModel.resetBlinkingTimer();
 		setTimeout(() => {
 			if (this.feedbackVoRef && this.feedbackVoRef.nativeElement) {
@@ -1226,13 +1223,6 @@ export class Ntemplate15 implements OnInit {
 
 			}
 		}
-
-
-		// setTimeout(() => {
-		// 	this.blinkOnLastQues();
-		// }, 3000);
-
-
 	}
 
 

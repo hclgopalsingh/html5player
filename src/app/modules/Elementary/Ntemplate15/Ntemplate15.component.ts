@@ -608,9 +608,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.bodyContentDisable = true;
     this.bodyContentOpacity = false;
     this.instructionOpacity = false;
-    this.ans.nativeElement.src = this.containgFolderPath + "/" + this.feedback.correct_ans_url;
+    // this.ans.nativeElement.src = this.containgFolderPath + "/" + this.feedback.correct_ans_url;
     this.displayconfirmPopup = false;
-    this.ans.nativeElement.style.visibility = 'visible';
+    // this.ans.nativeElement.style.visibility = 'visible';
     let id: any;
     this.myoption.forEach((element, i) => {
       if (element.id == this.feedback.correct_ans_index) {
