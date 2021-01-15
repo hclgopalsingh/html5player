@@ -376,6 +376,8 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	checkAnswer(opt, index,flag) {
+		clearTimeout(this.wrongTimer);
+		this.closed = false;
 		this.blinkState1 = "";
 		this.blinkState2 = "";
 		this.timerSubscription.unsubscribe();;
@@ -577,9 +579,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}, 1000)
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.enableReplayBtn(true);
-		setTimeout(() => {
-			this.closed = false;
-		}, 2000)
+		// setTimeout(() => {
+		// 	this.closed = false;
+		// }, 2000)
 
 	}
 
@@ -871,6 +873,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 	}
 
 	wrongAnsClose() {
+		clearTimeout(this.wrongTimer);
 		this.closed = true;
 		this.correctAns.nativeElement.classList = "modal";
 		this.correctAns.nativeElement.classList = "modal";
