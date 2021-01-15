@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { ThemeConstants } from '../../../common/themeconstants';
-import { Subscription } from 'rxjs'
-import 'jquery';
+import { Subscription } from 'rxjs';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
 @Component({
@@ -13,59 +12,21 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 })
 
 export class Ntemplate23Component implements OnInit {
-  private appModel: ApplicationmodelService;
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
-  @ViewChild('optionAudio') optionAudio: any;
-  @ViewChild('maincontent') maincontent: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('popupRef') popupRef: any;
-  @ViewChild('RightModal') RightModalRef: any;
-  @ViewChild('WrongModal') WrongModalRef: any;
-  @ViewChild('popupImage') popupImage: any;
-  @ViewChild('rightFeedbackVO') rightFeedbackVO: any
-  @ViewChild('wrongFeedbackVO') wrongFeedbackVO: any;
-  @ViewChild('quesRef') QuesRef: any;
-  @ViewChild('hoverquesRef') hoverQuesRef: any;
-  @ViewChild('clickquesRef') clickQuesRef: any;
-  @ViewChild('playerAudio') myAudio: any;
-  @ViewChild('answerModalRef') answerModalRef: any;
-  @ViewChild('QuestionAudio') questionAudio: any;
-  @ViewChild('mytooltip') Tooltip: any;
-  @ViewChild('myLine') Line: any;
-  @ViewChild('stateId') StateId: any;
   @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
-  @ViewChild('mySelect') MySelect: any;
-  @ViewChild('MyForm') MyFormVar: any;
-  @ViewChild('imgRef') imgRef: any;
+  @ViewChild('quesRef') QuesRef: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  @ViewChild('showAnswerRef') showAnswerRef: any;
-  @ViewChild('feedbackshowPopupAudio') feedbackshowPopupAudio: any;
   @ViewChild('infoModalRef') infoModalRef: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
 
-  audio = new Audio();
-  blink: boolean = false;
-  currentIdx = 0;
   commonAssets: any = "";
-  optionslist: any = [];
-  optionslist_main: any = "";
-  myoption: any = [];
-  question: any = "";
-  feedback: any = "";
-  narratorAudio: any;
-  isLastActivity: any = "";
   checked: boolean = false;
-  selected: boolean = false;
-  bool: boolean = false;
-  showIntroScreen: boolean;
-  helpAudio: any = "";
-  correctOpt: any;
-  idArray: any = [];
   isFirstQues: boolean;
   isLastQues: boolean = false;
-  isAutoplayOn: boolean;
   isLastQuesAct: boolean;
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -78,127 +39,42 @@ export class Ntemplate23Component implements OnInit {
   showAnsTimeout: number;
   /*END: Theme Implementation(Template Changes)*/
 
-  noOfImgs: number;
-  noOfImgsLoaded: number = 0;
   loaderTimer: any;
   disableHelpBtn: boolean = false;
   containgFolderPath: string = "";
   assetsPath: string = "";
   loadFlag: boolean = false;
   optionObj: any;
-  optArr1: any;
-  optArr2: any;
   optionCommonAssets: any;
   ques_control: any;
   feedbackObj: any;
-  popupAssets: any;
   confirmPopupAssets: any;
   noOfRightAns: any;
   rightAnspopupAssets: any;
   tempSubscription: Subscription;
   rightanspopUp: any;
   wronganspopUp: any;
-  quesObj: any;
-  fileUrls: string = "";
   mainSvgfile: any = "";
-  initColorCircle: string = "";
-  initColorRectangle: string = "";
-  stateCounter: number = 0;
-  maharashtraCounter: number = 0;
   Id: any;
-  Jammu: any;
-  Rajasthan: any;
-  Maharashtra: any;
-  MadhyaPradesh: any;
-  Index_1: any;
-  Index_2: any;
-  storeHtml: any;
-  storeEvent: any;
-  elseCounter: any;
-  currentCategory: any;
-  triangle: any;
-  mainShape: any;
   mySVGArr: any = [];
-  i: number = 0;
-  j: number = 0;
-  noOfSVG: number;
-  edited = false;
-  clickEv = false;
-  answer: any;
-  stateValue: any = [];
   submitFlag = true;
-  checkCounter: number = 0;
   quesAudio: any;
-  CorrectAudio: any;
-  WrongAudio: any;
-  partiallyCorrectAudio: any;
-  mouseOutFlag = true;
-  selectedOutlineCounter: number = 0;
-  onClickFlag = false;
-  overState = true;
-  storeState: any = [];
-  _i: any;
-  myDropDownStates: any = [];
-  rightAnswer: any = [];
-  myRightAnswer: any = [];
-  Submitcounter: number = 0;
-  selectedFillPart: any = [];
   rightAnswerCounter: number = 0;
-  redColorArray: any = [];
-  greenColorArray: any = [];
   wrongAnswerCounter: number = 0;
-  greenColorCounter: number = 0;
-  RightSubmit: any = [];
-  textFeildValue: any = [];
-  redGreenFlag: boolean;
-  accessLine: any;
-  dAttr: any;
-  lineColor: any;
   confirmSubmitAssets: any;
   infoPopupAssets: any;
-  showAnswerCounter: number = 0;
-  autoTimer: boolean = true;
-  autoShowAnswerCounter: number = 1;
-  groupArray: any = [];
-  duplicateGroupArray: any = [];
-  isValid = false;
-  partiallyCorrectFlag: boolean = false;
-  currentindex: number = 0;
-  currentIndexofrightAnswer: number = 0;
-  flag: boolean = false;
   clickedId: string;
   categoryIndex: number;
-  options: any = [];
-  config: any = {};
-  coloronHover: string;
   originalcolor: any = [];
   submittedArray: any = [];
   tempObj = <any>{};
   p: number = 1;
   paginationArray: any = [];
   countofClick: number = 0;
-  tableofOne: boolean;
-  tableofTwo: boolean;
-  tableofThree: boolean;
-  showtableofOne: boolean;
-  showtableofTwo: boolean;
-  showtableofThree: boolean;
-  table1: any;
-  table2: any;
-  table3: any;
   selectedCategoryinTooltip: any;
-  rightstateCounter: number = 0;
-  rightcapitalCounter: number = 0;
-  wrongstateCounter: number = 0;
-  wrongcapitalCounter: number = 0;
   showAnswerarray: any = [];
   copiedCategories: any = [];
   attemptType: string = "";
-  rightanspopUpheader_img: boolean = false;
-  wronganspopUpheader_img: boolean = false;
-  showanspopUpheader_img: boolean = false;
-  partialCorrectheaderTxt_img: boolean = false;
-  partialInCorrectheaderTxt_img: boolean = false
   styleHeaderPopup: any;
   styleBodyPopup: any;
   popupType: any = "";
@@ -218,7 +94,6 @@ export class Ntemplate23Component implements OnInit {
   correctIncorrectArr: any = [];
   noOfPages: number = 1;
   nextBtnInterval: any;
-  showAnswerClicked: boolean = false;
   timerFeedback: any;
   nextFeedbackTimer: any;
   closeFeedback: any;
@@ -228,7 +103,7 @@ export class Ntemplate23Component implements OnInit {
   bodyContentDisable: boolean = true;
   instructionOpacity: boolean = false;
 
-  constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
+  constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 2;
@@ -240,8 +115,6 @@ export class Ntemplate23Component implements OnInit {
   }
 
   ngOnInit() {
-    this.groupArray = [];
-    this.duplicateGroupArray = [];
     this.QuesRef.nativeElement.style.opacity = 0;
     this.containgFolderPath = this.getBasePath();
     /*Start: Theme Implementation(Template Changes)*/
@@ -261,14 +134,6 @@ export class Ntemplate23Component implements OnInit {
     if (this.appModel.isNewCollection) {
       this.appModel.event = { 'action': 'segmentBegins' };
     }
-    if (this.rightFeedbackVO != undefined || this.wrongFeedbackVO != undefined) {
-      this.rightFeedbackVO.nativeElement.pause();
-      this.rightFeedbackVO.nativeElement.currentTime = 0;
-      this.rightFeedbackVO.nativeElement.src = "";
-      this.wrongFeedbackVO.nativeElement.src = "";
-      this.wrongFeedbackVO.nativeElement.pause();
-      this.wrongFeedbackVO.nativeElement.currentTime = 0;
-    }
 
     this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
@@ -280,22 +145,19 @@ export class Ntemplate23Component implements OnInit {
         }
       } else if (mode == "auto") {
         this.checked = true;
-        this.isShowAnsOpen = true;
+        this.attemptType = "auto";
         //show modal of auto
         this.closeModal();
+        this.isShowAnsOpen = true;
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           this.instructionDisable = true;
           this.showAnswerFeedback();
-          this.showAnswerRef.nativeElement.classList = "displayPopup modal";
+          this.popupRef.nativeElement.classList = "displayPopup modal";
           this.popupType = "showanswer";
-          this.setPopupAssets();	 
-          this.feedbackshowPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.url;
-          this.feedbackshowPopupAudio.nativeElement.load();
-          this.feedbackshowPopupAudio.nativeElement.play();
-          this.feedbackshowPopupAudio.nativeElement.onended = () => {
-            this.closeModal();
-          }
+          this.setPopupAssets();
+          this.appModel.stopAllTimer();
+          this.playShowAnswerFeedback();
           this.bodyContentOpacity = true;
           this.instructionOpacity = true;
           this.bodyContentDisable = true;
@@ -354,43 +216,7 @@ export class Ntemplate23Component implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
-  /****** Play Instruction VO on click on Instruction text ******/
-  playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused) {
-      console.log("narrator/instruction voice still playing");
-    } else {
-      console.log("play on Instruction");
-      this.instruction.nativeElement.load();
-      if (this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.appModel.notifyUserAction();
-        this.instructionDisable = true;
-        this.instruction.nativeElement.play();
-        this.instruction.nativeElement.onended = () => {
-          this.instructionDisable = false;
-        }
-      }
-    }
-  }
-
-  blinkOnLastQues() {
-    if (this.appModel.isLastSectionInCollection) {
-      this.appModel.blinkForLastQues(this.attemptType);
-      this.appModel.stopAllTimer();
-      if (!this.appModel.eventDone) {
-        if (this.isLastQuesAct) {
-          this.appModel.eventFired();
-          this.appModel.event = { 'action': 'segmentEnds' };
-        }
-        if (this.isLastQues) {
-          this.appModel.event = { 'action': 'exit' };
-        }
-      }
-    } else {
-      this.appModel.moveNextQues(this.attemptType);
-    }
-  }
-
+  /****** Mouse hover on SVG image ******/
   MouseOver(event) {
     this.appModel.notifyUserAction();
     this.Id = event.target.getAttribute('xlink:href');
@@ -426,6 +252,7 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /****** Mouse out on SVG image ******/
   MouseOut(event) {
     if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
       for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
@@ -434,6 +261,7 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /****** function call on tooltip click ******/
   onTooltipclick() {
     console.log("tooltip closed");
     this.appModel.enableSubmitBtn(true);
@@ -442,15 +270,7 @@ export class Ntemplate23Component implements OnInit {
     document.getElementById('dropdownviaTooltip').style.top = "0%";
   }
 
-  public get sortedArray() {
-    let arr = [];
-    for (let i = 0; i < this.mySVGArr.length; i++) {
-      arr.push(this.mySVGArr[i].subCategory);
-    }
-    this.copiedCategories = arr.filter((item, index) => arr.indexOf(item) === index);
-    return this.copiedCategories;
-  }
-
+  /****** function call on SVG image click ******/
   onClick(event) {
     if (!this.singleClicknotAllowed) {
       if (this.categoryIndex != undefined && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
@@ -462,7 +282,7 @@ export class Ntemplate23Component implements OnInit {
       console.log("this.Id = " + this.clickedId);
       let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
       if (idFound != undefined) {
-        this.optionSelected = idFound.optionSelected;
+        // this.optionSelected = idFound.optionSelected;
         this.appModel.enableSubmitBtn(false);
       }
       this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
@@ -496,14 +316,14 @@ export class Ntemplate23Component implements OnInit {
         document.getElementById("dropdown").classList.remove("dropdownhidden");
         var statebound = document.getElementById("dropdown").children[0].getBoundingClientRect();
         let containerRef = document.getElementById("container");
-        if (window.innerWidth > containerRef.clientWidth + 100) {
-          var stateboundX = statebound.left / (containerRef.clientWidth / 0.9) * 100;
-          var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
-        }
-        else {
-          var stateboundX = statebound.left / (containerRef.clientWidth) * 100;
-          var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
-        }
+        // if (window.innerWidth > containerRef.clientWidth + 100) {
+        var stateboundX = statebound.left / (containerRef.clientWidth / 0.8) * 100;
+        var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
+        // }
+        // else {
+        //   var stateboundX = statebound.left / (containerRef.clientWidth) * 100;
+        //   var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
+        // }
         document.getElementById("line0").setAttribute("x1", (stateboundX * 1 + 2) + "%");
         document.getElementById("line0").setAttribute("y1", stateboundY * 0.8 + "%");
         document.getElementById("line0").setAttribute("x2", parseInt(this.mySVGArr[this.categoryIndex].left) + "%");
@@ -527,24 +347,11 @@ export class Ntemplate23Component implements OnInit {
           document.getElementById('dropdownviaTooltip').style.left = this.mySVGArr[this.categoryIndex].ddTooltipleft + "%";
           document.getElementById('dropdownviaTooltip').style.top = this.mySVGArr[this.categoryIndex].ddTooltiptop + "%";
         }
-      }    
+      }
     }
   }
 
-  checkCategoryStatus(category) {
-    if (this.feedbackObj.correct_category.includes(category.textField)) {
-      this.tempObj.categoryStatus = category.correctCategoryTxtimg;
-      this.tempObj.subCatOfSelectedCategory = category.subCategory;
-      this.tempObj.imgSubCatOfSelectedCategory = category.correctSubCategoryTxtimg;
-      this.tempObj.isCategoryCorrect = true;
-    } else {
-      this.tempObj.categoryStatus = category.incorrectCategoryTxtimg;
-      this.tempObj.subCatOfSelectedCategory = category.subCategory;
-      this.tempObj.imgSubCatOfSelectedCategory = category.incorrectSubCategoryTxtimg;
-      this.tempObj.isCategoryCorrect = false;
-    }
-  }
-
+  /******** Function call on double click on SVG ********/
   ondblClick(event) {
     document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
@@ -590,6 +397,60 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /****** Play Instruction VO on click on Instruction text ******/
+  playHoverInstruction() {
+    if (!this.narrator.nativeElement.paused) {
+      console.log("narrator/instruction voice still playing");
+    } else {
+      console.log("play on Instruction");
+      this.instruction.nativeElement.load();
+      if (this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.appModel.notifyUserAction();
+        this.instructionDisable = true;
+        this.instruction.nativeElement.play();
+        this.instruction.nativeElement.onended = () => {
+          this.instructionDisable = false;
+        }
+      }
+    }
+  }
+
+  /****** blink functionality on last question ******/
+  blinkOnLastQues() {
+    if (this.appModel.isLastSectionInCollection) {
+      this.appModel.blinkForLastQues(this.attemptType);
+      this.appModel.stopAllTimer();
+      if (!this.appModel.eventDone) {
+        if (this.isLastQuesAct) {
+          this.appModel.eventFired();
+          this.appModel.event = { 'action': 'segmentEnds' };
+        }
+        if (this.isLastQues) {
+          this.appModel.event = { 'action': 'exit' };
+        }
+      }
+    } else {
+      this.appModel.moveNextQues(this.attemptType);
+    }
+  }
+
+  /******** Function call to differentiate correct and incorrect category ********/
+  checkCategoryStatus(category) {
+    if (this.feedbackObj.correct_category.includes(category.textField)) {
+      this.tempObj.categoryStatus = category.correctCategoryTxtimg;
+      this.tempObj.subCatOfSelectedCategory = category.subCategory;
+      this.tempObj.imgSubCatOfSelectedCategory = category.correctSubCategoryTxtimg;
+      this.tempObj.isCategoryCorrect = true;
+    } else {
+      this.tempObj.categoryStatus = category.incorrectCategoryTxtimg;
+      this.tempObj.subCatOfSelectedCategory = category.subCategory;
+      this.tempObj.imgSubCatOfSelectedCategory = category.incorrectSubCategoryTxtimg;
+      this.tempObj.isCategoryCorrect = false;
+    }
+  }
+
+  /******** Function call to setup subcategory on basis of category selection ********/
   checkSubCategoryStatus(index) {
     if (this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory !== this.paginationArray[index].subCategory) {
       console.log("incorrect capital");
@@ -598,7 +459,7 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.isSubCategorycorrect = false;
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
-      if(tempObjIndex > -1) {
+      if (tempObjIndex > -1) {
         this.correctIncorrectArr[index] = this.tempObj;
       } else {
         this.correctIncorrectArr.push(this.tempObj);
@@ -615,7 +476,7 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       this.tempObj["isOutOfScopeAndCorrect"] = true;
       let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
-      if(tempObjIndex > -1) {
+      if (tempObjIndex > -1) {
         this.outOfScopeArr[index] = this.tempObj;
       } else {
         this.outOfScopeArr.push(this.tempObj);
@@ -629,7 +490,7 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       this.tempObj["isOutOfScopeAndIncorrect"] = true;
       let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
-      if(tempObjIndex > -1) {
+      if (tempObjIndex > -1) {
         this.outOfScopeArr[index] = this.tempObj;
       } else {
         this.outOfScopeArr.push(this.tempObj);
@@ -642,7 +503,7 @@ export class Ntemplate23Component implements OnInit {
       this.tempObj.isSubCategorycorrect = true;
       this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
-      if(tempObjIndex > -1) {
+      if (tempObjIndex > -1) {
         this.correctIncorrectArr[index] = this.tempObj;
       } else {
         this.correctIncorrectArr.push(this.tempObj);
@@ -650,11 +511,12 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /******** Function called on setting category name ********/
   categoryName(category) {
     this.appModel.notifyUserAction();
     let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
     if (indexinSubmitArr != -1) {
-      this.submittedArray[indexinSubmitArr].optionSelected = category.text;
+      this.submittedArray[indexinSubmitArr]["optionSelected"] = category.text;
       this.optionSelected = this.submittedArray[indexinSubmitArr].optionSelected;
       this.paginationArray[indexinSubmitArr].imgSubCategory = this.mySVGArr.find(element => element.subCategory == category.text).subCategoryTxtimg;
       this.paginationArray[indexinSubmitArr].subCategory = this.mySVGArr.find(element => element.subCategory == category.text).subCategory;
@@ -673,10 +535,13 @@ export class Ntemplate23Component implements OnInit {
     document.getElementById("dropdown").style.opacity = "0";
     document.getElementById("dropdown").style.pointerEvents = "none";
     document.getElementById("line0").style.opacity = "0";
+    document.getElementById('dropdownviaTooltip').style.opacity = "0";
+    document.getElementById('dropdownviaTooltip').style.left = "0%";
+    document.getElementById('dropdownviaTooltip').style.top = "0%";
   }
 
+  /******** Function call on click of submit ********/
   onSubmit() {
-
     if (!this.submitFlag) {
       if ((this.correctIncorrectArr.length <= this.commonAssets.itemsperPage && this.outOfScopeArr.length === 0) || (this.correctIncorrectArr.length === 0 && this.outOfScopeArr.length <= this.commonAssets.itemsperPage)) {
         this.noOfPages = 1;
@@ -690,9 +555,13 @@ export class Ntemplate23Component implements OnInit {
           this.noOfPages = this.noOfPages + Math.ceil(this.outOfScopeArr.length / this.commonAssets.itemsperPage);
         }
       }
+      if (this.noOfPages > 1) {
+        this.endPage = false;
+      }
     }
   }
 
+  /******** Setting popup assets ********/
   setPopupAssets() {
     console.log("this.popupType------------->", this.popupType)
     if (this.popupType === "correct" && this.outOfScopeArr.length === 0) {
@@ -716,7 +585,7 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        if(this.noOfPages !== 1 && !this.endPage) {
+        if (this.noOfPages !== 1 && !this.endPage) {
           this.startNextFeedbackTimer();
         }
         else {
@@ -745,7 +614,7 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       this.popupType = "partialIncorrect";
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        if(this.noOfPages !== 1 && !this.endPage) {
+        if (this.noOfPages !== 1 && !this.endPage) {
           this.startNextFeedbackTimer();
         }
         else {
@@ -764,7 +633,7 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        if(this.noOfPages !== 1 && !this.endPage) {
+        if (this.noOfPages !== 1 && !this.endPage) {
           this.startNextFeedbackTimer();
         }
         else {
@@ -784,7 +653,7 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        if(this.noOfPages !== 1 && !this.endPage) {
+        if (this.noOfPages !== 1 && !this.endPage) {
           this.startNextFeedbackTimer();
         }
         else {
@@ -796,15 +665,13 @@ export class Ntemplate23Component implements OnInit {
       this.styleHeaderPopup = this.feedbackObj.right_style_header;
       this.styleBodyPopup = this.feedbackObj.right_style_body;
       this.feedbackObj.feedback_title = this.feedbackObj.showAnswer_style_title;
-      // if(this.showAnswerarray.length < this.commonAssets.itemsperPage) {
-
-      // }
-      if(this.currentPageNo === 1) {
+      if (this.currentPageNo === 1) {
         this.feedbackArr = this.showAnswerarray.slice(0, this.commonAssets.itemsperPage);
       }
     }
   }
 
+  /******** Timer for moving to next feedback popup screen ********/
   startNextFeedbackTimer() {
     this.setBlinkOnNextBtn();
     if (this.isShowAnsOpen) {
@@ -817,6 +684,7 @@ export class Ntemplate23Component implements OnInit {
     }, this.timerFeedback * 1000);
   }
 
+  /******** Timer for closing feedback popup ********/
   startCloseFeedbackTimer() {
     if (this.isShowAnsOpen) {
       this.closeFeedback = this.showAnsTimeout;
@@ -828,6 +696,7 @@ export class Ntemplate23Component implements OnInit {
     }, this.closeFeedback);
   }
 
+  /******** Function call on next navigation button in popups ********/
   nextFeedback(noIncrement?) {
     clearTimeout(this.nextFeedbackTimer);
     let currentContextArr = [];
@@ -843,8 +712,6 @@ export class Ntemplate23Component implements OnInit {
       } else {
         this.endPage = true;
       }
-
-
       this.playShowAnswerFeedback();
     } else if (this.popupType === "correct" || this.popupType === "wrong" || this.popupType === "partialIncorrect") {
       this.currentPageNo++;
@@ -887,6 +754,7 @@ export class Ntemplate23Component implements OnInit {
     this.setPopupAssets();
   }
 
+  /******** Function call on previous navigation button in popups ********/
   prevFeedback() {
     clearTimeout(this.closeFeedbackmodalTimer);
     this.pageNo--;
@@ -977,6 +845,7 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /******** Loading SVG image ********/
   getFileLoaded(filesData) {
     this.appModel.getFileString(filesData.url)
       .subscribe((data) => {
@@ -991,6 +860,9 @@ export class Ntemplate23Component implements OnInit {
         svgElement.setAttribute("height", "100%");
         svgElement.classList.add("svgClass");
         if (this.quesAudio != undefined && this.quesAudio.url != "") {
+          this.appModel.setLoader(false);
+          this.loadFlag = true;
+          clearTimeout(this.loaderTimer);
           this.narrator.nativeElement.src = this.quesAudio.url;
           this.narrator.nativeElement.load();
           this.narrator.nativeElement.play();
@@ -1010,44 +882,37 @@ export class Ntemplate23Component implements OnInit {
           this.QuesRef.nativeElement.style.pointerEvents = "";
           document.getElementById('instructionBar').style.pointerEvents = "";
         }
-        for (let i=1; i < this.QuesRef.nativeElement.children[1].children.length; i++) {
-          for (let j=1; j < this.QuesRef.nativeElement.children[1].children[i].children.length; j++) {
-            this.QuesRef.nativeElement.children[1].children[i].children[j].style.pointerEvents = "none";
+        for (let i = 1; i < this.QuesRef.nativeElement.children[1].children.length; i++) {
+          if (this.QuesRef.nativeElement.children[1].children[i].children[0].getAttribute("xlink:href")) {
+            for (let j = 0; j < this.QuesRef.nativeElement.children[1].children[i].children.length; j++) {
+              this.QuesRef.nativeElement.children[1].children[i].children[j].style.pointerEvents = "none";
+            }
+          } else {
+            for (let j = 1; j < this.QuesRef.nativeElement.children[1].children[i].children.length; j++) {
+              this.QuesRef.nativeElement.children[1].children[i].children[j].style.pointerEvents = "none";
+            }
           }
         }
-        console.log("AA gaya");
+        console.log("SVG loaded");
         clearInterval(loadImage);
       }
-      console.log("Nahin AAya");
+      console.log("SVG not loaded");
 
     }, 100);
   }
 
-  checkImgLoaded() {
-    if (!this.loadFlag) {
-      this.noOfImgsLoaded++;
-      if (this.noOfImgsLoaded >= this.noOfImgs) {
-        this.appModel.setLoader(false);
-        this.loadFlag = true;
-        clearTimeout(this.loaderTimer);
-      }
-    }
-  }
-
+  /******** setting all data on intial load ********/
   setData() {
     this.appModel.enableSubmitBtn(false);
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       let fetchedData: any = this.fetchedcontent;
       console.log(fetchedData);
-      this.feedback = fetchedData.feedback;
       this.commonAssets = fetchedData.commonassets;
-      this.narratorAudio = fetchedData.commonassets.narrator;
       this.ques_control = fetchedData.commonassets.ques_control;
       this.listCategoryHeader = this.commonAssets.listHeader.categoryHeader;
       this.listSubCategoryHeader = this.commonAssets.listHeader.subCategoryHeader;
       this.DropDownTitleUpper = this.commonAssets.listHeader.UpperTitle;
       this.DropDownTitleLower = this.commonAssets.listHeader.LowerTitle;
-      this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
@@ -1060,7 +925,6 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackObj = fetchedData.feedback;
       this.rightAnspopupAssets = this.feedbackObj.right_ans_popup;
       this.confirmPopupAssets = fetchedData.feedback.confirm_popup;
-      this.quesObj = fetchedData.quesObj[0];
       this.mySVGArr = fetchedData.mySVGArr;
       this.mySVGArr.map((element) => element.clicked = false);
       let arr = [];
@@ -1072,26 +936,10 @@ export class Ntemplate23Component implements OnInit {
         return el != "";
       });
       this.copiedCategories.sort();
-      this.myDropDownStates = fetchedData.DropDownArr;
-      this.myRightAnswer = fetchedData.rigthAnswer;
-      this.RightSubmit = fetchedData.rigthAnsweronSubmit;
-      this.noOfSVG = this.commonAssets.totalSVG;
       this.confirmSubmitAssets = fetchedData.submit_confirm;
       this.infoPopupAssets = fetchedData.info_popup;
-      this.fileUrls = fetchedData.svgFilesArr;
       this.mainSvgfile = fetchedData.svgInfo;
       this.quesAudio = this.commonAssets.QuestionAudio;
-      this.CorrectAudio = this.commonAssets.CorrectAudio;
-      this.WrongAudio = this.commonAssets.WrongAudio;
-      this.partiallyCorrectAudio = this.commonAssets.PartiallyCorrectAudio;
-      this.options = fetchedData.mySVGArr;
-      this.config = {
-        displayKey: 'capital', // if objects array passed which key to be displayed defaults to description
-        search: false,
-        height: '200px',
-        limitTo: this.options.length,
-        placeholder: 'Please Select'
-      };
     }
 
   }
@@ -1101,65 +949,14 @@ export class Ntemplate23Component implements OnInit {
       return this.appModel.content.id + '';
     }
   }
-  hoverConfirm() {
-    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
-  }
 
-
-  hoverSubmitConfirm() {
-    this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_hover;
-  }
-  houtSubmitConfirm() {
-    this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_original;
-  }
-  hoverSubmitDecline() {
-    this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_hover;
-  }
-  houtSubmitDecline() {
-    this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_original;
-  }
-
-  houtConfirm() {
-    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
-  }
-
-  hoverDecline() {
-    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
-  }
-
-  houtDecline() {
-    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
-  }
-
-  hoverCloseConfirm() {
-    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
-  }
-  houtCloseConfirm() {
-    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
-  }
-
-  hoverClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
-  }
-
-  houtClosePopup() {
-    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
-  }
-
-  hoverOK() {
-    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
-  }
-
-  houtOK() {
-    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
-  }
-
+  /******** setting show answer feedback popup audio ********/
   playShowAnswerFeedback() {
-    this.feedbackshowPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.url;
-    this.feedbackshowPopupAudio.nativeElement.load();
-    this.feedbackshowPopupAudio.nativeElement.play();
-    this.feedbackshowPopupAudio.nativeElement.onended = () => {
-      if(this.noOfPages !== 1 && !this.endPage) {
+    this.feedbackPopupAudio.nativeElement.src = this.commonAssets.showAnsAudio.url;
+    this.feedbackPopupAudio.nativeElement.load();
+    this.feedbackPopupAudio.nativeElement.play();
+    this.feedbackPopupAudio.nativeElement.onended = () => {
+      if (this.noOfPages !== 1 && !this.endPage) {
         this.startNextFeedbackTimer();
       }
       else {
@@ -1168,6 +965,7 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /******** Function to reset all values on wrong answer ********/
   resetActivity() {
     for (let i = 0; i < this.submittedArray.length; i++) {
       this.submittedArray[i].clicked = false;
@@ -1206,19 +1004,21 @@ export class Ntemplate23Component implements OnInit {
     this.wrongAnswerCounter = 0;
   }
 
+  /******** setting blink interval on next button ********/
   setBlinkOnNextBtn() {
     let flag = true;
     this.nextBtnInterval = setInterval(() => {
-        if (flag) {
-            this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_blink2;
-            flag = false;
-        } else {
-            this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_blink1;
-            flag = true;
-        }
-    }, 300)
-}
+      if (flag) {
+        this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_blink2;
+        flag = false;
+      } else {
+        this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_blink1;
+        flag = true;
+      }
+    }, 300);
+  }
 
+  /******** funtion call on opening show answer popup ********/
   showAnswerFeedback() {
     this.showAnswerarray = [];
     this.appModel.resetBlinkingTimer();
@@ -1240,6 +1040,7 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /******** Function call on yes/no or ok/cancel button click of popups ********/
   showFeedback(id: string, flag: string, status?: string) {
     if (status === "feedbackDone") {
       this.closeModal();
@@ -1262,7 +1063,7 @@ export class Ntemplate23Component implements OnInit {
       this.attemptType = "auto";
       this.confirmModalRef.nativeElement.classList = "modal";
       this.showAnswerFeedback();
-      this.showAnswerRef.nativeElement.classList = "displayPopup modal";
+      this.popupRef.nativeElement.classList = "displayPopup modal";
       this.popupType = "showanswer";
       this.setPopupAssets();
       this.appModel.stopAllTimer();
@@ -1311,27 +1112,25 @@ export class Ntemplate23Component implements OnInit {
       //}
     }
     else if (id == "showAnswer-modal-id" && flag == "no") {
-      this.showAnswerRef.nativeElement.classList = "modal";
+      this.popupRef.nativeElement.classList = "modal";
       this.appModel.notifyUserAction();
     }
   }
 
+  /******** function call on modal popup close ********/
   closeModal() {
-    if (!this.feedbackshowPopupAudio.nativeElement.paused) {
-      this.feedbackshowPopupAudio.nativeElement.pause();
-      this.feedbackshowPopupAudio.nativeElement.currentTime = 0;
-    }
     if (!this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
-    this.showAnswerRef.nativeElement.classList = "modal";
+    this.popupRef.nativeElement.classList = "modal";
     this.popupRef.nativeElement.classList = "modal";
     this.infoModalRef.nativeElement.classList = "modal";
     this.confirmSubmitRef.nativeElement.classList = "modal";
     this.confirmModalRef.nativeElement.classList = "modal";
     this.currentPageNo = 1;
     this.endPage = false;
+    this.pageNo = 1;
     this.isShowAnsOpen = false;
     clearTimeout(this.nextFeedbackTimer);
     clearTimeout(this.closeFeedbackmodalTimer);
@@ -1350,6 +1149,66 @@ export class Ntemplate23Component implements OnInit {
       this.resetActivity();
       this.appModel.wrongAttemptAnimation();
     }
+  }
+
+  /******** Popup buttons hover functionality started ********/
+  hoverConfirm() {
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
+  }
+
+  hoverSubmitConfirm() {
+    this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_hover;
+  }
+  houtSubmitConfirm() {
+    this.confirmSubmitAssets.confirm_btn = this.confirmSubmitAssets.confirm_btn_original;
+  }
+  hoverSubmitDecline() {
+    this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_hover;
+  }
+  houtSubmitDecline() {
+    this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_original;
+  }
+  hoverSubmitCloseConfirm() {
+    this.confirmSubmitAssets.close_btn = this.confirmSubmitAssets.close_btn_hover;
+  }
+  houtSubmitCloseConfirm() {
+    this.confirmSubmitAssets.close_btn = this.confirmSubmitAssets.close_btn_original;
+  }
+  houtConfirm() {
+    this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
+  }
+
+  hoverDecline() {
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
+  }
+
+  houtDecline() {
+    this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_original;
+  }
+
+  hoverCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_hover;
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_hover;
+  }
+  houtCloseConfirm() {
+    this.infoPopupAssets.close_btn = this.infoPopupAssets.close_btn_original;
+    this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
+  }
+
+  hoverClosePopup() {
+    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_hover;
+  }
+
+  houtClosePopup() {
+    this.feedbackObj.popup_commmon_imgs.close_btn = this.feedbackObj.popup_commmon_imgs.close_btn_original;
+  }
+
+  hoverOK() {
+    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_hover;
+  }
+
+  houtOK() {
+    this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
   }
 
   hoverFeedbackOK() {
@@ -1379,5 +1238,5 @@ export class Ntemplate23Component implements OnInit {
   hleaveFeedbackPre() {
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
   }
-
+  /******** Popup buttons hover functionality ended ********/
 }
