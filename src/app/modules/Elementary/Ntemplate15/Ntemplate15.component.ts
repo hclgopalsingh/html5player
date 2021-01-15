@@ -18,7 +18,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('ans') ans: any;
   @ViewChild('feedbackVoRef') feedbackVoRef: any;
   @ViewChild('optionRef') optionRef: any;
-
+  @ViewChild('confirmReplayRef') confirmReplayRef: any;
+  @ViewChild('mainVideo') mainVideo: any;
   audio = new Audio();
   commonAssets: any = "";
   feedback: any = "";
@@ -68,6 +69,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   wrongPopup: any;
   isPlayVideo: boolean;
   videoReplayd:boolean;
+  PlayPauseFlag: boolean = true;
+  SkipLoad: boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -128,22 +131,33 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
-      if (action == "uttarDikhayein") {
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.currentTime = 0;
-          this.instruction.nativeElement.pause();
-        }
-        this.instructionDisable = false;
-        if (this.audio && !this.audio.paused) {
-          this.audio.pause();
-          this.audio.currentTime = 0;
-          for (let i = 0; i < this.optionRef.nativeElement.children[0].children.length; i++) {
-            if (this.optionRef.nativeElement.children[0].children[i] && this.optionRef.nativeElement.children[0].children[i].classList.contains("disableDiv")) {
-              this.optionRef.nativeElement.children[0].children[i].classList.remove("disableDiv");
-            }
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();
+      }
+      this.instructionDisable = false;
+      if (this.audio && !this.audio.paused) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        for (let i = 0; i < this.optionRef.nativeElement.children[0].children.length; i++) {
+          if (this.optionRef.nativeElement.children[0].children[i] && this.optionRef.nativeElement.children[0].children[i].classList.contains("disableDiv")) {
+            this.optionRef.nativeElement.children[0].children[i].classList.remove("disableDiv");
           }
         }
+      }
+      if (action == "uttarDikhayein") {        
         this.displayconfirmPopup = true;
+      }
+      if (action == "replayVideo") {
+        console.log("replaying video");
+        this.SkipLoad = true;
+        this.appModel.enableReplayBtn(true);
+        this.PlayPauseFlag = true;
+        this.quesObj.quesPlayPause = this.quesObj.quesPause;
+        this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+        if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
+          this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
+        }
       }
     });
 
@@ -204,7 +218,28 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-
+  hoverSkip() {
+    this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+  }
+  houtSkip() {
+    this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+  }
+  hoverPlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseHover;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
+    }
+  }
+  leavePlayPause() {
+    if (this.PlayPauseFlag) {
+      this.quesObj.quesPlayPause = this.quesObj.quesPauseOriginal;
+    }
+    else {
+      this.quesObj.quesPlayPause = this.quesObj.quesPlayOriginal;
+    }
+  }
   hoverConfirm() {
     this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_hover;
   }
@@ -235,7 +270,21 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   houtClosePopup() {
     this.feedback.popup_commmon_imgs.close_btn = this.feedback.popup_commmon_imgs.close_btn_original;
   }
+  houtonReplayDecline() {
+    this.replayconfirmAssets.decline_btn = this.replayconfirmAssets.decline_btn_original;
+  }
 
+  hoveronReplayConfirm() {
+    this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_hover;
+  }
+
+  houtonReplayConfirm() {
+    this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
+  }
+
+  hoveronReplayDecline() {
+    this.replayconfirmAssets.decline_btn = this.replayconfirmAssets.decline_btn_hover;
+  }
   onHoverOptions(option, idx) {
     if (!this.instruction.nativeElement.paused) {
       console.log("narrator voice still playing");
@@ -372,19 +421,39 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
   }
+  showReplay(ref, flag: string, action?: string) {
+    ref.classList = "modal";
+    this.appModel.notifyUserAction();
+    if (flag == "yes") {
+      if (action == "replay") {
+        //this.isPlayVideo = true;
+        this.SkipLoad = true;
+        this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
+        this.appModel.videoStraming(true);
+        this.replayVideo();
+      }
+    } else if (flag == "no") {
+      this.appModel.videoStraming(false);
+      this.appModel.enableReplayBtn(true);
+      setTimeout(() => {
+        this.instructionDisable=false;
+      }, 1000);
+    }
+  }
+
   replayVideo() {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.enableSubmitBtn(false);
     this.appModel.stopAllTimer();
-    this.instructionBar.nativeElement.classList = "instructionBase disable_div";
+    this.instructionDisable=true;
     this.appModel.navShow = 1;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
         this.isPlayVideo = false;
         this.appModel.navShow = 2;
-        this.instructionBar.nativeElement.classList = "instructionBase";
+        this.instructionDisable=false;
         this.appModel.enableReplayBtn(true);
         this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
         this.appModel.startPreviousTimer();
@@ -412,18 +481,36 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.setLoader(true);
       this.appModel.startPreviousTimer();      
     } else {
-      // console.log("replay else=========");
       this.appModel.videoStraming(false);
       this.appModel.startPreviousTimer();
       this.appModel.notifyUserAction();
       this.appModel.enableReplayBtn(true);
     }
   }
+  endedHandleronSkip() {
+    this.isPlayVideo = false;
+    this.appModel.navShow = 2;
+    this.appModel.videoStraming(false);
+    this.appModel.notifyUserAction();
+  }
 
+  PlayPauseVideo() {
+    if (this.PlayPauseFlag) {
+      this.mainVideo.nativeElement.pause();
+      this.quesObj.quesPlayPause = this.quesObj.quesPlay;
+      this.PlayPauseFlag = false;
+    }
+    else {
+      this.mainVideo.nativeElement.play();
+      this.quesObj.quesPlayPause = this.quesObj.quesPause;
+      this.PlayPauseFlag = true;
+    }
+  }
   /******Question Auto Instruction check as per content JSON *******/
   checkforQVO() {
     if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {
       this.appModel.handlePostVOActivity(true);
+      this.appModel.enableReplayBtn(false);
       this.instructionDisable = true;
       this.isOptionDisabled = true;
       this.narrator.nativeElement.play();
@@ -435,11 +522,13 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
             this.isOptionDisabled = false;
           }, 1000);
           this.startActivity();
+          this.appModel.enableReplayBtn(true);
           this.appModel.handlePostVOActivity(false);
         }, 1000)
       }
     } else {
       this.startActivity();
+      this.appModel.enableReplayBtn(true);
       this.appModel.handlePostVOActivity(false);
     }
   }

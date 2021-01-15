@@ -1,4 +1,4 @@
-<div class="container-fluid ele temp14" id="container"*ngIf="!isPlayVideo"> 
+<div class="container-fluid ele temp14" id="container" *ngIf="!isPlayVideo">
   <audio #narrator [src]="quesObj?.quesInstruction?.url"></audio>
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div #maincontent>
@@ -10,7 +10,7 @@
       </div>
     </div>
     <audio #feedbackVoRef></audio>
-    <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">     
+    <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
       <div #ansBlock class="d-flex justify-content-around row1" id="optionsBlock">
         <div class="options" *ngFor="let opts of myoption;let idx = index">
           <img class="img-fluid bgBlank" [src]="opts?.image?.url" id="{{'optblank'+idx}}" (load)="checkImgLoaded();">
@@ -59,6 +59,30 @@
               (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
             <button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
               (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Replay Confirmation Modal -->
+  <div class="modal" id="confirmModal" #confirmReplayRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
+          <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
+          <div class="msgImage"><img class="img-fluid" [src]="replayconfirmAssets?.confirm_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');"
+              (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()"><img class="img-fluid"
+                [src]="replayconfirmAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()"
+              (mouseleave)="houtonReplayDecline()"><img class="img-fluid"
+                [src]="replayconfirmAssets?.decline_btn?.url"></button>
           </div>
         </div>
       </div>
