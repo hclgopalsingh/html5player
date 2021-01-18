@@ -740,6 +740,27 @@ export class Ntemplate21 implements OnInit {
             //}
             console.log("attemptNo", this.attemptNo)
             this.getAnswer();
+            (document.getElementById('Line'+this.attemptNo) as HTMLElement).style.display = 'block';
+            for(var i=0; i<5; i++){
+                (document.getElementById('Line'+i) as HTMLElement).classList.remove("green");
+            }
+            (document.getElementById('Line'+this.attemptNo) as HTMLElement).classList.add("green");
+            if(this.attemptNo == 3){
+                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
+            }else if(this.attemptNo == 2){
+                (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
+                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
+            }else if(this.attemptNo == 1){
+                (document.getElementById('Line'+2) as HTMLElement).classList.add("blue");
+                (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
+                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
+              }else if(this.attemptNo == 0){
+                (document.getElementById('Line'+1) as HTMLElement).classList.add("red");
+                (document.getElementById('Line'+2) as HTMLElement).classList.add("blue");
+                (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
+                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
+            }
+            
         } else if (action == "showAnswerFeedback") {
             this.postShowAnswer();
         }

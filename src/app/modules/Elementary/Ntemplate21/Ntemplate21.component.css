@@ -810,54 +810,71 @@ button:focus {
 	align-items: center;
 }
 
+.fillText{display: none;}
+.modal .green{background-color: #016b01!important;}
+.modal .green .fillText{display: inline-block!important;}
+.modal .red{background-color: #fe0100!important;}
+.modal .blue{background-color: #3300cc!important;}
+.modal .orange{background-color: #ff6600!important;}
+.modal .pink{background-color: #b81230!important;}
+.fillText{width: 37px; height: 26px; position: absolute; right: -17%; top: -7px;}
+  .fillText img{ max-width: initial; display: inline;
+    height: 70%;
+    max-height: initial;}
+
 .modal .span1 {
-  border: .05vmax solid rgb(0, 102, 0);
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
-  top: 46%;
-  border-bottom-width: 0.25vmax;
- }
-
- .modal .span2 {
-  border: .05vmax solid rgb(254, 1, 0);
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
-  top: 54%;
-  border-bottom-width: 0.25vmax;
- }
-
- .modal .span3 {
-  border: .05vmax solid rgb(51, 0, 204);
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
-  top: 65%;
-  border-bottom-width: 0.25vmax;
- }
-
- .modal .span4 {
-  border: .05vmax solid rgb(255, 102, 0);
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
-  top: 75%;
-  border-bottom-width: 0.25vmax;
- }
-
- .modal .span5 {
-  border: .05vmax solid rgb(184, 18, 48);
+  background-color: #9e9e9e;
   width: 28.5%;
   z-index: 3;
   position: absolute;
   left: 57.7%;
   top: 85%;
-  border-bottom-width: 0.25vmax;
+  height: 4px;
+  display: none;
+ }
+
+ .modal .span2 {
+  background-color: #9e9e9e;
+  width: 28.5%;
+  z-index: 3;
+  position: absolute;
+  left: 57.7%;
+  top: 75%;
+  height: 4px;
+  display: none;
+ }
+
+ .modal .span3 {
+  background-color: #9e9e9e;
+  width: 28.5%;
+  z-index: 3;
+  position: absolute;
+  left: 57.7%;
+  top: 65%;
+  height: 4px;
+  display: none;
+ }
+
+ .modal .span4 {
+  background-color: #9e9e9e;
+  width: 28.5%;
+  z-index: 3;
+  position: absolute;
+  left: 57.7%;
+  top: 55%;
+  height: 4px;
+  display: none;
+ }
+
+ .modal .span5 {
+  background-color: #9e9e9e;
+  width: 28.5%;
+  z-index: 3;
+  position: absolute;
+  left: 57.7%;
+  top: 46%;
+  height: 4px;
+  display: none;
  }
 
  .modal .filler .fillValue .fillText {

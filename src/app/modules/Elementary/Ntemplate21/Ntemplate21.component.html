@@ -14,10 +14,15 @@
 		</div>
 		<div id="inputBlock" [ngClass]="{'disable_div':disableinputBlock}">
 			<div class="operations " [ngClass]="{'blink blinkBlock': isOn && !operatorSelected && !digitsSelected, 'disablePointer':operatorSelected}">
-				<ng-container *ngFor="let operator of operators; let idx = index"> <img class="img-fluid" [src]="operator?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="operatorMousemove(idx)" (mouseleave)="operatorMouseLeave(idx)" (click)="operatorSelect(idx)" /> </ng-container>
+				<ng-container *ngFor="let operator of operators; let idx = index"> 
+					<img *ngIf="operator.disable" class="img-fluid" [src]="operator?.imgsrc_inactive?.url" [ngClass]="{'disable_div':operator.disable}" (load)="checkImgLoaded();" (mousemove)="operatorMousemove(idx)" (mouseleave)="operatorMouseLeave(idx)" (click)="operatorSelect(idx)" /> 
+					<img *ngIf="!operator.disable" class="img-fluid" [src]="operator?.imgsrc?.url"  (load)="checkImgLoaded();" (mousemove)="operatorMousemove(idx)" (mouseleave)="operatorMouseLeave(idx)" (click)="operatorSelect(idx)" /> 
+				</ng-container>
 			</div>
 			<div class="digits " [ngClass]="{'disablePointer': !operatorSelected , 'blink blinkBlock': isOn && operatorSelected && !digitsSelected}">
-				<ng-container *ngFor="let digit of digits; let idx = index"> <img class="img-fluid" [src]="digit?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="digitMousemove(idx)" (mouseleave)="digitMouseLeave(idx)" (click)="digitSelect(idx)" [ngClass]="{'disablePointer': digit.selected}" /> </ng-container>
+				<ng-container *ngFor="let digit of digits; let idx = index"> 
+					<img class="img-fluid" [src]="digit?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="digitMousemove(idx)" (mouseleave)="digitMouseLeave(idx)" (click)="digitSelect(idx)"  [ngClass]="{'disablePointer': digit.selected}" /> 
+				</ng-container>
 			</div>
 			<div class="numbers " [ngClass]="{'disablePointer': !digitsSelected || selectedNos.length == noOfDidgit, 'blink blinkBlock': isOn && operatorSelected && digitsSelected && selectedNos.length != noOfDidgit }">
 				<ng-container *ngFor="let number of number_options; let idx = index"> <img class="img-fluid" [src]="number?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="numberMousemove(idx)" (mouseleave)="numberMouseLeave(idx)" (click)="numberSelect(idx)" /> </ng-container>
@@ -53,29 +58,77 @@
 				<!-- Modal body -->
 				<div class="modal-body d-flex justify-content-center align-items-center" [ngStyle]="styleBodyPopup">
 					<div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback" [ngClass]="{'dispFlex':AnswerpopupTxt}">
-						<div class="instructionBase"> <img class="img-fluid" [src]="popupHeader" /> </div>
-					</div> <span class="span1"></span> <span class="span2"></span> <span class="span3"></span> <span class="span4"></span> <span class="span5"></span>
+						<div class="instructionBase"> 
+							<img class="img-fluid" [src]="popupHeader" /> 
+						</div>
+					</div> 
+					<span id="Line4" class="span1 fillLine">
+						<p class="text-center fillText">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</p>
+					</span> 
+					<span id="Line3" class="span2 fillLine">
+						<p class="text-center fillText">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</p>
+					</span> 
+					<span id="Line2" class="span3 fillLine">
+						<p class="text-center fillText">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</p>
+					</span> 
+					<span id="Line1" class="span4 fillLine">
+						<p class="text-center fillText">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</p>
+					</span> 
+					<span id="Line0" class="span5 fillLine">
+						<p class="text-center fillText">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</p>
+					</span>
 					<div class="popupOuter">
 					<div id="inputBlock">
 						<div class="value1">
-							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
 						</div>
 						<div class="value2"> <img class="img-fluid operator" [src]="operator?.url">
-							<ng-container *ngFor="let no of secondNoAssets; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
+							<ng-container *ngFor="let no of secondNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
 						</div>
 						<div class="result">
-							<ng-container *ngFor="let no of resultNoAssets; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
+							<ng-container *ngFor="let no of resultNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
 						</div>
 					</div>
 					<div id="outputBlock"> <img class="img-fluid inputImage" [src]="otherAssets?.input_img?.url" />
 						<div class="inputPlaceholder">
-							<ng-container *ngFor="let no of secondNoAssets; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
+							<ng-container *ngFor="let no of secondNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
 						</div>
-						<div class="filler"> <img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.url" />
+						<div class="filler"> 
+							<img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.url" />
 							<div class="fillValue">
-								<p class="text-center fillText">90</p>
 								<ng-container *ngFor="let no of resultNoAssets; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
-							</div> <img *ngIf="isExcess" class="img-fluid overflow" [src]="feedbackAssets?.overflow?.url"> </div> <img class="img-fluid liquidContainer" [src]="otherAssets?.container?.url" /> 
+							</div> 
+							<img *ngIf="isExcess" class="img-fluid overflow" [src]="feedbackAssets?.overflow?.url"> 
+						</div> 
+						<img class="img-fluid liquidContainer" [src]="otherAssets?.container?.url" /> 
 					</div>
 				</div>
 				</div>
