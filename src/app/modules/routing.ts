@@ -43,7 +43,6 @@ import { Ntemplate13 } from '../modules/Elementary/Ntemplate13/Ntemplate13.compo
 import { Ntemplate10 } from './Elementary/Ntemplate10/Ntemplate10.component';
 import { Ntemplate12 } from '../modules/Elementary/Ntemplate12/Ntemplate12.component';
 import { Ntemplate16 } from '../modules/Elementary/Ntemplate16/Ntemplate16.component';
-import { Ntemplate23 } from '../controller/Ntemplate23.component';
 import { Ntemplate15 } from '../controller/Ntemplate15.component';
 import { Ntemplate22 } from '../modules/Elementary/Ntemplate22/Ntemplate22.component';
 import { Ntemplate14 } from '../controller/Ntemplate14.component';
@@ -157,8 +156,6 @@ export const APP_ROUTES: Routes = [
 			{ path: 'ntemp12ext', component: Ntemplate12, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp16', component: Ntemplate16, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp16ext', component: Ntemplate16, runGuardsAndResolvers: 'always' },
-			// { path: 'ntemp23', component: Ntemplate23, runGuardsAndResolvers: 'always' },
-			// { path: 'ntemp23ext', component: Ntemplate23, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp23', component: Ntemplate23Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp23ext', component: Ntemplate23Component, runGuardsAndResolvers: 'always' },
 			{ path: 'ntemp15', component: Ntemplate15, runGuardsAndResolvers: 'always' },
