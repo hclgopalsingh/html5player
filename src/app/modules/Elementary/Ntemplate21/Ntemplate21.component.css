@@ -154,6 +154,9 @@ button:focus {
   height: 102%;
   width: 100%;
 }
+#outputBlock .filler img.level{
+  clip-path: inset(0% 4% 0% 4%);
+}
 .fillValue{
   left: 3%;
   bottom: 0;
@@ -241,11 +244,11 @@ button:focus {
 }
 .modal #outputBlock{
   left: 56%;
-  height: 95%;
+  height: 77%;/*95%;*/
 }
 .modal #inputBlock{
   width: 41%;
-  height: 89%;
+  height: 73%;/*89%;*/
   display: flex;
   flex-wrap: wrap;
   align-content: flex-end;
@@ -462,7 +465,7 @@ button:focus {
 }
 .modal-dialog{/*#modalTemp21 */
   width: 84% !important;
-  height: 72%;/*70%;*/
+  height: 90%;/*72%;*/
 }
 @media (min-width: 576px){
   .modal-dialog {
@@ -472,7 +475,7 @@ button:focus {
 }
 @media (min-width: 1920px){
   .modal-dialog {
-    height: 76%;/*70%;*/
+    height: 87%;/*76%;*/
   }
   #outputBlock .filler {
     width: 96.8%;
@@ -713,7 +716,7 @@ button:focus {
   left:0;
   z-index: 101;
 }
-.popupOuter{margin-top:50px}
+.popupOuter{}
 .popupOuter .inputBlock{}
 .popupOuter .outputBlock{}
 
@@ -812,69 +815,64 @@ button:focus {
 
 .fillText{display: none;}
 .modal .green{background-color: #016b01!important;}
-.modal .green .fillText{display: inline-block!important;}
 .modal .red{background-color: #fe0100!important;}
 .modal .blue{background-color: #3300cc!important;}
 .modal .orange{background-color: #ff6600!important;}
 .modal .pink{background-color: #b81230!important;}
-.fillText{width: 37px; height: 26px; position: absolute; right: -17%; top: -7px;}
-  .fillText img{ max-width: initial; display: inline;
-    height: 70%;
-    max-height: initial;}
+/* .fillText{
+  width: 37px; 
+  height: 26px; 
+  position: absolute; 
+  right: -17%; 
+  top: -7px;
+} */
+.modal .fillText{
+  width: auto;
+  height: 3vmin;
+  position: absolute;
+  right: -13%;
+  top: -1.3vmin;
+  display: flex!important;
+  justify-content: space-around;
+  align-items: center;
+}
+.fillText img{ 
+  max-width: initial; 
+  display: inline;
+  height: 70%;
+  max-height: initial;
+  margin-right: .3vmin;
+}
 
-.modal .span1 {
+.modal .level1,
+.modal .level2,
+.modal .level3,
+.modal .level4,
+.modal .level5 {
   background-color: #9e9e9e;
   width: 28.5%;
   z-index: 3;
   position: absolute;
   left: 57.7%;
   top: 85%;
-  height: 4px;
+  height: .4vmin;
   display: none;
  }
 
- .modal .span2 {
-  background-color: #9e9e9e;
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
+ .modal .level2 {
   top: 75%;
-  height: 4px;
-  display: none;
  }
 
- .modal .span3 {
-  background-color: #9e9e9e;
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
+ .modal .level3 {
   top: 65%;
-  height: 4px;
-  display: none;
  }
 
- .modal .span4 {
-  background-color: #9e9e9e;
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
+ .modal .level4 {
   top: 55%;
-  height: 4px;
-  display: none;
  }
 
- .modal .span5 {
-  background-color: #9e9e9e;
-  width: 28.5%;
-  z-index: 3;
-  position: absolute;
-  left: 57.7%;
+ .modal .level5 {
   top: 46%;
-  height: 4px;
-  display: none;
  }
 
  .modal .filler .fillValue .fillText {
