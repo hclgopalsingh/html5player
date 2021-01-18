@@ -40,6 +40,7 @@
       </div>
     </div>
   </div>
+  <audio id="allOpt" #allOpt></audio>
   <!-- The Confirmation Modal -->
 
   <div class="modal" id="confirmModal" #confirmModalRef [ngClass]="{'displayPopup':displayconfirmPopup}">
@@ -118,11 +119,9 @@
 
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="feedbackPopup?.style_header">
-          <img class="modal-title"
-            [src]="feedbackPopup?.headerTxt_img?.location=='content' ? assetspath + '/' + feedbackPopup?.headerTxt_img?.url : assetspath + '/' + feedbackPopup?.headerTxt_img?.url">
-          <img class="close"
-            [src]="feedbackPopup?.close_btn?.location=='content' ? assetspath + '/' + feedbackPopup?.close_btn?.url : assetspath + '/' + feedbackPopup?.close_btn?.url"
-            (click)="wrongAnsClose();" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="modal-title" [src]="feedbackPopup?.headerTxt_img?.url">
+          <img class="close" [src]="feedbackPopup?.close_btn?.url" (click)="wrongAnsClose();"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
         <!-- Modal body -->
@@ -131,15 +130,13 @@
             <div *ngIf="this.showAnsTempArray.length == 0" id="placeholders">
               <!--d-flex justify-content-start-->
               <span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id="{{'div'+idx}}">
-                <img class="img-fluid"
-                  [src]="opts?.ansImg?.location=='content' ?assetspath + '/' +opts?.ansImg?.url: assetsfolderlocation + '/'+ opts?.ansImg?.url">
+                <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
             </div>
             <div *ngIf="this.showAnsTempArray.length > 0 " id="placeholders">
               <!--d-flex justify-content-start-->
               <span *ngFor="let opts of showAnsTempArray;let idx = index" class="placeholder1" id="{{'div'+idx}}">
-                <img class="img-fluid"
-                  [src]="opts?.ansImg?.location=='content' ?assetspath + '/' +opts?.ansImg?.url: assetsfolderlocation + '/'+ opts?.ansImg?.url">
+                <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
             </div>
           </div>
@@ -148,6 +145,7 @@
       </div>
     </div>
     <audio #feedbackVoRef></audio>
+    <audio #wrongFeedback [src]="feedbackPopup?.feedbackVo?.url"></audio>
   </div>
 </div>
 <div class="videoMainContainer" *ngIf="isPlayVideo">
