@@ -46,14 +46,11 @@ export class Ntemplate23Component implements OnInit {
   loadFlag: boolean = false;
   optionObj: any;
   optionCommonAssets: any;
-  ques_control: any;
   feedbackObj: any;
   confirmPopupAssets: any;
   noOfRightAns: any;
   rightAnspopupAssets: any;
   tempSubscription: Subscription;
-  rightanspopUp: any;
-  wronganspopUp: any;
   mainSvgfile: any = "";
   Id: any;
   mySVGArr: any = [];
@@ -185,16 +182,6 @@ export class Ntemplate23Component implements OnInit {
       }
     })
 
-    this.appModel.questionEvent.subscribe(() => {
-      if (this.rightanspopUp) {
-        console.log("timer still exist");
-        clearTimeout(this.rightanspopUp);
-      }
-      if (this.wronganspopUp) {
-        clearTimeout(this.wronganspopUp);
-      }
-    });
-
     this.appModel.nextBtnEvent().subscribe(() => {
       if (this.appModel.isLastSectionInCollection) {
         this.appModel.event = { 'action': 'segmentEnds' };
@@ -316,14 +303,8 @@ export class Ntemplate23Component implements OnInit {
         document.getElementById("dropdown").classList.remove("dropdownhidden");
         var statebound = document.getElementById("dropdown").children[0].getBoundingClientRect();
         let containerRef = document.getElementById("container");
-        // if (window.innerWidth > containerRef.clientWidth + 100) {
         var stateboundX = statebound.left / (containerRef.clientWidth / 0.8) * 100;
         var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
-        // }
-        // else {
-        //   var stateboundX = statebound.left / (containerRef.clientWidth) * 100;
-        //   var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
-        // }
         document.getElementById("line0").setAttribute("x1", (stateboundX * 1 + 2) + "%");
         document.getElementById("line0").setAttribute("y1", stateboundY * 0.8 + "%");
         document.getElementById("line0").setAttribute("x2", parseInt(this.mySVGArr[this.categoryIndex].left) + "%");
@@ -511,7 +492,7 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
-  /******** Function called on setting category name ********/
+  /******** Function called on selecting subcategory from dropdown ********/
   categoryName(category) {
     this.appModel.notifyUserAction();
     let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
@@ -908,7 +889,6 @@ export class Ntemplate23Component implements OnInit {
       let fetchedData: any = this.fetchedcontent;
       console.log(fetchedData);
       this.commonAssets = fetchedData.commonassets;
-      this.ques_control = fetchedData.commonassets.ques_control;
       this.listCategoryHeader = this.commonAssets.listHeader.categoryHeader;
       this.listSubCategoryHeader = this.commonAssets.listHeader.subCategoryHeader;
       this.DropDownTitleUpper = this.commonAssets.listHeader.UpperTitle;
