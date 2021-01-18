@@ -526,12 +526,12 @@
     <img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
       (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" />
   </div>
-  <div *ngIf="_questionAreaVideoFlag && videoReplayd" id="SkipBtn">
+  <div #skipBtn [ngClass]="{'disableClass':isDisableClass}" *ngIf="_questionAreaVideoFlag && videoReplayd" id="SkipBtn">
     <img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()"
       (mouseleave)="houtSkip()" />
   </div>
-  <div *ngIf="_questionAreaImageFlag" id="closeBtn">
-    <img class="img-fluid" [src]="quesObj?.close_btn?.url" (click)="endedHandleronClose()" (mousemove)="hoverClosePic()"
+  <div [ngClass]="{'disableClass':isDisableClass}" *ngIf="_questionAreaImageFlag" id="closeBtn">
+    <img id="NewcloseBtn" class="img-fluid" [src]="quesObj?.close_btn?.url" (click)="endedHandleronClose()" (mousemove)="hoverClosePic()"
       (mouseleave)="houtClosePic()" />
   </div>
 </div>

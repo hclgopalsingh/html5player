@@ -75,8 +75,7 @@
 .quesTab img{
 	vertical-align: text-bottom;
 }
- #navBlock .prevBtn,
- #navBlock .nextBtn,
+ 
  #navBlock .ansBtn,
  .quesBlock img{
 	cursor:pointer;
@@ -94,13 +93,19 @@
 /* #navBlock .prevBtn, #navBlock .nextBtn{
 	width:19.6%;
 } */
-#navBlock .prevBtn,
-#navBlock .nextBtn,
+
 #navBlock .replayBtn{
 	cursor:pointer;
 	width: 3.5%;
 	margin-right: .7%;
 }
+
+#navBlock .prevBtn,
+#navBlock .nextBtn{
+	width: 3.5%;
+	margin-right: .7%;
+}
+
 #navBlock .nextBtn{
 	/* -webkit-transform: scaleX(-1);
 	transform: scaleX(-1); */
@@ -249,3 +254,21 @@
 #navBlock #ele_ansBtn{
 	cursor: auto;
 }
+
+#navBlock #ele_prevBtn{
+	cursor: auto;
+}
+
+#navBlock #ele_nextBtn{
+	cursor: auto;
+}
+
+
+#prevBtnEle,
+ #nextBtnEle{
+	 cursor: default ;
+ }
+
+ #footerNavBlock .nextBtn, #footerNavBlock .prevBtn{
+	 cursor:pointer
+ }
