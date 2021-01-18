@@ -124,6 +124,8 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('mathKeyboardRef') mathKeyboardRef: any;
   // @ViewChild('modalfeedback17') modalfeedback17: any;
   @ViewChild('bodyContent') bodyContent: any;
+  @ViewChild('skipBtn') skipBtn: any;
+
   // @ViewChild('row1') Row1: any;
   // @ViewChild('row2') Row2: any;
   // @ViewChild('row3') Row3: any;
@@ -252,7 +254,9 @@ export class Ntemplate17Component implements OnInit {
   questAreaDisable: boolean = true;
   nextFeedbackBlinkTimer:any;
   nextBtnInterval: any;
+  handleClose: boolean= true;
   firstLoad: boolean = true;
+  isDisableClass:boolean = false
   rightPosArray: any = [
     {
       "left": "-2%",
@@ -1857,9 +1861,15 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronSkip() {
-
-    this.videoReplayd = false;
-    this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+    this.isDisableClass = true;
+    document.getElementById("navBlock").style.pointerEvents = "none";
+    setTimeout(() => {
+      this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+    }, 200);
+    setTimeout(() => {
+      document.getElementById("navBlock").style.pointerEvents = "";
+    }, 500);
+    // this.videoReplayd = false;
     if (this.mainVideo && this.mainVideo.nativeElement) {
       this.mainVideo.nativeElement.currentTime = 0;
       this.mainVideo.nativeElement.pause();
@@ -1870,6 +1880,14 @@ export class Ntemplate17Component implements OnInit {
   }
 
   endedHandleronClose() {
+    this.isDisableClass = true;
+    document.getElementById("navBlock").style.pointerEvents = "none";
+    setTimeout(() => {
+      this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+    }, 200);
+    setTimeout(() => {
+      document.getElementById("navBlock").style.pointerEvents = "";
+    }, 500);
     if(this.firstLoad){
       console.log("first time wala h")
       this.firstLoad = false;
@@ -1879,14 +1897,13 @@ export class Ntemplate17Component implements OnInit {
       this.firstLoad = false;
       this.instructionDisable = false;
       this.questAreaDisable = false;
-      this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+      // this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
       this.inputDivRef.nativeElement.classList = "inputDiv";
     }
     clearTimeout(this.videoPlaytimer)
     this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
     this.quesObj.close_btn = this.quesObj.close_btn_original;
-    this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
   }
 
 
@@ -1907,9 +1924,14 @@ export class Ntemplate17Component implements OnInit {
   hoverSkip() {
     // this.skipFlag = false;
     this.quesObj.quesSkip = this.quesObj.quesSkipHover;
+    this.skipBtn.nativeElement.style.cursor="pointer";
   }
+  
   houtSkip() {
+    this.skipBtn.nativeElement.style.cursor="default";
+    console.log("yeaaaaaahhhhnnnnn")
     this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+
   }
 
   keyPress() {
@@ -2042,6 +2064,7 @@ export class Ntemplate17Component implements OnInit {
 
   onclickImageorVideo() {
     if (this._questionAreaVideoFlag) {
+      this.isDisableClass = false;
       this.appModel.stopAllTimer();
       console.log("show video")
       this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -2062,6 +2085,7 @@ export class Ntemplate17Component implements OnInit {
     }
     else {
       this.instructionDisable = false
+      this.isDisableClass = false;
       this.appModel.stopAllTimer();
       this.fullImage.nativeElement.parentElement.style.visibility = "visible";
       this.instruction.nativeElement.pause();

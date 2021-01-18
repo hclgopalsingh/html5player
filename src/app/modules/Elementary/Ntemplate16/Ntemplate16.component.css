@@ -246,12 +246,19 @@
   padding-right: 17%;
 }
 
-
 .ansImage {
   width: 50%;
   position: relative;
   float: left;
   padding: 10px;
+}
+
+.modal .ansImage {
+  width: 43%;
+  position: relative;
+  float: none;
+  padding: 10px;
+  margin: 10% 0 3%;
 }
 
 .disappear-button {
@@ -605,10 +612,10 @@ button:focus {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  height: 100%;
-  min-width: 560px;
+  /* height: 100%; */
+  /* min-width: 560px; */
   /*450px;*/
-  min-height: 50vmin;
+  /* min-height: 50vmin; */
   /*350px;*/
 }
 
