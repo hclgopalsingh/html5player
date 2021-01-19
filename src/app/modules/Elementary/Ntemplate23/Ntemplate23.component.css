@@ -1,0 +1,1241 @@
+.hideit {
+  display: none !important;
+}
+
+.showit {
+  display: block !important;
+}
+
+.dispFlex {
+  display: flex !important;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+#container {
+  position: relative;
+  padding: 0;
+}
+
+#container #bgImage img {
+  width: 100%;
+}
+
+#container #optionsBlock {
+  position: absolute;
+  top: 16.5%;
+  width: 97%;
+  left: 1.6%;
+  height: 71.5%;
+}
+
+#hoverques,
+#clickques {
+  position: absolute;
+}
+
+#optionsBlock img {
+  position: relative;
+  /* cursor:pointer; */
+  max-width: 100%;
+  /*85%;*/
+}
+
+#optionsBlock .options {
+  position: relative;
+  margin: 0;
+  /*transition: transform .5s;*/
+  vertical-align: middle;
+  width: 23%;
+  /*18%;12%;*/
+  display: inline-block;
+  /*animation: scaleit 0.4s ease-in;*/
+}
+
+.quesImage {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* width: 96%;
+  position: relative;
+	top: -.7%;
+	left: -.4%;
+	text-align: center; */
+}
+
+/* #optionsBlock .shadow{
+	position: absolute;
+  z-index: 0;
+  left: 27%;
+  top: 13%;
+} */
+#optionsBlock .refTxt {
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  z-index: 2;
+}
+
+#container #navBlock {
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+  width: 100%;
+}
+
+#container #navBlock .navBase {
+  position: relative;
+  margin: auto;
+  width: 64%;
+}
+
+#container #navBlock .prevBtn,
+#container #navBlock .nextBtn,
+#container #navBlock .ansBtn,
+#container #navBlock .quesBlock {
+  position: absolute;
+  top: 17%;
+}
+
+#container #navBlock .prevBtn,
+#container #navBlock .nextBtn,
+#container #navBlock .ansBtn,
+#container #navBlock .quesBlock img {
+  cursor: pointer;
+}
+
+#container #navBlock .prevBtn {
+  left: 3.2%;
+}
+
+#container #navBlock .ansBtn {
+  left: 22.8%;
+  width: 15.2%;
+}
+
+#container #navBlock .quesBlock {
+  left: 38.1%;
+  width: 39%;
+}
+
+#container #navBlock .nextBtn {
+  right: 3.3%;
+}
+
+#navBlock .prevBtn,
+#navBlock .nextBtn {
+  width: 19.6%;
+}
+
+#navBlock .prevBtn img,
+#navBlock .nextBtn img {
+  cursor: pointer;
+}
+
+.quesBlockChild {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.quesBlockChild img {
+  width: 9%;
+  margin: 0 .7%;
+}
+
+.quesBlockChild img[src*='quesIconHover.png'] {
+  width: 7%;
+  margin: 0 1.6%;
+}
+
+.animation-shake {
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+#correctAns {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  /*
+        background: url(../images/popup.svg) no-repeat center center;
+    */
+  background-size: contain;
+  animation: scaleit 0.2s ease-in;
+}
+
+.rightAnsBg {
+  animation: scaleit 0.2s ease-in;
+}
+
+#correctAns img {
+  position: absolute;
+  width: 70%;
+}
+
+#container #instructionBar {
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  text-align: center;
+}
+
+#instructionBar .instructionBase {
+  width: 51%;
+  position: relative;
+  cursor: pointer;
+}
+
+.instructionBase .instructionText {
+  position: absolute;
+  top: 0%;
+  left: 0;
+}
+
+.instructionBase img {
+  cursor: pointer;
+}
+.modal .instructionBase img {
+  cursor: default;
+  pointer-events: none;
+}
+
+@keyframes scaleit {
+  0% {
+    transform: scale(.9);
+    opacity: .0;
+  }
+
+  90% {
+    transform: scale(1.1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#container #navBlock .prevBtn:hover,
+#container #navBlock .nextBtn:hover {
+  -webkit-animation-name: moveLeft;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: .3s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: moveLeft;
+  animation-duration: .3s;
+  animation-iteration-count: infinite;
+}
+
+#container #navBlock .nextBtn:hover {
+  -webkit-animation-name: moveRight;
+  /* Safari 4.0 - 8.0 */
+  animation-name: moveRight;
+}
+
+@keyframes moveLeft {
+  0% {
+    left: 3.2%;
+  }
+
+  100% {
+    left: 2%;
+  }
+}
+
+@keyframes moveRight {
+  0% {
+    right: 3.3%;
+  }
+
+  100% {
+    right: 2%;
+  }
+}
+
+#burst {
+  position: absolute;
+  z-index: 101;
+  width: 100%;
+  height: 100%;
+}
+
+.disable_div {
+  pointer-events: none;
+}
+
+.options .desc {
+  position: relative;
+}
+
+/*.options:hover {
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+}*/
+
+.right,
+.wrong {
+  width: 20%;
+  position: absolute !important;
+  z-index: 3;
+  left: 40%;
+  bottom: -70%;
+  display: none;
+}
+
+/* #mySvg defs path:hover {
+  stroke: #FFFFCC !important;
+  stroke-width:2px;
+  stroke-linejoin: round;
+  fill: #FFFFCC !important;
+  cursor: pointer;
+} */
+
+#Rajasthan_0_Layer1_0_FILL path:hover {
+  fill: aqua;
+}
+
+
+/* Modal classes */
+#customModal {
+  display: block !important;
+
+}
+
+#customModal .optionsBlock {
+  width: 44%;
+}
+
+#customModal .optionsBlock .quesImage {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#customModal .modal-body {
+  height: 91%;
+  padding: 0 15px;
+}
+
+#customModal .options {
+  position: relative;
+  margin: .7% 0;
+}
+
+#customModal .options div {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#customModal .options div img {
+  width: 48%;
+}
+
+
+/*confirm modal*/
+
+.confirm_modal_content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  background-clip: padding-box;
+  border: none;
+  border-radius: 0;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+}
+
+#confirmModal {
+  /* display: flex;*/
+  background: rgba(0, 0, 0, .85);
+}
+
+#confirmModal .modal-dialog {
+  width: 50% !important;
+  max-width: 100%;
+  height: 36%;
+  display: flex;
+  justify-content: center;
+}
+
+#confirmModal .modal-content {
+  /* height: auto; */
+  min-width: auto;
+  min-height: auto;
+}
+
+#confirmModal .modal-body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-end;
+  flex: auto !important;
+}
+
+#confirmModal .modal-body .msgImage {
+  display: block;
+  /*flex*/
+  text-align: center;
+  /*justify-content: center;*/
+}
+
+#confirmModal .modal-body .actionButtons {
+  text-align: center;
+  margin: 3% 0 2%;
+  width: 100%;
+}
+
+#confirmModal .modal-body .msgImage img {
+  width: 100%;
+}
+
+#confirmModal .modal-body img {
+  max-width: 100%;
+}
+
+#confirmModal .modal-body .actionButtons button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 18%;
+}
+
+button:focus {
+  outline: none;
+}
+
+#confirmModal .modal-body .actionButtons img {
+  max-width: 80%;
+}
+
+#confirmModal .modal-header {
+  top: 0;
+}
+
+#confirmModal .bodyText {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+}
+
+#confirmModal .bodyText img {
+  width: 85%;
+}
+
+/* #confirmModal .modal-title {
+  margin-left: 3%;
+} */
+
+#confirmModal .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border-top: none;
+  position: absolute;
+  width: 100%;
+  bottom: 16%;
+}
+
+#confirmModal .modal-footer button {
+  width: 13%;
+  border: none;
+  background: transparent;
+}
+
+#confirmModal .popupModelBody {
+  padding: 0;
+}
+
+.displayPopup {
+  display: -webkit-box !important;
+  /* transition: all 2s ease-in-out;
+  transform: scale(1.2); */
+}
+
+.modal {
+  position: absolute !important;
+  width: 100%;
+  height: 94.2%;
+  z-index: 100 !important;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  padding-left: 0px;
+}
+
+/*.modal-dialog {
+  width: 30%;
+  min-height: 49%;
+  width: 100%;
+  height: 88%;
+}*/
+.modal.show {
+  display: -webkit-box !important;
+}
+
+.modal-dialog {
+  max-width: 80%;
+  height: auto;
+}
+
+#modalTemp23 {
+  background: rgba(0, 0, 0, .85);
+}
+
+#modalTemp23 .modal-dialog {
+  width: auto;/*93%;*/
+  max-width: 50%;/*100%;*/
+  min-height: 60%;
+  /* height: 93%; */
+}
+
+.modal-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 100%;
+  /* min-width: 450px;
+  min-height: 350px; */
+}
+
+.modal-header {
+  padding: .5% !important;
+  height: 7vmin;
+  /*56px;*/
+  position: relative;
+  top: -12.8%;
+  width: 100%;
+  border-bottom: none !important;
+  margin-bottom: -1px;
+}
+
+#modalTemp23 .modal-header {
+  top: 0;
+}
+
+/* .modal-title {
+  margin-left: 1.5%;
+  height: 80%;
+} */
+
+.close {
+  width: auto;
+  height: 75%;
+  margin-right: 0%;
+  margin-top: -.1%;
+  -webkit-appearance: inherit !important;
+  cursor: pointer;
+  opacity: 1;
+}
+
+@media (min-width: 1366px) {
+  .close {
+    height: 95%;
+    margin-right: .3%;
+  }
+}
+
+.modal-body {
+  padding: 2%;
+  /*
+    background: #afdec0;
+  border: solid .7vmin #85d222;
+    border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  */
+  border-top: none;
+  flex: auto !important;
+}
+
+.modal-body img {
+  max-width: 77%;
+}
+
+#modalTemp23 .modal-body {
+  flex: none !important;
+  padding: 3% !important;
+}
+
+#modalTemp23 .modal-body img {
+  max-width: 100%;
+  width: 100%;
+}
+
+#modalTemp23 .optionsBlock {
+  width: 94%;
+  /* height: 100%; */
+  justify-content: space-around;
+  /* margin: 0% 0 2.7%; */
+  margin: 11.4% 0 0%;
+  min-height: 35vmin;
+  display: flex;
+  align-items: center;
+}
+
+#modalTemp23 .listBlock {
+  width: 65%;/*38%;*/
+  position: relative;
+  /* top: 12%; */
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.modalBodyContent {
+  background: #afdec0;
+  margin: -1px;
+}
+
+.modal .quesImage {
+  align-self: center;
+  margin: 1% auto !important;
+}
+
+#modalTemp23 .quesImage {
+  /* height: 100%; */
+}
+
+.optionsBlock .options {
+  width: 100%;
+}
+
+.close:focus,
+.close:hover {
+  /*color: #000;
+  text-decoration: none;
+  opacity: 1;*/
+}
+
+html [type=button] {
+  -webkit-appearance: none;
+}
+
+.scaleInAnimation {
+  animation: scaleIn 0.5s linear;
+  transform: scale(1.2);
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(1.0)
+  }
+
+  100% {
+    transform: scale(1.2)
+  }
+}
+
+
+.scaleOutAnimation {
+  animation: scaleOut 0.5s linear;
+  transform: scale(1.0);
+}
+
+@keyframes scaleOut {
+  0% {
+    transform: scale(1.2)
+  }
+
+  100% {
+    transform: scale(1.0)
+  }
+}
+
+#Layer0_0_1_STROKES {
+  fill: transparent;
+  stroke: white;
+  stroke-width: 8;
+}
+
+#Layer0_0_1_STROKES:hover {
+  stroke: yellow;
+}
+
+#mainques {
+  /* height:100%; */
+  width: 39%;
+  height: 99%;
+  position: absolute;
+  top: 0;
+  left: 34%;
+}
+
+#mainques img {
+  position: absolute;
+  z-index: 0;
+}
+
+/** my css **/
+.svgClass {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 6%;
+}
+
+/* .listBlock {
+  width: 21.7%;
+  position: absolute;
+  top: 5%;
+  left: 8.5%;
+} */
+.listBlock {
+  width: 32.7%;
+  position: absolute;
+  top: 3%;
+  left: 0;
+  height: 93%;
+}
+
+.listBlock img {
+  /* height: 100%; */
+  /* width: 123%; */
+}
+
+.listBlock .listHeader,
+.listBlock .listNames {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /*space-around; change for Barebon*/
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 0%;
+  padding: 0;
+  list-style: none;
+}
+
+.listBlock .listNames {
+  top: 9%;
+  padding: 0;
+  height: 88%;
+  overflow: auto;
+}
+
+#modalTemp23 .listBlock > img {
+  display: none;
+}
+
+#modalTemp23 .listBlock .listNames {
+  top: 8%;
+  height: auto;/*95%;*/
+  overflow: hidden;
+  background: #fff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#modalTemp23 .listBlock .listHeader{
+background: #ff0;
+border: solid 2px #fff;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+}
+
+#modalTemp23 .listBlock .listHeader,
+#modalTemp23 .listBlock .listNames {
+  /* top: 3%; */
+  justify-content: space-around;
+  position: initial;
+}
+
+.listNames li {
+  display: contents;
+  /*flex*/
+  /* justify-content: space-around; */
+}
+
+#modalTemp23 .listNames li {
+  display: flex;
+  /*change for Barebon*/
+  width: 100%;
+}
+
+.listNames span {
+  width: 50%;
+  text-align: center;
+  display: table-cell;
+  /*change for Barebon*/
+}
+
+#modalTemp23 .listNames span {
+  margin-bottom: 0.5%;
+}
+
+.listBlock .listHeader img,
+.listBlock .listNames img {
+  max-width: 50% !important;
+}
+
+.listBlock .listNames img {
+  /* cursor: pointer; */
+  max-width: 98% !important;
+  /*92.5% !important;*/
+}
+
+#modalTemp23 .listBlock .listHeader img,
+#modalTemp23 .listBlock .listNames img {
+  max-width: 42% !important;
+}
+
+#modalTemp23 .listBlock .listNames img {
+  max-width: 99% !important;
+}
+
+nav {
+  position: absolute;
+  bottom: 0;
+  margin: auto;
+  display: flex !important;
+  justify-content: center;
+  width: 100%;
+}
+
+/*.pagination{
+	margin-top: 0;
+  margin-bottom: 3%;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  z-index: 2;
+  color: #23527c;
+  background-color: #fff;
+}
+.pagination > li > a,
+.pagination > li > span {
+  background-color: #eee;
+  border: 1px solid #666 !important;
+	font-size: .7vmax;
+  padding: .2vmax .5vmax;
+}*/
+
+.ngx-pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 1%;
+  margin-bottom: 0 !important;
+  padding: 0;
+  font-size: .8vmax;
+}
+
+.ngx-pagination .current {
+  padding: .1vmax .4vmax !important;
+  display: flex;
+  align-items: center;
+}
+
+.stateName {
+  position: absolute;
+  top: 26%;
+  left: 62%;
+}
+
+#optionsBlock #quesImgId svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#tooltip img {
+  /*	max-width: 18% !important;*/
+}
+
+
+
+.tooltipHidden {
+  position: absolute;
+  width: 2%;
+  opacity: 0;
+}
+
+.tooltipshow {
+  position: absolute;
+  width: 2%;
+}
+
+
+#mainCanvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 2%;
+  left: 1%;
+  z-index: 100;
+}
+
+#myForm {
+  opacity: 0;
+  position: absolute;
+  left: 60%;
+  top: 70%;
+  width: 40.5%;
+  height: 100%;
+  text-align: right;
+}
+
+
+
+.stateName {
+  opacity: 0;
+}
+
+.dropdownhidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.btn-secondary.focus,
+.btn-secondary:focus {
+  box-shadow: none !important;
+}
+
+#dropdown,
+#dropdownviaTooltip {
+  width: 18%;
+  position: absolute;
+  top: 23%;
+  left: 77%;
+  z-index: 100;
+}
+
+#dropdownviaTooltip {
+  width: 15.25%;
+  /*22 Apr changes*/
+  /*12vmax-change for Barebon */
+  left: 0%;
+  top: 0%;
+  opacity: 0;
+}
+
+.parentGroup:first-child {
+  border-bottom: none;
+  /* position: relative; */
+}
+
+.dropdownCloseBtn {
+  position: absolute !important;
+  right: -6%;
+  top: -36%;
+  max-width: 12% !important;
+  cursor: pointer;
+}
+
+.parentGroup {
+  width: 100%;
+  background: #50e6e5;
+  border: solid .25vmax #fff;
+  display: flex !important;
+}
+
+.parentGroup p {
+  width: 83%;
+  margin: 0;
+  padding: 3% 3% 4%;
+  font-size: .7vmax;
+}
+
+.childGroup {
+  width: 17%;
+  position: initial !important;
+  /*22 Apr changes*/
+}
+
+.childGroup .dropdown-toggle::after {
+  right: 35% !important;
+}
+
+.dropdown-toggle::after {
+  top: 40% !important;
+}
+
+#dropdown .btn-secondary,
+#dropdown .btn-secondary:hover,
+#dropdownviaTooltip .btn-secondary,
+#dropdownviaTooltip .btn-secondary:hover {
+  background-color: #FED000 !important;
+  color: black;
+}
+
+#dropdownviaTooltip .btn-secondary,
+#dropdownviaTooltip .btn-secondary:hover {
+  background-color: #32a4a3 !important;
+}
+#dropdown .btn,
+#dropdownviaTooltip .btn {
+  width: 100% !important;
+  height: 100%;
+  font-size: 1.5vmax !important;
+}
+
+#dropdown .btn:focus,
+#dropdown .btn.focus,
+#dropdownviaTooltip .btn:focus,
+#dropdownviaTooltip .btn.focus {
+  color: black;
+}
+
+#dropdown .dropdown-menu,
+#dropdownviaTooltip .dropdown-menu {
+  width: 100% !important;
+  height: 13vmax;
+  /*14vmax*/
+  overflow: auto;
+  background-color: #fff !important;
+  top: 93% !important;
+}
+
+#dropdownviaTooltip .dropdown-menu {
+  height: 6.3vmax;
+  /*change for Barebon - whole set of properties*/
+  /* left: auto !important;*/
+  /*22 Apr changes*/
+  /*right: -.14vmax;*/
+  width: 103.4% !important;
+  /*22 Apr changes*/
+  /*12.1vmax !important*/
+  margin: 0 0 0 -1.8%;
+  /*22 Apr changes*/
+  /*height: 6.7vmax;
+	left: auto !important;
+	right: -.2vmax;
+  width: 12.7vmax !important;*/
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #ddd !important;
+}
+
+#dropdowntooltip {
+  position: absolute;
+}
+
+#dropdown .ngx-dropdown-container {
+  position: absolute !important;
+  left: 81%;
+  top: 12%;
+  width: 17vmin;
+  height: 34%;
+  /* overflow: auto; */
+}
+
+/* .ngx-dropdown-container .dropup {
+  position: absolute !important;
+  left: 85%;
+  top:12%;
+  width: 17vmin;
+  height: 34%;
+  /* overflow: auto;
+} */
+
+.ngx-dropdown-container .ngx-dropdown-button {
+  display: inline-block !important;
+  position: absolute;
+  top: 0;
+  width: 17vmin !important;
+  height: 16.5%;
+  font-weight: 400 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  border: 1px solid transparent !important;
+  padding: 0 .7vmin !important;
+  margin: 0 !important;
+  font-size: .8vmax !important;
+  line-height: normal !important;
+  border-radius: .25rem !important;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  position: absolute;
+  right: 4%;
+  top: 40%;
+  width: 0;
+  height: 0;
+  /* margin-left: 65%; */
+  vertical-align: 18%;
+  content: "";
+  color: #fff;
+  border-top: .4em solid;
+  border-right: .3em solid transparent;
+  border-left: .3em solid transparent;
+}
+#dropdownviaTooltip .dropdown-toggle::after {
+  border-top: .3em solid;
+  border-right: .22em solid transparent;
+  border-left: .22em solid transparent;
+}
+.dropdown-menu {
+  position: absolute;
+  transform: none !important;
+  top: 77.79% !important;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 0;
+  width: 17vmin;
+  padding: 0;
+  margin: 0;
+  font-size: .8vmax !important;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: .25rem;
+}
+
+#dropdown .dropdown-menu {
+  font-size: 1.3vmax !important;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25vmin 1vmin !important;
+  border-bottom: 1px solid lightgray !important;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  /* white-space: nowrap; */
+  background: 0 0;
+  border: 0;
+  cursor: pointer !important;
+  white-space: normal;
+  overflow-x: hidden;
+}
+
+#dropdown .btn {
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 4.10rem !important;
+  padding-right: 35% !important;
+  font-size: 1rem;
+  line-height: 1.25;
+  border-radius: .25rem;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+}
+
+.navigate {
+  position: absolute;
+  bottom: 2%;
+  /* width: 92%; */
+}
+
+#modalTemp23 .navigate {
+  /* width: 96%; */
+  bottom: 1%;
+  right: 2%;
+  width: 6.5%;/*4.5%;*/
+  /* margin-top: 1%; */
+}
+
+.navigate img {
+  margin-left: 12.2%;
+  cursor: pointer;
+  max-width: 5.5%;
+}
+
+.disableBtn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.dispFlex {
+  display: flex !important;
+}
+
+.dropdownArrowBg {
+  width: 14.5%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  background: #c90;
+  pointer-events: none;
+}
+.classOpacity {
+  opacity: 0.3;
+}
