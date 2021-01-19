@@ -18,6 +18,7 @@
             on-mousemove="onHoverOptions(opts,idx)" on-mouseenter="playOptionHover(opts)"
             on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)" [src]="opts?.imgsrc?.url"
             (load)="checkImgLoaded();">
+            <audio id="allOpt" #allOpt></audio>
         </div>
       </div>
       <div class="d-flex flex-row justify-content-around" id="answerBlock">
@@ -31,7 +32,7 @@
             </span>
           </div>
           <span #disableSpeaker id="disableSpeaker" class="speakerBtn">
-            <div #sprite class="speaker" (click)="playSound_Speaker(audioEl)"></div>
+            <img #sprite class="speaker" (click)="playSound_Speaker(audioEl)" [src]="speaker?.sprite.url">
             <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc.url"
               (click)="playSound_Speaker(audioEl)" on-mousemove="onHoverSpeaker()" (load)="checkImgLoaded();">
             <audio id="S" #audioEl [src]="speaker?.sound.url"></audio>
@@ -40,10 +41,10 @@
       </div>
     </div>
   </div>
-  <audio id="allOpt" #allOpt></audio>
+  
   <!-- The Confirmation Modal -->
 
-  <div class="modal" id="confirmModal" #confirmModalRef [ngClass]="{'displayPopup':displayconfirmPopup}">
+  <div class="modal" id="confirmModal" #confirmModalRef>
     <div class="modal-dialog">
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedback?.confirm_popup?.style_header">
@@ -121,7 +122,7 @@
         <div class="modal-header" [ngStyle]="feedbackPopup?.style_header">
           <img class="modal-title" [src]="feedbackPopup?.headerTxt_img?.url">
           <img class="close" [src]="feedbackPopup?.close_btn?.url" (click)="wrongAnsClose();"
-            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+            (mousemove)="hoverCloseFeedback()" (mouseleave)="houtCloseFeedback()">
         </div>
 
         <!-- Modal body -->
