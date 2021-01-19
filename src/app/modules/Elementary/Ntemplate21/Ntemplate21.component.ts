@@ -412,7 +412,7 @@ export class Ntemplate21 implements OnInit {
         this.disableinstructionBar = false;
         this.deSelectDigits();
         this.deSelectNos();
-        this.appModel.enableReplayBtn(false);
+        ////this.appModel.enableReplayBtn(false);
         if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
