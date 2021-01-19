@@ -1982,7 +1982,8 @@ export class Ntemplate17Component implements OnInit {
         this.appModel.stopAllTimer();
         this.mainVideo.nativeElement.onended = () => {
           this.appModel.notifyUserAction();
-          this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+          this.hoverControl();
+          //this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
           this.instructionDisable = false;
           this.isPlayVideo = false;
           this.blinkTextBox();
@@ -2040,7 +2041,8 @@ export class Ntemplate17Component implements OnInit {
         this.firstLoad = false;
         this.instructionDisable = false;
         this.questAreaDisable = false;
-        this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+        //this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+        this.hoverControlImage();
         this.inputDivRef.nativeElement.classList = "inputDiv";
         this.quesContainer.nativeElement.style.pointerEvents = "none";      
       }, this.quesObj.timegapImage);
@@ -2078,7 +2080,8 @@ export class Ntemplate17Component implements OnInit {
         this.videoReplayd = false;
         this.appModel.notifyUserAction();
         this.mainVideo.nativeElement.currentTime = 0;
-        this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+        //this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+        this.hoverControl();
         this.quesContainer.nativeElement.style.pointerEvents = "none";      
 
       }
@@ -2093,7 +2096,8 @@ export class Ntemplate17Component implements OnInit {
       this.videoPlaytimer = setTimeout(() => {
         this.appModel.startPreviousTimer();
         this.appModel.notifyUserAction();
-        this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+        // this.fullImage.nativeElement.parentElement.style.visibility = "hidden";
+        this.hoverControlImage();
         this.quesContainer.nativeElement.style.pointerEvents = "none";      
       }, this.quesObj.timegapImage);
     }
@@ -2223,5 +2227,29 @@ hoverInput(){
     this.inputDivRef.nativeElement.classList = "inputDiv ";
   }
 }
+
+  hoverControl() {
+    this.isDisableClass = true;
+    document.getElementById("navBlock").style.pointerEvents = "none";
+    setTimeout(() => {
+      document.getElementById("navBlock").style.pointerEvents = "";
+    }, 1000);
+    setTimeout(() => {
+      this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
+      this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
+    }, 200);
+  }
+
+  hoverControlImage() {
+    this.isDisableClass = true;
+    document.getElementById("navBlock").style.pointerEvents = "none";
+    setTimeout(() => {
+      document.getElementById("navBlock").style.pointerEvents = "";
+    }, 1000);
+    setTimeout(() => {
+      this.fullImage.nativeElement.parentElement.style.visibility = "hidden"
+      this.quesObj.close_btn = this.quesObj.close_btn_original;
+    }, 200);
+  }
 
 }
