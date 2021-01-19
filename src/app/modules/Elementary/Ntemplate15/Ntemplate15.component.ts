@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { clear } from 'console';
 
 
 @Component({
@@ -28,7 +29,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('submitModalRef') submitModalRef: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('correctAns') correctAns: any;
-  @ViewChild('wrongFeedback') wrongFeedback: any;
   audio = new Audio();
   commonAssets: any = "";
   feedback: any = "";
@@ -58,12 +58,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   showAnssetTimeout: any;
   bodyContentOpacity: boolean = false;
   bodyContentDisable: boolean = false;
-  initialDisableTimer: any;
   myoption: any = [];
   question: any = "";
   itemid: any = 0;
   isOptionDisabled: boolean = false;
-  blinkTimer: any;
   tempAnswers: any = [];
   speaker: any = "";
   answers: any = "";
@@ -83,8 +81,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   closed: boolean = false;
   ifWrongAns: boolean = false;
   wrongTimer: any;
+  rightTimer: any;
   showAnsTempArray: any = [];
   assetspath: any;
+  save: number;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -132,10 +132,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       if (mode == "manual") {
         //show modal for manual
         this.appModel.notifyUserAction();
-
       } else if (mode == "auto") {
-
         //show modal of auto
+        this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
         this.showAnswer();
       }
     });
@@ -148,9 +147,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.instruction.nativeElement.pause();
       }
       this.instructionDisable = false;
-      if(this.allOpt.nativeElement.paused){
+      if (!this.allOpt.nativeElement.paused) {
         this.allOpt.nativeElement.currentTime = 0;
         this.allOpt.nativeElement.pause();
+        this.stopOptionSound(this.save);
       }
       if (action == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
@@ -194,14 +194,14 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
 
   ngOnDestroy() {
+    clearTimeout(this.rightTimer);
+    clearTimeout(this.wrongTimer);
     clearInterval(this.showAnssetTimeout);
-    clearInterval(this.initialDisableTimer);
-    clearInterval(this.blinkTimer);
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
     }
-    if(this.allOpt.nativeElement.paused){
+    if (this.allOpt.nativeElement != undefined) {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
     }
@@ -403,22 +403,38 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imagehover;
     this.ansBlock.nativeElement.children[idx].className = "options pointer";
   }
-  playOptionHover(opt) {
-    this.appModel.notifyUserAction();
-    this.instructionDisable = true;
-    if (!this.audioEl.nativeElement.paused) {
-      this.audioEl.nativeElement.pause();
-      this.audioEl.nativeElement.currentTime = 0;
+  playOptionHover(opt, idx) {
+    if (this.allOpt.nativeElement.paused) {
+      this.appModel.notifyUserAction();
+      this.instructionDisable = true;
+      if (!this.audioEl.nativeElement.paused) {
+        this.audioEl.nativeElement.pause();
+        this.audioEl.nativeElement.currentTime = 0;
+      }
+      if (opt && opt.sound) {
+        this.allOpt.nativeElement.src = opt.sound.url + "?someRandomSeed=" + Math.random().toString(36);
+      }
+      this.allOpt.nativeElement.play();
+      for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
+        if (x != idx) {
+          this.ansBlock.nativeElement.children[x].classList.add("disable_div");
+        } else {
+          this.save = x;
+        }
+      }
+      this.allOpt.nativeElement.onended = () => {
+        this.stopOptionSound(this.save);
+        this.instructionDisable = false;
+      }
     }
-    if (opt && opt.sound) {
-      this.allOpt.nativeElement.src = opt.sound.url + "?someRandomSeed=" + Math.random().toString(36);
-    }
-    this.allOpt.nativeElement.play();
-    this.allOpt.nativeElement.onended=()=>{
-      this.instructionDisable = false;
-    }      
   }
-
+  stopOptionSound(save) {
+    for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
+      if (x != save) {
+        this.ansBlock.nativeElement.children[x].classList.remove("disable_div");
+      }
+    }
+  }
   onHoveroutOptions(option, idx) {
     option.image = option.imageorg;
     this.ansBlock.nativeElement.children[idx].className = "options";
@@ -449,14 +465,13 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Wrong or Partial Incorrect post anmination functionality *******/
   postWrongAttemplt() {
-    // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
+    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
     this.appModel.notifyUserAction();
     this.myoption.forEach(element => {
       element.show = true;
     });
     this.answers = this.appModel.content.contentData.data['answers'];
     this.tempAnswers.length = 0;
-    console.log("this.ansBlock.nativeElement", this.ansBlock.nativeElement);
     this.i = 0;
     this.j = 0;
     this.appModel.enableSubmitBtn(false);
@@ -489,9 +504,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
     if (obj.feedbackVoRef && obj.feedbackVoRef.nativeElement) {
       obj.feedbackVoRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-    }
-    if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
-      obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
     if (obj.instruction && obj.instruction.nativeElement) {
       obj.instruction.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
@@ -685,22 +697,14 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (id == "confirm-modal-id") {
       if (flag == "yes") {
         console.log("do this")
+        this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers));
         this.showAnswer();
       }
 
       this.confirmModalRef.nativeElement.classList = "modal";
     }
   }
-
-  /******Popup close functionality *******/
-  closeModal() {
-    this.instructionDisable = true;
-    this.instructionOpacity = true;
-    this.bodyContentOpacity = true;
-    this.bodyContentDisable = true;
-    this.appModel.notifyUserAction();
-    this.blinkOnLastQues();
-  }
+  
   showAnswer() {
     this.attemptType = "no animation"
     this.appModel.enableSubmitBtn(false)
@@ -713,8 +717,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
     this.instructionDisable = true;
-    this.feedbackVoRef.nativeElement.src = this.speaker.sound.url
-    this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
+    this.feedbackVoRef.nativeElement.src = this.speaker.sound.url    
     this.appModel.resetBlinkingTimer();
     setTimeout(() => {
       if (this.feedbackVoRef && this.feedbackVoRef.nativeElement) {
@@ -723,10 +726,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }, 50)
     this.feedbackVoRef.nativeElement.onended = () => {
       if (!this.closed) {
-        this.correctAns.nativeElement.classList = "modal";
-        this.attemptType = "no animation"
-        this.blinkOnLastQues();
-
+        this.showAnssetTimeout = setTimeout(() => {
+          this.correctAns.nativeElement.classList = "modal";
+          this.attemptType = "no animation"
+          this.blinkOnLastQues();
+        }, this.showAnsTimeout)
       }
     }
   }
@@ -739,7 +743,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     else { }
   }
   clickAnswer(option, event, idx) {
-    this.instructionDisable=true;
+    this.instructionDisable = true;
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
     this.ansBlock.nativeElement.children[idx].className = "options";
@@ -748,27 +752,27 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
     }
-
-    if(this.allOpt.nativeElement.paused){
+    if (!this.allOpt.nativeElement.paused) {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
+      this.stopOptionSound(this.save);
     }
-      //doesn't matter if the option chosen is right or not, insert it into that sequence.
-      // this.audioEl.nativeElement.pause();
-      console.log("when correct answer clicked", event.toElement);
-      // empty cloud
-      this.myoption[idx].show = false;
-      if (this.j < this.answers.length) {
-        console.log("loadImage would be called");
-        this.j++;
-      }
-      if (this.tempAnswers.length == this.myoption.length) {
-        this.appModel.enableSubmitBtn(true);
-      }
-      else {
-        this.appModel.enableSubmitBtn(false);
-      }
-      console.log("check:", this.i, this.answers.length);
+    //doesn't matter if the option chosen is right or not, insert it into that sequence.
+    // this.audioEl.nativeElement.pause();
+    console.log("when correct answer clicked", event.toElement);
+    // empty cloud
+    this.myoption[idx].show = false;
+    if (this.j < this.answers.length) {
+      console.log("loadImage would be called");
+      this.j++;
+    }
+    if (this.tempAnswers.length == this.myoption.length) {
+      this.appModel.enableSubmitBtn(true);
+    }
+    else {
+      this.appModel.enableSubmitBtn(false);
+    }
+    console.log("check:", this.i, this.answers.length);
 
   }
   revertAction(option, event, idx) {
@@ -792,7 +796,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   checkAnswerOnSubmit() {
     //check if the option in temanswer array are in right sequence or not
-
     let tempCustomId = [];
     this.tempAnswers.forEach(element => {
       tempCustomId.push(element.custom_id)
@@ -817,8 +820,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }, 750)
       this.feedbackVoRef.nativeElement.onended = () => {
         if (!this.closed) {
-          this.correctAns.nativeElement.classList = "modal";
-          this.blinkOnLastQues();
+          this.rightTimer = setTimeout(() => {
+            this.correctAns.nativeElement.classList = "modal";
+            this.blinkOnLastQues();
+          }, 2000);
         }
       }
 
@@ -833,12 +838,12 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
       this.instructionDisable = true;
+      this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
+
       setTimeout(() => {
-        if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-          this.wrongFeedback.nativeElement.play();
-        }
-      }, 50)
-      this.wrongFeedback.nativeElement.onended = () => {
+        this.feedbackVoRef.nativeElement.play();
+      }, 750)
+      this.feedbackVoRef.nativeElement.onended = () => {
         if (!this.closed) {
           this.wrongTimer = setTimeout(() => {
             this.correctAns.nativeElement.classList = "modal";
@@ -854,13 +859,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.closed = true;
     this.correctAns.nativeElement.classList = "modal";
     this.appModel.notifyUserAction();
-    this.wrongFeedback.nativeElement.pause();
-    this.wrongFeedback.nativeElement.currentTime = 0;
     this.feedbackVoRef.nativeElement.pause();
     this.feedbackVoRef.nativeElement.currentTime = 0;
-
-
-
     if (this.ifWrongAns) {
       this.appModel.wrongAttemptAnimation();
       this.ifWrongAns = false;

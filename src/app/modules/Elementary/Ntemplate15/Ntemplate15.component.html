@@ -9,13 +9,12 @@
         <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
       </div>
     </div>
-    <audio #feedbackVoRef></audio>
     <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
       <div #ansBlock class="d-flex justify-content-around row1" id="optionsBlock">
         <div class="options" *ngFor="let opts of myoption;let idx = index">
           <img class="img-fluid bgBlank" [src]="opts?.image?.url" id="{{'optblank'+idx}}" (load)="checkImgLoaded();">
           <img *ngIf="opts.show" (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}"
-            on-mousemove="onHoverOptions(opts,idx)" on-mouseenter="playOptionHover(opts)"
+            on-mousemove="onHoverOptions(opts,idx)" on-mouseenter="playOptionHover(opts,idx)"
             on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)" [src]="opts?.imgsrc?.url"
             (load)="checkImgLoaded();">
             <audio id="allOpt" #allOpt></audio>
@@ -129,13 +128,11 @@
         <div class="modal-body d-flex align-items-center" [ngStyle]="feedbackPopup?.style_body">
           <div class="d-flex align-items-center justify-content-center ansImage">
             <div *ngIf="this.showAnsTempArray.length == 0" id="placeholders">
-              <!--d-flex justify-content-start-->
               <span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id="{{'div'+idx}}">
                 <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
             </div>
             <div *ngIf="this.showAnsTempArray.length > 0 " id="placeholders">
-              <!--d-flex justify-content-start-->
               <span *ngFor="let opts of showAnsTempArray;let idx = index" class="placeholder1" id="{{'div'+idx}}">
                 <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
@@ -146,7 +143,6 @@
       </div>
     </div>
     <audio #feedbackVoRef></audio>
-    <audio #wrongFeedback [src]="feedbackPopup?.feedbackVo?.url"></audio>
   </div>
 </div>
 <div class="videoMainContainer" *ngIf="isPlayVideo">
