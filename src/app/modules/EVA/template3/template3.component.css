@@ -13,7 +13,7 @@
     position: absolute;
     z-index: 1;
 	left: 10.5%;
-	top: 0.1%;
+	top: 0;/*0.1%;*/
 	display: flex;
 	flex-direction: column;
 	/* flex-wrap: wrap; */
@@ -23,13 +23,14 @@
 }
 .options img {
 	/* width: 25.5%; */
-	margin: 5.9% 0;
+	/* margin: 5.9% 0; */
 	width: 100%;
 }
 .options div {
  position: relative;
  width: 100%;
  transition: transform .6s;
+ margin: 6% 0;
 }
 
 .options div .subOpt {
@@ -40,9 +41,9 @@
 
 .options .playBtn {
  position: absolute;
- right: 7%;
- bottom: 7%;
- max-width: 16%;
+ right: 1.8vmin;/*7%;*/
+ bottom: 1.8vmin;/*7%;*/
+ max-width: 15%;/*16%;*/
 }
 .stageVideo {
 	position: absolute;
