@@ -62,41 +62,7 @@
 							<img class="img-fluid" [src]="popupHeader" /> 
 						</div>
 					</div> 
-					<div id="Line4" class="level1 fillLine">
-						<div class="text-center fillText">
-							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
-								<img class="img-fluid" [src]="no?.url" /> 
-							</ng-container>
-						</div>
-					</div> 
-					<div id="Line3" class="level2 fillLine">
-						<div class="text-center fillText">
-							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
-								<img class="img-fluid" [src]="no?.url" /> 
-							</ng-container>
-						</div>
-					</div> 
-					<div id="Line2" class="level3 fillLine">
-						<div class="text-center fillText">
-							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
-								<img class="img-fluid" [src]="no?.url" /> 
-							</ng-container>
-						</div>
-					</div> 
-					<div id="Line1" class="level4 fillLine">
-						<div class="text-center fillText">
-							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
-								<img class="img-fluid" [src]="no?.url" /> 
-							</ng-container>
-						</div>
-					</div> 
-					<div id="Line0" class="level5 fillLine">
-						<div class="text-center fillText">
-							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
-								<img class="img-fluid" [src]="no?.url" /> 
-							</ng-container>
-						</div>
-					</div>
+					
 					<div class="popupOuter">
 					<div id="inputBlock">
 						<div class="value1">
@@ -122,14 +88,48 @@
 							</ng-container>
 						</div>
 						<div class="filler"> 
+							<div class="filler_layer">
+								
+					<div id="Line4" class="level1 fillLine pink">					 
+					</div> 
+					<div id="Line3" class="level2 fillLine orange">
+					</div> 
+					<div id="Line2" class="level3 fillLine red">
+					 </div> 
+					<div id="Line1" class="level4 fillLine black">
+					 </div> 
+
+					<div id="Line0" class="level5 fillLine">
+						<div class="text-center fillText">
+							<ng-container *ngFor="let no of firstNoAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</div>
+					</div>
+					<div id="Line0" class=" fillLine blueLine" [style.bottom.%]="initialVal">
+						 
+					</div>
+					<div id="Line0" class=" fillLine greenLine" [style.bottom.%]="destinationVal">
+						<div class="text-center fillText">
+							<ng-container *ngFor="let no of givenValueAssets; let idx = index"> 
+								<img class="img-fluid" [src]="no?.url" /> 
+							</ng-container>
+						</div>
+					</div>
+
+
 							<img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="103" [src]="otherAssets?.filler?.url" />
 							<div class="fillValue">
-								<ng-container *ngFor="let no of resultNoAssets; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
+								<ng-container *ngFor="let no of initialValue; let idx = index"> <img class="img-fluid" [src]="no?.url" /> </ng-container>
 							</div> 
 							<img *ngIf="isExcess" class="img-fluid overflow" [src]="feedbackAssets?.overflow?.url"> 
 						</div> 
 						<img class="img-fluid liquidContainer" [src]="otherAssets?.container?.url" /> 
 					</div>
+				</div>
+				</div>
+				<div class="modalOk">
+					<img class="ok" [src]="feedbackAssets?.popup_commmon_imgs?.ok_btn?.url" (mousemove)="hoverokPopup()" (mouseleave)="houtokPopup()" (click)="sendFeedback(feedbackPopupRef,'no','feedbackDone');"> 
 				</div>
 				</div>
 			</div>

@@ -42,7 +42,7 @@ button:focus {
   bottom: 4%;  
 }
 .modal #outputBlock{
-  width: 31.8%;
+  width: 31.8%;  bottom: 11%;  
 }
 #quesBlock {
   width: 29.8%;
@@ -104,7 +104,7 @@ button:focus {
 }
 
 .modal #outputBlock img.inputImage{
-  bottom: 56%;
+  bottom: 52%;
 }
 #outputBlock .filler,
 #outputBlock .filler img.level,
@@ -129,6 +129,13 @@ button:focus {
   height: 52%;
   overflow: visible;
 }
+
+.modal #outputBlock .filler img.level{
+   
+  bottom: 1.6%;
+   
+}
+.modal .filler_layer{position:relative; height: 100%;}
 #quesBlock .filler{
   height: 98%;
 }
@@ -195,9 +202,39 @@ button:focus {
 }
 .modal .inputPlaceholder{
   width: 45%;
-  top: 16.5%;  /*20%;*/
+  top: 22.5%;  /*20%;*/
   left: 29%;
 }
+.modal .blueLine{    background-color: #3300cc!important;
+  display: block!important;
+  z-index: 3;
+  position: absolute;
+  width: auto;
+  right: 5%;
+  left: 5.4%;
+  height: .4vmin;}
+  .modal .greenLine{    background-color: #016b01!important;
+    display: block!important;
+    z-index: 3;
+    position: absolute;
+    width: auto;
+    right: 5%;
+    left: 5.4%;
+    height: .4vmin;}
+    .modal .greenLine .fillText{display: flex;}
+
+.modal .modalOk .ok{ cursor: pointer;   max-width: 8.5%;}
+.modal .modalOk{    display: block;
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
+  text-align: center;}
+.modal .fillValue{height: 35px;}
+.modal .fillValue img{    height: 100%;
+  max-height: 71%;
+  vertical-align: middle;
+  display: inline-block;
+  margin-bottom: 7px;}
 #outputBlock .inputPlaceholder img{
   position: relative;
   max-height: 77%;/*18%;*/
@@ -254,6 +291,7 @@ button:focus {
   align-content: flex-end;
   left: 8%;
   border-bottom: solid .4vmax #000;
+  bottom: 15%;
 }
 .modal #inputBlock img{
   margin: 0 2%;
@@ -442,7 +480,7 @@ button:focus {
 .modal{/*#modalTemp21 */
 	position: absolute !important;
 	width: 100%;
-  height: 94%;
+  height: 97%;
   padding-left: 0px;
 }
 .modal.show{/*#modalTemp21 */
@@ -813,12 +851,13 @@ button:focus {
 	align-items: center;
 }
 
-.fillText{display: none;}
+
 .modal .green{background-color: #016b01!important;}
 .modal .red{background-color: #fe0100!important;}
 .modal .blue{background-color: #3300cc!important;}
 .modal .orange{background-color: #ff6600!important;}
 .modal .pink{background-color: #b81230!important;}
+.modal .green .fillText{display:flex!important}
 /* .fillText{
   width: 37px; 
   height: 26px; 
@@ -826,20 +865,19 @@ button:focus {
   right: -17%; 
   top: -7px;
 } */
-.modal .fillText{
-  width: auto;
-  height: 3vmin;
+.modal .fillText{ height: 3vmin;
   position: absolute;
-  right: -13%;
+  right: -32%;
   top: -1.3vmin;
-  display: flex!important;
-  justify-content: space-around;
+  display: none;
+  -webkit-box-align: center;
   align-items: center;
-}
-.fillText img{ 
+  float: right;
+  min-width: 52px;}
+  .modal  .fillText img{ 
   max-width: initial; 
   display: inline;
-  height: 70%;
+  height: 70%; position: static!important;
   max-height: initial;
   margin-right: .3vmin;
 }
@@ -849,31 +887,17 @@ button:focus {
 .modal .level3,
 .modal .level4,
 .modal .level5 {
-  background-color: #9e9e9e;
-  width: 28.5%;
+  background-color: #000;
   z-index: 3;
   position: absolute;
-  left: 57.7%;
-  top: 85%;
+  width: auto;
+  right: 5%;
+  left: 5.4%;
+   
   height: .4vmin;
   display: none;
  }
-
- .modal .level2 {
-  top: 75%;
- }
-
- .modal .level3 {
-  top: 65%;
- }
-
- .modal .level4 {
-  top: 55%;
- }
-
- .modal .level5 {
-  top: 46%;
- }
+ 
 
  .modal .filler .fillValue .fillText {
     position: absolute;

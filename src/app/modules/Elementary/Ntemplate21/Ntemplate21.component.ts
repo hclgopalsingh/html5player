@@ -162,6 +162,9 @@ export class Ntemplate21 implements OnInit {
       SkipLoad: boolean = false;
       Instructionpointer:boolean = false;
       disableinputBlock:boolean = false;
+      initialValue:any;
+      destinationVal:any;
+      initialVal:any;
 
     ngOnInit() {
         let that = this;
@@ -304,17 +307,31 @@ export class Ntemplate21 implements OnInit {
             this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
             this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
             this.calValueContainer = this.getAssetsForNos(this.firstNo);
+            this.initialValue = this.getAssetsForNos(this.questionObj.initiallyValue);
             this.givenValueAssets = this.getAssetsForNos(this.requiredValue);
 
             for (let i = 0; i < this.operators.length; i++) {
                 if (this.operators[i].canUse) {
                     if (i % 2 == 0) {
                         this.percentageBase = JSON.parse(JSON.stringify(this.otherAssets.givenValue.value));
+                        this.destinationVal = JSON.parse(JSON.stringify(this.otherAssets.givenValue.value));
+                        if(this.destinationVal>100){
+                            this.destinationVal = 100;
+                        }
                         this.calWaterLevel = 100;
                         this.waterLevel = this.questionObj.initiallyValue * 100 / this.otherAssets.givenValue.value;
+                        this.initialVal = this.questionObj.initiallyValue * 100 / this.otherAssets.givenValue.value;
+                        if(this.initialVal < 100){
+                            this.initialVal = 100;
+                        }
                     } else {
                         this.percentageBase = JSON.parse(JSON.stringify(this.questionObj.initiallyValue));
+                        this.destinationVal = (this.otherAssets.givenValue.value * 100) / (this.questionObj.initiallyValue)
+                        if(this.destinationVal>100){
+                            this.destinationVal = 100;
+                        }
                         this.calWaterLevel = (this.otherAssets.givenValue.value * 100) / (this.questionObj.initiallyValue)
+                        this.initialVal = 100;
                         this.waterLevel = 100;
                     }
                 }
@@ -740,7 +757,32 @@ export class Ntemplate21 implements OnInit {
             //}
             console.log("attemptNo", this.attemptNo)
             this.getAnswer();
-            (document.getElementById('Line'+this.attemptNo) as HTMLElement).style.display = 'block';
+            if(this.attemptNo == 4){           
+                setTimeout(() => {
+                    (document.getElementById('Line4') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line4') as HTMLElement).style.display = 'block';
+                }, 300)
+               
+            }else if(this.attemptNo == 3){           
+                setTimeout(() => {
+                    (document.getElementById('Line3') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line3') as HTMLElement).style.display = 'block';
+                }, 300)
+               
+            }else if(this.attemptNo == 2){           
+                setTimeout(() => {
+                    (document.getElementById('Line2') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line2') as HTMLElement).style.display = 'block';
+                }, 300)
+               
+            }else if(this.attemptNo == 1){           
+                setTimeout(() => {
+                    (document.getElementById('Line1') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line1') as HTMLElement).style.display = 'block';
+                }, 300)
+               
+            }
+            /*(document.getElementById('Line'+this.attemptNo) as HTMLElement).style.display = 'block';
             for(var i=0; i<5; i++){
                 (document.getElementById('Line'+i) as HTMLElement).classList.remove("green");
             }
@@ -759,7 +801,7 @@ export class Ntemplate21 implements OnInit {
                 (document.getElementById('Line'+2) as HTMLElement).classList.add("blue");
                 (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
                 (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
-            }
+            }*/
             
         } else if (action == "showAnswerFeedback") {
             this.postShowAnswer();
@@ -847,6 +889,15 @@ export class Ntemplate21 implements OnInit {
     houtOK() {
         this.opeartorModal.ok_btn = this.opeartorModal.ok_btn_original;
     }
+
+    hoverokPopup() {
+        this.feedbackAssets.popup_commmon_imgs.ok_btn = this.feedbackAssets.popup_commmon_imgs.ok_btn_hover;
+    }
+
+    houtokPopup() {
+        this.feedbackAssets.popup_commmon_imgs.ok_btn = this.feedbackAssets.popup_commmon_imgs.ok_btn_original;
+    }
+
     hoverSubmitConfirm() {
         this.feedbackAssets.submit_popup.confirm_btn = this.feedbackAssets.submit_popup.confirm_btn_hover;
     }
