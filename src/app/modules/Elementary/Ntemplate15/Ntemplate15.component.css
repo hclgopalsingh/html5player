@@ -44,18 +44,30 @@
   width: 100%;
 }
 
-#container #optionsBlock {
+#container .optionsBlock {
   position: absolute;
-  top: 15%;
+  top: 16.5%;
   width: 100%;
   left: 0%;
   text-align: center;
 }
 
+#container .optionsBlock + .optionsBlock {
+  top: 38.5%;
+}
+
+#container .optionsBlock > img.optBase {
+  height: 3.79vmin;
+}
+
+#container .optCount4 .optionsBlock,
+#container .optCount3 .optionsBlock {
+  top: 28%;
+}
+
 #container #answerBlock {
   position: absolute;
-  top: 54%;
-  /*55%*/
+  top: 62%;/*54%*/
   width: 100%;
   left: 0%;
 }
@@ -109,14 +121,23 @@
 
 .temp4 #placeholders {
   position: absolute;
-  top: 30%;
-  width: 97%;
-  left: 1.4%;
-  height: 21%;
+  top: 27%;
+  width: 100%;
+  /* left: 1.4%; */
+  height: 35%;
+  display: flex;
+  justify-content: center;
 }
 
-#placeholders span img {
-  max-width: none !important;
+#placeholders div {
+  /* display: inline-flex; */
+  margin: 0 .8%;
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  height: 100%;
+}
+
+#placeholders div img {
   height: 100%;
 }
 
@@ -133,7 +154,7 @@
 }
 
 .temp4 #placeholders span:first-child {
-  padding-left: 2.3%;
+  /* padding-left: 2.3%; */
 }
 
 .animation-shake {
@@ -203,7 +224,7 @@
 }
 
 #answerBlock .ansBase {
-  width: 70%;
+  width: 85%;/*70%;*/
   position: relative;
 }
 
@@ -264,51 +285,72 @@
   -webkit-animation-direction: alternate;
 }
 
-#optionsBlock .options {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  width: 16.5%;
-}
-
-#optionsBlock #optimage0,
-#optionsBlock #optimage1,
-#optionsBlock #optimage2,
-#optionsBlock #optimage3,
-#optionsBlock #optimage4 {
+.optionsBlock .options {
   position: absolute;
-  top: 49%;
-  width: 100%;
-  text-align: center;
-  left: 0%;
-
+  width: 16.5%;
+  left: 8%;
+  top: 43%;
 }
 
-
-#optionsBlock #optimage1,
-#optionsBlock #optimage3 {
-  top: 24%;
+.optionsBlock #opt1 {
+  left: 32%;
+  top: 80%;
 }
 
-#optionsBlock #optimage2 {
-  top: 53%;
+.optionsBlock #opt2 {
+  left: 56%;
+  top: 64%;
 }
 
-#optionsBlock #optimage4 {
-  top: 37%;
+.optionsBlock #opt3 {
+  left: 80%;
+  top: 7%;
 }
 
-#optionsBlock .options {
-  margin-left: 2%;
+.optionsBlock #opt4 {
+  left: 1.5%;
+  top: 26%;
 }
 
-#optionsBlock .options:first-child {
-  margin-left: 4%;
+.optionsBlock #opt5 {
+  left: 26%;
+  top: 75%;
 }
 
-#optionsBlock .options:last-child {
-  margin-right: 4%;
+.optionsBlock #opt6 {
+  left: 50.5%;
+  top: 71%;
 }
+
+.optionsBlock #opt7 {
+  left: 75%;
+  top: 17%;
+}
+
+.optCount7 .optionsBlock #opt4 {
+  left: 15.5%;
+  top: 56%;
+}
+
+.optCount7 .optionsBlock #opt5,
+.optCount5 .optionsBlock #opt5,
+.optCount3 .optionsBlock #opt1{
+  left: 42%;
+  top: 82%;
+}
+
+.optCount7 .optionsBlock #opt6 {
+  left: 69.5%;
+  top: 47%;
+}
+
+.optionsBlock .options img:last-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+
 
 /*----*/
 
@@ -425,10 +467,10 @@
 }
 
 .temp4 .speakerBtn {
-  width: 18%;
+  width: 8%;/*18%;*/
+  right: -1.5%;/*-3%;*/
+  top: -13%;/*-39%;*/
   position: absolute;
-  right: -3%;
-  top: -39%;
 }
 
 /*.temp4 .speaker, .temp4 #speaker{
@@ -817,13 +859,12 @@ html [type=button] {
   -webkit-appearance: none;
 }
 
-.modal #optionsBlock .options,
 .modal .optionsBlock .options {
   width: 97%;
   margin: .5% 0;
 }
 
-#container .modal #optionsBlock {
+#container .modal .optionsBlock {
   margin-top: 0;
   height: 100%;
 }
