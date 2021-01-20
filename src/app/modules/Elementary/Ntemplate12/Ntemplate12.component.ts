@@ -301,32 +301,34 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
       opt.optFilter = true;
-      if (opt.id == this.feedback.correct_ans_index) {   
+      if (opt.id == this.feedback.correct_ans_index) {
         for (let i = 0; i < this.myoption.length; i++) {
-          if(this.myoption[i].id!=opt.id){
+          if (this.myoption[i].id != opt.id) {
             this.myoption[i].showDisable = true;
-          }          
-        }     
+          }
+        }
         this.feedbackVoRef.nativeElement.src = this.commonAssets.right_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-          this.feedbackVoRef.nativeElement.play();
+        this.feedbackVoRef.nativeElement.play();
 
         this.feedbackVoRef.nativeElement.onended = () => {
           this.blinkTimer = setTimeout(() => {
             this.bodyContentOpacity = true;
             this.instructionOpacity = true;
+            document.getElementById("ele_ansBtn").classList.remove("disableBtn");
             this.blinkOnLastQues()
-          }, 5000)
+          }, 2000)
         }
       }
       else {
-          this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
-          this.feedbackVoRef.nativeElement.play();
+        this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
+        this.feedbackVoRef.nativeElement.play();
         this.feedbackVoRef.nativeElement.onended = () => {
           this.appModel.wrongAttemptAnimation();
         }
-      }
+      }      
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
       opt.optFilter = false;
+      document.getElementById("ele_ansBtn").classList.remove("disableBtn");
     }
   }
   /*End-Template click and hover events*/
@@ -358,6 +360,10 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     console.log("stuffs to do after wornog answer pop-up")
     this.myoption[this.itemid].isOpen = true;
     this.bodyContentDisable = false;
+    this.instructionDisable = false;
+    setTimeout(() => {
+      this.isOptionDisabled = false;
+    }, 1000);
   }
   /******Checking of existance of quesTab in content JSON *******/
   checkquesTab() {
@@ -482,6 +488,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Popup close functionality *******/
   closeModal() {
+    this.instructionDisable = true;
     this.instructionOpacity = true;
     this.bodyContentOpacity = true;
     this.bodyContentDisable = true;
@@ -490,6 +497,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   }
   showAnswer() {
     this.attemptType = "hideAnimation";
+    document.getElementById("ele_ansBtn").classList.add("disableBtn");
+    this.instructionDisable = true;
     this.bodyContentDisable = true;
     this.bodyContentOpacity = false;
     this.instructionOpacity = false;
@@ -500,8 +509,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     this.myoption.forEach((element, i) => {
       if (element.id == this.feedback.correct_ans_index) {
         id = i;
-      }else{
-        element.showDisable=true;
+      } else {
+        element.showDisable = true;
       }
     });
     console.log("id", id)
@@ -515,6 +524,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       this.blinkTimer = setTimeout(() => {
         this.bodyContentOpacity = true;
         this.instructionOpacity = true;
+        document.getElementById("ele_ansBtn").classList.remove("disableBtn");
         this.blinkOnLastQues()
       }, this.showAnsTimeout)
     }
@@ -529,11 +539,12 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     else { }
   }
   checkAnswer(option, event) {
+    document.getElementById("ele_ansBtn").classList.add("disableBtn");
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
-      this.instructionDisable = false;
     }
+    this.instructionDisable = true;
     if (this.audio && !this.audio.paused) {
       this.audio.pause();
       this.audio.currentTime = 0;
@@ -543,6 +554,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
     }
+    this.isOptionDisabled = true;
+    this.bodyContentDisable = true;
     // Analytics called for attempt counter & first option is clicked
     this.appModel.notifyUserAction();
     if (!this.instruction.nativeElement.paused) {
@@ -559,7 +572,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         option.topPos = this.quesObj.styleArray[option.idx]['top'];
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
         option.optMaxWidth = this.quesObj.styleArray[option.idx]['max-width'];
-        option.isOpen = false;        
+        option.isOpen = false;
       }
       else {
         this.itemid = option.idx;
@@ -568,7 +581,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         option.topPos = this.quesObj.styleArray[option.idx]['top'];
         option.optWidth = this.quesObj.styleArray[option.idx]['width'];
         option.optMaxWidth = this.quesObj.styleArray[option.idx]['max-width'];
-        option.isOpen = false;        
+        option.isOpen = false;
       }
     }
   }
