@@ -556,10 +556,6 @@ export class VideoComponent implements OnInit {
   updateVolume(event) {
     console.log('VideoComponent: updateVolume - event=', event);
     if(this.mainVideo && this.mainVideo.nativeElement){
-		this.mainVideo.nativeElement.volume = this.appModel.isMute?0:event.target.value;
-		if(this.quesRepeat && this.quesRepeat.nativeElement){
-			this.quesRepeat.nativeElement.volume = this.appModel.isMute?0:event.target.value;
-		}
 		this.appModel.functiontwo(event.target.value);
 		if(this.MuteVar.nativeElement.children[0].checked){
 			this.MuteVar.nativeElement.children[0].checked = false;
@@ -574,6 +570,10 @@ export class VideoComponent implements OnInit {
 			this.MuteVar.nativeElement.children[0].checked = true;
 			this.volumeBtn = this.volumeMute;
 			this.volumeBar.nativeElement.className = "volumesliderDisable";
+		}
+		this.mainVideo.nativeElement.volume = this.appModel.isMute?0:event.target.value;
+		if(this.quesRepeat && this.quesRepeat.nativeElement){
+			this.quesRepeat.nativeElement.volume = this.appModel.isMute?0:event.target.value;
 		}
 	}
   }

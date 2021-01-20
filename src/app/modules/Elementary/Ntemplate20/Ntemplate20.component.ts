@@ -17,7 +17,7 @@ import { trigger, state, style, animate, transition, AnimationEvent } from '@ang
       state('closed', style({
         'left': '{{leftPos}}',
         'top': '{{topPos}}',
-        'width': '{{optWidth}}',
+        // 'width': '{{optWidth}}',
       }), { params: { leftPos: 0, topPos: 0, optWidth: 0 } }),
       transition('open => closed', [
         animate('0.5s')

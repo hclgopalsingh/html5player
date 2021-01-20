@@ -182,6 +182,7 @@ export class Template3Component extends Base implements OnInit {
 
 
 	onHoverOptions(option, index) {
+		this.optionRef.nativeElement.children[index].classList.add("optionHover");
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
 			speakerEle.pause();
@@ -196,15 +197,18 @@ export class Template3Component extends Base implements OnInit {
 
 	onHoveroutOptions(option, index) {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
+		this.optionRef.nativeElement.children[index].classList.remove("optionHover");
 	}
 	onHoverPlay(option, index) {
 		if (!this.videoPlayed) {
 			this.myoption[index].play_button_normal = this.myoption[index].play_button_hover;
+			this.onHoverOptions(option, index);
 		}
 	}
 	onHoveroutPlay(option, index) {
 		if (!this.videoPlayed) {
 			this.myoption[index].play_button_normal = this.myoption[index].play_button_original;
+			this.onHoveroutOptions(option, index);
 		}
 	}
 
@@ -362,6 +366,7 @@ export class Template3Component extends Base implements OnInit {
 
 	playVideo(option, index) {
 		this.videoPlayed = true;
+		this.onHoveroutOptions(option, index);
 		this.myoption[index].play_button_normal = this.myoption[index].play_button_selected;
 		this.videoStage.nativeElement.style.opacity = 1;
 		this.videoStage.nativeElement.src = this.myoption[index].videosrc.location == "content" ? this.contentgFolderPath + "/" + this.myoption[index].videosrc.url : this.assetsfolderlocation + "/" + this.myoption[index].videosrc.url;

@@ -83,13 +83,14 @@
     justify-content: center;
     align-items: center;
 	transition: transform .2s;
-	cursor:pointer;
 }
-.eva4 #optionsBlock .options:hover{
+.eva4 .optionHover {
 	transform: scale(1.1);
 	border: solid .5vmin #f00;
     border-radius: 1.4vmax;
+	cursor:pointer;
 }
+
 .eva4 #optionsBlock .options img:nth-child(2){
 	width: 100%;
 }

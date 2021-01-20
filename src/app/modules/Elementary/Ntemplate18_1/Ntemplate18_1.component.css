@@ -150,7 +150,9 @@ button:focus {
   cursor: pointer;
 }
 .videoMainContainer{
-  width:99.3%;/*99.8%;*/
+  width:100%;
+  margin-bottom: -.4%;
+  display: grid;
 }
 #optionsBlock #option img,
 .optionsBlock #option img {

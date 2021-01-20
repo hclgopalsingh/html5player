@@ -547,6 +547,7 @@ export class Template4Component implements OnInit {
 
     /**OPTION HOVER */   
     playOptionHover(option, index){
+        this.optionRef.nativeElement.children[index].classList.add("optionHover");
         if (!this.myAudiospeaker.nativeElement.paused) {
             this.myAudiospeaker.nativeElement.pause();
             this.myAudiospeaker.nativeElement.currentTime = 0;
@@ -556,6 +557,11 @@ export class Template4Component implements OnInit {
         if (option && option.audio && option.audio.url) {
             this.playSound(option.audio, index);
         }
+    }
+
+    /******Hover out option ********/
+    onHoveroutOptions(option, index) {
+        this.optionRef.nativeElement.children[index].classList.remove("optionHover");
     }
     
     /**OPTION VO ON HOVER**/

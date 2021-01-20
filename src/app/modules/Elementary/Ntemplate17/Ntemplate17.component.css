@@ -103,6 +103,7 @@
   position: relative;
   top: 1.5%;
   margin: auto;
+  cursor: default;
 }
 .ele17 .correctBox,
 .ele17 .incorrectBox{
@@ -125,7 +126,7 @@
 
 }*/
 
-.ele17 .videoMainContainer{
+.videoMainContainer{
   width:99.9%;
   height:100%;
   position:absolute;
@@ -142,7 +143,7 @@
   width: 3.4%;
 }*/
 
-.ele17 #playPauseBtn{
+#playPauseBtn{
   /*position: absolute;
   top: 96.5%;
   right: 1.7%;
@@ -160,7 +161,7 @@
   max-width: none;*/
 }
 
-.ele17 #SkipBtn{
+#SkipBtn{
   /*position: absolute;
   top: 98%;
   right: 18%;
@@ -169,11 +170,11 @@
   position: absolute;
   top: 86%;/*85%*/
   right: 5%;/*16%*/
-  cursor: pointer;
+  /* cursor: pointer; */
   width: 3.5%;/*1.5%*/
 }
 
-.ele17 #closeBtn{
+#closeBtn{
   /*position: absolute;
   top: 96.5%;
   right: 1.7%;
@@ -484,8 +485,7 @@
 }
 
 
-#container.ele17 #navBlock .prevBtn,
-#container.ele17 #navBlock .nextBtn,
+
 #container.ele17 #navBlock .ansBtn,
 #container.ele17 .quesBlock img {
   cursor: pointer;
@@ -496,10 +496,14 @@
   width: 3.5%;
 }
 
-.ele17 #navBlock .prevBtn,
-.ele17 #navBlock .nextBtn,
+
 .ele17 #navBlock .submitBtn {
   cursor: pointer;
+  
+}
+
+.ele17 #navBlock .prevBtn,
+.ele17 #navBlock .nextBtn{
   width: 3.5%;
   margin-right: .7%;
 }
@@ -1697,7 +1701,7 @@ cursor: pointer
   right: 9.5%;
   z-index: 101;
   position: absolute;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .ele17 .closeBtn_keyb_math{
@@ -1733,4 +1737,13 @@ cursor: pointer
 .ele17 .disableBtn{
   pointer-events: none;
   opacity: 0.5;
+}
+
+#inputDivRef{
+  cursor: default;
+}
+
+.disableClass{
+  cursor: default !important;
+  pointer-events: none !important;
 }

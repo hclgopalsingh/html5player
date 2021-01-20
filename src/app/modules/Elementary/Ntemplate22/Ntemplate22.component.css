@@ -360,7 +360,7 @@ position: absolute;
 	text-align: center;
   position: absolute;
   bottom: 0;
-  margin-bottom: 1.5%;
+  margin-bottom: 0.5%;
   width: 8%;
 }
 
@@ -408,12 +408,7 @@ position: absolute;
   min-width: auto;
   min-height: auto;
 }
-#confirmModal .modal-body {
-  padding: 0;
-  margin: 0;
-	flex: 0 !important;
-	/* flex-wrap: wrap; */
-}
+ 
 #confirmModal .modal-body .msgImage {
 	display: flex;
   justify-content: center;
@@ -452,13 +447,8 @@ button:focus {
 #confirmModal .bodyText img {
   width: 85%;
 }
-#confirmModal .modal-title {
-  margin-left: 3%;
-}
-#confirmModal .close {
-  /* width: 5%; */
-  margin: 0 1.6% 0 auto;
-}
+ 
+ 
 #confirmModal .modal-footer {
   display: flex;
   align-items: center;
@@ -532,21 +522,8 @@ button:focus {
 	margin-left: 1.5%;
 	height: 80%;
 }
-.close {
-	width: auto;
-	height: 75%;
-  margin-right: 0%;
-	margin-top: -.1%;
-  -webkit-appearance: inherit !important;
-  cursor: pointer;
-  opacity: 1;
-}
-@media (min-width: 1366px){
-	.close {
-		height: 95%;
-    margin-right: .3%;
-	}
-}
+ 
+ 
 #modalTemp22 .modal-header .close {
   margin-left:auto;
 }
@@ -568,7 +545,7 @@ button:focus {
 #modalTemp22 .modal-body {
   flex: none !important;
 	padding: 3% !important;
-	height: 89.1%;
+	height: 91.1%;
 }
 
 #modalTemp22 .modal-body img {
@@ -577,9 +554,17 @@ button:focus {
 }
 
 #modalTemp22 #optionsBlock {
-  top: 3.5%;
+  top: 20.5%;
   pointer-events: none;
   /* height: 65%; */
+}
+
+#modalTemp22 #optionsBlock{
+  position: absolute;
+  top: 18.5%;
+  width: 88%;
+  left: 6%;
+  height: 57%;
 }
 
 #modalTemp22 #optionsBlock .leftBlock .blockContent img {
@@ -657,3 +642,42 @@ nav {
 /* .btn-secondary.focus, .btn-secondary:focus {
   box-shadow: none !important;
 } */
+
+.holidayList{
+  position: absolute;
+  bottom: -15.5%;
+  color: #fff;
+  width: 82%;
+}
+.holidayList div{
+  /* width: 18%; */
+  border-right: solid 1px #fff;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2%;
+  font-family: arial;
+  font-weight: normal;
+}
+.holidayList div .hDate{
+  font-size: 3vmin;
+  padding-right: 8%;
+}
+.holidayList div .hName{
+  display:  inline-flex;
+  flex-wrap: wrap;
+  line-height: 1.2;
+  font-size: 2.3vmin;
+}
+@media (max-width: 1024px) {
+  .holidayList div .hName{
+    font-size: 1.2vmin;
+  }  
+}
+
+.ele .modal-title{
+  left: -0.5vmin;
+}
+
+.ele .modal-title, .ele #confirmModal .modal-title{
+  left: -0.5vmin;
+}

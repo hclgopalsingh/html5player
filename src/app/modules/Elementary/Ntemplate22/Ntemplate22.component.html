@@ -1,4 +1,4 @@
-<div class="container-fluid temp14" id="container">
+<div class="container-fluid ele temp14" id="container">
   <audio #narrator></audio>
   <!--
       <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
@@ -10,11 +10,11 @@
       <img class="img-fluid" src="images/burst.gif">
   </div>
   -->
-  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.location=='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around" id="instructionBar">
-    <div class="instructionBase">
-      <img class="img-fluid" [src]="commonAssets?.instruction_bg?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : commonAssets?.instruction_bg?.url" (load)="checkImgLoaded();" (click)="playHoverInstruction()" />
-      <audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction?.url:commonAssets?.instruction?.url"></audio>
+    <div class="instructionBase" #instructionBar >
+      <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (load)="checkImgLoaded();" (click)="playHoverInstruction()" />
+      <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
       <!--
    <img class="img-fluid instructionText" [src]="commonAssets?.instruction_img?.location=='content' ? containgFolderPath + '/' + commonAssets?.instruction_img?.url : commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
   -->
@@ -25,32 +25,32 @@
   <div id="optionsBlock" #optionsBlock>
     <div class="leftBlock">
       <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseMonths.png"> -->
-      <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url">
+      <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.url">
       <div class="blockContent">
         <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.selected ? 
-        item?.selectedmonthImg?.location=='content' ? containgFolderPath + '/' + item?.selectedmonthImg?.url : assetsPath + '/' + item?.selectedmonthImg?.url :
-        item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
+        item?.selectedmonthImg?.location=='content' ? item?.selectedmonthImg?.url : item?.selectedmonthImg?.url :
+        item?.monthImg?.location=='content' ?  item?.monthImg?.url : item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
         [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected}"  (click) = "onClickCalender(item,'month')">
       </div>
     </div>
     <div class="topBlock">
       <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
-      <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url">
+      <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.url">
       <div class="blockContent">
         <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.selected ? 
-        item?.selectedyearsImg?.location=='content' ? containgFolderPath + '/' + item?.selectedyearsImg?.url : assetsPath + '/' + item?.selectedyearsImg?.url :
-        item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
+        item?.selectedyearsImg?.location=='content' ? item?.selectedyearsImg?.url :  item?.selectedyearsImg?.url :
+        item?.yearsImg?.location=='content' ? item?.yearsImg?.url : item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
         [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">
       </div>
     </div>
     <div class="rightBlock">
       <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseDaysWeeks.png"> -->
-      <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundDaysWeeks?.url : assetsPath + '/' + commonAssets?.backgroundDaysWeeks?.url">
+      <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.url">
       <div class="weekDays">
         <div class="blockContent">
           <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.selected ? 
-          item?.selectedweekDayImg?.location=='content' ? containgFolderPath + '/' + item?.selectedweekDayImg?.url : assetsPath + '/' + item?.selectedweekDayImg?.url :
-          item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" 
+          item?.selectedweekDayImg?.location=='content' ? item?.selectedweekDayImg?.url : item?.selectedweekDayImg?.url :
+          item?.weekDayImg?.location=='content' ? item?.weekDayImg?.url : item?.weekDayImg?.url" 
           (mousemove)="hoveronWeekDays(item)" (mouseleave)="houtonWeekDays(item)"
           [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }" (click) = "onClickCalender(item,'weekDays')">
         </div>
@@ -101,29 +101,55 @@
           <img class="img-fluid opacityZero" src="./assets/images\Template-22/English/Images English/Days/Days Normal/date01.png" (mousemove)="hoveronDate($event)" (mouseleave)="houtonDate($event)"  (click) = "onClickCalender($event,'date')">
         </div>
       </div>
+      <div class="holidayList" *ngIf="showHolidays">
+        <div *ngFor="let holiday of holidayCal; let idx = index">
+          <span class="hDate">{{holiday.date}}</span>
+          <span class="hName">{{holiday.name}}</span>  
+        </div>
+        <!-- <div>
+          <span class="hDate">8</span>
+          <span class="hName">Laxmi Puja</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Maharishi Valmiki Birthday</span>  
+        </div>
+        <div>
+          <span class="hDate">2</span>
+          <span class="hName">Gandhi Jyanti</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Laxmi Puja</span>  
+        </div>
+        <div>
+          <span class="hDate">8</span>
+          <span class="hName">Maharishi Valmiki Birthday</span>  
+        </div> -->
+      </div>
     </div>
   </div>
 
 
-  <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.right_ans_sound?.url: assetsPath + '/' + feedbackObj?.right_ans_sound?.url"></audio>
-  <audio #wrongFeedbackVO [src]="feedbackObj?.wrong_ans_sound?.location=='content' ? containgFolderPath + '/' + feedbackObj?.wrong_ans_sound?.url: assetsPath + '/' + feedbackObj?.wrong_ans_sound?.url"></audio>
+  <audio #rightFeedbackVO [src]="feedbackObj?.right_ans_sound?.url"></audio>
+  <audio #wrongFeedbackVO [src]="feedbackObj?.wrong_ans_sound?.url"></audio>
   <!-- The Confirmation Modal -->
   <div class="modal" id="confirmModal" #confirmModalRef>
     <div class="modal-dialog">
       <!-- <img class="popupBg img-fluid" [src]="confirmPopupAssets?.bg_img?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.bg_img?.url : assetsPath + '/' + confirmPopupAssets?.bg_img?.url"> -->
       <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.confirm_popup?.headerTxt_img?.url">
+          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="confirmPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.close_btn?.url : assetsPath + '/' + confirmPopupAssets?.close_btn?.url" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_text?.url : assetsPath + '/' + confirmPopupAssets?.confirm_text?.url"></div>
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('showAnswer-modal-id','answer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.confirm_btn?.url : assetsPath + '/' + confirmPopupAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmPopupAssets?.decline_btn?.url : assetsPath + '/' + confirmPopupAssets?.decline_btn?.url"></button>
+            <button type="button" (click)="showFeedback('showAnswer-modal-id','answer');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
           </div>
         </div>
 
@@ -138,15 +164,15 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.headerTxt_img?.url : assetsPath + '/' + infoPopupAssets?.headerTxt_img?.url">
+          <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.url">
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="infoPopupAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.close_btn?.url : assetsPath + '/' + infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
 
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
-          <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.info_text?.url : assetsPath + '/' + infoPopupAssets?.info_text?.url"></div>
+          <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url"></div>
           <div class="actionButtons">
-            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.location=='content' ? containgFolderPath + '/' + infoPopupAssets?.ok_btn?.url : assetsPath + '/' + infoPopupAssets?.ok_btn?.url"></button>
+            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()" (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url"></button>
           </div>
         </div>
         <audio #feedbackInfoAudio></audio>
@@ -157,15 +183,15 @@
   <div class="modal" id="confirmModal" #confirmSubmitRef>
     <div class="modal-dialog">
         <div class="modal-content" #modalRef>
-          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
-            <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.headerTxt_img?.url : assetsPath + '/' + confirmSubmitAssets?.headerTxt_img?.url">
-            <img class="close" [src]="confirmSubmitAssets?.close_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.close_btn?.url : assetsPath + '/' + confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.info_popup?.style_header">
+            <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
+            <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
           </div>
-          <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
-            <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_text?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_text?.url"></div>
+          <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
+            <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.url"></div>
             <div class="actionButtons">
-              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.confirm_btn?.url : assetsPath + '/' + confirmSubmitAssets?.confirm_btn?.url"></button>
-              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.location=='content' ? containgFolderPath + '/' + confirmSubmitAssets?.decline_btn?.url : assetsPath + '/' + confirmSubmitAssets?.decline_btn?.url"></button>
+              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
             </div>
           </div>
         </div>
@@ -180,42 +206,52 @@
 
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="styleHeaderPopup">
-          <img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">
+          <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
+          <img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.url">
+          <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
+          <img *ngIf="partialCorrectheaderTxt_img" class="modal-title"
+            [src]="feedbackObj?.partialCorrectheaderTxt_img?.url">
           <!-- <h4 class="modal-title">Modal Heading</h4> -->
           <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
-          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
           <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
         </div>
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center"  [ngStyle]="styleBodyPopup">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            [ngClass]="{'dispFlex':AnswerpopupTxt}">
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="popupHeader" />
+            </div>
+          </div>
           <div id="optionsBlock" #optionsBlock>
             <div class="leftBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseMonths.png"> -->
-              <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundMonths?.url : assetsPath + '/' + commonAssets?.backgroundMonths?.url">
+              <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.url">
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.checkRightorWrong ? 
-                item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url :
-                item?.monthImg?.location=='content' ? containgFolderPath + '/' + item?.monthImg?.url : assetsPath + '/' + item?.monthImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                item?.ImginpopUp?.location=='content' ? item?.ImginpopUp?.url : item?.ImginpopUp?.url :
+                item?.monthImg?.location=='content' ? item?.monthImg?.url : item?.monthImg?.url" [ngClass] = "{'disable-state': item.disabled }">
               </div>
             </div>
             <div class="topBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
-              <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundYears?.url : assetsPath + '/' + commonAssets?.backgroundYears?.url">
+              <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.url">
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.checkRightorWrong ? 
-                item?.ImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.ImginpopUp?.url : assetsPath + '/' + item?.ImginpopUp?.url :
-                item?.yearsImg?.location=='content' ? containgFolderPath + '/' + item?.yearsImg?.url : assetsPath + '/' + item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                item?.ImginpopUp?.location=='content' ?  item?.ImginpopUp?.url : item?.ImginpopUp?.url :
+                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled }">
               </div>
             </div>
             <div class="rightBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseDaysWeeks.png"> -->
-              <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.location=='content' ? containgFolderPath + '/' + commonAssets?.backgroundDaysWeeks?.url : assetsPath + '/' + commonAssets?.backgroundDaysWeeks?.url">
+              <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.url">
               <div class="weekDays">
                 <div class="blockContent">
                   <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.checkRightorWrong ? 
-                  item?.weekDayImginpopUp?.location=='content' ? containgFolderPath + '/' + item?.weekDayImginpopUp?.url : assetsPath + '/' + item?.weekDayImginpopUp?.url :
-                  item?.weekDayImg?.location=='content' ? containgFolderPath + '/' + item?.weekDayImg?.url : assetsPath + '/' + item?.weekDayImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                  item?.weekDayImginpopUp?.location=='content' ? item?.weekDayImginpopUp?.url : item?.weekDayImginpopUp?.url :
+                  item?.weekDayImg?.location=='content' ? item?.weekDayImg?.url : item?.weekDayImg?.url" [ngClass] = "{'disable-state': item.disabled }">
                 </div>
               </div>
               <div class="monthDates" #monthDatesinPopup>
@@ -267,7 +303,7 @@
             </div> 
           </div>
           <div class="actionButtonOk">
-            <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.location=='content' ? containgFolderPath + '/' + feedbackObj?.ok_btn?.url : assetsPath + '/' + feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
+            <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
             </div>
           <audio #feedbackPopupAudio></audio>
         </div>

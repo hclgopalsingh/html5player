@@ -8,9 +8,6 @@
 .eva1 .speakerBtn img{
 	width:61%;
 }
-.eva1 .options img{
-	cursor:pointer;
-}
 
 /*Template specific styles */
  .eva1#container #optionsBlock {
@@ -49,7 +46,6 @@
 	border: solid .45vmax transparent;
     box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.55);
 	transition: transform .2s;
-    cursor: pointer;
 }
 .eva1 #optionsBlock .options:nth-child(2) {
 	background: #9EFBFF;
@@ -57,9 +53,10 @@
 .eva1 #optionsBlock .options:nth-child(3) {
 	background: #B6FDA4;
 }
-.eva1 #optionsBlock .options:hover{
+.eva1 .optionHover {
 	transform: scale(1.1);
-	border-color: #f00;
+	border-color: #f00 !important;
+	cursor: pointer;
 }
 .eva1 .options img {
     filter: grayscale(100%) brightness(0) saturate(0);
