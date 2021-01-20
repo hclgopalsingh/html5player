@@ -21,7 +21,9 @@ import { Ntemplate19Component } from './Ntemplate19/Ntemplate19.component';
 import { Ntemplate22 } from './Ntemplate22/Ntemplate22.component';  
 import { Ntemplate14Component } from './Ntemplate14/Ntemplate14.component';
 import { Ntemplate12 } from './Ntemplate12/Ntemplate12.component';  
-import { Ntemplate16 } from './Ntemplate16/Ntemplate16.component'; 
+import { Ntemplate23Component } from './Ntemplate23/Ntemplate23.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ntemplate16 } from './Ntemplate16/Ntemplate16.component';  
 import { Ntemplate15 } from './Ntemplate15/Ntemplate15.component';  
 
 
@@ -29,6 +31,7 @@ import { Ntemplate15 } from './Ntemplate15/Ntemplate15.component';
 @NgModule({
   imports: [
     CommonModule,
+    NgxPaginationModule,
     DragulaModule.forRoot()
   ],
   declarations: [
@@ -52,6 +55,7 @@ import { Ntemplate15 } from './Ntemplate15/Ntemplate15.component';
   Ntemplate18_1,
   Ntemplate14Component,
   Ntemplate12,
+  Ntemplate23Component,
   Ntemplate16,
   Ntemplate15
 

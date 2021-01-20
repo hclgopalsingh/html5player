@@ -119,6 +119,10 @@
   top: -39%;
 }
 
+.speakerBtn img{
+  cursor: auto;
+}
+
 .temp4 #placeholders {
   position: absolute;
   top: 27%;
@@ -428,10 +432,9 @@
 .speaker {
   width: 100%;
   padding-bottom: 89%;
-  /*100%;*/
   margin: 0% auto;
-  /* background: url(../../../assets/images/speakerSpriteR.png) 0 0;
-  background-size: 400%; */
+  /* background: url(../../../assets/images/speakerSpriteR.png) 0 0;*/
+  background-size: 400%;
   animation: play 1.3s steps(4) infinite;
   display: none;
 }
