@@ -107,6 +107,10 @@
   top: -39%;
 }
 
+.speakerBtn img{
+  cursor: auto;
+}
+
 .temp4 #placeholders {
   position: absolute;
   top: 30%;

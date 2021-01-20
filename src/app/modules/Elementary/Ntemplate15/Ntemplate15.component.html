@@ -3,14 +3,14 @@
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div #maincontent>
     <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
-      <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable,'classOpacity':instructionOpacity}">
+      <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable}">
         <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
           (load)="checkImgLoaded();" />
         <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
       </div>
     </div>
-    <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
-      <div #ansBlock class="d-flex justify-content-around row1" id="optionsBlock">
+    <div class="bodyContent">
+      <div #ansBlock class="d-flex justify-content-around row1" id="optionsBlock" [ngClass]="{'disable_div':isOptionDisabled}">
         <div class="options" *ngFor="let opts of myoption;let idx = index">
           <img class="img-fluid bgBlank" [src]="opts?.image?.url" id="{{'optblank'+idx}}" (load)="checkImgLoaded();">
           <img *ngIf="opts.show" (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}"
@@ -127,12 +127,12 @@
         <!-- Modal body -->
         <div class="modal-body d-flex align-items-center" [ngStyle]="feedbackPopup?.style_body">
           <div class="d-flex align-items-center justify-content-center ansImage">
-            <div *ngIf="this.showAnsTempArray.length == 0" id="placeholders">
+            <div *ngIf="!openShowAns" id="placeholders">
               <span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id="{{'div'+idx}}">
                 <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
             </div>
-            <div *ngIf="this.showAnsTempArray.length > 0 " id="placeholders">
+            <div *ngIf="openShowAns" id="placeholders">
               <span *ngFor="let opts of showAnsTempArray;let idx = index" class="placeholder1" id="{{'div'+idx}}">
                 <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
