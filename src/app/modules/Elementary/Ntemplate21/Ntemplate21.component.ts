@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
-////import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
-
-////declare var $: any;
 
 @Component({
     selector: 'ntemp21',
@@ -84,7 +81,6 @@ export class Ntemplate21 implements OnInit {
     isFirstQues: boolean;
     isLastQues: boolean = false;
     isLastQuesAct: boolean;
-
     noOfImgs: number;
     noOfImgsLoaded: number = 0;
     loaderTimer: any;
@@ -108,7 +104,6 @@ export class Ntemplate21 implements OnInit {
     noOfDidgit: number = 0;
     waterLevel: any;
     popupType: any;
-
     number_options: any = [];
     digits: any = [];
     otherAssets: any = [];
@@ -124,7 +119,6 @@ export class Ntemplate21 implements OnInit {
     secondNoAssets: any = [];
     resultNoAssets: any = [];
     requiredValue: number;
-
     isCorrect: boolean = false;
     isInsufficient: boolean = false;
     isExcess: boolean = false;
@@ -146,7 +140,6 @@ export class Ntemplate21 implements OnInit {
     styleHeaderPopup: any;
     styleBodyPopup: any;
     PlayPauseFlag: boolean = true;
-    //wrongAnimationAssts:any;
     fetchedcontent: any;
     functionalityType: any;
     themePath: any;
@@ -154,26 +147,20 @@ export class Ntemplate21 implements OnInit {
     controlHandler = {
         isSubmitRequired: false,
         isReplayRequired: false
-      };
-      disableinstruction:boolean=false;
-      AnswerpopupTxt: boolean = false;
-      popupHeader: any;
-      disableinstructionBar:boolean = false;
-      SkipLoad: boolean = false;
-      Instructionpointer:boolean = false;
-      disableinputBlock:boolean = false;
-      initialValue:any;
-      destinationVal:any;
-      initialVal:any;
+    };
+    disableinstruction: boolean = false;
+    AnswerpopupTxt: boolean = false;
+    popupHeader: any;
+    disableinstructionBar: boolean = false;
+    SkipLoad: boolean = false;
+    Instructionpointer: boolean = false;
+    disableinputBlock: boolean = false;
+    initialValue: any;
+    destinationVal: any;
+    initialVal: any;
 
     ngOnInit() {
         let that = this;
-        ////$("#navBlock").click(function () {
-            ////if (!that.instructionVO.nativeElement.paused) {
-            ////    that.instructionVO.nativeElement.pause();
-            ////    that.instructionVO.nativeElement.currentTime = 0;
-           //// }
-       //// });
 
         if (this.appModel.isNewCollection) {
             this.appModel.event = { 'action': 'segmentBegins' };
@@ -269,12 +256,9 @@ export class Ntemplate21 implements OnInit {
 
     setData() {
         if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
-           // let fetchedData: any = this.appModel.content.contentData.data;
-            //console.log(fetchedData);
             this.feedback = this.fetchedcontent.feedback;
             this.commonAssets = this.fetchedcontent.commonassets;
             this.narratorAudio = this.fetchedcontent.commonassets.narrator;
-           // this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
             this.noOfImgs = this.commonAssets.imgCount;
             this.isFirstQues = this.commonAssets.isFirstQues;
             this.isLastQues = this.appModel.isLastSection;
@@ -290,8 +274,6 @@ export class Ntemplate21 implements OnInit {
             this.requiredValue = this.otherAssets.givenValue.value;
             this.opeartorModal = this.fetchedcontent.operator_modal;
             this.showAnswerAssets = this.fetchedcontent.showAnswer_popup;
-            //this.wrongAnimationAssts = this.commonAssets.wrongAnimationAssts;
-
             if (this.questionObj && this.questionObj.quesVideo && this.questionObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
                 this.isPlayVideo = true;
             } else {
@@ -301,7 +283,7 @@ export class Ntemplate21 implements OnInit {
             if (this.isLastQuesAct || this.isLastQues) {
                 this.appModel.setlastQuesNT();
             }
-          
+
             this.infoPopupAssets = this.fetchedcontent.info_popup;
             this.confirmAssets = this.fetchedcontent.show_answer_confirm;
             this.confirmSubmitAssets = this.fetchedcontent.submit_confirm;
@@ -315,19 +297,17 @@ export class Ntemplate21 implements OnInit {
                     if (i % 2 == 0) {
                         this.percentageBase = JSON.parse(JSON.stringify(this.otherAssets.givenValue.value));
                         this.destinationVal = JSON.parse(JSON.stringify(this.otherAssets.givenValue.value));
-                        if(this.destinationVal>100){
+                        if (this.destinationVal > 100 || this.destinationVal < 100) {
                             this.destinationVal = 100;
                         }
                         this.calWaterLevel = 100;
                         this.waterLevel = this.questionObj.initiallyValue * 100 / this.otherAssets.givenValue.value;
                         this.initialVal = this.questionObj.initiallyValue * 100 / this.otherAssets.givenValue.value;
-                        /*if(this.initialVal < 100){
-                            this.initialVal = 100;
-                        }*/
+
                     } else {
                         this.percentageBase = JSON.parse(JSON.stringify(this.questionObj.initiallyValue));
                         this.destinationVal = (this.otherAssets.givenValue.value * 100) / (this.questionObj.initiallyValue)
-                        if(this.destinationVal>100){
+                        if (this.destinationVal > 100) {
                             this.destinationVal = 100;
                         }
                         this.calWaterLevel = (this.otherAssets.givenValue.value * 100) / (this.questionObj.initiallyValue)
@@ -341,7 +321,7 @@ export class Ntemplate21 implements OnInit {
             this.controlHandler = {
                 isSubmitRequired: this.quesObj.submitRequired,
                 isReplayRequired: this.quesObj.replayRequired
-              }
+            }
             if (this.quesObj.quesVideo && this.quesObj.quesVideo.autoPlay && !this.appModel.isVideoPlayed) {
                 this.isPlayVideo = true;
                 //sessionStorage.setItem("isPlayVideo", "true");
@@ -372,7 +352,6 @@ export class Ntemplate21 implements OnInit {
     }
 
     close() {
-        //this.appModel.event = { 'action': 'exit', 'currentPosition': this.currentVideoTime };
         this.appModel.event = { 'action': 'exit', 'time': new Date().getTime(), 'currentPosition': 0 };
     }
 
@@ -757,52 +736,32 @@ export class Ntemplate21 implements OnInit {
             //}
             console.log("attemptNo", this.attemptNo)
             this.getAnswer();
-            if(this.attemptNo == 4){           
+            if (this.attemptNo == 4) {
                 setTimeout(() => {
-                    (document.getElementById('Line4') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line4') as HTMLElement).style.bottom = this.waterLevel + '%';
                     (document.getElementById('Line4') as HTMLElement).style.display = 'block';
                 }, 300)
-               
-            }else if(this.attemptNo == 3){           
+
+            } else if (this.attemptNo == 3) {
                 setTimeout(() => {
-                    (document.getElementById('Line3') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line3') as HTMLElement).style.bottom = this.waterLevel + '%';
                     (document.getElementById('Line3') as HTMLElement).style.display = 'block';
                 }, 300)
-               
-            }else if(this.attemptNo == 2){           
+
+            } else if (this.attemptNo == 2) {
                 setTimeout(() => {
-                    (document.getElementById('Line2') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line2') as HTMLElement).style.bottom = this.waterLevel + '%';
                     (document.getElementById('Line2') as HTMLElement).style.display = 'block';
                 }, 300)
-               
-            }else if(this.attemptNo == 1){           
+
+            } else if (this.attemptNo == 1) {
                 setTimeout(() => {
-                    (document.getElementById('Line1') as HTMLElement).style.bottom = this.waterLevel+'%';
+                    (document.getElementById('Line1') as HTMLElement).style.bottom = this.waterLevel + '%';
                     (document.getElementById('Line1') as HTMLElement).style.display = 'block';
                 }, 300)
-               
+
             }
-            /*(document.getElementById('Line'+this.attemptNo) as HTMLElement).style.display = 'block';
-            for(var i=0; i<5; i++){
-                (document.getElementById('Line'+i) as HTMLElement).classList.remove("green");
-            }
-            (document.getElementById('Line'+this.attemptNo) as HTMLElement).classList.add("green");
-            if(this.attemptNo == 3){
-                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
-            }else if(this.attemptNo == 2){
-                (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
-                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
-            }else if(this.attemptNo == 1){
-                (document.getElementById('Line'+2) as HTMLElement).classList.add("blue");
-                (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
-                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
-              }else if(this.attemptNo == 0){
-                (document.getElementById('Line'+1) as HTMLElement).classList.add("red");
-                (document.getElementById('Line'+2) as HTMLElement).classList.add("blue");
-                (document.getElementById('Line'+3) as HTMLElement).classList.add("orange");
-                (document.getElementById('Line'+4) as HTMLElement).classList.add("pink");
-            }*/
-            
+
         } else if (action == "showAnswerFeedback") {
             this.postShowAnswer();
         }
@@ -826,7 +785,6 @@ export class Ntemplate21 implements OnInit {
         this.appModel.enableSubmitBtn(false);
         this.appModel.enableReplayBtn(false);
     }
-
     blinkOnLastQues(flag?: string) {
         if (this.appModel.isLastSectionInCollection) {
             this.appModel.blinkForLastQues(flag);
@@ -850,21 +808,16 @@ export class Ntemplate21 implements OnInit {
         this.videoReplayd = true;
         this.isPlayVideo = true;
         this.appModel.enableSubmitBtn(false);
-        ////$(".instructionBase").addClass("disable_div");
         this.disableinstruction = true;
         setTimeout(() => {
             this.mainVideo.nativeElement.play();
             this.disableinputBlock = true;
-            //this.appModel.stopAllTimer();
             this.mainVideo.nativeElement.onended = () => {
-                //this.appModel.enableSubmitBtn(true);
-                ////$("#optionsBlock .options").removeClass("disable_div");
-                ////$(".instructionBase").removeClass("disable_div");
-              setTimeout(() => {
+                setTimeout(() => {
                     this.appModel.setLoader(false);
                     this.disableinputBlock = false;
-                  }, 1000);
-              
+                }, 1000);
+
                 this.disableinstruction = false;
                 this.isPlayVideo = false;
                 this.appModel.videoStraming(false);
@@ -1095,8 +1048,6 @@ export class Ntemplate21 implements OnInit {
         }
     }
 
-
-
     setPopupAssets() {
         this.popupType = this.isCorrect ? "correct" : "wrong";
         console.log("this.isCorrect", this.isCorrect, "this.popupType" + this.popupType);
@@ -1111,20 +1062,13 @@ export class Ntemplate21 implements OnInit {
             if (this.feedbackAssets.wrongAnswerpopupTxt.required) {
                 this.AnswerpopupTxt = true;
                 this.popupHeader = this.feedbackAssets.wrongAnswerpopupTxt.url;
-        
-              } else {
+
+            } else {
                 this.AnswerpopupTxt = false;
-        
-              }
+
+            }
         }
-        // if(this.popupType == "partialCorrect"){
-        //     this.rightanspopUpheader_img = false;
-        //     this.wronganspopUpheader_img = false;
-        //     this.showanspopUpheader_img = false;
-        //     this.partialCorrectheaderTxt_img = true;
-        //     this.styleHeaderPopup = this.feedbackAssets.style_header;
-        //     this.styleBodyPopup = this.feedbackAssets.style_body;
-        // }
+
         if (this.popupType == "correct") {
             this.rightanspopUpheader_img = true;
             this.wronganspopUpheader_img = false;
@@ -1135,11 +1079,11 @@ export class Ntemplate21 implements OnInit {
             if (this.feedbackAssets.rightAnswerpopupTxt.required) {
                 this.AnswerpopupTxt = true;
                 this.popupHeader = this.feedbackAssets.rightAnswerpopupTxt.url;
-        
-              } else {
+
+            } else {
                 this.AnswerpopupTxt = false;
-        
-              }
+
+            }
         }
         if (this.popupType == "showanswer") {
             this.rightanspopUpheader_img = false;
@@ -1151,17 +1095,11 @@ export class Ntemplate21 implements OnInit {
             if (this.feedbackAssets.showAnswerpopupTxt.required) {
                 this.AnswerpopupTxt = true;
                 this.popupHeader = this.feedbackAssets.showAnswerpopupTxt.url;
-              } else {
+            } else {
                 this.AnswerpopupTxt = false;
-              }
+            }
         }
-
-
     }
-
-
-
-
 
 }
 
