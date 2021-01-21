@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 ////import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
@@ -321,9 +321,9 @@ export class Ntemplate21 implements OnInit {
                         this.calWaterLevel = 100;
                         this.waterLevel = this.questionObj.initiallyValue * 100 / this.otherAssets.givenValue.value;
                         this.initialVal = this.questionObj.initiallyValue * 100 / this.otherAssets.givenValue.value;
-                        if(this.initialVal < 100){
+                        /*if(this.initialVal < 100){
                             this.initialVal = 100;
-                        }
+                        }*/
                     } else {
                         this.percentageBase = JSON.parse(JSON.stringify(this.questionObj.initiallyValue));
                         this.destinationVal = (this.otherAssets.givenValue.value * 100) / (this.questionObj.initiallyValue)
