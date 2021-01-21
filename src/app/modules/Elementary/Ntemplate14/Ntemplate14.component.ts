@@ -63,6 +63,7 @@ export class Ntemplate14Component implements OnInit {
 	playRecordingTime = 5;
 	clearautoplay:any;
 	timerId:any;
+	nextSegmenttimerId:any;
 	recordTimer:any;
 	recordTime:any;
 	listenStatus:boolean=false;
@@ -182,7 +183,24 @@ export class Ntemplate14Component implements OnInit {
 					}
 					if (this.appModel.isLastSectionInCollection) {
 						//close after 5 mins disable and thn blink
-						console.log("will wait 5 mins here")
+						//console.log("will wait 5 mins here")
+						let timer = 300;
+						//setTimeout(() => {
+						//	clearInterval(this.nextSegmenttimerId);
+							 
+						//}, 300*1000 )
+
+					this.nextSegmenttimerId = setInterval(function() {
+						if(timer>0){
+							console.log('will wait ' + timer-- + ' sec here');
+						}else{
+							clearInterval(this.nextSegmenttimerId);
+						}
+						
+						 
+					}, 1000);
+					 
+
 						this.handleTimer();
 					}
 					else {
@@ -197,7 +215,9 @@ export class Ntemplate14Component implements OnInit {
 
 	ngAfterViewInit() {
 		document.getElementById("audioplay").addEventListener("play", () => {
+			alert('333');
 			this.appModel.stopAllTimer();
+			clearInterval(this.nextSegmenttimerId);
 			this.instructionDisable = false;
 			if (!this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.pause();
@@ -205,10 +225,12 @@ export class Ntemplate14Component implements OnInit {
 			}
 		});
 		document.getElementById("audioplay").addEventListener("pause", () => {
+			clearInterval(this.nextSegmenttimerId);
 			if (this.isFirstTrial && this.listenStatus) {
 				this.appModel.moveNextQues();
 			}
 			else {
+				this.appModel.moveNextQues("noBlink");
 				if (!this.isDestroyed) {
 					////this.appModel.moveNextQues();
 				}
@@ -233,6 +255,7 @@ export class Ntemplate14Component implements OnInit {
 	ngOnDestroy() {
 		clearInterval(this.recordTimer);
 		clearInterval(this.timerId);
+		clearInterval(this.nextSegmenttimerId);
 		clearTimeout(this.clearautoplay);
 		this.isDestroyed = true;
 		this.appModel.stopAllTimer();
@@ -337,6 +360,7 @@ export class Ntemplate14Component implements OnInit {
 		
 		clearInterval(this.timerId);
 		clearTimeout(this.clearautoplay);
+		clearInterval(this.nextSegmenttimerId);
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
 			this.instruction.nativeElement.currentTime = 0;
@@ -487,6 +511,7 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** function called on click of ok or close button in infopopup *******/
 	sendFeedback(ref, flag: string, action?: string) {
+		clearInterval(this.nextSegmenttimerId);
 		ref.classList = "modal";
 		this.feedbackInfoAudio.nativeElement.pause();
 		this.feedbackInfoAudio.nativeElement.currentTime = 0;
@@ -496,9 +521,29 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Blink functionality of aage badhein button *******/
 	blinkOnLastQues(type?) {
+		alert('111');
 		if (this.appModel.isLastSectionInCollection) {
-			this.appModel.blinkForLastQues();
+			//this.appModel.blinkForLastQues();
+			alert('222');
 			this.appModel.stopAllTimer();
+			//this.blinkOnLastQues();
+			let timer = 300;
+						//setTimeout(() => {
+						//	clearInterval(this.nextSegmenttimerId);
+							 
+						//}, 300*1000 )
+
+					this.nextSegmenttimerId = setInterval(function() {
+						if(timer>0){
+							console.log('will wait ' + timer-- + ' sec here');
+						}else{
+							clearInterval(this.nextSegmenttimerId);
+							this.blinkOnLastQues();
+							
+						}
+						
+						 
+					}, 1000);
 			if (!this.appModel.eventDone) {
 				if (this.isLastQuesAct) {
 					this.appModel.eventFired();
