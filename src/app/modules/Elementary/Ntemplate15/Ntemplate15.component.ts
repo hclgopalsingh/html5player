@@ -324,9 +324,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   onHoverSpeaker() {
-    if (!this.narrator.nativeElement.paused) {
+    if (!this.audioEl.nativeElement.paused) {
       this.disableSpeaker.nativeElement.className = "speakerBtn";
-      console.log("narrator voice still playing");
     }
     else {
       this.disableSpeaker.nativeElement.className = "speakerBtn pointer";
@@ -341,8 +340,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator voice still playing");
     }
-    if (!this.narrator.nativeElement.paused) {
-      console.log("narrator still playing");
+    if (!this.audioEl.nativeElement.paused) {
+      console.log("speaker still playing");
     }
     else {
       if (el.id == "S") {
