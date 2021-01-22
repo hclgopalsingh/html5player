@@ -218,6 +218,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       } else if (mode == "auto") {
         console.log("auto mode", mode);
         this.infoModalRef.nativeElement.classList = "modal";
+        this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
         this.attemptType = "uttarDikhayein";
         this.popupType = "showanswer"
         this.setPopupAssets();

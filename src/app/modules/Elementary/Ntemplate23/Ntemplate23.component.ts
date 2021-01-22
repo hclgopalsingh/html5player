@@ -99,6 +99,7 @@ export class Ntemplate23Component implements OnInit {
   bodyContentOpacity: boolean = false;
   bodyContentDisable: boolean = true;
   instructionOpacity: boolean = false;
+  instructionVODelay: any;
 
   constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -203,9 +204,16 @@ export class Ntemplate23Component implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
+  ngOnDestroy() {
+    clearTimeout(this.loaderTimer);
+    clearTimeout(this.nextFeedbackTimer);
+    clearTimeout(this.closeFeedbackmodalTimer);
+    clearInterval(this.nextBtnInterval);
+    clearTimeout(this.instructionVODelay);
+  }
+
   /****** Mouse hover on SVG image ******/
   MouseOver(event) {
-    this.appModel.notifyUserAction();
     this.Id = event.target.getAttribute('xlink:href');
     if (this.Id != null) {
       if (!this.instruction.nativeElement.paused) {
@@ -223,6 +231,7 @@ export class Ntemplate23Component implements OnInit {
     }
     let idFound = this.mySVGArr.find(element => element.id == this.Id || element.strokeId == this.Id);
     if (idFound && !idFound.clicked) {
+      this.appModel.notifyUserAction();
       if (this.originalcolor.length > 0 && this.mySVGArr[this.categoryIndex] != undefined && !this.mySVGArr[this.categoryIndex].clicked) {
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
           document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
@@ -248,9 +257,14 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
-  /****** function call on tooltip click ******/
+  /****** function call on tooltip close btn click ******/
   onTooltipclick() {
     console.log("tooltip closed");
+    this.appModel.notifyUserAction();
+    if (!this.instruction.nativeElement.paused) {
+      this.instruction.nativeElement.pause();
+      this.instructionDisable = false;
+    }
     this.appModel.enableSubmitBtn(true);
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
     document.getElementById('dropdownviaTooltip').style.left = "0%";
@@ -283,6 +297,7 @@ export class Ntemplate23Component implements OnInit {
         this.submittedArray.push(idFound);
         this.tempObj = <any>{};
         this.tempObj.id = this.categoryIndex;
+        this.tempObj.clickedId = this.clickedId;
         this.tempObj.category = idFound.categoryTxtimg;
         this.checkCategoryStatus(idFound);
         this.paginationArray.push(this.tempObj);
@@ -307,8 +322,8 @@ export class Ntemplate23Component implements OnInit {
         var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
         document.getElementById("line0").setAttribute("x1", (stateboundX * 1 + 2) + "%");
         document.getElementById("line0").setAttribute("y1", stateboundY * 0.8 + "%");
-        document.getElementById("line0").setAttribute("x2", parseInt(this.mySVGArr[this.categoryIndex].left) + "%");
-        document.getElementById("line0").setAttribute("y2", parseInt(this.mySVGArr[this.categoryIndex].top) + "%");
+        document.getElementById("line0").setAttribute("x2", parseFloat(this.mySVGArr[this.categoryIndex].left + 0.6) + "%");
+        document.getElementById("line0").setAttribute("y2", parseFloat(this.mySVGArr[this.categoryIndex].top) + "%");
         document.getElementById("line0").style.opacity = "1";
         for (let i = 0; i < document.getElementById("mainques").children[1].children.length; i++) {
           if (i != (this.categoryIndex + 1)) {
@@ -329,6 +344,14 @@ export class Ntemplate23Component implements OnInit {
           document.getElementById('dropdownviaTooltip').style.top = this.mySVGArr[this.categoryIndex].ddTooltiptop + "%";
         }
       }
+    }
+  }
+
+  /******** Function call on double click on SVG ********/
+  ondropdownClick() {
+    if (!this.instruction.nativeElement.paused) {
+      this.instruction.nativeElement.pause();
+      this.instructionDisable = false;
     }
   }
 
@@ -374,6 +397,13 @@ export class Ntemplate23Component implements OnInit {
           this.countofClick = 12;
           this.p--;
         }
+      }
+      let correctIncorrectIndex = this.correctIncorrectArr.findIndex(element => element.clickedId == this.Id);
+      let outOfScopeIndex = this.outOfScopeArr.findIndex(element => element.clickedId == this.Id);
+      if(correctIncorrectIndex > -1) {
+        this.correctIncorrectArr.splice(correctIncorrectIndex, 1);
+      } else if(outOfScopeIndex > -1) {
+        this.outOfScopeArr.splice(outOfScopeIndex, 1);
       }
     }
   }
@@ -844,19 +874,21 @@ export class Ntemplate23Component implements OnInit {
           this.appModel.setLoader(false);
           this.loadFlag = true;
           clearTimeout(this.loaderTimer);
-          this.narrator.nativeElement.src = this.quesAudio.url;
-          this.narrator.nativeElement.load();
-          this.narrator.nativeElement.play();
-          this.QuesRef.nativeElement.style.opacity = 1;
-          this.QuesRef.nativeElement.style.pointerEvents = "none";
-          this.narrator.nativeElement.onended = () => {
-            this.appModel.handlePostVOActivity(false);
-            this.QuesRef.nativeElement.style.pointerEvents = "";
-            this.instructionDisable = false;
-            this.bodyContentDisable = false;
-          }
-          this.appModel.handlePostVOActivity(true);
-          document.getElementById("mainCanvas").style.pointerEvents = "none";
+          this.instructionVODelay = setTimeout(() => {
+            this.narrator.nativeElement.src = this.quesAudio.url;
+            this.narrator.nativeElement.load();
+            this.narrator.nativeElement.play();
+            this.QuesRef.nativeElement.style.opacity = 1;
+            this.QuesRef.nativeElement.style.pointerEvents = "none";
+            this.narrator.nativeElement.onended = () => {
+              this.appModel.handlePostVOActivity(false);
+              this.QuesRef.nativeElement.style.pointerEvents = "";
+              this.instructionDisable = false;
+              this.bodyContentDisable = false;
+            }
+            this.appModel.handlePostVOActivity(true);
+            document.getElementById("mainCanvas").style.pointerEvents = "none";
+          },500);
         } else {
           this.QuesRef.nativeElement.style.opacity = 1;
           this.appModel.handlePostVOActivity(false);
@@ -1029,6 +1061,9 @@ export class Ntemplate23Component implements OnInit {
     if (id == "submit-modal-id") {
       this.confirmSubmitRef.nativeElement.classList = "modal";
     }
+    if (id == "submit-modal-id" && flag == "no") {
+      this.instructionDisable = false;
+    }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
       this.rightAnswerCounter = 0;
@@ -1057,7 +1092,9 @@ export class Ntemplate23Component implements OnInit {
     }
     if (id == "showAnswer-modal-id" && flag == "no") {
       this.confirmModalRef.nativeElement.classList = "modal";
-      this.instructionDisable = false;
+      if(!this.checked) {
+        this.instructionDisable = false;
+      }
       this.appModel.notifyUserAction();
     }
     if (flag == "yes") {
@@ -1127,6 +1164,8 @@ export class Ntemplate23Component implements OnInit {
     }
     if (!this.checked) {
       this.resetActivity();
+      this.instructionDisable = false;
+      this.bodyContentDisable = false;
       this.appModel.wrongAttemptAnimation();
     }
   }

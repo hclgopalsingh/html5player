@@ -218,13 +218,13 @@ button:focus {
 
 #container #instructionBar {
   position: absolute;
-  top: 10%;
+  top: 9.2%;
   width: 100%;
   text-align: center;
 }
 
 #instructionBar .instructionBase {
-  width: 51%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
