@@ -316,6 +316,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             this.appModel.notifyUserAction();
         })
         this.appModel.resetBlinkingTimer();
+        this.appModel.handleController(this.controlHandler);
     }
 
 
