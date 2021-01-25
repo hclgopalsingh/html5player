@@ -225,6 +225,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       console.log("play on Instruction");
       this.appModel.notifyUserAction();
       if (this.instruction.nativeElement.paused) {
+        if (!this.allOpt.nativeElement.paused) {
+          this.allOpt.nativeElement.currentTime = 0;
+          this.allOpt.nativeElement.pause();
+          this.stopOptionSound(this.save);
+        }
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
         this.instructionDisable = true;
@@ -404,12 +409,12 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.instructionDisable = false;
     }
     option.image = option.imagehover;
-    this.ansBlock.nativeElement.children[idx].className = "options pointer";
+    this.ansBlock.nativeElement.children[1].children[idx].className = "options pointer";
   }
   playOptionHover(opt, idx) {
     if (this.allOpt.nativeElement.paused) {
       this.appModel.notifyUserAction();
-      this.instructionDisable = true;
+      // this.instructionDisable = true;
       if (!this.audioEl.nativeElement.paused) {
         this.audioEl.nativeElement.pause();
         this.audioEl.nativeElement.currentTime = 0;
@@ -427,7 +432,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       // }
       this.allOpt.nativeElement.onended = () => {
         this.stopOptionSound(this.save);
-        this.instructionDisable = false;
+        // this.instructionDisable = false;
       }
     }
   }
@@ -440,7 +445,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   onHoveroutOptions(option, idx) {
     option.image = option.imageorg;
-    this.ansBlock.nativeElement.children[idx].className = "options";
+    this.ansBlock.nativeElement.children[1].children[idx].className = "options";
   }
 
   /*End-Template click and hover events*/
@@ -762,7 +767,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.instructionDisable = true;
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
-    this.ansBlock.nativeElement.children[idx].className = "options";
+    this.ansBlock.nativeElement.children[1].children[idx].className = "options";
     this.tempAnswers.push(option)
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
