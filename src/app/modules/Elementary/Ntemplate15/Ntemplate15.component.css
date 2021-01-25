@@ -358,35 +358,6 @@
 
 /*----*/
 
-
-.aagebadho {
-  /* background: url(../../../assets/images/aagey.svg) no-repeat;
-    background-size: 100% 100%;
-    height: 40px !important;*/
-}
-
-.aagebadho:hover {
-  /* background: url('../../../assets/images/aageyHover.svg') no-repeat;
-	background-size: 100% 100%;
-     height: 40px !important;
-	cursor:pointer;*/
-}
-
-.peechejao {
-  width: 4%
-    /*background: url(../../../assets/images/peechey.svg) no-repeat;
-    background-size: 100% 100%;
-     height: 40px !important;*/
-}
-
-.peechejao:hover {
-  width: 4%
-    /*background: url('../../../assets/images/peecheyHover.svg') no-repeat;
-	background-size: 100% 100%;
-     height: 40px !important;
-	cursor:pointer;*/
-}
-
 .emptyoption {
   visibility: hidden;
   pointer-events: none;

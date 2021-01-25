@@ -53,6 +53,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   instructionDisable: boolean = false;
   showAnssetTimeout: any;
   myoption: any = [];
+  myoption_line1=[];
+  myoption_line2=[];
   question: any = "";
   isOptionDisabled: boolean = false;
   tempAnswers: any = [];
@@ -187,6 +189,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.postWrongAttemplt()
       }, 750)
     });
+    this.appModel.lastQues.subscribe(() => {
+      this.appModel.handlePostVOActivity(false);
+    })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
@@ -413,13 +418,13 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.allOpt.nativeElement.src = opt.sound.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.allOpt.nativeElement.play();
-      for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
-        if (x != idx) {
-          this.ansBlock.nativeElement.children[x].classList.add("disable_div");
-        } else {
-          this.save = x;
-        }
-      }
+      // for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
+      //   if (x != idx) {
+      //     this.ansBlock.nativeElement.children[x].classList.add("disable_div");
+      //   } else {
+      //     this.save = x;
+      //   }
+      // }
       this.allOpt.nativeElement.onended = () => {
         this.stopOptionSound(this.save);
         this.instructionDisable = false;
@@ -427,11 +432,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   stopOptionSound(save) {
-    for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
-      if (x != save) {
-        this.ansBlock.nativeElement.children[x].classList.remove("disable_div");
-      }
-    }
+    // for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
+    //   if (x != save) {
+    //     this.ansBlock.nativeElement.children[x].classList.remove("disable_div");
+    //   }
+    // }
   }
   onHoveroutOptions(option, idx) {
     option.image = option.imageorg;
@@ -468,7 +473,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.isOptionDisabled=false;
     },1000)
     this.appModel.notifyUserAction();
-    this.myoption.forEach(element => {
+    this.myoption_line1.forEach(element => {
+      element.show = true;
+    });
+    this.myoption_line2.forEach(element => {
       element.show = true;
     });
     this.answers = this.appModel.content.contentData.data['answers'];
@@ -623,7 +631,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.speaker = this.fetchedcontent.speaker;
-      this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options))
+      this.myoption_line1 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line1));
+      this.myoption_line2 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line2))
       this.question = this.fetchedcontent.ques;
       this.feedback = this.fetchedcontent.feedback;
       this.answers = this.fetchedcontent.answers;
@@ -771,12 +780,12 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     //doesn't matter if the option chosen is right or not, insert it into that sequence.
     console.log("when correct answer clicked", event.toElement);
     // empty cloud
-    this.myoption[idx].show = false;
-    if (this.j < this.answers.length) {
-      console.log("loadImage would be called");
-      this.j++;
-    }
-    if (this.tempAnswers.length == this.myoption.length) {
+    option.show = false;
+    // if (this.j < this.answers.length) {
+    //   console.log("loadImage would be called");
+    //   this.j++;
+    // }
+    if (this.tempAnswers.length == this.myoption_line1.length+this.myoption_line2.length) {
       this.appModel.enableSubmitBtn(true);
     }
     else {

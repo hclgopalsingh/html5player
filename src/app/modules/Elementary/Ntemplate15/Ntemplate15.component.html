@@ -12,85 +12,37 @@
     <audio #feedbackVoRef></audio>
     <div class="bodyContent optCount8" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
       <div #ansBlock class="d-flex row1 optionsBlock">
-        <img class="img-fluid optBase" src="../../../../assets/images/Template-15/optBase.png">
-        <div class="options" id="opt0"><!--*ngFor="let opts of myoption;let idx = index"-->
-          <!-- <img class="img-fluid bgBlank" [src]="opts?.image?.url" id="{{'optblank'+idx}}" (load)="checkImgLoaded();">
-          <img *ngIf="opts.show" (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}"
-            on-mousemove="onHoverOptions(opts,idx)" on-mouseenter="playOptionHover(opts,idx)"
-            on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)" [src]="opts?.imgsrc?.url"
-            (load)="checkImgLoaded();"> -->
-          <img _ngcontent-c7="" class="img-fluid" src="../../../../assets/images/Template-15/opt/opt-8/opt-1/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage0" src="../../../../assets/images/Template-15/opt/opt-8/opt-1/opt-T.png">
-        </div>
-        <div class="options" id="opt1">
-          <img _ngcontent-c7="" class="img-fluid bgBlank" src="../../../../assets/images/Template-15/opt/opt-8/opt-2/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage1" src="../../../../assets/images/Template-15/opt/opt-8/opt-2/opt-T.png">
-        </div>
-        <div class="options" id="opt2">
-          <img _ngcontent-c7="" class="img-fluid bgBlank" src="../../../../assets/images/Template-15/opt/opt-8/opt-3/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage1" src="../../../../assets/images/Template-15/opt/opt-8/opt-3/opt-T.png">
-        </div>
-        <div class="options" id="opt3">
-          <img _ngcontent-c7="" class="img-fluid bgBlank" src="../../../../assets/images/Template-15/opt/opt-8/opt-4/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-4/opt-T.png">
-        </div>
+        <img class="img-fluid optBase" [src]="question?.stringsrc?.url">
+        <div *ngFor="let opts of myoption_line1;let idx = index" class="options" id="{{'opt'+idx}}">
+          <img _ngcontent-c7="" class="img-fluid" [src]="opts?.image?.url">
+          <img _ngcontent-c7="" *ngIf="opts.show" class="img-fluid" id="{{'optimage'+idx}}" 
+          on-mousemove="onHoverOptions(opts,idx)" on-mouseenter="playOptionHover(opts)"
+          on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)"
+          [src]="opts?.imgsrc?.url">
+        </div>        
       </div>
       <div #ansBlock class="d-flex row1 optionsBlock">
-        <img class="img-fluid optBase" src="../../../../assets/images/Template-15/optBase.png">
-        <div class="options" id="opt4">
-          <img _ngcontent-c7="" class="img-fluid" src="../../../../assets/images/Template-15/opt/opt-8/opt-5/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage0" src="../../../../assets/images/Template-15/opt/opt-8/opt-5/opt-T.png">
-        </div>
-        <div class="options" id="opt5">
-          <img _ngcontent-c7="" class="img-fluid bgBlank" src="../../../../assets/images/Template-15/opt/opt-8/opt-6/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage1" src="../../../../assets/images/Template-15/opt/opt-8/opt-6/opt-T.png">
-        </div>
-        <div class="options" id="opt6">
-          <img _ngcontent-c7="" class="img-fluid bgBlank" src="../../../../assets/images/Template-15/opt/opt-8/opt-7/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage1" src="../../../../assets/images/Template-15/opt/opt-8/opt-7/opt-T.png">
-        </div>
-        <div class="options" id="opt7">
-          <img _ngcontent-c7="" class="img-fluid bgBlank" src="../../../../assets/images/Template-15/opt/opt-8/opt-8/opt-N.png">
-          <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-8/opt-T.png">
-        </div>
+        <img class="img-fluid optBase" [src]="question?.stringsrc?.url">
+        <div *ngFor="let opts of myoption_line2;let idx = index" class="options" id="{{'opt'+idx}}">
+          <img _ngcontent-c7="" class="img-fluid" [src]="opts?.image?.url">
+          <img _ngcontent-c7="" *ngIf="opts.show" class="img-fluid" id="{{'optimage'+idx}}" 
+          on-mousemove="onHoverOptions(opts,idx)" on-mouseenter="playOptionHover(opts,'line2')"
+          on-mouseout="onHoveroutOptions(opts,idx)" (click)="clickAnswer(opts,$event,idx)"
+          [src]="opts?.imgsrc?.url">
+        </div>        
       </div>
+      <audio id="allOpt" #allOpt></audio>
       <div class="d-flex flex-row justify-content-around" id="answerBlock">
         <div class="ansBase">
-          <img class="img-fluid" src="../../../../assets/images/Template-15/ansbase.png">
-          <div class="" id="placeholders">
-            <!--d-flex justify-content-start-->
-            <!-- <span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id="{{'div'+idx}}">
-              <img class="img-fluid" [src]="opts?.ansImg?.url" (click)="revertAction(opts,$event,idx)"
-                style="cursor:pointer">
-            </span> -->
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-1/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-2/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-3/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-4/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-5/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-6/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-7/ans-T.png">
-            </div>
-            <div>
-              <img _ngcontent-c7="" class="img-fluid" id="optimage3" src="../../../../assets/images/Template-15/opt/opt-8/opt-8/ans-T.png">
-            </div>
+          <img class="img-fluid" [src]="question?.imgsrc?.url">
+          <div class="" id="placeholders">           
+            <div *ngFor="let opts of tempAnswers;let idx = index">
+              <img _ngcontent-c7="" class="img-fluid" id="optimage3" [src]="opts?.ansImg?.url">
+            </div>          
           </div>
           <span #disableSpeaker id="disableSpeaker" class="speakerBtn">
             <div #sprite class="speaker" (click)="playSound_Speaker(audioEl)"></div>
-            <img #speakerNormal id="speaker" class="img-fluid" src="../../../../assets/images/Template-15/speaker.png"
+            <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.url"
               (click)="playSound_Speaker(audioEl)" on-mousemove="onHoverSpeaker()" (load)="checkImgLoaded();">
             <audio id="S" #audioEl [src]="speaker?.sound.url"></audio>
           </span>
@@ -98,7 +50,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- The Confirmation Modal -->
 
   <div class="modal" id="confirmModal" #confirmModalRef>
