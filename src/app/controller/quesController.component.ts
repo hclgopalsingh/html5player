@@ -22,6 +22,9 @@ export class QuesController implements OnInit {
   @ViewChild('nextBtn') nextBtn: any;
   @ViewChild('ansBtnElem') ansBtnElem: any;
   @ViewChild('replayBtnElem') replayBtnElem: any;
+  @ViewChild('nextBtnEle') nextBtnEle: any;
+  @ViewChild('prevBtnEle') prevBtnEle: any;
+
   appModel: ApplicationmodelService;
   subscriptionQuesNos: Subscription;
   subscriptionQuesIndex: Subscription;
@@ -383,6 +386,9 @@ export class QuesController implements OnInit {
 
 
   hoverPreBtn() {
+    if(!this.EVA){
+      this.prevBtnEle.nativeElement.style.cursor="pointer";
+    }
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_hover;
   }
   next() {
@@ -409,6 +415,9 @@ export class QuesController implements OnInit {
       this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_disabled;
     }
     else {
+      if (!this.EVA){
+        this.nextBtnEle.nativeElement.style.cursor="";
+      }
       this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
     }
   }
@@ -417,6 +426,10 @@ export class QuesController implements OnInit {
   hoverNextBtn() {
     if (!this.blinkFlag) {
       if (!this.blink) {
+        if (!this.EVA ){
+          this.nextBtnEle.nativeElement.style.cursor="pointer";
+        }
+        // this.nextBtnEle.nativeElement.style.cursor="pointer";
         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
       }
     }
@@ -431,6 +444,9 @@ export class QuesController implements OnInit {
         }
         else {
           this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_original;
+          if (!this.EVA ){
+          this.prevBtnEle.nativeElement.style.cursor="";
+          }
         }
       }
     }

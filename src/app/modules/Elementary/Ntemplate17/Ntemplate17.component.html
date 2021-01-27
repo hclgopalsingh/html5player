@@ -105,7 +105,7 @@
         </div>
       </div>
       <div class="actionBox">
-        <div class="actionBtn">
+        <div class="actionBtn" [ngClass]="{'disable_div':selectedOptionArr.text==''}" >
           <img class="img-fluid" [src]="testAssts?.right_tick?.url" (click)="addToRightList()"
             (mousemove)="hoverRightTick()" (mouseleave)="houtRightTick()"
             [ngClass]="{'disablePointer':selectedOptionArr[0]==''}" />
@@ -137,7 +137,7 @@
       </div>
     </div>
 
-    <span (mousemove)="hoverquesArea()">
+    <span (mousemove)="hoverquesArea();hoverInputArea()">
       <div class="quesContainer d-flex flex-row justify-content-center align-items-center" #quesContainer>
         <div class="refQues" #refques>
           <!-- [ngStyle]="quesObj?.bgColor"-->
@@ -183,6 +183,7 @@
 			</ng-template>-->
 
         </div>
+        <!-- <div #inputArea> -->
         <div class="inputDiv" #inputDivRef [ngClass]="{'disable_div':keyBoardOpen}">
           <input type="text" (input)="onInputChange($event)" spellcheck="false" #inputRef="ngModel"
             [(ngModel)]="inputVal" value={{value}} id="inputKeyboard" placeholder={{inputFieldText}} autocomplete="off"
@@ -198,6 +199,7 @@
           <img class="closeBtn_keyb_math" [src]="quesObj?.close_btn?.url" (click)="closeKeyboard()"
             (mousemove)="hoverClosePic()" (mouseleave)="houtClosePic()">
         </div>
+      <!-- </div> -->
         <!---->
         <!-- <div #simpleKeyboardRef class="" *ngIf="!keyBoardVersion"></div> -->
         <!-- Number keyboard-->
@@ -524,12 +526,12 @@
     <img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
       (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" />
   </div>
-  <div *ngIf="_questionAreaVideoFlag && videoReplayd" id="SkipBtn">
+  <div #skipBtn [ngClass]="{'disableClass':isDisableClass}" *ngIf="_questionAreaVideoFlag && videoReplayd" id="SkipBtn">
     <img class="img-fluid" [src]="quesObj?.quesSkip?.url" (click)="endedHandleronSkip()" (mousemove)="hoverSkip()"
       (mouseleave)="houtSkip()" />
   </div>
-  <div *ngIf="_questionAreaImageFlag" id="closeBtn">
-    <img class="img-fluid" [src]="quesObj?.close_btn?.url" (click)="endedHandleronClose()" (mousemove)="hoverClosePic()"
+  <div [ngClass]="{'disableClass':isDisableClass}" *ngIf="_questionAreaImageFlag" id="closeBtn">
+    <img id="NewcloseBtn" class="img-fluid" [src]="quesObj?.close_btn?.url" (click)="endedHandleronClose()" (mousemove)="hoverClosePic()"
       (mouseleave)="houtClosePic()" />
   </div>
 </div>

@@ -70,7 +70,8 @@
 	#autoPlayOnOffContainer label{font-size: .7em !important;}
 }
 @media (max-width: 800px){
-	#autoPlayOnOffContainer label{font-size: .5em !important;}
+    #autoPlayOnOffContainer label{font-size: .5em !important;}
+    img[src='assets/images/volume.svg']{max-width: 85% !important;}/*assets/images/volume.svg*/
 }
 .fadeInAnimation {
     opacity: 1;

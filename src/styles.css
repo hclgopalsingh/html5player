@@ -146,8 +146,8 @@ button:focus{
 .navQuesBlock div{
 	width: 5%;
 }
-#footerNavBlock .prevBtn,
-#footerNavBlock .nextBtn,
+/* #footerNavBlock .prevBtn,
+#footerNavBlock .nextBtn, */
 #footerNavBlock .nextBtn.blink,
 #footerNavBlock .ansBtn,
 #footerNavBlock .submitBtn,

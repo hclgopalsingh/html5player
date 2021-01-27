@@ -17,7 +17,7 @@ import { trigger, state, style, animate, transition, AnimationEvent } from '@ang
       state('closed', style({
         'left': '{{leftPos}}',
         'top': '{{topPos}}',
-        'width': '{{optWidth}}',
+        // 'width': '{{optWidth}}',
       }), { params: { leftPos: 0, topPos: 0, optWidth: 0 } }),
       transition('open => closed', [
         animate('0.5s')
@@ -218,6 +218,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       } else if (mode == "auto") {
         console.log("auto mode", mode);
         this.infoModalRef.nativeElement.classList = "modal";
+        this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
         this.attemptType = "uttarDikhayein";
         this.popupType = "showanswer"
         this.setPopupAssets();
