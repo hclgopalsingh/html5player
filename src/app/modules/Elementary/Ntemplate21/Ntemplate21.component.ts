@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { ApplicationmodelService } from '../../../model/applicationmodel.service';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
@@ -11,7 +11,7 @@ import { SharedserviceService } from '../../../services/sharedservice.service';
 
 })
 
-export class Ntemplate21 implements OnInit {
+export class Ntemplate21 implements OnInit, AfterViewChecked {
     private appModel: ApplicationmodelService;
     constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
         this.appModel = appModel;
@@ -46,34 +46,20 @@ export class Ntemplate21 implements OnInit {
     @ViewChild('instruction') instruction: any;
     @ViewChild('instructionVO') instructionVO: any;
     @ViewChild('mainContainer') mainContainer: any;
-    @ViewChild('optionAudio') optionAudio: any;
-    @ViewChild('maincontent') maincontent: any;
     @ViewChild('confirmModalRef') confirmModalRef: any;
-    @ViewChild('submitModalRef') submitModalRef: any;
-    @ViewChild('infoModalRef') infoModalRef: any;
     @ViewChild('modalRef') modalRef: any;
-    @ViewChild('mainmodalRef') mainmodalRef: any;
     @ViewChild('popupRef') popupRef: any;
     @ViewChild('popupBodyRef') popupBodyRef: any;
-    @ViewChild('popupImage') popupImage: any;
-    @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-    @ViewChild('partialpopupRef') partialpopupRef: any;
-    @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
-    @ViewChild('partialpopupBodyRef') partialpopupBodyRef: any;
     @ViewChild('confirmReplayRef') confirmReplayRef: any;
     @ViewChild('mainVideo') mainVideo: any;
-    @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
     @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
-    @ViewChild('partialFeedbackRef') partialFeedbackRef: any;
     @ViewChild('feedbackPopupRef') feedbackPopupRef: any;
-    @ViewChild('feedbackOption') feedbackOption: any;
     @ViewChild('feedbackAudio') feedbackAudio: any;
     @ViewChild('operatorModal') operatorModal: any;
     @ViewChild('operatorFeedback') operatorFeedback: any;
     @ViewChild('showAnswerPopupRef') showAnswerPopupRef: any;
     @ViewChild('showAnswerVideo') showAnswerVideo: any;
-
-    audio = new Audio();
+ 
     commonAssets: any = "";
     feedback: any = "";
     narratorAudio: any;
@@ -97,9 +83,6 @@ export class Ntemplate21 implements OnInit {
     questionObj: any;
     isVideoLoaded: boolean = false;
     feedbackAssets: any;
-    assetsFeedback: any = [];
-    answerFeedback: string = "";
-    postCompleteTimer: any;
     numbers: any = [];
     noOfDidgit: number = 0;
     waterLevel: any;
@@ -160,7 +143,7 @@ export class Ntemplate21 implements OnInit {
     initialVal: any;
 
     ngOnInit() {
-        let that = this;
+      //  let that = this;
 
         if (this.appModel.isNewCollection) {
             this.appModel.event = { 'action': 'segmentBegins' };
@@ -193,6 +176,11 @@ export class Ntemplate21 implements OnInit {
         })
         this.appModel.getConfirmationPopup().subscribe((val) => {
             if (val == "uttarDikhayein") {
+                this.instructionVO.nativeElement.pause();
+                this.instructionVO.nativeElement.currentTime = 0;
+                this.disableinstruction = false;
+                this.Instructionpointer = false;
+                this.disableinstructionBar = false;
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.confirmModalRef.nativeElement.classList = "show modal";
                     this.isOn = false;
@@ -200,11 +188,21 @@ export class Ntemplate21 implements OnInit {
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "submitAnswer") {
+                this.instructionVO.nativeElement.pause();
+                this.instructionVO.nativeElement.currentTime = 0;
+                this.disableinstruction = false;
+                this.Instructionpointer = false;
+                this.disableinstructionBar = false;
                 if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
                     this.confirmSubmitRef.nativeElement.classList = "show modal";
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "replayVideo") {
+                this.instructionVO.nativeElement.pause();
+                this.instructionVO.nativeElement.currentTime = 0;
+                this.disableinstruction = false;
+                this.Instructionpointer = false;
+                this.disableinstructionBar = false;
                 this.isOn = false;
                 if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
                     this.confirmReplayRef.nativeElement.classList = "show modal";
@@ -230,6 +228,9 @@ export class Ntemplate21 implements OnInit {
         this.appModel.handleController(this.controlHandler);
         this.appModel.resetBlinkingTimer();
     }
+    ngAfterViewChecked() {
+        this.templatevolume(this.appModel.volumeValue, this);
+    }
     checkquesTab() {
         if (this.fetchedcontent.commonassets.ques_control != undefined) {
             this.appModel.setQuesControlAssets(this.fetchedcontent.commonassets.ques_control);
@@ -237,17 +238,13 @@ export class Ntemplate21 implements OnInit {
             this.appModel.getJson();
         }
     }
-
-    ngAfterViewChecked() {
-        this.templatevolume(this.appModel.volumeValue, this);
-    }
-
     getBasePath() {
         if (this.appModel && this.appModel.content) {
             return this.appModel.content.id + '';
         }
     }
 
+    //this function is to run the waterlevel function
     getAnswer() {
         setTimeout(() => {
             this.setWaterLavel();
@@ -330,7 +327,7 @@ export class Ntemplate21 implements OnInit {
             }
         }
     }
-
+//thisfunction is to convert no in to images array
     getAssetsForNos(num) {
         let numStr = num.toString();
         let numStrFiltered: any;
@@ -408,7 +405,8 @@ export class Ntemplate21 implements OnInit {
         this.disableinstructionBar = false;
         this.deSelectDigits();
         this.deSelectNos();
-        ////this.appModel.enableReplayBtn(false);
+        //disable replay btn
+        this.appModel.enableReplayBtn(false);
         if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
@@ -532,6 +530,7 @@ export class Ntemplate21 implements OnInit {
         this.number_options[idx].selected = true;
     }
 
+    // this function is to set the level of water
     setWaterLavel() {
         let i = 0;
         let num = 0;
@@ -569,6 +568,7 @@ export class Ntemplate21 implements OnInit {
          */
     }
 
+    //this function drops the level of water to set the select box empty
     emptySelectedBox() {
         this.selectedNos.splice(0, this.selectedNos.length);
         this.operatorSelected = false;
@@ -593,6 +593,7 @@ export class Ntemplate21 implements OnInit {
         }
     }
 
+    // this popup set all the assets for popup like operator and equtions n all
     getAssetsForPopup() {
         this.appModel.stopAllTimer();
         this.firstNoAssets = this.getAssetsForNos(this.firstNo);
@@ -659,6 +660,8 @@ export class Ntemplate21 implements OnInit {
         }
     }
 
+
+    // To open the show answer popup
     showAnswer() {
         this.popupType = "showanswer"
         this.appModel.resetBlinkingTimer();
@@ -674,10 +677,15 @@ export class Ntemplate21 implements OnInit {
         this.showAnswerPopupRef.nativeElement.classList = "modal show";
         this.showAnswerVideo.nativeElement.play();
         this.showAnswerVideo.nativeElement.onended = () => {
-            this.postShowAnswer();
+
+            setTimeout(() => {
+                this.postShowAnswer();
+            }, this.showAnsTimeout)
+
         }
     }
 
+    //this function will give you previous stage in case if uou exceed the limit
     getPreviousStage() {
         this.resultNo = this.firstNo;
         this.calValueContainer = this.getAssetsForNos(this.resultNo);
@@ -739,25 +747,46 @@ export class Ntemplate21 implements OnInit {
             if (this.attemptNo == 4) {
                 setTimeout(() => {
                     (document.getElementById('Line4') as HTMLElement).style.bottom = this.waterLevel + '%';
-                    (document.getElementById('Line4') as HTMLElement).style.display = 'block';
+                    if (this.waterLevel <= 100 && this.waterLevel > 0) {
+                        (document.getElementById('Line4') as HTMLElement).style.display = 'block';
+                    }
+
                 }, 300)
 
             } else if (this.attemptNo == 3) {
                 setTimeout(() => {
                     (document.getElementById('Line3') as HTMLElement).style.bottom = this.waterLevel + '%';
-                    (document.getElementById('Line3') as HTMLElement).style.display = 'block';
+                    if (this.waterLevel <= 100 && this.waterLevel > 0) {
+                        (document.getElementById('Line3') as HTMLElement).style.display = 'block';
+                    }
+
                 }, 300)
 
             } else if (this.attemptNo == 2) {
                 setTimeout(() => {
                     (document.getElementById('Line2') as HTMLElement).style.bottom = this.waterLevel + '%';
-                    (document.getElementById('Line2') as HTMLElement).style.display = 'block';
+                    if (this.waterLevel <= 100 && this.waterLevel > 0) {
+                        (document.getElementById('Line2') as HTMLElement).style.display = 'block';
+                    }
+
                 }, 300)
 
             } else if (this.attemptNo == 1) {
                 setTimeout(() => {
                     (document.getElementById('Line1') as HTMLElement).style.bottom = this.waterLevel + '%';
-                    (document.getElementById('Line1') as HTMLElement).style.display = 'block';
+                    if (this.waterLevel <= 100 && this.waterLevel > 0) {
+                        (document.getElementById('Line1') as HTMLElement).style.display = 'block';
+                    }
+
+                }, 300)
+
+            } else if (this.attemptNo == 0) {
+                setTimeout(() => {
+                    (document.getElementById('Line0') as HTMLElement).style.bottom = this.waterLevel + '%';
+                    if (this.waterLevel <= 100 && this.waterLevel > 0) {
+                        (document.getElementById('Line0') as HTMLElement).style.display = 'block';
+                    }
+
                 }, 300)
 
             }
@@ -827,6 +856,7 @@ export class Ntemplate21 implements OnInit {
         }, 500)
     }
 
+    //These are hover related function on icon
     hoverOperatorCloseConfirm() {
         this.opeartorModal.close_btn = this.opeartorModal.close_btn_hover;
     }
@@ -893,10 +923,10 @@ export class Ntemplate21 implements OnInit {
         this.feedbackAssets.popup_commmon_imgs.close_btn = this.feedbackAssets.popup_commmon_imgs.close_btn_original;
     }
     hoverShowAnswerClose() {
-        this.showAnswerAssets.close_btn = this.showAnswerAssets.close_btn_hover;
+        this.feedbackAssets.popup_commmon_imgs.close_btn = this.feedbackAssets.popup_commmon_imgs.close_btn_hover;
     }
     houtShowAnswerClose() {
-        this.showAnswerAssets.close_btn = this.showAnswerAssets.close_btn_original;
+        this.feedbackAssets.popup_commmon_imgs.close_btn = this.feedbackAssets.popup_commmon_imgs.close_btn_original;
     }
     hoverReplayConfirm() {
         this.feedbackAssets.replay_confirm.confirm_btn = this.feedbackAssets.replay_confirm.confirm_btn_hover;
@@ -966,7 +996,7 @@ export class Ntemplate21 implements OnInit {
         this.appModel.notifyUserAction();
     }
 
-
+//Video play pause functanality
     PlayPauseVideo() {
         if (this.PlayPauseFlag) {
             this.mainVideo.nativeElement.pause();
@@ -1037,6 +1067,7 @@ export class Ntemplate21 implements OnInit {
         }
     }
 
+    //deselect the selected degits
     deSelectDigits() {
         this.digitsSelected = false;
         this.Instructionpointer = false;

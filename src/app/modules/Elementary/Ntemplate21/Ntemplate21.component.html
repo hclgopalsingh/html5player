@@ -126,12 +126,7 @@
                   <div id="Line1" class="level4 fillLine black">
                   </div>
 
-                  <div id="Line0" class="level5 fillLine">
-                    <div class="text-center fillText">
-                      <ng-container *ngFor="let no of firstNoAssets; let idx = index">
-                        <img class="img-fluid" [src]="no?.url" />
-                      </ng-container>
-                    </div>
+                  <div id="Line0" class="level5 fillLine purple">
                   </div>
                   <div id="Line0" class=" fillLine blueLine" [style.bottom.%]="initialVal">
 
@@ -145,7 +140,7 @@
                   </div>
 
 
-                  <img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="103"
+                  <img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="102"
                     [src]="otherAssets?.filler?.url" />
                   <div class="fillValue">
                     <ng-container *ngFor="let no of initialValue; let idx = index"> <img class="img-fluid"
@@ -177,8 +172,8 @@
             (click)="sendFeedback(showAnswerPopupRef,'no','showAnswerFeedback');" (mousemove)="hoverShowAnswerClose()"
             (mouseleave)="houtShowAnswerClose()"> </div>
         <!-- Modal body -->
-        <div [ngStyle]="feedbackAssets?.style_body" class="modal-body d-flex justify-content-center align-items-center">
-
+        <!--<div [ngStyle]="feedbackAssets?.style_body" class="modal-body d-flex justify-content-center align-items-center">-->
+        <div [ngStyle]="feedbackAssets?.style_body" class="modal-body ">
           <video #showAnswerVideo id="showAnswerVideo" width="100%" style="max-width: 100%; max-height: 100%;"
             preload="auto">
             <source [src]="feedbackAssets?.video?.url" type="video/ogg"> </video>

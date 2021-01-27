@@ -42,7 +42,7 @@ button:focus {
   bottom: 4%;  
 }
 .modal #outputBlock{
-  width: 31.8%;  bottom: 11%;  
+  width: 31.8%;  bottom: 13%;  
 }
 #quesBlock {
   width: 29.8%;
@@ -237,7 +237,7 @@ button:focus {
   margin-bottom: 7px;}
 #outputBlock .inputPlaceholder img{
   position: relative;
-  max-height: 77%;/*18%;*/
+  max-height: 63%;/*18%;*/
   margin: 0 2%;
 }
 .numbers,
@@ -291,7 +291,7 @@ button:focus {
   align-content: flex-end;
   left: 8%;
   border-bottom: solid .4vmax #000;
-  bottom: 15%;
+  bottom: 13.5%;
 }
 .modal #inputBlock img{
   margin: 0 2%;
@@ -566,8 +566,11 @@ button:focus {
   width: 77% !important;/*84%*/
   height: 89%;/*70%*/
 }
-
-
+#showAnswerModal video{border-radius:0 0 20px 20px}
+#showAnswerModal .modal-content {
+   
+  height: auto;
+}
 @keyframes scaleit {
 	0% {
 		transform: scale(.9);
@@ -857,6 +860,8 @@ button:focus {
 .modal .blue{background-color: #3300cc!important;}
 .modal .orange{background-color: #ff6600!important;}
 .modal .pink{background-color: #b81230!important;}
+.modal .purple{background-color: #8e2bc5!important;}
+.modal .black{background-color: #000!important;}
 .modal .green .fillText{display:flex!important}
 /* .fillText{
   width: 37px; 
@@ -877,7 +882,7 @@ button:focus {
   .modal  .fillText img{ 
   max-width: initial; 
   display: inline;
-  height: 70%; position: static!important;
+  height: 112%; position: static!important;
   max-height: initial;
   margin-right: .3vmin;
 }
