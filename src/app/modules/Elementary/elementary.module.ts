@@ -24,8 +24,8 @@ import { Ntemplate12 } from './Ntemplate12/Ntemplate12.component';
 import { Ntemplate23Component } from './Ntemplate23/Ntemplate23.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ntemplate16 } from './Ntemplate16/Ntemplate16.component';  
+import { Ntemplate21 } from './Ntemplate21/Ntemplate21.component';
 import { Ntemplate15 } from './Ntemplate15/Ntemplate15.component';  
-
 
  
 @NgModule({
@@ -55,10 +55,11 @@ import { Ntemplate15 } from './Ntemplate15/Ntemplate15.component';
   Ntemplate18_1,
   Ntemplate14Component,
   Ntemplate12,
+  Ntemplate16,
+  Ntemplate21,
   Ntemplate23Component,
   Ntemplate16,
   Ntemplate15
-
   ],
   providers: []
 })

@@ -34,7 +34,7 @@ import {Ntemplate7} from '../modules/Elementary/Ntemplate7/Ntemplate7.component'
 import { Ntemplate17Component } from './Elementary/Ntemplate17/Ntemplate17.component';
 import { Ntemplate24 } from '../modules/Elementary/Ntemplate24/Ntemplate24.component';
 import { Ntemplate24_1 } from '../modules/Elementary/Ntemplate24_1/Ntemplate24_1.component';
-import {Ntemplate21} from '../controller/Ntemplate21.component';
+import {Ntemplate21} from '../modules/Elementary/Ntemplate21/Ntemplate21.component';
 import { NTitleComponent} from '../controller/NTitle.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
