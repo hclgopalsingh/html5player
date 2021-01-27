@@ -230,8 +230,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         console.log("mode manual2", mode)
         //show modal of auto
         //show answer
+        this.isShowAnswer = true;
         this.showAnswer();
-        this.isAnsWrong = false;
       }
     })
     this.appModel.postWrongAttempt.subscribe(() => {
@@ -798,7 +798,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     } else {
       this.playShowAnsFeedback();
     }
-
     this.appModel.resetBlinkingTimer();
   }
   /*End-Template Functions*/
