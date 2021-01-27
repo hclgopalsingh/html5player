@@ -113,7 +113,6 @@ export class Ntemplate23Component implements OnInit {
   }
 
   ngOnInit() {
-    this.QuesRef.nativeElement.style.opacity = 0;
     this.containgFolderPath = this.getBasePath();
     /*Start: Theme Implementation(Template Changes)*/
     let fetchedData: any = this.appModel.content.contentData.data;
@@ -150,6 +149,7 @@ export class Ntemplate23Component implements OnInit {
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
           this.instructionDisable = true;
+          document.getElementById("dropdown").children[2].classList.remove("show");
           this.showAnswerFeedback();
           this.popupRef.nativeElement.classList = "displayPopup modal";
           this.popupType = "showanswer";
@@ -698,10 +698,11 @@ export class Ntemplate23Component implements OnInit {
   /******** Timer for closing feedback popup ********/
   startCloseFeedbackTimer() {
     if (this.isShowAnsOpen) {
-      this.closeFeedback = this.showAnsTimeout;
+      this.closeFeedback = this.feedbackObj.Showans_feedback_close_timer * 1000;
     } else {
       this.closeFeedback = this.feedbackObj.close_feedback_timer * 1000;
     }
+    console.log("close feedback timer", this.closeFeedback);
     this.closeFeedbackmodalTimer = setTimeout(() => {
       this.closeModal();
     }, this.closeFeedback);
@@ -871,26 +872,24 @@ export class Ntemplate23Component implements OnInit {
         svgElement.setAttribute("height", "100%");
         svgElement.classList.add("svgClass");
         if (this.quesAudio != undefined && this.quesAudio.url != "") {
-          this.appModel.setLoader(false);
-          this.loadFlag = true;
-          clearTimeout(this.loaderTimer);
-          this.instructionVODelay = setTimeout(() => {
-            this.narrator.nativeElement.src = this.quesAudio.url;
-            this.narrator.nativeElement.load();
-            this.narrator.nativeElement.play();
-            this.QuesRef.nativeElement.style.opacity = 1;
-            this.QuesRef.nativeElement.style.pointerEvents = "none";
-            this.narrator.nativeElement.onended = () => {
-              this.appModel.handlePostVOActivity(false);
-              this.QuesRef.nativeElement.style.pointerEvents = "";
-              this.instructionDisable = false;
-              this.bodyContentDisable = false;
-            }
-            this.appModel.handlePostVOActivity(true);
-            document.getElementById("mainCanvas").style.pointerEvents = "none";
-          },500);
+            this.appModel.setLoader(false);
+            this.loadFlag = true;
+            clearTimeout(this.loaderTimer);
+            this.instructionVODelay = setTimeout(() => {
+              this.narrator.nativeElement.src = this.quesAudio.url;
+              this.narrator.nativeElement.load();
+              this.narrator.nativeElement.play();
+              this.QuesRef.nativeElement.style.pointerEvents = "none";
+              this.narrator.nativeElement.onended = () => {
+                this.appModel.handlePostVOActivity(false);
+                this.QuesRef.nativeElement.style.pointerEvents = "";
+                this.instructionDisable = false;
+                this.bodyContentDisable = false;
+              }
+              this.appModel.handlePostVOActivity(true);
+              document.getElementById("mainCanvas").style.pointerEvents = "none";
+            }, 500);
         } else {
-          this.QuesRef.nativeElement.style.opacity = 1;
           this.appModel.handlePostVOActivity(false);
           this.QuesRef.nativeElement.style.pointerEvents = "";
           document.getElementById('instructionBar').style.pointerEvents = "";
@@ -1063,6 +1062,7 @@ export class Ntemplate23Component implements OnInit {
     }
     if (id == "submit-modal-id" && flag == "no") {
       this.instructionDisable = false;
+      this.appModel.notifyUserAction();
     }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
