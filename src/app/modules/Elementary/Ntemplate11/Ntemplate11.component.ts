@@ -561,11 +561,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.handlePostVOActivity(true);
 
     this.feedbackVoRef.nativeElement.pause();
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.currentTime = 0;
-      this.instruction.nativeElement.pause();
-      this.instructionDisable = false;
-    }
+    // this.instructionDisable = false;
     if (flag == "yes") {
       this.isShowAnswer = true;
       this.showAnswer();
@@ -622,6 +618,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.enableReplayBtn(true);
     this.appModel.handlePostVOActivity(false);
     this.bodyContentDisable = false;
+    this.instructionDisable=false;
     setTimeout(() => {
       this.isOptionDisabled = false;
     }, 1000)
