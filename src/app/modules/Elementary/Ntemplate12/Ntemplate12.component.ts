@@ -159,6 +159,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
             }
           }
         }
+        this.isOptionDisabled = true;
         this.displayconfirmPopup = true;
       }
     });
@@ -265,14 +266,13 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   onHoverOptions(option, idx) {
-    if (!this.instruction.nativeElement.paused) {
-      console.log("narrator voice still playing");
+    if (this.instruction && this.instruction.nativeElement.play) {
+      this.instruction.nativeElement.pause();
+      this.instruction.nativeElement.currentTime = 0;
     }
-    else {
-      this.instructionDisable = false;
-      option.image = option.image_hover;
-      this.optionCursorPointer = true;
-    }
+    this.instructionDisable = false;
+    option.image = option.image_hover;
+    this.optionCursorPointer = true;
   }
   playOptionHover(idx, opt) {
     this.appModel.notifyUserAction();
@@ -290,10 +290,6 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         if (i != idx && this.optionRef.nativeElement.children[0].children[i]) {
           this.optionRef.nativeElement.children[0].children[i].classList.add("disableDiv");
         }
-      }
-      if (this.instruction && this.instruction.nativeElement.play) {
-        this.instruction.nativeElement.pause();
-        this.instruction.nativeElement.currentTime = 0;
       }
       // this.instructionDisable = true;
       this.audio.onended = () => {
@@ -326,7 +322,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.onended = () => {
           this.blinkTimer = setTimeout(() => {
             this.bodyContentOpacity = true;
-            this.instructionOpacity = true;            
+            this.instructionOpacity = true;
             this.blinkOnLastQues()
           }, 2000)
         }
@@ -337,7 +333,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.onended = () => {
           this.appModel.wrongAttemptAnimation();
         }
-      }      
+      }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
       opt.optFilter = false;
       this.appModel.handlePostVOActivity(false);
@@ -348,7 +344,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
 
 
   /******Blinking of next Button *******/
-  blinkOnLastQues() {    
+  blinkOnLastQues() {
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -494,6 +490,9 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     if (flag == "yes") {
       this.showAnswer();
     } else {
+      setTimeout(() => {
+        this.isOptionDisabled = false;
+      }, 1000)
       this.appModel.notifyUserAction();
     }
   }
