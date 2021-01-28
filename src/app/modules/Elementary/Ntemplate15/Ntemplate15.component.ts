@@ -82,6 +82,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   speakerPointer:boolean = false;
   speakerDisable:boolean = false;
   optionDisable:boolean = false;
+  showLine2:boolean = true;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -421,7 +422,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if(order=='line1'){
       this.optionBlock1.nativeElement.children[idx].children[1].classList.add("pointer");
     }else{
-      this.optionBlock2.nativeElement.children[idx].children[1].classList.add("pointer");
+      if(this.optionBlock2 && this.optionBlock2.nativeElement){
+        this.optionBlock2.nativeElement.children[idx].children[1].classList.add("pointer");
+      }      
     }
   }
   playOptionHover(opt, idx,order) {
@@ -443,13 +446,15 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
           this.optionBlock1.nativeElement.children[x].classList.add("disable_div");
         }
       } 
-      for (let x = 0; x < this.optionBlock2.nativeElement.children.length; x++) {
-        if (order=='line2' && x == idx && this.optionBlock2.nativeElement.children[x]) {
-          this.save = x;          
-        } else {
-          this.optionBlock2.nativeElement.children[x].classList.add("disable_div");
-        }
-      }      
+      if(this.optionBlock2 && this.optionBlock2.nativeElement){
+        for (let x = 0; x < this.optionBlock2.nativeElement.children.length; x++) {
+          if (order=='line2' && x == idx && this.optionBlock2.nativeElement.children[x]) {
+            this.save = x;          
+          } else {
+            this.optionBlock2.nativeElement.children[x].classList.add("disable_div");
+          }
+        }  
+      }          
       this.allOpt.nativeElement.onended = () => {
         this.stopOptionSound(this.save);
         // this.instructionDisable = false;
@@ -461,12 +466,14 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       if (this.optionBlock1.nativeElement.children[x].classList.contains("disable_div")) {
         this.optionBlock1.nativeElement.children[x].classList.remove("disable_div");      
       }
-    } 
-    for (let x = 0; x < this.optionBlock2.nativeElement.children.length; x++) {
-      if (this.optionBlock2.nativeElement.children[x].classList.contains("disable_div")) {
-        this.optionBlock2.nativeElement.children[x].classList.remove("disable_div");         
+    }
+    if(this.optionBlock2 && this.optionBlock2.nativeElement){
+      for (let x = 0; x < this.optionBlock2.nativeElement.children.length; x++) {
+        if (this.optionBlock2.nativeElement.children[x].classList.contains("disable_div")) {
+          this.optionBlock2.nativeElement.children[x].classList.remove("disable_div");         
+        } 
       } 
-    }    
+    }       
   }
   onHoveroutOptions(option, idx, order) {
     option.image = option.imageorg;
@@ -474,7 +481,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if(order=='line1'){
       this.optionBlock1.nativeElement.children[idx].children[1].classList.remove("pointer");
     }else{
-      this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
+      if(this.optionBlock2 && this.optionBlock2.nativeElement){
+        this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
+      }      
     }
   }
 
@@ -667,7 +676,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.speaker = this.fetchedcontent.speaker;
       this.myoption_line1 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line1));
-      this.myoption_line2 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line2))
+      this.myoption_line2 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line2));
+      if(this.myoption_line2.length<1){
+        this.showLine2 = false;
+      }
       this.question = this.fetchedcontent.ques;
       this.feedback = this.fetchedcontent.feedback;
       this.answers = this.fetchedcontent.answers;
