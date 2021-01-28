@@ -72,42 +72,6 @@
   left: 0%;
 }
 
-#container #navBlock {
-  position: absolute;
-  top: 83%;
-  left: 0%;
-  width: 100%;
-}
-
-#container #navBlock .prevBtn {
-  margin-left: 4%;
-  text-align: right;
-}
-
-#container #navBlock .nextBtn {
-  position: relative;
-  margin-right: 4%;
-}
-
-#navBlock .prevBtn,
-#navBlock .nextBtn {
-  width: 8%;
-}
-
-#navBlock .prevBtn img,
-#navBlock .nextBtn img {
-  cursor: pointer;
-}
-
-#help {
-  position: absolute;
-  width: 4%;
-  /*right: 0.5%;*/
-  left: 0.5%;
-  top: 82%;
-
-}
-
 .pointer {
   cursor: pointer;
 }
@@ -119,15 +83,10 @@
   top: -39%;
 }
 
-.speakerBtn img{
-  cursor: auto;
-}
-
 .temp4 #placeholders {
   position: absolute;
   top: 27%;
   width: 100%;
-  /* left: 1.4%; */
   height: 35%;
   display: flex;
   justify-content: center;
@@ -157,42 +116,6 @@
   text-align: center;
 }
 
-.temp4 #placeholders span:first-child {
-  /* padding-left: 2.3%; */
-}
-
-.animation-shake {
-  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
-
 #correctAns {
   position: absolute;
   left: 0;
@@ -220,73 +143,10 @@
   }
 }
 
-#burst {
-  position: absolute;
-  z-index: 101;
-  width: 100%;
-  height: 100%;
-}
 
 #answerBlock .ansBase {
   width: 85%;/*70%;*/
   position: relative;
-}
-
-@media (min-width: 800px) and (max-width: 1299px) {
-
-  #navBlock .prevBtn,
-  #navBlock .nextBtn {
-    /*width:90px;
-	height:35px;*/
-  }
-}
-
-@media (min-width: 1520px) and (max-width: 1920px) {
-
-  /*.temp4 #placeholders img {
-    max-width: 90%;
-}*/
-  .temp4 #placeholders {
-    /* top: 27%; */
-    /* left: 3.4%; */
-  }
-}
-
-/*-----*/
-
-@-webkit-keyframes blinker {
-  from {
-    opacity: 1.0;
-  }
-
-  to {
-    opacity: 0.0;
-  }
-}
-
-.blink_btn {
-  /*background: url(../../../assets/images/aageyBlink.svg) no-repeat;
-    background-size: 100% 100%!important;
-    height: 40px!important;
-	width: 100%;
-    top: 0;
-    left: 0;*/
-  position: absolute;
-  top: 0;
-  display: none;
-  width: 100%;
-  cursor: pointer;
-}
-
-.blink {
-  display: block !important;
-  position: absolute;
-  text-decoration: blink;
-  -webkit-animation-name: blinker;
-  -webkit-animation-duration: 0.6s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-direction: alternate;
 }
 
 .optionsBlock .options {
@@ -352,45 +212,11 @@
   position: absolute;
   left: 0;
   top: 0;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 
 /*----*/
-
-.emptyoption {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-#container #zaariRakheinId {
-  position: absolute;
-  top: 80%;
-  left: 0%;
-  width: 100%;
-}
-
-#zaariRakheinId .zaariRakheinBtn {
-  width: 16%;
-  margin-top: .5%;
-  margin-right: 7.5%;
-  float: right;
-  cursor: pointer;
-}
-
-#container #activity {
-  position: absolute;
-  width: 100%;
-  top: 10%;
-}
-
-#container #activityTitle {
-  top: 0;
-  left: 0;
-  position: absolute;
-  width: 100%;
-}
-
 .title_class {
   font-size: 50px;
   color: white;
@@ -447,9 +273,6 @@
   position: absolute;
 }
 
-/*.temp4 .speaker, .temp4 #speaker{
-	cursor:pointer;
-}*/
 .temp4 #speaker {
   position: absolute;
   top: 0;
