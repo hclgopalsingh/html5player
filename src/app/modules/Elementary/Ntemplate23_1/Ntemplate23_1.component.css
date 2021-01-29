@@ -61,19 +61,8 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  /* width: 96%;
-  position: relative;
-	top: -.7%;
-	left: -.4%;
-	text-align: center; */
 }
 
-/* #optionsBlock .shadow{
-	position: absolute;
-  z-index: 0;
-  left: 27%;
-  top: 13%;
-} */
 #optionsBlock .refTxt {
   position: absolute;
   bottom: 0%;
@@ -216,17 +205,16 @@ button:focus {
   width: 70%;
 }
 
-#container #instructionBar {
-  position: absolute;
-  top: 9.2%;
-  width: 100%;
-  text-align: center;
-}
-
-#instructionBar .instructionBase {
-  width: 60%;
-  position: relative;
-  cursor: pointer;
+#container #instructionBar {	
+  position: absolute;	
+  top: 9.2%;	
+  width: 100%;	
+  text-align: center;	
+}	
+#instructionBar .instructionBase {	
+  width: 60%;	
+  position: relative;	
+  cursor: pointer;	
 }
 
 .instructionBase .instructionText {
@@ -312,12 +300,6 @@ button:focus {
   position: relative;
 }
 
-/*.options:hover {
-  -ms-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  transform: scale(1.5);
-}*/
-
 .right,
 .wrong {
   width: 20%;
@@ -327,14 +309,6 @@ button:focus {
   bottom: -70%;
   display: none;
 }
-
-/* #mySvg defs path:hover {
-  stroke: #FFFFCC !important;
-  stroke-width:2px;
-  stroke-linejoin: round;
-  fill: #FFFFCC !important;
-  cursor: pointer;
-} */
 
 #Rajasthan_0_Layer1_0_FILL path:hover {
   fill: aqua;
@@ -521,12 +495,6 @@ button:focus {
   padding-left: 0px;
 }
 
-/*.modal-dialog {
-  width: 30%;
-  min-height: 49%;
-  width: 100%;
-  height: 88%;
-}*/
 .modal.show {
   display: -webkit-box !important;
 }
@@ -545,6 +513,12 @@ button:focus {
   max-width: 50%;/*100%;*/
   min-height: 60%;
   /* height: 93%; */
+}
+
+.modalReviewTemp23 .modal-dialog {
+    width: auto !important;
+    max-width: 75% !important;
+    min-height: 60% !important;
 }
 
 .modal-content {
@@ -567,14 +541,9 @@ button:focus {
   margin-bottom: -1px;
 }
 
-#modalTemp23 .modal-header {
+#modalTemp23 .modal-header{
   top: 0;
 }
-
-/* .modal-title {
-  margin-left: 1.5%;
-  height: 80%;
-} */
 
 .close {
   width: auto;
@@ -595,12 +564,6 @@ button:focus {
 
 .modal-body {
   padding: 2%;
-  /*
-    background: #afdec0;
-  border: solid .7vmin #85d222;
-    border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  */
   border-top: none;
   flex: auto !important;
 }
@@ -609,14 +572,18 @@ button:focus {
   max-width: 77%;
 }
 
-#modalTemp23 .modal-body {
+#modalTemp23 .modal-body{
   flex: none !important;
   padding: 3% !important;
 }
 
-#modalTemp23 .modal-body img {
-  max-width: 100%;
-  width: 100%;
+.modalReviewTemp23 .optionsBlock {
+  width: 100% !important;
+  justify-content: space-around !important;
+  margin: 6.4% 0 0% !important;
+  min-height: 35vmin !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 #modalTemp23 .optionsBlock {
@@ -628,6 +595,15 @@ button:focus {
   min-height: 35vmin;
   display: flex;
   align-items: center;
+}
+
+.modalReviewTemp23 .listBlock {
+  width: 42% !important;
+  position: relative;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 #modalTemp23 .listBlock {
@@ -650,19 +626,8 @@ button:focus {
   margin: 1% auto !important;
 }
 
-#modalTemp23 .quesImage {
-  /* height: 100%; */
-}
-
 .optionsBlock .options {
   width: 100%;
-}
-
-.close:focus,
-.close:hover {
-  /*color: #000;
-  text-decoration: none;
-  opacity: 1;*/
 }
 
 html [type=button] {
@@ -716,7 +681,7 @@ html [type=button] {
   height: 99%;
   position: absolute;
   top: 0;
-  left: 34%;
+  left: 30.4%;
 }
 
 #mainques img {
@@ -732,23 +697,12 @@ html [type=button] {
   padding: 6%;
 }
 
-/* .listBlock {
-  width: 21.7%;
-  position: absolute;
-  top: 5%;
-  left: 8.5%;
-} */
 .listBlock {
   width: 32.7%;
   position: absolute;
   top: 3%;
   left: 0;
   height: 93%;
-}
-
-.listBlock img {
-  /* height: 100%; */
-  /* width: 123%; */
 }
 
 .listBlock .listHeader,
@@ -773,7 +727,7 @@ html [type=button] {
   overflow: auto;
 }
 
-#modalTemp23 .listBlock > img {
+#modalTemp23 .listBlock > img{
   display: none;
 }
 
@@ -802,8 +756,6 @@ border-top-right-radius: 5px;
 
 .listNames li {
   display: contents;
-  /*flex*/
-  /* justify-content: space-around; */
 }
 
 #modalTemp23 .listNames li {
@@ -851,26 +803,6 @@ nav {
   justify-content: center;
   width: 100%;
 }
-
-/*.pagination{
-	margin-top: 0;
-  margin-bottom: 3%;
-}
-.pagination > li > a:hover,
-.pagination > li > span:hover,
-.pagination > li > a:focus,
-.pagination > li > span:focus {
-  z-index: 2;
-  color: #23527c;
-  background-color: #fff;
-}
-.pagination > li > a,
-.pagination > li > span {
-  background-color: #eee;
-  border: 1px solid #666 !important;
-	font-size: .7vmax;
-  padding: .2vmax .5vmax;
-}*/
 
 .ngx-pagination {
   width: 100%;
@@ -1211,17 +1143,30 @@ nav {
 }
 
 #modalTemp23 .navigate {
-  /* width: 96%; */
   bottom: 1%;
   right: 2%;
-  width: 6.5%;/*4.5%;*/
-  /* margin-top: 1%; */
+  width: 6.5%;
 }
 
-.navigate img {
+.modalReviewTemp23 .navigate {
+  bottom: 1%;
+  right: 1.5% !important;
+  width: 40% !important;
+}
+
+#modalTemp23 .navigate img {
   margin-left: 12.2%;
   cursor: pointer;
   max-width: 5.5%;
+}
+
+.modalReviewTemp23 .navigate img {
+  margin-left: 0 !important;
+}
+
+#modalTemp23 .modal-body img {
+  max-width: 100%;
+  width: 100%;
 }
 
 .disableBtn {
@@ -1243,4 +1188,30 @@ nav {
 }
 .classOpacity {
   opacity: 0.3;
+}
+
+.reviewBackBtn, .reviewNextBtn {
+  width: 13% !important;
+  margin-right: 1% !important;
+}
+
+.reviewConfirmBtn, .reviewCancelBtn {
+  width: 27% !important;
+}
+
+.ele23_1 .modal #instructionBarFeedback {
+  top: 1.5vmin !important;
+}
+
+.modalReviewTemp23 .listBlock .listHeader {
+  border-bottom: 0px !important;
+}
+
+.modalReviewTemp23 .listNames span {
+  border-right: 1px solid lightgray !important;
+  margin-bottom: 0 !important;
+}
+
+.modalReviewTemp23 .listNames li:last-child span {
+  margin-bottom: 0.5% !important;
 }
