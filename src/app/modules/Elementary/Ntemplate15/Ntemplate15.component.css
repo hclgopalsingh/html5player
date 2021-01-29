@@ -73,7 +73,7 @@
 }
 
 .pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .temp4 .speakerBtn {
@@ -228,12 +228,17 @@
 /*-------*/
 .speaker {
   width: 100%;
-  padding-bottom: 89%;
-  margin: 0% auto;
-  /* background: url(../../../assets/images/speakerSpriteR.png) 0 0;*/
-  background-size: 400%;
-  animation: play 1.3s steps(4) infinite;
-  display: none;
+	height:100%;
+	padding-bottom:100%;
+	margin: 0% auto;
+	background: url(' ../../../../assets/images/speakerSpriteR.png') repeat-x 0 0;
+	background-size: 400%;
+	animation: play 1.2s steps(4) infinite;
+	position: absolute;
+	top: -2%;
+	left: -8%;
+	display:none;
+	pointer-events: none;
 }
 
 @-webkit-keyframes play {
@@ -420,8 +425,16 @@
   box-shadow: none;
 }
 
+.modal #answerBlock{
+  top:42%;
+}
+
 .modal .ansImage {
-  width: 100%;
+  width: 85%;
+}
+
+.modal .ansImage img{
+  max-width: 100%;
 }
 
 #confirmModal {

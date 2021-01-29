@@ -46,12 +46,12 @@
                 (click)="revertAction(opts,$event,idx)" style="cursor:pointer">
             </div>
           </div>
-          <span id="disableSpeaker" class="speakerBtn" [ngClass]="{'disable_div':speakerDisable}">
-            <div #sprite class="speaker" (click)="playSound_Speaker(audioEl)"></div>
-            <img id="speaker" class="img-fluid" [ngClass]="{'pointer':speakerPointer}" [src]="speaker?.imgsrc?.url"
-              (click)="playSound_Speaker(audioEl)" on-mousemove="onHoverSpeaker()" (load)="checkImgLoaded();">
-            <audio id="S" #audioEl [src]="speaker?.sound.url"></audio>
-          </span>
+          <div class="speakerBtn" [ngClass]="{'disable_div':speakerDisable}">
+            <div #sprite class="speaker"></div>
+            <img id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.url"
+              (click)="playSound_Speaker(audioEl)" (load)="checkImgLoaded();">
+            <audio #audioEl [src]="speaker?.sound.url"></audio>
+          </div>          
         </div>
       </div>
     </div>
@@ -147,7 +147,22 @@
               <img class="img-fluid" [src]="feedbackPopup?.popTitleTxt_img?.url" />
             </div>
           </div>
-          <div class="d-flex align-items-center justify-content-center ansImage">
+          <div class="d-flex flex-row justify-content-around" id="answerBlock">
+            <div class="ansBase">
+              <img class="img-fluid" [src]="feedbackPopup?.ans_img?.url">
+                <div *ngIf="!openShowAns" id="placeholders">
+                  <span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id="{{'div'+idx}}">
+                    <img class="img-fluid" [src]="opts?.ansImg?.url">
+                  </span>
+                </div>
+                <div *ngIf="openShowAns" id="placeholders">
+                  <span *ngFor="let opts of showAnsTempArray;let idx = index" class="placeholder1" id="{{'div'+idx}}">
+                    <img class="img-fluid" [src]="opts?.ansImg?.url">
+                  </span>
+                </div>
+            </div>
+          </div>
+          <!-- <div class="d-flex align-items-center justify-content-center ansImage">
             <div *ngIf="!openShowAns" id="placeholders">
               <span *ngFor="let opts of tempAnswers;let idx = index" class="placeholder1" id="{{'div'+idx}}">
                 <img class="img-fluid" [src]="opts?.ansImg?.url">
@@ -158,8 +173,7 @@
                 <img class="img-fluid" [src]="opts?.ansImg?.url">
               </span>
             </div>
-          </div>
-
+          </div> -->
         </div>
       </div>
     </div>
