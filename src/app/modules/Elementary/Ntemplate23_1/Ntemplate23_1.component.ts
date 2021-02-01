@@ -5,19 +5,18 @@ import { Subscription } from 'rxjs';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 
 @Component({
-  selector: 'Ntemplate23',
-  templateUrl: './Ntemplate23.component.html',
-  styleUrls: ['./Ntemplate23.component.css'],
+  selector: 'Ntemplate23_1',
+  templateUrl: './Ntemplate23_1.component.html',
+  styleUrls: ['./Ntemplate23_1.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class Ntemplate23Component implements OnInit {
+export class Ntemplate23_1Component implements OnInit {
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('popupRef') popupRef: any;
-  @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
   @ViewChild('quesRef') QuesRef: any;
   @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
   @ViewChild('infoModalRef') infoModalRef: any;
@@ -100,6 +99,7 @@ export class Ntemplate23Component implements OnInit {
   bodyContentDisable: boolean = true;
   instructionOpacity: boolean = false;
   instructionVODelay: any;
+  isReviewPopupOpen: boolean = false;
 
   constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -176,8 +176,25 @@ export class Ntemplate23Component implements OnInit {
           this.setPopupAssets();
         }
       } else if (val == "submitAnswer") {
-        if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
-          this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
+        if (this.popupRef && this.popupRef.nativeElement) {
+          this.appModel.stopAllTimer();
+          this.isReviewPopupOpen = true;
+          this.popupType = "review";
+          this.onSubmit();
+          this.appModel.feedbackType = "review";
+          this.styleHeaderPopup = this.feedbackObj.review_style_header;
+          this.styleBodyPopup = this.feedbackObj.review_style_body;
+          this.feedbackObj.feedback_title = this.feedbackObj.review_style_title;
+          if (this.currentPageNo === 1) {
+            this.feedbackArr = this.paginationArray.slice(0, this.commonAssets.itemsperPage);
+          }
+          this.popupRef.nativeElement.classList = "displayPopup modal modalReviewTemp23";
+          if (this.noOfPages !== 1 && !this.endPage) {
+            this.startNextFeedbackTimer();
+          }
+          else {
+            this.startCloseFeedbackTimer();
+          }
           this.appModel.notifyUserAction();
         }
       }
@@ -204,12 +221,12 @@ export class Ntemplate23Component implements OnInit {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
   }
 
-  ngOnDestroy() {
-    clearTimeout(this.loaderTimer);
-    clearTimeout(this.nextFeedbackTimer);
-    clearTimeout(this.closeFeedbackmodalTimer);
-    clearInterval(this.nextBtnInterval);
-    clearTimeout(this.instructionVODelay);
+  ngOnDestroy() {	
+    clearTimeout(this.loaderTimer);	
+    clearTimeout(this.nextFeedbackTimer);	
+    clearTimeout(this.closeFeedbackmodalTimer);	
+    clearInterval(this.nextBtnInterval);	
+    clearTimeout(this.instructionVODelay);	
   }
 
   /****** Mouse hover on SVG image ******/
@@ -258,10 +275,10 @@ export class Ntemplate23Component implements OnInit {
   /****** function call on tooltip close btn click ******/
   onTooltipclick() {
     console.log("tooltip closed");
-    this.appModel.notifyUserAction();
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.pause();
-      this.instructionDisable = false;
+    this.appModel.notifyUserAction();	
+    if (!this.instruction.nativeElement.paused) {	
+      this.instruction.nativeElement.pause();	
+      this.instructionDisable = false;	
     }
     this.appModel.enableSubmitBtn(true);
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
@@ -320,7 +337,7 @@ export class Ntemplate23Component implements OnInit {
         var stateboundY = statebound.top / (containerRef.clientHeight * 1.1) * 100;
         document.getElementById("line0").setAttribute("x1", (stateboundX * 1 + 2) + "%");
         document.getElementById("line0").setAttribute("y1", stateboundY * 0.8 + "%");
-        document.getElementById("line0").setAttribute("x2", parseFloat(this.mySVGArr[this.categoryIndex].left + 0.6) + "%");
+        document.getElementById("line0").setAttribute("x2", parseFloat(this.mySVGArr[this.categoryIndex].left + 0.6) + "%");	
         document.getElementById("line0").setAttribute("y2", parseFloat(this.mySVGArr[this.categoryIndex].top) + "%");
         document.getElementById("line0").style.opacity = "1";
         for (let i = 0; i < document.getElementById("mainques").children[1].children.length; i++) {
@@ -345,12 +362,12 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
-  /******** Function call on double click on SVG ********/
-  ondropdownClick() {
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.pause();
-      this.instructionDisable = false;
-    }
+  /******** Function call on double click on SVG ********/	
+  ondropdownClick() {	
+    if (!this.instruction.nativeElement.paused) {	
+      this.instruction.nativeElement.pause();	
+      this.instructionDisable = false;	
+    }	
   }
 
   /******** Function call on double click on SVG ********/
@@ -396,12 +413,12 @@ export class Ntemplate23Component implements OnInit {
           this.p--;
         }
       }
-      let correctIncorrectIndex = this.correctIncorrectArr.findIndex(element => element.clickedId == this.Id);
-      let outOfScopeIndex = this.outOfScopeArr.findIndex(element => element.clickedId == this.Id);
-      if(correctIncorrectIndex > -1) {
-        this.correctIncorrectArr.splice(correctIncorrectIndex, 1);
-      } else if(outOfScopeIndex > -1) {
-        this.outOfScopeArr.splice(outOfScopeIndex, 1);
+      let correctIncorrectIndex = this.correctIncorrectArr.findIndex(element => element.clickedId == this.Id);	
+      let outOfScopeIndex = this.outOfScopeArr.findIndex(element => element.clickedId == this.Id);	
+      if(correctIncorrectIndex > -1) {	
+        this.correctIncorrectArr.splice(correctIncorrectIndex, 1);	
+      } else if(outOfScopeIndex > -1) {	
+        this.outOfScopeArr.splice(outOfScopeIndex, 1);	
       }
     }
   }
@@ -549,8 +566,8 @@ export class Ntemplate23Component implements OnInit {
     document.getElementById('dropdownviaTooltip').style.top = "0%";
   }
 
-  /******** Function call on click of submit ********/
-  onSubmit() {
+  /******** Function call on click of confirm in Review popup ********/
+  onConfirmReview() {
     if (!this.submitFlag) {
       if ((this.correctIncorrectArr.length <= this.commonAssets.itemsperPage && this.outOfScopeArr.length === 0) || (this.correctIncorrectArr.length === 0 && this.outOfScopeArr.length <= this.commonAssets.itemsperPage)) {
         this.noOfPages = 1;
@@ -567,6 +584,20 @@ export class Ntemplate23Component implements OnInit {
       if (this.noOfPages > 1) {
         this.endPage = false;
       }
+    }
+  }
+
+  /******** Function call on click of submit button ********/
+  onSubmit() {
+    if (this.paginationArray.length <= this.commonAssets.itemsperPage) {
+      this.noOfPages = 1;
+      this.endPage = true;
+    }
+    else {
+        this.noOfPages = Math.ceil(this.paginationArray.length / this.commonAssets.itemsperPage);
+    }
+    if (this.noOfPages > 1) {
+      this.endPage = false;
     }
   }
 
@@ -700,9 +731,12 @@ export class Ntemplate23Component implements OnInit {
     } else {
       this.closeFeedback = this.feedbackObj.close_feedback_timer * 1000;
     }
-    console.log("close feedback timer", this.closeFeedback);
     this.closeFeedbackmodalTimer = setTimeout(() => {
-      this.closeModal();
+      if(this.isReviewPopupOpen) {
+        this.closeReviewPopup();
+      } else {
+        this.closeModal();
+      }
     }, this.closeFeedback);
   }
 
@@ -759,9 +793,25 @@ export class Ntemplate23Component implements OnInit {
       }
     }
     clearInterval(this.nextBtnInterval);
-    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
-    this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
-    this.setPopupAssets();
+    if(this.popupType === "review") {
+      this.currentPageNo++;
+      this.feedbackArr = this.paginationArray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+      if(this.paginationArray.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length === 0) {
+        this.endPage = true;
+      } else {
+        this.endPage = false;
+      }
+      if (this.noOfPages !== 1 && !this.endPage) {
+        this.startNextFeedbackTimer();
+      }
+      else {
+        this.startCloseFeedbackTimer();
+      }
+    } else {
+      this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+      this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
+      this.setPopupAssets();
+    }
   }
 
   /******** Function call on previous navigation button in popups ********/
@@ -841,9 +891,26 @@ export class Ntemplate23Component implements OnInit {
       this.feedbackArr = currentContextArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
     }
     clearInterval(this.nextBtnInterval);
-    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
-    this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
-    this.setPopupAssets();
+    if(this.popupType === "review") {
+      this.currentPageNo--;
+      this.feedbackArr = this.paginationArray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
+      if(this.paginationArray.slice(this.commonAssets.itemsperPage * (this.currentPageNo), this.commonAssets.itemsperPage * this.currentPageNo+1).length === 0) {
+        this.endPage = true;
+      }
+      else {
+        this.endPage = false;
+      }
+      if (this.noOfPages !== 1 && !this.endPage) {
+        this.startNextFeedbackTimer();
+      }
+      else {
+        this.startCloseFeedbackTimer();
+      }
+    } else {
+      this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+      this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
+      this.setPopupAssets();
+    }
   }
 
   /******Checking of existance of quesTab in content JSON *******/
@@ -870,23 +937,23 @@ export class Ntemplate23Component implements OnInit {
         svgElement.setAttribute("height", "100%");
         svgElement.classList.add("svgClass");
         if (this.quesAudio != undefined && this.quesAudio.url != "") {
-            this.appModel.setLoader(false);
-            this.loadFlag = true;
-            clearTimeout(this.loaderTimer);
-            this.instructionVODelay = setTimeout(() => {
-              this.narrator.nativeElement.src = this.quesAudio.url;
-              this.narrator.nativeElement.load();
-              this.narrator.nativeElement.play();
-              this.QuesRef.nativeElement.style.pointerEvents = "none";
-              this.narrator.nativeElement.onended = () => {
-                this.appModel.handlePostVOActivity(false);
-                this.QuesRef.nativeElement.style.pointerEvents = "";
-                this.instructionDisable = false;
-                this.bodyContentDisable = false;
-              }
-              this.appModel.handlePostVOActivity(true);
-              document.getElementById("mainCanvas").style.pointerEvents = "none";
-            }, 500);
+          this.appModel.setLoader(false);
+          this.loadFlag = true;
+          clearTimeout(this.loaderTimer);
+          this.instructionVODelay = setTimeout(() => {
+          this.narrator.nativeElement.src = this.quesAudio.url;
+          this.narrator.nativeElement.load();
+          this.narrator.nativeElement.play();
+          this.QuesRef.nativeElement.style.pointerEvents = "none";
+          this.narrator.nativeElement.onended = () => {
+            this.appModel.handlePostVOActivity(false);
+            this.QuesRef.nativeElement.style.pointerEvents = "";
+            this.instructionDisable = false;
+            this.bodyContentDisable = false;
+          }
+          this.appModel.handlePostVOActivity(true);
+          document.getElementById("mainCanvas").style.pointerEvents = "none";
+        },500);
         } else {
           this.appModel.handlePostVOActivity(false);
           this.QuesRef.nativeElement.style.pointerEvents = "";
@@ -1049,16 +1116,31 @@ export class Ntemplate23Component implements OnInit {
     }
   }
 
+  /******** Function call on closing of Review popup ********/
+  closeReviewPopup() {
+    this.popupRef.nativeElement.classList = "modal";
+    this.currentPageNo = 1;
+    this.endPage = false;
+    this.pageNo = 1;
+    this.instructionDisable = false;
+    this.isReviewPopupOpen = false;
+    clearTimeout(this.nextFeedbackTimer);
+    clearTimeout(this.closeFeedbackmodalTimer);
+    clearInterval(this.nextBtnInterval);
+    this.appModel.handlePostVOActivity(false);
+    this.appModel.notifyUserAction();
+  }
+
   /******** Function call on yes/no or ok/cancel button click of popups ********/
   showFeedback(id: string, flag: string, status?: string) {
     if (status === "feedbackDone") {
       this.closeModal();
       this.appModel.notifyUserAction();
     }
-    if (id == "submit-modal-id") {
-      this.confirmSubmitRef.nativeElement.classList = "modal";
+    if(status === "cancelReview") {
+      this.closeReviewPopup();
     }
-    if (id == "submit-modal-id" && flag == "no") {
+    if (id == "submit-modal-id" && flag == "no") {	
       this.instructionDisable = false;
       this.appModel.notifyUserAction();
     }
@@ -1091,45 +1173,51 @@ export class Ntemplate23Component implements OnInit {
     }
     if (id == "showAnswer-modal-id" && flag == "no") {
       this.confirmModalRef.nativeElement.classList = "modal";
-      if(!this.checked) {
-        this.instructionDisable = false;
+      if(!this.checked) {	
+        this.instructionDisable = false;	
       }
       this.appModel.notifyUserAction();
     }
-    if (flag == "yes") {
-      this.onSubmit();
-      for (let i = 0; i < this.paginationArray.length; i++) {
-        if (this.paginationArray[i].isCategoryCorrect && this.paginationArray[i].isSubCategorycorrect) {
-          this.rightAnswerCounter++;
-        } else if (this.paginationArray[i].isCategoryCorrect && !this.paginationArray[i].isSubCategorycorrect && !this.paginationArray[i].isOutOfScopeAndCorrect && !this.paginationArray[i].isOutOfScopeAndIncorrect) {
-          this.wrongAnswerCounter++;
-        }
-      }
-      if ((this.rightAnswerCounter < this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0 && this.outOfScopeArr.length === 0) {
-        this.infoModalRef.nativeElement.classList = "displayPopup modal";
-        this.popupType = "partialCorrect";
-        this.setPopupAssets();
-      } else {
-        this.appModel.stopAllTimer();
-        if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter === 0) {
-          this.popupType = "correct";
-        } else if (this.rightAnswerCounter === 0 && this.wrongAnswerCounter > 0) {
-          this.popupType = "wrong";
-        } else if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter > 0) {
-          this.popupType = "partialIncorrect";
-        } else {
-          this.popupType = "outOfScope";
-        }
-        this.attemptType = "manual";
-        this.setPopupAssets();
-        this.popupRef.nativeElement.classList = "displayPopup modal";
-      }
+    if (flag == "confirm" && status === "confirmReview") {
+      this.closeReviewPopup();
+      this.onConfirmReview();
+      this.setPopupType();
 
       //}
     }
     else if (id == "showAnswer-modal-id" && flag == "no") {
       this.popupRef.nativeElement.classList = "modal";
       this.appModel.notifyUserAction();
+    }
+  }
+
+  /******** set popup type ********/
+  setPopupType() {
+    for (let i = 0; i < this.paginationArray.length; i++) {
+      if (this.paginationArray[i].isCategoryCorrect && this.paginationArray[i].isSubCategorycorrect) {
+        this.rightAnswerCounter++;
+      } else if (this.paginationArray[i].isCategoryCorrect && !this.paginationArray[i].isSubCategorycorrect && !this.paginationArray[i].isOutOfScopeAndCorrect && !this.paginationArray[i].isOutOfScopeAndIncorrect) {
+        this.wrongAnswerCounter++;
+      }
+    }
+    if ((this.rightAnswerCounter < this.feedbackObj.correct_category.length) && this.wrongAnswerCounter == 0 && this.outOfScopeArr.length === 0) {
+      this.infoModalRef.nativeElement.classList = "displayPopup modal";
+      this.popupType = "partialCorrect";
+      this.setPopupAssets();
+    } else {
+      this.appModel.stopAllTimer();
+      if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter === 0) {
+        this.popupType = "correct";
+      } else if (this.rightAnswerCounter === 0 && this.wrongAnswerCounter > 0) {
+        this.popupType = "wrong";
+      } else if (this.rightAnswerCounter > 0 && this.wrongAnswerCounter > 0) {
+        this.popupType = "partialIncorrect";
+      } else {
+        this.popupType = "outOfScope";
+      }
+      this.attemptType = "manual";
+      this.setPopupAssets();
+      this.popupRef.nativeElement.classList = "displayPopup modal";
     }
   }
 
@@ -1142,7 +1230,6 @@ export class Ntemplate23Component implements OnInit {
     this.popupRef.nativeElement.classList = "modal";
     this.popupRef.nativeElement.classList = "modal";
     this.infoModalRef.nativeElement.classList = "modal";
-    this.confirmSubmitRef.nativeElement.classList = "modal";
     this.confirmModalRef.nativeElement.classList = "modal";
     this.currentPageNo = 1;
     this.endPage = false;
@@ -1163,7 +1250,7 @@ export class Ntemplate23Component implements OnInit {
     }
     if (!this.checked) {
       this.resetActivity();
-      this.instructionDisable = false;
+      this.instructionDisable = false;	
       this.bodyContentDisable = false;
       this.appModel.wrongAttemptAnimation();
     }
@@ -1229,6 +1316,22 @@ export class Ntemplate23Component implements OnInit {
     this.infoPopupAssets.ok_btn = this.infoPopupAssets.ok_btn_original;
   }
 
+  hoverFeedbackConfirm() {
+    this.feedbackObj.confirm_btn = this.feedbackObj.confirm_btn_hover;
+  }
+
+  houtFeedbackConfirm() {
+    this.feedbackObj.confirm_btn = this.feedbackObj.confirm_btn_original;
+  }
+
+  houtFeedbackCancel() {
+    this.feedbackObj.cancel_btn = this.feedbackObj.cancel_btn_original;
+  }
+
+  hoverFeedbackCancel() {
+    this.feedbackObj.cancel_btn = this.feedbackObj.cancel_btn_hover;
+  }
+
   hoverFeedbackOK() {
     this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_hover;
   }
@@ -1236,6 +1339,7 @@ export class Ntemplate23Component implements OnInit {
   houtFeedbackOK() {
     this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_original;
   }
+
   hoverFeedbackClose() {
     this.feedbackObj.close_btn = this.feedbackObj.close_btn_hover;
   }

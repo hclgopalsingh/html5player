@@ -1,4 +1,4 @@
-<div class="container-fluid ele" id="container">
+<div class="container-fluid ele ele23_1" id="container">
   <audio #narrator></audio>
   <div id="bgImage">
     <img class="img-fluid" [src]="commonAssets?.background?.url" />
@@ -11,25 +11,6 @@
   </div>
   <div class="row mx-0" id="optionsBlock" #optionsBlock
     [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
-    <div class="listBlock">
-      <img class="img-fluid" [src]="commonAssets?.listBg?.url" />
-      <div class="listHeader">
-        <img class="img-fluid" [src]="listCategoryHeader?.url" />
-        <img class="img-fluid" [src]="listSubCategoryHeader?.url" />
-      </div>
-      <ul class="listNames">
-        <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 6, currentPage: p }">
-          <span>
-            <img [src]="item?.category?.url">
-          </span>
-          <span>
-            <img [hidden]="!item?.imgSubCategory" [src]="item?.imgSubCategory?.url">
-          </span>
-        </li>
-      </ul>
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </div>
-
     <div id="mainques" #quesRef (mousemove)="MouseOver($event)" (mouseout)="MouseOut($event)" (click)="onClick($event)"
       (dblclick)="ondblClick($event)">
       <img [src]="commonAssets?.basebox?.url" />
@@ -138,43 +119,15 @@
     </div>
   </div>
 
-  <!-- Submit confirmation modal -->
-  <div class="modal" id="confirmModal" #confirmSubmitRef>
-    <div class="modal-dialog">
-      <div class="modal-content" #modalRef>
-        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
-          <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.url">
-          <img class="close" [src]="confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');"
-            (mousemove)="hoverSubmitCloseConfirm()" (mouseleave)="houtSubmitCloseConfirm()">
-        </div>
-        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
-          <div class="msgImage">
-            <img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.url">
-          </div>
-          <div class="actionButtons">
-            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()"
-              (mouseleave)="houtSubmitConfirm()">
-              <img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.url">
-            </button>
-            <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()"
-              (mouseleave)="houtSubmitDecline()">
-              <img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.url">
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- The feedback popup modal -->
+  <!-- The review popup modal -->
   <div class="modal" id="modalTemp23" #popupRef>
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header" [ngStyle]="styleHeaderPopup">
-          <img class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
+          <img class="modal-title" [src]="isReviewPopupOpen ? feedbackObj?.reviewpopupheaderTxt_img?.url : feedbackObj?.rightAnswerheaderTxt_img?.url">
           <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button"
-            (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+          (click)="isReviewPopupOpen ? closeReviewPopup() : closeModal()" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
         </div>
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
@@ -194,10 +147,10 @@
               <ul class="listNames">
                 <li *ngFor="let item of feedbackArr">
                   <span>
-                    <img [src]="isShowAnsOpen ? item?.correctCategoryTxtimg?.url : item?.categoryStatus?.url">
+                    <img [src]="isReviewPopupOpen ? item?.category?.url : (isShowAnsOpen ? item?.correctCategoryTxtimg?.url : item?.categoryStatus?.url)">
                   </span>
                   <span>
-                    <img [src]="isShowAnsOpen ? item?.correctSubCategoryTxtimg?.url : item?.subCategoryStatus?.url">
+                    <img [src]="isReviewPopupOpen ? item?.imgSubCategory?.url : (isShowAnsOpen ? item?.correctSubCategoryTxtimg?.url : item?.subCategoryStatus?.url)">
                   </span>
                 </li>
               </ul>
@@ -205,12 +158,17 @@
           </div>
           <audio #feedbackPopupAudio></audio>
           <div class="d-flex align-items-center justify-content-end navigate">
-            <img class="img-fluid back" [ngClass]="{'disableBtn': pageNo === 1,'d-none': noOfPages === 1}"
+            <img class="img-fluid" [ngClass]="{'disableBtn': pageNo === 1,'d-none': noOfPages === 1, 'reviewBackBtn': isReviewPopupOpen}"
               [src]="feedbackObj?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
               (mouseleave)="hleaveFeedbackPre()">
-            <img class="img-fluid forward" [ngClass]="{'d-none': endPage}" [src]="feedbackObj?.feedback_next_btn?.url"
+            <img class="img-fluid" [ngClass]="{'d-none': endPage, 'reviewNextBtn': isReviewPopupOpen}" [src]="feedbackObj?.feedback_next_btn?.url"
               (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()" (mouseleave)="hleaveFeedbackNxt()">
-            <img class="img-fluid" [ngClass]="{'d-none': !endPage}" [src]="feedbackObj?.ok_btn?.url"
+            <img class="img-fluid reviewConfirmBtn" [ngClass]="{'d-none': !isReviewPopupOpen || !endPage}" [src]="feedbackObj?.confirm_btn?.url" (click)="showFeedback(popupRef,'confirm','confirmReview');" (mousemove)="hoverFeedbackConfirm()"
+              (mouseleave)="houtFeedbackConfirm()">
+              <img class="img-fluid reviewCancelBtn" [ngClass]="{'d-none': !isReviewPopupOpen}" [src]="feedbackObj?.cancel_btn?.url"
+              (click)="closeReviewPopup()" (mousemove)="hoverFeedbackCancel()"
+              (mouseleave)="houtFeedbackCancel()">
+              <img class="img-fluid" [ngClass]="{'d-none': isReviewPopupOpen || !endPage}" [src]="feedbackObj?.ok_btn?.url"
               (click)="showFeedback(popupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackOK()"
               (mouseleave)="houtFeedbackOK()">
           </div>
