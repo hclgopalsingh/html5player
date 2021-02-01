@@ -51,7 +51,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   attemptType: string = "";
   instructionDisable: boolean = false;
   showAnssetTimeout: any;
-  myoption: any = [];
   myoption_line1 = [];
   myoption_line2 = [];
   question: any = "";
