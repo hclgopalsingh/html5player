@@ -614,6 +614,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.narrator.nativeElement.onended = () => {
         if (this.audioEl && this.audioEl.nativeElement) {
           this.audioEl.nativeElement.play();
+          this.speakerTimer = setInterval(() => {
+            this.checkSpeakerVoice();
+          }, 100)
           this.audioEl.nativeElement.onended = () => {
             this.startActivity();
           }
