@@ -429,7 +429,7 @@ export class Ntemplate17Component implements OnInit {
       }
       if (action == "submitAnswer") {
         this.stopInstructionVO();
-        this.appModel.stopAllTimer();
+        //this.appModel.stopAllTimer();
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
         if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
           this.QuestionVideo.nativeElement.pause();
@@ -760,6 +760,7 @@ export class Ntemplate17Component implements OnInit {
         console.log('on test screen')
 
       }
+      this.submitModalRef.nativeElement.classList = "modal"
       this.InfoModalRef.nativeElement.classList = "displayPopup modal";
       this.feedbackInfoAudio.nativeElement.src = this.infoPopupAssets.info_sound.url ;
       this.feedbackInfoAudio.nativeElement.play();
@@ -788,6 +789,8 @@ export class Ntemplate17Component implements OnInit {
             this.appModel.event = { 'action': 'segmentEnds' };
             if (this.InfoModalRef != undefined) {
               // this.appModel.moveNextQues();
+              ////add check
+              this.submitModalRef.nativeElement.classList = "modal"
               this.InfoModalRef.nativeElement.classList = "displayPopup modal";
               this.feedbackInfoAudio.nativeElement.src = this.infoPopupAssets.info_sound.url ;
               this.feedbackInfoAudio.nativeElement.play();

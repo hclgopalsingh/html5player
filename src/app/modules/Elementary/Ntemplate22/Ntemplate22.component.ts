@@ -418,6 +418,7 @@ export class Ntemplate22 implements OnInit {
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
+      this.instructionBar.nativeElement.classList = "instructionBase";
     }
     item.monthImg = item.hovermonthImg;
   }
@@ -432,6 +433,8 @@ export class Ntemplate22 implements OnInit {
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
+      this.instructionBar.nativeElement.classList = "instructionBase";
+
     }
     item.yearsImg = item.hoveryearsImg;
     //}
@@ -448,6 +451,8 @@ export class Ntemplate22 implements OnInit {
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
+      this.instructionBar.nativeElement.classList = "instructionBase";
+
     }
     item.weekDayImg = item.hoverweekDayImg;
   }
@@ -462,6 +467,8 @@ export class Ntemplate22 implements OnInit {
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.pause();
+        this.instructionBar.nativeElement.classList = "instructionBase";
+
       }
       if (!this.datesArr[ev.target.id].selected) {
         ev.target.src = this.datesArr[ev.target.id].hoverdateImg.url;
