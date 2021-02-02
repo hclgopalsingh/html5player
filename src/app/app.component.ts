@@ -57,6 +57,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		window.onresize = (e) => {
+			if (this.appModel.contentInParam) {
+				this.resizeContainer();
+			}
 			this.triggerWindowsResize();
 		}
 		this.appModel.getPreviewMode(this);
@@ -144,8 +147,35 @@ export class AppComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	ngAfterViewChecked() {
+		if (!this.resizeFlag && this.appModel.contentInParam) {
+			setTimeout(() => {
+				this.resizeContainer();
+			}, 0);
+		}
+	}
+
 	ngOnDestroy() {
 		clearTimeout(this.timer);
+	}
+
+	resizeContainer() {
+		if (this.contentHolder && this.contentHolder.nativeElement) {
+			let contentHolder: HTMLElement = this.contentHolder.nativeElement as HTMLElement
+			contentHolder.style.width = "initial";
+			let targetHeight = window.innerHeight;
+			let containerHeight = contentHolder.clientHeight;
+			let containerWidth = contentHolder.clientWidth;
+			if (containerHeight > targetHeight) {
+				while (containerHeight > targetHeight) {
+					containerHeight = containerHeight - (containerHeight * .01);
+					containerWidth = containerWidth - (containerWidth * .01);
+				}
+				contentHolder.setAttribute("style","width: " + containerWidth + "px !important");
+			} else {
+			}
+		}
+
 	}
 
 	setPreviewMode(previewMode) {

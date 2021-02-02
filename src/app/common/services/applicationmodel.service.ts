@@ -86,6 +86,7 @@ export class ApplicationmodelService {
   myabc: any;
   ref: any;
   private segmentBeginvariable: boolean = true;
+  contentInParam: any;
 
   constructor(router: Router, httpHandler: HttphandlerService, commonLoader: CommonloaderService,
     
@@ -317,6 +318,7 @@ export class ApplicationmodelService {
 
 
     if (data.environment.lms.enabled) {
+      this.contentInParam = data.environment.lms.contentInParam;
       if (!data.environment.lms.contentInParam) {
         console.log('ApplicationmodelService: initLoaded - environment.lms.enabled = true');
         this.dataHandler = this.externalCommunication;
