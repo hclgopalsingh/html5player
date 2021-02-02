@@ -867,6 +867,23 @@ button:focus {
   outline: none !important;
 }
 
+.videoMainContainer {
+  width: 100%;
+}
+
+.videoWrapper {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.videoMainContainer .videoBg {
+  opacity: 0;
+}
+
 #playPauseBtn {
   position: absolute;
   top: 86%;
