@@ -81,6 +81,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   speakerDisable: boolean = false;
   optionDisable: boolean = false;
   showLine2: boolean = true;
+  totalOptionCount:any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -644,6 +645,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       if (this.myoption_line2.length < 1) {
         this.showLine2 = false;
       }
+      this.totalOptionCount = (this.myoption_line1.length + this.myoption_line2.length);
       this.question = this.fetchedcontent.ques;
       this.feedback = this.fetchedcontent.feedback;
       this.answers = this.fetchedcontent.answers;

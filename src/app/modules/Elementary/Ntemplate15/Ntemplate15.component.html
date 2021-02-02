@@ -9,7 +9,7 @@
         <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
       </div>
     </div>
-    <div class="bodyContent optCount8" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
+    <div class="{{'optCount'+totalOptionCount}}" [ngClass]="{'bodyContent':true,'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
       <div class="d-flex row1 optionsBlock">
         <img class="img-fluid optBase" [src]="question?.stringsrc?.url">
         <div #optionBlock1 [ngClass]="{'disable_div':optionDisable}">
@@ -26,7 +26,7 @@
         <div class="d-flex row1 optionsBlock">
           <img class="img-fluid optBase" [src]="question?.stringsrc?.url">
           <div #optionBlock2 [ngClass]="{'disable_div':optionDisable}">
-            <div *ngFor="let opts of myoption_line2;let idx = index" class="options" id="{{'opt'+idx}}">
+            <div *ngFor="let opts of myoption_line2;let idx = index" class="options" id="{{'opt'+(idx+4)}}">
               <img _ngcontent-c7="" class="img-fluid" [src]="opts?.image?.url">
               <img _ngcontent-c7="" *ngIf="opts.show" class="img-fluid" id="{{'optimage'+idx}}"
                 on-mousemove="onHoverOptions(opts,idx,'line2')" on-mouseenter="playOptionHover(opts,idx,'line2')"
