@@ -650,7 +650,7 @@ button:focus {
 }
 
 .modal-body img {
-  max-width: 91%;
+  /* max-width: 91%; */
   /*77%;*/
 }
 
