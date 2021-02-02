@@ -687,6 +687,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Show Answer Functionality after click on Yes *******/
   sendFeedback(id: string, flag: string) {
+    this.appModel.notifyUserAction();
     this.confirmModalRef.nativeElement.classList = "modal";
     this.submitModalRef.nativeElement.classList = "modal";
     this.correctAns.nativeElement.classList = "modal";
@@ -696,12 +697,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (id == "submit-modal-id") {
       if (flag == "yes") {
         this.checkAnswerOnSubmit();
-      } else if (flag == "no") {
+      } else if (flag == "no") {        
         setTimeout(() => {
           this.optionDisable = false;
         }, 1000)
       }
-
     }
     if (id == "confirm-modal-id") {
       if (flag == "yes") {
@@ -712,7 +712,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
           this.optionDisable = false;
         }, 1000)
       }
-
     }
   }
   showReplay(ref, flag: string, action?: string) {
@@ -764,7 +763,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   stopAllSounds(e) {
-    //console.log("Event", e);
     if (!this.instruction.nativeElement.paused) {
       e.stopPropagation();
       console.log("narrator voice still playing");
@@ -775,7 +773,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.instructionDisable = true;
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
-    // this.ansBlock.nativeElement.children[idx].className = "options";
     this.tempAnswers.push(option)
     this.stopAllAudios();
     //doesn't matter if the option chosen is right or not, insert it into that sequence.
