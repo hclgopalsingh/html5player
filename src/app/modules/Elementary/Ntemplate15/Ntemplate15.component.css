@@ -109,11 +109,21 @@
   padding: 0 1.3%;
 }
 
+.modal .placeholder1 {
+  padding: 0 0.3%;
+}
+
+.modal .placeholder1 img{
+  max-width: 75%;
+}
+
 .modal #placeholders {
   /* display: flex;
   flex-wrap: wrap;
   justify-content: center; */
   text-align: center;
+  left: 2.6%;
+  width: 94%;
 }
 
 #correctAns {
@@ -147,6 +157,10 @@
 #answerBlock .ansBase {
   width: 85%;/*70%;*/
   position: relative;
+}
+
+.modal .ansBase {
+  width: 90% !important;
 }
 
 .optionsBlock .options {
@@ -197,10 +211,15 @@
 }
 
 .optCount7 .optionsBlock #opt5,
-.optCount5 .optionsBlock #opt5,
+.optCount5 .optionsBlock #opt4,
 .optCount3 .optionsBlock #opt1{
   left: 42%;
   top: 82%;
+}
+
+.optCount3 .optionsBlock #opt2{
+  left: 80%;
+  top: 34%;
 }
 
 .optCount7 .optionsBlock #opt6 {
@@ -426,7 +445,7 @@
 }
 
 .modal #answerBlock{
-  top:42%;
+  top:40% !important;
 }
 
 .modal .ansImage {
@@ -570,7 +589,7 @@ button:focus {
 }
 
 .modal-dialog {
-  width: 66% !important;
+  width: 92% !important;/*66%*/
   height: 74%;
 }
 
@@ -633,6 +652,10 @@ button:focus {
 .modal-body img {
   max-width: 91%;
   /*77%;*/
+}
+
+.modal-body .ansBase > img {
+  max-width: 100%;
 }
 
 #modalTemp5 .modal-body img {
