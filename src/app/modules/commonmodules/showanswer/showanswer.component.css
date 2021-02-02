@@ -21,7 +21,7 @@
 #showAnswer .stageVideo {
     position: absolute;
     height: 100%;
-    width: 92%;
+    width: 91.4%;/*92%*/
     display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
