@@ -735,7 +735,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   showAnswer() {
     this.attemptType = "no animation"
-    this.appModel.enableSubmitBtn(false)
+    this.appModel.enableSubmitBtn(false);
+    this.appModel.enableReplayBtn(false);
     // show right answer pop up
     this.feedbackPopup = this.feedback.showAnswer;
     let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement;
