@@ -227,6 +227,7 @@ export class Ntemplate17Component implements OnInit {
   _addWordFlag: boolean = false;
   _playInstructionFlag: boolean = false;
   currentPlaying: any;
+  everythingenabled:boolean = true;
   disablebtnarrEng = ['{tab}', '{enter}', '[', ']', '{', '}', '|', '>', '<', '?', '/', '\\', '{space}', "{shift}"];
   /*Start: Theme Implementation(Template Changes)*/
   controlHandler = {
@@ -682,8 +683,9 @@ export class Ntemplate17Component implements OnInit {
 
   onBlurMethod() {
     console.log("this.wordArr.length", this.wordArr.length)
-    if (this.charLeft > 0 && this.wordArr.length < 12) {
+    if (this.charLeft > 0 && this.wordArr.length < 12 && this.everythingenabled) {
       document.getElementById("inputKeyboard").focus();
+      console.log("focussing....")
     }
     else {
       document.getElementById("inputKeyboard").blur();
@@ -777,7 +779,10 @@ export class Ntemplate17Component implements OnInit {
           this.feedbackInfoAudio.nativeElement.pause();
           this.feedbackInfoAudio.nativeElement.currentTime = 0;
           console.log("inMiliSecond = " + this.nextQuestionTimerForLastQuestioninMiliSec);
+          this.appModel.enableSubmitBtn(false);
+          this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
           this.appModel.moveNextQues();
+          this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
         }
       }, this.nextQuestionTimerForLastQuestioninMiliSec)
       if (this.appModel.isLastSectionInCollection) {
@@ -1638,7 +1643,9 @@ export class Ntemplate17Component implements OnInit {
     this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
     this.appModel.enableReplayBtn(false);
     clearInterval(this.blinkTimer);
-
+    this.everythingenabled = false;
+    this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
+    this.onBlurMethod();
   }
 
   blinkTextBox() {
