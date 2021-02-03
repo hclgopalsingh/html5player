@@ -763,13 +763,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
   }
-  stopAllSounds(e) {
-    if (!this.instruction.nativeElement.paused) {
-      e.stopPropagation();
-      console.log("narrator voice still playing");
-    }
-    else { }
-  }
+  
   clickAnswer(option, event, idx) {
     this.instructionDisable = true;
     option.image = option.imageorg;
