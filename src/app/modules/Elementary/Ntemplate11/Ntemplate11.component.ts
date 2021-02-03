@@ -210,7 +210,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       }
       if (val == "replayVideo") {
         console.log("replaying video");
-        // this.appModel.enableReplayBtn(true);
         this.isOptionDisabled = true;
         this.PlayPauseFlag = true;
         this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -237,9 +236,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
-    this.appModel.lastQues.subscribe(() => {
-      this.appModel.handlePostVOActivity(false);
-    })
+    // this.appModel.lastQues.subscribe(() => {
+    //   this.appModel.handlePostVOActivity(false);
+    // })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
@@ -501,21 +500,21 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
             this.bodyContentOpacity = true;
             this.appModel.enableReplayBtn(false);
           }, 200)
-          // this.appModel.handlePostVOActivity(false);
+          this.appModel.handlePostVOActivity(false);
         }
       } else {
         opt.wrongSelected = true;
         console.log("when wrong answer clicked");
         this.isAnsWrong = true;
-        this.appModel.handlePostVOActivity(true);
         this.wrongFeedbackTimer = setTimeout(() => {
           this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
           this.feedbackVoRef.nativeElement.play();
         }, 750)
         this.feedbackVoRef.nativeElement.onended = () => {
           if (this.isAnsWrong) {
+            this.appModel.handlePostVOActivity(false);
+            this.appModel.enableReplayBtn(true);
             this.appModel.wrongAttemptAnimation();
-            this.appModel.handlePostVOActivity(true);
           }
         }
       }
@@ -613,10 +612,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.myoption[this.itemid].wrongSelected = false;
     this.myoption[this.itemid].isOptSelect = false;
     this.myoption[this.itemid].isOpen = true;
-    this.appModel.enableReplayBtn(true);
+    // this.appModel.enableReplayBtn(true);
     this.isAnsWrong = false
-    this.appModel.enableReplayBtn(true);
-    this.appModel.handlePostVOActivity(false);
+    // this.appModel.handlePostVOActivity(false);
     this.bodyContentDisable = false;
     this.instructionDisable=false;
     setTimeout(() => {
