@@ -178,9 +178,9 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.postWrongAttemplt()
       }, 750)
     });
-    this.appModel.lastQues.subscribe(() => {
-      this.appModel.handlePostVOActivity(false);
-    })
+    // this.appModel.lastQues.subscribe(() => {
+    //   this.appModel.handlePostVOActivity(false);
+    // })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
@@ -324,6 +324,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
             this.bodyContentOpacity = true;
             this.instructionOpacity = true;
             this.blinkOnLastQues()
+            this.appModel.handlePostVOActivity(false);
           }, 2000)
         }
       }
@@ -332,11 +333,11 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.play();
         this.feedbackVoRef.nativeElement.onended = () => {
           this.appModel.wrongAttemptAnimation();
+          this.appModel.handlePostVOActivity(false);
         }
       }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
-      opt.optFilter = false;
-      this.appModel.handlePostVOActivity(false);
+      opt.optFilter = false;      
     }
   }
   /*End-Template click and hover events*/
