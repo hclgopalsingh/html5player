@@ -148,8 +148,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.currentTime = 0;
           this.instruction.nativeElement.pause();
-        }
-        this.instructionDisable = false;
+          this.instructionDisable = false;
+        }        
         if (this.audio && !this.audio.paused) {
           this.audio.pause();
           this.audio.currentTime = 0;
