@@ -1077,19 +1077,19 @@ button:focus {
   transform: scale(.55);  
 }
 .wrongOpt{
-  border: solid .5vmin red;
+  border: solid .5vmin #E2373D;
   border-radius: 1.5vmin;
-  background:red;
+  background:#E2373D;
 }
 
 .scaleInAnimation {
-  animation: scaleIn 0.3s linear;
+  animation: scaleIn 0.5s linear;
   transform: scale(1.1);
 }
 
 @keyframes scaleIn {
   0% {
-    transform: scale(1.1)
+    transform: scale(1.0)
   }
 
   100% {
@@ -1099,13 +1099,13 @@ button:focus {
 
 
 .scaleOutAnimation {
-  animation: scaleOut 0.3s linear;
+  animation: scaleOut 0.5s linear;
   transform: scale(1.0);
 }
 
 @keyframes scaleOut {
   0% {
-    transform: scale(1.05)
+    transform: scale(1.1)
   }
 
   100% {
