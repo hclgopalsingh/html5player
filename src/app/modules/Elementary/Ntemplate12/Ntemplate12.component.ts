@@ -271,7 +271,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       this.instruction.nativeElement.currentTime = 0;
     }
     this.instructionDisable = false;
-    option.image = option.image_hover;
+    // option.image = option.image_hover;
+    this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleInAnimation");
     this.optionCursorPointer = true;
   }
   playOptionHover(idx, opt) {
@@ -304,8 +305,13 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   onHoveroutOptions(option, idx) {
-    option.image = option.image_original;
+    // option.image = option.image_original;
     this.optionCursorPointer = false;
+    this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleInAnimation");
+				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleOutAnimation");
+			}, 500);
   }
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
