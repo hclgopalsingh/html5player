@@ -376,9 +376,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imagehover;
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.add("pointer");
+      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.add("pointer");
+        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
       }
     }
   }
@@ -427,9 +429,19 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imageorg;
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.remove("pointer");
+      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
+				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+			}, 500);
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
+        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
+				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+			}, 500);
       }
     }
   }
