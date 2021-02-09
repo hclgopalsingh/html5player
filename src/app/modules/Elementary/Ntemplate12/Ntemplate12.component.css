@@ -363,3 +363,33 @@
 .colorWhite{
   filter:invert(1);
 }
+.scaleInAnimation {
+  animation: scaleIn 0.5s linear;
+  transform: scale(1.1);
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(1.0)
+  }
+
+  100% {
+    transform: scale(1.1)
+  }
+}
+
+
+.scaleOutAnimation {
+  animation: scaleOut 0.5s linear;
+  transform: scale(1.0);
+}
+
+@keyframes scaleOut {
+  0% {
+    transform: scale(1.1)
+  }
+
+  100% {
+    transform: scale(1.0)
+  }
+}
