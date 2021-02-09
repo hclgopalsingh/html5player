@@ -1157,7 +1157,7 @@ nav {
   list-style: none;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, .15);
+  border: 1px solid rgba(0, 0, 0, .3);
   border-radius: .25rem;
 }
 
