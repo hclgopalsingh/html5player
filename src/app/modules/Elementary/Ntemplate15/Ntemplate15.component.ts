@@ -4,8 +4,6 @@ import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
-import { clear } from 'console';
-
 
 @Component({
   selector: 'Ntemplate15',
@@ -18,18 +16,16 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('instruction') instruction: any;
   @ViewChild('allOpt') allOpt: any;
   @ViewChild('feedbackVoRef') feedbackVoRef: any;
-  @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('mainVideo') mainVideo: any;
-  @ViewChild('ansBlock') ansBlock: any;
-  @ViewChild('disableSpeaker') disableSpeaker: any;
+  @ViewChild('optionBlock1') optionBlock1: any;
+  @ViewChild('optionBlock2') optionBlock2: any;
   @ViewChild('sprite') sprite: any;
-  @ViewChild('speakerNormal') speakerNormal: any;
   @ViewChild('audioEl') audioEl: any;
+  @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('maincontent') maincontent: any;
   @ViewChild('submitModalRef') submitModalRef: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('correctAns') correctAns: any;
-  audio = new Audio();
   commonAssets: any = "";
   feedback: any = "";
   isFirstQues: boolean;
@@ -54,14 +50,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   quesObj: any;
   attemptType: string = "";
   instructionDisable: boolean = false;
-  instructionOpacity: boolean = false;
   showAnssetTimeout: any;
-  bodyContentOpacity: boolean = false;
-  bodyContentDisable: boolean = false;
-  myoption: any = [];
+  myoption_line1 = [];
+  myoption_line2 = [];
   question: any = "";
-  itemid: any = 0;
-  isOptionDisabled: boolean = false;
   tempAnswers: any = [];
   speaker: any = "";
   answers: any = "";
@@ -85,6 +77,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   showAnsTempArray: any = [];
   assetspath: any;
   save: number;
+  openShowAns: boolean = false;
+  speakerDisable: boolean = false;
+  optionDisable: boolean = false;
+  showLine2: boolean = true;
+  totalOptionCount:any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -134,24 +131,15 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.notifyUserAction();
       } else if (mode == "auto") {
         //show modal of auto
-        this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers))
+        this.openShowAns = true;
         this.showAnswer();
       }
     });
-
     this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
-      if (!this.instruction.nativeElement.paused) {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
-      }
-      this.instructionDisable = false;
-      if (!this.allOpt.nativeElement.paused) {
-        this.allOpt.nativeElement.currentTime = 0;
-        this.allOpt.nativeElement.pause();
-        this.stopOptionSound(this.save);
-      }
+      this.stopAllAudios();
+      this.optionDisable = true;
       if (action == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -188,6 +176,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.postWrongAttemplt()
       }, 750)
     });
+    // this.appModel.lastQues.subscribe(() => {
+    //   this.appModel.handlePostVOActivity(false);
+    // })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
@@ -221,6 +212,16 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       console.log("play on Instruction");
       this.appModel.notifyUserAction();
       if (this.instruction.nativeElement.paused) {
+        if (!this.allOpt.nativeElement.paused) {
+          this.allOpt.nativeElement.currentTime = 0;
+          this.allOpt.nativeElement.pause();
+          this.stopOptionSound(this.save);
+        }
+        if (!this.audioEl.nativeElement.paused) {
+          this.audioEl.nativeElement.pause();
+          this.audioEl.nativeElement.currentTime = 0;
+          this.speakerDisable = false;
+        }
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
         this.instructionDisable = true;
@@ -324,124 +325,145 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_original;
   }
 
-  onHoverSpeaker() {
-    if (!this.narrator.nativeElement.paused) {
-      this.disableSpeaker.nativeElement.className = "speakerBtn";
-      console.log("narrator voice still playing");
-    }
-    else {
-      this.disableSpeaker.nativeElement.className = "speakerBtn pointer";
-    }
-  }
   playSound_Speaker(el: HTMLAudioElement) {
     this.appModel.notifyUserAction();
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.currentTime = 0;
-      this.instruction.nativeElement.pause();
-    }
-    if (!this.narrator.nativeElement.paused) {
-      console.log("narrator voice still playing");
-    }
-    if (!this.narrator.nativeElement.paused) {
-      console.log("narrator still playing");
-    }
-    else {
-      if (el.id == "S") {
-        //this._sharedService.speaker_counter++;
-        // this._sharedService.speakerbutton();
-        //console.log("speaker_counter:",this._sharedService.speaker_counter);
-        this.speakerTimer = setInterval(() => {
-          this.checkSpeakerVoice();
-        }, 100)
-
-        if (el.paused) {
-          el.currentTime = 0;
-          el.play();
-        }
-        else {
-          el.currentTime = 0;
-          el.play();
-        }
+    if (!this.audioEl.nativeElement.paused) {
+      console.log("speaker still playing");
+    } else {
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();
+        this.instructionDisable = false;
       }
-      else {
-        this.audioEl.nativeElement.pause();
-        el.pause();
+      if (!this.allOpt.nativeElement.paused) {
+        this.allOpt.nativeElement.currentTime = 0;
+        this.allOpt.nativeElement.pause();
+        this.stopOptionSound(this.save);
+      }
+      this.speakerTimer = setInterval(() => {
+        this.checkSpeakerVoice();
+      }, 100)
+      if (el.paused) {
         el.currentTime = 0;
         el.play();
-        if (this.maincontent) {
-          this.maincontent.nativeElement.className = "disable_div";
-        }
+        this.speakerDisable = true;
         el.onended = () => {
-          if (this.maincontent) {
-            this.maincontent.nativeElement.className = "";
-          }
+          this.speakerDisable = false;
         }
-
       }
-
     }
   }
-
   checkSpeakerVoice() {
     if (!this.audioEl.nativeElement.paused) {
-      //this.speakerNormal.nativeElement.style.display = "none";
       this.sprite.nativeElement.style.display = "block";
     } else {
-      //this.speakerNormal.nativeElement.style.display = "block";
       this.sprite.nativeElement.style.display = "none";
       clearInterval(this.speakerTimer);
     }
-
   }
-
-  onHoverOptions(option, idx) {
+  onHoverOptions(option, idx, order) {
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
       this.instructionDisable = false;
     }
+    if (!this.audioEl.nativeElement.paused) {
+      this.audioEl.nativeElement.pause();
+      this.audioEl.nativeElement.currentTime = 0;
+      this.speakerDisable = false;
+    }
+    this.appModel.notifyUserAction();
     option.image = option.imagehover;
-    this.ansBlock.nativeElement.children[idx].className = "options pointer";
-  }
-  playOptionHover(opt, idx) {
-    if (this.allOpt.nativeElement.paused) {
-      this.appModel.notifyUserAction();
-      this.instructionDisable = true;
-      if (!this.audioEl.nativeElement.paused) {
-        this.audioEl.nativeElement.pause();
-        this.audioEl.nativeElement.currentTime = 0;
+    if (order == 'line1') {
+      this.optionBlock1.nativeElement.children[idx].children[1].classList.add("pointer");
+      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
+    } else {
+      if (this.optionBlock2 && this.optionBlock2.nativeElement) {
+        this.optionBlock2.nativeElement.children[idx].children[1].classList.add("pointer");
+        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
       }
+    }
+  }
+  playOptionHover(opt, idx, order) {
+    if (this.allOpt.nativeElement.paused) {
       if (opt && opt.sound) {
         this.allOpt.nativeElement.src = opt.sound.url + "?someRandomSeed=" + Math.random().toString(36);
       }
       this.allOpt.nativeElement.play();
-      for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
-        if (x != idx) {
-          this.ansBlock.nativeElement.children[x].classList.add("disable_div");
-        } else {
+      for (let x = 0; x < this.optionBlock1.nativeElement.children.length; x++) {
+        if (order == 'line1' && x == idx && this.optionBlock1.nativeElement.children[x]) {
           this.save = x;
+        } else {
+          this.optionBlock1.nativeElement.children[x].classList.add("disable_div");
+        }
+      }
+      if (this.optionBlock2 && this.optionBlock2.nativeElement) {
+        for (let x = 0; x < this.optionBlock2.nativeElement.children.length; x++) {
+          if (order == 'line2' && x == idx && this.optionBlock2.nativeElement.children[x]) {
+            this.save = x;
+          } else {
+            this.optionBlock2.nativeElement.children[x].classList.add("disable_div");
+          }
         }
       }
       this.allOpt.nativeElement.onended = () => {
         this.stopOptionSound(this.save);
-        this.instructionDisable = false;
       }
     }
   }
   stopOptionSound(save) {
-    for (let x = 0; x < this.ansBlock.nativeElement.children.length; x++) {
-      if (x != save) {
-        this.ansBlock.nativeElement.children[x].classList.remove("disable_div");
+    for (let x = 0; x < this.optionBlock1.nativeElement.children.length; x++) {
+      if (this.optionBlock1.nativeElement.children[x].classList.contains("disable_div")) {
+        this.optionBlock1.nativeElement.children[x].classList.remove("disable_div");
+      }
+    }
+    if (this.optionBlock2 && this.optionBlock2.nativeElement) {
+      for (let x = 0; x < this.optionBlock2.nativeElement.children.length; x++) {
+        if (this.optionBlock2.nativeElement.children[x].classList.contains("disable_div")) {
+          this.optionBlock2.nativeElement.children[x].classList.remove("disable_div");
+        }
       }
     }
   }
-  onHoveroutOptions(option, idx) {
+  onHoveroutOptions(option, idx, order) {
     option.image = option.imageorg;
-    this.ansBlock.nativeElement.children[idx].className = "options";
+    if (order == 'line1') {
+      this.optionBlock1.nativeElement.children[idx].children[1].classList.remove("pointer");
+      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
+				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+			}, 500);
+    } else {
+      if (this.optionBlock2 && this.optionBlock2.nativeElement) {
+        this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
+        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
+				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+			}, 500);
+      }
+    }
   }
 
   /*End-Template click and hover events*/
-
+  stopAllAudios() {
+    if (!this.instruction.nativeElement.paused) {
+      this.instruction.nativeElement.currentTime = 0;
+      this.instruction.nativeElement.pause();
+    }
+    this.instructionDisable = false;
+    if (!this.allOpt.nativeElement.paused) {
+      this.allOpt.nativeElement.currentTime = 0;
+      this.allOpt.nativeElement.pause();
+      this.stopOptionSound(this.save);
+    }
+    if (!this.audioEl.nativeElement.paused) {
+      this.audioEl.nativeElement.pause();
+      this.audioEl.nativeElement.currentTime = 0;
+      this.speakerDisable = false;
+    }
+  }
 
   /******Blinking of next Button *******/
   blinkOnLastQues() {
@@ -466,8 +488,14 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   /******Wrong or Partial Incorrect post anmination functionality *******/
   postWrongAttemplt() {
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
+    setTimeout(() => {
+      this.optionDisable = false;
+    }, 1000)
     this.appModel.notifyUserAction();
-    this.myoption.forEach(element => {
+    this.myoption_line1.forEach(element => {
+      element.show = true;
+    });
+    this.myoption_line2.forEach(element => {
       element.show = true;
     });
     this.answers = this.appModel.content.contentData.data['answers'];
@@ -499,9 +527,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (obj.narrator && obj.narrator.nativeElement) {
       obj.narrator.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
-    if (obj.audio) {
-      obj.audio.volume = obj.appModel.isMute ? 0 : vol;
-    }
     if (obj.feedbackVoRef && obj.feedbackVoRef.nativeElement) {
       obj.feedbackVoRef.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
     }
@@ -528,30 +553,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
   }
-  showReplay(ref, flag: string, action?: string) {
-    ref.classList = "modal";
-    this.appModel.notifyUserAction();
-    if (flag == "yes") {
-      if (action == "replay") {
-        //this.isPlayVideo = true;
-        this.SkipLoad = true;
-        this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
-        this.appModel.videoStraming(true);
-        this.replayVideo();
-      }
-    } else if (flag == "no") {
-      this.appModel.videoStraming(false);
-      this.appModel.enableReplayBtn(true);
-      setTimeout(() => {
-        this.instructionDisable = false;
-      }, 1000);
-    }
-  }
 
   replayVideo() {
     this.videoReplayd = true;
     this.isPlayVideo = true;
-    // this.appModel.enableSubmitBtn(false);
     this.appModel.stopAllTimer();
     this.instructionDisable = true;
     this.appModel.navShow = 1;
@@ -586,6 +591,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   endedHandleronSkip() {
+    setTimeout(() => {
+      this.optionDisable = false;
+    }, 1000)
     this.isPlayVideo = false;
     this.appModel.navShow = 2;
     this.instructionDisable = false;
@@ -614,33 +622,46 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.handlePostVOActivity(true);
       this.appModel.enableReplayBtn(false);
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
+      this.optionDisable = true;
       this.narrator.nativeElement.play();
       this.narrator.nativeElement.onended = () => {
         if (this.audioEl && this.audioEl.nativeElement) {
           this.audioEl.nativeElement.play();
+          this.speakerTimer = setInterval(() => {
+            this.checkSpeakerVoice();
+          }, 100)
           this.audioEl.nativeElement.onended = () => {
-            this.appModel.enableReplayBtn(true);
-            this.appModel.handlePostVOActivity(false);
-            document.getElementById('instructionBar').style.cursor = "pointer";
-            this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+            this.startActivity();
           }
         }
       }
     } else {
-      this.appModel.enableReplayBtn(true);
-      this.appModel.handlePostVOActivity(false);
+      this.startActivity();
     }
   }
 
-
+  startActivity() {
+    setTimeout(() => {
+      this.optionDisable = false;
+    }, 1000)
+    this.appModel.enableReplayBtn(true);
+    this.appModel.handlePostVOActivity(false);
+    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
+  }
   /******Data set from content JSON *******/
   setData() {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.speaker = this.fetchedcontent.speaker;
-      this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options))
+      this.myoption_line1 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line1));
+      this.myoption_line2 = JSON.parse(JSON.stringify(this.fetchedcontent.options.line2));
+      if (this.myoption_line2.length < 1) {
+        this.showLine2 = false;
+      }
+      this.totalOptionCount = (this.myoption_line1.length + this.myoption_line2.length);
       this.question = this.fetchedcontent.ques;
       this.feedback = this.fetchedcontent.feedback;
       this.answers = this.fetchedcontent.answers;
+      this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers));
       this.tempAnswers = [];
       this.isFirstQues = this.fetchedcontent.isFirstQues;
       this.submitPopupAssets = this.fetchedcontent.feedback.submit_popup;
@@ -678,38 +699,58 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Show Answer Functionality after click on Yes *******/
   sendFeedback(id: string, flag: string) {
+    this.appModel.notifyUserAction();
     this.confirmModalRef.nativeElement.classList = "modal";
+    this.submitModalRef.nativeElement.classList = "modal";
     this.correctAns.nativeElement.classList = "modal";
     this.feedbackVoRef.nativeElement.pause();
+    this.feedbackVoRef.nativeElement.currentTime = 0;
     this.instructionDisable = false;
-    // if (!this.instruction.nativeElement.paused) {
-    // 	this.instruction.nativeElement.currentTime = 0;
-    // 	this.instruction.nativeElement.pause();
-    // }			
     if (id == "submit-modal-id") {
       if (flag == "yes") {
-        console.log("do this")
         this.checkAnswerOnSubmit();
+      } else if (flag == "no") {        
+        setTimeout(() => {
+          this.optionDisable = false;
+        }, 1000)
       }
-
-      this.submitModalRef.nativeElement.classList = "modal";
     }
     if (id == "confirm-modal-id") {
       if (flag == "yes") {
-        console.log("do this")
-        this.showAnsTempArray = JSON.parse(JSON.stringify(this.answers));
+        this.openShowAns = true;
         this.showAnswer();
+      } else if (flag == "no") {
+        setTimeout(() => {
+          this.optionDisable = false;
+        }, 1000)
       }
-
-      this.confirmModalRef.nativeElement.classList = "modal";
     }
   }
-  
+  showReplay(ref, flag: string, action?: string) {
+    ref.classList = "modal";
+    this.appModel.notifyUserAction();
+    if (flag == "yes") {
+      if (action == "replay") {
+        //this.isPlayVideo = true;
+        this.SkipLoad = true;
+        this.replayconfirmAssets.confirm_btn = this.replayconfirmAssets.confirm_btn_original;
+        this.appModel.videoStraming(true);
+        this.replayVideo();
+      }
+    } else if (flag == "no") {
+      this.appModel.videoStraming(false);
+      this.appModel.enableReplayBtn(true);
+      setTimeout(() => {
+        this.optionDisable = false;
+      }, 1000);
+    }
+  }
   showAnswer() {
     this.attemptType = "no animation"
-    this.appModel.enableSubmitBtn(false)
+    this.appModel.enableSubmitBtn(false);
+    this.appModel.enableReplayBtn(false);
     // show right answer pop up
-    this.feedbackPopup = this.rightPopup;
+    this.feedbackPopup = this.feedback.showAnswer;
     let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement;
     this.confirmModalRef.nativeElement.classList = "modal";
     this.confirmReplayRef.nativeElement.classList = "modal";
@@ -717,7 +758,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
     this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
     this.instructionDisable = true;
-    this.feedbackVoRef.nativeElement.src = this.speaker.sound.url    
+    this.feedbackVoRef.nativeElement.src = this.speaker.sound.url
     this.appModel.resetBlinkingTimer();
     setTimeout(() => {
       if (this.feedbackVoRef && this.feedbackVoRef.nativeElement) {
@@ -734,39 +775,18 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
   }
-  stopAllSounds(e) {
-    //console.log("Event", e);
-    if (!this.instruction.nativeElement.paused) {
-      e.stopPropagation();
-      console.log("narrator voice still playing");
-    }
-    else { }
-  }
+  
   clickAnswer(option, event, idx) {
     this.instructionDisable = true;
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
-    this.ansBlock.nativeElement.children[idx].className = "options";
     this.tempAnswers.push(option)
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.currentTime = 0;
-      this.instruction.nativeElement.pause();
-    }
-    if (!this.allOpt.nativeElement.paused) {
-      this.allOpt.nativeElement.currentTime = 0;
-      this.allOpt.nativeElement.pause();
-      this.stopOptionSound(this.save);
-    }
+    this.stopAllAudios();
     //doesn't matter if the option chosen is right or not, insert it into that sequence.
-    // this.audioEl.nativeElement.pause();
     console.log("when correct answer clicked", event.toElement);
     // empty cloud
-    this.myoption[idx].show = false;
-    if (this.j < this.answers.length) {
-      console.log("loadImage would be called");
-      this.j++;
-    }
-    if (this.tempAnswers.length == this.myoption.length) {
+    option.show = false;
+    if (this.tempAnswers.length == this.myoption_line1.length + this.myoption_line2.length) {
       this.appModel.enableSubmitBtn(true);
     }
     else {
@@ -776,13 +796,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   }
   revertAction(option, event, idx) {
-    if (!this.instruction.nativeElement.paused) {
-      this.instruction.nativeElement.currentTime = 0;
-      this.instruction.nativeElement.pause();
-    }
-    // this.audioEl.nativeElement.pause();
-    // this.audioEl.nativeElement.currentTime = 0;
-    console.log("option", option)
+    this.appModel.notifyUserAction();
+    this.stopAllAudios();
     this.tempAnswers.splice(idx, 1)
     option.show = true;
     this.appModel.enableSubmitBtn(false);
