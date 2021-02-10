@@ -31,12 +31,12 @@
         </div>
       </div>
       <div class="d-flex align-items-center justify-content-center" id="ansBlock" #optionBlock>
-        <div class="maincontent_inner">
+        <div class="maincontent_inner" [ngClass]="{'disable-Opt': this.actComplete}">
           <img [src]="quesInfo.option_base.url" (load)="checkImgLoaded();">
           <div class="option_inner">
             <div class="option_block d-flex align-items-center justify-content-center" id="optionImage" #optionImage>
               <div class="options" *ngFor="let opt of myoption;let idx = index"
-                [ngClass]="{'disable_div': disableAllOpt || opt.disableOpt || !opt.imgsrc,'disable-click': this.actComplete}">
+                [ngClass]="{'disable_div': disableAllOpt || opt.disableOpt || !opt.imgsrc}">
                 <img class="img-fluid" [src]="opt?.bgImgsrc?.url" (load)="checkImgLoaded();">
                 <img class="img-fluid option_img" *ngIf="opt.imgsrc" [src]="opt?.imgsrc?.url "
                   on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"
