@@ -451,8 +451,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
-    }
-    this.instructionDisable = false;
+      this.instructionDisable = false;
+    }    
     if (!this.allOpt.nativeElement.paused) {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
@@ -777,7 +777,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   
   clickAnswer(option, event, idx) {
-    this.instructionDisable = true;
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
     this.tempAnswers.push(option)
@@ -826,7 +825,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
       correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-      this.instructionDisable = true;
       this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
       //this.feedbackVoRef.nativeElement.play();
 
@@ -852,7 +850,6 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
       correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-      this.instructionDisable = true;
       this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
 
       setTimeout(() => {
