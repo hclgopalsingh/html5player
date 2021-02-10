@@ -376,11 +376,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imagehover;
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.add("pointer");
-      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
+      this.optionBlock1.nativeElement.children[idx].classList.add("scaleInAnimation");
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.add("pointer");
-        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
+        this.optionBlock2.nativeElement.children[idx].classList.add("scaleInAnimation");
       }
     }
   }
@@ -429,18 +429,18 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imageorg;
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.remove("pointer");
-      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
+      this.optionBlock1.nativeElement.children[idx].classList.add("scaleOutAnimation");
       setTimeout(() => {
-        this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
-        this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+        this.optionBlock1.nativeElement.children[idx].classList.remove("scaleInAnimation");
+        this.optionBlock1.nativeElement.children[idx].classList.remove("scaleOutAnimation");
       }, 500);
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
-        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
+        this.optionBlock2.nativeElement.children[idx].classList.add("scaleOutAnimation");
         setTimeout(() => {
-          this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
-          this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+          this.optionBlock2.nativeElement.children[idx].classList.remove("scaleInAnimation");
+          this.optionBlock2.nativeElement.children[idx].classList.remove("scaleOutAnimation");
         }, 500);
       }
     }
@@ -487,7 +487,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Wrong or Partial Incorrect post anmination functionality *******/
   postWrongAttemplt() {
-    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
+    // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
     setTimeout(() => {
       this.optionDisable = false;
     }, 1000)
@@ -851,7 +851,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackPopup = this.wrongPopup;
       let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
       correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
-      this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
+      // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
       this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
 
       setTimeout(() => {
