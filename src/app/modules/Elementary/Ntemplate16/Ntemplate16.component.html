@@ -1,5 +1,4 @@
-<div class="container-fluid tempsix ele" #container id="container"
-  *ngIf="!showFormat && !isPlayVideo">
+<div class="container-fluid tempsix ele" #container id="container" *ngIf="!showFormat && !isPlayVideo && !isShowAns">
   <div class="d-flex align-items-center justify-content-center selected_opt_outer">
     <div class="selected_opt">
       <img *ngIf="blinkState1" class="blink_state1" [src]="blinkState1.url">
@@ -37,7 +36,7 @@
           <div class="option_inner">
             <div class="option_block d-flex align-items-center justify-content-center" id="optionImage" #optionImage>
               <div class="options" *ngFor="let opt of myoption;let idx = index"
-                [ngClass]="{'disable_div': disableAllOpt || opt.disableOpt || !opt.imgsrc,'disable-click': this.actComplete && opt.imgsrc}">
+                [ngClass]="{'disable_div': disableAllOpt || opt.disableOpt || !opt.imgsrc,'disable-click': this.actComplete}">
                 <img class="img-fluid" [src]="opt?.bgImgsrc?.url" (load)="checkImgLoaded();">
                 <img class="img-fluid option_img" *ngIf="opt.imgsrc" [src]="opt?.imgsrc?.url "
                   on-mouseenter="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"
@@ -83,8 +82,7 @@
       </div>
     </div>
   </div>
-  <audio #wrongFeedback [src]="feedbackPopup?.feedbackVo?.url"></audio>
-
+  <audio #wrongFeedback [src]="feedbackPopup?.feedbackVo?.url"></audio>  
   <div class="modal" id="confirmModal" #confirmModalRef>
     <div class="modal-dialog">
       <div class="modal-content" #modalRef>
@@ -133,19 +131,24 @@
     </div>
   </div>
 </div>
-<div class="container-fluid" #container id="container" *ngIf="showFormat && !isPlayVideo">
+<div class="container-fluid" #container id="container" *ngIf="showFormat && !isPlayVideo && !isShowAns">
   <div class="d-flex align-items-center justify-content-center">
     <img class="img-fluid" [src]="question.filled_imgsrc.url" (load)="checkSingleImgLoaded();">
-
   </div>
-  <div class="countdownModule">
-    <div id="countdown">
-      <div id="countdown-number">{{countdown}}</div>
-      <svg>
-        <circle r="36%" cx="50%" cy="50%" id="circle1"></circle>
-      </svg>
+    <div class="countdownModule">
+      <div id="countdown">
+        <div id="countdown-number">{{countdown}}</div>
+        <svg>
+          <circle r="36%" cx="50%" cy="50%" id="circle1"></circle>
+        </svg>
+      </div>
     </div>
+</div>
+<div class="container-fluid" #container id="container" *ngIf="isShowAns">
+  <div class="d-flex align-items-center justify-content-center">
+    <img class="img-fluid" [src]="showans?.imgsrc?.url">
   </div>
+  <audio #showAnsFeedback [src]="showans?.feedbackVo?.url"></audio>
 </div>
 
 <div class="videoMainContainer" *ngIf="isPlayVideo">
