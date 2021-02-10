@@ -44,60 +44,36 @@
   width: 100%;
 }
 
-#container #optionsBlock {
+#container .optionsBlock {
   position: absolute;
-  top: 15%;
+  top: 16.5%;
   width: 100%;
   left: 0%;
   text-align: center;
 }
 
+#container .optionsBlock + .optionsBlock {
+  top: 38.5%;
+}
+
+#container .optionsBlock img.optBase {
+  height: 3.79vmin;
+}
+
+#container .optCount4 .optionsBlock,
+#container .optCount3 .optionsBlock {
+  top: 28%;
+}
+
 #container #answerBlock {
   position: absolute;
-  top: 54%;
-  /*55%*/
+  top: 62%;/*54%*/
   width: 100%;
   left: 0%;
-}
-
-#container #navBlock {
-  position: absolute;
-  top: 83%;
-  left: 0%;
-  width: 100%;
-}
-
-#container #navBlock .prevBtn {
-  margin-left: 4%;
-  text-align: right;
-}
-
-#container #navBlock .nextBtn {
-  position: relative;
-  margin-right: 4%;
-}
-
-#navBlock .prevBtn,
-#navBlock .nextBtn {
-  width: 8%;
-}
-
-#navBlock .prevBtn img,
-#navBlock .nextBtn img {
-  cursor: pointer;
-}
-
-#help {
-  position: absolute;
-  width: 4%;
-  /*right: 0.5%;*/
-  left: 0.5%;
-  top: 82%;
-
 }
 
 .pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .temp4 .speakerBtn {
@@ -109,14 +85,20 @@
 
 .temp4 #placeholders {
   position: absolute;
-  top: 30%;
-  width: 97%;
-  left: 1.4%;
-  height: 21%;
+  left:2.5%;/*3%;*/
+  top: 27%;
+  width: 95%;/*100%;*/
+  height: 35%;
+  display: flex;
+  justify-content: left;
 }
 
-#placeholders span img {
-  max-width: none !important;
+#placeholders div {
+  margin: 0 .8%;
+  height: 100%;
+}
+
+#placeholders div img {
   height: 100%;
 }
 
@@ -125,47 +107,22 @@
   padding: 0 1.3%;
 }
 
+.modal .placeholder1 {
+  padding: 0 0.3%;
+}
+
+.modal .placeholder1 img{
+  /* max-width: 75%; */
+  height: 7.85vmin!important;
+}
+
 .modal #placeholders {
   /* display: flex;
   flex-wrap: wrap;
   justify-content: center; */
   text-align: center;
-}
-
-.temp4 #placeholders span:first-child {
-  padding-left: 2.3%;
-}
-
-.animation-shake {
-  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
+  left: 2.6%;
+  width: 94%;
 }
 
 #correctAns {
@@ -195,185 +152,89 @@
   }
 }
 
-#burst {
-  position: absolute;
-  z-index: 101;
-  width: 100%;
-  height: 100%;
-}
 
 #answerBlock .ansBase {
-  width: 70%;
+  width: 85%;/*70%;*/
   position: relative;
 }
 
-@media (min-width: 800px) and (max-width: 1299px) {
-
-  #navBlock .prevBtn,
-  #navBlock .nextBtn {
-    /*width:90px;
-	height:35px;*/
-  }
+.modal .ansBase {
+  width: 90% !important;
 }
 
-@media (min-width: 1520px) and (max-width: 1920px) {
-
-  /*.temp4 #placeholders img {
-    max-width: 90%;
-}*/
-  .temp4 #placeholders {
-    /* top: 27%; */
-    /* left: 3.4%; */
-  }
-}
-
-/*-----*/
-
-@-webkit-keyframes blinker {
-  from {
-    opacity: 1.0;
-  }
-
-  to {
-    opacity: 0.0;
-  }
-}
-
-.blink_btn {
-  /*background: url(../../../assets/images/aageyBlink.svg) no-repeat;
-    background-size: 100% 100%!important;
-    height: 40px!important;
-	width: 100%;
-    top: 0;
-    left: 0;*/
+.optionsBlock .options {
   position: absolute;
-  top: 0;
-  display: none;
-  width: 100%;
-  cursor: pointer;
-}
-
-.blink {
-  display: block !important;
-  position: absolute;
-  text-decoration: blink;
-  -webkit-animation-name: blinker;
-  -webkit-animation-duration: 0.6s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-direction: alternate;
-}
-
-#optionsBlock .options {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
   width: 16.5%;
+  left: 8%;
+  top: 43%;
 }
 
-#optionsBlock #optimage0,
-#optionsBlock #optimage1,
-#optionsBlock #optimage2,
-#optionsBlock #optimage3,
-#optionsBlock #optimage4 {
+.optionsBlock #opt1 {
+  left: 32%;
+  top: 80%;
+}
+
+.optionsBlock #opt2 {
+  left: 56%;
+  top: 64%;
+}
+
+.optionsBlock #opt3 {
+  left: 80%;
+  top: 14%;
+}
+
+.optionsBlock #opt4 {
+  left: 1.5%;
+  top: 26%;
+}
+
+.optionsBlock #opt5 {
+  left: 26%;
+  top: 75%;
+}
+
+.optionsBlock #opt6 {
+  left: 50.5%;
+  top: 71%;
+}
+
+.optionsBlock #opt7 {
+  left: 75%;
+  top: 21%;
+}
+
+.optCount7 .optionsBlock #opt4 {
+  left: 15.5%;
+  top: 56%;
+}
+
+.optCount7 .optionsBlock #opt5,
+.optCount5 .optionsBlock #opt4,
+.optCount3 .optionsBlock #opt1{
+  left: 42%;
+  top: 82%;
+}
+
+.optCount3 .optionsBlock #opt2{
+  left: 80%;
+  top: 34%;
+}
+
+.optCount7 .optionsBlock #opt6 {
+  left: 69.5%;
+  top: 47%;
+}
+
+.optionsBlock .options img:last-child {
   position: absolute;
-  top: 49%;
-  width: 100%;
-  text-align: center;
-  left: 0%;
-
+  left: 0;
+  top: 0;
+  /* cursor: pointer; */
 }
 
-
-#optionsBlock #optimage1,
-#optionsBlock #optimage3 {
-  top: 24%;
-}
-
-#optionsBlock #optimage2 {
-  top: 53%;
-}
-
-#optionsBlock #optimage4 {
-  top: 37%;
-}
-
-#optionsBlock .options {
-  margin-left: 2%;
-}
-
-#optionsBlock .options:first-child {
-  margin-left: 4%;
-}
-
-#optionsBlock .options:last-child {
-  margin-right: 4%;
-}
 
 /*----*/
-
-
-.aagebadho {
-  /* background: url(../../../assets/images/aagey.svg) no-repeat;
-    background-size: 100% 100%;
-    height: 40px !important;*/
-}
-
-.aagebadho:hover {
-  /* background: url('../../../assets/images/aageyHover.svg') no-repeat;
-	background-size: 100% 100%;
-     height: 40px !important;
-	cursor:pointer;*/
-}
-
-.peechejao {
-  width: 4%
-    /*background: url(../../../assets/images/peechey.svg) no-repeat;
-    background-size: 100% 100%;
-     height: 40px !important;*/
-}
-
-.peechejao:hover {
-  width: 4%
-    /*background: url('../../../assets/images/peecheyHover.svg') no-repeat;
-	background-size: 100% 100%;
-     height: 40px !important;
-	cursor:pointer;*/
-}
-
-.emptyoption {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-#container #zaariRakheinId {
-  position: absolute;
-  top: 80%;
-  left: 0%;
-  width: 100%;
-}
-
-#zaariRakheinId .zaariRakheinBtn {
-  width: 16%;
-  margin-top: .5%;
-  margin-right: 7.5%;
-  float: right;
-  cursor: pointer;
-}
-
-#container #activity {
-  position: absolute;
-  width: 100%;
-  top: 10%;
-}
-
-#container #activityTitle {
-  top: 0;
-  left: 0;
-  position: absolute;
-  width: 100%;
-}
-
 .title_class {
   font-size: 50px;
   color: white;
@@ -385,12 +246,17 @@
 /*-------*/
 .speaker {
   width: 100%;
-  padding-bottom: 89%;
-  margin: 0% auto;
-  /* background: url(../../../assets/images/speakerSpriteR.png) 0 0;*/
-  background-size: 400%;
-  animation: play 1.3s steps(4) infinite;
-  display: none;
+	height:100%;
+	padding-bottom:100%;
+	margin: 0% auto;
+	background: url(' ../../../../assets/images/speakerSpriteR.png') repeat-x 0 0;
+	background-size: 400%;
+	animation: play 1.2s steps(4) infinite;
+	position: absolute;
+	top: -2%;
+	left: -8%;
+	display:none;
+	pointer-events: none;
 }
 
 @-webkit-keyframes play {
@@ -424,15 +290,12 @@
 }
 
 .temp4 .speakerBtn {
-  width: 18%;
+  width: 8%;/*18%;*/
+  right: -1.5%;/*-3%;*/
+  top: -13%;/*-39%;*/
   position: absolute;
-  right: -3%;
-  top: -39%;
 }
 
-/*.temp4 .speaker, .temp4 #speaker{
-	cursor:pointer;
-}*/
 .temp4 #speaker {
   position: absolute;
   top: 0;
@@ -580,8 +443,16 @@
   box-shadow: none;
 }
 
+.modal #answerBlock{
+  top:40% !important;
+}
+
 .modal .ansImage {
-  width: 100%;
+  width: 85%;
+}
+
+.modal .ansImage img{
+  max-width: 100%;
 }
 
 #confirmModal {
@@ -717,7 +588,7 @@ button:focus {
 }
 
 .modal-dialog {
-  width: 66% !important;
+  width: 92% !important;/*66%*/
   height: 74%;
 }
 
@@ -778,8 +649,12 @@ button:focus {
 }
 
 .modal-body img {
-  max-width: 91%;
+  /* max-width: 91%; */
   /*77%;*/
+}
+
+.modal-body .ansBase > img {
+  max-width: 100%;
 }
 
 #modalTemp5 .modal-body img {
@@ -816,13 +691,12 @@ html [type=button] {
   -webkit-appearance: none;
 }
 
-.modal #optionsBlock .options,
 .modal .optionsBlock .options {
   width: 97%;
   margin: .5% 0;
 }
 
-#container .modal #optionsBlock {
+#container .modal .optionsBlock {
   margin-top: 0;
   height: 100%;
 }
@@ -855,36 +729,6 @@ html [type=button] {
   animation-fill-mode: both;
 }
 
-.scaleInAnimation {
-  animation: scaleIn 0.5s linear;
-  transform: scale(1.1);
-}
-
-@keyframes scaleIn {
-  0% {
-    transform: scale(1.0)
-  }
-
-  100% {
-    transform: scale(1.1)
-  }
-}
-
-
-.scaleOutAnimation {
-  animation: scaleOut 0.5s linear;
-  transform: scale(1.0);
-}
-
-@keyframes scaleOut {
-  0% {
-    transform: scale(1.1)
-  }
-
-  100% {
-    transform: scale(1.1)
-  }
-}
 
 /* correct ans pop-up */
 #correctAns,
@@ -992,6 +836,23 @@ button:focus {
   outline: none !important;
 }
 
+.videoMainContainer {
+  width: 100%;
+}
+
+.videoWrapper {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.videoMainContainer .videoBg {
+  opacity: 0;
+}
+
 #playPauseBtn {
   position: absolute;
   top: 86%;
@@ -1006,4 +867,34 @@ button:focus {
   right: 5%;
   cursor: pointer;
   width: 3.5%;
+}
+.scaleInAnimation {
+  animation: scaleIn 0.5s linear;
+  transform: scale(1.1);
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(1.0)
+  }
+
+  100% {
+    transform: scale(1.1)
+  }
+}
+
+
+.scaleOutAnimation {
+  animation: scaleOut 0.5s linear;
+  transform: scale(1.0);
+}
+
+@keyframes scaleOut {
+  0% {
+    transform: scale(1.1)
+  }
+
+  100% {
+    transform: scale(1.0)
+  }
 }
