@@ -113,7 +113,18 @@
 
 .modal .placeholder1 img{
   /* max-width: 75%; */
-  height: 7.85vmin!important;
+  height: 100%;
+  animation: resetImg 1s 1;
+  /* object-fit: cover; */
+}
+
+@keyframes resetImg {
+  0% {
+    height: 7.85vmin;
+  }
+  100% {
+    height: 7.85vmin;
+  }
 }
 
 .modal #placeholders {
@@ -253,6 +264,7 @@
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
+  z-index: 1;
 	top: -2%;
 	left: -8%;
 	display:none;
