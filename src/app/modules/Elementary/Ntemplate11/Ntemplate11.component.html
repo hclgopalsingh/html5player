@@ -10,9 +10,15 @@
         <audio #instruction [src]="commonAssets?.quesInstruction?.url"></audio>
       </div>
     </div>
+    <div class="d-flex flex-row justify-content-around" id="answerBlock">
+      <div class="ansBase" id="ansArrangeBlock">
+        <img class="img-fluid" [src]="common_assets?.quesBasetemp?.url" style="visibility: hidden;"
+          (load)="checkImgLoaded();">
+        <img class="img-fluid quesText" [src]="question?.img_sentence?.url" (load)="checkImgLoaded();">
+      </div>
+    </div>
     <div #optionRef class="d-flex align-items-center justify-content-around " id="optBlock">
-      <div class="d-flex flex-row justify-content-around" id="ansBlock"
-        [ngClass]="{'disable_div':isOptionDisabled}">
+      <div class="d-flex flex-row justify-content-around" id="ansBlock" [ngClass]="{'disable_div':isOptionDisabled}">
         <div class="options" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts,$event, idx)">
           <img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url" (load)="checkImgLoaded();">
           <img *ngIf="opts.imgsrc.url" (click)="stopAllSounds($event)" class="img-fluid zclass" id="{{'optimage'+idx}}"
@@ -23,13 +29,6 @@
             (load)="checkImgLoaded();" [ngStyle]="{'opacity':opts.blurOptions  == true ? 0.3 : 1}"
             [ngClass]="{'selectedOpt':opts.isOptSelect, 'wrongOpt':opts.wrongSelected}">
         </div>
-      </div>
-    </div>
-    <div class="d-flex flex-row justify-content-around" id="answerBlock">
-      <div class="ansBase" id="ansArrangeBlock">
-        <img class="img-fluid" [src]="common_assets?.quesBasetemp?.url" style="visibility: hidden;"
-          (load)="checkImgLoaded();">
-        <img class="img-fluid quesText" [src]="question?.img_sentence?.url" (load)="checkImgLoaded();">        
       </div>
     </div>
   </div>

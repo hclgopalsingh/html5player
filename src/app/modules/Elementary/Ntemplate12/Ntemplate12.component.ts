@@ -148,8 +148,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.currentTime = 0;
           this.instruction.nativeElement.pause();
-        }
-        this.instructionDisable = false;
+          this.instructionDisable = false;
+        }        
         if (this.audio && !this.audio.paused) {
           this.audio.pause();
           this.audio.currentTime = 0;
@@ -178,9 +178,9 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.postWrongAttemplt()
       }, 750)
     });
-    this.appModel.lastQues.subscribe(() => {
-      this.appModel.handlePostVOActivity(false);
-    })
+    // this.appModel.lastQues.subscribe(() => {
+    //   this.appModel.handlePostVOActivity(false);
+    // })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
@@ -271,7 +271,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       this.instruction.nativeElement.currentTime = 0;
     }
     this.instructionDisable = false;
-    option.image = option.image_hover;
+    // option.image = option.image_hover;
+    this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleInAnimation");
     this.optionCursorPointer = true;
   }
   playOptionHover(idx, opt) {
@@ -304,8 +305,13 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   onHoveroutOptions(option, idx) {
-    option.image = option.image_original;
+    // option.image = option.image_original;
     this.optionCursorPointer = false;
+    this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleInAnimation");
+				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleOutAnimation");
+			}, 500);
   }
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
@@ -324,6 +330,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
             this.bodyContentOpacity = true;
             this.instructionOpacity = true;
             this.blinkOnLastQues()
+            this.appModel.handlePostVOActivity(false);
           }, 2000)
         }
       }
@@ -332,11 +339,11 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.play();
         this.feedbackVoRef.nativeElement.onended = () => {
           this.appModel.wrongAttemptAnimation();
+          this.appModel.handlePostVOActivity(false);
         }
       }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
-      opt.optFilter = false;
-      this.appModel.handlePostVOActivity(false);
+      opt.optFilter = false;      
     }
   }
   /*End-Template click and hover events*/

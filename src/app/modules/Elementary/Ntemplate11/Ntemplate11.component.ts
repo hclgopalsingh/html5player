@@ -40,34 +40,6 @@ declare var $: any;
 
 export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked {
   private appModel: ApplicationmodelService;
-
-  // @ViewChild('titleNavBtn') titleNavBtn: any;
-  // @ViewChild('fireworks') fireworks: any;
-  // @ViewChild('helpbtn') helpbtn: any;  
-  // @ViewChild('buzzerSound') buzzerSound: any;
-  // @ViewChild('titleAudio') titleAudio: any;  
-  // @ViewChild('helpBtn') helpBtn: any;
-  // @ViewChild('submitModalRef') submitModalRef: any;
-  // @ViewChild('feedbackModalRef') feedbackModalRef: any;
-  // @ViewChild('partialpopupRef') partialpopupRef: any;
-  // @ViewChild('popupRef') popupRef: any;
-  // @ViewChild('feedbackPopupAudio') feedbackPopupAudio: any;
-  // @ViewChild('feedbackpartialPopupAudio') feedbackpartialPopupAudio: any;
-  // @ViewChild('infoModalRef') infoModalRef: any;
-  // @ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer: any;
-  // @ViewChild('optionAudio') optionAudio: any;
-  // @ViewChild('myAudiohelp') myAudiohelp: any;
-  // @ViewChild('audioEl') audioEl: any;
-  // @ViewChild('wrongFeedback') wrongFeedback: any;
-  // @ViewChild('navBlock') navBlock: any;
-  // @ViewChild('titleHelpAudio') titleHelpAudio: any;
-  // @ViewChild('clapSound') clapSound: any;
-  // @ViewChild('correctAns') correctAns: any;
-  // @ViewChild('instructionBar') instructionBar: any;
-  // @ViewChild('maincontent') maincontent: any;
-  // @ViewChild('ansArrangeBlock') ansArrangeBlock: any;
-  // @ViewChild('ansBlock') ansBlock: any;
-  // @ViewChild('ans') ans: any;
   @ViewChild('confirmModalRef') confirmModalRef: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
   @ViewChild('feedbackVoRef') feedbackVoRef: any;
@@ -75,18 +47,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   @ViewChild('instruction') instruction: any;
   @ViewChild('mainVideo') mainVideo: any;
   @ViewChild('optionRef') optionRef: any;
-  // currentIdx = 0;
-  // bool: boolean = false;
-  // feedbackPopup: any;
-  // narratorAudio: any;
-  // blink: boolean = false;
-  // showIntroScreen: boolean = true;
-  // idArray: any;
-  // speaker: any = "";
-  // answers: any = "";
-  // optionBlank: any = "";
-  // Instruction: any = "";
-  // quesInfo: any = "";
+ 
   isOptionDisabled: boolean = true;
   instructionDisable: boolean = false;
   instructionOpacity: boolean = false;
@@ -210,7 +171,6 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       }
       if (val == "replayVideo") {
         console.log("replaying video");
-        // this.appModel.enableReplayBtn(true);
         this.isOptionDisabled = true;
         this.PlayPauseFlag = true;
         this.quesObj.quesPlayPause = this.quesObj.quesPause;
@@ -237,9 +197,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.postWrongAttempt.subscribe(() => {
       this.postWrongAttemplt();
     });
-    this.appModel.lastQues.subscribe(() => {
-      this.appModel.handlePostVOActivity(false);
-    })
+    // this.appModel.lastQues.subscribe(() => {
+    //   this.appModel.handlePostVOActivity(false);
+    // })
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
@@ -280,8 +240,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.instruction.nativeElement.pause();
         this.instructionDisable = false;
       }
-      option.image = option.image_hover;
-      this.optionRef.nativeElement.children[0].children[idx].className = "options pointer";
+      // option.image = option.image_hover;
+      this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleInAnimation");
+      this.optionRef.nativeElement.children[0].children[idx].classList.add("pointer");
     }
   }
   playOptionHover(idx, opt) {
@@ -320,8 +281,13 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   onHoveroutOptions(option, idx) {
     this.appModel.notifyUserAction();
     //console.log("out",option);
-    option.image = option.image_original;
-    this.optionRef.nativeElement.children[0].children[idx].className = "options";
+    // option.image = option.image_original;
+    this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleOutAnimation");
+			setTimeout(() => {
+				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleInAnimation");
+				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleOutAnimation");
+			}, 500);
+    this.optionRef.nativeElement.children[0].children[idx].classList.remove("pointer");
   }
   hoverPlayPause() {
     if (this.PlayPauseFlag) {
@@ -501,21 +467,21 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
             this.bodyContentOpacity = true;
             this.appModel.enableReplayBtn(false);
           }, 200)
-          // this.appModel.handlePostVOActivity(false);
+          this.appModel.handlePostVOActivity(false);
         }
       } else {
         opt.wrongSelected = true;
         console.log("when wrong answer clicked");
         this.isAnsWrong = true;
-        this.appModel.handlePostVOActivity(true);
         this.wrongFeedbackTimer = setTimeout(() => {
           this.feedbackVoRef.nativeElement.src = this.commonAssets.wrong_sound.url + "?someRandomSeed=" + Math.random().toString(36);
           this.feedbackVoRef.nativeElement.play();
         }, 750)
         this.feedbackVoRef.nativeElement.onended = () => {
           if (this.isAnsWrong) {
+            this.appModel.handlePostVOActivity(false);
+            this.appModel.enableReplayBtn(true);
             this.appModel.wrongAttemptAnimation();
-            this.appModel.handlePostVOActivity(true);
           }
         }
       }
@@ -613,10 +579,9 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.myoption[this.itemid].wrongSelected = false;
     this.myoption[this.itemid].isOptSelect = false;
     this.myoption[this.itemid].isOpen = true;
-    this.appModel.enableReplayBtn(true);
+    // this.appModel.enableReplayBtn(true);
     this.isAnsWrong = false
-    this.appModel.enableReplayBtn(true);
-    this.appModel.handlePostVOActivity(false);
+    // this.appModel.handlePostVOActivity(false);
     this.bodyContentDisable = false;
     this.instructionDisable=false;
     setTimeout(() => {
