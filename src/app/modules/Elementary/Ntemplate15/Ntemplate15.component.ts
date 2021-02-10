@@ -81,7 +81,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   speakerDisable: boolean = false;
   optionDisable: boolean = false;
   showLine2: boolean = true;
-  totalOptionCount:any;
+  totalOptionCount: any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -430,18 +430,18 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.remove("pointer");
       this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
-			setTimeout(() => {
-				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
-				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
-			}, 500);
+      setTimeout(() => {
+        this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
+        this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+      }, 500);
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
         this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
-			setTimeout(() => {
-				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
-				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
-			}, 500);
+        setTimeout(() => {
+          this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
+          this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
+        }, 500);
       }
     }
   }
@@ -452,7 +452,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
       this.instructionDisable = false;
-    }    
+    }
     if (!this.allOpt.nativeElement.paused) {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
@@ -709,7 +709,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (id == "submit-modal-id") {
       if (flag == "yes") {
         this.checkAnswerOnSubmit();
-      } else if (flag == "no") {        
+      } else if (flag == "no") {
         setTimeout(() => {
           this.optionDisable = false;
         }, 1000)
@@ -775,7 +775,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
   }
-  
+
   clickAnswer(option, event, idx) {
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
@@ -810,6 +810,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   checkAnswerOnSubmit() {
     //check if the option in temanswer array are in right sequence or not
+    this.closed=false;
     let tempCustomId = [];
     this.tempAnswers.forEach(element => {
       tempCustomId.push(element.custom_id)
@@ -820,6 +821,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackPopup = this.rightPopup;
       this.attemptType = "manual";
       this.appModel.enableSubmitBtn(false);
+      this.appModel.enableReplayBtn(false);
       //show right answer pop up
 
       let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
@@ -832,12 +834,12 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.play();
       }, 750)
       this.feedbackVoRef.nativeElement.onended = () => {
-        if (!this.closed) {
-          this.rightTimer = setTimeout(() => {
+        this.rightTimer = setTimeout(() => {
+          if (!this.closed) {
             this.correctAns.nativeElement.classList = "modal";
             this.blinkOnLastQues();
-          }, 2000);
-        }
+          }
+        }, this.question.RightAnimationSec*1000);
       }
 
 
@@ -856,13 +858,13 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.play();
       }, 750)
       this.feedbackVoRef.nativeElement.onended = () => {
-        if (!this.closed) {
-          this.wrongTimer = setTimeout(() => {
+        this.wrongTimer = setTimeout(() => {
+          if (!this.closed) {
             this.correctAns.nativeElement.classList = "modal";
             this.appModel.notifyUserAction();
             this.appModel.wrongAttemptAnimation();
-          }, 2000);
-        }
+          }
+        }, this.question.WrongAnimationSec*1000);
       }
     }
 
