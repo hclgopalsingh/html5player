@@ -96,6 +96,7 @@
 #placeholders div {
   margin: 0 .8%;
   height: 100%;
+  max-width: 100%;
 }
 
 #placeholders div img {
@@ -113,8 +114,8 @@
 
 .modal .placeholder1 img{
   /* max-width: 75%; */
-  height: 100%;
-  animation: resetImg 1s 1;
+  /* height: 100%; */
+  /* animation: resetImg 0.1s 1; */
   /* object-fit: cover; */
 }
 
