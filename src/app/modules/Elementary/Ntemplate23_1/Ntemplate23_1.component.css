@@ -226,6 +226,9 @@ button:focus {
 .instructionBase img {
   cursor: pointer;
 }
+#modalTemp23 .instructionBase {
+  max-width: 84% !important;
+}
 .modal .instructionBase img {
   cursor: default;
   pointer-events: none;
