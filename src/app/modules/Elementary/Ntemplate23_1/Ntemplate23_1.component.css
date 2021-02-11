@@ -988,11 +988,14 @@ nav {
   /* left: auto !important;*/
   /*22 Apr changes*/
   /*right: -.14vmax;*/
-  width: 101.5% !important;
+  width: 104% !important;/*101.5%*/
   /*22 Apr changes*/
   /*12.1vmax !important*/
   /* margin: 0 0 0 -1.8%; */
-  left: -1% !important;
+  left: -2% !important;/*-1%*/
+  border-bottom: solid 1px white;
+  border-left: solid 1px white;
+  border-right: solid 1px white;
   /*22 Apr changes*/
   /*height: 6.7vmax;
 	left: auto !important;
