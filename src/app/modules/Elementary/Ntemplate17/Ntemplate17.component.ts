@@ -103,6 +103,7 @@ export class Ntemplate17Component implements OnInit {
   @ViewChild('submitModalRef') submitModalRef: any;
   @ViewChild('popupRef') popupRef: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
+  @ViewChild('confirmSubmitRef') confirmSubmitRef: any;
   @ViewChild('mainVideo') mainVideo: any;
   @ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
   @ViewChild('quesContainer') quesContainer: any;
@@ -158,6 +159,7 @@ export class Ntemplate17Component implements OnInit {
   feedbackObj: any;
   confirmPopupAssets: any;
   submitPopupAssets: any;
+  submitConfirmPopupAssets: any;
   replayconfirmAssets: any;
   tempSubscription: Subscription;
   quesObj: any;
@@ -431,7 +433,12 @@ export class Ntemplate17Component implements OnInit {
       if (action == "submitAnswer") {
         this.stopInstructionVO();
         //this.appModel.stopAllTimer();
-        this.submitModalRef.nativeElement.classList = "displayPopup modal";
+        if(this.inputVal !=''){
+          this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
+          // SubmitConfirmModalRef
+        }else{
+          this.submitModalRef.nativeElement.classList = "displayPopup modal";
+        }
         if (this.QuestionVideo != undefined && this._questionAreaVideoFlag == true) {
           this.QuestionVideo.nativeElement.pause();
           this.QuestionVideo.nativeElement.currentTime = 0;
@@ -762,7 +769,8 @@ export class Ntemplate17Component implements OnInit {
         console.log('on test screen')
 
       }
-      this.submitModalRef.nativeElement.classList = "modal"
+      this.submitModalRef.nativeElement.classList = "modal";
+      this.confirmSubmitRef.nativeElement.classList = "modal";
       this.InfoModalRef.nativeElement.classList = "displayPopup modal";
       this.feedbackInfoAudio.nativeElement.src = this.infoPopupAssets.info_sound.url ;
       this.feedbackInfoAudio.nativeElement.play();
@@ -795,7 +803,8 @@ export class Ntemplate17Component implements OnInit {
             if (this.InfoModalRef != undefined) {
               // this.appModel.moveNextQues();
               ////add check
-              this.submitModalRef.nativeElement.classList = "modal"
+              this.submitModalRef.nativeElement.classList = "modal";
+              this.confirmSubmitRef.nativeElement.classList = "modal";
               this.InfoModalRef.nativeElement.classList = "displayPopup modal";
               this.feedbackInfoAudio.nativeElement.src = this.infoPopupAssets.info_sound.url ;
               this.feedbackInfoAudio.nativeElement.play();
@@ -874,6 +883,7 @@ export class Ntemplate17Component implements OnInit {
       this.confirmPopupAssets = this.fetchedcontent.feedback;
       this.submitPopupAssets = this.fetchedcontent.submit_popup;
       this.replayconfirmAssets = this.fetchedcontent.replay_confirm;
+      this.submitConfirmPopupAssets = this.fetchedcontent.submit_confirm_popup;
       this.quesObj = this.fetchedcontent.quesObj;
       /*Start: Theme Implementation(Template Changes)*/
       this.controlHandler = {
@@ -1046,6 +1056,13 @@ export class Ntemplate17Component implements OnInit {
     this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
   }
 
+  hoverCloseSubmitConfirmPopup() {
+    this.submitConfirmPopupAssets.close_btn = this.submitConfirmPopupAssets.close_btn_hover;
+  }
+  houtCloseSubmitConfirmPopup() {
+    this.submitConfirmPopupAssets.close_btn = this.submitConfirmPopupAssets.close_btn_original;
+  }
+
   hoverCloseSubmitConfirm() {
     this.submitPopupAssets.close_btn = this.submitPopupAssets.close_btn_hover;
   }
@@ -1084,6 +1101,14 @@ export class Ntemplate17Component implements OnInit {
 
   houtOKpop() {
     this.feedbackObj.ok_btn = this.feedbackObj.ok_btn_original;
+  }
+
+  hoverSubmitConfirmOKPop() {
+    this.submitConfirmPopupAssets.ok_btn = this.submitConfirmPopupAssets.ok_btn_hover;
+  }
+
+  houtSubmitConfirmOKpop() {
+    this.submitConfirmPopupAssets.ok_btn = this.submitConfirmPopupAssets.ok_btn_original;
   }
 
   hoverCloseOk() {
