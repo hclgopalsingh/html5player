@@ -87,6 +87,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   isOptionDisabled: boolean = false;
   blinkTimer: any;
   timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  confirmPopupSubscription:any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -144,7 +146,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
 
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription=this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
       if (action == "uttarDikhayein") {
@@ -164,9 +166,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         }
         this.isOptionDisabled = true;
         this.displayconfirmPopup = true;
-        if (this.isLastQuesAct) {
-          this.resetTimerForAutoClose();
-        }
+        this.checkForAutoClose();
       }
     });
 
@@ -197,8 +197,11 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     clearInterval(this.initialDisableTimer);
     clearInterval(this.blinkTimer);
     if (this.timerSubscription != undefined) {
-			this.timerSubscription.unsubscribe();
-		}
+      this.timerSubscription.unsubscribe();
+    }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+  }
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
@@ -214,13 +217,25 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   /*End-LifeCycle events*/
+  checkForAutoClose() {
+    if (this.displayconfirmPopup == true) {
+      if (this.isLastQuestion) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+
+  }
   resetTimerForAutoClose() {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
     this.appModel.stopAllTimer();
     const interval = 1000;
-    const closeConfirmInterval = 5*60;
+    const closeConfirmInterval = 5 * 60;
     this.timerSubscription = timer(0, interval).pipe(
       take(closeConfirmInterval)
     ).subscribe(value =>
@@ -235,8 +250,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     )
   }
   removeSubscription(timer) {
-		console.log("waiting for autoClose", timer / 1000);
-	}
+    console.log("waiting for autoClose", timer / 1000);
+  }
   /*Start-Template click and hover events*/
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -489,6 +504,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.commonAssets = this.fetchedcontent.commonassets;
       this.noOfImgs = this.commonAssets.imgCount;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
@@ -526,8 +542,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   sendFeedback(id: string, flag: string) {
     this.displayconfirmPopup = false;
     if (this.timerSubscription != undefined) {
-			this.timerSubscription.unsubscribe();
-		}
+      this.timerSubscription.unsubscribe();
+    }
     if (flag == "yes") {
       this.showAnswer();
     } else {
