@@ -88,7 +88,8 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   blinkTimer: any;
   timerSubscription: Subscription;
   isLastQuestion: boolean;
-  confirmPopupSubscription:any;
+  confirmPopupSubscription: any;
+  actComplete : boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -146,7 +147,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
 
-    this.confirmPopupSubscription=this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
       if (action == "uttarDikhayein") {
@@ -201,7 +202,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     }
     if (this.confirmPopupSubscription != undefined) {
       this.confirmPopupSubscription.unsubscribe();
-  }
+    }
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
@@ -219,7 +220,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   /*End-LifeCycle events*/
   checkForAutoClose() {
     if (this.displayconfirmPopup == true) {
-      if (this.isLastQuestion) {
+      if (this.isLastQuestion && this.actComplete) {
         this.resetTimerForAutoClose();
       } else {
         if (this.timerSubscription != undefined) {
@@ -235,7 +236,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     }
     this.appModel.stopAllTimer();
     const interval = 1000;
-    const closeConfirmInterval = 5 * 60;
+    const closeConfirmInterval = 0.5 * 60;
     this.timerSubscription = timer(0, interval).pipe(
       take(closeConfirmInterval)
     ).subscribe(value =>
@@ -398,6 +399,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Blinking of next Button *******/
   blinkOnLastQues() {
+    this.actComplete=true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
