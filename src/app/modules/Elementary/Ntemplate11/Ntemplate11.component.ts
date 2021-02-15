@@ -4,6 +4,8 @@ import { PlayerConstants } from '../../../common/playerconstants';
 import { Subscription } from 'rxjs'
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 import {
   trigger,
   state,
@@ -79,16 +81,10 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   quesObj: any;
   tempSubscription: Subscription;
   attemptType: string = "";
-  // isSkip: boolean = false;
-  isAnsWrong: boolean = false;
-  // moveTo: any;
-  // moveFrom: any;
-  // moveleft: any;
-  // movetop: any;
+  isAnsWrong: boolean = false;  
   itemid: any;
   videoReplayd: boolean;
   replayconfirmAssets: any;
-  // tempTimer: any;
   PlayPauseFlag: boolean = true;
   showAnsTimer: any;
   controlHandler = {
@@ -103,7 +99,10 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   wrongFeedbackTimer: any;
   isShowAnswer: boolean = false;
   quesSkip: boolean = false;
-
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  confirmPopupSubscription:any;
+  actComplete : boolean = false;
   /*Start-LifeCycle events*/
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -147,7 +146,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.showAnsTimeout = data.showAnsTimeout;
     });
     this.setData();
-    this.appModel.getConfirmationPopup().subscribe((val) => {
+    this.confirmPopupSubscription=this.appModel.getConfirmationPopup().subscribe((val) => {
       this.appModel.notifyUserAction();
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -167,6 +166,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
         this.isOptionDisabled = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.checkForAutoClose();
         }
       }
       if (val == "replayVideo") {
@@ -220,13 +220,53 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.audio.pause();
       this.audio.currentTime = 0;
     }
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
   }
   /*End-LifeCycle events*/
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
 
+  }
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id','no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
 
   /*Start-Template click and hover events*/
   onHoverOptions(option, idx) {
@@ -398,7 +438,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.common_assets = this.fetchedcontent.commonassets;
       this.myoption = JSON.parse(JSON.stringify(this.fetchedcontent.options));
       this.quesObj = this.fetchedcontent.quesObj;
-
+      this.isLastQuestion = this.commonAssets.isLastQues;
       /*Start: Theme Implementation(Template Changes)*/
       this.controlHandler = {
         isSubmitRequired: this.quesObj.submitRequired,
@@ -410,6 +450,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
       this.feedback = this.fetchedcontent.feedback;
       this.commonAssets = this.fetchedcontent.commonassets;
       this.isFirstQues = this.fetchedcontent.isFirstQues;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       this.isAutoplayOn = this.appModel.autoPlay;
@@ -523,16 +564,17 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   sendFeedback(id: string, flag: string) {
     this.confirmModalRef.nativeElement.classList = "modal";
     this.confirmReplayRef.nativeElement.classList = "modal";
-    // this.appModel.enableReplayBtn(true);
-    this.appModel.handlePostVOActivity(true);
-
+    // this.appModel.handlePostVOActivity(true);
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.feedbackVoRef.nativeElement.pause();
     // this.instructionDisable = false;
     if (flag == "yes") {
       this.isShowAnswer = true;
       this.showAnswer();
     } else {
-      this.appModel.handlePostVOActivity(false);
+      // this.appModel.handlePostVOActivity(false);
       console.log("closing modal");
       //close modal          
       this.appModel.notifyUserAction();
@@ -579,9 +621,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.myoption[this.itemid].wrongSelected = false;
     this.myoption[this.itemid].isOptSelect = false;
     this.myoption[this.itemid].isOpen = true;
-    // this.appModel.enableReplayBtn(true);
     this.isAnsWrong = false
-    // this.appModel.handlePostVOActivity(false);
     this.bodyContentDisable = false;
     this.instructionDisable=false;
     setTimeout(() => {
@@ -629,7 +669,8 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
   blinkOnLastQues() {
-    console.log("this.attemptType", this.attemptType)
+    console.log("this.attemptType", this.attemptType);
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -725,6 +766,7 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     }
   }
   playShowAnsFeedback() {
+    this.appModel.resetBlinkingTimer();
     setTimeout(() => {
       this.feedbackVoRef.nativeElement.src = this.commonAssets.show_sound.url + "?someRandomSeed=" + Math.random().toString(36);
       this.feedbackVoRef.nativeElement.play();
@@ -733,12 +775,14 @@ export class Ntemplate11Component implements OnInit, OnDestroy, AfterViewChecked
     this.showAnsTimer = setTimeout(() => {
       this.bodyContentOpacity = true;
       this.bodyContentDisable = true;
-      this.blinkOnLastQues();
+      this.appModel.handlePostVOActivity(false);
+      this.blinkOnLastQues();      
     }, this.showAnsTimeout);
   }
 
   showAnswer() {
-    this.attemptType = "hideAnimation"
+    this.attemptType = "hideAnimation";
+    this.appModel.handlePostVOActivity(true);
     this.appModel.enableReplayBtn(false);
     this.bodyContentDisable = true;
     this.bodyContentOpacity = false;

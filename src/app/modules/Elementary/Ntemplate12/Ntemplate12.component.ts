@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 import {
   trigger,
   state,
@@ -84,6 +86,10 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   itemid: any = 0;
   isOptionDisabled: boolean = false;
   blinkTimer: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  confirmPopupSubscription: any;
+  actComplete : boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -141,7 +147,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
 
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
       if (action == "uttarDikhayein") {
@@ -149,7 +155,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
           this.instruction.nativeElement.currentTime = 0;
           this.instruction.nativeElement.pause();
           this.instructionDisable = false;
-        }        
+        }
         if (this.audio && !this.audio.paused) {
           this.audio.pause();
           this.audio.currentTime = 0;
@@ -161,6 +167,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         }
         this.isOptionDisabled = true;
         this.displayconfirmPopup = true;
+        this.checkForAutoClose();
       }
     });
 
@@ -190,6 +197,12 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     clearInterval(this.showAnssetTimeout);
     clearInterval(this.initialDisableTimer);
     clearInterval(this.blinkTimer);
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
@@ -205,7 +218,41 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   /*End-LifeCycle events*/
+  checkForAutoClose() {
+    if (this.displayconfirmPopup == true) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
 
+  }
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id', 'no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
   /*Start-Template click and hover events*/
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -308,10 +355,10 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     // option.image = option.image_original;
     this.optionCursorPointer = false;
     this.optionRef.nativeElement.children[0].children[idx].classList.add("scaleOutAnimation");
-			setTimeout(() => {
-				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleInAnimation");
-				this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleOutAnimation");
-			}, 500);
+    setTimeout(() => {
+      this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleInAnimation");
+      this.optionRef.nativeElement.children[0].children[idx].classList.remove("scaleOutAnimation");
+    }, 500);
   }
   onAnimationEvent(event: AnimationEvent, opt, j) {
     if (event.fromState == "open" && event.toState == "closed" && event.phaseName == "done") {
@@ -343,7 +390,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done") {
-      opt.optFilter = false;      
+      opt.optFilter = false;
     }
   }
   /*End-Template click and hover events*/
@@ -352,6 +399,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Blinking of next Button *******/
   blinkOnLastQues() {
+    this.actComplete=true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -458,6 +506,7 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
     if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
       this.commonAssets = this.fetchedcontent.commonassets;
       this.noOfImgs = this.commonAssets.imgCount;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
@@ -494,6 +543,9 @@ export class Ntemplate12 implements OnInit, OnDestroy, AfterViewChecked {
   /******Show Answer Functionality after click on Yes *******/
   sendFeedback(id: string, flag: string) {
     this.displayconfirmPopup = false;
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     if (flag == "yes") {
       this.showAnswer();
     } else {
