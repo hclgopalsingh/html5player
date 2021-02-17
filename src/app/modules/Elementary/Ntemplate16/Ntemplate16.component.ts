@@ -762,7 +762,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		} else {
 			this.appModel.stopAllTimer();
 			const interval = 1000;
-			const showAnsInterval = 0.1 * 60;
+			const showAnsInterval = this.displayAnswerTimer * 60;
 			this.timerSubscription = timer(0, interval).pipe(
 				take(showAnsInterval)
 			).subscribe(value =>
