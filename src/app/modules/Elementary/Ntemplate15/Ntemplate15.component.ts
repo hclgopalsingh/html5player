@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'Ntemplate15',
@@ -82,6 +84,10 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   optionDisable: boolean = false;
   showLine2: boolean = true;
   totalOptionCount: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  confirmPopupSubscription: any;
+  actComplete : boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -135,7 +141,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.showAnswer();
       }
     });
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
       this.stopAllAudios();
@@ -143,6 +149,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       if (action == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.checkForAutoClose();
         }
       }
       if (action == "submitAnswer") {
@@ -188,6 +195,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     clearTimeout(this.rightTimer);
     clearTimeout(this.wrongTimer);
     clearInterval(this.showAnssetTimeout);
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
@@ -196,6 +206,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
     }
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewChecked() {
@@ -203,7 +216,41 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   /*End-LifeCycle events*/
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
 
+  }
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id', 'no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
   /*Start-Template click and hover events*/
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -467,6 +514,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Blinking of next Button *******/
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -672,6 +720,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
       this.commonAssets = this.fetchedcontent.commonassets;
       this.noOfImgs = this.commonAssets.imgCount;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
@@ -703,6 +752,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.confirmModalRef.nativeElement.classList = "modal";
     this.submitModalRef.nativeElement.classList = "modal";
     this.correctAns.nativeElement.classList = "modal";
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.feedbackVoRef.nativeElement.pause();
     this.feedbackVoRef.nativeElement.currentTime = 0;
     this.instructionDisable = false;
