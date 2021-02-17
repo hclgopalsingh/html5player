@@ -21,10 +21,6 @@
   top: 9.5%;
   width: 100%;
 }
-.options img {
-  position: absolute;
-  width: 16%;
-}
 .optionBlock img:first-child {
   width: auto;
 }
@@ -559,12 +555,14 @@ button:focus {
   justify-content: flex-start;
 }
 
-  .options img {
-    max-width: 16%;
-    margin: 0 2.05%;
-    padding: 0.4% 0;
-    position:relative;
-  }
+.options img {
+  /* position: absolute; */
+  width: 16%;
+  max-width: 15.9%;
+  margin: 0 2.05%;
+  padding: 0.4% 0;
+  position:relative;
+}
 
 #container #navBlock {
   position: absolute;
