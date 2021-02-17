@@ -3,6 +3,8 @@ import { ApplicationmodelService } from '../../../model/applicationmodel.service
 import { ThemeConstants } from '../../../common/themeconstants';
 import { Subscription } from 'rxjs';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'Ntemplate23',
@@ -100,6 +102,14 @@ export class Ntemplate23Component implements OnInit {
   bodyContentDisable: boolean = true;
   instructionOpacity: boolean = false;
   instructionVODelay: any;
+  confirmPopupSubscription: any;
+  fileLoadSubscription: any;
+  showAnsTimeoutSubscription: any;
+  nextBtnSubscription: any;
+  postWrongAttemptSubscription: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete : boolean = false;
 
   constructor(private appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -121,7 +131,7 @@ export class Ntemplate23Component implements OnInit {
     this.themePath = ThemeConstants.THEME_PATH + this.fetchedcontent.productType + '/' + this.fetchedcontent.theme_name;
     this.Sharedservice.imagePath(this.fetchedcontent, this.containgFolderPath, this.themePath, undefined);
     this.checkquesTab();
-    this.appModel.globalJsonData.subscribe(data => {
+    this.showAnsTimeoutSubscription = this.appModel.globalJsonData.subscribe(data => {
       this.showAnsTimeout = data.showAnsTimeout;
     });
     /*End: Theme Implementation(Template Changes)*/
@@ -164,7 +174,7 @@ export class Ntemplate23Component implements OnInit {
       }
     })
 
-    this.appModel.getConfirmationPopup().subscribe((val) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.pause();
       }
@@ -174,6 +184,7 @@ export class Ntemplate23Component implements OnInit {
           this.appModel.notifyUserAction();
           this.popupType = "showanswer";
           this.setPopupAssets();
+          this.checkForAutoClose();
         }
       } else if (val == "submitAnswer") {
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
@@ -183,7 +194,7 @@ export class Ntemplate23Component implements OnInit {
       }
     })
 
-    this.appModel.nextBtnEvent().subscribe(() => {
+    this.nextBtnSubscription = this.appModel.nextBtnEvent().subscribe(() => {
       if (this.appModel.isLastSectionInCollection) {
         this.appModel.event = { 'action': 'segmentEnds' };
       }
@@ -192,7 +203,7 @@ export class Ntemplate23Component implements OnInit {
       }
     });
 
-    this.appModel.postWrongAttempt.subscribe(() => {
+    this.postWrongAttemptSubscription = this.appModel.postWrongAttempt.subscribe(() => {
       this.appModel.handlePostVOActivity(false);
       this.appModel.notifyUserAction();
     });
@@ -210,6 +221,60 @@ export class Ntemplate23Component implements OnInit {
     clearTimeout(this.closeFeedbackmodalTimer);
     clearInterval(this.nextBtnInterval);
     clearTimeout(this.instructionVODelay);
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
+    if (this.fileLoadSubscription != undefined) {
+      this.fileLoadSubscription.unsubscribe();
+    }
+    if (this.showAnsTimeoutSubscription != undefined) {
+      this.showAnsTimeoutSubscription.unsubscribe();
+    }
+    if (this.postWrongAttemptSubscription != undefined) {
+      this.postWrongAttemptSubscription.unsubscribe();
+    }
+    if (this.nextBtnSubscription != undefined) {
+      this.nextBtnSubscription.unsubscribe();
+    }
+  }
+
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.showFeedback('showAnswer-modal-id','no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
   }
 
   /****** Mouse hover on SVG image ******/
@@ -427,6 +492,7 @@ export class Ntemplate23Component implements OnInit {
 
   /****** blink functionality on last question ******/
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -857,7 +923,7 @@ export class Ntemplate23Component implements OnInit {
 
   /******** Loading SVG image ********/
   getFileLoaded(filesData) {
-    this.appModel.getFileString(filesData.url)
+    this.fileLoadSubscription = this.appModel.getFileString(filesData.url)
       .subscribe((data) => {
         var parser = new DOMParser();
         var newNode = parser.parseFromString(data, "text/xml");
@@ -922,6 +988,7 @@ export class Ntemplate23Component implements OnInit {
       this.listSubCategoryHeader = this.commonAssets.listHeader.subCategoryHeader;
       this.DropDownTitleUpper = this.commonAssets.listHeader.UpperTitle;
       this.DropDownTitleLower = this.commonAssets.listHeader.LowerTitle;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
@@ -1051,6 +1118,9 @@ export class Ntemplate23Component implements OnInit {
 
   /******** Function call on yes/no or ok/cancel button click of popups ********/
   showFeedback(id: string, flag: string, status?: string) {
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     if (status === "feedbackDone") {
       this.closeModal();
       this.appModel.notifyUserAction();
