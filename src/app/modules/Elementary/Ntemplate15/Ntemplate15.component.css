@@ -23,7 +23,7 @@
 }
 
 #instructionBar .instructionBase {
-  width: 50%;
+  width: 60%;
   position: relative;
   cursor: pointer;
 }
@@ -96,6 +96,7 @@
 #placeholders div {
   margin: 0 .8%;
   height: 100%;
+  max-width: 100%;
 }
 
 #placeholders div img {
@@ -113,7 +114,18 @@
 
 .modal .placeholder1 img{
   /* max-width: 75%; */
-  height: 7.85vmin!important;
+  /* height: 100%; */
+  animation: resetImg 0.1s;
+  /* object-fit: cover; */
+}
+
+@keyframes resetImg {
+  0% {
+    height: 7.85vmin;
+  }
+  100% {
+    height: 100%;
+  }
 }
 
 .modal #placeholders {
@@ -253,6 +265,7 @@
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
+  z-index: 1;
 	top: -2%;
 	left: -8%;
 	display:none;

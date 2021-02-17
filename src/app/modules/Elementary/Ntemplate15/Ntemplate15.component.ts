@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'Ntemplate15',
@@ -81,7 +83,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   speakerDisable: boolean = false;
   optionDisable: boolean = false;
   showLine2: boolean = true;
-  totalOptionCount:any;
+  totalOptionCount: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  confirmPopupSubscription: any;
+  actComplete : boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -135,7 +141,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.showAnswer();
       }
     });
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       clearTimeout(this.showAnssetTimeout);
       this.stopAllAudios();
@@ -143,6 +149,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       if (action == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.checkForAutoClose();
         }
       }
       if (action == "submitAnswer") {
@@ -188,6 +195,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     clearTimeout(this.rightTimer);
     clearTimeout(this.wrongTimer);
     clearInterval(this.showAnssetTimeout);
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
     if (this.narrator.nativeElement != undefined) {
       this.narrator.nativeElement.pause();
       this.narrator.nativeElement.currentTime = 0;
@@ -196,6 +206,9 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
     }
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewChecked() {
@@ -203,7 +216,41 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   /*End-LifeCycle events*/
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
 
+  }
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id', 'no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
   /*Start-Template click and hover events*/
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -376,11 +423,11 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imagehover;
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.add("pointer");
-      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
+      this.optionBlock1.nativeElement.children[idx].classList.add("scaleInAnimation");
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.add("pointer");
-        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleInAnimation");
+        this.optionBlock2.nativeElement.children[idx].classList.add("scaleInAnimation");
       }
     }
   }
@@ -429,19 +476,19 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     option.image = option.imageorg;
     if (order == 'line1') {
       this.optionBlock1.nativeElement.children[idx].children[1].classList.remove("pointer");
-      this.optionBlock1.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
-			setTimeout(() => {
-				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
-				this.optionBlock1.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
-			}, 500);
+      this.optionBlock1.nativeElement.children[idx].classList.add("scaleOutAnimation");
+      setTimeout(() => {
+        this.optionBlock1.nativeElement.children[idx].classList.remove("scaleInAnimation");
+        this.optionBlock1.nativeElement.children[idx].classList.remove("scaleOutAnimation");
+      }, 500);
     } else {
       if (this.optionBlock2 && this.optionBlock2.nativeElement) {
         this.optionBlock2.nativeElement.children[idx].children[1].classList.remove("pointer");
-        this.optionBlock2.nativeElement.children[idx].children[0].classList.add("scaleOutAnimation");
-			setTimeout(() => {
-				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleInAnimation");
-				this.optionBlock2.nativeElement.children[idx].children[0].classList.remove("scaleOutAnimation");
-			}, 500);
+        this.optionBlock2.nativeElement.children[idx].classList.add("scaleOutAnimation");
+        setTimeout(() => {
+          this.optionBlock2.nativeElement.children[idx].classList.remove("scaleInAnimation");
+          this.optionBlock2.nativeElement.children[idx].classList.remove("scaleOutAnimation");
+        }, 500);
       }
     }
   }
@@ -451,8 +498,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
+      this.instructionDisable = false;
     }
-    this.instructionDisable = false;
     if (!this.allOpt.nativeElement.paused) {
       this.allOpt.nativeElement.currentTime = 0;
       this.allOpt.nativeElement.pause();
@@ -467,6 +514,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Blinking of next Button *******/
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -487,7 +535,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
 
   /******Wrong or Partial Incorrect post anmination functionality *******/
   postWrongAttemplt() {
-    this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
+    // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center ";
     setTimeout(() => {
       this.optionDisable = false;
     }, 1000)
@@ -672,6 +720,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.replayconfirmAssets = this.fetchedcontent.feedback.replay_confirm;
       this.commonAssets = this.fetchedcontent.commonassets;
       this.noOfImgs = this.commonAssets.imgCount;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
@@ -703,13 +752,16 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     this.confirmModalRef.nativeElement.classList = "modal";
     this.submitModalRef.nativeElement.classList = "modal";
     this.correctAns.nativeElement.classList = "modal";
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.feedbackVoRef.nativeElement.pause();
     this.feedbackVoRef.nativeElement.currentTime = 0;
     this.instructionDisable = false;
     if (id == "submit-modal-id") {
       if (flag == "yes") {
         this.checkAnswerOnSubmit();
-      } else if (flag == "no") {        
+      } else if (flag == "no") {
         setTimeout(() => {
           this.optionDisable = false;
         }, 1000)
@@ -775,9 +827,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
   }
-  
+
   clickAnswer(option, event, idx) {
-    this.instructionDisable = true;
     option.image = option.imageorg;
     this.appModel.notifyUserAction();
     this.tempAnswers.push(option)
@@ -811,6 +862,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   checkAnswerOnSubmit() {
     //check if the option in temanswer array are in right sequence or not
+    this.closed=false;
     let tempCustomId = [];
     this.tempAnswers.forEach(element => {
       tempCustomId.push(element.custom_id)
@@ -821,12 +873,12 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackPopup = this.rightPopup;
       this.attemptType = "manual";
       this.appModel.enableSubmitBtn(false);
+      this.appModel.enableReplayBtn(false);
       //show right answer pop up
 
       let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
       correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
       this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-      this.instructionDisable = true;
       this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
       //this.feedbackVoRef.nativeElement.play();
 
@@ -834,12 +886,12 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
         this.feedbackVoRef.nativeElement.play();
       }, 750)
       this.feedbackVoRef.nativeElement.onended = () => {
-        if (!this.closed) {
-          this.rightTimer = setTimeout(() => {
+        this.rightTimer = setTimeout(() => {
+          if (!this.closed) {
             this.correctAns.nativeElement.classList = "modal";
             this.blinkOnLastQues();
-          }, 2000);
-        }
+          }
+        }, this.question.RightAnimationSec*1000);
       }
 
 
@@ -851,21 +903,20 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       this.feedbackPopup = this.wrongPopup;
       let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
       correctAns.className = "modal d-flex align-items-center justify-content-center showit correctAns dispFlex";
-      this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
-      this.instructionDisable = true;
+      // this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div";
       this.feedbackVoRef.nativeElement.src = this.feedbackPopup.feedbackVo.url + "?someRandomSeed=" + Math.random().toString(36);
 
       setTimeout(() => {
         this.feedbackVoRef.nativeElement.play();
       }, 750)
       this.feedbackVoRef.nativeElement.onended = () => {
-        if (!this.closed) {
-          this.wrongTimer = setTimeout(() => {
+        this.wrongTimer = setTimeout(() => {
+          if (!this.closed) {
             this.correctAns.nativeElement.classList = "modal";
             this.appModel.notifyUserAction();
             this.appModel.wrongAttemptAnimation();
-          }, 2000);
-        }
+          }
+        }, this.question.WrongAnimationSec*1000);
       }
     }
 
