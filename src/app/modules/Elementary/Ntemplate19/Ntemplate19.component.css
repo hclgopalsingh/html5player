@@ -557,8 +557,8 @@ button:focus {
 
 .options img {
   /* position: absolute; */
-  width: 15.9%;
-  max-width: 16%;
+  width: 16%;
+  max-width: 15.9%;
   margin: 0 2.05%;
   padding: 0.4% 0;
   position:relative;

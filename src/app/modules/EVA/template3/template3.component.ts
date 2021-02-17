@@ -153,6 +153,86 @@ export class Template3Component extends Base implements OnInit {
 			return this.appModel.content.id + '';
 		}
 	}
+
+	
+	ngOnInit() {
+		this.Sharedservice.setLastQuesAageyBadheStatus(true); 
+		this.attemptType = "";
+		this.setTemplateType();
+		this.sprite.nativeElement.style = "display:none";
+		this.contentgFolderPath = this.basePath;
+		this.appModel.functionone(this.templatevolume, this);//start end
+
+		if (this.appModel.isNewCollection) {
+			this.appModel.event = { 'action': 'segmentBegins' };
+		}
+		let fetchedData: any = this.appModel.content.contentData.data;
+		if (fetchedData.titleScreen) {
+			this.quesInfo = fetchedData;
+			this.showIntroScreen = true;
+			this.noOfImgs = this.quesInfo.imgCount;
+		}
+		else {
+			this.showIntroScreen = false;
+			this.setData();
+		}
+		this.appModel.getNotification().subscribe(mode => {
+			if (mode == "manual") {
+
+			} else if (mode == "auto") {
+				this.attemptType = "uttarDikhayein";
+				this.popupType = "showanswer"
+			}
+		})
+		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
+			if (val == "uttarDikhayein") {
+				this.appModel.stopAllTimer();
+				let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
+				if (!speakerEle.paused) {
+					speakerEle.pause();
+					speakerEle.currentTime = 0;
+					this.sprite.nativeElement.style = "display:none";
+					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
+					this.speakerPlayed = false;
+					this.speaker.imgsrc = this.speaker.imgorigional;
+				}
+				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
+					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
+					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+						this.videoonshowAnspopUp.nativeElement.play();
+						this.videoonshowAnspopUp.nativeElement.onended = () => {
+							this.showAnswerTimer =  setTimeout(() => {
+								this.closePopup('showanswer');
+							}, 10000);
+						// this.videoonshowAnspopUp.nativeElement.play();
+					}
+					//this.popupType = "showanswer";
+					// if(this.ifRightAns) {
+					// 	this.blinkOnLastQues();
+					// }
+				}
+			}
+		}
+		})
+	}
+
+	ngOnDestroy() {
+		this.showAnswerSubscription.unsubscribe();
+		clearTimeout(this.rightTimer);
+		clearTimeout(this.clapTimer);
+		this.stopAllSounds();
+	}
+
+	
+	ngAfterViewChecked() {
+		if (this.titleAudio && this.titleAudio.nativeElement) {
+			this.titleAudio.nativeElement.onended = () => {
+				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
+			}
+		}
+		this.templatevolume(this.appModel.volumeValue, this);
+	}
 	setData() {
 		if (this.appModel && this.appModel.content && this.appModel.content.contentData && this.appModel.content.contentData.data) {
 			let fetchedData: any = this.appModel.content.contentData.data;
@@ -274,7 +354,7 @@ export class Template3Component extends Base implements OnInit {
 			this.correctOpt = option;
 			this.attemptType = "manual";
 			this.appModel.stopAllTimer();
-			this.videoBase = option.videosrc;
+			this.videoBase = option.Popupvideosrc;
 			this.videoStageonpopUp.nativeElement.src = this.videoBase.location == "content" ? this.contentgFolderPath + "/" + this.videoBase.url : this.assetsfolderlocation + "/" + this.videoBase.url;
 			this.popupIcon = this.popupAssets.right_icon.url;
 			this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -284,7 +364,7 @@ export class Template3Component extends Base implements OnInit {
                 document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
             }
 			setTimeout(() => {
-				if (this.rightFeedback && this.rightFeedback.nativeElement) {
+				if ( this.videoStageonpopUp && this.videoStageonpopUp.nativeElement) {
 					this.clapSound.nativeElement.play();
 					this.appModel.storeVisitedTabs();
 					this.clapTimer=	setTimeout(() => {
@@ -293,7 +373,8 @@ export class Template3Component extends Base implements OnInit {
 						let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 						ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 						if (!this.popupclosedinRightWrongAns) {
-							this.rightFeedback.nativeElement.play();
+							// alert();
+						//	this.rightFeedback.nativeElement.play();
 							this.videoStageonpopUp.nativeElement.play();
 						} else {
 							this.Sharedservice.setShowAnsEnabled(true);
@@ -302,7 +383,7 @@ export class Template3Component extends Base implements OnInit {
 				}
 				//disable option and question on right attempt
 				this.maincontent.nativeElement.className = "disableDiv";			
-				this.rightFeedback.nativeElement.onended = () => {
+				this.videoStageonpopUp.nativeElement.onended = () => {
 					this.rightTimer = setTimeout(() => {
 						this.closePopup('answerPopup');
 						//this.Sharedservice.setShowAnsEnabled(true);
@@ -328,16 +409,16 @@ export class Template3Component extends Base implements OnInit {
 			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 			ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 			option.image = option.image_original;
-			this.videoBase = option.videosrc;
+			this.videoBase = option.Popupvideosrc;
 			this.popupIcon = this.popupAssets.wrong_icon.url;
 			this.popupIconLocation = this.popupAssets.wrong_icon.location;
 			this.videoStageonpopUp.nativeElement.src = this.videoBase.location == "content" ? this.contentgFolderPath + "/" + this.videoBase.url : this.assetsfolderlocation + "/" + this.videoBase.url;
 			setTimeout(() => {
-				if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-					this.wrongFeedback.nativeElement.play();
-				}
+				// if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+				// 	this.wrongFeedback.nativeElement.play();
+				// }
 				this.videoStageonpopUp.nativeElement.play();
-				this.wrongFeedback.nativeElement.onended = () => {
+				this.videoStageonpopUp.nativeElement.onended = () => {
 					this.wrongTimer = setTimeout(() => {
 						this.closePopup('answerPopup');
 					}, 10000);
@@ -461,12 +542,17 @@ export class Template3Component extends Base implements OnInit {
 		if (obj.speakerVolume && obj.speakerVolume.nativeElement) {
 			obj.speakerVolume.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
-			obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		// if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
+		// 	obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		// }
+		// if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+		// 	obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		// }
+
+		if (obj.videoStageonpopUp && obj.videoStageonpopUp.nativeElement) {
+            obj.videoStageonpopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
-			obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
+		
 		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
             obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
@@ -475,84 +561,6 @@ export class Template3Component extends Base implements OnInit {
 
 
 
-	ngOnInit() {
-		this.Sharedservice.setLastQuesAageyBadheStatus(true); 
-		this.attemptType = "";
-		this.setTemplateType();
-		this.sprite.nativeElement.style = "display:none";
-		this.contentgFolderPath = this.basePath;
-		this.appModel.functionone(this.templatevolume, this);//start end
-
-		if (this.appModel.isNewCollection) {
-			this.appModel.event = { 'action': 'segmentBegins' };
-		}
-		let fetchedData: any = this.appModel.content.contentData.data;
-		if (fetchedData.titleScreen) {
-			this.quesInfo = fetchedData;
-			this.showIntroScreen = true;
-			this.noOfImgs = this.quesInfo.imgCount;
-		}
-		else {
-			this.showIntroScreen = false;
-			this.setData();
-		}
-		this.appModel.getNotification().subscribe(mode => {
-			if (mode == "manual") {
-
-			} else if (mode == "auto") {
-				this.attemptType = "uttarDikhayein";
-				this.popupType = "showanswer"
-			}
-		})
-		this.showAnswerSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
-			if (val == "uttarDikhayein") {
-				this.appModel.stopAllTimer();
-				let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
-				if (!speakerEle.paused) {
-					speakerEle.pause();
-					speakerEle.currentTime = 0;
-					this.sprite.nativeElement.style = "display:none";
-					(document.getElementById("spkrBtn") as HTMLElement).style.pointerEvents = "";
-					this.speakerPlayed = false;
-					this.speaker.imgsrc = this.speaker.imgorigional;
-				}
-				if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
-					this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.contentgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsfolderlocation + "/" + this.showAnswerPopup.video.url;
-					this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
-					if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
-						this.videoonshowAnspopUp.nativeElement.play();
-						this.videoonshowAnspopUp.nativeElement.onended = () => {
-							this.showAnswerTimer =  setTimeout(() => {
-								this.closePopup('showanswer');
-							}, 10000);
-						// this.videoonshowAnspopUp.nativeElement.play();
-					}
-					//this.popupType = "showanswer";
-					// if(this.ifRightAns) {
-					// 	this.blinkOnLastQues();
-					// }
-				}
-			}
-		}
-		})
-	}
-
-	ngOnDestroy() {
-		this.showAnswerSubscription.unsubscribe();
-		clearTimeout(this.rightTimer);
-		clearTimeout(this.clapTimer);
-		this.stopAllSounds();
-	}
-
-	
-	ngAfterViewChecked() {
-		if (this.titleAudio && this.titleAudio.nativeElement) {
-			this.titleAudio.nativeElement.onended = () => {
-				this.titleNavBtn.nativeElement.className = "d-flex justify-content-end showit fadeInAnimation";
-			}
-		}
-		this.templatevolume(this.appModel.volumeValue, this);
-	}
 
 	  //**Function to stop all sounds */
 	  stopAllSounds(clickStatus?) {
@@ -562,11 +570,11 @@ export class Template3Component extends Base implements OnInit {
 		this.speakerVolume.nativeElement.pause();
         this.speakerVolume.nativeElement.currentTime=0;
 
-        this.wrongFeedback.nativeElement.pause();
-        this.wrongFeedback.nativeElement.currentTime = 0;
+        // this.wrongFeedback.nativeElement.pause();
+        // this.wrongFeedback.nativeElement.currentTime = 0;
 
-        this.rightFeedback.nativeElement.pause();
-        this.rightFeedback.nativeElement.currentTime = 0;
+        // this.rightFeedback.nativeElement.pause();
+        // this.rightFeedback.nativeElement.currentTime = 0;
 
         this.clapSound.nativeElement.pause();
 		this.clapSound.nativeElement.currentTime = 0;
@@ -642,11 +650,15 @@ export class Template3Component extends Base implements OnInit {
 
 		this.showAnswerRef.nativeElement.classList = "modal";
 		this.ansPopup.nativeElement.classList = "modal";
-		this.wrongFeedback.nativeElement.pause();
-		this.wrongFeedback.nativeElement.currentTime = 0;
+		// this.wrongFeedback.nativeElement.pause();
+		// this.wrongFeedback.nativeElement.currentTime = 0;
 
-		this.rightFeedback.nativeElement.pause();
-		this.rightFeedback.nativeElement.currentTime = 0;
+		// this.rightFeedback.nativeElement.pause();
+		// this.rightFeedback.nativeElement.currentTime = 0;
+
+		
+		this.videoStageonpopUp.nativeElement.pause();
+		this.videoStageonpopUp.nativeElement.currentTime = 0;
 
 		this.videoonshowAnspopUp.nativeElement.pause();
 		this.videoonshowAnspopUp.nativeElement.currentTime = 0;
