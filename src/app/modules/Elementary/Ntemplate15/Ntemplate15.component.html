@@ -18,7 +18,7 @@
             <img _ngcontent-c7="" class="img-fluid" [src]="opts?.image?.url">
             <img _ngcontent-c7="" *ngIf="opts.show" class="img-fluid" id="{{'optimage'+idx}}"
               on-mousemove="onHoverOptions(opts,idx,'line1')" on-mouseenter="playOptionHover(opts,idx,'line1')"
-              on-mouseout="onHoveroutOptions(opts,idx,'line1')" (click)="clickAnswer(opts,$event,idx)"
+              on-mouseout="onHoveroutOptions(opts,idx,'line1')" (click)="clickAnswer(opts,$event,idx,'line1')"
               [src]="opts?.imgsrc?.url">
           </div>
         </div>
@@ -31,7 +31,7 @@
               <img _ngcontent-c7="" class="img-fluid" [src]="opts?.image?.url">
               <img _ngcontent-c7="" *ngIf="opts.show" class="img-fluid" id="{{'optimage'+idx}}"
                 on-mousemove="onHoverOptions(opts,idx,'line2')" on-mouseenter="playOptionHover(opts,idx,'line2')"
-                on-mouseout="onHoveroutOptions(opts,idx,'line2')" (click)="clickAnswer(opts,$event,idx)"
+                on-mouseout="onHoveroutOptions(opts,idx,'line2')" (click)="clickAnswer(opts,$event,idx,'line2')"
                 [src]="opts?.imgsrc?.url">
             </div>
           </div>
