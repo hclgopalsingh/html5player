@@ -88,6 +88,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   isLastQuestion: boolean;
   confirmPopupSubscription: any;
   actComplete : boolean = false;
+  showAnsClosed : boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -798,6 +799,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
   showAnswer() {
+    this.showAnsClosed=false;
     this.attemptType = "no animation"
     this.appModel.enableSubmitBtn(false);
     this.appModel.enableReplayBtn(false);
@@ -818,7 +820,7 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
       }
     }, 50)
     this.feedbackVoRef.nativeElement.onended = () => {
-      if (!this.closed) {
+      if (!this.showAnsClosed) {
         this.showAnssetTimeout = setTimeout(() => {
           this.correctAns.nativeElement.classList = "modal";
           this.attemptType = "no animation"
@@ -828,8 +830,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  clickAnswer(option, event, idx) {
-    option.image = option.imageorg;
+  clickAnswer(option, event, idx, order) {
+    this.onHoveroutOptions(option, idx, order)
     this.appModel.notifyUserAction();
     this.tempAnswers.push(option)
     this.stopAllAudios();
@@ -862,7 +864,8 @@ export class Ntemplate15 implements OnInit, OnDestroy, AfterViewChecked {
   }
   checkAnswerOnSubmit() {
     //check if the option in temanswer array are in right sequence or not
-    this.closed=false;
+    this.closed = false;
+    this.showAnsClosed = false;
     let tempCustomId = [];
     this.tempAnswers.forEach(element => {
       tempCustomId.push(element.custom_id)
