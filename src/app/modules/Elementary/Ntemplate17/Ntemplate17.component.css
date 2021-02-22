@@ -1567,7 +1567,7 @@ html [type=button] {
 }
 
 .ele17 .disablePointer input {
-  background-color: rgb(235, 235, 228);
+  opacity: 0.7;
 }
 
 .ele17 .hideKeyboard {

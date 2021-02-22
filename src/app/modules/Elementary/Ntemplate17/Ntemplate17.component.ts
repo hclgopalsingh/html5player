@@ -364,6 +364,7 @@ export class Ntemplate17Component implements OnInit {
   totalChar: any = 17;
   currentChar: any = 0;
   loadQuestionInterval:any;
+  closeFeedbackmodalTimer: any;
 
 
   //angular life-cycle funtions
@@ -503,6 +504,12 @@ export class Ntemplate17Component implements OnInit {
     clearInterval(this.blinkTimer);
     clearInterval(this.feedbackTimer);
     clearTimeout(this.videoPlaytimer);
+    if(this.nextFeedbackBlinkTimer !== undefined) {
+      clearTimeout(this.nextFeedbackBlinkTimer);
+    }
+    if(this.closeFeedbackmodalTimer !== undefined) {
+      clearTimeout(this.closeFeedbackmodalTimer);
+    }
     this.inputDivRef.nativeElement.children[0].style.border = "4px solid #8e7c7c";
     if (this.QuestionAudio && this.QuestionAudio.nativeElement) {
       this.QuestionAudio.nativeElement.src = "";
@@ -1133,6 +1140,12 @@ export class Ntemplate17Component implements OnInit {
     clearTimeout(this.nextQuestionTimeronLast);
     ref.classList = "modal";
     this.instructionDisable = false;
+    if(this.nextFeedbackBlinkTimer !== undefined) {
+      clearTimeout(this.nextFeedbackBlinkTimer);
+    }
+    if(this.closeFeedbackmodalTimer !== undefined) {
+      clearTimeout(this.closeFeedbackmodalTimer);
+    }
     if (action == "replay") {
       this.replayVideo();
     } else if (action == "feedbackDone") {
@@ -1424,9 +1437,11 @@ export class Ntemplate17Component implements OnInit {
     }
     this.onBlurMethod();
     if (this.wordArr.length == 12) {
-      this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
+      this.inputDivRef.nativeElement.classList = "inputDiv disablePointer";
+      this.inputDivRef.nativeElement.children[1].classList = "charleft d-none";
+      this.inputFieldText = "";
     }
-    this.keyBoardOpen = false
+    this.keyBoardOpen = false;
   }
 
   //showing second test screen
@@ -1569,6 +1584,7 @@ export class Ntemplate17Component implements OnInit {
   }
 
   openModal() {
+    this.appModel.stopAllTimer();
     if (this.rightListArr && this.rightListArr[0] == "") {
       this.currentPlaying = "wrongList";
       this.selectedListArr = this.wrongListArr;
@@ -1579,10 +1595,10 @@ export class Ntemplate17Component implements OnInit {
       this.feedbackObj.showBox = this.feedbackObj.corect_box;
     }
     this.feedbackModal.nativeElement.classList = "modal displayPopup";
-    if(this.currentPlaying=="rightList" && this.wrongListArr[0]!=""){
-      this.nextFeedbackBlinkTimer=setTimeout(()=>{
-        this.setBlinkOnNextBtn();
-      },this.feedbackObj.feedbackNextBlinkDelayInSec*1000)
+    if((this.rightListArr[0] == "" && this.wrongListArr[0] != "") || (this.wrongListArr[0] == "" && this.rightListArr[0] != "")) {
+      this.startCloseFeedbackTimer();
+    } else {
+      this.startNextFeedbackTimer();
     }
     this.infoModal = false;
     this.stopInstructionVO();
@@ -1671,6 +1687,7 @@ export class Ntemplate17Component implements OnInit {
     this.everythingenabled = false;
     this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
     this.onBlurMethod();
+    this.appModel.notifyUserAction();
   }
 
   blinkTextBox() {
@@ -2223,11 +2240,8 @@ export class Ntemplate17Component implements OnInit {
     this.currentPlaying = "rightList";
     this.selectedListArr = this.rightListArr;
     this.feedbackObj.showBox = this.feedbackObj.corect_box;
-    if(this.currentPlaying=="rightList" && this.wrongListArr[0]!=""){
-      this.nextFeedbackBlinkTimer=setTimeout(()=>{
-        this.setBlinkOnNextBtn();
-      },this.feedbackObj.feedbackNextBlinkDelayInSec*1000)
-    }
+    clearTimeout(this.closeFeedbackmodalTimer);
+    this.startNextFeedbackTimer();
     this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
   }
@@ -2237,8 +2251,26 @@ export class Ntemplate17Component implements OnInit {
     this.feedbackObj.showBox = this.feedbackObj.incorrect_box;
     clearTimeout(this.nextFeedbackBlinkTimer);
     clearInterval(this.nextBtnInterval);
+    this.startCloseFeedbackTimer();
     this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
+  }
+
+  /******** Timer for moving to next feedback popup screen ********/
+  startNextFeedbackTimer() {
+    this.setBlinkOnNextBtn();
+    this.nextFeedbackBlinkTimer = setTimeout(() => {
+      console.log("nextfeedbacktimer",this.feedbackObj.feedbackNextBlinkDelayInSec * 1000);
+      this.nextFeedback();
+    }, this.feedbackObj.feedbackNextBlinkDelayInSec * 1000);
+  }
+
+  /******** Timer for closing feedback popup ********/
+  startCloseFeedbackTimer() {
+    this.closeFeedbackmodalTimer = setTimeout(() => {
+      console.log("closetimer", this.feedbackObj.feedbackCloseInSec * 1000);
+      this.sendFeedback(this.feedbackModal.nativeElement,'no','feedbackDone');
+    }, this.feedbackObj.feedbackCloseInSec * 1000);
   }
 
   setBlinkOnNextBtn() {
