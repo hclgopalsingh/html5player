@@ -626,13 +626,15 @@ confirm modal
 */
 
 #confirmModal,
-#operatorModal {
+#operatorModal,
+#digitModal {
 	/* display: flex;*/
 	background: rgba(0,0,0,.85);
 }
 
 #confirmModal .modal-dialog,
-#operatorModal .modal-dialog {
+#operatorModal .modal-dialog,
+#digitModal .modal-dialog{
 	width: 50% !important;
 	max-width: 100%;
 	height: 36%;
@@ -641,14 +643,16 @@ confirm modal
 }
 
 #confirmModal .modal-content,
-#operatorModal .modal-content {
+#operatorModal .modal-content,
+#digitModal .modal-content{
 	/* height: auto; */
 	min-width: auto;
 	min-height: auto;
 }
 
 #confirmModal .modal-body,
-#operatorModal .modal-body {
+#operatorModal .modal-body,
+#digitModal .modal-body{
 	padding: 0;
 	margin: 0;
 	display: flex;
@@ -659,29 +663,35 @@ confirm modal
 }
 
 #confirmModal .modal-body .msgImage,
-#operatorModal .modal-body .msgImage {
+#operatorModal .modal-body .msgImage,
+#digitModal .modal-body .msgImage{
 	display: block;/*flex*/
 	text-align: center;/*justify-content: center;*/
 }
 
 #confirmModal .modal-body .actionButtons,
-#operatorModal .modal-body .actionButtons {
+#operatorModal .modal-body .actionButtons,
+#digitModal .modal-body .actionButtons{
 	text-align: center;
 	margin: 3% 0 2%;
 	width: 100%;
 }
 
 #confirmModal .modal-body .msgImage img,
-#operatorModal .modal-body .msgImage img {
+#operatorModal .modal-body .msgImage img,
+#digitModal .modal-body .msgImage img{
 	width: 100%;
 }
 
-#confirmModal .modal-body img {
+#confirmModal .modal-body img,
+#operatorModal .modal-body img,
+#digitModal .modal-body img{
 	max-width: 100%;
 }
 
 #confirmModal .modal-body .actionButtons button,
-#operatorModal .modal-body .actionButtons button {
+#operatorModal .modal-body .actionButtons button,
+#digitModal .modal-body .actionButtons button{
 	border: none;
 	background: transparent;
 	padding: 0;
@@ -694,30 +704,35 @@ button:focus {
 }
 
 #confirmModal .modal-body .actionButtons img,
-#operatorModal .modal-body .actionButtons img {
+#operatorModal .modal-body .actionButtons img,
+#digitModal .modal-body .actionButtons img{
 	max-width: 80%;
 }
 
 #confirmModal .modal-header,
-#operatorModal .modal-header {
+#operatorModal .modal-header,
+#digitModal .modal-header{
 	top: 0;
 }
 
 #confirmModal .bodyText,
-#operatorModal .bodyText {
+#operatorModal .bodyText,
+#digitModal .bodyText{
 	position: absolute;
 	top: 30%;
 	width: 100%;
 }
 
 #confirmModal .bodyText img,
-#operatorModal .bodyText img {
+#operatorModal .bodyText img,
+#digitModal .bodyText img{
 	width: 85%;
 }
 
 
 #confirmModal .modal-footer,
-#operatorModal .modal-footer {
+#operatorModal .modal-footer,
+#digitModal .modal-footer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -729,14 +744,16 @@ button:focus {
 }
 
 #confirmModal .modal-footer button,
-#operatorModal .modal-footer button {
+#operatorModal .modal-footer button,
+#digitModal .modal-footer button{
 	width: 13%;
 	border: none;
 	background: transparent;
 }
 
 #confirmModal .popupModelBody,
-#operatorModal .popupModelBody {
+#operatorModal .popupModelBody,
+#digitModal .popupModelBody{
 	padding: 0;
 }
 
