@@ -74,16 +74,16 @@ export class VideoComponent implements OnInit, AfterViewChecked {
   zarriRakheinBtn:any ="";
 
   @ViewChild('mainVideo') mainVideo;
-  @ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer:any;
-  @ViewChild('videoOuterMost') videoOuterMost:any;
-  @ViewChild('volumeContainer') volumeContainer:any;
-  @ViewChild('MuteVar') MuteVar:any;
-  @ViewChild('volumeBar') volumeBar:any;
-  @ViewChild('speakerBtn') speakerBtn:any;
-  @ViewChild('quesRepeat') quesRepeat:any;
-  @ViewChild('controlsContainer') controlsContainer:any;
-  @ViewChild('sliderContainerRef') sliderContainerRef:any;
-  @ViewChild('disableRange') disableRange:any;
+  @ViewChild('autoPlayOnOffContainer',{ static: true }) autoPlayOnOffContainer:any;
+  @ViewChild('videoOuterMost',{ static: true }) videoOuterMost:any;
+  @ViewChild('volumeContainer',{ static: true }) volumeContainer:any;
+  @ViewChild('MuteVar',{ static: true }) MuteVar:any;
+  @ViewChild('volumeBar',{ static: true }) volumeBar:any;
+  @ViewChild('speakerBtn',{ static: true }) speakerBtn:any;
+  @ViewChild('quesRepeat',{ static: true }) quesRepeat:any;
+  @ViewChild('controlsContainer',{ static: true }) controlsContainer:any;
+  @ViewChild('sliderContainerRef',{ static: true }) sliderContainerRef:any;
+  @ViewChild('disableRange',{ static: true }) disableRange:any;
 	//@ViewChild('spriteEVA') spriteEVA:any;
   
   @HostListener('document:click', ['$event'])
