@@ -180,9 +180,14 @@
               <img class="img-fluid" [src]="this.feedbackAssets.showAnswerpopupTxt.url" />
             </div>
           </div>
-          <video #showAnswerVideo id="showAnswerVideo" width="100%" style="max-width: 100%; max-height: 100%;"
-            preload="auto">
-            <source [src]="feedbackAssets?.video?.url" type="video/ogg"> </video>
+          <div class="videoShowAnsContainer">
+            <div class="videoShowAnsWrapper">
+              <video #showAnswerVideo id="showAnswerVideo" width="100%" style="max-width: 100%; max-height: 100%;"
+                preload="auto">
+                <source [src]="feedbackAssets?.video?.url" type="video/ogg">
+              </video>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -302,7 +307,7 @@
     (ended)="endedHandler()">
     <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}"> </video>
   <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
-    (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
+      (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
   <div class="video_loader" *ngIf="!isVideoLoaded"> <img src="assets/images/loaderVideo.gif"> </div>
