@@ -1907,6 +1907,7 @@ export class Ntemplate17Component implements OnInit {
 
   endedHandler() {
     this.isPlayVideo = false;
+    this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
     this.appModel.navShow = 2;
     this.appModel.setLoader(false);
     this.appModel.startPreviousTimer();
@@ -1915,9 +1916,7 @@ export class Ntemplate17Component implements OnInit {
   endedHandleronSkip() {
     this.isDisableClass = true;
     document.getElementById("navBlock").style.pointerEvents = "none";
-    setTimeout(() => {
-      this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
-    }, 200);
+    this.mainVideo.nativeElement.parentElement.style.visibility = "hidden";
     setTimeout(() => {
       document.getElementById("navBlock").style.pointerEvents = "";
     }, 500);
