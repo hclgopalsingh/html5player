@@ -9,7 +9,7 @@
   <audio #narrator [src]="commonAssets?.narrator?.url"></audio>
 
   <div id="bgImage"><img class="img-fluid" [src]="quesInfo.background.url" (load)="checkImgLoaded();"></div>
-  <audio #clapSound [src]="quesInfo?.right_sound?.url"></audio>
+  <audio #feedbackSound></audio>
 
 
   <div #maincontent>
@@ -147,6 +147,10 @@
 <div class="container-fluid" #container id="container" *ngIf="isShowAns">
   <div class="d-flex align-items-center justify-content-center">
     <img class="img-fluid" [src]="showans?.imgsrc?.url">
+    <!-- <div class="ok_btn_showAns">
+      <button type="button" (click)="exitShowAnswer();" (mousemove)="hoverOK()"
+        (mouseleave)="houtOK()"><img class="img-fluid" [src]="showans?.ok_btn?.url"></button>
+    </div> -->
   </div>
   <audio #showAnsFeedback [src]="showans?.feedbackVo?.url"></audio>
 </div>
