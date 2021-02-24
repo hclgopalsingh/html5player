@@ -605,28 +605,27 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
                 }
             }
         }
-        if (this.mathOperator == "multiply" || this.mathOperator == "divide") {
-            if (this.selectedNos.length == 0 && this.number_options[idx].value == 0) {
-                setTimeout(() => {
-                    this.digitModalRef.nativeElement.classList = "modal show";
-                    this.isOn = false;
-                    if (this.digitFeedback && this.digitFeedback.nativeElement) {
-                        this.digitFeedback.nativeElement.src = this.digitModal.wrong_digit_vo.url;
-                        this.digitFeedback.nativeElement.play();
-                    }                    
-                }, 500)
-            } else {
-                this.number_options[idx].imgsrc = this.number_options[idx].imgsrc_selected;
-                this.number_options[idx].selected = true;
-                if (this.selectedNos.length < this.noOfDidgit) {
-                    this.selectedNos.push(this.numbers[idx]);
+        if ((this.mathOperator == "multiply" && this.selectedNos.length == 0 && this.numbers[idx].value == 0)
+            || (this.mathOperator == "divide" && this.selectedNos.length == 0 && this.numbers[idx].value == 0)) {
+            setTimeout(() => {
+                this.digitModalRef.nativeElement.classList = "modal show";
+                this.isOn = false;
+                if (this.digitFeedback && this.digitFeedback.nativeElement) {
+                    this.digitFeedback.nativeElement.src = this.digitModal.wrong_digit_vo.url;
+                    this.digitFeedback.nativeElement.play();
                 }
-                if (this.selectedNos.length == this.noOfDidgit) {
-                    this.appModel.enableSubmitBtn(true);
-                }
+            }, 500)
+        } else {
+            this.number_options[idx].imgsrc = this.number_options[idx].imgsrc_selected;
+            this.number_options[idx].selected = true;
+            if (this.selectedNos.length < this.noOfDidgit) {
+                this.selectedNos.push(this.numbers[idx]);
+            }
+            if (this.selectedNos.length == this.noOfDidgit) {
+                this.appModel.enableSubmitBtn(true);
             }
         }
-        
+
 
     }
 

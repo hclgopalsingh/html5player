@@ -111,7 +111,7 @@ button:focus {
 #quesBlock .filler,
 #quesBlock .filler img.level{
   left: 0.1%; /*6.1%; 3%;*/
-  bottom: 0;/*0.6%;*/
+  bottom: 2%;/*0.6%;*/
   width: 99.8%;/*94%;87.8% 93.8%;*/
   height: 53%;
   position: absolute;
@@ -941,4 +941,16 @@ button:focus {
 
  .disable_div {
   pointer-events: none;
+}
+.videoShowAnsContainer {
+  width: 100%;
+}
+
+.videoShowAnsWrapper {
+  width: 99.9%;
+  height: 100%;
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101; */
 }
