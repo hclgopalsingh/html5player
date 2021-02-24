@@ -30,25 +30,25 @@ button:focus {
 }
 #inputBlock{
   left: 1.3%;
-    width: 37.8%;
-    height: 100%;
+  width: 37.8%;
+  height: 100%;
 	display: flex;
   justify-content: center;
 }
-#outputBlock{
-  left: 39%;
+#outputBlock,
+#quesBlock{
   width: 29.8%;
   height: 100%;
-  bottom: 3.6%;/*4%;*/  
+  bottom: 3.6%;
+}
+#outputBlock{
+  left: 39%;
 }
 .modal #outputBlock{
   width: 31.8%;  bottom: 13%;  
 }
 #quesBlock {
-  width: 29.8%;
-  height: 54.4%;
   right: 1%;
-  top: 42%;
 }
 #outputBlock img,
 #quesBlock img{
@@ -110,7 +110,7 @@ button:focus {
 #outputBlock .filler img.level,
 #quesBlock .filler,
 #quesBlock .filler img.level{
-  left: 0.1%; /*6.1%; 3%;*/
+  left: 0;/*0.1%; 6.1%; 3%;*/
   bottom: 2%;/*0.6%;*/
   width: 99.8%;/*94%;87.8% 93.8%;*/
   height: 53%;
@@ -137,15 +137,16 @@ button:focus {
 }
 .modal .filler_layer{position:relative; height: 100%;}
 #quesBlock .filler{
-  height: 98%;
+  /* height: 98%; */
 }
 #outputBlock .filler img.level,
 #quesBlock .filler img.level{
  /* height: 100%;*/
-  width: 99%;
-  left: 0.5%;
+  width: 100%;/*99%;*/
+  left: 0;/*0.5%;*/
   border-bottom-left-radius: unset;
   border-bottom-right-radius: unset;
+  clip-path: inset(0% 4%);
 }
 #quesBlock .filler img.level{
   /* width: 91.5%;
@@ -568,7 +569,7 @@ button:focus {
   width: 77% !important;/*84%*/
   height: 89%;/*70%*/
 }
-#showAnswerModal video{border-radius:0 0 20px 20px}
+#showAnswerModal video{border-radius:1vmin;}
 #showAnswerModal .modal-content {
    
   height: auto;
@@ -944,11 +945,14 @@ button:focus {
 }
 .videoShowAnsContainer {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .videoShowAnsWrapper {
-  width: 99.9%;
-  height: 100%;
+  width: 78%;
+  margin: 10% 0 2%;
   /* position: absolute;
   top: 0;
   left: 0;
