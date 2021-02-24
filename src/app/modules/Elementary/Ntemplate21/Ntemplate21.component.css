@@ -45,7 +45,7 @@ button:focus {
   left: 39%;
 }
 .modal #outputBlock{
-  width: 31.8%;  bottom: 13%;  
+  width: 31.8%;  bottom: 10%;/*3%;*/  
 }
 #quesBlock {
   right: 1%;
@@ -62,7 +62,7 @@ button:focus {
 #outputBlock img.inputImage{
   position: absolute;
   left: -8.5%;
-  bottom: 51.5%;/*48.5%;*/
+  bottom: 54.5%;/*51.5% 48.5%;*/
   z-index: 3;
   max-width: 85%;
 }
@@ -104,7 +104,7 @@ button:focus {
 }
 
 .modal #outputBlock img.inputImage{
-  bottom: 52%;
+  bottom: 56%;
 }
 #outputBlock .filler,
 #outputBlock .filler img.level,
@@ -132,7 +132,7 @@ button:focus {
 
 .modal #outputBlock .filler img.level{
    
-  bottom: 1.6%;
+  bottom: 5%;
    
 }
 .modal .filler_layer{position:relative; height: 100%;}
@@ -193,7 +193,7 @@ button:focus {
 .inputPlaceholder{
   width: 40%;
   height: 11%;
-  top: 23%;/*26%;*/
+  top: 20%;/*23% 26%;*/
   left: 31%;
   position: absolute;
   z-index: 3;
@@ -203,7 +203,7 @@ button:focus {
 }
 .modal .inputPlaceholder{
   width: 45%;
-  top: 22.5%;  /*20%;*/
+  top: 18.5%;  /*20%;*/
   left: 29%;
 }
 .modal .blueLine{    background-color: #3300cc!important;
@@ -212,7 +212,7 @@ button:focus {
   position: absolute;
   width: auto;
   right: 5%;
-  left: 5.4%;
+  left: 5.3%;
   height: .4vmin;}
   .modal .greenLine{    background-color: #016b01!important;
     display: block!important;
@@ -220,7 +220,7 @@ button:focus {
     position: absolute;
     width: auto;
     right: 5%;
-    left: 5.4%;
+    left: 5.3%;
     height: .4vmin;}
     .modal .greenLine .fillText{display: flex;}
 
@@ -230,7 +230,7 @@ button:focus {
   position: absolute;
   bottom: 5px;
   text-align: center;}
-.modal .fillValue{height: 10%;/*35px;*/}
+.modal .fillValue{height: 10%; bottom: 4%;/*35px;*/}
 .modal .fillValue img{    
   height: 100%;
   max-height: 71%;
@@ -924,7 +924,7 @@ button:focus {
   position: absolute;
   width: auto;
   right: 5%;
-  left: 5.4%;
+  left: 5.3%;
    
   height: .4vmin;
   display: none;
