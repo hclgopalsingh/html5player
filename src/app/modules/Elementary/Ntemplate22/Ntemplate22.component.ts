@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs'
 import { HttphandlerService } from '../../../model/httphandler.service';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'Ntemplate22',
@@ -127,6 +129,11 @@ export class Ntemplate22 implements OnInit {
   MonthNames: any = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   DayNames: any = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   showHolidays:boolean = true;
+  confirmPopupSubscription: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete : boolean = false;
+  closeFeedbackmodalTimer: any;
 
   ngAfterViewChecked() {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
@@ -192,6 +199,7 @@ export class Ntemplate22 implements OnInit {
           this.AnswerpopupTxt = false;
         }
         this.checked = true;
+        this.attemptType = "auto";
         //show modal of auto
         this.appModel.notifyUserAction();
         if (this.popupRef && this.popupRef.nativeElement) {
@@ -204,6 +212,7 @@ export class Ntemplate22 implements OnInit {
           this.rightanspopUpheader_img = false;
           this.wronganspopUpheader_img = false;
           this.showanspopUpheader_img = true;
+          this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
           this.partialCorrectheaderTxt_img = false;
           this.styleHeaderPopup = this.feedbackObj.style_header;
           this.styleBodyPopup = this.feedbackObj.style_body;
@@ -214,7 +223,9 @@ export class Ntemplate22 implements OnInit {
           this.feedbackPopupAudio.nativeElement.load();
           this.feedbackPopupAudio.nativeElement.play();
           this.feedbackPopupAudio.nativeElement.onended = () => {
-            //this.closeModal();
+            this.closeFeedbackmodalTimer = setTimeout(() => {
+              this.closeModal();
+            }, this.feedbackObj.close_feedback_timer * 1000);
 
           }
           this.optionsBlock.nativeElement.style.opacity = "0.3"
@@ -226,7 +237,7 @@ export class Ntemplate22 implements OnInit {
       }
     })
 
-    this.appModel.getConfirmationPopup().subscribe((val) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       if (val == "uttarDikhayein") {
 
         this.rightanspopUpheader_img = false;
@@ -247,6 +258,7 @@ export class Ntemplate22 implements OnInit {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
         }
+        this.checkForAutoClose();
       } else if (val == "submitAnswer") {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.pause();
@@ -277,12 +289,63 @@ export class Ntemplate22 implements OnInit {
     });
 
     this.appModel.postWrongAttempt.subscribe(() => {
-      this.postWrongAttemplt();
+      this.appModel.handlePostVOActivity(false);
+      this.appModel.notifyUserAction();
     });
     this.appModel.handleController(this.controlHandler);
     this.appModel.resetBlinkingTimer();
 
   }
+
+  ngOnDestroy() {
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
+    clearTimeout(this.closeFeedbackmodalTimer);
+  }
+
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.showFeedback('showAnswer-modal-id','no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
+
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
@@ -303,6 +366,7 @@ export class Ntemplate22 implements OnInit {
   }
 
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -376,10 +440,6 @@ export class Ntemplate22 implements OnInit {
 
   }
 
-  postWrongAttemplt() {
-
-  }
-
   checkImgLoaded() {
     if (!this.loadFlag) {
       this.noOfImgsLoaded++;
@@ -412,9 +472,10 @@ export class Ntemplate22 implements OnInit {
   }
 
   //HOVER EVENTS
-  hoveronMonth(item) {
+  hoveronMonth(item, ev) {
     //console.log(item);
     this.appModel.notifyUserAction();
+    ev.target.classList.add("cursorOnHover");
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
@@ -427,9 +488,10 @@ export class Ntemplate22 implements OnInit {
     item.monthImg = item.monthOriginalImg;
   }
 
-  hoveronYear(item) {
+  hoveronYear(item, ev) {
     //if(!item.selected) {
     this.appModel.notifyUserAction();
+    ev.target.classList.add("cursorOnHover");
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
@@ -446,8 +508,9 @@ export class Ntemplate22 implements OnInit {
     // }
   }
 
-  hoveronWeekDays(item) {
+  hoveronWeekDays(item, ev) {
     this.appModel.notifyUserAction();
+    ev.target.classList.add("cursorOnHover");
     if (!this.instruction.nativeElement.paused) {
       this.instruction.nativeElement.currentTime = 0;
       this.instruction.nativeElement.pause();
@@ -463,6 +526,7 @@ export class Ntemplate22 implements OnInit {
 
   hoveronDate(ev) {
     if (ev != undefined && ev.target.id != "") {
+      ev.target.classList.add("cursorOnHover");
       this.appModel.notifyUserAction();
       if (!this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
@@ -500,6 +564,12 @@ export class Ntemplate22 implements OnInit {
   }
   houtSubmitDecline() {
     this.confirmSubmitAssets.decline_btn = this.confirmSubmitAssets.decline_btn_original;
+  }
+  hoverSubmitCloseConfirm() {
+    this.confirmSubmitAssets.close_btn = this.confirmSubmitAssets.close_btn_hover;
+  }
+  houtSubmitCloseConfirm() {
+    this.confirmSubmitAssets.close_btn = this.confirmSubmitAssets.close_btn_original;
   }
 
   houtConfirm() {
@@ -933,6 +1003,7 @@ export class Ntemplate22 implements OnInit {
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
@@ -1251,6 +1322,9 @@ export class Ntemplate22 implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         //this.closeModal();
+        this.closeFeedbackmodalTimer = setTimeout(() => {
+          this.closeModal();
+        }, this.feedbackObj.close_feedback_timer * 1000);
         this.optionsBlock.nativeElement.style.opacity = "0.3"
         this.optionsBlock.nativeElement.classList = "row mx-0 disable_div"
         this.instructionBar.nativeElement.style.opacity = "0.3"
@@ -1264,6 +1338,9 @@ export class Ntemplate22 implements OnInit {
       this.feedbackPopupAudio.nativeElement.load();
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
+        this.closeFeedbackmodalTimer = setTimeout(() => {
+          this.closeModal();
+        }, this.feedbackObj.close_feedback_timer * 1000);
         //this.closeModal();
         //this.resetActivity();
       }
@@ -1364,8 +1441,13 @@ export class Ntemplate22 implements OnInit {
 
   //for handling different pop-up events
   showFeedback(id: string, flag: string) {
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.instructionBar.nativeElement.classList = "instructionBase";
     if (id == "submit-modal-id") {
       this.confirmSubmitRef.nativeElement.classList = "modal";
+      this.appModel.notifyUserAction();
     }
     if (id == "info-modal-id") {
       this.infoModalRef.nativeElement.classList = "modal";
@@ -1385,6 +1467,7 @@ export class Ntemplate22 implements OnInit {
       this.attemptType = "auto";
       this.confirmModalRef.nativeElement.classList = "modal";
       this.showAnswerFeedback();
+      this.appModel.stopAllTimer();
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.popupRef.nativeElement.classList = "displayPopup modal";
@@ -1394,6 +1477,9 @@ export class Ntemplate22 implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         //this.closeModal();
+        this.closeFeedbackmodalTimer = setTimeout(() => {
+          this.closeModal();
+        }, this.feedbackObj.close_feedback_timer * 1000);
       }
       this.optionsBlock.nativeElement.style.opacity = "0.3"
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div"
@@ -1411,6 +1497,7 @@ export class Ntemplate22 implements OnInit {
 
       this.setCalender("popup");
       this.attemptType = "manual";
+      this.appModel.stopAllTimer();
       if (this.isCorrectYear && this.isCorrectMonth && this.isCorrectDate && this.isCorrectweekDay) {
         this.rightanspopUpheader_img = false;
         this.wronganspopUpheader_img = false;
@@ -1489,13 +1576,14 @@ export class Ntemplate22 implements OnInit {
 
   // on diff modal cloase event
   closeModal() {
+    clearTimeout(this.closeFeedbackmodalTimer);
     if (!this.feedbackPopupAudio.nativeElement.paused) {
       this.feedbackPopupAudio.nativeElement.pause();
       this.feedbackPopupAudio.nativeElement.currentTime = 0;
     }
     //this.showAnswerRef.nativeElement.classList="modal";
     this.popupRef.nativeElement.classList = "modal";
-    //this.appModel.notifyUserAction();
+    this.appModel.notifyUserAction();
     if (this.checked) {
       this.blinkOnLastQues();
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div"
