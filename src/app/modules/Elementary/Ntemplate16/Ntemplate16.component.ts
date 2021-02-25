@@ -410,8 +410,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.timerSubscription.unsubscribe();;
 		this.stopOptionHoverAudio();
 		this.disableAllOpt = true;
-		this.maincontent.nativeElement.className = "disable_div";
-		this.onHoverOptionOut(opt, index);
+		this.maincontent.nativeElement.className = "disable_div";		
 		this.disableHelpBtn = true;
 		this.titleHelpAudio.nativeElement.pause();
 		this.titleHelpAudio.nativeElement.currentTime = 0;
@@ -419,6 +418,7 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		this.appModel.enableReplayBtn(false);
 		if (flag == 'manualSelect'){
 			this.attemptType = "manual";
+			this.onHoverOptionOut(opt, index);
 		}
 		// logic to check what user has done is correct or wrong
 		if (this.checkRightAnswer(opt)) {
@@ -700,6 +700,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		}
 		if (obj.mainVideo && obj.mainVideo.nativeElement) {
 			obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
+		if (obj.showAnsFeedback && obj.showAnsFeedback.nativeElement) {
+			obj.showAnsFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
 	}
 

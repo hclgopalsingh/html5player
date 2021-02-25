@@ -489,6 +489,11 @@ button:focus {
   max-width: 80%;
   height: auto;
 }
+@media (min-width: 576px){
+.modal-dialog {
+    margin: auto !important;
+  }
+}
 #modalTemp22 {
   background: rgba(0,0,0,.85);
 }
@@ -503,7 +508,7 @@ button:focus {
 	box-shadow: none !important;
   height: 100%;
   min-width: 450px; /*640px;*/
-  min-height: 350px; /*198px;*/
+  min-height: 330px; /*350px 198px;*/
 }
 
 .modal-header {
