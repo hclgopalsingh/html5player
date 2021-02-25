@@ -701,6 +701,9 @@ export class Ntemplate16 implements OnInit, AfterViewChecked, OnDestroy {
 		if (obj.mainVideo && obj.mainVideo.nativeElement) {
 			obj.mainVideo.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
+		if (obj.showAnsFeedback && obj.showAnsFeedback.nativeElement) {
+			obj.showAnsFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		}
 	}
 
 	/******Data set from content JSON *******/
