@@ -1209,6 +1209,11 @@ html [type=button] {
   line-height: 2.5;
   text-align: center;
   outline: none;
+  color: #a9a9a9;
+}
+
+.ele17 .inputDiv input.inputKeyboard {
+  color: black;
 }
 
 .ele17 .addBtn {
@@ -1563,11 +1568,12 @@ html [type=button] {
 }
 
 .ele17 .disablePointer {
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 .ele17 .disablePointer input {
   opacity: 0.7;
+  pointer-events: none !important;
 }
 
 .ele17 .hideKeyboard {
@@ -1904,4 +1910,8 @@ html [type=button] {
 
 .oops_img {
     width: 18%;
+}
+
+input::placeholder {
+  color: #a9a9a9 !important;
 }
