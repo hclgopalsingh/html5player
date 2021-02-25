@@ -226,6 +226,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         this.infoModalRef.nativeElement.classList = "modal";
         this.onlyOneAttemptModalRef.nativeElement.classList = "modal";
         this.attemptType = "uttarDikhayein";
+        this.responseType = "";
         this.popupType = "showanswer"
         this.setPopupAssets();
         this.getAnswer();
@@ -241,6 +242,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           this.setPopupAssets();
           this.popupType = "showanswer";
+          this.responseType = "";
+          this.attemptType = "uttarDikhayein";
           this.checkForAutoClose();
         }
       } else if (val == "submitAnswer") {
@@ -1123,7 +1126,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
             this.feedbackPopupAudio.nativeElement.onended = () => {
                 setTimeout(() => {
                     this.appModel.notifyUserAction();
-                    this.blinkOnLastQues();	
                 }, 1000)
             }
 
