@@ -1221,6 +1221,9 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         if (obj.operatorFeedback && obj.operatorFeedback.nativeElement) {
             this.operatorFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
+        if (obj.digitFeedback && obj.digitFeedback.nativeElement) {
+            this.digitFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
 
     }
 
