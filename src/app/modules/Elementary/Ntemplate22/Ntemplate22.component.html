@@ -29,7 +29,7 @@
       <div class="blockContent">
         <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.selected ? 
         item?.selectedmonthImg?.location=='content' ? item?.selectedmonthImg?.url : item?.selectedmonthImg?.url :
-        item?.monthImg?.location=='content' ?  item?.monthImg?.url : item?.monthImg?.url" (mousemove)="hoveronMonth(item)" (mouseleave)="houtonMonth(item)"
+        item?.monthImg?.location=='content' ?  item?.monthImg?.url : item?.monthImg?.url" (mousemove)="hoveronMonth(item, $event)" (mouseleave)="houtonMonth(item)"
         [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected}"  (click) = "onClickCalender(item,'month')">
       </div>
     </div>
@@ -39,7 +39,7 @@
       <div class="blockContent">
         <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.selected ? 
         item?.selectedyearsImg?.location=='content' ? item?.selectedyearsImg?.url :  item?.selectedyearsImg?.url :
-        item?.yearsImg?.location=='content' ? item?.yearsImg?.url : item?.yearsImg?.url" (mousemove)="hoveronYear(item)" (mouseleave)="houtonYear(item)" 
+        item?.yearsImg?.location=='content' ? item?.yearsImg?.url : item?.yearsImg?.url" (mousemove)="hoveronYear(item, $event)" (mouseleave)="houtonYear(item)" 
         [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }"  (click) = "onClickCalender(item,'year')">
       </div>
     </div>
@@ -51,7 +51,7 @@
           <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.selected ? 
           item?.selectedweekDayImg?.location=='content' ? item?.selectedweekDayImg?.url : item?.selectedweekDayImg?.url :
           item?.weekDayImg?.location=='content' ? item?.weekDayImg?.url : item?.weekDayImg?.url" 
-          (mousemove)="hoveronWeekDays(item)" (mouseleave)="houtonWeekDays(item)"
+          (mousemove)="hoveronWeekDays(item, $event)" (mouseleave)="houtonWeekDays(item)"
           [ngClass] = "{'disable-state': item.disabled, 'selected-state': item.selected }" (click) = "onClickCalender(item,'weekDays')">
         </div>
       </div>
@@ -185,13 +185,13 @@
         <div class="modal-content" #modalRef>
           <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.info_popup?.style_header">
             <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
-            <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+            <img class="close" [src]="confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitCloseConfirm()" (mouseleave)="houtSubmitCloseConfirm()">
           </div>
           <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
             <div class="msgImage"><img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.url"></div>
             <div class="actionButtons">
-              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
-              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+              <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()" (mouseleave)="houtSubmitConfirm()"><img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.url"></button>
+              <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()" (mouseleave)="houtSubmitDecline()"><img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.url"></button>
             </div>
           </div>
         </div>

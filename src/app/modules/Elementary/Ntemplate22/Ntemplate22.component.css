@@ -58,7 +58,6 @@ button:focus {outline: none !important;}
 }
 #optionsBlock .blockContent img {
  	max-width: 91%;
-	cursor: pointer;
 }
 .leftBlock .blockContent img {
  	margin: 1.3% 0;
@@ -665,7 +664,7 @@ nav {
 }
 .holidayList div .hDate{
   font-size: 3vmin;
-  padding-right: 8%;
+  margin-right: 8%;
 }
 .holidayList div .hName{
   display:  inline-flex;
@@ -685,4 +684,8 @@ nav {
 
 .ele .modal-title, .ele #confirmModal .modal-title{
   left: -0.5vmin;
+}
+
+.cursorOnHover {
+  cursor: pointer;
 }
