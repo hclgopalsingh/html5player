@@ -1254,6 +1254,7 @@ export class Ntemplate17Component implements OnInit {
 
   //open Keyboard 
   openKeyBoard() {
+    this.inputDivRef.nativeElement.children[0].classList.add("inputKeyboard");
     this.keyBoardOpen = true;
     this.appModel.enableSubmitBtn(false);
     clearInterval(this.blinkTimer);
@@ -2062,7 +2063,7 @@ export class Ntemplate17Component implements OnInit {
           this.displayWave = false;
           this.blinkTextBox();
           this.instructionDisable = false;
-          this.inputDivRef.nativeElement.classList = "inputDiv";  
+          this.inputDivRef.nativeElement.classList = "inputDiv";
           this.quesContainer.nativeElement.style.pointerEvents = "none";      
           //this.instructionBar.nativeElement.classList = "instructionBase";
           //this.quesContainer.nativeElement.style.pointerEvents="";
