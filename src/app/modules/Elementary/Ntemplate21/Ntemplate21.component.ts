@@ -798,6 +798,8 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.confirmSubmitRef.nativeElement.classList = "modal";
         this.confirmReplayRef.nativeElement.classList = "modal";
         this.confirmModalRef.nativeElement.classList = "modal";
+        this.digitModalRef.nativeElement.classList = "modal";
+        this.operatorModal.nativeElement.classList = "modal";
         this.showAnswerPopupRef.nativeElement.classList = "modal show";
         this.showAnswerVideo.nativeElement.play();
         this.showAnswerVideo.nativeElement.onended = () => {
