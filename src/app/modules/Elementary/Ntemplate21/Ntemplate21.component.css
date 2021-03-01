@@ -39,7 +39,7 @@ button:focus {
 #quesBlock{
   width: 29.8%;
   height: 100%;
-  bottom: 3.6%;
+  bottom: 2.6%;/*3.6%*/
 }
 #outputBlock{
   left: 39%;
@@ -104,7 +104,7 @@ button:focus {
 }
 
 .modal #outputBlock img.inputImage{
-  bottom: 56%;
+  bottom: 55.5%;
 }
 #outputBlock .filler,
 #outputBlock .filler img.level,
@@ -203,7 +203,7 @@ button:focus {
 }
 .modal .inputPlaceholder{
   width: 45%;
-  top: 18.5%;  /*20%;*/
+  top: 19%;  /*18.5%*/
   left: 29%;
 }
 .modal .blueLine{    background-color: #3300cc!important;
