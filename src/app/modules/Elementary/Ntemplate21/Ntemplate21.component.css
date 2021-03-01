@@ -129,12 +129,9 @@ button:focus {
   height: 52%;
   overflow: visible;
 }
-
-.modal #outputBlock .filler img.level{
-   
-  bottom: 5%;
-   
-}
+/* .modal #outputBlock .filler img.level{
+  bottom: 5%;   
+} */
 .modal .filler_layer{position:relative; height: 100%;}
 #quesBlock .filler{
   /* height: 98%; */
@@ -161,6 +158,7 @@ button:focus {
 .modal #outputBlock .filler img.level{
   height: 102%;
   width: 100%;
+  bottom: 5.5%;   
 }
 #outputBlock .filler img.level{
   clip-path: inset(0% 4% 0% 4%);
