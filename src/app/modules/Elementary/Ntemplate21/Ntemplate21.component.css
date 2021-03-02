@@ -204,23 +204,25 @@ button:focus {
   top: 19%;  /*18.5%*/
   left: 29%;
 }
-.modal .blueLine{    background-color: #3300cc!important;
+.modal .blueLine,
+.modal .greenLine{    
+  margin-bottom: 3%;
   display: block!important;
   z-index: 3;
   position: absolute;
   width: auto;
   right: 5%;
   left: 5.3%;
-  height: .4vmin;}
-  .modal .greenLine{    background-color: #016b01!important;
-    display: block!important;
-    z-index: 3;
-    position: absolute;
-    width: auto;
-    right: 5%;
-    left: 5.3%;
-    height: .4vmin;}
-    .modal .greenLine .fillText{display: flex;}
+}
+.modal .blueLine{    
+  background-color: #3300cc!important;
+  height: .4vmin;
+}
+.modal .greenLine{    
+  background-color: #016b01!important;
+  height: .4vmin;
+}
+.modal .greenLine .fillText{display: flex;}
 
 .modal .modalOk .ok{ cursor: pointer;   max-width: 8.5%;}
 .modal .modalOk{    display: block;
@@ -228,7 +230,7 @@ button:focus {
   position: absolute;
   bottom: 5px;
   text-align: center;}
-.modal .fillValue{height: 10%; bottom: 4%;/*35px;*/}
+.modal .fillValue{height: 10%; bottom: 5%;/*35px;*/}
 .modal .fillValue img{    
   height: 100%;
   max-height: 71%;
@@ -923,9 +925,9 @@ button:focus {
   width: auto;
   right: 5%;
   left: 5.3%;
-   
   height: .4vmin;
   display: none;
+  margin-bottom: 3%;
  }
  
 
