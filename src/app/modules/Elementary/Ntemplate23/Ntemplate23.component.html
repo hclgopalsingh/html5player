@@ -76,7 +76,7 @@
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" *ngFor="let subCat of copiedCategories"
-          (click)="categoryName($event.target)">{{subCat}}</a>
+          (click)="categoryName($event.target, 'mainDropDown')">{{subCat}}</a>
       </div>
     </div>
   </div>
