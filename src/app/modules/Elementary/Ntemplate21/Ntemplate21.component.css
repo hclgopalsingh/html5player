@@ -39,7 +39,7 @@ button:focus {
 #quesBlock{
   width: 29.8%;
   height: 100%;
-  bottom: 3.6%;
+  bottom: 2.6%;/*3.6%*/
 }
 #outputBlock{
   left: 39%;
@@ -104,7 +104,7 @@ button:focus {
 }
 
 .modal #outputBlock img.inputImage{
-  bottom: 56%;
+  bottom: 55.5%;
 }
 #outputBlock .filler,
 #outputBlock .filler img.level,
@@ -129,12 +129,9 @@ button:focus {
   height: 52%;
   overflow: visible;
 }
-
-.modal #outputBlock .filler img.level{
-   
-  bottom: 5%;
-   
-}
+/* .modal #outputBlock .filler img.level{
+  bottom: 5%;   
+} */
 .modal .filler_layer{position:relative; height: 100%;}
 #quesBlock .filler{
   /* height: 98%; */
@@ -161,6 +158,7 @@ button:focus {
 .modal #outputBlock .filler img.level{
   height: 102%;
   width: 100%;
+  bottom: 5.5%;   
 }
 #outputBlock .filler img.level{
   clip-path: inset(0% 4% 0% 4%);
@@ -203,26 +201,28 @@ button:focus {
 }
 .modal .inputPlaceholder{
   width: 45%;
-  top: 18.5%;  /*20%;*/
+  top: 19%;  /*18.5%*/
   left: 29%;
 }
-.modal .blueLine{    background-color: #3300cc!important;
+.modal .blueLine,
+.modal .greenLine{    
+  margin-bottom: 3%;
   display: block!important;
   z-index: 3;
   position: absolute;
   width: auto;
   right: 5%;
   left: 5.3%;
-  height: .4vmin;}
-  .modal .greenLine{    background-color: #016b01!important;
-    display: block!important;
-    z-index: 3;
-    position: absolute;
-    width: auto;
-    right: 5%;
-    left: 5.3%;
-    height: .4vmin;}
-    .modal .greenLine .fillText{display: flex;}
+}
+.modal .blueLine{    
+  background-color: #3300cc!important;
+  height: .4vmin;
+}
+.modal .greenLine{    
+  background-color: #016b01!important;
+  height: .4vmin;
+}
+.modal .greenLine .fillText{display: flex;}
 
 .modal .modalOk .ok{ cursor: pointer;   max-width: 8.5%;}
 .modal .modalOk{    display: block;
@@ -230,7 +230,7 @@ button:focus {
   position: absolute;
   bottom: 5px;
   text-align: center;}
-.modal .fillValue{height: 10%; bottom: 4%;/*35px;*/}
+.modal .fillValue{height: 10%; bottom: 5%;/*35px;*/}
 .modal .fillValue img{    
   height: 100%;
   max-height: 71%;
@@ -925,9 +925,9 @@ button:focus {
   width: auto;
   right: 5%;
   left: 5.3%;
-   
   height: .4vmin;
   display: none;
+  margin-bottom: 3%;
  }
  
 

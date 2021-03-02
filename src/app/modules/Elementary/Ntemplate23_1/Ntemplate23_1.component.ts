@@ -200,12 +200,7 @@ export class Ntemplate23_1Component implements OnInit {
             this.feedbackArr = this.paginationArray.slice(0, this.commonAssets.itemsperPage);
           }
           this.popupRef.nativeElement.classList = "displayPopup modal modalReviewTemp23";
-          if (this.noOfPages !== 1 && !this.endPage) {
-            this.startNextFeedbackTimer();
-          }
-          else {
-            this.startCloseFeedbackTimer();
-          }
+          this.setReviewPopup();
           this.appModel.notifyUserAction();
         }
       }
@@ -236,7 +231,8 @@ export class Ntemplate23_1Component implements OnInit {
     clearTimeout(this.loaderTimer);	
     clearTimeout(this.nextFeedbackTimer);	
     clearTimeout(this.closeFeedbackmodalTimer);	
-    clearInterval(this.nextBtnInterval);	
+    clearInterval(this.nextBtnInterval);
+    this.nextBtnInterval = undefined;
     clearTimeout(this.instructionVODelay);
     if (this.confirmPopupSubscription != undefined) {
       this.confirmPopupSubscription.unsubscribe();
@@ -276,7 +272,7 @@ export class Ntemplate23_1Component implements OnInit {
     }
     this.appModel.stopAllTimer();
     const interval = 1000;
-    const closeConfirmInterval = 2 * 6;
+    const closeConfirmInterval = 2 * 60;
     this.timerSubscription = timer(0, interval).pipe(
       take(closeConfirmInterval)
     ).subscribe(value =>
@@ -363,7 +359,7 @@ export class Ntemplate23_1Component implements OnInit {
       console.log("this.Id = " + this.clickedId);
       let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
       if (idFound != undefined) {
-        // this.optionSelected = idFound.optionSelected;
+        this.optionSelected = idFound.optionSelected;
         this.appModel.enableSubmitBtn(false);
       }
       this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
@@ -548,13 +544,11 @@ export class Ntemplate23_1Component implements OnInit {
       console.log("incorrect capital");
       this.paginationArray[index].isSubCategorycorrect = false;
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      this.tempObj.isSubCategorycorrect = false;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
+      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.tempObj;
+        this.correctIncorrectArr[index] = this.paginationArray[index];
       } else {
-        this.correctIncorrectArr.push(this.tempObj);
+        this.correctIncorrectArr.push(this.paginationArray[index]);
       }
 
     } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
@@ -563,42 +557,34 @@ export class Ntemplate23_1Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       this.paginationArray[index]["isOutOfScopeAndCorrect"] = true;
       let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
-      this.tempObj.categoryStatus = idFound.correctCategoryTxtimg;
-      this.tempObj.isSubCategorycorrect = true;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      this.tempObj["isOutOfScopeAndCorrect"] = true;
-      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
+      this.paginationArray[index].categoryStatus = idFound.correctCategoryTxtimg;
+      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.tempObj;
+        this.outOfScopeArr[index] = this.paginationArray[index];
       } else {
-        this.outOfScopeArr.push(this.tempObj);
+        this.outOfScopeArr.push(this.paginationArray[index]);
       }
     } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory !== this.paginationArray[index].subCategory) {
       console.log("out of scope incorrect ");
       this.paginationArray[index].isSubCategorycorrect = false;
-      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).incorrectSubCategoryTxtimg;
+      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       this.paginationArray[index]["isOutOfScopeAndIncorrect"] = true;
-      this.tempObj.isSubCategorycorrect = false;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      this.tempObj["isOutOfScopeAndIncorrect"] = true;
-      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
+      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.tempObj;
+        this.outOfScopeArr[index] = this.paginationArray[index];
       } else {
-        this.outOfScopeArr.push(this.tempObj);
+        this.outOfScopeArr.push(this.paginationArray[index]);
       }
     }
     else if (this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
       console.log("correct capital ");
       this.paginationArray[index].isSubCategorycorrect = true;
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      this.tempObj.isSubCategorycorrect = true;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
+      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.tempObj;
+        this.correctIncorrectArr[index] = this.paginationArray[index];
       } else {
-        this.correctIncorrectArr.push(this.tempObj);
+        this.correctIncorrectArr.push(this.paginationArray[index]);
       }
     }
   }
@@ -692,6 +678,8 @@ export class Ntemplate23_1Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         if (this.noOfPages !== 1 && !this.endPage) {
+          this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+          this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
           this.startNextFeedbackTimer();
         }
         else {
@@ -721,6 +709,8 @@ export class Ntemplate23_1Component implements OnInit {
       this.popupType = "partialIncorrect";
       this.feedbackPopupAudio.nativeElement.onended = () => {
         if (this.noOfPages !== 1 && !this.endPage) {
+          this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+          this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
           this.startNextFeedbackTimer();
         }
         else {
@@ -740,6 +730,8 @@ export class Ntemplate23_1Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         if (this.noOfPages !== 1 && !this.endPage) {
+          this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+          this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
           this.startNextFeedbackTimer();
         }
         else {
@@ -760,6 +752,8 @@ export class Ntemplate23_1Component implements OnInit {
       this.feedbackPopupAudio.nativeElement.play();
       this.feedbackPopupAudio.nativeElement.onended = () => {
         if (this.noOfPages !== 1 && !this.endPage) {
+          this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+          this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
           this.startNextFeedbackTimer();
         }
         else {
@@ -867,12 +861,7 @@ export class Ntemplate23_1Component implements OnInit {
       } else {
         this.endPage = false;
       }
-      if (this.noOfPages !== 1 && !this.endPage) {
-        this.startNextFeedbackTimer();
-      }
-      else {
-        this.startCloseFeedbackTimer();
-      }
+      this.setReviewPopup();
     } else {
       this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
       this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
@@ -957,6 +946,7 @@ export class Ntemplate23_1Component implements OnInit {
       this.feedbackArr = currentContextArr.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
     }
     clearInterval(this.nextBtnInterval);
+    this.nextBtnInterval = undefined;
     if(this.popupType === "review") {
       this.currentPageNo--;
       this.feedbackArr = this.paginationArray.slice(this.commonAssets.itemsperPage * (this.currentPageNo - 1), this.commonAssets.itemsperPage * this.currentPageNo);
@@ -966,12 +956,7 @@ export class Ntemplate23_1Component implements OnInit {
       else {
         this.endPage = false;
       }
-      if (this.noOfPages !== 1 && !this.endPage) {
-        this.startNextFeedbackTimer();
-      }
-      else {
-        this.startCloseFeedbackTimer();
-      }
+      this.setReviewPopup();
     } else {
       this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
       this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
@@ -1100,6 +1085,8 @@ export class Ntemplate23_1Component implements OnInit {
     this.feedbackPopupAudio.nativeElement.play();
     this.feedbackPopupAudio.nativeElement.onended = () => {
       if (this.noOfPages !== 1 && !this.endPage) {
+        this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+        this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
         this.startNextFeedbackTimer();
       }
       else {
@@ -1186,6 +1173,10 @@ export class Ntemplate23_1Component implements OnInit {
   /******** Function call on closing of Review popup ********/
   closeReviewPopup() {
     this.popupRef.nativeElement.classList = "modal";
+    if (!this.feedbackPopupAudio.nativeElement.paused) {
+      this.feedbackPopupAudio.nativeElement.pause();
+      this.feedbackPopupAudio.nativeElement.currentTime = 0;
+    }
     this.currentPageNo = 1;
     this.endPage = false;
     this.pageNo = 1;
@@ -1194,6 +1185,7 @@ export class Ntemplate23_1Component implements OnInit {
     clearTimeout(this.nextFeedbackTimer);
     clearTimeout(this.closeFeedbackmodalTimer);
     clearInterval(this.nextBtnInterval);
+    this.nextBtnInterval = undefined;
     this.appModel.handlePostVOActivity(false);
     this.appModel.notifyUserAction();
   }
@@ -1291,6 +1283,35 @@ export class Ntemplate23_1Component implements OnInit {
     }
   }
 
+  /******** Set Review Popup timer ********/
+  setReviewPopupTimer() {
+    if (this.noOfPages !== 1 && !this.endPage) {
+      this.startNextFeedbackTimer();
+    }
+    else {
+      this.startCloseFeedbackTimer();
+    }
+  }
+
+  /******** Set Review Popup ********/
+  setReviewPopup() {
+    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+      this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
+    if(this.commonAssets.reviewPopupAudio && this.commonAssets.reviewPopupAudio.url) {
+      this.feedbackPopupAudio.nativeElement.src = this.commonAssets.reviewPopupAudio.url;
+      this.feedbackPopupAudio.nativeElement.load();
+      setTimeout(() => {
+        this.feedbackPopupAudio.nativeElement.play();
+      }, 500);
+      this.feedbackPopupAudio.nativeElement.onended = () => {
+        this.setReviewPopupTimer();
+      }
+    } else {
+      this.setReviewPopupTimer();
+    }
+    
+  }
+
   /******** function call on modal popup close ********/
   closeModal() {
     if (!this.feedbackPopupAudio.nativeElement.paused) {
@@ -1308,6 +1329,7 @@ export class Ntemplate23_1Component implements OnInit {
     clearTimeout(this.nextFeedbackTimer);
     clearTimeout(this.closeFeedbackmodalTimer);
     clearInterval(this.nextBtnInterval);
+    this.nextBtnInterval = undefined;
     this.appModel.notifyUserAction();
     if (this.checked) {
       this.blinkOnLastQues();
@@ -1419,13 +1441,17 @@ export class Ntemplate23_1Component implements OnInit {
   }
 
   hoverFeedbackNxt() {
-    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_hover;
+    if(!this.nextBtnInterval) {
+      this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_hover;
+    }
   }
   hoverFeedbackPre() {
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_hover;
   }
   hleaveFeedbackNxt() {
-    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+    if(!this.nextBtnInterval) {
+      this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+    }
   }
   hleaveFeedbackPre() {
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
