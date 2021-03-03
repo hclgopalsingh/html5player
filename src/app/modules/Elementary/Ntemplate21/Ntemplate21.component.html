@@ -14,9 +14,9 @@
     </div>
     <div id="inputBlock" [ngClass]="{'disable_div':disableinputBlock}">
       <div class="operations "
-        [ngClass]="{'blink blinkBlock': isOn && !operatorSelected && !digitsSelected, 'disablePointer':operatorSelected}">
+        [ngClass]="{'blink blinkBlock': isOn && !operatorSelected && !digitsSelected, 'disablePointer':operatorSelected , 'enablePointer':hoverOperator}">
         <ng-container *ngFor="let operator of operators; let idx = index">
-          <img *ngIf="operator.disable" class="img-fluid" [src]="operator?.imgsrc_inactive?.url"
+          <img ng*ngIf="operator.disable" class="img-fluid" [src]="operator?.imgsrc_inactive?.url"
             [ngClass]="{'disable_div':operator.disable}" (load)="checkImgLoaded();" (mousemove)="operatorMousemove(idx)"
             (mouseleave)="operatorMouseLeave(idx)" (click)="operatorSelect(idx)" />
           <img *ngIf="!operator.disable" class="img-fluid" [src]="operator?.imgsrc?.url" (load)="checkImgLoaded();"
@@ -24,7 +24,7 @@
         </ng-container>
       </div>
       <div class="digits "
-        [ngClass]="{'disablePointer': !operatorSelected , 'blink blinkBlock': isOn && operatorSelected && !digitsSelected}">
+        [ngClass]="{'disablePointer': !operatorSelected , 'blink blinkBlock': isOn && operatorSelected && !digitsSelected, 'enablePointer':hoverDigit}">
         <ng-container *ngFor="let digit of digits; let idx = index">
           <img class="img-fluid" [src]="digit?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="digitMousemove(idx)"
             (mouseleave)="digitMouseLeave(idx)" (click)="digitSelect(idx)"
@@ -32,7 +32,7 @@
         </ng-container>
       </div>
       <div class="numbers "
-        [ngClass]="{'disablePointer': !digitsSelected || selectedNos.length == noOfDidgit, 'blink blinkBlock': isOn && operatorSelected && digitsSelected && selectedNos.length != noOfDidgit }">
+        [ngClass]="{'enablePointer':hoverNumber,'disablePointer': !digitsSelected || selectedNos.length == noOfDidgit, 'blink blinkBlock': isOn && operatorSelected && digitsSelected && selectedNos.length != noOfDidgit }">
         <ng-container *ngFor="let number of number_options; let idx = index"> <img class="img-fluid"
             [src]="number?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="numberMousemove(idx)"
             (mouseleave)="numberMouseLeave(idx)" (click)="numberSelect(idx)" /> </ng-container>

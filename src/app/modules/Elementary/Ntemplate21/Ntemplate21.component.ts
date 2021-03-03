@@ -154,6 +154,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     actComplete: boolean = false;
     feedbackCloseMin: number;
     showAnssetTimeout: any;
+    hoverOperator:boolean = false;
 
     ngOnInit() {
         //  let that = this;
@@ -445,12 +446,14 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     operatorMousemove(idx) {
         if (!this.operators[idx].selected) {
             this.operators[idx].imgsrc = this.operators[idx].imgsrc_hover;
+            this.hoverOperator = true;
         }
     }
 
     operatorMouseLeave(idx) {
         if (!this.operators[idx].selected) {
             this.operators[idx].imgsrc = this.operators[idx].imgsrc_original;
+            this.hoverOperator = false;
         }
     }
     stopInstructionVO(){
