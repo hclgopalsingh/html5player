@@ -1,10 +1,8 @@
 <div class="container-fluid ele" id="container" *ngIf="!isPlayVideo">
   <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
-  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar"
-    [ngClass]="{'disable_div':disableinstructionBar}">
+  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
     <div class="instructionBase" #instructionBar [ngClass]="{'disable_div':disableinstruction}">
-      <img class="img-fluid" [ngStyle]="{'cursor': Instructionpointer ? 'default' : 'pointer' }"
-        (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
+      <img class="img-fluid" (click)="playInstruction()" [src]="commonAssets?.instruction_img?.url" (load)="checkImgLoaded();" />
     </div>
     <audio #instructionVO [src]="commonAssets?.instruction_vo?.url"></audio>
   </div>
@@ -301,7 +299,7 @@
     </div>
   </div>
 </div>
-<div class="videoMainContainer" *ngIf="isPlayVideo">
+<!-- <div class="videoMainContainer" *ngIf="isPlayVideo">
   <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
     (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
     (ended)="endedHandler()">
@@ -311,4 +309,18 @@
   <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
       (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
   <div class="video_loader" *ngIf="!isVideoLoaded"> <img src="assets/images/loaderVideo.gif"> </div>
+</div> -->
+<div class="videoMainContainer" *ngIf="isPlayVideo">
+  <img src="assets/images/videoBg.png" class="img-fluid videoBg">
+  <div class="videoWrapper">
+    <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
+      (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
+      (ended)="endedHandler()">
+      <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
+    </video>
+    <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
+        (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
+    <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="SkipLoad"
+        (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
+  </div>
 </div>

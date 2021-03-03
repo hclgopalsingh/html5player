@@ -140,9 +140,9 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     disableinstruction: boolean = false;
     AnswerpopupTxt: boolean = false;
     popupHeader: any;
-    disableinstructionBar: boolean = false;
+    // disableinstructionBar: boolean = false;
     SkipLoad: boolean = false;
-    Instructionpointer: boolean = false;
+    // Instructionpointer: boolean = false;
     disableinputBlock: boolean = false;
     initialValue: any;
     destinationVal: any;
@@ -188,43 +188,20 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             }
         })
         this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
-            if (!this.instructionVO.nativeElement.paused) {
-                this.instructionVO.nativeElement.currentTime = 0;
-                this.instructionVO.nativeElement.pause();
-                this.disableinstruction = false;
-                this.Instructionpointer = false;
-                this.disableinstructionBar = false;
-            }
+            this.stopInstructionVO();
             if (val == "uttarDikhayein") {
-                // this.instructionVO.nativeElement.pause();
-                // this.instructionVO.nativeElement.currentTime = 0;
-                // this.disableinstruction = false;
-                // this.Instructionpointer = false;
-                // this.disableinstructionBar = false;
-
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.confirmModalRef.nativeElement.classList = "show modal";
                     this.isOn = false;
-                    // this.instructionBar.nativeElement.classList = "instructionBase disableDiv";
                     this.appModel.notifyUserAction();
                     this.checkForAutoClose();
                 }
             } else if (val == "submitAnswer") {
-                // this.instructionVO.nativeElement.pause();
-                // this.instructionVO.nativeElement.currentTime = 0;
-                // this.disableinstruction = false;
-                // this.Instructionpointer = false;
-                // this.disableinstructionBar = false;
                 if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
                     this.confirmSubmitRef.nativeElement.classList = "show modal";
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "replayVideo") {
-                // this.instructionVO.nativeElement.pause();
-                // this.instructionVO.nativeElement.currentTime = 0;
-                // this.disableinstruction = false;
-                // this.Instructionpointer = false;
-                // this.disableinstructionBar = false;
                 this.isOn = false;
                 if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
                     this.confirmReplayRef.nativeElement.classList = "show modal";
@@ -246,6 +223,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         })
         this.appModel.postWrongAttempt.subscribe(() => {
             // this.appModel.enableReplayBtn(true);
+            this.isOn = false;
             this.showAnswer();
         })
         this.appModel.handleController(this.controlHandler);
@@ -286,7 +264,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         }
         this.appModel.stopAllTimer();
         const interval = 1000;
-        const closeConfirmInterval = 2 * 60;
+        const closeConfirmInterval = 1 * 60;
         this.timerSubscription = timer(0, interval).pipe(
             take(closeConfirmInterval)
         ).subscribe(value =>
@@ -295,7 +273,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
                 //console.log("error occuered....");
             },
             () => {
-                this.sendFeedback('confirm-modal-id', 'no');
+                this.sendFeedback(this.confirmModalRef.nativeElement,'no');
                 this.timerSubscription.unsubscribe();
             }
         )
@@ -475,17 +453,20 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.operators[idx].imgsrc = this.operators[idx].imgsrc_original;
         }
     }
-
+    stopInstructionVO(){
+        if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
+            this.instructionVO.nativeElement.pause();
+            this.instructionVO.nativeElement.currentTime = 0;
+            this.disableinstruction = false;
+        }
+    }
     operatorSelect(idx) {
-        this.disableinstructionBar = false;
+        // this.disableinstructionBar = false;
         this.deSelectDigits();
         this.deSelectNos();
         //disable replay btn
         // this.appModel.enableReplayBtn(false);
-        if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-        }
+        this.stopInstructionVO();
         this.appModel.notifyUserAction();
         if (this.operators[idx].canUse) {
             this.operatorSelected = true;
@@ -562,10 +543,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.deSelectNos();
         this.appModel.notifyUserAction();
         this.digitsSelected = true;
-        if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-        }
+        this.stopInstructionVO();
         for (let i in this.digits) {
             if (idx != -i) {
                 if (this.digits[i].selected) {
@@ -593,10 +571,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
 
     numberSelect(idx) {
         this.appModel.notifyUserAction();
-        if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-        }
+        this.stopInstructionVO();
         for (let i in this.number_options) {
             if (idx != -i) {
                 if (this.number_options[i].selected) {
@@ -779,6 +754,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         }
         if (this.noOfAttempt >= 5 && !this.isCorrect) {
             this.appModel.stopAllTimer();
+            this.isOn = false;
             this.appModel.wrongAttemptAnimation();
             // this.showAnswer();
         }
@@ -789,12 +765,8 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     showAnswer() {
         this.popupType = "showanswer"
         this.appModel.resetBlinkingTimer();
-        this.appModel.stopAllTimer();
-        if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-        }
-
+        this.appModel.stopAllTimer();        
+        this.stopInstructionVO();
         this.confirmSubmitRef.nativeElement.classList = "modal";
         this.confirmReplayRef.nativeElement.classList = "modal";
         this.confirmModalRef.nativeElement.classList = "modal";
@@ -826,20 +798,17 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         if (this.instructionVO.nativeElement && this.instructionVO.nativeElement.src) {
             this.appModel.notifyUserAction();
             this.instructionVO.nativeElement.play();
-            this.disableinstructionBar = true;
-            this.Instructionpointer = true;
+            this.disableinstruction = true;
+            // this.Instructionpointer = true;
             this.instructionVO.nativeElement.onended = () => {
-                this.disableinstructionBar = false;
-                this.Instructionpointer = false;
+                this.disableinstruction = false;
+                // this.Instructionpointer = false;
             }
         }
     }
     attemptNo: any = 5;
     sendFeedback(ref, flag: string, action?: string) {
-        if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-        }
+        this.stopInstructionVO();
         ref.classList = "modal";
         this.appModel.notifyUserAction();
         if (this.timerSubscription != undefined) {
@@ -850,12 +819,6 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         }
         if (flag == "no" && !this.actComplete) {
             this.isOn = true;
-
-            // this.instructionDisable = setTimeout(() => {
-            //     if (this.instructionBar && this.instructionBar.nativeElement) {
-            //         this.instructionBar.nativeElement.classList = "instructionBase";
-            //     }
-            // }, 1000)
         }
         if (action == "showAnswer") {
             this.showAnswer();
@@ -947,9 +910,6 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     disableScreen() {
         this.isOn = false;
         this.mainContainer.nativeElement.classList = "bodyContent disableDiv reduceOpacity"
-        // if (this.instructionDisable) {
-        //     clearTimeout(this.instructionDisable);
-        // }
         this.instructionBar.nativeElement.classList = "instructionBase disableDiv reduceOpacity";
         this.appModel.enableSubmitBtn(false);
         this.appModel.enableReplayBtn(false);
@@ -1118,21 +1078,11 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.videoReplayd = true;
         this.isPlayVideo = true;
         // this.appModel.enableSubmitBtn(false);
-        this.disableinstruction = true;
+        // this.disableinstruction = true;
         setTimeout(() => {
             this.mainVideo.nativeElement.play();
             this.disableinputBlock = true;
             this.mainVideo.nativeElement.onended = () => {
-                // setTimeout(() => {
-                //     this.appModel.setLoader(false);
-                //     this.disableinputBlock = false;
-                // }, 1000);
-
-                // this.disableinstruction = false;
-                // this.isPlayVideo = false;
-                // this.appModel.videoStraming(false);
-                // this.appModel.startPreviousTimer();
-                // this.appModel.notifyUserAction();
                 this.endedHandleronSkip();
             }
         }, 500)
@@ -1146,17 +1096,13 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     endedHandleronSkip() {
-        // this.isPlayVideo = false;
-        // this.appModel.navShow = 2;
-        // this.appModel.videoStraming(false);
-        // this.appModel.notifyUserAction();
         this.isOn = true;
         setTimeout(() => {
             this.appModel.setLoader(false);
             this.disableinputBlock = false;
         }, 1000);
 
-        this.disableinstruction = false;
+        // this.disableinstruction = false;
         this.isPlayVideo = false;
         this.appModel.videoStraming(false);
         this.appModel.startPreviousTimer();
@@ -1230,7 +1176,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     deSelectNos() {
-        this.Instructionpointer = false;
+        // this.Instructionpointer = false;
         this.selectedNos.splice(0, this.selectedNos.length);
         for (let i in this.number_options) {
             if (this.number_options[i].selected) {
@@ -1243,7 +1189,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
 
     SelectOperator() {
         this.operatorSelected = false;
-        this.Instructionpointer = false;
+        // this.Instructionpointer = false;
         for (let i in this.operators) {
             if (this.operators[i].selected) {
                 this.operators[i].selected = false;
@@ -1255,7 +1201,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     //deselect the selected degits
     deSelectDigits() {
         this.digitsSelected = false;
-        this.Instructionpointer = false;
+        // this.Instructionpointer = false;
         for (let i in this.digits) {
             if (this.digits[i].selected) {
                 this.digits[i].selected = false;
