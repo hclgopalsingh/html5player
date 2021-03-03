@@ -216,26 +216,28 @@ button:focus {
   margin-top: 3%;
   height: 14.5%;
 	position: absolute;
-    bottom: 0;
+  bottom: 0;
+  padding: 1.3%;
 }
 .numbers img{
   width: 10%;
 }
 .digits{
   width: 60%;
-    height: 16%;
+  height: 16%;
 	position: absolute;
-    bottom: 18%;
+  bottom: 18%;
 }
 .digits img{
   width: 33%;
 }
 .operations {
-  width: 37%;
-    flex-wrap: wrap;
-    height: 32%;
+  width: 33%;/*37%;*/
+  flex-wrap: wrap;
+  height: 32%;
 	position: absolute;
-    bottom: 37%;
+  bottom: 37%;
+  padding: 1.3% 0;
 }
 .operations img{
   /*width: 50%;*/
