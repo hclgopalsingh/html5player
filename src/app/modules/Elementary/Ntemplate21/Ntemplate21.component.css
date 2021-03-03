@@ -242,8 +242,7 @@ button:focus {
    height: 50%;
 }
 .numbers img,
-.digits img,
-.operations img{
+.digits img{
   cursor: pointer; 
 }
 .modal #outputBlock{
@@ -944,4 +943,7 @@ button:focus {
   top: 0;
   left: 0;
   z-index: 101; */
+}
+.enablePointer{
+  cursor: pointer;
 }
