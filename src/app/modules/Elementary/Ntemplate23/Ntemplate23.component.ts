@@ -346,7 +346,7 @@ export class Ntemplate23Component implements OnInit {
       console.log("this.Id = " + this.clickedId);
       let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
       if (idFound != undefined) {
-        // this.optionSelected = idFound.optionSelected;
+        this.optionSelected = idFound.optionSelected;
         this.appModel.enableSubmitBtn(false);
       }
       this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
@@ -368,6 +368,7 @@ export class Ntemplate23Component implements OnInit {
           this.countofClick = 1;
           this.p++;
         }
+        this.p = Math.ceil(this.paginationArray.length / this.commonAssets.itemsperPage);
         document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.remove("tooltipHidden");
         document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.add("tooltipshow");
         document.getElementById("tooltip" + (this.categoryIndex + 1)).style.pointerEvents = "none";
@@ -531,13 +532,11 @@ export class Ntemplate23Component implements OnInit {
       console.log("incorrect capital");
       this.paginationArray[index].isSubCategorycorrect = false;
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      this.tempObj.isSubCategorycorrect = false;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
+      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.tempObj;
+        this.correctIncorrectArr[index] = this.paginationArray[index];
       } else {
-        this.correctIncorrectArr.push(this.tempObj);
+        this.correctIncorrectArr.push(this.paginationArray[index]);
       }
 
     } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
@@ -546,48 +545,40 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       this.paginationArray[index]["isOutOfScopeAndCorrect"] = true;
       let idFound = this.mySVGArr.find(element => element.id == this.clickedId || element.strokeId == this.clickedId);
-      this.tempObj.categoryStatus = idFound.correctCategoryTxtimg;
-      this.tempObj.isSubCategorycorrect = true;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      this.tempObj["isOutOfScopeAndCorrect"] = true;
-      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
+      this.paginationArray[index].categoryStatus = idFound.correctCategoryTxtimg;
+      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.tempObj;
+        this.outOfScopeArr[index] = this.paginationArray[index];
       } else {
-        this.outOfScopeArr.push(this.tempObj);
+        this.outOfScopeArr.push(this.paginationArray[index]);
       }
     } else if (!this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory !== this.paginationArray[index].subCategory) {
       console.log("out of scope incorrect ");
       this.paginationArray[index].isSubCategorycorrect = false;
-      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).incorrectSubCategoryTxtimg;
+      this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       this.paginationArray[index]["isOutOfScopeAndIncorrect"] = true;
-      this.tempObj.isSubCategorycorrect = false;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
-      this.tempObj["isOutOfScopeAndIncorrect"] = true;
-      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.tempObj.id);
+      let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.tempObj;
+        this.outOfScopeArr[index] = this.paginationArray[index];
       } else {
-        this.outOfScopeArr.push(this.tempObj);
+        this.outOfScopeArr.push(this.paginationArray[index]);
       }
     }
     else if (this.paginationArray[index].isCategoryCorrect && this.paginationArray[index].subCatOfSelectedCategory === this.paginationArray[index].subCategory) {
       console.log("correct capital ");
       this.paginationArray[index].isSubCategorycorrect = true;
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      this.tempObj.isSubCategorycorrect = true;
-      this.tempObj.subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
-      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.tempObj.id);
+      let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.tempObj;
+        this.correctIncorrectArr[index] = this.paginationArray[index];
       } else {
-        this.correctIncorrectArr.push(this.tempObj);
+        this.correctIncorrectArr.push(this.paginationArray[index]);
       }
     }
   }
 
   /******** Function called on selecting subcategory from dropdown ********/
-  categoryName(category) {
+  categoryName(category, dropDownType?) {
     this.appModel.notifyUserAction();
     let indexinSubmitArr: number = this.submittedArray.findIndex(element => element.id == this.clickedId || element.strokeId == this.clickedId);
     if (indexinSubmitArr != -1) {
@@ -613,6 +604,9 @@ export class Ntemplate23Component implements OnInit {
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
     document.getElementById('dropdownviaTooltip').style.left = "0%";
     document.getElementById('dropdownviaTooltip').style.top = "0%";
+    if(dropDownType === "mainDropDown") {
+      this.p = Math.ceil(this.paginationArray.length / this.commonAssets.itemsperPage);
+    }
   }
 
   /******** Function call on click of submit ********/
@@ -1033,6 +1027,8 @@ export class Ntemplate23Component implements OnInit {
     this.feedbackPopupAudio.nativeElement.play();
     this.feedbackPopupAudio.nativeElement.onended = () => {
       if (this.noOfPages !== 1 && !this.endPage) {
+        this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+        this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
         this.startNextFeedbackTimer();
       }
       else {
@@ -1315,13 +1311,17 @@ export class Ntemplate23Component implements OnInit {
   }
 
   hoverFeedbackNxt() {
-    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_hover;
+    if(!this.nextBtnInterval) {
+      this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_hover;
+    }
   }
   hoverFeedbackPre() {
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_hover;
   }
   hleaveFeedbackNxt() {
-    this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+    if(!this.nextBtnInterval) {
+      this.feedbackObj.feedback_next_btn = this.feedbackObj.feedback_next_btn_original;
+    }
   }
   hleaveFeedbackPre() {
     this.feedbackObj.feedback_back_btn = this.feedbackObj.feedback_back_btn_original;
