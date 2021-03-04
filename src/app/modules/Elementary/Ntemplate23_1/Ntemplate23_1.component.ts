@@ -314,7 +314,6 @@ export class Ntemplate23_1Component implements OnInit {
         }
       }
       this.categoryIndex = this.mySVGArr.findIndex(element => element.id == this.Id || element.strokeId == this.Id);
-      this.originalcolor[this.categoryIndex] = document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[0].getAttribute("fill");
       if (this.categoryIndex != -1) {
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
           document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.mainSvgfile.hoverColor);
@@ -412,7 +411,7 @@ export class Ntemplate23_1Component implements OnInit {
         if (idFound != undefined) {
           console.log("new dropdown will open");
           this.appModel.enableSubmitBtn(false);
-          this.selectedCategoryinTooltip = idFound.textField;
+          this.selectedCategoryinTooltip = this.commonAssets.isCategoryBased ? idFound.categoryName : idFound.textField;
           document.getElementById('dropdownviaTooltip').style.pointerEvents = "";
           document.getElementById('dropdownviaTooltip').style.opacity = "1";
           document.getElementById('dropdown').style.pointerEvents = "none";
@@ -456,7 +455,9 @@ export class Ntemplate23_1Component implements OnInit {
       if (idFound) {
         this.countofClick--;
         for (let i = 0; i < document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children.length; i++) {
-          document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
+          if(this.originalcolor && this.originalcolor[this.categoryIndex]) {
+            document.querySelector(this.QuesRef.nativeElement.children[1].children[this.categoryIndex + 1].children[0].children[0].getAttribute("xlink:href")).children[i].setAttribute("fill", this.originalcolor[this.categoryIndex]);
+          }
         }
         idFound.clicked = false;
       }
@@ -1019,6 +1020,11 @@ export class Ntemplate23_1Component implements OnInit {
             for (let j = 1; j < this.QuesRef.nativeElement.children[1].children[i].children.length; j++) {
               this.QuesRef.nativeElement.children[1].children[i].children[j].style.pointerEvents = "none";
             }
+          }
+        }
+        for(let j=1; j <this.QuesRef.nativeElement.children[1].children.length; j++) {
+          if(this.QuesRef.nativeElement.children[1].children[j].children[0].children[0] && this.QuesRef.nativeElement.children[1].children[j].children[0].children[0].getAttribute("xlink:href")) {
+            this.originalcolor[j-1] = document.querySelector(this.QuesRef.nativeElement.children[1].children[j].children[0].children[0].getAttribute("xlink:href")).children[0].getAttribute("fill");
           }
         }
         console.log("SVG loaded");

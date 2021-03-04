@@ -1694,11 +1694,10 @@ html [type=button] {
   display: none !important;
 }
 
-.ele17 .hg-standardBtn {
+.ele17 .hg-standardBtn, .ele17 .hg-functionBtn {
   border: solid rgba(255, 255, 255, 0) 1.5px;
 }
-
-.ele17 .hg-standardBtn:hover {
+.ele17 .hg-standardBtn:hover, .ele17 .hg-functionBtn:hover {
   border: solid white 1.5px;
   border-bottom-color: rgba(255, 255, 255, 1) !important;
 }
