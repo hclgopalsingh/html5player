@@ -265,7 +265,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         }
         this.appModel.stopAllTimer();
         const interval = 1000;
-        const closeConfirmInterval = 1 * 60;
+        const closeConfirmInterval = 2 * 60;
         this.timerSubscription = timer(0, interval).pipe(
             take(closeConfirmInterval)
         ).subscribe(value =>
