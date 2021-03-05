@@ -71,7 +71,6 @@ export class Ntemplate17Component implements OnInit {
     this.assetsPath = this.appModel.assetsfolderpath;
     this.appModel.navShow = 1;
     this.appModel.setLoader(true);
-    this.nextQuestionTimerForLastQuestioninSec = _InactivityTimerComponent.moveNextQuesTimer;
 
     // if error occured during image loading loader wil stop after 5 seconds 
     this.loaderTimer = setTimeout(() => {
@@ -222,9 +221,6 @@ export class Ntemplate17Component implements OnInit {
   _questionAreaAudioFlag: boolean = false;
   _setQuestionAudio: any;
   infoModal: boolean = true;
-  nextQuestionTimerForLastQuestioninSec: any;
-  nextQuestionTimerForLastQuestioninMiliSec: any;
-  nextQuestionTimeronLast: any;
   btnCounting: number = 0;
   _addWordFlag: boolean = false;
   _playInstructionFlag: boolean = false;
@@ -783,23 +779,6 @@ export class Ntemplate17Component implements OnInit {
       this.feedbackInfoAudio.nativeElement.play();
       clearInterval(this.blinkTimer);
 
-      // if (this.quesObj.lang != 'math') {
-      // }
-      console.log("==BlinkOnLastQuestion==");
-      this.nextQuestionTimerForLastQuestioninMiliSec = (this.nextQuestionTimerForLastQuestioninSec * 60) * 1000;
-      this.nextQuestionTimeronLast = setTimeout(() => {
-        if (this.quesObj.lang == 'math') {
-          this.disableScreen();
-          this.InfoModalRef.nativeElement.classList = "modal";
-          this.feedbackInfoAudio.nativeElement.pause();
-          this.feedbackInfoAudio.nativeElement.currentTime = 0;
-          console.log("inMiliSecond = " + this.nextQuestionTimerForLastQuestioninMiliSec);
-          this.appModel.enableSubmitBtn(false);
-          this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
-          this.appModel.moveNextQues();
-          this.inputDivRef.nativeElement.classList = "inputDiv disablePointer"
-        }
-      }, this.nextQuestionTimerForLastQuestioninMiliSec)
       if (this.appModel.isLastSectionInCollection) {
         // this.appModel.blinkForLastQues();
         //this.appModel.stopAllTimer();
@@ -822,9 +801,6 @@ export class Ntemplate17Component implements OnInit {
             this.appModel.event = { 'action': 'end' };
           }
         }
-      }
-      else {
-        this.appModel.moveNextQues("noBlink");
       }
     }
   }
@@ -1137,7 +1113,6 @@ export class Ntemplate17Component implements OnInit {
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
     this.appModel.handlePostVOActivity(false);
-    clearTimeout(this.nextQuestionTimeronLast);
     ref.classList = "modal";
     this.instructionDisable = false;
     if(this.nextFeedbackBlinkTimer !== undefined) {
@@ -1150,8 +1125,18 @@ export class Ntemplate17Component implements OnInit {
       this.replayVideo();
     } else if (action == "feedbackDone") {
       console.log("feedback done......");
-      if (this.quesObj.lang == 'math') {
+      if (this.appModel.isLastSectionInCollection) {
         this.appModel.blinkForLastQues();
+        this.appModel.stopAllTimer();
+        if (!this.appModel.eventDone) {
+          if (this.isLastQuesAct) {
+            this.appModel.eventFired();
+            this.appModel.event = { 'action': 'segmentEnds' };
+          }
+          if (this.isLastQues) {
+            this.appModel.event = { 'action': 'exit' };
+          }
+        }
       }
       else {
         this.appModel.moveNextQues();
