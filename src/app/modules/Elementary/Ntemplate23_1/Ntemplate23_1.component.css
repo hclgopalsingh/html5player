@@ -1224,3 +1224,10 @@ nav {
 .modalReviewTemp23 .listNames li:last-child span {
   margin-bottom: 0.5% !important;
 }
+
+.ele23_1 .modal .instructionBase, .ele23_1 .modal .instructionBaseFeedback {
+  max-width: 85% !important;
+}
+.modalReviewTemp23.modal .instructionBase, .modalReviewTemp23.modal .instructionBaseFeedback {
+  max-width: 90% !important;
+}
