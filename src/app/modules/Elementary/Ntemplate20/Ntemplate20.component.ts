@@ -167,6 +167,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   isLastQuestion: boolean;
   confirmPopupSubscription: any;
   actComplete : boolean = false;
+  screenFaded: boolean = false;
 
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
@@ -240,8 +241,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       if (val == "uttarDikhayein") {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-          this.setPopupAssets();
           this.popupType = "showanswer";
+          this.setPopupAssets();
           this.responseType = "";
           this.attemptType = "uttarDikhayein";
           this.checkForAutoClose();
@@ -686,7 +687,8 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
   /*** Show Answer and submit Functionality after click on Yes ***/
   sendFeedback(ref, flag: string, action?: string) {
-
+    this.feedbackInfoAudio.nativeElement.pause();
+    this.feedbackInfoAudio.nativeElement.currentTime = 0;
     this.actionType = "";
     this.actionType = action;
     this.popUpFeedbackMsgUrl = '';
@@ -758,7 +760,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     } else if (action == "fadeEverything") {
       this.attemptTypeClose = "fadeEverything";
       this.fadeEverything();
-      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+      if (flag == "ok" && this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
         this.blinkOnLastQues();
       }
     } else if (action == "feedbackDone") {
@@ -785,7 +787,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       }
       if (action == "fadeEverything") {
         this.appModel.notifyUserAction();
-        if (this.responseType != "partialAttempt" && this.responseType != "wrongAttempt" && this.responseType != "allCorrect") {
+        if (this.responseType != "partialAttempt" && this.responseType != "wrongAttempt") {
           this.blinkOnLastQues();
         }
       }
@@ -809,14 +811,17 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.renderer.removeClass(this.elementRef.nativeElement, 'disable_div');
     ;
     this.renderer.removeClass(this.instructionBar.nativeElement, 'disable_div');
-    for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
-      this.optionRef.nativeElement.children[i].classList = "";
+    if(!this.screenFaded) {
+      for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
+        this.optionRef.nativeElement.children[i].classList = "";
+      }
     }
   }
 
   /*** To Fade the screen functionality ***/
   fadeEverything() {
     this.blinkingFlag = false;
+    this.screenFaded = true;
     this.feedbackPopupAudio.nativeElement.pause();
     this.feedbackPopupAudio.nativeElement.currentTime = 0;
     if (this.attemptTypeClose == "fadeEverything" || this.attemptTypeClose == "") {
@@ -1022,7 +1027,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                     }
                   }
                 }
-                if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
+                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
                   this.submittedArr[i][j].isAtCorrectPos = false;
                 } else if (i !== this.optionObj.given_values[kCount].index && this.submittedArr[i][j].value === this.optionObj.given_values[kCount].value) {
                   this.submittedArr[i][j].isAtCorrectPos = false;
@@ -1096,14 +1101,14 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
     if (this.wrongCounter == this.submitButtonCounter) {
         this.resultType = "wrong";
-        this.popupType = "wrong"
+        this.popupType = "wrong";
         this.wrongCounter = 0;
         this.appModel.notifyUserAction();
     }
     else if (this.wrongCounter == 0) {
         this.resultType = "correct";
         this.wrongCounter = 0;
-        this.popupType = "correct"
+        this.popupType = "correct";
         this.appModel.notifyUserAction();
     }
     else {
@@ -1115,7 +1120,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
 
     if (this.resultType != "") {
 
-        if (this.optIndxArr.length == 0 && this.resultType == "correct") {
+        if (this.optIndxArr.length == 0 && this.resultType == "correct" && this.submitButtonCounter == this.optionArr.length) {
             this.responseType = "allCorrect";
             console.log("all Correct congratessssss");
             this.feedbackAudio = this.feedbackObj.correctAudio;
