@@ -351,6 +351,7 @@ export class Ntemplate22 implements OnInit {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
+      this.appModel.notifyUserAction();
       console.log("play on Instruction");
       this.instruction.nativeElement.load();
       if (this.instruction.nativeElement.paused) {
