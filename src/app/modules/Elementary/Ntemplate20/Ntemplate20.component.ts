@@ -808,10 +808,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     } else {
       this.appModel.enableReplayBtn(true);
     }
-    this.renderer.removeClass(this.elementRef.nativeElement, 'disable_div');
-    ;
-    this.renderer.removeClass(this.instructionBar.nativeElement, 'disable_div');
     if(!this.screenFaded) {
+      this.renderer.removeClass(this.elementRef.nativeElement, 'disable_div');
+      this.renderer.removeClass(this.instructionBar.nativeElement, 'disable_div');
       for (let i = 0; i < this.optionRef.nativeElement.children.length; i++) {
         this.optionRef.nativeElement.children[i].classList = "";
       }
@@ -826,7 +825,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.feedbackPopupAudio.nativeElement.currentTime = 0;
     if (this.attemptTypeClose == "fadeEverything" || this.attemptTypeClose == "") {
       if (this.attemptType == "manual") {
-        this.appModel.blinkForLastQues(this.attemptType);
+        // this.appModel.blinkForLastQues(this.attemptType);
         this.resultType = "correct";
       } else if (this.attemptType == "wrong") {
         this.appModel.wrongAttemptAnimation();
@@ -872,7 +871,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     if (this.optionRef != undefined && this.attemptType == "showAnswer") {
       // clearInterval(this.blinkInterval);
     }
-    this.attemptType = "";
+    // this.attemptType = "";
     // this.instructionBar.nativeElement.classList = "greyOut instructionBase disableDiv";
     // this.instructionBar.nativeElement.classList = "greyOut instructionBase disable_div";
     clearInterval(this.blinkInterval);
@@ -1226,7 +1225,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.appModel.moveNextQues();
+      this.appModel.moveNextQues(this.attemptType);
       this.disableScreen();
     }
     this.instructionBar.nativeElement.classList = "greyOut instructionBase disable_div";
