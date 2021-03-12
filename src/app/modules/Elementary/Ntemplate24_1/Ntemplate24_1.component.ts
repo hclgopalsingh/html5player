@@ -119,6 +119,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   greyOutOpt: boolean = false;
   isPartialPopup: boolean = false;
   animating : boolean = false;
+  nextPreviousClicked: boolean = false;
   
   ngOnInit() {
     let that = this;
@@ -159,6 +160,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
         this.disableInstruction = false;
+      }
+      if (!this.audio.paused) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.afterOptionVOends();
       }
       if (val == "uttarDikhayein") {
         clearTimeout(this.postCompleteTimer);
@@ -205,6 +211,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     clearInterval(this.postCompleteTimer);
     if (this.bgSubscription != undefined) {
       this.bgSubscription.unsubscribe();
+    }
+    if (!this.audio.paused) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.afterOptionVOends();
     }
   }
 
@@ -502,6 +513,59 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.quesObj.quesPlayPause = this.quesObj.quesPlayHover;
     }
   }
+
+  optionHover(idx, opt) {
+    this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].style.cursor="pointer";
+    this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.add("scaleInAnimation");
+  }
+  playOptionHover(idx, opt) {
+    this.appModel.notifyUserAction();
+    if (opt && opt.mouse_over_audio && opt.mouse_over_audio.url) {
+      this.playSound(opt.mouse_over_audio, idx);
+    }
+  }
+
+  /* To play option mouse over audio if any */
+  playSound(soundAssets, idx) {
+    this.disableInstruction = true;
+    this.instructionVO.nativeElement.pause();
+    this.instructionVO.nativeElement.currentTime = 0;
+    if (this.audio && this.audio.paused) {
+      this.audio.src = soundAssets.url;
+      this.audio.play();
+      for (let i = 0; i < this.mainContainer.nativeElement.children[0].children[0].children.length; i++) {
+        if (i != idx) {
+          this.mainContainer.nativeElement.children[0].children[0].children[i].classList.add("disableDiv");
+        }
+      }
+      this.audio.onended = () => {
+        this.afterOptionVOends();
+      }
+    }
+  }
+
+  /*To enable options after roll over sound ends */
+  afterOptionVOends() {
+    this.disableInstruction = false;
+    for (let i = 0; i < this.mainContainer.nativeElement.children[0].children[0].children.length; i++) {
+      this.mainContainer.nativeElement.children[0].children[0].children[i].classList.remove("disableDiv");
+    }
+  }
+
+  optionLeave(idx, opt) {
+    this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].style.cursor="";
+    if(this.nextPreviousClicked) {
+      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleInAnimation");
+      this.nextPreviousClicked = false;
+    } else {
+      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.add("scaleOutAnimation");
+    }
+    setTimeout(() => {
+      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleOutAnimation");
+      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleInAnimation");
+    }, 500)
+  }
+
   hoverSkip() {
     // this.skipFlag = false;
     this.quesObj.quesSkip = this.quesObj.quesSkipHover;
@@ -620,6 +684,12 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   /*On click up*/ 
   movePrevious(idx, opt) {
     if(!this.animating){
+      this.nextPreviousClicked = true;
+      this.mainContainer.nativeElement.children[0].children[0].classList.add("disableDiv");
+      this.postCompleteTimer = setTimeout(() => {
+        this.mainContainer.nativeElement.children[0].children[0].classList.remove("disableDiv");
+      }, 2000);
+      this.mainContainer.nativeElement.children[0].children[0].classList.add("disableDiv");
       this.animating=true;
       if (!this.instructionVO.nativeElement.paused) {
         this.instructionVO.nativeElement.pause();
@@ -641,6 +711,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     /*On click down*/ 
   moveNext(idx, opt) {
     if(!this.animating){
+      this.nextPreviousClicked = true;
+      this.mainContainer.nativeElement.children[0].children[0].classList.add("disableDiv");
+      this.postCompleteTimer = setTimeout(() => {
+        this.mainContainer.nativeElement.children[0].children[0].classList.remove("disableDiv");
+      }, 2000);
       this.animating=true;
       if (!this.instructionVO.nativeElement.paused) {
         this.instructionVO.nativeElement.pause();
@@ -683,9 +758,16 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   /*Handler for all popup event calls*/ 
   sendFeedback(ref, flag: string, action?: string) {
     this.appModel.notifyUserAction();
+    this.mainContainer.nativeElement.children[0].style.pointerEvents = "none";
     ref.classList = "modal";
     this.isPartialPopup = false;
     clearInterval(this.postCompleteTimer);
+    setTimeout(
+      () => {
+        if (action == "noShowAnswer" || action == "resetActivity" || action == undefined) {
+          this.mainContainer.nativeElement.children[0].style.pointerEvents = "";
+        }
+      }, 1000);
     if (action == "showAnswer") {
       this.popupType = "showanswer"
       this.getAnswer('showAnswer');
@@ -705,6 +787,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         this.disableScreen();
         this.blinkOnLastQues();
       } else {
+        this.mainContainer.nativeElement.children[0].style.pointerEvents = "none ";
+        setTimeout(
+          () => {
+            this.mainContainer.nativeElement.children[0].style.pointerEvents = "";
+          }, 4000);
         this.appModel.wrongAttemptAnimation();
       }
     } else if (action == "partialFeedback") {
@@ -753,6 +840,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
             this.disableScreen();
             this.blinkOnLastQues();
           } else {
+            this.mainContainer.nativeElement.children[0].style.pointerEvents = "none ";
+            setTimeout(
+              () => {
+                this.mainContainer.nativeElement.children[0].style.pointerEvents = "";
+              }, 4000);
             this.appModel.wrongAttemptAnimation();
             this.resetActivity();
           }
