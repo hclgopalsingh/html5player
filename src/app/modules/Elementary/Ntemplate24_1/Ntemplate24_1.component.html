@@ -12,7 +12,7 @@
       <div class="my-auto quesImage">
         <div class="options" [ngClass]="{'disableDiv':disableOpt,'greyOut':greyOutOpt}"
           *ngFor="let option of optionObjCopy.optionArray;let idx=index; let first=first; let last=last;">
-          <div>
+          <div (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)" (mouseenter)="playOptionHover(idx,option)">
             <img class="img-fluid" [src]="option?.imgsrc?.url" (load)="checkImgLoaded();">
             <span class="upArrowContainer" (mousemove)="hoverPre(option,idx)" (mouseleave)="hleavePre(option,idx)">
               <img [ngClass]="{'d-none':first}" class="img-fluid" (click)="movePrevious(idx,opt);"
@@ -56,7 +56,7 @@
       <div class="modal-content" #modalRef>
         <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmAssets?.style_header">
           <img class="modal-title" [src]="confirmAssets?.headerTxt_img?.url">
-          <img class="close" [src]="confirmAssets?.close_btn?.url" (click)="sendFeedback(confirmModalRef,'no');"
+          <img class="close" [src]="confirmAssets?.close_btn?.url" (click)="sendFeedback(confirmModalRef,'no','resetActivity');"
             (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
         </div>
         <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmAssets?.style_body">
@@ -65,7 +65,7 @@
             <button type="button" (click)="sendFeedback(confirmModalRef,'yes','showAnswer');"
               (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid"
                 [src]="confirmAssets?.confirm_btn?.url"></button>
-            <button type="button" (click)="sendFeedback(confirmModalRef,'no');" (mousemove)="hoverDecline()"
+            <button type="button" (click)="sendFeedback(confirmModalRef,'no','resetActivity');" (mousemove)="hoverDecline()"
               (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.url"></button>
           </div>
         </div>
