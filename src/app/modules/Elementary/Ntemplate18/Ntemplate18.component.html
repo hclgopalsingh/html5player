@@ -25,16 +25,18 @@
       <div class="my-auto quesImage">
         <div id="{{idx}}" class="options" [ngClass]="{'disable_div':disableoptions}"
           *ngFor="let opt of optionObject;let idx = index">
-          <div *ngIf="quesFlag">
+          <div>
             <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();"
               (click)="checkAllowed(idx,opt.placed,opt)" (mouseenter)="playHoverOption(opt,idx)"
               (mousemove)="optionHover(opt,idx)" (mouseleave)="optionHoverOut(opt,idx)">
             <audio #optionAudio></audio>
           </div>
-          <div *ngIf="!quesFlag">
+          <!-- <div *ngIf="!quesFlag">
             <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();"
-              (click)="checkAllowed(idx,opt.placed,opt)">
-          </div>
+              (click)="checkAllowed(idx,opt.placed,opt)" (mouseenter)="playHoverOption(opt,idx)"
+              (mousemove)="optionHover(opt,idx)" (mouseleave)="optionHoverOut(opt,idx)">
+            <audio #optionAudio></audio>
+          </div> -->
           <div>
             <img style="cursor: default;" class="img-fluid" [src]="opt?.dropBoxImg?.url"
               (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (load)="checkImgLoaded();">
@@ -167,17 +169,16 @@
           </div>
           <div class="row mx-0" id="optionsBlock" #popupBodyRef>
             <div class="my-auto quesImage">
-              <div id="{{idx}}" class="options" *ngFor="let opt of optionObjectpopup;let idx = index">
-                <div>
-                  <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();">
-                </div>
-                <div>
-                  <img class="img-fluid abc1" style="visibility: hidden;" [src]="opt?.dropBoxImg?.url"
-                    (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"
-                    (click)="onClickoption(idx)" (load)="checkImgLoaded();">
-                  <img class="img-fluid optItem abc2" [src]="opt?.samplerefquesImg?.url">
-                  
-                </div>
+              <div id="{{idx}}" class="options" *ngFor="let obj of newCopy;let idx = index">                
+                  <div>
+                    <img class="img-fluid" [src]="optionObjectpopup[obj.placedInOption]?.imgsrc?.url" (load)="checkImgLoaded();">
+                  </div>
+                  <div *ngIf="!isShowAns">
+                    <img class="img-fluid abc1" style="visibility: hidden;" [src]="optionObjectpopup[obj.placedInOption]?.dropBoxImg?.url"
+                      (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)"
+                      (click)="onClickoption(idx)" (load)="checkImgLoaded();">
+                    <img class="img-fluid optItempopUp" [src]="obj?.imgsrc?.url">                    
+                  </div>
               </div>
             </div>
           </div>

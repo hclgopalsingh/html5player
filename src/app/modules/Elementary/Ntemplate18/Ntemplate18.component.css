@@ -893,3 +893,6 @@ html [type=button] {
     transform: scale(1.1)
   }
 }
+.modal-title{
+  margin-left: 0.5%;
+}
