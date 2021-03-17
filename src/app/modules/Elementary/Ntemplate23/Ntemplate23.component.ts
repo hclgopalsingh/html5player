@@ -535,7 +535,7 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.paginationArray[index];
+        this.correctIncorrectArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.correctIncorrectArr.push(this.paginationArray[index]);
       }
@@ -549,7 +549,7 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index].categoryStatus = idFound.correctCategoryTxtimg;
       let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.paginationArray[index];
+        this.outOfScopeArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.outOfScopeArr.push(this.paginationArray[index]);
       }
@@ -560,7 +560,7 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index]["isOutOfScopeAndIncorrect"] = true;
       let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.paginationArray[index];
+        this.outOfScopeArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.outOfScopeArr.push(this.paginationArray[index]);
       }
@@ -571,7 +571,7 @@ export class Ntemplate23Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.paginationArray[index];
+        this.correctIncorrectArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.correctIncorrectArr.push(this.paginationArray[index]);
       }
