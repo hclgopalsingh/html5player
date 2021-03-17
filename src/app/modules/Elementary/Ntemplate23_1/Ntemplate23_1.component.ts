@@ -432,11 +432,11 @@ export class Ntemplate23_1Component implements OnInit {
 
   /******** Function call on double click on SVG ********/
   ondblClick(event) {
-    document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
-    document.getElementById('dropdownviaTooltip').style.opacity = "0";
     this.Id = event.target.getAttribute('xlink:href');
     console.log("this.Id = " + this.Id);
     if (this.Id != null) {
+      document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
+      document.getElementById('dropdownviaTooltip').style.opacity = "0";
       document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.remove("tooltipshow");
       document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.add("tooltipHidden");
       let idFound = this.mySVGArr.find(element => element.id == this.Id || element.strokeId == this.Id);
@@ -547,7 +547,7 @@ export class Ntemplate23_1Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCategory).incorrectSubCategoryTxtimg;
       let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.paginationArray[index];
+        this.correctIncorrectArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.correctIncorrectArr.push(this.paginationArray[index]);
       }
@@ -561,7 +561,7 @@ export class Ntemplate23_1Component implements OnInit {
       this.paginationArray[index].categoryStatus = idFound.correctCategoryTxtimg;
       let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.paginationArray[index];
+        this.outOfScopeArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.outOfScopeArr.push(this.paginationArray[index]);
       }
@@ -572,7 +572,7 @@ export class Ntemplate23_1Component implements OnInit {
       this.paginationArray[index]["isOutOfScopeAndIncorrect"] = true;
       let tempObjIndex = this.outOfScopeArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.outOfScopeArr[index] = this.paginationArray[index];
+        this.outOfScopeArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.outOfScopeArr.push(this.paginationArray[index]);
       }
@@ -583,7 +583,7 @@ export class Ntemplate23_1Component implements OnInit {
       this.paginationArray[index].subCategoryStatus = this.mySVGArr.find(element => element.subCategory == this.paginationArray[index].subCatOfSelectedCategory).correctSubCategoryTxtimg;
       let tempObjIndex = this.correctIncorrectArr.findIndex(element => element.id == this.paginationArray[index].id);
       if (tempObjIndex > -1) {
-        this.correctIncorrectArr[index] = this.paginationArray[index];
+        this.correctIncorrectArr[tempObjIndex] = this.paginationArray[index];
       } else {
         this.correctIncorrectArr.push(this.paginationArray[index]);
       }
@@ -804,6 +804,7 @@ export class Ntemplate23_1Component implements OnInit {
   /******** Function call on next navigation button in popups ********/
   nextFeedback(noIncrement?) {
     clearTimeout(this.nextFeedbackTimer);
+    clearTimeout(this.closeFeedbackmodalTimer);
     let currentContextArr = [];
     this.pageNo++;
     if (this.isShowAnsOpen) {
@@ -873,6 +874,7 @@ export class Ntemplate23_1Component implements OnInit {
   /******** Function call on previous navigation button in popups ********/
   prevFeedback() {
     clearTimeout(this.closeFeedbackmodalTimer);
+    clearTimeout(this.nextFeedbackTimer);
     this.pageNo--;
     let currentContextArr = [];
     if (this.isShowAnsOpen) {
@@ -1186,6 +1188,7 @@ export class Ntemplate23_1Component implements OnInit {
     this.currentPageNo = 1;
     this.endPage = false;
     this.pageNo = 1;
+    this.popupType = "";
     this.instructionDisable = false;
     this.isReviewPopupOpen = false;
     clearTimeout(this.nextFeedbackTimer);

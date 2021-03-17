@@ -888,10 +888,10 @@ nav {
 
 #dropdown,
 #dropdownviaTooltip {
-  width: 18%;
+  width: 22%;
   position: absolute;
   top: 23%;
-  left: 77%;
+  left: 74%;
   z-index: 100;
 }
 
