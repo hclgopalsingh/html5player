@@ -960,10 +960,10 @@ nav {
 
 #dropdown,
 #dropdownviaTooltip {
-  width: 18%;
+  width: 21%;
   position: absolute;
   top: 23%;
-  left: 77%;
+  left: 76.4%;
   z-index: 100;
 }
 
@@ -1210,7 +1210,7 @@ nav {
   user-select: none;
   border: 1px solid transparent;
   padding: 0.5rem 4.10rem !important;
-  padding-right: 35% !important;
+  padding-right: 31% !important;
   font-size: 1rem;
   line-height: 1.25;
   border-radius: .25rem;
