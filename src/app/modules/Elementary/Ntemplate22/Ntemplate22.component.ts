@@ -134,6 +134,7 @@ export class Ntemplate22 implements OnInit {
   isLastQuestion: boolean;
   actComplete : boolean = false;
   closeFeedbackmodalTimer: any;
+  selectedDate: any = {};
 
   ngAfterViewChecked() {
     this.appModel.templatevolume(this.appModel.volumeValue, this);
@@ -350,6 +351,7 @@ export class Ntemplate22 implements OnInit {
     if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
+      this.appModel.notifyUserAction();
       console.log("play on Instruction");
       this.instruction.nativeElement.load();
       if (this.instruction.nativeElement.paused) {
@@ -653,11 +655,13 @@ export class Ntemplate22 implements OnInit {
     //currentMonth:any;
     this.Arryears.filter((years) => {
       if (years.selected == true) {
+        this.selectedDate["year"] = years;
         this.currentYear = years.id;
       }
     });
     this.monthsArr.filter((months) => {
       if (months.selected == true) {
+        this.selectedDate["month"] = months;
         this.currentMonth = months.id;
       }
     });
@@ -698,6 +702,7 @@ export class Ntemplate22 implements OnInit {
     if (flag == "month" && !item.selected) {
       this.monthfromLocalMachine = false;
       this.monthSelected = true;
+      this.selectedDate["month"] = item;
       if (this.datesArr.filter((item) => item.selected == true)[0] != undefined) {
         this.datesArr.filter((item) => item.selected == true)[0].selected = false;
       }
@@ -729,6 +734,7 @@ export class Ntemplate22 implements OnInit {
     } else if (flag == "year" && !item.selected) {
       this.yearfromLocalMachine = false;
       this.yearSelected = true;
+      this.selectedDate["year"] = item;
       if (this.Arryears.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
       }
@@ -770,6 +776,7 @@ export class Ntemplate22 implements OnInit {
       }
       //itemDate.dateImg = itemDate.selecteddateImg;
       item.target.src = itemDate.selecteddateImg.url;
+      this.selectedDate["date"] = item;
       this.previousItemevent = item.target;
       item.target.style.pointerEvents = "none";
       itemDate.selected = true;
@@ -804,6 +811,7 @@ export class Ntemplate22 implements OnInit {
       }
     } else if (flag == "weekDays") {
       this.weekDaySelected = true;
+      this.selectedDate["week"] = item;
       //this.dateSelected=false;
       //this.dateSelected=false;
       if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
@@ -1385,7 +1393,9 @@ export class Ntemplate22 implements OnInit {
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].yearsImg = this.Arryears.filter((item) => item.selected == true)[0].selectedyearsImg;
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
-        this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        if(this.Arryears.filter((item) => item.checkRightorWrong == true)[0]) {
+          this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
+        }
       }
       // if(this.Arryears.filter((item) => item.checkRightorWrong == true)[0] !=undefined) {
       //   //this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -1585,6 +1595,18 @@ export class Ntemplate22 implements OnInit {
     this.popupRef.nativeElement.classList = "modal";
     this.appModel.notifyUserAction();
     if (this.checked) {
+      if(this.selectedDate.month) {
+        this.selectedDate.month.selected = true;
+      }
+      if(this.selectedDate.week) {
+        this.selectedDate.week.selected = true;
+      }
+      if(this.selectedDate.year) {
+        this.selectedDate.year.selected = true;
+      }
+      if(this.selectedDate.date) {
+        this.selectedDate.date.selected = true;
+      }
       this.blinkOnLastQues();
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div"
       this.optionsBlock.nativeElement.style.opacity = "0.3"

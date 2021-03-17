@@ -666,7 +666,7 @@ button:focus {
 
 .scaleInAnimation {
   animation: scaleIn 0.1s linear;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 @keyframes scaleIn {
@@ -675,7 +675,7 @@ button:focus {
   }
 
   100% {
-    transform: scale(1.2)
+    transform: scale(1.1)
   }
 }
 
@@ -687,7 +687,7 @@ button:focus {
 
 @keyframes scaleOut {
   0% {
-    transform: scale(1.2)
+    transform: scale(1.1)
   }
 
   100% {
