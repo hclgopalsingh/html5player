@@ -73,6 +73,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
   rightAnsBackground: any;
   blinkInterval: any;
   feedbackAudioDelay: any;
+  enableOptionsTimer: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -157,6 +158,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
       clearTimeout(this.clappingTimer);
 
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+        this.optionsContainer.nativeElement.classList.add("disableDiv");
         this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
         if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
@@ -210,6 +212,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.rightTimer);
     clearTimeout(this.multiCorrectTimer);
     clearTimeout(this.feedbackAudioDelay);
+    clearTimeout(this.enableOptionsTimer);
     this.stopAllSounds();
   }
 
@@ -545,6 +548,7 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.showAnswerTimer);
     clearTimeout(this.multiCorrectTimer);
     clearTimeout(this.feedbackAudioDelay);
+    clearTimeout(this.enableOptionsTimer);
     if (this.blinkInterval) {
       clearInterval(this.blinkInterval);
       this.blinkInterval = undefined;
@@ -586,6 +590,9 @@ export class Template5Component implements OnInit, AfterViewInit, AfterViewCheck
       }
     }
     else if (Type === 'showanswer') {
+      this.enableOptionsTimer = setTimeout(() => {
+        this.optionsContainer.nativeElement.classList.remove("disableDiv");
+      }, 1000);
       if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1 && this.selectedLetterCount == this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length) {
         this.blinkOnLastQues();
       }

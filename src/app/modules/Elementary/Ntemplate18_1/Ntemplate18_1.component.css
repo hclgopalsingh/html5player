@@ -277,7 +277,7 @@ button:focus {
 }
 
 .optionAnimate {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 1s ease;
 }
 
@@ -857,3 +857,7 @@ html [type=button] {
 
 .options  #dropBox{pointer-events: none;}
 .options #option{cursor: pointer;}
+
+.modal-title{
+  margin-left: 0.5%;
+}
