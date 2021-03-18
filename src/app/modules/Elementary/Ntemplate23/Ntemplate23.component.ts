@@ -420,11 +420,11 @@ export class Ntemplate23Component implements OnInit {
 
   /******** Function call on double click on SVG ********/
   ondblClick(event) {
-    document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
-    document.getElementById('dropdownviaTooltip').style.opacity = "0";
     this.Id = event.target.getAttribute('xlink:href');
     console.log("this.Id = " + this.Id);
     if (this.Id != null) {
+      document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
+      document.getElementById('dropdownviaTooltip').style.opacity = "0";
       document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.remove("tooltipshow");
       document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.add("tooltipHidden");
       let idFound = this.mySVGArr.find(element => element.id == this.Id || element.strokeId == this.Id);
