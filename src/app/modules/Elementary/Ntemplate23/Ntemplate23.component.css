@@ -960,10 +960,10 @@ nav {
 
 #dropdown,
 #dropdownviaTooltip {
-  width: 21%;
+  width: 22%;
   position: absolute;
   top: 23%;
-  left: 76.4%;
+  left: 76%;
   z-index: 100;
 }
 
