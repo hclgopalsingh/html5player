@@ -344,6 +344,7 @@ export class Ntemplate23_1Component implements OnInit {
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
     document.getElementById('dropdownviaTooltip').style.left = "0%";
     document.getElementById('dropdownviaTooltip').style.top = "0%";
+    document.getElementById("dropdownviaTooltip").style.pointerEvents = "none";
   }
 
   /****** function call on SVG image click ******/
@@ -368,6 +369,9 @@ export class Ntemplate23_1Component implements OnInit {
         document.getElementById("dropdown").style.opacity = "1";
         document.getElementById("dropdown").style.pointerEvents = "";
         document.getElementById('dropdownviaTooltip').style.opacity = "0";
+        document.getElementById('dropdownviaTooltip').style.left = "0%";
+        document.getElementById('dropdownviaTooltip').style.top = "0%";
+        document.getElementById("dropdownviaTooltip").style.pointerEvents = "none";
         idFound.clicked = true;
         this.submittedArray.push(idFound);
         this.tempObj = <any>{};
@@ -437,6 +441,8 @@ export class Ntemplate23_1Component implements OnInit {
     if (this.Id != null) {
       document.getElementById('dropdownviaTooltip').style.pointerEvents = "none";
       document.getElementById('dropdownviaTooltip').style.opacity = "0";
+      document.getElementById('dropdownviaTooltip').style.left = "0%";
+      document.getElementById('dropdownviaTooltip').style.top = "0%";
       document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.remove("tooltipshow");
       document.getElementById("tooltip" + (this.categoryIndex + 1)).classList.add("tooltipHidden");
       let idFound = this.mySVGArr.find(element => element.id == this.Id || element.strokeId == this.Id);
@@ -617,6 +623,7 @@ export class Ntemplate23_1Component implements OnInit {
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
     document.getElementById('dropdownviaTooltip').style.left = "0%";
     document.getElementById('dropdownviaTooltip').style.top = "0%";
+    document.getElementById("dropdownviaTooltip").style.pointerEvents = "none";
   }
 
   /******** Function call on click of confirm in Review popup ********/
@@ -1122,6 +1129,9 @@ export class Ntemplate23_1Component implements OnInit {
     this.pageNo = 1;
     this.endPage = false;
     document.getElementById('dropdownviaTooltip').style.opacity = "0";
+    document.getElementById('dropdownviaTooltip').style.left = "0%";
+    document.getElementById('dropdownviaTooltip').style.top = "0%";
+    document.getElementById("dropdownviaTooltip").style.pointerEvents = "none";
     document.getElementById('dropdown').style.opacity = "0";
     for (let i = 0; i < document.getElementById("mainques").children[1].children.length; i++) {
       if (i != (this.categoryIndex + 1)) {
