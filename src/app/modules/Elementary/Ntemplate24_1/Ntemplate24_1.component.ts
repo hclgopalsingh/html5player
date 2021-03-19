@@ -5,6 +5,8 @@ import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 declare var $: any;
 
@@ -119,7 +121,11 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   greyOutOpt: boolean = false;
   isPartialPopup: boolean = false;
   animating : boolean = false;
-  nextPreviousClicked: boolean = false;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete : boolean = false;
+  confirmPopupSubscription: any;
+  tempSubscription: any;
   
   ngOnInit() {
     let that = this;
@@ -144,7 +150,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.showAnsTimeout = data.showAnsTimeout;
     });
     this.setData();
-    this.appModel.getNotification().subscribe(mode => {
+    this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         console.log("manual mode ", mode);
       } else if (mode == "auto") {
@@ -155,7 +161,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         this.setPopupAssets();
       }
     })
-    this.appModel.getConfirmationPopup().subscribe((val) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       if (!this.instructionVO.nativeElement.paused) {
         this.instructionVO.nativeElement.pause();
         this.instructionVO.nativeElement.currentTime = 0;
@@ -172,6 +178,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
         }
+        this.checkForAutoClose();
       } else if (val == "submitAnswer") {
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
           this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
@@ -217,6 +224,48 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.audio.currentTime = 0;
       this.afterOptionVOends();
     }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
+  }
+
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback(this.confirmModalRef.nativeElement,'no','resetActivity');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
   }
 
   /* To load the question tabs */
@@ -230,6 +279,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   /* To blink next after correct attempt or show answer */
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       if (this.popupType == "correct") {
         this.appModel.blinkForLastQues("manual");
@@ -378,6 +428,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.narratorAudio = this.fetchedcontent.commonassets.narrator;
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.questionObj = this.fetchedcontent.quesObj;
       this.feedbackAssets = this.fetchedcontent.feedback_popup;
@@ -453,22 +504,29 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     this.videoReplayd = true;
     this.isPlayVideo = true;
     this.appModel.stopAllTimer();
+    this.disableOpt=true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
-        this.isPlayVideo = false;
-        this.appModel.videoStraming(false);
-        this.appModel.startPreviousTimer();
-        this.appModel.notifyUserAction();
+        this.loadTemplateAfterVideo();
       }
     }, 500)
+  }
+
+  loadTemplateAfterVideo() {
+    this.isPlayVideo = false;
+    this.appModel.videoStraming(false);
+    this.appModel.startPreviousTimer();
+    this.appModel.notifyUserAction();
+    setTimeout(()=>{
+      this.disableOpt=false;
+    },1000)
   }
 
   /* Function on video ends */
   endedHandler() {
     if (!this.videoReplayd) {
       this.isPlayVideo = false;
-      // this.appModel.setLoader(true);
       this.appModel.navShow = 2;
       this.appModel.enableReplayBtn(true);
     }
@@ -476,11 +534,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   /* Function on video ends on skip*/
   endedHandleronSkip() {
-    this.isPlayVideo = false;
     this.appModel.navShow = 2;
-    this.appModel.videoStraming(false);
-    this.appModel.startPreviousTimer();
-    this.appModel.notifyUserAction();
+    this.loadTemplateAfterVideo();
   }
 
   /* Toggle play and pause for video */
@@ -515,8 +570,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   optionHover(idx, opt) {
+    opt.imgsrc = opt.imgsrc_hover;
     this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].style.cursor="pointer";
-    this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.add("scaleInAnimation");
   }
   playOptionHover(idx, opt) {
     this.appModel.notifyUserAction();
@@ -553,17 +608,8 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   optionLeave(idx, opt) {
+    opt.imgsrc = opt.imgsrc_original;
     this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].style.cursor="";
-    if(this.nextPreviousClicked) {
-      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleInAnimation");
-      this.nextPreviousClicked = false;
-    } else {
-      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.add("scaleOutAnimation");
-    }
-    setTimeout(() => {
-      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleOutAnimation");
-      this.mainContainer.nativeElement.children[0].children[0].children[idx].children[0].classList.remove("scaleInAnimation");
-    }, 500)
   }
 
   hoverSkip() {
@@ -684,11 +730,10 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   /*On click up*/ 
   movePrevious(idx, opt) {
     if(!this.animating){
-      this.nextPreviousClicked = true;
       this.mainContainer.nativeElement.children[0].children[0].classList.add("disableDiv");
       this.postCompleteTimer = setTimeout(() => {
         this.mainContainer.nativeElement.children[0].children[0].classList.remove("disableDiv");
-      }, 2000);
+      }, 1000);
       this.mainContainer.nativeElement.children[0].children[0].classList.add("disableDiv");
       this.animating=true;
       if (!this.instructionVO.nativeElement.paused) {
@@ -711,11 +756,10 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
     /*On click down*/ 
   moveNext(idx, opt) {
     if(!this.animating){
-      this.nextPreviousClicked = true;
       this.mainContainer.nativeElement.children[0].children[0].classList.add("disableDiv");
       this.postCompleteTimer = setTimeout(() => {
         this.mainContainer.nativeElement.children[0].children[0].classList.remove("disableDiv");
-      }, 2000);
+      }, 1000);
       this.animating=true;
       if (!this.instructionVO.nativeElement.paused) {
         this.instructionVO.nativeElement.pause();
@@ -757,6 +801,9 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   /*Handler for all popup event calls*/ 
   sendFeedback(ref, flag: string, action?: string) {
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.appModel.notifyUserAction();
     this.mainContainer.nativeElement.children[0].style.pointerEvents = "none";
     ref.classList = "modal";
