@@ -1107,7 +1107,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.noOfWrongAnsClicked = 0;
       this.newCopy = JSON.parse(JSON.stringify(this.refcpyArray));
       for (let x = this.newCopy.length - 1; x > 0; x--) {
-        if (this.newCopy[x].position == "up") {
+        if (this.newCopy[x].position == "top") {
           this.newCopy.splice(x, 1);
         }
       }
@@ -1221,19 +1221,20 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.optionObject[y].status = "wrong";
           this.optionObject[y].imgsrc.url = this.optionObject[y].imgsrc_wrong.url;
         }
+        
       }
-      for (let x = this.optionObject.length - 1; x >= 0; x--) {
-        if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
-          this.optionObject.splice(x, 1);
-        }
-      }
+      // for (let x = this.optionObject.length - 1; x >= 0; x--) {
+      //   if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
+      //     this.optionObject.splice(x, 1);
+      //   }
+      // }
       for (let x = 0; x < this.newCopy.length; x++) {
         let y = this.newCopy[x].placedInOption;
-        if (this.optionObject[y].status == "right") {
-          this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_right;
-        } else if (this.optionObject[y].status == "wrong") {
-          this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_wrong;
-        }
+          if (this.optionObject[y].status == "right") {
+            this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_right;
+          } else if (this.optionObject[y].status == "wrong") {
+            this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_wrong;
+          }
       }
       if (this.feedbackObj.partialIncorrAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
@@ -1276,21 +1277,21 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     } else if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
-
+      console.log("all wrong");
       for (let x = 0; x < this.newCopy.length; x++) {
         this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_original;
         let y = this.newCopy[x].placedInOption;
         this.optionObject[y].status = "wrong";
         this.optionObject[y].imgsrc.url = this.optionObject[y].imgsrc_original.url;
       }
-      for (let x = this.optionObject.length - 1; x >= 0; x--) {
-        if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
-          this.optionObject.splice(x, 1);
-        }
-      }
-      for (let x = 0; x < this.newCopy.length; x++) {
-        this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_original;
-      }
+      // for (let x = this.optionObject.length - 1; x >= 0; x--) {
+      //   if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
+      //     this.optionObject.splice(x, 1);
+      //   }
+      // }
+      // for (let x = 0; x < this.newCopy.length; x++) {
+      //   this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_original;
+      // }
       if (this.feedbackObj.wrongAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
         this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
@@ -1324,21 +1325,19 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
 
 
   setplayFeedbackAudio(i: number) {
-
+    console.log("Play audio");
     this.feedbackaudioTimeout = setTimeout(() => {
       this.partialCase = false;
-      let current = i;
-
-      if (this.newCopy && i < this.feedbackObj.correct_ans_index.length && current < this.optionObjectpopup.length && !this.closeStatus && !this.closeModalPopup) {
-
-        if (this.optionObjectpopup[i].status == "right") {
-
-          for (var j = 0; j < this.newCopy.length; j++) {
-            let y = this.newCopy[j].placedInOption;
-            if (this.newCopy[j].sequenceNo == this.optionObjectpopup[i].sequenceNo) {
-              this.feedbackAudio = this.newCopy[j].correctAudio;
-            }
-          }
+      let current = i;      
+      if (this.newCopy[i] && i < this.feedbackObj.correct_ans_index.length && current < this.optionObjectpopup.length && !this.closeStatus && !this.closeModalPopup) {
+        let pos = this.newCopy[i].placedInOption;
+        if (this.optionObjectpopup[pos].status == "right") {
+          // for (var j = 0; j < this.refQuesObj.length; j++) {
+          //   if (this.refQuesObj[j].sequenceNo == this.optionObjectpopup[pos].sequenceNo) {
+          //     this.feedbackAudio = this.refQuesObj[j].correctAudio;
+          //   }
+          // }
+          this.feedbackAudio = this.refQuesObj[pos].correctAudio;
           this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
 
@@ -1353,14 +1352,13 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
             ++current;
             this.setplayFeedbackAudio(current);
           }
-        } else if (this.optionObjectpopup[i].status == "wrong") {
-
-          for (var j = 0; j < this.newCopy.length; j++) {
-            let y = this.newCopy[j].placedInOption;
-            if (this.newCopy[j].sequenceNo == this.optionObjectpopup[i].sequenceNo) {
-              this.feedbackAudio = this.newCopy[j].incorrectAudio;
-            }
-          }
+        } else if (this.optionObjectpopup[pos].status == "wrong") {
+          // for (var j = 0; j < this.refQuesObj.length; j++) {
+          //   if (this.refQuesObj[j].sequenceNo == this.optionObjectpopup[pos].sequenceNo) {
+          //     this.feedbackAudio = this.refQuesObj[j].incorrectAudio;
+          //   }
+          // }
+          this.feedbackAudio = this.refQuesObj[pos].incorrectAudio;
           this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
 
