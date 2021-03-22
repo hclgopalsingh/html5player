@@ -27,9 +27,11 @@
             [src]="question?.playpause.url">
           <audio #audioT class="audioT" id="audioplay" controls controlsList="nodownload"
             (timeupdate)="isCalled()"></audio>
-            <span style="color:red" *ngIf="isRecording">{{minutes}}:{{seconds}}</span>
-            <span style="color:red" *ngIf="isRecording">{{recordingStatus}}</span>
-          <span *ngIf="!showPlay && !removeBtn" id="tracktime">{{curTime}} / {{endTime}}</span>
+          <div class="txtLabel">
+            <span class="time" *ngIf="isRecording">{{minutes}}:{{seconds}}</span>
+            <span class="label" *ngIf="isRecording">{{recordingStatus}}</span>              
+          </div>
+          <span class="currTime" *ngIf="!showPlay && !removeBtn" id="tracktime">{{curTime}} / {{endTime}}</span>
         </div>
       </div>
 

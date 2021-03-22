@@ -195,7 +195,7 @@ audio::-webkit-media-controls-panel
 
 audio {
   /*filter: sepia(100%) saturate(400%) grayscale(0) contrast(200%) hue-rotate(122deg) invert(0%);*/
-  width: 100%;
+  width: 82%;/*100%;*/
   border: none;
 }
 
@@ -601,10 +601,10 @@ audio::-webkit-media-controls-current-time-display {
 }
 
 #tracktime {
-  color: turquoise;
+  color: rgb(2,208,255);
   min-width: 9.5%;
-  font-size: 1.85vmin;
-  padding-left: 2.5%;
+  font-size: 2.8vmin;
+  padding-left: 3%;
 }
 
 .setImage {
@@ -631,4 +631,19 @@ audio::-webkit-media-controls-timeline {
 
 audio::-webkit-media-controls-play-button {
   cursor: pointer;
+}
+
+.txtLabel {
+  position: absolute;
+  right: 1%;
+  font-size: 3vmin;
+  color:rgb(2,208,255);
+  width: 7%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.txtLabel .label{
+  font-size: 1.4vmin;
+  color:rgb(2,208,255);
+  padding:0;
 }
