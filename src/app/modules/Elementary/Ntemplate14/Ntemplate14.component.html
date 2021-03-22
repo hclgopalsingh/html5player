@@ -17,14 +17,18 @@
         <img class="img-fluid quesTxt" (load)="checkImgLoaded();" [src]="question?.text.url">
 
         <div class="playerControls d-flex align-items-center justify-content-center">
-          <img style="margin-left: 5%" *ngIf="removeBtn" [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
+          <img style="margin-left: 5%" *ngIf="!isRecord && removeBtn" [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
             [src]="question?.record.url" #recordButton (click)="startRecording()" />
+            <img style="margin-left: 5%" *ngIf="isRecord && removeBtn" class="img-fluid"
+            [src]="question?.pause.url" #recordButton (click)="toggleRecording()" />
           <img *ngIf="removeBtn && showstop" [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
             [src]="question?.stop.url" #stopButton (click)="stopRecording()">
           <img *ngIf="showPlay" [ngClass]="{'disable-ctrl': isPlay}" (click)="listen()" class="img-fluid"
             [src]="question?.playpause.url">
           <audio #audioT class="audioT" id="audioplay" controls controlsList="nodownload"
             (timeupdate)="isCalled()"></audio>
+            <span style="color:red" *ngIf="isRecording">{{minutes}}:{{seconds}}</span>
+            <span style="color:red" *ngIf="isRecording">{{recordingStatus}}</span>
           <span *ngIf="!showPlay && !removeBtn" id="tracktime">{{curTime}} / {{endTime}}</span>
         </div>
       </div>

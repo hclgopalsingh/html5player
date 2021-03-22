@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
  
 declare const MediaRecorder: any;
 declare const navigator: any;
@@ -67,6 +68,15 @@ export class Ntemplate14Component implements OnInit {
 	recordTimer:any;
 	recordTime:any;
 	listenStatus:boolean=false;
+	seconds: any;
+	minutes: any;
+	time: number = 0;
+	recordingSubscription: any;
+	timerPaused: any;
+	toSeconds: any;
+	toMinutes: any;
+	isPaused: boolean = false;
+	recordingStatus: string = "Recording";
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -140,7 +150,10 @@ export class Ntemplate14Component implements OnInit {
 
 			};
 
-			this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+			this.mediaRecorder.ondataavailable = e => {
+				this.chunks.push(e.data);
+			}
+			
 		};
 
 		navigator.getUserMedia = (navigator.getUserMedia ||
@@ -152,7 +165,6 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnInit() {
-		
 		this.appModel.functionone(this.templatevolume, this);//start end
 		this.containgFolderPath = this.getBasePath();
 		if (this.appModel.isNewCollection) {
@@ -215,7 +227,7 @@ export class Ntemplate14Component implements OnInit {
 
 	ngAfterViewInit() {
 		document.getElementById("audioplay").addEventListener("play", () => {
-			alert('333');
+			// alert('333');
 			this.appModel.stopAllTimer();
 			clearInterval(this.nextSegmenttimerId);
 			this.instructionDisable = false;
@@ -320,12 +332,30 @@ export class Ntemplate14Component implements OnInit {
 		}
 	}
 
+	/***** pause and resume recording *****/
+	toggleRecording() {
+		if(!this.isPaused) {
+			if (this.mediaRecorder) {
+				this.recordingStatus = "Paused";
+				this.timerPaused = true;
+				this.mediaRecorder.pause();
+			}
+		} else {
+			if (this.mediaRecorder) {
+				this.recordingStatus = "Recording";
+				this.timerPaused = false;
+				this.mediaRecorder.resume();
+			}
+		}
+		this.isPaused = !this.isPaused;
+	}
 	/***** start recording the sound *****/
 	startRecording() {
 		this.isStop = false;
 		this.isRecord = true;
 		this.isRecording = true;
 		this.showstop = true;
+		this.startRecordingTimer();
 		this.appModel.stopAllTimer();
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
@@ -346,13 +376,29 @@ export class Ntemplate14Component implements OnInit {
 		else {
 			console.log("Microphone access is not allowed")
 		}
-		//this.stopButton.nativeElement.src = this.question.stop.url;
+		// this.stopButton.nativeElement.src = this.question.stop.url;
 		setTimeout(() => {
 			if (!this.isStop) {
 				this.autostopplayer=true;
+				this.timerPaused = true;
+				console.log("recording stopped in ",this.minutes + " " + this.seconds);
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
+	}
+
+	/****** start recording timer ******/
+	startRecordingTimer() {
+		this.recordingSubscription = timer(0, 1000)
+			.subscribe(number => {
+				if (!this.timerPaused) {
+					this.toSeconds = number % 60;
+					this.toMinutes = Math.floor(number / 60);
+					this.seconds = (this.toSeconds < 10 ? '0' : '') + this.toSeconds;
+					this.minutes = (this.toMinutes < 10 ? '0' : '') + Math.floor(number / 60);
+					this.time += 1000;
+				}
+			});
 	}
 
 	/****** Play recorded audio on click of Play button ******/
@@ -405,6 +451,9 @@ export class Ntemplate14Component implements OnInit {
 	stopRecording() {
 		clearInterval(this.recordTimer);
 		this.isRecording = false;
+		if (this.recordingSubscription != undefined) {
+			this.recordingSubscription.unsubscribe();
+		}
 		this.showstop = false
 		this.removeBtn = false;
 		this.showPlay = true;
@@ -521,10 +570,10 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Blink functionality of aage badhein button *******/
 	blinkOnLastQues(type?) {
-		alert('111');
+		// alert('111');
 		if (this.appModel.isLastSectionInCollection) {
 			//this.appModel.blinkForLastQues();
-			alert('222');
+			// alert('222');
 			this.appModel.stopAllTimer();
 			//this.blinkOnLastQues();
 			let timer = 300;
@@ -574,9 +623,13 @@ export class Ntemplate14Component implements OnInit {
 		let seconds: any = sec - (hours * 3600) - (minutes * 60); //  get seconds
 		// add 0 if value < 10
 		if (hours < 10) { hours = "0" + hours; }
-		if (minutes < 10) { minutes = "0" + minutes; }
-		if (seconds < 10) { seconds = "0" + seconds; }
-		return +minutes + ':' + seconds; // Return is HH : MM : SS
+		if(minutes === 0) {
+			minutes = "00";
+		} else if (minutes < 10 && minutes > 0) { minutes = "0" + minutes; }
+		if(seconds === 0) {
+			seconds = "00";
+		} else if (seconds < 10 && seconds > 0) { seconds = "0" + seconds; }
+		return minutes + ':' + seconds; // Return is HH : MM : SS
 	}
 
 }
