@@ -250,6 +250,7 @@
 	opacity: 0.5;
 	pointer-events: none;
 }
+#navBlock #ele_submitBtn,
 #navBlock #ele_replayBtn,
 #navBlock #ele_ansBtn{
 	cursor: auto;
