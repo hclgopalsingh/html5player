@@ -67,7 +67,7 @@ button:focus {
   cursor: pointer;
   width: 16%;*/
   position: absolute;
-  top: 86.2%;
+  top: 86%;
   right: .7%;/*-3.7%*/
   cursor: pointer;
   width: 3.5%;/*16%*/
@@ -86,7 +86,7 @@ button:focus {
   cursor: pointer;
   width: 1.5%;*/
   position: absolute;
-  top: 86.2%;/*85%*/
+  top: 86%;/*85%*/
   right: 5%;/*16%*/
   cursor: pointer;
   width: 3.5%;/*1.5%*/
@@ -146,6 +146,9 @@ button:focus {
 }
 #container .modal #optionsBlock {
   margin-top: 7%;
+}
+#container .modal .modal-dialog.twoCount #optionsBlock {
+  margin-top: 12%;
 }
 
 #optionsBlock img,
@@ -353,9 +356,20 @@ button:focus {
   text-align: center;
 }
 .videoMainContainer{
-  width:99.8%;
+  width:100%;
+}
+.videoWrapper {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
 }
 
+.videoMainContainer .videoBg {
+  opacity: 0;
+}
 #instructionBar .instructionBase {
   width: 70%;
   position: relative; cursor: pointer;
@@ -768,11 +782,12 @@ button:focus {
   opacity: 1;*/
 }
 .modal-dialog.twoCount #optionsBlock .options {
-  width: 26%;
-  }
-  #modalTemp5 .modal-dialog.twoCount {
-    max-width: 57%; 
-   }
+  width: 29%;/*26%;*/
+}
+#modalTemp5 .modal-dialog.twoCount {
+  max-width: 57%;
+  height: 93%; 
+}
 
 html [type=button] {
   -webkit-appearance: none;

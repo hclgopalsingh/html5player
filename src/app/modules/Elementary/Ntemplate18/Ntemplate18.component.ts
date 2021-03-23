@@ -648,9 +648,10 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
             this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(true);
           }
-          this.optionObject[idx].placed = false;
+          this.optionObject[idx].placed = false;          
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImg_original.url;
           this.refcpyArray[this.optionObject[idx].sequenceNo - 1].position = 'top';
+          delete this.refcpyArray[this.optionObject[idx].sequenceNo - 1]['placedInOption'];
           this.prevIdx = this.index1;
           this.startCount = 1;
           this.blinkHolder();
@@ -1106,7 +1107,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       this.noOfRightAnsClicked = 0;
       this.noOfWrongAnsClicked = 0;
       this.newCopy = JSON.parse(JSON.stringify(this.refcpyArray));
-      for (let x = this.newCopy.length - 1; x > 0; x--) {
+      for (let x = this.newCopy.length - 1; x >= 0; x--) {
         if (this.newCopy[x].position == "top") {
           this.newCopy.splice(x, 1);
         }
@@ -1238,7 +1239,11 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
       }
       if (this.feedbackObj.partialIncorrAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
-        this.popupHeader = this.feedbackObj.partialIncorrAnswerpopupTxt.url;
+        if(this.newCopy.length<=2){
+          this.popupHeader = this.feedbackObj.partialIncorrAnswerpopupTxt_small.url;
+        }else{
+          this.popupHeader = this.feedbackObj.partialIncorrAnswerpopupTxt_big.url;
+        }        
 
       } else {
         this.AnswerpopupTxt = false;
@@ -1284,17 +1289,13 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.optionObject[y].status = "wrong";
         this.optionObject[y].imgsrc.url = this.optionObject[y].imgsrc_original.url;
       }
-      // for (let x = this.optionObject.length - 1; x >= 0; x--) {
-      //   if (!this.optionObject[x].sequenceNo || !this.optionObject[x].status) {
-      //     this.optionObject.splice(x, 1);
-      //   }
-      // }
-      // for (let x = 0; x < this.newCopy.length; x++) {
-      //   this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_original;
-      // }
       if (this.feedbackObj.wrongAnswerpopupTxt.required) {
         this.AnswerpopupTxt = true;
-        this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt.url;
+        if(this.newCopy.length<=2){
+          this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt_small.url;
+        }else{
+          this.popupHeader = this.feedbackObj.wrongAnswerpopupTxt_big.url;
+        }
 
       } else {
         this.AnswerpopupTxt = false;
