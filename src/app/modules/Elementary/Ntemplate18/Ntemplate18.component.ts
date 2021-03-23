@@ -644,10 +644,10 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
           this.isAllowed = true
           this.countofAnimation--;
-          if (this.countofAnimation == 0) {
+          // if (this.countofAnimation == 0) {
             this.appModel.enableSubmitBtn(false);
             this.appModel.enableReplayBtn(true);
-          }
+          // }
           this.optionObject[idx].placed = false;          
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImg_original.url;
           this.refcpyArray[this.optionObject[idx].sequenceNo - 1].position = 'top';
@@ -685,9 +685,8 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           this.refQues.nativeElement.children[this.index1].children[0].style.cursor = 'pointer';
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImgHover.url;
           this.countofAnimation++;
-          if (this.countofAnimation > 0) {
+          if (this.countofAnimation >= this.refQuesObj.length) {
             this.appModel.enableSubmitBtn(true);
-            ////this.appModel.enableReplayBtn(false);
           }
           this.prevOptIdx = idx;
           this.index1++;
@@ -714,12 +713,12 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.isPlayVideo = false;
     this.disableoptions = false;
     this.disableSection = false;
-    for (let i = 0; i < this.refQuesObj.length; i++) {
+    // for (let i = 0; i < this.refQuesObj.length; i++) {
 
-      if (this.refQuesObj[i].position == "down") {
-        this.appModel.enableSubmitBtn(true);
-      }
-    }
+    //   if (this.refQuesObj[i].position == "down") {
+    //     this.appModel.enableSubmitBtn(true);
+    //   }
+    // }
 
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
@@ -1520,18 +1519,18 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
     this.appModel.navShow = 1;
     this.videoReplayd = true;
     this.isPlayVideo = true;
-    this.appModel.enableSubmitBtn(false);
+    // this.appModel.enableSubmitBtn(false);
     this.disableoptions = true;
     this.disableSection = true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
       this.mainVideo.nativeElement.onended = () => {
-        for (let i = 0; i < this.refQuesObj.length; i++) {
+        // for (let i = 0; i < this.refQuesObj.length; i++) {
 
-          if (this.refQuesObj[i].position == "down") {
-            this.appModel.enableSubmitBtn(true);
-          }
-        }
+        //   if (this.refQuesObj[i].position == "down") {
+        //     this.appModel.enableSubmitBtn(true);
+        //   }
+        // }
         this.disableoptions = false;
         this.disableSection = false;
         this.appModel.navShow = 2;
