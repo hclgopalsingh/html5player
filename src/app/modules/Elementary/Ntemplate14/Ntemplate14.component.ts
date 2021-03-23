@@ -196,22 +196,22 @@ export class Ntemplate14Component implements OnInit {
 					if (this.appModel.isLastSectionInCollection) {
 						//close after 5 mins disable and thn blink
 						//console.log("will wait 5 mins here")
-						let timer = 300;
+						// let timer = 30;
 						//setTimeout(() => {
 						//	clearInterval(this.nextSegmenttimerId);
 							 
 						//}, 300*1000 )
 
-					this.nextSegmenttimerId = setInterval(function() {
-						if(timer>0){
-							console.log('will wait ' + timer-- + ' sec here');
-						}else{
-							clearInterval(this.nextSegmenttimerId);
-						}
+					// this.nextSegmenttimerId = setInterval(() => {
+					// 	if(timer>0){
+					// 		console.log('will wait ' + timer-- + ' sec here');
+					// 	}else{
+					// 		clearInterval(this.nextSegmenttimerId);
+					// 	}
 						
 						 
-					}, 1000);
-					 
+					// }, 1000);
+					 this.startNextSegTimer();
 
 						this.handleTimer();
 					}
@@ -225,12 +225,24 @@ export class Ntemplate14Component implements OnInit {
 		this.appModel.handleController(this.controlHandler);
 	}
 
+	startNextSegTimer() {
+		if (this.appModel.isLastSectionInCollection) {
+			let timer = 30;
+			this.nextSegmenttimerId = setInterval(() => {
+				if (timer > 0) {
+					console.log('will wait ' + timer-- + ' sec here');
+				} else {
+					clearInterval(this.nextSegmenttimerId);
+				}
+			}, 1000);
+		}
+	}
 	ngAfterViewInit() {
 		document.getElementById("audioplay").addEventListener("play", () => {
 			// alert('333');
 			this.appModel.stopAllTimer();
 			clearInterval(this.nextSegmenttimerId);
-			this.instructionDisable = false;
+			this.instructionDisable = true;
 			if (!this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.pause();
 				this.instruction.nativeElement.currentTime = 0;
@@ -238,6 +250,7 @@ export class Ntemplate14Component implements OnInit {
 		});
 		document.getElementById("audioplay").addEventListener("pause", () => {
 			clearInterval(this.nextSegmenttimerId);
+			this.instructionDisable = false;
 			if (this.isFirstTrial && this.listenStatus) {
 				this.appModel.moveNextQues();
 			}
@@ -250,6 +263,7 @@ export class Ntemplate14Component implements OnInit {
 		});
 		document.getElementById("audioplay").addEventListener("ended", () => {
 			console.log("enddedd");
+			this.instructionDisable = false;
 			if (this.isFirstTrial && this.playClicked) {
 				if(this.listenStatus){
 					this.appModel.moveNextQues();	
@@ -338,12 +352,14 @@ export class Ntemplate14Component implements OnInit {
 			if (this.mediaRecorder) {
 				this.recordingStatus = "Paused";
 				this.timerPaused = true;
+				this.question.pause = this.question.resume;
 				this.mediaRecorder.pause();
 			}
 		} else {
 			if (this.mediaRecorder) {
 				this.recordingStatus = "Recording";
 				this.timerPaused = false;
+				this.question.pause = this.question.pause_original;
 				this.mediaRecorder.resume();
 			}
 		}
@@ -367,9 +383,11 @@ export class Ntemplate14Component implements OnInit {
 			this.mediaRecorder.start();
 			var recordTime = JSON.parse(this.autoStop)/1000.0;
 			this.recordTimer = setInterval(function() {
-				console.log('recording time remaining ' + recordTime-- + ' sec');
-				if(recordTime == 0){
-					clearInterval(this.recordTimer);
+				if(!this.isPaused) {
+					console.log('recording time remaining ' + recordTime-- + ' sec');
+					if (recordTime == 0) {
+						clearInterval(this.recordTimer);
+				}
 				}
 			 }, 1000);
 		}
@@ -392,18 +410,28 @@ export class Ntemplate14Component implements OnInit {
 		this.recordingSubscription = timer(0, 1000)
 			.subscribe(number => {
 				if (!this.timerPaused) {
-					this.toSeconds = number % 60;
-					this.toMinutes = Math.floor(number / 60);
-					this.seconds = (this.toSeconds < 10 ? '0' : '') + this.toSeconds;
-					this.minutes = (this.toMinutes < 10 ? '0' : '') + Math.floor(number / 60);
-					this.time += 1000;
+					if(this.time === number) {
+						this.calculateTimer(number);
+						this.time = number;
+					} else {
+						this.time = this.time + 1;
+						this.calculateTimer(this.time);
+					}
 				}
 			});
 	}
 
+	/****** calculate minutes and seconds value ******/
+	calculateTimer(timer) {
+		this.toSeconds = timer % 60;
+		this.toMinutes = Math.floor(timer / 60);
+		this.seconds = (this.toSeconds < 10 ? '0' : '') + this.toSeconds;
+		this.minutes = (this.toMinutes < 10 ? '0' : '') + Math.floor(timer / 60);
+	}
+
 	/****** Play recorded audio on click of Play button ******/
 	listen() {
-		
+		clearInterval(this.nextSegmenttimerId);
 		clearInterval(this.timerId);
 		clearTimeout(this.clearautoplay);
 		clearInterval(this.nextSegmenttimerId);
@@ -421,6 +449,7 @@ export class Ntemplate14Component implements OnInit {
 		this.playClicked = true;
 		this.audioT.nativeElement.load();
 		console.log('start playing');
+		this.startNextSegTimer();
 		 this.audioT.nativeElement.play();
 		 this.audioT.nativeElement.onended = () => {
 			console.log('end playing 1');
@@ -467,7 +496,9 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		if(!this.autostopplayer){
+		if(this.appModel.isLastSectionInCollection) {
+			this.startNextSegTimer();
+		}else if(!this.autostopplayer){
 			this.appModel.moveNextQues("noBlink");
 		}else{
 			let a = 300;
@@ -495,7 +526,7 @@ export class Ntemplate14Component implements OnInit {
 			this.InfoModalRef.nativeElement.classList = "modal";
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 
-		}, 300000);
+		}, 30000);
 	}
 
 	getBasePath() {
@@ -574,25 +605,27 @@ export class Ntemplate14Component implements OnInit {
 		if (this.appModel.isLastSectionInCollection) {
 			//this.appModel.blinkForLastQues();
 			// alert('222');
+			this.appModel.blinkForLastQues();
 			this.appModel.stopAllTimer();
+
 			//this.blinkOnLastQues();
-			let timer = 300;
+			// let timer = 30;
 						//setTimeout(() => {
 						//	clearInterval(this.nextSegmenttimerId);
 							 
 						//}, 300*1000 )
 
-					this.nextSegmenttimerId = setInterval(function() {
-						if(timer>0){
-							console.log('will wait ' + timer-- + ' sec here');
-						}else{
-							clearInterval(this.nextSegmenttimerId);
-							this.blinkOnLastQues();
+					// this.nextSegmenttimerId = setInterval(() => {
+					// 	if(timer>0){
+					// 		console.log('will wait ' + timer-- + ' sec here');
+					// 	}else{
+					// 		clearInterval(this.nextSegmenttimerId);
+					// 		this.blinkOnLastQues();
 							
-						}
+					// 	}
 						
 						 
-					}, 1000);
+					// }, 1000);
 			if (!this.appModel.eventDone) {
 				if (this.isLastQuesAct) {
 					this.appModel.eventFired();
