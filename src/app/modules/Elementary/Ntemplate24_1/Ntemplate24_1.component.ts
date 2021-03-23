@@ -116,7 +116,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
   autoClosePopupTimer: number;
   quesSkip: boolean = false;
   disableInstruction: boolean = true;
-  disableOpt: boolean = false;
+  disableOpt: boolean = true;
   greyOutInstruction: boolean = false;
   greyOutOpt: boolean = false;
   isPartialPopup: boolean = false;
@@ -411,6 +411,9 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       this.quesVORef.nativeElement.onended = () => {
         this.mainContainer.nativeElement.classList = "bodyContent";
         this.disableInstruction = false;
+        setTimeout(()=>{
+          this.disableOpt=false;
+        },500)
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
       }
