@@ -22,6 +22,7 @@ export class QuesController implements OnInit {
   @ViewChild('nextBtn') nextBtn: any;
   @ViewChild('ansBtnElem') ansBtnElem: any;
   @ViewChild('replayBtnElem') replayBtnElem: any;
+  @ViewChild('submitBtnElem') submitBtnElem: any;
   @ViewChild('nextBtnEle') nextBtnEle: any;
   @ViewChild('prevBtnEle') prevBtnEle: any;
 
@@ -452,10 +453,12 @@ export class QuesController implements OnInit {
   }
 
   hoverSubmitBtn() {
+    this.submitBtnElem.nativeElement.style.cursor = "pointer";
     this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_hover;
   }
 
   houtSubmitBtn() {
+    this.submitBtnElem.nativeElement.style.cursor = "";
     this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
   }
 

@@ -416,6 +416,7 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
         },500)
         this.appModel.handlePostVOActivity(false);
         this.appModel.enableReplayBtn(true);
+        this.appModel.enableSubmitBtn(true);
       }
     } else {
       this.appModel.handlePostVOActivity(false);
@@ -746,8 +747,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       }
       this.appModel.notifyUserAction();
       if (idx - 1 != -1) {
-        this.appModel.enableSubmitBtn(true);
-        // this.appModel.enableReplayBtn(false);
         let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
         let to = this.mainContainer.nativeElement.children[0].children[0].children[idx - 1].getBoundingClientRect();
         $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
@@ -771,8 +770,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
       }
       this.appModel.notifyUserAction();
       if (idx + 1 <= this.optionObj.optionArray.length - 1) {
-        this.appModel.enableSubmitBtn(true);
-        // this.appModel.enableReplayBtn(false);
         let from = this.mainContainer.nativeElement.children[0].children[0].children[idx].getBoundingClientRect();
         let to = this.mainContainer.nativeElement.children[0].children[0].children[idx + 1].getBoundingClientRect();
         $(this.mainContainer.nativeElement.children[0].children[0].children[idx]).animate({ left: (to.left - (from.left)), top: (to.top - (from.top)) }, 500);
@@ -905,9 +902,6 @@ export class Ntemplate24_1 implements OnInit, AfterViewChecked, OnDestroy {
 
   /*After wrong attempt reset the activity*/ 
   postWrongAttemplt() {
-    setTimeout(() => {
-      this.appModel.enableSubmitBtn(false);
-    }, 200)
     this.resetActivity();
     this.appModel.startPreviousTimer();
     this.appModel.notifyUserAction();
