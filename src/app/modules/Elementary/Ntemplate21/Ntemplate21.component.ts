@@ -154,7 +154,9 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     actComplete: boolean = false;
     feedbackCloseMin: number;
     showAnssetTimeout: any;
-    hoverOperator:boolean = false;
+    hoverOperator: boolean = false;
+    resetQuestion: boolean = true;
+    attemptNo: any = 5;
 
     ngOnInit() {
         //  let that = this;
@@ -182,6 +184,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
 
             } else if (mode == "auto") {
                 console.log("auto mode", mode);
+                this.resetQuestion = false;
                 this.showAnswer();
                 this.popupType = "showanswer";
                 this.isOn = false;
@@ -226,6 +229,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             // this.appModel.enableReplayBtn(true);
             this.isOn = false;
             this.showAnswer();
+            this.resetQuestion = true;
         })
         this.appModel.handleController(this.controlHandler);
         this.appModel.resetBlinkingTimer();
@@ -274,7 +278,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
                 //console.log("error occuered....");
             },
             () => {
-                this.sendFeedback(this.confirmModalRef.nativeElement,'no');
+                this.sendFeedback(this.confirmModalRef.nativeElement, 'no');
                 this.timerSubscription.unsubscribe();
             }
         )
@@ -299,6 +303,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     getAnswer() {
         setTimeout(() => {
             this.setWaterLavel();
+            this.getAssetsForPopup();
         }, 200)
     }
 
@@ -342,6 +347,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.calValueContainer = this.getAssetsForNos(this.firstNo);
             this.initialValue = this.getAssetsForNos(this.questionObj.initiallyValue);
             this.givenValueAssets = this.getAssetsForNos(this.requiredValue);
+            this.attemptNo= 5;
 
             for (let i = 0; i < this.operators.length; i++) {
                 if (this.operators[i].canUse) {
@@ -456,7 +462,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.hoverOperator = false;
         }
     }
-    stopInstructionVO(){
+    stopInstructionVO() {
         if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
             this.instructionVO.nativeElement.pause();
             this.instructionVO.nativeElement.currentTime = 0;
@@ -585,14 +591,9 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         }
         if ((this.mathOperator == "multiply" && this.selectedNos.length == 0 && this.numbers[idx].value == 0)
             || (this.mathOperator == "divide" && this.selectedNos.length == 0 && this.numbers[idx].value == 0)) {
-            setTimeout(() => {
-                this.digitModalRef.nativeElement.classList = "modal show";
-                this.isOn = false;
-                if (this.digitFeedback && this.digitFeedback.nativeElement) {
-                    this.digitFeedback.nativeElement.src = this.digitModal.wrong_digit_vo.url;
-                    this.digitFeedback.nativeElement.play();
-                }
-            }, 500)
+                this.digitModal.info_text = this.digitModal.wrong_digit_text;
+                this.digitFeedback.nativeElement.src = this.digitModal.wrong_digit_vo.url;
+                this.exceptionModal();
         } else {
             this.number_options[idx].imgsrc = this.number_options[idx].imgsrc_selected;
             this.number_options[idx].selected = true;
@@ -600,13 +601,54 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
                 this.selectedNos.push(this.numbers[idx]);
             }
             if (this.selectedNos.length == this.noOfDidgit) {
-                this.appModel.enableSubmitBtn(true);
+                this.calculateResult();
+                console.log(this.resultNo);
+                if (this.mathOperator == "minus" && this.resultNo < 0) {
+                    this.digitModal.info_text = this.digitModal.negative_result_text;
+                    this.digitFeedback.nativeElement.src = this.digitModal.negative_result_vo.url;
+                    this.exceptionModal();
+                } else if (this.mathOperator == "divide" && this.resultNo % 1 != 0) {
+                    this.digitModal.info_text = this.digitModal.decimal_result_text;
+                    this.digitFeedback.nativeElement.src = this.digitModal.decimal_result_vo.url;
+                    this.exceptionModal();
+                } else {
+                    this.appModel.enableSubmitBtn(true);
+                }
             }
         }
 
 
     }
-
+    exceptionModal() {
+        setTimeout(() => {
+            this.selectedNos.length = 0;
+            // this.emptySelectedBox();
+            this.digitModalRef.nativeElement.classList = "modal show";
+            this.isOn = false;
+            if (this.digitFeedback && this.digitFeedback.nativeElement) {                
+                this.digitFeedback.nativeElement.play();
+            }
+        }, 500)
+    }
+    calculateResult() {
+        let i = 0;
+        let num = 0;
+        let pow = this.selectedNos.length - 1;
+        while (pow >= 0) {
+            num += this.selectedNos[i].value * Math.pow(10, pow);
+            pow = pow - 1;
+            i = i + 1;
+        }
+        if (this.mathOperator == "plus") {
+            this.resultNo = this.firstNo + num;
+        } else if (this.mathOperator == "minus") {
+            this.resultNo = this.firstNo - num;
+        } if (this.mathOperator == "multiply") {
+            this.resultNo = this.firstNo * num;
+        } if (this.mathOperator == "divide") {
+            this.resultNo = this.firstNo / num;
+        }
+    }
     // this function is to set the level of water
     setWaterLavel() {
         let i = 0;
@@ -632,7 +674,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.resultNo = Math.floor(this.firstNo / this.secondNo);
         }
         this.calValueContainer = this.getAssetsForNos(this.resultNo);
-        this.getAssetsForPopup();
+
         /* setTimeout(() => {
              this.getAssetsForPopup();
          }, 1000)*/
@@ -759,16 +801,20 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.appModel.stopAllTimer();
             this.isOn = false;
             this.appModel.wrongAttemptAnimation();
-            // this.showAnswer();
         }
     }
-
+    resetQues() {
+        this.setData();
+        this.isOn = true;
+        this.noOfDidgit = 0;
+        this.emptySelectedBox();
+    }
 
     // To open the show answer popup
     showAnswer() {
         this.popupType = "showanswer"
         this.appModel.resetBlinkingTimer();
-        this.appModel.stopAllTimer();        
+        this.appModel.stopAllTimer();
         this.stopInstructionVO();
         this.confirmSubmitRef.nativeElement.classList = "modal";
         this.confirmReplayRef.nativeElement.classList = "modal";
@@ -809,7 +855,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             }
         }
     }
-    attemptNo: any = 5;
+    
     sendFeedback(ref, flag: string, action?: string) {
         this.stopInstructionVO();
         ref.classList = "modal";
@@ -824,6 +870,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.isOn = true;
         }
         if (action == "showAnswer") {
+            this.resetQuestion = false;
             this.showAnswer();
             this.popupType = "showanswer";
         } else if (action == "replay") {
@@ -906,8 +953,13 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.showAnswerVideo.nativeElement.pause();
         this.showAnswerVideo.nativeElement.currentTime = 0;
         this.showAnswerPopupRef.nativeElement.classList = "modal";
-        this.disableScreen();
-        this.blinkOnLastQues("auto");
+        if (this.resetQuestion == true) {
+            this.resetQues();
+        } else {
+            this.disableScreen();
+            this.blinkOnLastQues("auto");
+        }
+
     }
 
     disableScreen() {
