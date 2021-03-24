@@ -76,6 +76,8 @@ export class Ntemplate14Component implements OnInit {
 	toSeconds: any;
 	toMinutes: any;
 	isPaused: boolean = false;
+	blinkFlag: boolean = true;
+	blinkInterval: any;
 	recordingStatus: string = "Recording";
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -195,24 +197,7 @@ export class Ntemplate14Component implements OnInit {
 					}
 					if (this.appModel.isLastSectionInCollection) {
 						//close after 5 mins disable and thn blink
-						//console.log("will wait 5 mins here")
-						// let timer = 30;
-						//setTimeout(() => {
-						//	clearInterval(this.nextSegmenttimerId);
-							 
-						//}, 300*1000 )
-
-					// this.nextSegmenttimerId = setInterval(() => {
-					// 	if(timer>0){
-					// 		console.log('will wait ' + timer-- + ' sec here');
-					// 	}else{
-					// 		clearInterval(this.nextSegmenttimerId);
-					// 	}
-						
-						 
-					// }, 1000);
-					 this.startNextSegTimer();
-
+						this.startNextSegTimer();
 						this.handleTimer();
 					}
 					else {
@@ -227,19 +212,21 @@ export class Ntemplate14Component implements OnInit {
 
 	startNextSegTimer() {
 		if (this.appModel.isLastSectionInCollection) {
-			let timer = 30;
+			let timer = 300;
 			this.nextSegmenttimerId = setInterval(() => {
 				if (timer > 0) {
 					console.log('will wait ' + timer-- + ' sec here');
 				} else {
 					clearInterval(this.nextSegmenttimerId);
+					if(!this.autostopplayer) {
+						this.appModel.blinkForLastQues();
+					}
 				}
 			}, 1000);
 		}
 	}
 	ngAfterViewInit() {
 		document.getElementById("audioplay").addEventListener("play", () => {
-			// alert('333');
 			this.appModel.stopAllTimer();
 			clearInterval(this.nextSegmenttimerId);
 			this.instructionDisable = true;
@@ -268,7 +255,6 @@ export class Ntemplate14Component implements OnInit {
 				if(this.listenStatus){
 					this.appModel.moveNextQues();	
 				}
-				
 				this.isFirstTrial = false;
 			}
 		});
@@ -280,6 +266,7 @@ export class Ntemplate14Component implements OnInit {
 
 	ngOnDestroy() {
 		clearInterval(this.recordTimer);
+		clearInterval(this.blinkInterval);
 		clearInterval(this.timerId);
 		clearInterval(this.nextSegmenttimerId);
 		clearTimeout(this.clearautoplay);
@@ -382,14 +369,24 @@ export class Ntemplate14Component implements OnInit {
 		if (this.mediaRecorder) {
 			this.mediaRecorder.start();
 			var recordTime = JSON.parse(this.autoStop)/1000.0;
-			this.recordTimer = setInterval(function() {
-				if(!this.isPaused) {
-					console.log('recording time remaining ' + recordTime-- + ' sec');
-					if (recordTime == 0) {
-						clearInterval(this.recordTimer);
+			this.recordTimer = setInterval(() => {
+				console.log('recording time remaining ' + recordTime-- + ' sec');
+				if (recordTime === 15) {
+					this.blinkInterval = setInterval(() => {
+						if (this.blinkFlag) {
+							this.blinkFlag = false;
+							this.stopButton.nativeElement.src = this.question.stopActive.url;
+						} else {
+							this.blinkFlag = true;
+							this.stopButton.nativeElement.src = this.question.stop.url;
+						}
+					}, 500)
 				}
+				if (recordTime == 0) {
+					clearInterval(this.recordTimer);
+					clearInterval(this.blinkInterval);
 				}
-			 }, 1000);
+			}, 1000);
 		}
 		else {
 			console.log("Microphone access is not allowed")
@@ -410,7 +407,7 @@ export class Ntemplate14Component implements OnInit {
 		this.recordingSubscription = timer(0, 1000)
 			.subscribe(number => {
 				if (!this.timerPaused) {
-					if(this.time === number) {
+					if (this.time === number) {
 						this.calculateTimer(number);
 						this.time = number;
 					} else {
@@ -479,6 +476,7 @@ export class Ntemplate14Component implements OnInit {
 	/****** Stop recording on click of stop recorder button ******/
 	stopRecording() {
 		clearInterval(this.recordTimer);
+		clearInterval(this.blinkInterval);
 		this.isRecording = false;
 		if (this.recordingSubscription != undefined) {
 			this.recordingSubscription.unsubscribe();
@@ -496,11 +494,13 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		if(this.appModel.isLastSectionInCollection) {
+		if(!this.autostopplayer && this.appModel.isLastSectionInCollection) {
 			this.startNextSegTimer();
 		}else if(!this.autostopplayer){
 			this.appModel.moveNextQues("noBlink");
 		}else{
+			clearInterval(this.timerId);
+			clearTimeout(this.clearautoplay);
 			let a = 300;
 			this.timerId = setInterval(function() {
 				console.log('play time remaining ' + a-- + ' sec');
@@ -526,7 +526,7 @@ export class Ntemplate14Component implements OnInit {
 			this.InfoModalRef.nativeElement.classList = "modal";
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
 
-		}, 30000);
+		}, 300000);
 	}
 
 	getBasePath() {
@@ -601,31 +601,9 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Blink functionality of aage badhein button *******/
 	blinkOnLastQues(type?) {
-		// alert('111');
 		if (this.appModel.isLastSectionInCollection) {
-			//this.appModel.blinkForLastQues();
-			// alert('222');
 			this.appModel.blinkForLastQues();
 			this.appModel.stopAllTimer();
-
-			//this.blinkOnLastQues();
-			// let timer = 30;
-						//setTimeout(() => {
-						//	clearInterval(this.nextSegmenttimerId);
-							 
-						//}, 300*1000 )
-
-					// this.nextSegmenttimerId = setInterval(() => {
-					// 	if(timer>0){
-					// 		console.log('will wait ' + timer-- + ' sec here');
-					// 	}else{
-					// 		clearInterval(this.nextSegmenttimerId);
-					// 		this.blinkOnLastQues();
-							
-					// 	}
-						
-						 
-					// }, 1000);
 			if (!this.appModel.eventDone) {
 				if (this.isLastQuesAct) {
 					this.appModel.eventFired();
