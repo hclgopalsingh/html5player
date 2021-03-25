@@ -289,12 +289,12 @@ button:focus {
 
 .optionAnimate {
   transform: scale(1.05);
-  transition: transform 1s ease;
+  transition: transform .5s ease-in;
 }
 
 .nutralize {
   transform: scale(1.0);
-  transition: transform .5s ease;
+  transition: transform .5s ease-in;
 }
 
 .tabBody {
@@ -672,7 +672,7 @@ button:focus {
   }
 
 .modal-dialog {
-  width: 92% !important;/*66%*/
+  width: 88% !important;/*92%, 66%*/
   height: 74%;
 }
 
