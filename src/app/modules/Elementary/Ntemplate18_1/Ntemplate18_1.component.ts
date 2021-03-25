@@ -263,14 +263,21 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
     this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';
+
+      }
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.pause();
+        this.instruction.nativeElement.currentTime = 0;
+        this.disableinstructionBar = false; 
+      }
       if (action == "uttarDikhayein") {
         this.resetBlinker();
         this.closeClicked = false;
-        this.disableinstructionBar = true;
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
-        }
+               
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.disableSection = true;
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -280,23 +287,14 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (action == "submitAnswer") {
         this.disableSection = false;
         this.resetBlinker();
-        this.closeClicked = false;
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
-        }
+        this.closeClicked = false;        
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
       if (action == "replayVideo") {
         this.resetBlinker();
         this.closeClicked = false;
         this.houtonReplayConfirm();
-        this.SkipLoad = true;
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
-        }
-
+        this.SkipLoad = true;        
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.disableoptions = true;
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
@@ -425,6 +423,13 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.notifyUserAction();
       clearInterval(this.blinkTimeInterval);
       console.log("play on Instruction");
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();  
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';
+
+      }
+  
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
@@ -1292,7 +1297,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
               this.disableSection = true;
               this.instructionBar.nativeElement.style.opacity = 0.3;
               this.disableinstructionBar = true;
-
               this.bodyContentSection.nativeElement.style.opacity = 0.3;
               this.disableBody = true;
               this.appModel.enableSubmitBtn(false);
@@ -1470,19 +1474,13 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.timerSubscription.unsubscribe();
     }
     if (flag == "yes") {
-      // this.bodyContentSection.nativeElement.style.opacity = 0.3;
-      // this.instructionBar.nativeElement.style.opacity = 0.3;
-
-      // this.disableBody = true;
-      setTimeout(() => {
+      
         this.appModel.invokeTempSubject('showModal', 'manual');
         this.appModel.resetBlinkingTimer();
-      }, 100);
      
     } else {
       this.disableoptionsBlock = true;
       setTimeout(() => {
-        this.disableinstructionBar = false;
         this.disableoptionsBlock = false;
       }, 500);
       this.appModel.notifyUserAction();
