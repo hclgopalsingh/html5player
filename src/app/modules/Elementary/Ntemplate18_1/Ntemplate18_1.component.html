@@ -171,12 +171,12 @@
             <div class="my-auto quesImage">
               <div id="{{idx}}" class="options" *ngFor="let obj of newCopy;let idx = index">
                 <div>
-                  <img style="cursor: default !important;" class="img-fluid" [src]="optionObject[obj.placedInOption]?.imgsrc?.url"
+                  <img style="cursor: default !important;" class="img-fluid" [src]="optionObjectpopup[obj.placedInOption]?.imgsrc?.url"
                     (load)="checkImgLoaded();">
                 </div>
                 <div *ngIf="!isShowAns">
                   <img style="cursor: default !important; visibility: hidden;" class="img-fluid"
-                    [src]="opt?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)"
+                    [src]="optionObjectpopup[obj.placedInOption]?.dropBoxImg?.url" (mouseenter)="onHoverOption(opt,idx)"
                     (mouseleave)="onHoverOptionOut(opt,idx)" (click)="onClickoption(idx)" (load)="checkImgLoaded();">
                   <img style="cursor: default !important;" class="img-fluid optItempopUp" [src]="obj?.imgsrc?.url">
 
