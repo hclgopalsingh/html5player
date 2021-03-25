@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
  
 declare const MediaRecorder: any;
 declare const navigator: any;
@@ -67,6 +68,17 @@ export class Ntemplate14Component implements OnInit {
 	recordTimer:any;
 	recordTime:any;
 	listenStatus:boolean=false;
+	seconds: any;
+	minutes: any;
+	time: number = 0;
+	recordingSubscription: any;
+	timerPaused: any;
+	toSeconds: any;
+	toMinutes: any;
+	isPaused: boolean = false;
+	blinkFlag: boolean = true;
+	blinkInterval: any;
+	recordingStatus: string = "Recording";
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
 	@ViewChild('audioT') audioT: any;
@@ -140,7 +152,10 @@ export class Ntemplate14Component implements OnInit {
 
 			};
 
-			this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+			this.mediaRecorder.ondataavailable = e => {
+				this.chunks.push(e.data);
+			}
+			
 		};
 
 		navigator.getUserMedia = (navigator.getUserMedia ||
@@ -152,7 +167,6 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	ngOnInit() {
-		
 		this.appModel.functionone(this.templatevolume, this);//start end
 		this.containgFolderPath = this.getBasePath();
 		if (this.appModel.isNewCollection) {
@@ -183,24 +197,7 @@ export class Ntemplate14Component implements OnInit {
 					}
 					if (this.appModel.isLastSectionInCollection) {
 						//close after 5 mins disable and thn blink
-						//console.log("will wait 5 mins here")
-						let timer = 300;
-						//setTimeout(() => {
-						//	clearInterval(this.nextSegmenttimerId);
-							 
-						//}, 300*1000 )
-
-					this.nextSegmenttimerId = setInterval(function() {
-						if(timer>0){
-							console.log('will wait ' + timer-- + ' sec here');
-						}else{
-							clearInterval(this.nextSegmenttimerId);
-						}
-						
-						 
-					}, 1000);
-					 
-
+						this.startNextSegTimer();
 						this.handleTimer();
 					}
 					else {
@@ -213,12 +210,26 @@ export class Ntemplate14Component implements OnInit {
 		this.appModel.handleController(this.controlHandler);
 	}
 
+	startNextSegTimer() {
+		if (this.appModel.isLastSectionInCollection) {
+			let timer = 300;
+			this.nextSegmenttimerId = setInterval(() => {
+				if (timer > 0) {
+					console.log('will wait ' + timer-- + ' sec here');
+				} else {
+					clearInterval(this.nextSegmenttimerId);
+					if(!this.autostopplayer) {
+						this.appModel.blinkForLastQues();
+					}
+				}
+			}, 1000);
+		}
+	}
 	ngAfterViewInit() {
 		document.getElementById("audioplay").addEventListener("play", () => {
-			alert('333');
 			this.appModel.stopAllTimer();
 			clearInterval(this.nextSegmenttimerId);
-			this.instructionDisable = false;
+			this.instructionDisable = true;
 			if (!this.instruction.nativeElement.paused) {
 				this.instruction.nativeElement.pause();
 				this.instruction.nativeElement.currentTime = 0;
@@ -226,6 +237,7 @@ export class Ntemplate14Component implements OnInit {
 		});
 		document.getElementById("audioplay").addEventListener("pause", () => {
 			clearInterval(this.nextSegmenttimerId);
+			this.instructionDisable = false;
 			if (this.isFirstTrial && this.listenStatus) {
 				this.appModel.moveNextQues();
 			}
@@ -238,11 +250,11 @@ export class Ntemplate14Component implements OnInit {
 		});
 		document.getElementById("audioplay").addEventListener("ended", () => {
 			console.log("enddedd");
+			this.instructionDisable = false;
 			if (this.isFirstTrial && this.playClicked) {
 				if(this.listenStatus){
 					this.appModel.moveNextQues();	
 				}
-				
 				this.isFirstTrial = false;
 			}
 		});
@@ -254,6 +266,7 @@ export class Ntemplate14Component implements OnInit {
 
 	ngOnDestroy() {
 		clearInterval(this.recordTimer);
+		clearInterval(this.blinkInterval);
 		clearInterval(this.timerId);
 		clearInterval(this.nextSegmenttimerId);
 		clearTimeout(this.clearautoplay);
@@ -320,12 +333,32 @@ export class Ntemplate14Component implements OnInit {
 		}
 	}
 
+	/***** pause and resume recording *****/
+	toggleRecording() {
+		if(!this.isPaused) {
+			if (this.mediaRecorder) {
+				this.recordingStatus = "Paused";
+				this.timerPaused = true;
+				this.question.pause = this.question.resume;
+				this.mediaRecorder.pause();
+			}
+		} else {
+			if (this.mediaRecorder) {
+				this.recordingStatus = "Recording";
+				this.timerPaused = false;
+				this.question.pause = this.question.pause_original;
+				this.mediaRecorder.resume();
+			}
+		}
+		this.isPaused = !this.isPaused;
+	}
 	/***** start recording the sound *****/
 	startRecording() {
 		this.isStop = false;
 		this.isRecord = true;
 		this.isRecording = true;
 		this.showstop = true;
+		this.startRecordingTimer();
 		this.appModel.stopAllTimer();
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.pause();
@@ -336,28 +369,66 @@ export class Ntemplate14Component implements OnInit {
 		if (this.mediaRecorder) {
 			this.mediaRecorder.start();
 			var recordTime = JSON.parse(this.autoStop)/1000.0;
-			this.recordTimer = setInterval(function() {
+			this.recordTimer = setInterval(() => {
 				console.log('recording time remaining ' + recordTime-- + ' sec');
-				if(recordTime == 0){
-					clearInterval(this.recordTimer);
+				if (recordTime === 15) {
+					this.blinkInterval = setInterval(() => {
+						if (this.blinkFlag) {
+							this.blinkFlag = false;
+							this.stopButton.nativeElement.src = this.question.stopActive.url;
+						} else {
+							this.blinkFlag = true;
+							this.stopButton.nativeElement.src = this.question.stop.url;
+						}
+					}, 500)
 				}
-			 }, 1000);
+				if (recordTime == 0) {
+					clearInterval(this.recordTimer);
+					clearInterval(this.blinkInterval);
+				}
+			}, 1000);
 		}
 		else {
 			console.log("Microphone access is not allowed")
 		}
-		//this.stopButton.nativeElement.src = this.question.stop.url;
+		// this.stopButton.nativeElement.src = this.question.stop.url;
 		setTimeout(() => {
 			if (!this.isStop) {
 				this.autostopplayer=true;
+				this.timerPaused = true;
+				console.log("recording stopped in ",this.minutes + " " + this.seconds);
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
 	}
 
+	/****** start recording timer ******/
+	startRecordingTimer() {
+		this.recordingSubscription = timer(0, 1000)
+			.subscribe(number => {
+				if (!this.timerPaused) {
+					if (this.time === number) {
+						this.calculateTimer(number);
+						this.time = number;
+					} else {
+						this.time = this.time + 1;
+						this.calculateTimer(this.time);
+					}
+				}
+			});
+	}
+
+	/****** calculate minutes and seconds value ******/
+	calculateTimer(timer) {
+		this.toSeconds = timer % 60;
+		this.toMinutes = Math.floor(timer / 60);
+		this.seconds = (this.toSeconds < 10 ? '0' : '') + this.toSeconds;
+		this.minutes = (this.toMinutes < 10 ? '0' : '') + Math.floor(timer / 60);
+	}
+
 	/****** Play recorded audio on click of Play button ******/
 	listen() {
-		
+		clearInterval(this.nextSegmenttimerId);
 		clearInterval(this.timerId);
 		clearTimeout(this.clearautoplay);
 		clearInterval(this.nextSegmenttimerId);
@@ -375,6 +446,7 @@ export class Ntemplate14Component implements OnInit {
 		this.playClicked = true;
 		this.audioT.nativeElement.load();
 		console.log('start playing');
+		this.startNextSegTimer();
 		 this.audioT.nativeElement.play();
 		 this.audioT.nativeElement.onended = () => {
 			console.log('end playing 1');
@@ -404,7 +476,11 @@ export class Ntemplate14Component implements OnInit {
 	/****** Stop recording on click of stop recorder button ******/
 	stopRecording() {
 		clearInterval(this.recordTimer);
+		clearInterval(this.blinkInterval);
 		this.isRecording = false;
+		if (this.recordingSubscription != undefined) {
+			this.recordingSubscription.unsubscribe();
+		}
 		this.showstop = false
 		this.removeBtn = false;
 		this.showPlay = true;
@@ -418,9 +494,13 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		if(!this.autostopplayer){
+		if(!this.autostopplayer && this.appModel.isLastSectionInCollection) {
+			this.startNextSegTimer();
+		}else if(!this.autostopplayer){
 			this.appModel.moveNextQues("noBlink");
 		}else{
+			clearInterval(this.timerId);
+			clearTimeout(this.clearautoplay);
 			let a = 300;
 			this.timerId = setInterval(function() {
 				console.log('play time remaining ' + a-- + ' sec');
@@ -521,29 +601,9 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Blink functionality of aage badhein button *******/
 	blinkOnLastQues(type?) {
-		alert('111');
 		if (this.appModel.isLastSectionInCollection) {
-			//this.appModel.blinkForLastQues();
-			alert('222');
+			this.appModel.blinkForLastQues();
 			this.appModel.stopAllTimer();
-			//this.blinkOnLastQues();
-			let timer = 300;
-						//setTimeout(() => {
-						//	clearInterval(this.nextSegmenttimerId);
-							 
-						//}, 300*1000 )
-
-					this.nextSegmenttimerId = setInterval(function() {
-						if(timer>0){
-							console.log('will wait ' + timer-- + ' sec here');
-						}else{
-							clearInterval(this.nextSegmenttimerId);
-							this.blinkOnLastQues();
-							
-						}
-						
-						 
-					}, 1000);
 			if (!this.appModel.eventDone) {
 				if (this.isLastQuesAct) {
 					this.appModel.eventFired();
@@ -574,9 +634,13 @@ export class Ntemplate14Component implements OnInit {
 		let seconds: any = sec - (hours * 3600) - (minutes * 60); //  get seconds
 		// add 0 if value < 10
 		if (hours < 10) { hours = "0" + hours; }
-		if (minutes < 10) { minutes = "0" + minutes; }
-		if (seconds < 10) { seconds = "0" + seconds; }
-		return +minutes + ':' + seconds; // Return is HH : MM : SS
+		if(minutes === 0) {
+			minutes = "00";
+		} else if (minutes < 10 && minutes > 0) { minutes = "0" + minutes; }
+		if(seconds === 0) {
+			seconds = "00";
+		} else if (seconds < 10 && seconds > 0) { seconds = "0" + seconds; }
+		return minutes + ':' + seconds; // Return is HH : MM : SS
 	}
 
 }
