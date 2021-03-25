@@ -195,6 +195,11 @@ button:focus {
   bottom: 5px;
   text-align: center;}
 .modal .fillValue{height: 10%; bottom: 5%;/*35px;*/}
+.modal .blueLine .fillValue{
+  height: 2.8vmin !important; 
+  bottom: -3vmin !important;
+}
+
 .modal .fillValue img{    
   height: 100%;
   max-height: 71%;
