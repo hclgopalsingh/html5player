@@ -66,7 +66,7 @@ button:focus {
   cursor: pointer;
   width: 16%;*/
   position: absolute;
-  top: 86.2%;
+  top: 86%;
   right: .7%;/*-3.7%*/
   cursor: pointer;
   width: 3.5%;/*16%*/
@@ -85,7 +85,7 @@ button:focus {
   cursor: pointer;
   width: 1.5%;*/
   position: absolute;
-  top: 86.2%;/*85%*/
+  top: 86%;/*85%*/
   right: 5%;/*16%*/
   cursor: pointer;
   width: 3.5%;/*1.5%*/
@@ -94,6 +94,7 @@ button:focus {
 #SkipBtn img {
   /* max-width: 70%; */
 }
+
 
 .quesImage .optItempopUp {
   position: absolute !important;
@@ -151,8 +152,18 @@ button:focus {
 }
 .videoMainContainer{
   width:100%;
-  margin-bottom: -.4%;
-  display: grid;
+}
+.videoWrapper {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.videoMainContainer .videoBg {
+  opacity: 0;
 }
 #optionsBlock #option img,
 .optionsBlock #option img {
