@@ -585,10 +585,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.isAllowed = false;
 
         setTimeout(() => {
-          this.refQuesObj[this.index1].isOpen = false;
-          this.refQuesObj[this.index1].leftPos = 0 + 'px';
-          this.refQuesObj[this.index1].topPos = 0 + 'px';
-          clearInterval(this.blinkTimeInterval);
+          // this.refQuesObj[this.index1].isOpen = false;
+          // this.refQuesObj[this.index1].leftPos = 0 + 'px';
+          // this.refQuesObj[this.index1].topPos = 0 + 'px';
+          // clearInterval(this.blinkTimeInterval);
           this.isAllowed = true
           this.countofAnimation--;
           // if (this.countofAnimation == 0) {
@@ -598,6 +598,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.optionObject[idx].placed = false;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[0].src = this.optionObject[idx].dropBoxImg_original.url;
           this.refcpyArray[this.optionObject[idx].sequenceNo - 1].position = 'top';
+          delete this.refcpyArray[this.optionObject[idx].sequenceNo - 1]['placedInOption'];
           this.prevIdx = this.index1;
           this.startCount = 1;
           this.blinkHolder();
@@ -747,15 +748,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  endedHandleronSkip() {
-    // for (let i = 0; i < this.refQuesObj.length; i++) {
-    //   if (this.refQuesObj[i].position == "down") {
-    //     this.appModel.enableSubmitBtn(true);
-    //   }
-    // }
+  endedHandleronSkip() {    
     this.disableoptions = false;
     this.disableSection =
-      this.isPlayVideo = false;
+    this.isPlayVideo = false;
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
