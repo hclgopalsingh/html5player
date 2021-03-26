@@ -152,7 +152,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   movetop: any;
   indexArray: any = [];
   index: any;
-  fetchAnswer: any = [];
+  // fetchAnswer: any = [];
   index1: number = 0;
   prevIdx: number;
   curr: number;
@@ -201,6 +201,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   actComplete: boolean = false;
   isShowAns:boolean = false;
   newCopy: any = [];
+  optionObjectpopup: any;
   ngOnDestroy() {
     clearTimeout(this.showAnsTimer);
     clearInterval(this.blinkTimeInterval);
@@ -239,64 +240,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (mode == "manual") {
         //show modal for manual
         this.setAssetsForShowAnswer();
-        // this.matched = true;
-        // this.allcorrect = true;
-        // this.rightanspopUpheader_img = false;
-        // this.wronganspopUpheader_img = false;
-        // this.showanspopUpheader_img = true;
-        // this.partialCorrectheaderTxt_img = false;
-        // this.attemptType = "showAnswer";
-        // this.styleHeaderPopup = this.feedbackObj.style_header;
-        // this.styleBodyPopup = this.feedbackObj.style_body;
-        // this.startCount = 0;
-        // this.appModel.notifyUserAction();
-        // if (this.popupRef && this.popupRef.nativeElement) {
-        //   this.disableSection = true;
-        //   this.confirmModalRef.nativeElement.classList = "modal";
-        //   this.confirmReplayRef.nativeElement.classList = "modal";
-        //   this.popupRef.nativeElement.classList = "displayPopup modal";
-        //   this.setRightFeedback();
-        // }
+        
       } else if (mode == "auto" && !this.isPlayVideo) {
         this.setAssetsForShowAnswer();
-        // this.allcorrect = true;
-        // this.submitModalRef.nativeElement.classList = "modal";
-        // this.matched = true;
-        // for (let x = 0; x < this.fetchAnswer.length; x++) {
-        //   this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
-        // }
-        // if (this.feedbackObj.showAnswerpopupTxt.required) {
-        //   this.AnswerpopupTxt = true;
-        //   this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
-        // } else {
-        //   this.AnswerpopupTxt = false;
-        // }
-        // this.startCount = 0;
-        // //show modal of auto
-        // this.bodyContentSection.nativeElement.style.opacity = 0.3;
-        // this.instructionBar.nativeElement.style.opacity = 0.3;
-        // this.appModel.notifyUserAction();
-        // if (this.popupRef && this.popupRef.nativeElement) {
-        //   this.disableSection = true;
-        //   this.disableBody = true;
-        //   this.rightanspopUpheader_img = false;
-        //   this.wronganspopUpheader_img = false;
-        //   this.showanspopUpheader_img = true;
-        //   this.partialCorrectheaderTxt_img = false;
-        //   this.attemptType = "showAnswer";
-        //   this.appModel.enableSubmitBtn(false)
-        //   this.styleHeaderPopup = this.feedbackObj.style_header;
-        //   this.styleBodyPopup = this.feedbackObj.style_body;
-        //   this.startCount = 0;
-        //   this.checked = true;
-        //   this.confirmModalRef.nativeElement.classList = "modal";
-        //   this.confirmReplayRef.nativeElement.classList = "modal";
-        //   this.popupRef.nativeElement.classList = "displayPopup modal";
-        //   this.onlyOneAttemptModalRef.nativeElement.classList = 'modal';
-        //   this.noOfRightAnsClicked = 0;
-        //   this.noOfWrongAnsClicked = 0;
-        //   this.setRightFeedback();
-        // }
+        
       } else if (mode == "submit") {
         if (!this.instruction.nativeElement.paused) {
           this.instruction.nativeElement.pause();
@@ -316,14 +263,21 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
     this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';
+
+      }
+      if (!this.instruction.nativeElement.paused) {
+        this.instruction.nativeElement.pause();
+        this.instruction.nativeElement.currentTime = 0;
+        this.disableinstructionBar = false; 
+      }
       if (action == "uttarDikhayein") {
         this.resetBlinker();
         this.closeClicked = false;
-        this.disableinstructionBar = true;
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
-        }
+               
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.disableSection = true;
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
@@ -333,23 +287,14 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       if (action == "submitAnswer") {
         this.disableSection = false;
         this.resetBlinker();
-        this.closeClicked = false;
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
-        }
+        this.closeClicked = false;        
         this.submitModalRef.nativeElement.classList = "displayPopup modal";
       }
       if (action == "replayVideo") {
         this.resetBlinker();
         this.closeClicked = false;
         this.houtonReplayConfirm();
-        this.SkipLoad = true;
-        if (!this.instruction.nativeElement.paused) {
-          this.instruction.nativeElement.pause();
-          this.instruction.nativeElement.currentTime = 0;
-        }
-
+        this.SkipLoad = true;        
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.disableoptions = true;
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
@@ -428,9 +373,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     this.allcorrect = true;
     this.submitModalRef.nativeElement.classList = "modal";
     this.matched = true;
-    // for (let x = 0; x < this.fetchAnswer.length; x++) {
-    //   this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
-    // }
+   
     this.newCopy.length = 0;
     this.newCopy = JSON.parse(JSON.stringify(this.refcpyArray));
     for (let x = 0; x < this.newCopy.length; x++) {
@@ -480,6 +423,13 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.appModel.notifyUserAction();
       clearInterval(this.blinkTimeInterval);
       console.log("play on Instruction");
+      for (let x = 0; x < this.optionsBlock.nativeElement.children[0].children.length; x++) {
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].currentTime = 0;
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[1].pause();  
+        this.optionsBlock.nativeElement.children[0].children[x].children[0].children[0].style.pointerEvents = '';
+
+      }
+  
       if (this.instruction.nativeElement.paused) {
         this.instruction.nativeElement.currentTime = 0;
         this.instruction.nativeElement.play();
@@ -676,13 +626,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
           this.isAllowed = true;
           this.optionsBlock.nativeElement.children[0].children[idx].children[1].children[1].src = this.refQuesObj[this.index1].imgsrc_original.url;
 
-          for (var k = 0; k < this.fetchAnswer.length; k++) {
-            if (this.fetchAnswer[k].id == this.refcpyArray[this.index1].id) {
-              this.fetchAnswer[k] = {};
-            }
-          }
-
-          this.fetchAnswer.splice(idx, 1, this.refcpyArray[this.index1]);
           this.optionObject[idx].placed = true;
           this.refcpyArray[this.index1].placedInOption = idx;
           this.optionObject[idx].sequenceNo = this.refcpyArray[this.index1].sequenceNo;
@@ -953,10 +896,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.refcpyArray = this.originalArray.slice();
       for (var i = 0; i < this.refcpyArray.length; i++) {
         this.indexArray.push(i);
-        this.fetchAnswer.push(i);
       }
       this.optionObjOriginal = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
       this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
+      this.optionObjectpopup = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
       for (let x = 0; x < this.optionObject.length; x++) {
         this.optionObject[x].placed = false;
       }
@@ -1200,23 +1143,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
   setFeedback() {
 
-    if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {
-      // for (let x = 0; x < this.fetchAnswer.length; x++) {
-      //   delete this.optionObject[x]['status'];
-      //   if (this.fetchAnswer[x].id == undefined) {
-      //     console.log('noooooooooo setFeedback');
-      //   } else if (this.feedbackObj.correct_ans_index[x].id == this.fetchAnswer[x].id && this.fetchAnswer[x].position == "down") {
-      //     console.log('RIGHT ANSWER');
-      //     this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_right.url;
-      //     this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_right.url;
-      //     this.optionObject[x].status = "right";
-      //   } else if (this.fetchAnswer[x].position == "down") {
-      //     console.log('WRONG ANSWER');
-      //     this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_wrong.url;
-      //     this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_wrong.url;
-      //     this.optionObject[x].status = "wrong";
-      //   }
-      // }
+    if (this.noOfRightAnsClicked > 0 && this.noOfWrongAnsClicked > 0) {   
       for (let x = 0; x < this.newCopy.length; x++) {
         let y = this.newCopy[x].placedInOption;
         delete this.optionObject[y]['status'];
@@ -1255,12 +1182,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.newCopy.length == this.noOfRightAnsClicked) {
 
       console.log('all correct');
-      this.allcorrect = true;
-      // for (let x = 0; x < this.fetchAnswer.length; x++) {
-      //   this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
-      //   this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
-      //   this.optionObject[x].status = "right";
-      // }
+      this.allcorrect = true;    
       for (let x = 0; x < this.newCopy.length; x++) {
         this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_original;
         let y = this.newCopy[x].placedInOption;
@@ -1284,15 +1206,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleBodyPopup = this.feedbackObj.style_body;
     } else if (this.noOfRightAnsClicked == 0 && this.noOfWrongAnsClicked > 0) {
 
-      // for (let x = 0; x < this.fetchAnswer.length; x++) {
-      //   if (this.fetchAnswer[x].id == undefined) {
-      //     //alert();
-      //   } else if (this.fetchAnswer[x].position == "down") {
-      //     this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
-      //     this.popupBodyRef.nativeElement.children[0].children[x].children[1].children[1].src = this.fetchAnswer[x].imgsrc_original.url;
-      //     this.optionObject[x].status = "wrong";
-      //   }
-      // }
       for (let x = 0; x < this.newCopy.length; x++) {
         this.newCopy[x].imgsrc = this.newCopy[x].imgsrc_original;
         let y = this.newCopy[x].placedInOption;
@@ -1326,6 +1239,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
     }
+    this.optionObjectpopup = [...this.optionObject];
+    if (this.noOfWrongAnsClicked > 0) {
+      this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
+    }
     this.setplayFeedbackAudio(0);
   }
 
@@ -1335,15 +1252,10 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.partialCase = false;
       let current = i;
 
-      if (this.newCopy[i] && i < this.feedbackObj.correct_ans_index.length && current < this.optionObject.length && !this.closeModalPopup) {
+      if (this.newCopy[i] && i < this.feedbackObj.correct_ans_index.length && current < this.optionObjectpopup.length && !this.closeModalPopup) {
         let pos = this.newCopy[i].placedInOption;
-        if (this.optionObject[pos].status == "right") {         
-          // for (var j = 0; j < this.newCopy.length; j++) {
-          //   let y = this.newCopy[j].placedInOption;
-          //   if (this.newCopy[j].sequenceNo == this.optionObject[i].sequenceNo) {
-          //     this.feedbackAudio = this.newCopy[j].correctAudio;
-          //   }
-          // }
+        if (this.optionObjectpopup[pos].status == "right") {         
+         
           this.feedbackAudio = this.refQuesObj[pos].correctAudio;
           this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
@@ -1353,17 +1265,12 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
             this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'optionAnimate';
           }
           this.feedbackPopupAudio.nativeElement.onended = () => {
-            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'nutralize';
             ++current;
             this.setplayFeedbackAudio(current);
           }
-        } else if (this.optionObject[pos].status == "wrong") {          
-          // for (var j = 0; j < this.newCopy.length; j++) {
-          //   let y = this.newCopy[j].placedInOption;
-          //   if (this.newCopy[j].sequenceNo == this.optionObject[i].sequenceNo) {
-          //     this.feedbackAudio = this.newCopy[j].incorrectAudio;
-          //   }
-          // }
+        } else if (this.optionObjectpopup[pos].status == "wrong") {         
+          
           this.feedbackAudio = this.refQuesObj[pos].incorrectAudio;
           this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url + '?someRandomSeed=' + Math.random().toString(36);
           console.log(this.feedbackPopupAudio.nativeElement.src);
@@ -1373,7 +1280,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
             this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'optionAnimate';
           }
           this.feedbackPopupAudio.nativeElement.onended = () => {
-            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+            this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'nutralize';
             ++current;
             this.setplayFeedbackAudio(current);
 
@@ -1390,7 +1297,6 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
               this.disableSection = true;
               this.instructionBar.nativeElement.style.opacity = 0.3;
               this.disableinstructionBar = true;
-
               this.bodyContentSection.nativeElement.style.opacity = 0.3;
               this.disableBody = true;
               this.appModel.enableSubmitBtn(false);
@@ -1417,7 +1323,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = "optionAnimate";
       }
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = " ";
+        this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = "nutralize";
         ++current;
         this.setplayrightFeedbackAudio(current);
       }
@@ -1434,11 +1340,9 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
   resetAttempt() {
     this.allcorrect = false;
     this.closeModalPopup = false;
-    this.optionObject = [...this.optionObjOriginal];
-    this.fetchAnswer = [];
-    for (var i = 0; i < this.refcpyArray.length; i++) {
-      this.fetchAnswer.push(i);
-    }
+    this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
+    this.optionObjectpopup = [...this.optionObject];
+   
     for (let i = 0; i < this.refQuesObj.length; i++) {
       delete this.optionObject[i]['sequenceNo'];
     }
@@ -1570,31 +1474,13 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.timerSubscription.unsubscribe();
     }
     if (flag == "yes") {
-      // this.bodyContentSection.nativeElement.style.opacity = 0.3;
-      // this.instructionBar.nativeElement.style.opacity = 0.3;
-
-      // this.disableBody = true;
-      setTimeout(() => {
+      
         this.appModel.invokeTempSubject('showModal', 'manual');
         this.appModel.resetBlinkingTimer();
-      }, 100);
-
-      // this.disableSection = true;
-      // this.appModel.enableSubmitBtn(false);
-      // this.checked = true;
-      // if (this.feedbackObj.showAnswerpopupTxt.required) {
-      //   this.AnswerpopupTxt = true;
-      //   this.popupHeader = this.feedbackObj.showAnswerpopupTxt.url;
-      // } else {
-      //   this.AnswerpopupTxt = false;
-      // }
-      // for (let x = 0; x < this.fetchAnswer.length; x++) {
-      //   this.popupBodyRef.nativeElement.children[0].children[x].children[0].children[0].src = this.optionObject[x].imgsrc_original.url;
-      // }
+     
     } else {
       this.disableoptionsBlock = true;
       setTimeout(() => {
-        this.disableinstructionBar = false;
         this.disableoptionsBlock = false;
       }, 500);
       this.appModel.notifyUserAction();

@@ -1347,7 +1347,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           }
           this.feedbackPopupAudio.nativeElement.onended = () => {
             if (this.popupBodyRef.nativeElement.children[0].children[i].children[0]) {
-              this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+              this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'nutralize';
             }
             ++current;
             this.setplayFeedbackAudio(current);
@@ -1368,7 +1368,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
           }
           this.feedbackPopupAudio.nativeElement.onended = () => {
             if (this.popupBodyRef.nativeElement.children[0].children[i].children[0]) {
-              this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+              this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'nutralize';
             }
             ++current;
             this.setplayFeedbackAudio(current);
@@ -1412,7 +1412,7 @@ export class Ntemplate18 implements OnInit, OnDestroy, AfterViewChecked {
         this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'optionAnimate';
       }
       this.feedbackPopupAudio.nativeElement.onended = () => {
-        this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = ' ';
+        this.popupBodyRef.nativeElement.children[0].children[i].children[0].classList = 'nutralize';
         ++current;
         this.setplayrightFeedbackAudio(current);
       }

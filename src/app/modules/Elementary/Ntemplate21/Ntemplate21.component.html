@@ -127,7 +127,10 @@
                   <div id="Line0" class="level5 fillLine purple">
                   </div>
                   <div id="Line0" class=" fillLine blueLine" [style.bottom.%]="initialVal">
-
+                    <div class="fillValue">
+                      <ng-container *ngFor="let no of initialValue; let idx = index"> <img class="img-fluid"
+                          [src]="no?.url" /> </ng-container>
+                    </div>  
                   </div>
                   <div id="Line0" class=" fillLine greenLine" [style.bottom.%]="destinationVal">
                     <div class="text-center fillText">
@@ -140,10 +143,6 @@
 
                   <img class="img-fluid level" [style.height.%]="waterLevel>0?waterLevel:0" [style.maxHeight.%]="102"
                     [src]="otherAssets?.filler?.url" />
-                  <div class="fillValue">
-                    <ng-container *ngFor="let no of initialValue; let idx = index"> <img class="img-fluid"
-                        [src]="no?.url" /> </ng-container>
-                  </div>
                   <img *ngIf="isExcess" class="img-fluid overflow" [src]="feedbackAssets?.overflow?.url">
                 </div>
                 <img class="img-fluid liquidContainer" [src]="otherAssets?.container?.url" />
