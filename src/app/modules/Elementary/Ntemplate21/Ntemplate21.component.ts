@@ -155,7 +155,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     feedbackCloseMin: number;
     showAnssetTimeout: any;
     hoverOperator: boolean = false;
-    resetQuestion: boolean = true;
+    resetQuestion: boolean = false;
     attemptNo: any = 5;
 
     ngOnInit() {
@@ -807,6 +807,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.setData();
         this.isOn = true;
         this.noOfDidgit = 0;
+        this.noOfAttempt = 0;
         this.emptySelectedBox();
     }
 
@@ -1106,6 +1107,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     clearSelected() {
+        this.stopInstructionVO();
         this.appModel.notifyUserAction();
         this.otherAssets.refresh_btn.refresh_normal = this.otherAssets.refresh_btn.refresh_original;
         for (let i in this.number_options) {
