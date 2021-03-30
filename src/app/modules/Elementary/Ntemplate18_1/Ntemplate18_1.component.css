@@ -797,13 +797,13 @@ html [type=button] {
 
 .modal #optionsBlock .options,
 .modal .optionsBlock .options {
-  width: 60%;/*97%*/
-  margin: 2.5% 0 0;/*.5% 0*/
+  width: 63%;/*60%,97%*/
+  margin: .8% 0 0;/*2.5% 0 0;.5% 0;*/
   left: 0;
 }
 
 #container .modal #optionsBlock {
-  margin: 7% 0 2%; /*6% 0 2%;*/
+  margin: 8.5% 0 2%; /*7% 0 2%;*/
   height: 100%;
 }
 
