@@ -1345,7 +1345,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
       this.optionsBlock.nativeElement.children[0].children[i].children[1].children[0].src = this.optionObject[i].dropBoxImg_original.url;
       for (let i = 0; i < this.refQuesObj.length; i++) {
-        this.refQuesObj[i].isOpen = true;
+        // this.refQuesObj[i].isOpen = true;
         this.refQuesObj[i].leftPos = 0 + 'px';
         this.refQuesObj[i].topPos = 0 + 'px';
       }
@@ -1547,7 +1547,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     }
     if (!this.allcorrect) {
       for (let i = 0; i < this.refQuesObj.length; i++) {
-        this.refQuesObj[i].isOpen = true;
+        // this.refQuesObj[i].isOpen = true;
         this.refQuesObj[i].leftPos = 0 + 'px';
         this.refQuesObj[i].topPos = 0 + 'px';
       }
@@ -1593,10 +1593,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
 
       }, 5);
       this.appModel.wrongAttemptAnimation();
-      setTimeout(() => {
-        //this.resetAttempt();
-
-      }, 5000);
+      
       setTimeout(() => {
         document.getElementById('optionsBlock').style.pointerEvents = '';
       }, 3000);
