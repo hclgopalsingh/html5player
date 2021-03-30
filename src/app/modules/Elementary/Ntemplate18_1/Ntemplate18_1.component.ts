@@ -584,11 +584,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
         this.refQues.nativeElement.children[this.optionObject[idx].sequenceNo - 1].children[0].style.visibility = "";
         this.isAllowed = false;
 
-        setTimeout(() => {
-          // this.refQuesObj[this.index1].isOpen = false;
-          // this.refQuesObj[this.index1].leftPos = 0 + 'px';
-          // this.refQuesObj[this.index1].topPos = 0 + 'px';
-          // clearInterval(this.blinkTimeInterval);
+        setTimeout(() => {          
           this.isAllowed = true
           this.countofAnimation--;
           // if (this.countofAnimation == 0) {
@@ -1516,12 +1512,7 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     this.disableSection = true;
     setTimeout(() => {
       this.mainVideo.nativeElement.play();
-      this.mainVideo.nativeElement.onended = () => {
-        // for (let i = 0; i < this.refQuesObj.length; i++) {
-        //   if (this.refQuesObj[i].position == "down") {
-        //     this.appModel.enableSubmitBtn(true);
-        //   }
-        // }
+      this.mainVideo.nativeElement.onended = () => {       
         this.disableoptions = false;
         this.disableSection = false;
         this.appModel.navShow = 2;
@@ -1593,7 +1584,14 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (!this.matched) {
-      this.optionObject = [...this.optionObjOriginal];
+      this.optionObject = JSON.parse(JSON.stringify(this.fetchedcontent.optionObj));
+      setTimeout(() => {
+        for (let i = 0; i < this.refcpyArray.length; i++) {
+          this.optionsBlock.nativeElement.children[0].children[i].children[1].children[1].classList.value = 'img-fluid optItem';
+          this.refQues.nativeElement.children[i].children[0].style.visibility = "visible";
+        }
+
+      }, 5);
       this.appModel.wrongAttemptAnimation();
       setTimeout(() => {
         //this.resetAttempt();
