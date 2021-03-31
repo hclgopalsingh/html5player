@@ -112,7 +112,7 @@ button:focus {
 }
 
 .refQues div {
-  width: 100%;/*14.9%, 15%;*/
+  width: 14.9%;/*14.9%, 15%;*/
   margin: 0 2.5%;
   display: flex;
   align-items: center;
