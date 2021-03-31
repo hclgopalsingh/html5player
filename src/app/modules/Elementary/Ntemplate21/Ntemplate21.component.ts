@@ -347,7 +347,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.calValueContainer = this.getAssetsForNos(this.firstNo);
             this.initialValue = this.getAssetsForNos(this.questionObj.initiallyValue);
             this.givenValueAssets = this.getAssetsForNos(this.requiredValue);
-            this.attemptNo= 5;
+            this.attemptNo = 5;
 
             for (let i = 0; i < this.operators.length; i++) {
                 if (this.operators[i].canUse) {
@@ -591,9 +591,9 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         }
         if ((this.mathOperator == "multiply" && this.selectedNos.length == 0 && this.numbers[idx].value == 0)
             || (this.mathOperator == "divide" && this.selectedNos.length == 0 && this.numbers[idx].value == 0)) {
-                this.digitModal.info_text = this.digitModal.wrong_digit_text;
-                this.digitFeedback.nativeElement.src = this.digitModal.wrong_digit_vo.url;
-                this.exceptionModal();
+            this.digitModal.info_text = this.digitModal.wrong_digit_text;
+            this.digitFeedback.nativeElement.src = this.digitModal.wrong_digit_vo.url;
+            this.exceptionModal();
         } else {
             this.number_options[idx].imgsrc = this.number_options[idx].imgsrc_selected;
             this.number_options[idx].selected = true;
@@ -623,9 +623,15 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         setTimeout(() => {
             this.selectedNos.length = 0;
             // this.emptySelectedBox();
+            for (let i in this.number_options) {
+                if (this.number_options[i].selected) {
+                    this.number_options[i].selected = false;
+                    this.number_options[i].imgsrc = this.number_options[i].imgsrc_original;
+                }
+            }
             this.digitModalRef.nativeElement.classList = "modal show";
             this.isOn = false;
-            if (this.digitFeedback && this.digitFeedback.nativeElement) {                
+            if (this.digitFeedback && this.digitFeedback.nativeElement) {
                 this.digitFeedback.nativeElement.play();
             }
         }, 500)
@@ -856,7 +862,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             }
         }
     }
-    
+
     sendFeedback(ref, flag: string, action?: string) {
         this.stopInstructionVO();
         ref.classList = "modal";
