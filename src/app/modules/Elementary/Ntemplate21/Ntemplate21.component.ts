@@ -815,6 +815,11 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.noOfDidgit = 0;
         this.noOfAttempt = 0;
         this.emptySelectedBox();
+        (document.getElementById('Line4') as HTMLElement).style.display = 'none';
+        (document.getElementById('Line3') as HTMLElement).style.display = 'none';
+        (document.getElementById('Line2') as HTMLElement).style.display = 'none';
+        (document.getElementById('Line1') as HTMLElement).style.display = 'none';
+        (document.getElementById('Line0') as HTMLElement).style.display = 'none';
     }
 
     // To open the show answer popup
