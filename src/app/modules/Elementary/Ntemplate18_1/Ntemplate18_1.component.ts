@@ -493,8 +493,8 @@ export class Ntemplate18_1 implements OnInit, OnDestroy, AfterViewChecked {
       this.instruction.nativeElement.pause();
     }
     this.appModel.notifyUserAction();
-    clearInterval(this.blinkTimeInterval);
-    this.startActivity();
+    //clearInterval(this.blinkTimeInterval);
+    //this.startActivity();
   }
   optionHoverO(opt, i) {
     this.optionsBlock.nativeElement.children[0].children[i].children[0].children[0].classList.remove('scaleInAnimation');
