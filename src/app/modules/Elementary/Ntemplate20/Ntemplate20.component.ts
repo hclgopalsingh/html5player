@@ -931,56 +931,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       this.givenIndexes.push(givenValue.index);
       this.givenValues.push(givenValue.value);
     });
-    // for (let i = 0; i < this.submittedArr.length; i++) {
-    //   let upperValue;
-    //   kCount = this.getkCountValue(i);
-    //   for (let j = 0; j < 2; j++) {
-    //     if (this.submittedArr[i][j] != undefined) {
-    //       if(upperValue !== undefined && this.submittedArr[i][0] !== undefined && this.submittedArr[i][1] !== undefined && this.submittedArr[i][0].value !== this.submittedArr[i][1].value) {
-    //         this.submittedArr[i][0].isAtCorrectPos = false;
-    //         this.submittedArr[i][0]["neglectedVal"] = true;
-    //         this.submittedArr[i][1].isAtCorrectPos = false;
-    //         this.submittedArr[i][1]["neglectedVal"] = true;
-    //       } else {
-    //         if (this.Order == "ascending") {
-    //           if (this.optionObj.given_values[kCount] != undefined) { //check if value is within range
-    //             if (kCount === this.optionObj.given_values.length - 1) {
-    //               maxVal = this.questionObj.max_val;
-    //               minVal = this.optionObj.given_values[kCount].value;
-    //             } else {
-    //               maxVal = this.optionObj.given_values[kCount].value;
-    //             }
-    //             if (i < this.optionObj.given_values[kCount].index) {
-    //               if (this.submittedArr[i][j].value > maxVal || this.submittedArr[i][j].value < minVal) {
-    //                 this.submittedArr[i][j].isAtCorrectPos = false;
-    //               }
-    //               else {
-    //                 this.checkAscendingOrder(i, j);
-    //               }
-    //             } else if (i === this.optionObj.given_values[kCount].index) {
-    //               if (this.submittedArr[i][j].value !== this.optionObj.given_values[kCount].value) {
-    //                 this.submittedArr[i][j].isAtCorrectPos = false;
-    //                 minVal = this.optionObj.given_values[kCount].value;
-    //                 kCount++;
-    //               }
-    //             } else {
-    //               kCount++;
-                  
-    //             }
-    //           }
-    //         }
-    //       }
-    //       if (this.submittedArr[i][j].isAtCorrectPos == false) {
-    //         if (this.submittedArr[i][0] != undefined && this.submittedArr[i][1] != undefined) {
-    //           this.wrongCounter += 1;
-    //         } else {
-    //           this.wrongCounter += 1;
-    //         }
-    //       }
-
-    //     }
-    //   }
-    // }
 
     for (let i = 0; i < this.submittedArr.length; i++) {
       kCount = this.getkCountValue(i);
@@ -988,12 +938,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         if (this.submittedArr[i][j] != undefined) {
           if (this.Order == "ascending") {
             if (this.submittedArr[i][j].selected != undefined) {
-              // if (this.optionObj.given_values[1] != undefined) {
-              //   if (i >= this.optionObj.given_values[1].index) {
-              //     kCount = 1;
-              //   }
-              // }
-              
               if (i < this.optionObj.given_values[kCount].index) {
                 let m;
                 for (m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
@@ -1005,31 +949,29 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                     break;
                   }
                 }
-                if(this.givenIndexes.indexOf(i+1) > -1) {
-                  nextCount = i+1;
+                if (this.givenIndexes.indexOf(i + 1) > -1) {
+                  nextCount = i + 1;
                 }
-                if(this.givenIndexes.indexOf(m) > -1) {
+                if (this.givenIndexes.indexOf(m) > -1) {
                   nextCount = m;
                 }
                 let leftValIndex, leftVal;
-                if(kCount-1 >= 0) {
-                  leftValIndex = this.optionObj.given_values[kCount-1].index;
-                  leftVal = this.optionObj.given_values[kCount-1].value;
+                if (kCount - 1 >= 0) {
+                  leftValIndex = this.optionObj.given_values[kCount - 1].index;
+                  leftVal = this.optionObj.given_values[kCount - 1].value;
                 } else {
                   leftValIndex = 0;
                   leftVal = this.submittedArr[i][j].value;
                 }
-                  for (let n = i - 1; n >= leftValIndex; n--) {
-                    this.setNeglectedValue(n);
-                    if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
-                      // prevCount = n - 1;
-                    } else {
-                      prevCount = n;
-                      break;
-                    }
+                for (let n = i - 1; n >= leftValIndex; n--) {
+                  this.setNeglectedValue(n);
+                  if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
+                    // prevCount = n - 1;
+                  } else {
+                    prevCount = n;
+                    break;
                   }
-                
-                
+                }
                 if (this.submittedArr[nextCount] && this.submittedArr[nextCount][0]) {
                   if (this.submittedArr[nextCount][0].selected != undefined || nextCount === this.optionObj.given_values[kCount].index) {
                     if (this.submittedArr[i][j].value > this.submittedArr[nextCount][0].value || this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
@@ -1040,34 +982,21 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                 if (this.submittedArr[nextCount] && this.submittedArr[nextCount][1]) {
                   if (this.submittedArr[nextCount][1].selected != undefined || nextCount === this.optionObj.given_values[kCount].index) {
                     if (this.submittedArr[i][j].value > this.submittedArr[nextCount][1].value || this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
+                      this.submittedArr[i][j].isAtCorrectPos = false;
                     }
                   }
                 }
                 if (this.submittedArr[prevCount] && this.submittedArr[prevCount][0]) {
-                  // if (this.submittedArr[prevCount][0].selected != undefined) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[prevCount][0].value || this.submittedArr[i][j].value < leftVal) {
-                      // if (this.submittedArr[i - 1][0].value > this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      // }
-                    }
-                  // }
+                  if (this.submittedArr[i][j].value < this.submittedArr[prevCount][0].value || this.submittedArr[i][j].value < leftVal) {
+                    this.submittedArr[i][j].isAtCorrectPos = false;
+                  }
                 }
                 if (this.submittedArr[prevCount] && this.submittedArr[prevCount][1]) {
-                  // if (this.submittedArr[prevCount][1].selected != undefined) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[prevCount][1].value || this.submittedArr[i][j].value < leftVal) {
-                      // if (this.submittedArr[i - 1][1].value > this.optionObj.given_values[i - 1].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      // }
-                    }
-                  // }
+                  if (this.submittedArr[i][j].value < this.submittedArr[prevCount][1].value || this.submittedArr[i][j].value < leftVal) {
+                    this.submittedArr[i][j].isAtCorrectPos = false;
+                  }
                 }
               }
-              // if (this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
-              //   this.submittedArr[i][j].isAtCorrectPos = false;
-              // } else if (i !== this.optionObj.given_values[kCount].index && this.submittedArr[i][j].value === this.optionObj.given_values[kCount].value) {
-              //   this.submittedArr[i][j].isAtCorrectPos = false;
-              // }
               if (i > this.optionObj.given_values[kCount].index) {
                 if (kCount == 1) {
                   Range = this.submittedArr.length;
@@ -1078,17 +1007,17 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                 }
                 for (let m = i + 1; m < Range; m++) {
                   this.setNeglectedValue(m);
-                  if ((this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined)  || (this.submittedArr[m][0] && this.submittedArr[m][0].neglectedVal) || (this.submittedArr[m][1] && this.submittedArr[m][1].neglectedVal)) {
+                  if ((this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) || (this.submittedArr[m][0] && this.submittedArr[m][0].neglectedVal) || (this.submittedArr[m][1] && this.submittedArr[m][1].neglectedVal)) {
                     // count = m + 1;
-                    if(m === this.submittedArr.length-1) {
-                      nextLastCount = m+1;
+                    if (m === this.submittedArr.length - 1) {
+                      nextLastCount = m + 1;
                     }
                   } else {
                     nextLastCount = m;
                     break;
                   }
                 }
-                for (let n = i - 1; n >= this.optionObj.given_values[this.optionObj.given_values.length-1].index; n--) {
+                for (let n = i - 1; n >= this.optionObj.given_values[this.optionObj.given_values.length - 1].index; n--) {
                   this.setNeglectedValue(n);
                   if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
                     // count = m + 1;
@@ -1097,53 +1026,34 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                     break;
                   }
                 }
-                  if (this.submittedArr[nextLastCount] && this.submittedArr[nextLastCount][0]) {
-                    if (this.submittedArr[nextLastCount][0].selected != undefined || nextLastCount === this.optionObj.given_values[kCount].index) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[nextLastCount][0].value || this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
-                    }
-                    // if (this.submittedArr[nextLastCount][0].selected != undefined) {
-                    //   if (this.submittedArr[i][j].value > this.submittedArr[nextLastCount][0].value) {
-                    //     if (this.submittedArr[nextLastCount][0].value > this.optionObj.given_values[kCount].value) {
-                    //       this.submittedArr[i][j].isAtCorrectPos = false;
-                    //     }
-                    //   }
-                    // }
-                  }
-                  if (this.submittedArr[nextLastCount] && this.submittedArr[nextLastCount][1]) {
-                    if (this.submittedArr[nextLastCount][1].selected != undefined || nextLastCount === this.optionObj.given_values[kCount].index) {
-                      if (this.submittedArr[i][j].value > this.submittedArr[nextLastCount][1].value || this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
-                    }
-                    // if (this.submittedArr[count][1].selected != undefined) {
-                    //   if (this.submittedArr[i][j].value > this.submittedArr[count][1].value) {
-                    //     if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
-                    //       this.submittedArr[i][j].isAtCorrectPos = false;
-                    //     }
-                    //   }
-                    // }
-                  }
-                  if (this.submittedArr[prevLastCount] && this.submittedArr[prevLastCount][0]) {
-                    if (this.submittedArr[prevLastCount][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[prevLastCount][0].value) {
-                        // if (this.submittedArr[i - 1][0].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        // }
-                      }
+                if (this.submittedArr[nextLastCount] && this.submittedArr[nextLastCount][0]) {
+                  if (this.submittedArr[nextLastCount][0].selected != undefined || nextLastCount === this.optionObj.given_values[kCount].index) {
+                    if (this.submittedArr[i][j].value > this.submittedArr[nextLastCount][0].value || this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
                     }
                   }
-                  if (this.submittedArr[prevLastCount] && this.submittedArr[prevLastCount][1]) {
-                    if (this.submittedArr[prevLastCount][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[prevLastCount][1].value) {
-                        // if (this.submittedArr[i - 1][1].value > this.optionObj.given_values[i - 1].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        // }
-                      }
+                }
+                if (this.submittedArr[nextLastCount] && this.submittedArr[nextLastCount][1]) {
+                  if (this.submittedArr[nextLastCount][1].selected != undefined || nextLastCount === this.optionObj.given_values[kCount].index) {
+                    if (this.submittedArr[i][j].value > this.submittedArr[nextLastCount][1].value || this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
                     }
                   }
-                // }
+                }
+                if (this.submittedArr[prevLastCount] && this.submittedArr[prevLastCount][0]) {
+                  if (this.submittedArr[prevLastCount][0].selected != undefined) {
+                    if (this.submittedArr[i][j].value < this.submittedArr[prevLastCount][0].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
+                    }
+                  }
+                }
+                if (this.submittedArr[prevLastCount] && this.submittedArr[prevLastCount][1]) {
+                  if (this.submittedArr[prevLastCount][1].selected != undefined) {
+                    if (this.submittedArr[i][j].value < this.submittedArr[prevLastCount][1].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
+                    }
+                  }
+                }
                 if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
                   this.submittedArr[i][j].isAtCorrectPos = false;
                 } else if (i !== this.optionObj.given_values[kCount].index && this.submittedArr[i][j].value === this.optionObj.given_values[kCount].value) {
@@ -1179,13 +1089,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
           }
           if (this.Order == "descending") {
             if (this.submittedArr[i][j].selected != undefined) {
-              // if (this.optionObj.given_values[1] != undefined) {
-              //   if (i >= this.optionObj.given_values[1].index) {
-              //     kCount = 1;
-              //   }
-              // }
               if (i < this.optionObj.given_values[kCount].index) {
-                for (let m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
+                let m;
+                for (m = i + 1; m < this.optionObj.given_values[kCount].index; m++) {
                   this.setNeglectedValue(m);
                   if ((this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) || (this.submittedArr[m][0] && this.submittedArr[m][0].neglectedVal) || (this.submittedArr[m][1] && this.submittedArr[m][1].neglectedVal)) {
                     // count = m + 1;
@@ -1194,81 +1100,113 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                     break;
                   }
                 }
-                if(this.givenIndexes.indexOf(i+1) > -1) {
-                  nextCount = i+1;
+                if (this.givenIndexes.indexOf(i + 1) > -1) {
+                  nextCount = i + 1;
+                }
+                if (this.givenIndexes.indexOf(m) > -1) {
+                  nextCount = m;
                 }
                 let leftValIndex, leftVal;
-                if(kCount-1 >= 0) {
-                  leftValIndex = this.optionObj.given_values[kCount-1].index;
-                  leftVal = this.optionObj.given_values[kCount-1].value;
+                if (kCount - 1 >= 0) {
+                  leftValIndex = this.optionObj.given_values[kCount - 1].index;
+                  leftVal = this.optionObj.given_values[kCount - 1].value;
                 } else {
                   leftValIndex = 0;
                   leftVal = this.submittedArr[i][j].value;
                 }
-                  for (let n = i - 1; n >= leftValIndex; n--) {
-                    this.setNeglectedValue(n);
-                    if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
-                      // prevCount = n - 1;
-                    } else {
-                      prevCount = n;
-                      break;
+                for (let n = i - 1; n >= leftValIndex; n--) {
+                  this.setNeglectedValue(n);
+                  if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
+                    // prevCount = n - 1;
+                  } else {
+                    prevCount = n;
+                    break;
+                  }
+                }
+                if (this.submittedArr[nextCount] && this.submittedArr[nextCount][0]) {
+                  if (this.submittedArr[nextCount][0].selected != undefined || nextCount === this.optionObj.given_values[kCount].index) {
+                    if (this.submittedArr[i][j].value < this.submittedArr[nextCount][0].value || this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
                     }
                   }
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[count][0].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
-                        if (this.submittedArr[count][0].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
+                }
+                if (this.submittedArr[nextCount] && this.submittedArr[nextCount][1]) {
+                  if (this.submittedArr[nextCount][1].selected != undefined || nextCount === this.optionObj.given_values[kCount].index) {
+                    if (this.submittedArr[i][j].value < this.submittedArr[nextCount][1].value || this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
                     }
                   }
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[count][1].selected != undefined) {
-                      if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
-                        if (this.submittedArr[count][1].value > this.optionObj.given_values[kCount].value) {
-                          this.submittedArr[i][j].isAtCorrectPos = false;
-                        }
-                      }
-                    }
+                }
+                if (this.submittedArr[prevCount] && this.submittedArr[prevCount][0]) {
+                  if (this.submittedArr[i][j].value > this.submittedArr[prevCount][0].value || this.submittedArr[i][j].value > leftVal) {
+                    this.submittedArr[i][j].isAtCorrectPos = false;
                   }
-                // }
-                if (this.submittedArr[i][j].value < this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
-                } else if (i !== this.optionObj.given_values[kCount].index && this.submittedArr[i][j].value === this.optionObj.given_values[kCount].value) {
-                  this.submittedArr[i][j].isAtCorrectPos = false;
+                }
+                if (this.submittedArr[prevCount] && this.submittedArr[prevCount][1]) {
+                  if (this.submittedArr[i][j].value > this.submittedArr[prevCount][1].value || this.submittedArr[i][j].value > leftVal) {
+                    this.submittedArr[i][j].isAtCorrectPos = false;
+                  }
                 }
               }
               if (i > this.optionObj.given_values[kCount].index) {
-                if (kCount == 1) {
-                  Range = this.submittedArr.length;
+                if (kCount == this.optionObj.given_values.length - 1) {
+                  Range = this.submittedArr.length - 1;
                 }
                 else {
-                  if (this.optionObj.given_values[1] != undefined) {
-                    Range = this.optionObj.given_values[1].index;
+                  if (this.optionObj.given_values[kCount] != undefined) {
+                    Range = this.optionObj.given_values[kCount].index;
                   }
                 }
                 for (let m = i + 1; m <= Range; m++) {
-                  if (this.submittedArr[m] != undefined) {
-                    if (this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) {
-                      count = m + 1;
-                    }
-                    else {
-                      count = m;
-                    }
-                  }
-                  if (this.submittedArr[count] && this.submittedArr[count][0]) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[count][0].value) {
-                      if (this.submittedArr[count][0].value < this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
+                  this.setNeglectedValue(m);
+                  if ((this.submittedArr[m][0] == undefined && this.submittedArr[m][1] == undefined) || (this.submittedArr[m][0] && this.submittedArr[m][0].neglectedVal) || (this.submittedArr[m][1] && this.submittedArr[m][1].neglectedVal)) {
+                    // count = m + 1;
+                    if (m === this.submittedArr.length - 1) {
+                      nextLastCount = m + 1;
                     }
                   }
-                  if (this.submittedArr[count] && this.submittedArr[count][1]) {
-                    if (this.submittedArr[i][j].value < this.submittedArr[count][1].value) {
-                      if (this.submittedArr[count][1].value < this.optionObj.given_values[kCount].value) {
-                        this.submittedArr[i][j].isAtCorrectPos = false;
-                      }
+                  else {
+                    nextLastCount = m;
+                    break;
+                  }
+                }
+                for (let n = i - 1; n >= this.optionObj.given_values[this.optionObj.given_values.length - 1].index; n--) {
+                  this.setNeglectedValue(n);
+                  if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
+                    // count = m + 1;
+                  } else {
+                    prevLastCount = n;
+                    break;
+                  }
+                }
+                // }
+                if (this.submittedArr[nextLastCount] && this.submittedArr[nextLastCount][0]) {
+                  if (this.submittedArr[nextLastCount][0].selected != undefined || nextLastCount === this.optionObj.given_values[kCount].index) {
+                    if (this.submittedArr[i][j].value < this.submittedArr[nextLastCount][0].value || this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
+                    }
+                  }
+                }
+                if (this.submittedArr[nextLastCount] && this.submittedArr[nextLastCount][1]) {
+                  if (this.submittedArr[nextLastCount][1].selected != undefined || nextLastCount === this.optionObj.given_values[kCount].index) {
+                    if (this.submittedArr[i][j].value < this.submittedArr[nextLastCount][1].value || this.submittedArr[i][j].value > this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
+                    }
+                  }
+                }
+                if (this.submittedArr[prevLastCount] && this.submittedArr[prevLastCount][0]) {
+                  if (this.submittedArr[prevLastCount][0].selected != undefined) {
+                    if (this.submittedArr[i][j].value > this.submittedArr[prevLastCount][0].value) {
+                      // if (this.submittedArr[i - 1][0].value > this.optionObj.given_values[kCount].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
+                      // }
+                    }
+                  }
+                }
+                if (this.submittedArr[prevLastCount] && this.submittedArr[prevLastCount][1]) {
+                  if (this.submittedArr[prevLastCount][1].selected != undefined) {
+                    if (this.submittedArr[i][j].value > this.submittedArr[prevLastCount][1].value) {
+                      this.submittedArr[i][j].isAtCorrectPos = false;
                     }
                   }
                 }
@@ -1277,6 +1215,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                 } else if (i !== this.optionObj.given_values[kCount].index && this.submittedArr[i][j].value === this.optionObj.given_values[kCount].value) {
                   this.submittedArr[i][j].isAtCorrectPos = false;
                 }
+              }
+              if (this.givenIndexes.indexOf(i) < 0 && this.givenValues.indexOf(this.submittedArr[i][j].value) > -1) {
+                this.submittedArr[i][j].isAtCorrectPos = false;
               }
               if (i == this.optionObj.given_values[kCount].index) {
                 if (this.submittedArr[i][j].value != this.optionObj.given_values[kCount].value) {
@@ -1306,96 +1247,96 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     }
 
     if (this.wrongCounter == this.submitButtonCounter) {
-        this.resultType = "wrong";
-        this.popupType = "wrong";
-        this.wrongCounter = 0;
-        this.appModel.notifyUserAction();
+      this.resultType = "wrong";
+      this.popupType = "wrong";
+      this.wrongCounter = 0;
+      this.appModel.notifyUserAction();
     }
     else if (this.wrongCounter == 0) {
-        this.resultType = "correct";
-        this.wrongCounter = 0;
-        this.popupType = "correct";
-        this.appModel.notifyUserAction();
+      this.resultType = "correct";
+      this.wrongCounter = 0;
+      this.popupType = "correct";
+      this.appModel.notifyUserAction();
     }
     else {
-        this.resultType = "partialCorrect";
-        this.wrongCounter = 0;
-        this.popupType = "partialCorrect"
-        this.appModel.notifyUserAction();
+      this.resultType = "partialCorrect";
+      this.wrongCounter = 0;
+      this.popupType = "partialCorrect"
+      this.appModel.notifyUserAction();
     }
 
     if (this.resultType != "") {
 
-        if (this.optIndxArr.length == 0 && this.resultType == "correct" && this.submitButtonCounter == this.optionArr.length) {
-            this.responseType = "allCorrect";
-            console.log("all Correct congratessssss");
-            this.feedbackAudio = this.feedbackObj.correctAudio;
-            this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
+      if (this.optIndxArr.length == 0 && this.resultType == "correct" && this.submitButtonCounter == this.optionArr.length) {
+        this.responseType = "allCorrect";
+        console.log("all Correct congratessssss");
+        this.feedbackAudio = this.feedbackObj.correctAudio;
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
 
-            this.feedbackPopupAudio.nativeElement.play();
-            this.attemptType = "manual";
-            this.feedbackPopupAudio.nativeElement.onended = () => {
-                setTimeout(() => {
-                    this.appModel.notifyUserAction();
-                }, 1000)
-            }
-
-            // this.feedback.headerTxt_img = this.feedback.wrong_headerTxt_img;
-        } else if (this.resultType == "wrong") {
-            this.responseType = "wrongAttempt";
-            console.log("wrongggg oopppssssss");
-            this.feedbackAudio = this.feedbackObj.incorrectAudio;
-            this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
-
-            this.feedbackPopupAudio.nativeElement.play();
-            this.attemptType = "wrong";
-            this.feedbackPopupAudio.nativeElement.onended = () => {
-                this.appModel.notifyUserAction();
-            }
-        }
-        else if (this.resultType == "partialCorrect") {
-            this.responseType = "partialAttempt";
-            this.attemptType = "PartialWrong";
-            this.feedbackAudio = this.feedbackObj.partialIncorrect_sound;
-            this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
-
-            this.feedbackPopupAudio.nativeElement.play();
-            this.feedbackPopupAudio.nativeElement.onended = () => {
-                setTimeout(() => {
-                    this.appModel.notifyUserAction();	
-                }, 1000)
-            }
-
-
-            //this.feedback.headerTxt_img = this.feedback.right_headerTxt_img;
-        }
-        for (let i = 0; i < this.submittedArr.length; i++) {
-            if (this.submittedArr[i][0] == undefined) {
-                let obj = {
-                    url: this.optionObj.place_holder.url,
-                    location: this.optionObj.place_holder.location
-                }
-                this.popupTopAssts.push(obj);
-            } else {
-                this.popupTopAssts.push(this.submittedArr[i][0]);
-            }
-            if (this.submittedArr[i][1] == undefined) {
-                let obj = {
-                    url: this.optionObj.place_holder.url,
-                    location: this.optionObj.place_holder.location
-                }
-                this.popupDownAssts.push(obj);
-            } else {
-                this.popupDownAssts.push(this.submittedArr[i][1]);
-            }
+        this.feedbackPopupAudio.nativeElement.play();
+        this.attemptType = "manual";
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          setTimeout(() => {
+            this.appModel.notifyUserAction();
+          }, 1000)
         }
 
-        this.confirmModalRef.nativeElement.classList = "modal";
-        this.confirmSubmitRef.nativeElement.classList = "modal";
-        this.modalfeedback20.nativeElement.classList = "modal displayPopup";
-        this.setPopupAssets();
+        // this.feedback.headerTxt_img = this.feedback.wrong_headerTxt_img;
+      } else if (this.resultType == "wrong") {
+        this.responseType = "wrongAttempt";
+        console.log("wrongggg oopppssssss");
+        this.feedbackAudio = this.feedbackObj.incorrectAudio;
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
+
+        this.feedbackPopupAudio.nativeElement.play();
+        this.attemptType = "wrong";
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          this.appModel.notifyUserAction();
+        }
+      }
+      else if (this.resultType == "partialCorrect") {
+        this.responseType = "partialAttempt";
+        this.attemptType = "PartialWrong";
+        this.feedbackAudio = this.feedbackObj.partialIncorrect_sound;
+        this.feedbackPopupAudio.nativeElement.src = this.feedbackAudio.url;
+
+        this.feedbackPopupAudio.nativeElement.play();
+        this.feedbackPopupAudio.nativeElement.onended = () => {
+          setTimeout(() => {
+            this.appModel.notifyUserAction();
+          }, 1000)
+        }
+
+
+        //this.feedback.headerTxt_img = this.feedback.right_headerTxt_img;
+      }
+      for (let i = 0; i < this.submittedArr.length; i++) {
+        if (this.submittedArr[i][0] == undefined) {
+          let obj = {
+            url: this.optionObj.place_holder.url,
+            location: this.optionObj.place_holder.location
+          }
+          this.popupTopAssts.push(obj);
+        } else {
+          this.popupTopAssts.push(this.submittedArr[i][0]);
+        }
+        if (this.submittedArr[i][1] == undefined) {
+          let obj = {
+            url: this.optionObj.place_holder.url,
+            location: this.optionObj.place_holder.location
+          }
+          this.popupDownAssts.push(obj);
+        } else {
+          this.popupDownAssts.push(this.submittedArr[i][1]);
+        }
+      }
+
+      this.confirmModalRef.nativeElement.classList = "modal";
+      this.confirmSubmitRef.nativeElement.classList = "modal";
+      this.modalfeedback20.nativeElement.classList = "modal displayPopup";
+      this.setPopupAssets();
     }
-}
+  }
 
   /***  Selected options array ***/
   getSelectedArr() {
