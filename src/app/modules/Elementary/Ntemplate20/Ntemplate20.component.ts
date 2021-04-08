@@ -346,6 +346,10 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     this.commonAssets = this.fetchedcontent.commonassets;
     this.isLastQuestion = this.commonAssets.isLastQues;
     this.questionObj = this.fetchedcontent.quesObj;
+    this.optionObj.given_values.forEach(givenValue => {
+      this.givenIndexes.push(givenValue.index);
+      this.givenValues.push(givenValue.value);
+    });
 
     /*Start: Theme Implementation(Template Changes)*/
     this.controlHandler = {
@@ -416,6 +420,18 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     }
   }
 
+  upPlaceholderHover(idx) {
+    this.upPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
+  }
+  upPlaceholderLeave(idx) {
+    this.upPlaceHolder.nativeElement.children[idx].style.cursor = "";
+  }
+  downPlaceholderHover(idx) {
+    this.downPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
+  }
+  downPlaceholderLeave(idx) {
+    this.downPlaceHolder.nativeElement.children[idx].style.cursor = "";
+  }
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
     this.mouseMoveFlag = true;
@@ -800,6 +816,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
         }
       }
       if (action === undefined || action == "undefined") {
+        if(flag === "no" && !this.screenFaded) {
+          this.instructionBar.nativeElement.classList = "instructionBase";
+        }
         this.appModel.notifyUserAction();
       }
     }
@@ -927,10 +946,6 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     var minVal: number = this.questionObj.min_val;
     var maxVal: number = this.questionObj.max_val;
     this.submittedArr = this.getSelectedArr();
-    this.optionObj.given_values.forEach(givenValue => {
-      this.givenIndexes.push(givenValue.index);
-      this.givenValues.push(givenValue.value);
-    });
 
     for (let i = 0; i < this.submittedArr.length; i++) {
       kCount = this.getkCountValue(i);
@@ -1528,21 +1543,29 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       } else if (this.selectedPosition == 'up') {
         this.pushToUpPlaceHolder(this.selectedPositionIndex, this.from);
       }
-      if (this.submitButtonCounter == this.optionArr.length) {
-        this.isDisablePlaceholder = true
-      } else {
-        this.isDisablePlaceholder = false
-      }
+      setTimeout(() => {
+        if (this.submitButtonCounter == this.optionArr.length) {
+          this.isDisablePlaceholder = true
+        } else {
+          this.isDisablePlaceholder = false
+        }
+      },500);
+      this.instructionBar.nativeElement.classList = "instructionBase";
+
     } else if (event.fromState == "closed" && event.toState == "open" && event.phaseName == "done" && this.resetCounterFlag == true) {
       this.tabLoadAnimationFlag = false;
-      this.isDisablePlaceholder = false;
+      // this.isDisablePlaceholder = false;
       this.appModel.handlePostVOActivity(true);
       if (this.selectedPosition == 'down') {
         this.deleteDownPlaceHolder(this.reverseOption, this.reverseOptionIndex);
       } else if (this.selectedPosition == 'up') {
         this.deleteUpPlaceHolder(this.reverseOption, this.reverseOptionIndex);
       }
+      setTimeout(() => {
+        this.isDisablePlaceholder = false;
+      },500);
       this.mainContainer.nativeElement.classList = "bodyContent";
+      this.instructionBar.nativeElement.classList = "instructionBase";
       // clearInterval(this.blinkInterval);
       // this.getRandomIndxBlink(this.reverseOption.index);
     }
@@ -1604,6 +1627,15 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   reversePosition(opt, idx, pos) {
+    let isGivenValue = false;
+    this.optionObj.given_values.forEach(givenValue => {
+      if(givenValue.index === idx && givenValue.place === pos) {
+        isGivenValue = true;
+      }
+    })
+    if(isGivenValue) {
+      return;
+    }
     this.reverseOption = opt;
     this.reverseOptionIndex = idx;
     this.instructionVO.nativeElement.pause();

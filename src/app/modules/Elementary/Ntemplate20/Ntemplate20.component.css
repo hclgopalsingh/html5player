@@ -80,7 +80,7 @@
 } */
 .placeholder:hover {
   opacity: 1;
-  cursor: pointer ;
+  /* cursor: pointer ; */
 }
 
 
@@ -126,7 +126,7 @@
 .placeholder.correctAns:hover,
 .placeholder.incorrectAns:hover{
   opacity: 1;
-  cursor: pointer !important;
+  /* cursor: pointer !important;   */
 }
 
 
