@@ -420,19 +420,17 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     }
   }
 
-  placeholderHover(idx, placeholder) {
-    if(placeholder.place === "up") {
-      this.upPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
-    } else {
-      this.downPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
-    }
+  upPlaceholderHover(idx) {
+    this.upPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
   }
-  placeholderLeave(idx, placeholder) {
-    if(placeholder.place === "up") {
-      this.upPlaceHolder.nativeElement.children[idx].style.cursor = "";
-    } else {
-      this.downPlaceHolder.nativeElement.children[idx].style.cursor = "";
-    }
+  upPlaceholderLeave(idx) {
+    this.upPlaceHolder.nativeElement.children[idx].style.cursor = "";
+  }
+  downPlaceholderHover(idx) {
+    this.downPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
+  }
+  downPlaceholderLeave(idx) {
+    this.downPlaceHolder.nativeElement.children[idx].style.cursor = "";
   }
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
