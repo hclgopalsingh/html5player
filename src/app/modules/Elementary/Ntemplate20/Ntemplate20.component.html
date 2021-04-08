@@ -12,7 +12,7 @@
 			<img class="img-fluid" [src]="questionObj?.quesImg?.url" (load)="checkImgLoaded();" />
 			<div class="blockAboveLine" #upPlaceHolder>
 				<div class="placeholder" *ngFor="let placeHolder of placeHolderArrUp; let idx=index"
-					[ngClass]="{'givenValue':placeHolder.place=='up', 'disable_div': isDisableDiv, 'disablePlaceholder': isDisablePlaceholder}">
+					[ngClass]="{'givenValue':placeHolder.place=='up', 'disable_div': isDisableDiv, 'disablePlaceholder': isDisablePlaceholder}" (mousemove)="placeholderHover(idx, placeHolder)" (mouseleave)="placeholderLeave(idx, placeHolder)">
 					<img [ngClass]="{'hideDiv':placeHolder.place=='up'}" (click)="selectPosition(idx,'up')"
 						class="img-fluid" [src]="optionObj?.place_holder?.url" (load)="checkImgLoaded();" />
 					<div class="upperimages"
@@ -29,7 +29,7 @@
 			</div>
 			<div class="blockBelowLine" #downPlaceHolder>
 				<div class="placeholder" *ngFor="let placeHolder of placeHolderArrDown; let idx=index"
-					[ngClass]="{'givenValue':placeHolder.place=='down', 'disable_div': isDisableDiv, 'disablePlaceholder': isDisablePlaceholder}">
+					[ngClass]="{'givenValue':placeHolder.place=='down', 'disable_div': isDisableDiv, 'disablePlaceholder': isDisablePlaceholder}" (mousemove)="placeholderHover(idx, placeHolder)" (mouseleave)="placeholderLeave(idx, placeHolder)">
 					<img [ngClass]="{'hideDiv':placeHolder.place=='down'}" (click)="selectPosition(idx,'down')"
 						class="img-fluid" [src]="optionObj?.place_holder?.url" (load)="checkImgLoaded();" />
 					<div class="lowerimages"
