@@ -79,7 +79,7 @@
   max-width: 9.5% !important;
 } */
 .placeholder:hover {
-  opacity: 1;
+  /* opacity: 1; */
   /* cursor: pointer ; */
 }
 
@@ -717,4 +717,10 @@ info modal modal
   100% {
     transform: scale(1.0)
   }
+}
+.opacity-1 {
+  opacity: 1 !important;
+}
+.opacity-0 {
+  opacity: 0 !important;
 }

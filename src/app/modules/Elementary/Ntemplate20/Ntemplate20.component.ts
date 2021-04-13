@@ -170,6 +170,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   screenFaded: boolean = false;
   givenIndexes: any = [];
   givenValues: any = [];
+  resetOptionsFlag: boolean = false;
 
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
@@ -420,17 +421,33 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     }
   }
 
-  upPlaceholderHover(idx) {
+  upPlaceholderHover(idx, placeholder) {
     this.upPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
+    if(placeholder && !(placeholder.place) && (!placeholder.value || this.givenIndexes.indexOf(idx)<0)) {
+      this.upPlaceHolder.nativeElement.children[idx].classList.add("opacity-1");
+      this.upPlaceHolder.nativeElement.children[idx].classList.remove("opacity-0");
+    }
   }
-  upPlaceholderLeave(idx) {
+  upPlaceholderLeave(idx, placeholder) {
     this.upPlaceHolder.nativeElement.children[idx].style.cursor = "";
+    if(placeholder && !(placeholder.place) && (!placeholder.value || this.givenIndexes.indexOf(idx)<0)) {
+      this.upPlaceHolder.nativeElement.children[idx].classList.add("opacity-0");
+      this.upPlaceHolder.nativeElement.children[idx].classList.remove("opacity-1");
+    }
   }
-  downPlaceholderHover(idx) {
+  downPlaceholderHover(idx, placeholder) {
     this.downPlaceHolder.nativeElement.children[idx].style.cursor = "pointer";
+    if(placeholder && !(placeholder.place)  && (!placeholder.value || this.givenIndexes.indexOf(idx)<0)) {
+      this.downPlaceHolder.nativeElement.children[idx].classList.add("opacity-1");
+      this.downPlaceHolder.nativeElement.children[idx].classList.remove("opacity-0");
+    }
   }
-  downPlaceholderLeave(idx) {
+  downPlaceholderLeave(idx, placeholder) {
     this.downPlaceHolder.nativeElement.children[idx].style.cursor = "";
+    if(placeholder && !(placeholder.place)  && (!placeholder.value || this.givenIndexes.indexOf(idx)<0)) {
+      this.downPlaceHolder.nativeElement.children[idx].classList.add("opacity-0");
+      this.downPlaceHolder.nativeElement.children[idx].classList.remove("opacity-1");
+    }
   }
   /***  On option hover functionality ***/
   optionHover(idx, opt) {
@@ -857,6 +874,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       } else if (this.attemptType == "wrong") {
         this.appModel.wrongAttemptAnimation();
         this.resultType = "wrong";
+        this.mainContainer.nativeElement.classList.add("disableDiv");
         setTimeout(() => {
           this.startActivityCounter = 0;
           this.startActivityCounter += 1;
@@ -872,6 +890,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       else if (this.attemptType == "PartialWrong") {
         this.appModel.wrongAttemptAnimation();
         this.resultType = "partialCorrect";
+        this.mainContainer.nativeElement.classList.add("disableDiv");
         setTimeout(() => {
           this.startActivityCounter = 0;
           this.startActivityCounter += 1;
@@ -1569,6 +1588,12 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
       // clearInterval(this.blinkInterval);
       // this.getRandomIndxBlink(this.reverseOption.index);
     }
+    if(this.resetOptionsFlag) {
+      setTimeout(() => {
+        this.mainContainer.nativeElement.classList.remove("disableDiv");
+        this.resetOptionsFlag = false;
+      },500);
+    }
     setTimeout(() => {
       this.animationFlag = false;
       if (!this.tabLoadAnimationFlag) {
@@ -1699,6 +1724,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
   }
 
   resetOptions() {
+    this.resetOptionsFlag = true;
     this.lookformore = false;
     this.appModel.enableSubmitBtn(false);
     this.animationFlag = true;
@@ -1750,6 +1776,7 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
     clearInterval(this.blinkTimeInterval);
     this.partialCorrectCase = false;
     this.blinkingFlag = true;
+
   }
 
   setGivenValue() {
