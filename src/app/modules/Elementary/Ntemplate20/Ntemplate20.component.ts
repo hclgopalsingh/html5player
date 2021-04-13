@@ -1204,6 +1204,9 @@ export class Ntemplate20Component implements OnInit, OnDestroy {
                     break;
                   }
                 }
+                if(i === this.submittedArr.length - 1) {
+                  nextLastCount = Infinity;
+                }
                 for (let n = i - 1; n >= this.optionObj.given_values[this.optionObj.given_values.length - 1].index; n--) {
                   this.setNeglectedValue(n);
                   if ((this.submittedArr[n][0] == undefined && this.submittedArr[n][1] == undefined) || (this.submittedArr[n][0] && this.submittedArr[n][0].neglectedVal) || (this.submittedArr[n][1] && this.submittedArr[n][1].neglectedVal)) {
