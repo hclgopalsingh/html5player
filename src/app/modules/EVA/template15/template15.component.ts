@@ -477,17 +477,25 @@ export class Template15Component implements OnInit {
                     this.Sharedservice.setTimeOnLastQues(true);
                 }
             } else if (this.ifWrongAns) {
+                this.optionRef.nativeElement.classList.add("disableDiv");
                 if (this.wrongCounter >= 3 && this.ifWrongAns) {
                     this.Sharedservice.setShowAnsEnabled(true);
                 } else {
                     this.Sharedservice.setShowAnsEnabled(false);
                 }
+                setTimeout(()=> {
+                    this.optionRef.nativeElement.classList.remove("disableDiv");
+                },500);
             }
         }
         else if (Type === 'showAnswer') {
+            this.optionRef.nativeElement.classList.add("disableDiv");
             if (this.ifRightAns) {
                 this.blinkOnLastQues();
             }
+            setTimeout(()=> {
+                this.optionRef.nativeElement.classList.remove("disableDiv");
+            },500);
         }
 
 

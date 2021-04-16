@@ -228,7 +228,7 @@ export class Template6Component extends Base implements OnInit {
 			this.completeRandomArr = this.leftRandomArray.concat(this.rightRandomArray);
 			this.feedback = fetchedData.feedback;
 			this.popupAssets = fetchedData.feedback.popupassets;
-			this.rightPopup = this.feedback.right_ans_sound;
+			// this.rightPopup = this.feedback.right_ans_sound;
 			this.wrongPopup = this.feedback.wrong_ans_sound;
 			this.showAnswerVO = this.feedback.show_ans_sound;
 			this.showAnswerPopup = this.feedback.show_ans_popup;
@@ -675,6 +675,8 @@ export class Template6Component extends Base implements OnInit {
 				this.completeRandomArr.splice(this.randomIdx, 1);
 				element.classList.add("disable_div");
 				this.optionsBlock.nativeElement.children[1].children[idx].classList.add("disableDiv1");
+				this.rightPopup = this.feedback.right_ans_sound_leftbox;
+				// this.rightPopup = this.feedback.right_ans_sound;
 				this.setClappingTimer(this.rightFeedback);
 				this.ifRightAns = true;
 				this.categoryA.correct.push(opt);
@@ -718,6 +720,8 @@ export class Template6Component extends Base implements OnInit {
 				this.completeRandomArr.splice(this.randomIdx, 1);
 				element.classList.add("disable_div");
 				this.optionsBlock.nativeElement.children[1].children[idx].classList.add("disableDiv1");
+				this.rightPopup = this.feedback.right_ans_sound_rightbox;
+				// this.rightPopup = this.feedback.right_ans_sound;
 				this.setClappingTimer(this.rightFeedback);
 				this.categoryB.correct.push(opt);
 				this.ifRightAns = true;
@@ -795,6 +799,7 @@ export class Template6Component extends Base implements OnInit {
 
 	showCelebrations() {
 		let celebrationsPopup: HTMLElement = this.celebrationsPopup.nativeElement as HTMLElement;
+		this.rightPopup = this.feedback.right_ans_sound;
 		this.celebrationTimer = setTimeout(() => {
 			if (this.rightFeedback && this.rightFeedback.nativeElement) {
 				celebrationsPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
