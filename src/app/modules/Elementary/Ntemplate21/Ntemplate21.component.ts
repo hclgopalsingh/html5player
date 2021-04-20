@@ -469,6 +469,15 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
             this.disableinstruction = false;
         }
     }
+    checkAllowedDigits(idx) {
+        let allowedDigits = this.operators[idx].allowedDigits;
+        this.digits.forEach((digit) => {
+            if(allowedDigits && allowedDigits.indexOf(digit.id) === -1) {
+                digit['disabledDigit'] = true;
+                digit.imgsrc = digit.imgsrc_disabled;
+            }
+        });
+    }
     operatorSelect(idx) {
         // this.disableinstructionBar = false;
         this.deSelectDigits();
@@ -479,6 +488,7 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         this.appModel.notifyUserAction();
         if (this.operators[idx].canUse) {
             this.operatorSelected = true;
+            this.checkAllowedDigits(idx);
             for (let i in this.operators) {
                 if (idx != -i) {
                     if (this.operators[i].selected) {
@@ -707,6 +717,10 @@ export class Ntemplate21 implements OnInit, AfterViewChecked, OnDestroy {
         for (let i in this.digits) {
             if (this.digits[i].selected) {
                 this.digits[i].selected = false;
+                this.digits[i].imgsrc = this.digits[i].imgsrc_original;
+            }
+            if(this.digits[i].disabledDigit) {
+                this.digits[i].disabledDigit = false;
                 this.digits[i].imgsrc = this.digits[i].imgsrc_original;
             }
         }

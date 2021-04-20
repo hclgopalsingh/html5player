@@ -24,11 +24,11 @@
         </ng-container>
       </div>
       <div class="digits "
-        [ngClass]="{'disablePointer': !operatorSelected , 'blink blinkBlock': isOn && operatorSelected && !digitsSelected}">
+        [ngClass]="{'disablePointer': !operatorSelected, 'blink blinkBlock': isOn && operatorSelected && !digitsSelected}">
         <ng-container *ngFor="let digit of digits; let idx = index">
           <img class="img-fluid" [src]="digit?.imgsrc?.url" (load)="checkImgLoaded();" (mousemove)="digitMousemove(idx)"
             (mouseleave)="digitMouseLeave(idx)" (click)="digitSelect(idx)"
-            [ngClass]="{'disablePointer': digit.selected}" />
+            [ngClass]="{'disablePointer': digit.selected || digit.disabledDigit}" />
         </ng-container>
       </div>
       <div class="numbers "
