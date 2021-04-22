@@ -8,7 +8,6 @@ import { ThemeConstants } from '../../../common/themeconstants';
 import { PlayerConstants } from '../../../common/playerconstants';
 import 'jquery';
 
-
 declare var $: any;
 
 @Component({
@@ -154,6 +153,9 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 	correctAnimTimeout3: NodeJS.Timer;
 	popTimeout: NodeJS.Timer;
 	showAnsTimer: NodeJS.Timer;
+	confirmPopupSubscription: any;
+	isLastQuestion: boolean;
+	actComplete: boolean = false;
 
 	ngAfterViewChecked() {
 		this.templatevolume(this.appModel.volumeValue,this);
@@ -200,7 +202,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 				this.setFeedbackAudio();
 			}
 		})
-		this.appModel.getConfirmationPopup().subscribe((val) =>{
+		this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) =>{
 			this.appModel.notifyUserAction();
 			this.instructionVO.nativeElement.pause();
 			this.instructionVO.nativeElement.currentTime = 0;
@@ -210,6 +212,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 				if(this.confirmModalRef && this.confirmModalRef.nativeElement){
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
 					this.stopOptionHoverAudio();
+					this.checkForAutoClose();
 				}
 			}
 		})
@@ -263,6 +266,42 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		clearTimeout(this.popTimeout);
 		clearTimeout(this.showAnsTimer);
 	}
+
+	checkForAutoClose() {
+		if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+		  if (this.isLastQuestion && this.actComplete) {
+			this.resetTimerForAutoClose();
+		  } else {
+			if (this.timerSubscription != undefined) {
+			  this.timerSubscription.unsubscribe();
+			}
+		  }
+		}
+	  }
+	
+	  resetTimerForAutoClose() {
+		if (this.timerSubscription) {
+		  this.timerSubscription.unsubscribe();
+		}
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const closeConfirmInterval = 2 * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+		  take(closeConfirmInterval)
+		).subscribe(value =>
+		  this.removeAutoCloseSubscription((closeConfirmInterval - +value) * interval),
+		  err => {
+			//console.log("error occuered....");
+		  },
+		  () => {
+			this.sendFeedback('confirm-modal-id','no');
+			this.timerSubscription.unsubscribe();
+		  }
+		)
+	  }
+	  removeAutoCloseSubscription(timer) {
+		console.log("waiting for autoClose", timer / 1000);
+	  }
 
 	postWrongAttempt(){
 		if(this.type == "left"){
@@ -336,6 +375,7 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 			this.noOfImgs = this.commonAssets.imgCount;
 			this.isFirstQues = this.commonAssets.isFirstQues;
 			this.isLastQues = this.appModel.isLastSection;
+			this.isLastQuestion = this.commonAssets.isLastQues;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			if(this.appModel.isLastSectionInCollection || this.appModel.isLastSection){
 				this.appModel.setlastQuesNT();
@@ -686,6 +726,7 @@ removeAssetsFromPopup(id:string){
 	}
 
 	blinkOnLastQues(){	
+		this.actComplete = true;
 		if((this.appModel.isLastSectionInCollection && this.noOfRightAns== this.feedbackObj.noOfSubQues) || (this.appModel.isLastSectionInCollection && this.isShowAnswerDisplayed)){
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
@@ -984,6 +1025,9 @@ removeAssetsFromPopup(id:string){
 		}
 
 		sendFeedback(id:string,flag:string) {
+			if (this.timerSubscription != undefined) {
+				this.timerSubscription.unsubscribe();
+			}
 			this.appModel.notifyUserAction();
 			// this.stopOptionHoverAudio();
 			this.confirmModalRef.nativeElement.classList="modal";
