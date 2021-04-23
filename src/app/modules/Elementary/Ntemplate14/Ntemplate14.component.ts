@@ -68,16 +68,17 @@ export class Ntemplate14Component implements OnInit {
 	recordTimer:any;
 	recordTime:any;
 	listenStatus:boolean=false;
-	seconds: any;
-	minutes: any;
-	time: number = 0;
-	recordingSubscription: any;
+	seconds: any = '00';
+	minutes: any = '00';
+	time: number = 1;
+	recordingTimerInterval: any;
 	timerPaused: any;
 	toSeconds: any;
 	toMinutes: any;
 	isPaused: boolean = false;
 	blinkFlag: boolean = true;
 	blinkInterval: any;
+	autoStopRecordTimer: any;
 	recordingStatus: string = "Recording";
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -270,8 +271,10 @@ export class Ntemplate14Component implements OnInit {
 		clearInterval(this.timerId);
 		clearInterval(this.nextSegmenttimerId);
 		clearTimeout(this.clearautoplay);
+		clearTimeout(this.autoStopRecordTimer);
 		this.isDestroyed = true;
 		this.appModel.stopAllTimer();
+		clearInterval(this.recordingTimerInterval);
 		this.appModel.resetBlinkingTimer();
 		
 	}
@@ -391,12 +394,13 @@ export class Ntemplate14Component implements OnInit {
 		else {
 			console.log("Microphone access is not allowed")
 		}
+		var timer = 30;
 		// this.stopButton.nativeElement.src = this.question.stop.url;
-		setTimeout(() => {
+		this.autoStopRecordTimer = setTimeout(() => {
 			if (!this.isStop) {
 				this.autostopplayer=true;
 				this.timerPaused = true;
-				console.log("recording stopped in ",this.minutes + " " + this.seconds);
+				// console.log("recording stopped in ",this.minutes + " " + this.seconds);
 				this.stopRecording();
 			}
 		}, JSON.parse(this.autoStop))
@@ -404,18 +408,19 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** start recording timer ******/
 	startRecordingTimer() {
-		this.recordingSubscription = timer(0, 1000)
-			.subscribe(number => {
-				if (!this.timerPaused) {
-					if (this.time === number) {
-						this.calculateTimer(number);
-						this.time = number;
-					} else {
-						this.time = this.time + 1;
-						this.calculateTimer(this.time);
-					}
+		let number = 1;
+		this.recordingTimerInterval = setInterval(() => {
+			if (!this.timerPaused) {
+				if (this.time === number) {
+					this.calculateTimer(number);
+					this.time = number;
+				} else {
+					this.time = this.time + 1;
+					this.calculateTimer(this.time);
 				}
-			});
+			}
+			number = number + 1;
+		}, 1000);
 	}
 
 	/****** calculate minutes and seconds value ******/
@@ -477,10 +482,8 @@ export class Ntemplate14Component implements OnInit {
 	stopRecording() {
 		clearInterval(this.recordTimer);
 		clearInterval(this.blinkInterval);
+		clearInterval(this.recordingTimerInterval);
 		this.isRecording = false;
-		if (this.recordingSubscription != undefined) {
-			this.recordingSubscription.unsubscribe();
-		}
 		this.showstop = false
 		this.removeBtn = false;
 		this.showPlay = true;
@@ -628,7 +631,8 @@ export class Ntemplate14Component implements OnInit {
 
 	/****** Function to convert time to hh:mm:ss format *******/
 	convertTostandard(value) {
-		const sec = parseInt(value, 10); // convert value to number if it's string
+		// const sec = parseInt(value, 10); // convert value to number if it's string
+		const sec = Math.round(value); // round off value
 		let hours: any = Math.floor(sec / 3600); // get hours
 		let minutes: any = Math.floor((sec - (hours * 3600)) / 60); // get minutes
 		let seconds: any = sec - (hours * 3600) - (minutes * 60); //  get seconds

@@ -212,13 +212,13 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   /****** On hover SVG image ********/
   mouseOverSVG(event) {
     const id = event.target.getAttribute('xlink:href');
-    const idFound = this.quesObj.tablet.questionText.find(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+    const idFound = this.quesObj.tablet.questionText.find(element => element.id === id || (id && id.startsWith(element.symbolFillId)));
     if (idFound) {
       if (!idFound['selected']) {
         if (this.originalcolor !== undefined && this.quesObj.tablet.questionText[this.questionIndex] !== undefined && !this.quesObj.tablet.questionText[this.questionIndex]['selected']) {
           document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).setAttribute('fill', this.originalcolor);
         }
-        this.questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+        this.questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || (id && id.startsWith(element.symbolFillId)));
         this.originalcolor = document.querySelector(this.QuesRef.nativeElement.children[0].children[this.questionIndex + 1].children[0].children[0].getAttribute('xlink:href')).getAttribute('fill');
         if (this.questionIndex !== -1) {
           this.pauseSpeaker();
@@ -241,7 +241,7 @@ export class Template9Component implements OnInit, AfterViewInit, AfterViewCheck
   /****** On click SVG image ********/
   onSVGClick(event) {
     const id = event.target.getAttribute('xlink:href');
-    const questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || element.symbolFillId === id || element.symbolStrokeId === id || element.symbol2FillId === id);
+    const questionIndex = this.quesObj.tablet.questionText.findIndex(element => element.id === id || (id && id.startsWith(element.symbolFillId)));
     if (questionIndex !== -1) {
       this.quesObj.tablet.questionText.forEach((ques, index) => {
         if (!ques['answered']) {
