@@ -692,3 +692,19 @@ nav {
 .cursorOnHover {
   cursor: pointer;
 }
+.blink{
+  -webkit-animation-name: blinker;
+  animation-name: blinker;
+  -webkit-animation-duration: 0.2s;
+  animation-duration: 0.5s;
+  -webkit-animation-iteration-count:infinite;
+  animation-iteration-count:infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
+
+@keyframes blinker {
+  0% {filter: brightness(.7);}
+75% {filter: brightness(1);}
+100% {filter: brightness(1);}
+}
