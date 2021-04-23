@@ -209,10 +209,7 @@
           <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
           <img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.url">
           <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
-          <img *ngIf="partialCorrectheaderTxt_img" class="modal-title"
-            [src]="feedbackObj?.partialCorrectheaderTxt_img?.url">
-          <!-- <h4 class="modal-title">Modal Heading</h4> -->
-          <!--<img class="modal-title" src="../assets/images/headerImages/PopupHeaderTitle.png">-->
+          <img *ngIf="partialCorrectheaderTxt_img" class="modal-title" [src]="feedbackObj?.partialCorrectheaderTxt_img?.url">
           <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button" (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
           <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
         </div>
@@ -241,7 +238,7 @@
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.checkRightorWrong ? 
                 item?.ImginpopUp?.location=='content' ?  item?.ImginpopUp?.url : item?.ImginpopUp?.url :
-                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled }">
+                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled  }">
               </div>
             </div>
             <div class="rightBlock">
@@ -306,6 +303,10 @@
             <button type="button" (click)="onclickOK();"><img class="img-fluid" [src]="feedbackObj?.ok_btn?.url" (mousemove)="hoverOK()" (mouseleave)="houtOK()"></button>
             </div>
           <audio #feedbackPopupAudio></audio>
+          <audio #feedbackStart></audio>
+          <audio #feedbackPrefix></audio>
+          <audio #feedbackIndividual></audio>
+          <audio #feedbackEnd></audio>
         </div>
       </div>
      </div>
