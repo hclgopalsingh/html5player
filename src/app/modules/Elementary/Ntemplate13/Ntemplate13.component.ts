@@ -6,6 +6,8 @@ declare var $: any;
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'ntemp13',
@@ -141,6 +143,10 @@ export class Ntemplate13 implements OnInit {
 	optionDisable: boolean = true;
 	AnswerpopupTxt: boolean = false;
 	popupHeader:any;
+	confirmPopupSubscription: any;
+	timerSubscription: Subscription;
+	isLastQuestion: boolean;
+	actComplete: boolean = false;
 
 	hoverDecline() {
 		this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
@@ -277,6 +283,9 @@ export class Ntemplate13 implements OnInit {
 	}
 
 	sendFeedback(id: string, flag: string) {
+		if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+		}
 		console.log(id);
 		console.log(flag);
 		this.confirmModalRef.nativeElement.classList = "modal";
@@ -404,7 +413,7 @@ export class Ntemplate13 implements OnInit {
 			this.setData();
 		}
 
-		this.appModel.getConfirmationPopup().subscribe((val) => {
+		this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
 			for (var i = 0; i < this.myoption.length; i++) {
 				this.optionBlock.nativeElement.children[i].children[2].pause();
 				this.optionBlock.nativeElement.children[i].children[2].currentTime = 0;
@@ -424,6 +433,7 @@ export class Ntemplate13 implements OnInit {
 
 				if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+					this.checkForAutoClose();
 					this.appModel.notifyUserAction();
 				}
 			} else if (val == "replayVideo") {
@@ -561,6 +571,7 @@ export class Ntemplate13 implements OnInit {
 			this.quesInfo = this.fetchedcontent.commonassets;
 			this.isFirstQues = this.quesInfo.isFirstQues;
 			this.isLastQues = this.appModel.isLastSection;
+			this.isLastQuestion = this.commonAssets.isLastQues;
 			this.isLastQuesAct = this.appModel.isLastSectionInCollection;
 			this.noOfImgs = this.quesInfo.imgCount;
 			this.quesObj = this.fetchedcontent.quesObj;
@@ -602,7 +613,49 @@ export class Ntemplate13 implements OnInit {
 	ngOnDestroy() {
 		this.narrator.nativeElement.pause();
 		this.narrator.nativeElement.currentTime = 0;
+		if (this.confirmPopupSubscription != undefined) {
+			this.confirmPopupSubscription.unsubscribe();
+		}
+		if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+		}
 	}
+
+	checkForAutoClose() {
+		if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+		  if (this.isLastQuestion && this.actComplete) {
+			this.resetTimerForAutoClose();
+		  } else {
+			if (this.timerSubscription != undefined) {
+			  this.timerSubscription.unsubscribe();
+			}
+		  }
+		}
+	  }
+	
+	  resetTimerForAutoClose() {
+		if (this.timerSubscription) {
+		  this.timerSubscription.unsubscribe();
+		}
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const closeConfirmInterval = 2 * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+		  take(closeConfirmInterval)
+		).subscribe(value =>
+		  this.removeSubscription((closeConfirmInterval - +value) * interval),
+		  err => {
+			//console.log("error occuered....");
+		  },
+		  () => {
+			this.sendFeedback('confirm-modal-id','no');
+			this.timerSubscription.unsubscribe();
+		  }
+		)
+	  }
+	  removeSubscription(timer) {
+		console.log("waiting for autoClose", timer / 1000);
+	  }
 
 	checkAnswer(opt, index) {
 		//this.titleHelpAudio.nativeElement.pause();
@@ -930,6 +983,7 @@ export class Ntemplate13 implements OnInit {
 	}
 
 	blinkOnLastQues() {
+		this.actComplete = true;
 		if (this.appModel.isLastSectionInCollection) {
 			this.appModel.blinkForLastQues(this.attemptType);
 			this.appModel.stopAllTimer();
