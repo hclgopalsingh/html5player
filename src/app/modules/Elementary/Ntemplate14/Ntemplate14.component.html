@@ -10,7 +10,12 @@
         <audio #instruction [src]="common_assets?.instruction?.url"></audio>
       </div>
     </div>
-
+    <div *ngIf="isRecording" class="remTimeContainer">
+      <div class="time">
+        <span [ngClass]="{'blinkClass': hideTimer}">{{remainingMinutes}}:{{remainingSeconds}}</span>
+      </div>
+      <span class="label">{{RemainingTimeLabel}}</span>
+    </div>
     <div class="d-flex align-items-center justify-content-center" id="optionsBlock">
       <div id="quesImage">
         <img class="img-fluid" (load)="checkImgLoaded();" [src]="common_assets?.playerBase?.url" />
@@ -20,7 +25,7 @@
           <img style="margin-left: 5%" *ngIf="!isRecord && removeBtn" [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
             [src]="question?.record.url" title="Record" #recordButton (click)="startRecording()" />
             <img style="margin-left: 5%" title="{{isPaused ? 'Resume': 'Pause'}}" *ngIf="isRecord && removeBtn" class="img-fluid"
-            [src]="question?.pause.url" #recordButton (click)="toggleRecording()" />
+            [src]="question?.pause.url" #pauseButton (click)="toggleRecording()" />
           <img *ngIf="removeBtn && showstop" title="Stop" [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
             [src]="question?.stop.url" #stopButton (click)="stopRecording()">
           <img *ngIf="showPlay" title="Play" [ngClass]="{'disable-ctrl': isPlay}" (click)="listen()" class="img-fluid"

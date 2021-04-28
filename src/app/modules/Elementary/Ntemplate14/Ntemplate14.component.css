@@ -649,3 +649,29 @@ audio::-webkit-media-controls-play-button {
   color:rgb(2,208,255);
   padding:0;
 }
+
+.remTimeContainer {
+  position: absolute;
+  top: 10%;
+  right: 2.4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+.remTimeContainer .time {
+  background: #203D60;
+  border: 1px #FFFF00 solid;
+  width: 85%;
+  font-size: 3vmin;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+.remTimeContainer .label {
+  font-size: 1.4vmin;
+}
+
+.blinkClass {
+  visibility: hidden;
+}
