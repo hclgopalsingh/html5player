@@ -602,10 +602,12 @@ audio::-webkit-media-controls-current-time-display {
 
 #tracktime {
   color: rgb(2,208,255);
-  min-width: 9.5%;
+  min-width: 15.5%;
   font-size: 2.8vmin;
-  padding-left: 3%;
+  /* padding-left: 3%; */
   cursor: default;
+  text-align: right;
+
 }
 
 .setImage {
