@@ -70,6 +70,9 @@ export class Ntemplate14Component implements OnInit {
 	listenStatus:boolean=false;
 	seconds: any = '00';
 	minutes: any = '00';
+	remainingSeconds: any;
+	remainingMinutes: any;
+	RemainingTimeLabel: any = "Remaining Time";
 	time: number = 1;
 	recordingTimerInterval: any;
 	timerPaused: any;
@@ -79,9 +82,11 @@ export class Ntemplate14Component implements OnInit {
 	blinkFlag: boolean = true;
 	blinkInterval: any;
 	autoStopRecordTimer: any;
+	hideTimer: boolean = false;
 	recordingStatus: string = "Recording";
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
+	@ViewChild('pauseButton') pauseButton: any;
 	@ViewChild('audioT') audioT: any;
 	@ViewChild('myAudiohelp') myAudiohelp: any;
 	@ViewChild('maincontent') maincontent: any;
@@ -332,6 +337,7 @@ export class Ntemplate14Component implements OnInit {
 			this.noOfImgs = fetchedData.imgCount;
 			this.quesObj = fetchedData.quesObj;
 			this.autoStop = fetchedData.autoStop;
+			this.calculateRemainingTimer(JSON.parse(this.autoStop)/1000.0);
 			this.infoPopupAssets = fetchedData.info_popup;
 		}
 	}
@@ -353,6 +359,7 @@ export class Ntemplate14Component implements OnInit {
 				this.mediaRecorder.resume();
 			}
 		}
+		this.stopButton.nativeElement.src = this.question.stop.url;
 		this.isPaused = !this.isPaused;
 	}
 	/***** start recording the sound *****/
@@ -374,14 +381,25 @@ export class Ntemplate14Component implements OnInit {
 			var recordTime = JSON.parse(this.autoStop)/1000.0;
 			this.recordTimer = setInterval(() => {
 				console.log('recording time remaining ' + recordTime-- + ' sec');
+				this.calculateRemainingTimer(recordTime);
 				if (recordTime === 15) {
 					this.blinkInterval = setInterval(() => {
 						if (this.blinkFlag) {
 							this.blinkFlag = false;
-							this.stopButton.nativeElement.src = this.question.stopActive.url;
+							this.hideTimer = true;
+							if(this.timerPaused) {
+								this.question.pause = this.question.pause_original;
+							} else {
+								this.stopButton.nativeElement.src = this.question.stopActive.url;
+							}
 						} else {
 							this.blinkFlag = true;
-							this.stopButton.nativeElement.src = this.question.stop.url;
+							this.hideTimer = false;
+							if(this.timerPaused) {
+								this.question.pause = this.question.resume;
+							} else {
+								this.stopButton.nativeElement.src = this.question.stop.url;
+							}
 						}
 					}, 500)
 				}
@@ -429,6 +447,14 @@ export class Ntemplate14Component implements OnInit {
 		this.toMinutes = Math.floor(timer / 60);
 		this.seconds = (this.toSeconds < 10 ? '0' : '') + this.toSeconds;
 		this.minutes = (this.toMinutes < 10 ? '0' : '') + Math.floor(timer / 60);
+	}
+
+	/****** calculate minutes and seconds value ******/
+	calculateRemainingTimer(timer) {
+		let toSeconds = timer % 60;
+		let toMinutes = Math.floor(timer / 60);
+		this.remainingSeconds = (toSeconds < 10 ? '0' : '') + toSeconds;
+		this.remainingMinutes = (toMinutes < 10 ? '0' : '') + Math.floor(timer / 60);
 	}
 
 	/****** Play recorded audio on click of Play button ******/
@@ -495,7 +521,7 @@ export class Ntemplate14Component implements OnInit {
 		this.isStop = true;
 		this.appModel.notifyUserAction()
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
-		this.recordButton.nativeElement.src = this.question.record.url;
+		// this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
 		if(!this.autostopplayer && this.appModel.isLastSectionInCollection) {
 			this.startNextSegTimer();
@@ -625,8 +651,12 @@ export class Ntemplate14Component implements OnInit {
 	isCalled() {
 		console.log("getting it", Math.floor(this.audioT.nativeElement.currentTime))
 		console.log("this.audioT.nativeElement.endTime", this.audioT.nativeElement.duration)
-		this.curTime = this.convertTostandard(this.audioT.nativeElement.currentTime);
-		this.endTime = this.convertTostandard(this.audioT.nativeElement.duration);
+		if(!isNaN(this.audioT.nativeElement.currentTime)) {
+			this.curTime = this.convertTostandard(this.audioT.nativeElement.currentTime);
+		}
+		if(!isNaN(this.audioT.nativeElement.duration)) {
+			this.endTime = this.convertTostandard(this.audioT.nativeElement.duration);
+		}
 	}
 
 	/****** Function to convert time to hh:mm:ss format *******/
