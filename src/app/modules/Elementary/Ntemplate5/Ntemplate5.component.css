@@ -465,9 +465,10 @@ button:focus {
   max-width: 100%;
 }
 
-#modalTemp5 .modal-body img {
+#modalTemp5 .modal-body .optionsBlock  img {
   max-width: 100%;
-  width: 70%;
+  width: 63%;
+  margin-top: 7%;
 }
 
 #modalTemp5 .optionsBlock {

@@ -390,17 +390,21 @@ button:focus {
 	background:rgba(0,0,0,.85);
 }
 #customModal .optionsBlock{
-	width: 91%;/*95%,44%*/
+	width: 84%;
+    margin-top: 11%;
     justify-content: center;
 }
 #customModal .optionsBlock.optBlock4{
-	width: 70%;
+	width: 62%;
+    margin-top: 11%;
 }
 #customModal .optionsBlock.optBlock5{
-	width: 56%;/*44%*/
+	width: 50%;
+    margin-top: 11%;
 }
 #customModal .optionsBlock.optBlock6{
-	width: 46%;/*44%*/
+	width: 42%;
+    margin-top: 11%;
 }
 #customModal .optionsBlock .quesImage{
 	height: 98%;/*auto;95%;*/
