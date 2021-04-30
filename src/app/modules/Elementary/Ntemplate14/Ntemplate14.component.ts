@@ -651,8 +651,12 @@ export class Ntemplate14Component implements OnInit {
 	isCalled() {
 		console.log("getting it", Math.floor(this.audioT.nativeElement.currentTime))
 		console.log("this.audioT.nativeElement.endTime", this.audioT.nativeElement.duration)
-		this.curTime = this.convertTostandard(this.audioT.nativeElement.currentTime);
-		this.endTime = this.convertTostandard(this.audioT.nativeElement.duration);
+		if(!isNaN(this.audioT.nativeElement.currentTime)) {
+			this.curTime = this.convertTostandard(this.audioT.nativeElement.currentTime);
+		}
+		if(!isNaN(this.audioT.nativeElement.duration)) {
+			this.endTime = this.convertTostandard(this.audioT.nativeElement.duration);
+		}
 	}
 
 	/****** Function to convert time to hh:mm:ss format *******/
