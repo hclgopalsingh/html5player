@@ -8,9 +8,9 @@ import { timer } from 'rxjs/observable/timer';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-ntemplate15',
-  templateUrl: './ntemplate15.component.html',
-  styleUrls: ['./ntemplate15.component.scss']
+  selector: 'Ntemplate15',
+  templateUrl: './Ntemplate15.component.html',
+  styleUrls: ['./Ntemplate15.component.scss']
 })
 export class Ntemplate15Component implements OnInit, OnDestroy, AfterViewChecked {
 
@@ -89,9 +89,6 @@ export class Ntemplate15Component implements OnInit, OnDestroy, AfterViewChecked
   confirmPopupSubscription: any;
   actComplete : boolean = false;
   showAnsClosed : boolean = false;
-  bodyContentOpacity: any; 
-  bodyContentDisable: any;
-  videoType:any;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -193,6 +190,7 @@ export class Ntemplate15Component implements OnInit, OnDestroy, AfterViewChecked
     this.appModel.resetBlinkingTimer();
     this.appModel.handleController(this.controlHandler);
   }
+
 
   ngOnDestroy() {
     clearTimeout(this.rightTimer);

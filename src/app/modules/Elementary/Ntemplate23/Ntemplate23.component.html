@@ -1,0 +1,221 @@
+<div class="container-fluid ele" id="container">
+  <audio #narrator></audio>
+  <div id="bgImage">
+    <img class="img-fluid" [src]="commonAssets?.background?.url" />
+  </div>
+  <div class="d-flex flex-row justify-content-around" id="instructionBar">
+    <div class="instructionBase" [ngClass]="{'disableDiv':instructionDisable,'classOpacity':instructionOpacity}">
+      <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()" />
+      <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+    </div>
+  </div>
+  <div class="row mx-0" id="optionsBlock" #optionsBlock
+    [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
+    <div class="listBlock">
+      <img class="img-fluid" [src]="commonAssets?.listBg?.url" />
+      <div class="listHeader">
+        <img class="img-fluid" [src]="listCategoryHeader?.url" />
+        <img class="img-fluid" [src]="listSubCategoryHeader?.url" />
+      </div>
+      <ul class="listNames">
+        <li *ngFor="let item of paginationArray | paginate: { itemsPerPage: 6, currentPage: p }">
+          <span>
+            <img [src]="item?.category?.url">
+          </span>
+          <span>
+            <img [hidden]="!item?.imgSubCategory" [src]="item?.imgSubCategory?.url">
+          </span>
+        </li>
+      </ul>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div id="mainques" #quesRef (mousemove)="MouseOver($event)" (mouseout)="MouseOut($event)" (click)="onClick($event)"
+      (dblclick)="ondblClick($event)">
+      <img [src]="commonAssets?.basebox?.url" />
+    </div>
+    <div id="maintooltip">
+      <div id={{index.tooltipID}} class="tooltipHidden" *ngFor="let index of mySVGArr">
+        <img class="img-fluid" [src]="commonAssets?.tooltipImg?.url" />
+      </div>
+    </div>
+
+    <div id="dropdownviaTooltip">
+      <div class="btn-group parentGroup" role="group" aria-label="Button group with nested dropdown">
+        <p>{{DropDownTitleUpper}}
+          <span class="capitalName">{{selectedCategoryinTooltip}}</span>
+        </p>
+        <img class="dropdownCloseBtn" (click)="onTooltipclick()" [src]="commonAssets?.dropDownCloseBtn?.url">
+      </div>
+      <div class="btn-group parentGroup" role="group" aria-label="Button group with nested dropdown">
+        <p>{{DropDownTitleLower}}
+          <span class="capitalName">{{optionSelected}}</span>
+        </p>
+        <div class="btn-group childGroup" role="group">
+          <button (click)="ondropdownClick()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" *ngFor="let subCat of copiedCategories"
+              (click)="categoryName($event.target)">{{subCat}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg id="mainCanvas">
+      <line id="line0" x1="0" y1="0" x2="0" y2="0" style="stroke:rgb(255,255,255);stroke-width:1" />
+    </svg>
+
+    <audio id="playerAudioId" #playerAudio></audio>
+    <div id="dropdown" class="dropdownhidden">
+      <div class="dropdownArrowBg"></div>
+      <button (click)="ondropdownClick()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Select
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" *ngFor="let subCat of copiedCategories"
+          (click)="categoryName($event.target, 'mainDropDown')">{{subCat}}</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Confirmation Modal -->
+  <div class="modal" id="confirmModal" #confirmModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
+          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url"
+            (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverCloseConfirm()"
+            (mouseleave)="houtCloseConfirm()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+          <div class="msgImage">
+            <img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('showAnswer-modal-id','answer');" (mousemove)="hoverConfirm()"
+              (mouseleave)="houtConfirm()">
+              <img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url">
+            </button>
+            <button type="button" (click)="showFeedback('showAnswer-modal-id','no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()">
+              <img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url">
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- The infoPopup Modal -->
+  <div class="modal" id="confirmModal" #infoModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
+          <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.url">
+          <img class="close" [src]="infoPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
+          <div class="msgImage">
+            <img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('info-modal-id','ok');" (mousemove)="hoverOK()"
+              (mouseleave)="houtOK()">
+              <img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url">
+            </button>
+          </div>
+        </div>
+        <audio #feedbackInfoAudio></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit confirmation modal -->
+  <div class="modal" id="confirmModal" #confirmSubmitRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmSubmitAssets?.style_header">
+          <img class="modal-title" [src]="confirmSubmitAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmSubmitAssets?.close_btn?.url" (click)="showFeedback('submit-modal-id','no');"
+            (mousemove)="hoverSubmitCloseConfirm()" (mouseleave)="houtSubmitCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmSubmitAssets?.style_body">
+          <div class="msgImage">
+            <img class="img-fluid h-100" [src]="confirmSubmitAssets?.confirm_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverSubmitConfirm()"
+              (mouseleave)="houtSubmitConfirm()">
+              <img class="img-fluid" [src]="confirmSubmitAssets?.confirm_btn?.url">
+            </button>
+            <button type="button" (click)="showFeedback('submit-modal-id','no');" (mousemove)="hoverSubmitDecline()"
+              (mouseleave)="houtSubmitDecline()">
+              <img class="img-fluid" [src]="confirmSubmitAssets?.decline_btn?.url">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The feedback popup modal -->
+  <div class="modal" id="modalTemp23" #popupRef>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header" [ngStyle]="styleHeaderPopup">
+          <img class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
+          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button"
+            (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
+          <div class="flex-row justify-content-around dispFlex instructionBar" id="instructionBarFeedback"
+            #instructionBarFeedback>
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="feedbackObj?.feedback_title?.url" />
+            </div>
+          </div>
+          <div class="row mx-0 optionsBlock">
+            <div class="listBlock">
+              <img class="img-fluid" [src]="commonAssets?.listBgFeedback?.url" />
+              <div class="listHeader">
+                <img class="img-fluid" [src]="listCategoryHeader?.url" />
+                <img class="img-fluid" [src]="listSubCategoryHeader?.url" />
+              </div>
+              <ul class="listNames">
+                <li *ngFor="let item of feedbackArr">
+                  <span>
+                    <img [src]="isShowAnsOpen ? item?.correctCategoryTxtimg?.url : item?.categoryStatus?.url">
+                  </span>
+                  <span>
+                    <img [src]="isShowAnsOpen ? item?.correctSubCategoryTxtimg?.url : item?.subCategoryStatus?.url">
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <audio #feedbackPopupAudio></audio>
+          <div class="d-flex align-items-center justify-content-end navigate">
+            <img class="img-fluid back" [ngClass]="{'disableBtn': pageNo === 1,'d-none': noOfPages === 1}"
+              [src]="feedbackObj?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
+              (mouseleave)="hleaveFeedbackPre()">
+            <img class="img-fluid forward" [ngClass]="{'d-none': endPage}" [src]="feedbackObj?.feedback_next_btn?.url"
+              (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()" (mouseleave)="hleaveFeedbackNxt()">
+            <img class="img-fluid" [ngClass]="{'d-none': !endPage}" [src]="feedbackObj?.ok_btn?.url"
+              (click)="showFeedback(popupRef,'no','feedbackDone');" (mousemove)="hoverFeedbackOK()"
+              (mouseleave)="houtFeedbackOK()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

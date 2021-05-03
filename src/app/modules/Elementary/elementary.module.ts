@@ -19,14 +19,18 @@ import { Ntemplate19Component } from './ntemplate19/ntemplate19.component';
 import { Ntemplate24Component } from './ntemplate24/ntemplate24.component';
 import { Ntemplate11Component } from './ntemplate11/ntemplate11.component';
 import { Ntemplate12Component } from './ntemplate12/ntemplate12.component';
-import { Ntemplate15Component } from './ntemplate15/ntemplate15.component';
-import { Ntemplate16Component } from './ntemplate16/ntemplate16.component';
+import { Ntemplate23Component } from './Ntemplate23/Ntemplate23.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ntemplate23_1Component } from './Ntemplate23_1/Ntemplate23_1.component';
+import { Ntemplate15Component } from './Ntemplate15/Ntemplate15.component';
+import { Ntemplate16Component } from './Ntemplate16/Ntemplate16.component';
 
  
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    NgxPaginationModule,
     ElementaryRoutingModule,
     DragulaModule.forRoot()
   ],
@@ -48,7 +52,9 @@ import { Ntemplate16Component } from './ntemplate16/ntemplate16.component';
   Ntemplate11Component,
   Ntemplate12Component,
   Ntemplate15Component,
-  Ntemplate16Component
+  Ntemplate16Component,
+  Ntemplate23Component,
+  Ntemplate23_1Component
   ],
   providers: []
 })

@@ -8,10 +8,12 @@ import { SharedserviceService } from '../../../common/services/sharedservice.ser
 import { ThemeConstants } from '../../../common/themeconstants';
 
 @Component({
-  selector: 'app-ntemplate16',
-  templateUrl: './ntemplate16.component.html',
-  styleUrls: ['./ntemplate16.component.scss']
+	selector: 'temp16',
+	templateUrl: './Ntemplate16.component.html',
+	styleUrls: ['./Ntemplate16.component.scss'],
+
 })
+
 export class Ntemplate16Component implements OnInit, AfterViewChecked, OnDestroy {
 	private appModel: ApplicationmodelService;
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -56,7 +58,6 @@ export class Ntemplate16Component implements OnInit, AfterViewChecked, OnDestroy
 	@ViewChild('showAnsFeedback') showAnsFeedback: any;
 
 	countdown: number;
-	videoType:any;
 	audio = new Audio();
 	blink: boolean = false;
 	quesInfo: any = "";

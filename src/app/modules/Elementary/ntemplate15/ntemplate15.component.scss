@@ -322,7 +322,8 @@
 				background: transparent;
 				padding: 0;
 				margin: 0;
-				width: 23%;
+        width: 23%;
+        cursor: pointer;
 			}
 			img {
 				width: 100%;
@@ -456,7 +457,7 @@
 	height: 100%;
 	padding-bottom: 100%;
 	margin: 0% auto;
-	background: url(../../../../assets/images/speakerSpriteR.png) repeat-x 0 0;
+	background: url(' ../../../../assets/images/speakerSpriteR.png') repeat-x 0 0;
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
@@ -599,7 +600,8 @@
 				background: transparent;
 				padding: 0;
 				margin: 0;
-				width: 18%;
+        width: 18%;
+        cursor: pointer;
 			}
 			img {
 				max-width: 80%;
@@ -647,7 +649,9 @@ button {
 	}
 }
 .displayPopup {
-	display: -webkit-box !important;
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
 }
 .modal.show {
 	display: flex !important;
