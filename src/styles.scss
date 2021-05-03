@@ -24,6 +24,8 @@
 		z-index: 0;
 	}
 }
+/* #footerNavBlock .prevBtn,
+#footerNavBlock .nextBtn, */
 /*** Popup classes ***/
 /*** Speaker classes ***/
 @keyframes blink1 {
@@ -120,6 +122,10 @@
 /* .disableBtn{
 	opacity: .5;  
 } */
+/* .modal .instructionBase img,
+.modal .instructionBaseFeedback img {
+	height: 4.8vmax !important;
+} */
 body {
 	margin: 0;
 	background: #000;
@@ -135,10 +141,11 @@ button {
 	&:focus {
 		outline: none !important;
 	}
+	&::selection {
+		background: none;
+	}
 }
-::selection {
-	background: none;
-}
+
 #container {
 	position: relative;
 	padding: 0;
@@ -205,7 +212,6 @@ button {
 		top: 10%;
 		width: 15.6%;
 		left: 9.1%;
-		cursor: pointer;
 	}
 	.nextBtn {
 		position: absolute;
@@ -214,7 +220,6 @@ button {
 		right: 8.9%;
 		z-index: 0;
 		z-index: 1;
-		cursor: pointer;
 	}
 	.nextBtn.blink {
 		position: absolute;
@@ -419,6 +424,13 @@ button {
 		text-align: center;
 		top: 2.5vmin !important;
 		left: 0;
+		display: flex;
+	}
+	.instructionBase {
+		max-width: 91% !important;
+	}
+	.instructionBaseFeedback {
+		max-width: 91% !important;
 	}
 }
 .speakerBlock {
@@ -499,6 +511,7 @@ button {
 		text-align: center;
 		top: 2.5vmin !important;
 		left: 0;
+		display: flex;
 	}
 }
 @media only screen and (min-width: 1025px) and (max-height: 767px) {

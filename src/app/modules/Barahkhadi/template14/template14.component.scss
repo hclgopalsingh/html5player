@@ -1,0 +1,351 @@
+@-webkit-keyframes play {
+	from {
+		background-position: 400%;
+	}
+	to {
+		background-position: 0%;
+	}
+}
+@-moz-keyframes play {
+	from {
+		background-position: 400%;
+	}
+	to {
+		background-position: 0%;
+	}
+}
+@keyframes play {
+	from {
+		background-position: 400%;
+	}
+	to {
+		background-position: 0%;
+	}
+}
+@keyframes shake {
+	10%,90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+	20%,80% {
+		transform: translate3d(2px, 0, 0);
+	}
+	30%,50%,70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+	40%,60% {
+		transform: translate3d(4px, 0, 0);
+	}
+}
+@-webkit-keyframes blinker {
+	from {
+		opacity: 1.0;
+	}
+	to {
+		opacity: 0.0;
+	}
+}
+@keyframes blinker {
+	50% {
+		opacity: .5;
+	}
+}
+/*title screen */
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	}
+}
+/*.temp5 #placeholders img {
+    max-width: 90%;
+}*/
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+#container {
+	.hideit {
+		display: none !important;
+	}
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	.optionsBlock {
+		position: absolute;
+		background-size: contain;
+		top: 0;
+		width: 97%;
+		left: 1.6%;
+		height: 85%;
+	}
+	#navBlock {
+		.prevBtn {
+			margin-left: 4%;
+			text-align: right;
+			margin-left: 4%;
+			text-align: right;
+		}
+		.nextBtn {
+			margin-right: 4%;
+			margin-right: 4%;
+			position: relative;
+		}
+		position: absolute;
+		top: 83.5%;
+		left: 0%;
+		width: 100%;
+	}
+	#activity {
+		position: absolute;
+		width: 100%;
+		top: 10%;
+	}
+	#activityTitle {
+		top: 0;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+	#zaariRakheinId {
+		position: absolute;
+		top: 80%;
+		left: 0%;
+		width: 100%;
+	}
+}
+.showit {
+	display: block !important;
+}
+.dispFlex {
+	display: flex !important;
+}
+.optionsBlockImg {
+	width: 100%;
+	position: absolute !important;
+	top: 2%;
+}
+.optionsBlock {
+	img {
+		cursor: pointer;
+		position: relative;
+	}
+	.options {
+		position: relative;
+		width: 15%;
+		display: inline-block;
+		float: left;
+	}
+	.shadow {
+		position: absolute;
+		z-index: 0;
+		left: 27%;
+		top: 13%;
+	}
+	.refTxt {
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		z-index: 2;
+	}
+}
+#quesImage {
+	width: 100%;
+	position: relative;
+	height: 96%;
+	padding: 1% 10%;
+}
+.temp14 {
+	.speakerBtn {
+		width: 15%;
+		position: absolute;
+		right: 0.2%;
+		top: 69%;
+		height: 30%;
+		z-index: 2;
+	}
+	#speaker {
+		position: absolute;
+		top: 0%;
+		right: 12.5%;
+		width: 75%;
+		cursor: pointer;
+	}
+}
+.speaker {
+	width: 90%;
+	height: 90%;
+	padding-bottom: 100%;
+	margin: 0% auto;
+	background: url(../../../../assets/images/speakerSprite14.png) repeat-x 0 0;
+	background-size: 400%;
+	animation: play 1.2s steps(4) infinite;
+	position: absolute;
+	top: -14%;
+	left: -1%;
+	display: none;
+	pointer-events: none;
+}
+#navBlock {
+	.prevBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+			cursor: pointer;
+		}
+	}
+	.nextBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+			cursor: pointer;
+		}
+	}
+}
+#help {
+	position: absolute;
+	width: 4%;
+	left: 0.5%;
+	top: 83%;
+	cursor: pointer;
+}
+.animation-shake {
+	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+	transform: translate3d(0, 0, 0);
+	backface-visibility: hidden;
+	perspective: 1000px;
+	animation-iteration-count: infinite;
+}
+#correctAns {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	img {
+		position: absolute;
+		width: 70%;
+		animation: scaleit 0.2s ease-in;
+	}
+}
+.rightAnsBg {
+	animation: scaleit 0.2s ease-in;
+}
+.blink_btn {
+	display: none;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.blink {
+	display: block;
+	position: absolute;
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-direction: alternate;
+}
+.option0 {
+	margin: 6% 0% 0% 0%;
+}
+.option1 {
+	margin: 13% 0% 0% 16%;
+}
+.option2 {
+	margin: 18% 4% 0% 13%;
+}
+.option3 {
+	margin: 5% 0% 0% 7%;
+}
+.option4 {
+	margin: 1% 16% 0% 12%;
+}
+.option5 {
+	margin: 4% 0% 0% 2%;
+}
+.option6 {
+	margin: 1% 0% 0% 19%;
+}
+.disable_div {
+	pointer-events: none;
+}
+.disable-click {
+	pointer-events: none;
+	opacity: 0.5;
+}
+#zaariRakheinId {
+	.zaariRakheinBtn {
+		width: 16%;
+		margin-top: .5%;
+		margin-right: 7.5%;
+		float: right;
+		cursor: pointer;
+		img {
+			width: 100%;
+			width: 100%;
+		}
+	}
+}
+.title_class {
+	font-size: 50px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+#burst {
+	position: absolute;
+	z-index: 101;
+	width: 100%;
+	height: 100%;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.3s linear;
+}
+.fadeOutAnimation {
+	opacity: 0;
+	animation: fadeOut 0.3s linear;
+}

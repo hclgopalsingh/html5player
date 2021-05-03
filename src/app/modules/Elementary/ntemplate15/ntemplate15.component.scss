@@ -1,0 +1,754 @@
+@keyframes resetImg {
+	0% {
+		height: 7.85vmin;
+	}
+	100% {
+		height: 100%;
+	}
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	}
+}
+/*----*/
+/*-------*/
+@-webkit-keyframes play {
+	from {
+		background-position: 400%;
+	}
+	to {
+		background-position: 0%;
+	}
+}
+@-moz-keyframes play {
+	from {
+		background-position: 400%;
+	}
+	to {
+		background-position: 0%;
+	}
+}
+@keyframes play {
+	from {
+		background-position: 400%;
+	}
+	to {
+		background-position: 0%;
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+/* Modal classes */
+/*confirm modal*/
+/*.modal-dialog {
+    width: 30%;
+    min-height: 49%;
+    width: 100%;
+    height: 88%;
+  }*/
+@keyframes fadeOut {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+/* correct ans pop-up */
+@keyframes scaleIn {
+	0% {
+		transform: scale(1.0);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+}
+@keyframes scaleOut {
+	0% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1.0);
+	}
+}
+#container {
+	.hideit {
+		display: none !important;
+	}
+	#instructionBar {
+		position: absolute;
+		top: 10%;
+		width: 100%;
+		text-align: center;
+	}
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	.optionsBlock {
+		position: absolute;
+		top: 16.5%;
+		width: 100%;
+		left: 0%;
+		text-align: center;
+		+ {
+			.optionsBlock {
+				top: 38.5%;
+			}
+		}
+		img.optBase {
+			height: 3.79vmin;
+		}
+	}
+	.optCount4 {
+		.optionsBlock {
+			top: 28%;
+		}
+	}
+	.optCount3 {
+		.optionsBlock {
+			top: 28%;
+		}
+	}
+	#answerBlock {
+		position: absolute;
+		top: 62%;
+		width: 100%;
+		left: 0%;
+	}
+	.modal {
+		.optionsBlock {
+			margin-top: 0;
+			height: 100%;
+		}
+	}
+}
+.showit {
+	display: block !important;
+	display: flex !important;
+}
+.dispFlex {
+	display: flex !important;
+}
+.disable {
+	pointer-events: none;
+}
+#instructionBar {
+	.instructionBase {
+		width: 60%;
+		position: relative;
+		cursor: pointer;
+	}
+}
+.instructionBase {
+	.instructionText {
+		position: absolute;
+		top: 0%;
+		left: 0;
+	}
+}
+.pointer {
+	cursor: pointer !important;
+}
+.temp4 {
+	.speakerBtn {
+		width: 18%;
+		position: absolute;
+		right: -3%;
+		top: -39%;
+		width: 8%;
+		right: -1.5%;
+		top: -13%;
+		position: absolute;
+	}
+	#placeholders {
+		position: absolute;
+		left: 2.5%;
+		top: 27%;
+		width: 95%;
+		height: 35%;
+		display: flex;
+		justify-content: left;
+	}
+	.placeholder1 {
+		text-align: center;
+		padding: 0 1.3%;
+	}
+	#speaker {
+		position: absolute;
+		top: 0;
+		right: -1%;
+	}
+}
+#placeholders {
+	div {
+		margin: 0 .8%;
+		height: 100%;
+		max-width: 100%;
+		img {
+			height: 100%;
+		}
+	}
+}
+.modal {
+	.placeholder1 {
+		padding: 0 0.3%;
+		img {
+			animation: resetImg 0.1s;
+		}
+	}
+	#placeholders {
+		text-align: center;
+		left: 2.6%;
+		width: 94%;
+	}
+	.ansBase {
+		width: 90% !important;
+	}
+	#answerBlock {
+		top: 40% !important;
+	}
+	.ansImage {
+		width: 85%;
+		img {
+			max-width: 100%;
+		}
+	}
+	position: absolute !important;
+	width: 100%;
+	z-index: 100 !important;
+	height: 94%;
+	justify-content: center;
+	align-items: center;
+	padding-left: 0px;
+	.quesImage {
+		.optItempopUp {
+			height: 83%;
+		}
+		align-self: center;
+		margin: 1% auto !important;
+	}
+	.optionsBlock {
+		.options {
+			width: 97%;
+			margin: .5% 0;
+		}
+	}
+}
+#correctAns {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9215686274509803) !important;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	background: rgba(0, 0, 0, .85);
+	img {
+		width: 70%;
+		animation: scaleit 0.2s ease-in;
+	}
+	.modal-dialog {
+		width: 50% !important;
+		max-width: 100%;
+		height: 36%;
+		display: flex;
+		justify-content: center;
+	}
+	.modal-content {
+		height: auto;
+		min-width: auto;
+		min-height: auto;
+	}
+	.modal-body {
+		padding: 0;
+		margin: 0;
+		flex: 0 !important;
+		.msgImage {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 6% 0;
+			img {
+				width: 70%;
+			}
+		}
+		.actionButtons {
+			text-align: center;
+			margin-bottom: 2%;
+			button {
+				border: none;
+				background: transparent;
+				padding: 0;
+				margin: 0;
+				width: 23%;
+			}
+			img {
+				width: 100%;
+			}
+		}
+	}
+	.modal-header {
+		top: 0;
+	}
+	.bodyText {
+		position: absolute;
+		top: 30%;
+		width: 100%;
+		img {
+			width: 85%;
+		}
+	}
+	.modal-footer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 15px;
+		border-top: none;
+		position: absolute;
+		width: 100%;
+		bottom: 16%;
+		button {
+			width: 13%;
+			border: none;
+			background: transparent;
+		}
+	}
+	.popupModelBody {
+		padding: 0;
+	}
+}
+#answerBlock {
+	.ansBase {
+		width: 85%;
+		position: relative;
+	}
+}
+.optionsBlock {
+	.options {
+		position: absolute;
+		width: 16.5%;
+		left: 8%;
+		top: 43%;
+		img {
+			&:last-child {
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		}
+	}
+	#opt1 {
+		left: 32%;
+		top: 80%;
+	}
+	#opt2 {
+		left: 56%;
+		top: 64%;
+	}
+	#opt3 {
+		left: 80%;
+		top: 14%;
+	}
+	#opt4 {
+		left: 1.5%;
+		top: 26%;
+	}
+	#opt5 {
+		left: 26%;
+		top: 75%;
+	}
+	#opt6 {
+		left: 50.5%;
+		top: 71%;
+	}
+	#opt7 {
+		left: 75%;
+		top: 21%;
+	}
+}
+.optCount7 {
+	.optionsBlock {
+		#opt4 {
+			left: 15.5%;
+			top: 56%;
+		}
+		#opt5 {
+			left: 42%;
+			top: 82%;
+		}
+		#opt6 {
+			left: 69.5%;
+			top: 47%;
+		}
+	}
+}
+.optCount5 {
+	.optionsBlock {
+		#opt4 {
+			left: 42%;
+			top: 82%;
+		}
+	}
+}
+.optCount3 {
+	.optionsBlock {
+		#opt1 {
+			left: 42%;
+			top: 82%;
+		}
+		#opt2 {
+			left: 80%;
+			top: 34%;
+		}
+	}
+}
+.title_class {
+	font-size: 50px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.speaker {
+	width: 100%;
+	height: 100%;
+	padding-bottom: 100%;
+	margin: 0% auto;
+	background: url(../../../../assets/images/speakerSpriteR.png) repeat-x 0 0;
+	background-size: 400%;
+	animation: play 1.2s steps(4) infinite;
+	position: absolute;
+	z-index: 1;
+	top: -2%;
+	left: -8%;
+	display: none;
+	pointer-events: none;
+}
+.disable-click {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.disappear-button {
+	visibility: hidden;
+}
+.disable_div {
+	pointer-events: none;
+}
+#autoPlayOnOffContainer {
+	width: 15%;
+	position: absolute;
+	right: 0.5%;
+	bottom: 1%;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.3s linear;
+}
+.fadeOutAnimation {
+	opacity: 0;
+	animation: fadeOut 0.3s linear;
+}
+#customModal {
+	display: block !important;
+	.optionsBlock {
+		width: 44%;
+		.quesImage {
+			height: 95%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+	}
+	.modal-body {
+		height: 91%;
+		padding: 0 15px;
+	}
+	.options {
+		position: relative;
+		margin: .7% 0;
+		div {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			img {
+				width: 48%;
+			}
+		}
+	}
+}
+#modalTemp5 {
+	background: rgba(0, 0, 0, .85);
+	background: rgba(0, 0, 0, .85);
+	.modal-dialog {
+		max-width: 80%;
+		height: auto;
+	}
+	.modal-header {
+		top: 0;
+	}
+	.modal-body {
+		img {
+			max-width: 94%;
+		}
+	}
+	.optionsBlock {
+		width: 100%;
+		height: 100%;
+		margin: 2% 0;
+		.options {
+			width: 25%;
+		}
+	}
+}
+#modalPartialOptions {
+	background: rgba(0, 0, 0, .85);
+}
+.confirm_modal_content {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	background-color: transparent;
+	background-clip: padding-box;
+	border: none;
+	border-radius: 0;
+	outline: 0;
+	width: 100%;
+	height: 100%;
+	box-shadow: none;
+}
+#confirmModal {
+	background: rgba(0, 0, 0, .85);
+	.modal-dialog {
+		width: 50% !important;
+		max-width: 100%;
+		height: 36%;
+		display: flex;
+		justify-content: center;
+	}
+	.modal-content {
+		min-width: auto;
+		min-height: auto;
+	}
+	.modal-body {
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content: flex-end;
+		flex: auto !important;
+		.msgImage {
+			display: block;
+			text-align: center;
+			img {
+				width: 100%;
+			}
+		}
+		.actionButtons {
+			text-align: center;
+			margin: 3% 0 2%;
+			width: 100%;
+			button {
+				border: none;
+				background: transparent;
+				padding: 0;
+				margin: 0;
+				width: 18%;
+			}
+			img {
+				max-width: 80%;
+			}
+		}
+		img {
+			max-width: 100%;
+		}
+	}
+	.modal-header {
+		top: 0;
+	}
+	.bodyText {
+		position: absolute;
+		top: 30%;
+		width: 100%;
+		img {
+			width: 85%;
+		}
+	}
+	.modal-footer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 15px;
+		border-top: none;
+		position: absolute;
+		width: 100%;
+		bottom: 16%;
+		button {
+			width: 13%;
+			border: none;
+			background: transparent;
+		}
+	}
+	.popupModelBody {
+		padding: 0;
+	}
+}
+button {
+	&:focus {
+		outline: none;
+		outline: none;
+		outline: none !important;
+	}
+}
+.displayPopup {
+	display: -webkit-box !important;
+}
+.modal.show {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+}
+.modal-dialog {
+	width: 92% !important;
+	height: 74%;
+}
+.modal-content {
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	height: 100%;
+}
+.modal-header {
+	padding: .5% !important;
+	height: 7vmin;
+	position: relative;
+	top: 0;
+	width: 100%;
+	border-bottom: none !important;
+	&:before {
+		content: none !important;
+	}
+	&:after {
+		content: none !important;
+	}
+}
+.modal-body {
+	padding: 2%;
+	flex: auto !important;
+	align-items: center;
+	.ansBase {
+		>img {
+			max-width: 100%;
+		}
+	}
+}
+.modalBodyContent {
+	background: #afdec0;
+	margin: -1px;
+}
+html {
+	[type=button] {
+		-webkit-appearance: none;
+	}
+}
+.fadeOut {
+	animation-name: fadeOut;
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+.correctAns {
+	background: rgba(0, 0, 0, .85);
+}
+#modalTemp7 {
+	background: rgba(0, 0, 0, .85);
+	position: absolute !important;
+	height: 94% !important;
+}
+.videoMainContainer {
+	width: 100%;
+	.videoBg {
+		opacity: 0;
+	}
+}
+.videoWrapper {
+	width: 99.9%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 101;
+}
+#playPauseBtn {
+	position: absolute;
+	top: 86%;
+	right: .7%;
+	cursor: pointer;
+	width: 3.5%;
+}
+#SkipBtn {
+	position: absolute;
+	top: 86%;
+	right: 5%;
+	cursor: pointer;
+	width: 3.5%;
+}
+.scaleInAnimation {
+	animation: scaleIn 0.5s linear;
+	transform: scale(1.1);
+}
+.scaleOutAnimation {
+	animation: scaleOut 0.5s linear;
+	transform: scale(1.0);
+}
+@media (min-width: 576px) {
+	.modal-dialog {
+		max-width: none !important;
+		margin: 0 auto !important;
+	}
+}

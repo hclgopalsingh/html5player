@@ -1,0 +1,397 @@
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+/* Modal Classes begin*/
+/*confirm modal*/
+/* Modal Classes End */
+@keyframes scaleIn {
+	0% {
+		transform: scale(1.0);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+}
+@keyframes scaleOut {
+	0% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1.0);
+	}
+}
+#container {
+	.hideit {
+		display: none !important;
+	}
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	#answerBlock {
+		position: absolute;
+		top: 21%;
+		width: 100%;
+	}
+	#instructionBar {
+		position: absolute;
+		top: 10%;
+		width: 100%;
+		text-align: center;
+		line-height: 0;
+	}
+}
+.showit {
+	display: block;
+}
+.dispFlex {
+	display: flex !important;
+}
+.optParent {
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	position: absolute;
+	top: 52%;
+	left: 5%;
+}
+#ansBlock {
+	.options {
+		text-align: right;
+		width: 100%;
+		position: relative;
+		margin: 0 3%;
+	}
+	#optimage0 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage1 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage2 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage3 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage4 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+}
+.pointer {
+	cursor: pointer;
+}
+#quesImage {
+	width: 80%;
+	position: relative;
+}
+#correctAns {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9215686274509803);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	img {
+		position: absolute;
+		width: 70%;
+		animation: scaleit 0.2s ease-in;
+	}
+}
+#answerBlock {
+	.ansBase {
+		width: 88%;
+		position: relative;
+	}
+}
+.ansBase {
+	.ansText {
+		position: absolute;
+		top: 4.5%;
+		left: 17%;
+		width: 29%;
+	}
+	.quesText {
+		position: absolute;
+		top: 0%;
+		left: 0%;
+	}
+}
+#refImage {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+}
+.disable {
+	pointer-events: none;
+}
+.disable-click {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.disappear-button {
+	visibility: hidden;
+}
+.disable_div {
+	pointer-events: none;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.3s linear;
+}
+.fadeOutAnimation {
+	opacity: 0;
+	animation: fadeOut 0.3s linear;
+}
+#instructionBar {
+	.instructionBase {
+		width: 60%;
+		position: relative;
+		cursor: pointer;
+	}
+}
+.instructionBase {
+	.instructionText {
+		position: absolute;
+		top: 0%;
+		left: 0;
+	}
+}
+.confirm_modal_content {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	background-color: transparent;
+	background-clip: padding-box;
+	border: none;
+	border-radius: 0;
+	outline: 0;
+	width: 100%;
+	height: 100%;
+	box-shadow: none;
+}
+#confirmModal {
+	background: rgba(0,0,0,.85);
+	.modal-dialog {
+		width: 50% !important;
+		max-width: 100%;
+		height: 36%;
+		display: flex;
+		justify-content: center;
+	}
+	.modal-content {
+		min-width: auto;
+		min-height: auto;
+	}
+	.modal-body {
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content: flex-end;
+		flex: auto !important;
+		.msgImage {
+			display: block;
+			text-align: center;
+			img {
+				width: 100%;
+			}
+		}
+		.actionButtons {
+			text-align: center;
+			margin: 3% 0 2%;
+			width: 100%;
+			button {
+				border: none;
+				background: transparent;
+				padding: 0;
+				margin: 0;
+				width: 18%;
+			}
+			img {
+				max-width: 80%;
+			}
+		}
+		img {
+			max-width: 100%;
+		}
+	}
+	.modal-header {
+		top: 0;
+	}
+	.bodyText {
+		position: absolute;
+		top: 30%;
+		width: 100%;
+		img {
+			width: 85%;
+		}
+	}
+	.popupModelBody {
+		padding: 0;
+	}
+}
+button {
+	&:focus {
+		outline: none !important;
+	}
+}
+.displayPopup {
+	display: -webkit-box !important;
+}
+.modal {
+	position: absolute !important;
+	width: 100%;
+	z-index: 100 !important;
+	height: 94%;
+	justify-content: center;
+	align-items: center;
+	padding-left: 0px;
+	.quesImage {
+		align-self: center;
+		margin: 1% auto !important;
+	}
+}
+.modal.show {
+	display: -webkit-box !important;
+}
+.modal-dialog {
+	max-width: 80%;
+	height: auto;
+}
+.modal-content {
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 100%;
+	min-width: 560px;
+	min-height: 50vmin;
+}
+.modal-header {
+	padding: .5% !important;
+	height: 7vmin;
+	position: relative;
+	top: 0;
+	width: 100%;
+	border-bottom: none !important;
+	margin-bottom: -1px;
+	&:before {
+		content: none !important;
+	}
+	&:after {
+		content: none !important;
+	}
+}
+.modal-body {
+	padding: 2%;
+	flex: auto !important;
+	justify-content: space-around;
+	align-items: center;
+	img {
+		max-width: 92%;
+	}
+}
+.modalBodyContent {
+	background: #afdec0;
+	margin: -1px;
+}
+html {
+	[type=button] {
+		-webkit-appearance: none;
+	}
+}
+.ansText {
+	position: absolute;
+	top: 4%;
+	left: 6%;
+	width: 21%;
+}
+.disableSection {
+	pointer-events: none;
+	opacity: 0.3;
+}
+.classOpacity {
+	opacity: 0.3;
+}
+.colorWhite {
+	filter: invert(1);
+}
+.scaleInAnimation {
+	animation: scaleIn 0.5s linear;
+	transform: scale(1.1);
+}
+.scaleOutAnimation {
+	animation: scaleOut 0.5s linear;
+	transform: scale(1.0);
+}
+@media (min-width: 576px) {
+	.modal-dialog {
+		max-width: 70% !important;
+	}
+}

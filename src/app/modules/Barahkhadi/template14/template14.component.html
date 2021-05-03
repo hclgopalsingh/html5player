@@ -1,0 +1,84 @@
+<div class="container-fluid temp14" #container id="container" *ngIf="!showIntroScreen">
+	<div class="d-flex align-items-center justify-content-center hideit" #burst id="burst">
+					<img class="img-fluid" [src]="quesInfo.burst_image.location=='content' ? containgFolderPath + '/' + quesInfo.burst_image.url : assetsPath + '/' + quesInfo.burst_image.url">
+	</div>
+	<div id="bgImage"><img [src]="quesInfo.background.location=='content' ? containgFolderPath + '/' + quesInfo.background.url : assetsPath + '/' +  quesInfo.background.url" (load)="checkImgLoaded();"/></div>
+	<audio #clapSound [src]="quesInfo?.right_sound?.location=='content' ? containgFolderPath + '/' + quesInfo?.right_sound?.url: assetsPath + '/' + quesInfo?.right_sound?.url"></audio>
+	<audio #buzzerSound [src]="quesInfo?.wrong_sound?.location=='content'? containgFolderPath + '/' +  quesInfo?.wrong_sound?.url : assetsPath + '/' +  quesInfo?.wrong_sound?.url"></audio>
+	<audio #questionSound></audio>
+	<div class="optionsBlock" #optionBlock id="optionsBlock">
+		<img class="optionsBlockImg" [src]="quesInfo.ref_base.location=='content' ? containgFolderPath + '/' + quesInfo.ref_base.url : assetsPath + '/' + quesInfo.ref_base.url" (load)="checkImgLoaded();" />
+		<div class="speakerBtn" #speakerBtn (click)="onClickSpeaker()">
+			<img class="img-fluid" id="speaker" [src]="quesInfo?.speaker_img.location=='content' ? containgFolderPath +'/'+ quesInfo?.speaker_img.url : assetsPath + '/' + quesInfo?.speaker_img.url" (load)="checkImgLoaded();"/>
+			<div class="speaker"></div>
+		</div>
+		<div id="quesImage" #optionHolder>
+			<div  class="options option0" [ngClass]="{'disable_div': myoption[0].imgsrc}" [style.visibility]="myoption[0]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[0],0)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[0]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[0]?.bgImgsrc?.url : assetsPath + '/' + myoption[0]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt" [style.visibility] = "myoption[0].imgsrc!='' ? 'visible' : 'hidden'"  [src]="myoption[0]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[0]?.imgsrc.url : assetsPath + '/' + myoption[0]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>
+			<div  class="options option1"  [ngClass]="{'disable_div': myoption[1].imgsrc}" [style.visibility]="myoption[1]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[1],1)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[1]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[1]?.bgImgsrc?.url : assetsPath + '/' + myoption[1]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt"  [style.visibility] = "myoption[1].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[1]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[1]?.imgsrc.url : assetsPath + '/' + myoption[1]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>
+			<div  class="options option2" [ngClass]="{'disable_div': myoption[2].imgsrc}" [style.visibility]="myoption[2]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[2],2)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[2]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[2]?.bgImgsrc?.url : assetsPath + '/' + myoption[2]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt"  [style.visibility] = "myoption[2].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[2]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[2]?.imgsrc.url : assetsPath + '/' + myoption[2]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>
+			<div  class="options option3" [ngClass]="{'disable_div': myoption[3].imgsrc}" [style.visibility]="myoption[3]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[3],3)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[3]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[3]?.bgImgsrc?.url : assetsPath + '/' + myoption[3]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt"  [style.visibility] = "myoption[3].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[3]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[3]?.imgsrc.url : assetsPath + '/' + myoption[3]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>
+			<div  class="options option4" [ngClass]="{'disable_div': myoption[4].imgsrc}" [style.visibility]="myoption[4]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[4],4)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[4]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[4]?.bgImgsrc?.url : assetsPath + '/' + myoption[4]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt"  [style.visibility] = "myoption[4].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[4]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[4]?.imgsrc.url : assetsPath + '/' + myoption[4]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>
+			<div  class="options option5" [ngClass]="{'disable_div': myoption[5].imgsrc}" [style.visibility]="myoption[5]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[5],5)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[5]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[5]?.bgImgsrc?.url : assetsPath + '/' + myoption[5]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt" [style.visibility] = "myoption[5].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[5]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[5]?.imgsrc.url : assetsPath + '/' + myoption[5]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>
+			<div  class="options option6" [ngClass]="{'disable_div': myoption[6].imgsrc}" [style.visibility]="myoption[6]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[6],6)">
+				<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.location=='content' ? containgFolderPath + '/' + quesInfo.opt_shadow.url : assetsPath + '/' + quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+				<img class="img-fluid" [src]="myoption[6]?.bgImgsrc.location=='content' ? containgFolderPath + '/' + myoption[6]?.bgImgsrc?.url : assetsPath + '/' + myoption[6]?.bgImgsrc.url" (load)="checkImgLoaded();">
+				<img class="img-fluid refTxt" [style.visibility] = "myoption[6].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[6]?.imgsrc.location=='content' ? containgFolderPath +'/'+ myoption[6]?.imgsrc.url : assetsPath + '/' + myoption[6]?.imgsrc.url" (load)="checkImgLoaded();">
+			</div>				
+		</div>
+	</div>
+	<div class="d-flex flex-row align-items-center justify-content-around disable_div" #navBlock id="navBlock">
+			<div class="prevBtn peechejao img-fluid" (click)="previous()"  [ngClass]="{'disable-click': isFirstQues == true}">
+				<img class="img-fluid" [src] = "quesInfo?.peechey_jayein?.location =='content' ? containgFolderPath + '/' +quesInfo?.peechey_jayein?.url : assetsPath + '/' +  quesInfo?.peechey_jayein?.url" (mouseleave)="onLeavePeecheyBtn()" on-mouseenter="onHoverPeecheyBtn()" (load)="checkImgLoaded();">
+			</div>
+			<div class="nextBtn">
+				<div class="img-fluid aagebadho" (click)="next()">
+					<img class="img-fluid" [src] = "quesInfo?.aagey_badhein?.location =='content' ? containgFolderPath + '/' +quesInfo?.aagey_badhein?.url : assetsPath + '/' +  quesInfo?.aagey_badhein?.url" (mouseleave)="onLeaveAageyBadheinBtn()" on-mouseenter="onHoverAageyBadheinBtn()" (load)="checkImgLoaded();">
+				</div>
+				<div class="blink_btn img-fluid" [ngClass]="{'blink' :blink}" (click)="next()">
+					<img class="img-fluid" [src] = "quesInfo?.aagey_badhein_blink?.location =='content' ? containgFolderPath + '/' +quesInfo?.aagey_badhein_blink?.url : assetsPath + '/' + quesInfo?.aagey_badhein_blink?.url">
+				</div>
+			</div> 
+		</div>
+	
+	<div id="help" #helpBtn class="helpBtn" on-mouseenter="onHoverHelp()" (mouseleave)="onHoverHelpOut()" (click)="playSoundHelp();" [ngClass]="{'disable-click': disableHelpBtn == true}">
+		<img class="img-fluid" [src]="quesInfo?.help_btn?.location=='content' ? containgFolderPath + '/' + quesInfo?.help_btn?.url : assetsPath + '/' +  quesInfo?.help_btn?.url" (load)="checkImgLoaded();">
+	</div>
+	<audio #titleHelpAudio [src]="quesInfo?.narrator?.location=='content' ? containgFolderPath + '/' + quesInfo?.narrator?.url : assetsPath + '/' + quesInfo?.narrator?.url "></audio>
+</div> 
+<div class="container-fluid temp11" #container id="container" *ngIf="showIntroScreen">
+	<div id="bgImage"><img [src]="quesInfo?.background?.location=='content' ? containgFolderPath + '/' + quesInfo?.background?.url : assetsPath + '/' +  quesInfo?.background?.url" (load)="checkImgLoaded();"/></div>
+	<div class="d-flex align-items-center justify-content-center" id="activity">
+		<img class="img-fluid" [src] ="quesInfo?.krikalapText?.location=='content' ? containgFolderPath + '/' + quesInfo?.krikalapText?.url : assetsPath + '/' +  quesInfo?.krikalapText?.url" (load)="checkImgLoaded();" />
+	</div>
+	<div class="d-flex align-items-center justify-content-center" id="activityTitle">
+		<img class="img-fluid" [src] ="quesInfo?.titleText?.location=='content' ? containgFolderPath + '/' + quesInfo?.titleText?.url : assetsPath + '/' +  quesInfo?.titleText?.url" (load)="checkImgLoaded();" />
+	</div>			
+	<div class="d-flex justify-content-end hideit" #titleNavBtn id="zaariRakheinId">
+		<div class="zaariRakheinBtn" (click)="closeTitleScreen()" on-mouseenter="onHoverZaariRakhein()" (mouseleave)="onHoverOutZaariRakhein()"><img [src]="quesInfo.jariRakheinBtn.location=='content' ? containgFolderPath + '/' + quesInfo.jariRakheinBtn.url : quesInfo.jariRakheinBtn.url" ></div>
+	</div>
+	<audio #titleAudio [src]="quesInfo?.narrator?.location=='content' ? containgFolderPath + '/' + quesInfo?.narrator?.url: assetsPath + '/' + quesInfo?.narrator?.url" autoplay="autoplay"></audio>
+</div> 

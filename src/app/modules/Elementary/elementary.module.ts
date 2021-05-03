@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragulaModule } from 'ng2-dragula';
 import { ElementaryRoutingModule } from './ele-routing.module';
+import { FormsModule } from '@angular/forms';
 import { NTemplate10Component } from './ntemplate10/ntemplate10.component';
 import { NTemplate5Component } from './ntemplate5/ntemplate5.component';
 import { NTemplate3Component } from './ntemplate3/ntemplate3.component';
@@ -13,11 +14,19 @@ import { NTemplate4Component } from './ntemplate4/ntemplate4.component';
 import { NTemplate7Component } from './ntemplate7/ntemplate7.component';
 import { NTemplate9Component } from './ntemplate9/ntemplate9.component';
 import { NTemplate8Component } from './ntemplate8/ntemplate8.component';
+import { Ntemplate17Component } from './ntemplate17/ntemplate17.component';
+import { Ntemplate19Component } from './ntemplate19/ntemplate19.component';
+import { Ntemplate24Component } from './ntemplate24/ntemplate24.component';
+import { Ntemplate11Component } from './ntemplate11/ntemplate11.component';
+import { Ntemplate12Component } from './ntemplate12/ntemplate12.component';
+import { Ntemplate15Component } from './ntemplate15/ntemplate15.component';
+import { Ntemplate16Component } from './ntemplate16/ntemplate16.component';
 
  
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ElementaryRoutingModule,
     DragulaModule.forRoot()
   ],
@@ -32,7 +41,14 @@ import { NTemplate8Component } from './ntemplate8/ntemplate8.component';
   NTemplate4Component,
   NTemplate7Component,
   NTemplate9Component,
-  NTemplate8Component
+  NTemplate8Component,
+  Ntemplate17Component,
+  Ntemplate19Component,
+  Ntemplate24Component,
+  Ntemplate11Component,
+  Ntemplate12Component,
+  Ntemplate15Component,
+  Ntemplate16Component
   ],
   providers: []
 })

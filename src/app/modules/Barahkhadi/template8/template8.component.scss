@@ -1,0 +1,314 @@
+/*#optionsBlock .options img {
+	cursor:pointer;
+}*/
+@-webkit-keyframes blinker {
+	from {
+		opacity: 1.0;
+	}
+	to {
+		opacity: 0.0;
+	}
+}
+@keyframes shake {
+	10%,90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+	20%,80% {
+		transform: translate3d(2px, 0, 0);
+	}
+	30%,50%,70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+	40%,60% {
+		transform: translate3d(4px, 0, 0);
+	}
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	}
+}
+@-webkit-keyframes blinker {
+	from {
+		opacity: 1.0;
+	}
+	to {
+		opacity: 0.0;
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+#container {
+	.hideit {
+		display: none !important;
+	}
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	#optionsBlock {
+		position: absolute;
+		top: 13%;
+		width: 100%;
+		left: 0%;
+	}
+	#navBlock {
+		position: absolute;
+		top: 83%;
+		left: 0%;
+		width: 100%;
+		.prevBtn {
+			margin-left: 4%;
+			text-align: right;
+		}
+		.nextBtn {
+			margin-right: 4%;
+			position: relative;
+		}
+	}
+	#zaariRakheinId {
+		position: absolute;
+		top: 80%;
+		left: 0%;
+		width: 100%;
+	}
+	#activity {
+		position: absolute;
+		width: 100%;
+		top: 10%;
+	}
+	#activityTitle {
+		top: 0;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+}
+.showit {
+	display: block;
+}
+.dispFlex {
+	display: flex !important;
+}
+.visibleNo {
+	visibility: hidden !important;
+}
+.visibleYes {
+	visibility: visible !important;
+}
+#optionsBlock {
+	.options {
+		position: relative;
+	}
+	#optimage0 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+		pointer-events: none;
+	}
+	#optimage1 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+		pointer-events: none;
+	}
+	#optimage2 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+		pointer-events: none;
+	}
+	#optimage3 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+		pointer-events: none;
+	}
+	#optimage4 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+		pointer-events: none;
+	}
+	#opt0 {
+		width: 26%;
+	}
+	#opt1 {
+		width: 26%;
+	}
+	#opt2 {
+		width: 26%;
+	}
+	#opt3 {
+		width: 26%;
+	}
+	#opt4 {
+		width: 26%;
+	}
+}
+#navBlock {
+	.prevBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+		}
+	}
+	.nextBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+		}
+	}
+}
+#help {
+	position: absolute;
+	width: 4%;
+	left: 0.5%;
+	top: 82%;
+}
+.blink {
+	display: block !important;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-direction: alternate;
+}
+.animation-shake {
+	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+	transform: translate3d(0, 0, 0);
+	backface-visibility: hidden;
+	perspective: 1000px;
+	animation-iteration-count: infinite;
+}
+#correctAns {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9215686274509803);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	img {
+		position: absolute;
+		width: 61%;
+		animation: scaleit 0.2s ease-in;
+	}
+}
+#burst {
+	position: absolute;
+	z-index: 101;
+	width: 100%;
+	height: 100%;
+}
+.peechejao {
+	width: 4%;
+	&:hover {
+		width: 4%;
+	}
+}
+#zaariRakheinId {
+	.zaariRakheinBtn {
+		width: 16%;
+		margin-top: .5%;
+		margin-right: 7.5%;
+		float: right;
+		cursor: pointer;
+	}
+}
+.title_class {
+	font-size: 50px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.disable {
+	pointer-events: none;
+}
+.disable-click {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.disappear-button {
+	visibility: hidden;
+}
+.blink_btn {
+	display: none;
+	width: 100%;
+	cursor: pointer;
+}
+.pointer {
+	cursor: pointer;
+}
+.disable_div {
+	pointer-events: none;
+}
+#autoPlayOnOffContainer {
+	width: 15%;
+	position: absolute;
+	right: 0.5%;
+	bottom: 1%;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.3s linear;
+}
+.fadeOutAnimation {
+	opacity: 0;
+	animation: fadeOut 0.3s linear;
+}

@@ -1,0 +1,366 @@
+@keyframes shake {
+	10%,90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+	20%,80% {
+		transform: translate3d(2px, 0, 0);
+	}
+	30%,50%,70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+	40%,60% {
+		transform: translate3d(4px, 0, 0);
+	}
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	}
+}
+@-webkit-keyframes blinker {
+	from {
+		opacity: 1.0;
+	}
+	to {
+		opacity: 0.0;
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+#container {
+	.hideit {
+		display: none !important;
+	}
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	#optionsBlock {
+		position: absolute;
+		top: 4%;
+		width: 100%;
+		left: 0%;
+	}
+	#optBlock {
+		position: absolute;
+		top: 4%;
+		width: 100%;
+		left: 0%;
+		top: 63%;
+	}
+	#ansBlock {
+		width: 93%;
+	}
+	#navBlock {
+		position: absolute;
+		top: 83%;
+		left: 0%;
+		width: 100%;
+		.prevBtn {
+			margin-left: 4%;
+			text-align: right;
+		}
+		.nextBtn {
+			position: relative;
+			margin-right: 4%;
+		}
+	}
+	#answerBlock {
+		position: absolute;
+		top: 44%;
+		width: 100%;
+	}
+	#zaariRakheinId {
+		position: absolute;
+		top: 80%;
+		left: 0%;
+		width: 100%;
+	}
+	#activity {
+		position: absolute;
+		width: 100%;
+		top: 10%;
+	}
+	#activityTitle {
+		top: 0;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+}
+.showit {
+	display: block;
+}
+.dispFlex {
+	display: flex !important;
+}
+#ansBlock {
+	.options {
+		text-align: right;
+		width: 100%;
+		position: relative;
+		margin: 0 3%;
+	}
+	#optimage0 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage1 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage2 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage3 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+	#optimage4 {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+	}
+}
+.pointer {
+	cursor: pointer;
+}
+#quesImage {
+	width: 25%;
+	position: relative;
+}
+#navBlock {
+	.prevBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+		}
+	}
+	.nextBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+		}
+	}
+}
+#help {
+	position: absolute;
+	width: 4%;
+	left: 0.5%;
+	top: 82%;
+}
+.temp5 {
+	.speakerBtn {
+		width: 18%;
+		position: absolute;
+		right: -3%;
+		top: -39%;
+		img {
+			cursor: pointer;
+		}
+	}
+	#placeholders {
+		position: absolute;
+		top: 26%;
+		width: 97%;
+		left: 1.4%;
+		img {
+			max-width: 70%;
+		}
+	}
+	.placeholder1 {
+		text-align: center;
+	}
+	.placeholder2 {
+		text-align: center;
+	}
+	.placeholder3 {
+		text-align: center;
+	}
+	.placeholder4 {
+		text-align: center;
+	}
+	.placeholder5 {
+		text-align: center;
+	}
+}
+.animation-shake {
+	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+	transform: translate3d(0, 0, 0);
+	backface-visibility: hidden;
+	perspective: 1000px;
+	animation-iteration-count: infinite;
+}
+#correctAns {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9215686274509803);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	img {
+		position: absolute;
+		width: 70%;
+		animation: scaleit 0.2s ease-in;
+	}
+}
+#burst {
+	position: absolute;
+	z-index: 101;
+	width: 100%;
+	height: 100%;
+}
+#answerBlock {
+	.ansBase {
+		width: 88%;
+		position: relative;
+	}
+}
+.ansBase {
+	.ansText {
+		position: absolute;
+		top: 4.5%;
+		left: 17%;
+		width: 29%;
+	}
+	.quesText {
+		position: absolute;
+		top: 0%;
+	}
+}
+#refImage {
+	position: absolute;
+	top: 0%;
+}
+.peechejao {
+	width: 4%;
+	&:hover {
+		width: 4%;
+	}
+}
+#zaariRakheinId {
+	.zaariRakheinBtn {
+		width: 16%;
+		margin-top: .5%;
+		margin-right: 7.5%;
+		float: right;
+		cursor: pointer;
+	}
+}
+.title_class {
+	font-size: 50px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.disable {
+	pointer-events: none;
+}
+.disable-click {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.disappear-button {
+	visibility: hidden;
+}
+.blink_btn {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	width: 100%;
+	cursor: pointer;
+}
+.blink {
+	display: block !important;
+	position: absolute;
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-direction: alternate;
+}
+.disable_div {
+	pointer-events: none;
+}
+#autoPlayOnOffContainer {
+	width: 15%;
+	position: absolute;
+	right: 0.5%;
+	bottom: 1%;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.3s linear;
+}
+.fadeOutAnimation {
+	opacity: 0;
+	animation: fadeOut 0.3s linear;
+}
+@media (min-width: 1520px) and (max-width: 1920px) {
+	.temp5 {
+		#placeholders {
+			img {
+				max-width: 90%;
+			}
+		}
+	}
+}

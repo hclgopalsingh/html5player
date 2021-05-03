@@ -1,0 +1,79 @@
+<div #container class="container-fluid temp9" id="container" *ngIf="!showIntroScreen">
+    <audio #narrator_voice [src]="question?.narrator_voice?.location=='content' ? assetspath + '/' +question?.narrator_voice.url: assetsfolderlocation + '/'+ question?.narrator_voice.url" autoplay="autoplay" autoplay="autoplay"></audio>
+    <div class="d-flex align-items-center justify-content-center hideit" id="correctAns">
+        <img class="img-fluid" [src]="common_assets?.quesBase?.location=='content' ? assetspath + '/'+ common_assets?.quesBase?.url: assetsfolderlocation + '/'+ common_assets?.quesBase?.url">
+        <img class="img-fluid" [src]="feedback?.write_ans_popup?.image?.location=='content' ? assetspath + '/'+ feedback?.write_ans_popup?.image?.url: assetsfolderlocation + '/'+ feedback?.write_ans_popup?.image?.url">
+    </div>
+    <div  #fireworks class="d-flex align-items-center justify-content-center hideit" id="burst">
+        <img class="img-fluid" [src]="common_assets?.burst?.location=='content' ? assetspath + '/'+ common_assets?.burst?.url: assetsfolderlocation + '/'+ common_assets?.burst?.url">
+    </div>
+    <audio #buzzerSound [src]="feedback?.wrong_ans_sound?.path?.location=='content' ? assetspath + '/'+ feedback?.wrong_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.wrong_ans_sound?.path?.url"></audio>
+
+    <div id="bgImage"><img [src]="common_assets?.bg?.location=='content' ? assetspath + '/' +common_assets?.bg?.url: assetsfolderlocation + '/'+ common_assets?.bg?.url" (load)="checkImgLoaded();"/></div>
+    <div #maincontent>
+    <div class="d-flex align-items-center justify-content-center" id="optionsBlock">
+        <div id="quesImage">
+        
+        <img class="img-fluid" [src]="common_assets?.refBase?.location=='content' ? assetspath + '/' +common_assets?.refBase?.url: assetsfolderlocation + '/'+ common_assets?.refBase?.url" (load)="checkImgLoaded();">
+         
+        <img class="img-fluid" id="refImage" [src]="question?.image?.location=='content' ? assetspath + '/' +question?.image.url: assetsfolderlocation + '/'+ question?.image.url" (load)="checkImgLoaded();">
+        </div>
+    <!--<div #ansBlock class="pointer" id="ansBlock">
+            <div class="options" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts,$event)">
+                <img class="img-fluid bgBlank" id="{{'optblank'+idx}}" src="{{opts?.image}}" >
+                <img  (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}" src="{{opts?.imgsrc}}"  on-mousemove="onHoverOptions(opts)" on-mouseout="onHoveroutOptions(opts)">
+            </div>    
+        </div>-->			
+    </div>
+    
+    <div class="d-flex flex-row justify-content-around" id="answerBlock">
+        <div class="ansBase">
+            <img class="img-fluid" [src]="common_assets?.quesBase?.location=='content' ? assetspath + '/'+ common_assets?.quesBase?.url: assetsfolderlocation + '/'+ common_assets?.quesBase?.url" (load)="checkImgLoaded();">
+            
+            <img #ans class="img-fluid quesText" [src]="question?.img_sentence?.location=='content' ? assetspath + '/' +question?.img_sentence.url: assetsfolderlocation + '/'+ question?.img_sentence.url" (load)="checkImgLoaded();">
+            <!--<img #ans class="img-fluid ansText" src="">-->
+        </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-around" id="optBlock">
+    <div #ansBlock class="d-flex flex-row justify-content-around pointer " id="ansBlock">
+            <div class="options" *ngFor="let opts of myoption;let idx = index" (click)="checkAnswer(opts,$event)">
+                <img class="img-fluid bgBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.location=='content' ?assetspath + '/' +opts?.image?.url: assetsfolderlocation + '/'+ opts?.image?.url" (load)="checkImgLoaded();" >
+                <img  (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.location=='content' ?assetspath + '/' +opts?.imgsrc?.url: assetsfolderlocation + '/'+ opts?.imgsrc?.url" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)" (load)="checkImgLoaded();">
+            </div>    
+    </div>
+    </div>
+    </div>
+      <div class="d-flex flex-row align-items-center justify-content-around" #navBlock id="navBlock">
+<div class="prevBtn peechejao img-fluid" (click)="previous()"  [ngClass]="{'disable-click': isFirstQues == true}">
+    <img class="img-fluid" [src] = "common_assets?.peechey_jayein?.location =='content' ? containgFolderPath + '/' +common_assets?.peechey_jayein?.url : assetsfolderlocation + '/'+ common_assets?.peechey_jayein?.url" (mouseleave)="onLeavePeecheyBtn()" on-mouseenter="onHoverPeecheyBtn()">
+</div>
+<div class="nextBtn">
+    <div class="img-fluid aagebadho" (click)="next()">
+        <img class="img-fluid" [src] = "common_assets?.aagey_badhein?.location =='content' ? containgFolderPath + '/' +common_assets?.aagey_badhein?.url : assetsfolderlocation + '/'+ common_assets?.aagey_badhein?.url" (mouseleave)="onLeaveAageyBadheinBtn()" on-mouseenter="onHoverAageyBadheinBtn()">
+    </div>
+    <div class="blink_btn img-fluid" [ngClass]="{'blink' :blink}" (click)="next()">
+        <img class="img-fluid" [src] = "common_assets?.aagey_badhein_blink?.location =='content' ? containgFolderPath + '/' +common_assets?.aagey_badhein_blink?.url : assetsfolderlocation + '/'+ common_assets?.aagey_badhein_blink?.url">
+    </div>
+</div> 
+
+</div>
+    <div #helpbtn id="help" class="" [ngClass]="{'disable-click': disableHelpBtn == true}"><img  on-mousemove="onHoverhelp(question)" on-mouseout="onHoverouthelp(question)" class="img-fluid" [src]="question?.help?.location=='content' ?assetspath + '/' +question?.help.url: assetsfolderlocation + '/'+ question?.help.url" (click)="helpSpeaker(audioEl)"></div>
+    <audio #myAudiohelp #audioEl [src]="question?.helpsound?.location=='content' ?assetspath + '/' +question?.helpsound.url: assetsfolderlocation + '/'+ question?.helpsound.url"></audio>
+</div> 
+
+<div class="container-fluid temp5" #container id="container" *ngIf="showIntroScreen">
+<div id="bgImage"><img [src]="quesInfo.titleBg?.location=='content' ?assetspath + '/' +quesInfo.titleBg.url: assetsfolderlocation + '/'+ quesInfo.titleBg.url" (load)="checkImgLoaded();" /></div>
+
+<div class="d-flex align-items-center justify-content-center" id="activity">
+<img class="img-fluid" [src]="quesInfo.kriyakalaap?.location=='content' ?assetspath + '/' +quesInfo.kriyakalaap.url: assetsfolderlocation + '/'+ quesInfo.kriyakalaap.url">
+</div>
+<div class="d-flex align-items-center justify-content-center" id="activityTitle">
+<div class="title_class"><img class="img-fluid" [src]="quesInfo.titleText?.location=='content' ?assetspath + '/' +quesInfo.titleText.url: assetsfolderlocation + '/'+ quesInfo.titleText.url"></div>
+</div>			
+<div class="d-flex justify-content-end hideit" #titleNavBtn id="zaariRakheinId">
+<div class="zaariRakheinBtn"><img class="img-fluid" on-mouseenter="onHoverZaariRakhein()" (mouseleave)="onHoverOutZaariRakhein()" [src]="quesInfo.zaariRakhein?.location=='content' ?assetspath + '/' +quesInfo.zaariRakhein.url: assetsfolderlocation + '/'+ quesInfo.zaariRakhein.url" (click)="closeTitleScreen()"></div>
+</div>
+
+<audio #titleAudio [src]="quesInfo.Instruction?.location=='content' ?assetspath + '/' +quesInfo.Instruction.url: assetsfolderlocation + '/'+ quesInfo.Instruction.url" autoplay="autoplay"></audio>
+</div>  
+

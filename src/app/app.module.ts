@@ -26,6 +26,7 @@ import { createCustomElement } from '@angular/elements';
 import { ParentcommunicationService } from './common/services/parentcommunication.service';
 import { ElementaryModule } from './modules/Elementary/elementary.module';
 import { VideoComponent } from './modules/Global/video/video.component';
+import { BarahkhadiModule } from './modules/Barahkhadi/barahkhadi.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { VideoComponent } from './modules/Global/video/video.component';
 		NouisliderModule,
 		NgxPaginationModule,
     EvaModule,
-    ElementaryModule
+    ElementaryModule,
+    BarahkhadiModule
   ],
   exports: [  ],
   providers: [DataloaderService, ApplicationmodelService, CommonloaderService, HttphandlerService, SharedserviceService, ParentcommunicationService],

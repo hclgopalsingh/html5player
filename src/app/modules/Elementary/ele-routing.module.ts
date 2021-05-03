@@ -11,6 +11,7 @@ import { NTemplate4Component } from './ntemplate4/ntemplate4.component';
 import { NTemplate7Component } from './ntemplate7/ntemplate7.component';
 import { NTemplate9Component } from './ntemplate9/ntemplate9.component';
 import { NTemplate8Component } from './ntemplate8/ntemplate8.component';
+import { Ntemplate12Component } from './ntemplate12/ntemplate12.component';
 
 const routes: Routes = [
   { path: 'ntemp3', component: NTemplate3Component, runGuardsAndResolvers: 'always'},
@@ -36,6 +37,9 @@ const routes: Routes = [
   { path: 'ntemp9ext', component: NTemplate9Component, runGuardsAndResolvers: 'always'},
   { path: 'ntemp8', component: NTemplate8Component, runGuardsAndResolvers: 'always' },
   { path: 'ntemp8ext', component: NTemplate8Component, runGuardsAndResolvers: 'always' },
+
+  { path: 'ntemp12', component: Ntemplate12Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp12ext', component: Ntemplate12Component, runGuardsAndResolvers: 'always' },
 
  
 ];

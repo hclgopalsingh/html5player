@@ -1,0 +1,76 @@
+<div class="container-fluid ele temp14" id="container">
+    <audio #narrator [src]="quesObj?.quesInstruction?.url"></audio>
+    <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+    <div #maincontent>
+      <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+        <div class="instructionBase" [ngClass]="{'disable_div':instructionDisable,'classOpacity':instructionOpacity}">
+          <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
+            (load)="checkImgLoaded();" />
+          <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+        </div>
+      </div>
+      <audio #feedbackVoRef></audio>
+      <div class="bodyContent" [ngClass]="{'classOpacity':bodyContentOpacity,'disable_div':bodyContentDisable}">
+        <div class="d-flex flex-row justify-content-around" id="answerBlock" #answerBlock>
+          <div class="ansBase">
+            <img class="img-fluid" [src]="commonAssets?.quesBase?.url" (load)="checkImgLoaded();">
+            <img #ans class="img-fluid quesText" [src]="question?.img_sentence.url" (load)="checkImgLoaded();">
+            <!-- <img *ngIf="!ansShow" class="img-fluid" [src]="myoption[itemid]?.imgsrc?.url" style="visibility:hidden"
+              [ngStyle]='question.ansclass'> -->
+          </div>
+        </div>
+        <div class="optParent">
+          <div class="d-flex align-items-center justify-content-center" id="optionsBlock">
+            <div id="quesImage">
+              <img class="img-fluid" [src]="commonAssets?.refBase?.url" (load)="checkImgLoaded();">
+              <img class="img-fluid" id="refImage" [src]="question?.image.url" (load)="checkImgLoaded();">
+            </div>
+          </div>
+  
+          <div class="d-flex align-items-center justify-content-around" id="optBlock" #optionRef>
+            <div class="d-flex flex-row justify-content-around options" [ngClass]="{'pointer':optionCursorPointer,'disable_div':isOptionDisabled}"
+              id="ansBlock">
+              <div class="options" *ngFor="let opts of myoption;let idx = index"
+                (click)="opts['idx']=idx ;checkAnswer(opts,$event)">
+                <img class="img-fluid backgroundBlank" id="{{'optblank'+idx}}" [src]="opts?.image?.url"
+                  (load)="checkImgLoaded();">
+                <img [ngClass]="{'colorWhite':opts.optFilter,'classOpacity':opts.showDisable}"
+                  [@openClose]="{value: opts.isOpen ? 'open' : 'closed', params: {leftPos: opts.leftPos , topPos: opts.topPos , optWidth: opts.optWidth, optMaxWidth: opts.optMaxWidth}}"
+                  (@openClose.start)="onAnimationEvent($event,opts,idx)"
+                  (@openClose.done)="onAnimationEvent($event,opts,idx)" *ngIf="opts.imgsrc.url"
+                  (click)="stopAllSounds($event)" class="img-fluid" id="{{'optimage'+idx}}" [src]="opts?.imgsrc?.url"
+                  on-mouseenter="playOptionHover(idx,opts)" on-mousemove="onHoverOptions(opts,idx)" on-mouseout="onHoveroutOptions(opts,idx)"
+                  (load)="checkImgLoaded();">
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <!-- The Confirmation Modal -->
+  
+    <div class="modal" id="confirmModal" #confirmModalRef [ngClass]="{'displayPopup':displayconfirmPopup}">
+      <div class="modal-dialog">
+        <div class="modal-content" #modalRef>
+          <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedback?.confirm_popup?.style_header">
+            <img class="modal-title" [src]="feedback?.confirm_popup?.headerTxt_img?.url">
+            <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');"
+              (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+          </div>
+  
+          <div class="modal-body" [ngStyle]="feedback?.confirm_popup?.style_body">
+            <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
+            <div class="actionButtons">
+              <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()"
+                (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+              <button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
+                (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  

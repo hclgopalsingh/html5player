@@ -1,0 +1,414 @@
+/* Player classes start*/
+/* filling bar */
+/* Player classes end*/
+@keyframes shake {
+	10%,90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+	20%,80% {
+		transform: translate3d(2px, 0, 0);
+	}
+	30%,50%,70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+	40%,60% {
+		transform: translate3d(4px, 0, 0);
+	}
+}
+/*.zaariRakheinBtn{
+	background: url("../../../assets/images/zaariRakhein.svg") no-repeat;
+    background-size: 100% 100%;
+    height: 70px;
+}
+.zaariRakheinBtn:hover{
+	background: url("../../../assets/images/zaariRakhein_hover.svg") no-repeat;
+    background-size: 100% 100%;
+    height: 70px;
+}*/
+/*
+.speaker {
+  width: 100%;
+  padding-bottom:100%;
+  margin: 0% auto;
+  background: url(../../../assets/images/speakerSprite.png) 0 0;
+  background-size: 400%;
+  animation: play 1.3s steps(4) infinite;
+}
+@-webkit-keyframes play {
+   from { background-position:    400%; }
+     to { background-position: 0%;  }
+}
+@-moz-keyframes play {
+   from { background-position:    400%; }
+     to { background-position: 0%;  }
+}
+@keyframes play {
+   from { background-position:    400%; }
+     to { background-position: 0%;  }
+}
+*/
+/*.temp4 .speaker, .temp4 #speaker{
+	cursor:pointer;
+}*/
+/* css update begins - 27 March */
+/*
+#correctAns img{
+	position:absolute;
+	width:70%;
+	animation: scaleit 0.2s ease-in;
+}
+*/
+/* css update ends - 27 March */
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	}
+}
+/* css update begins - 27 March */
+@-webkit-keyframes blinker {
+	from {
+		opacity: 1.0;
+	}
+	to {
+		opacity: 0.0;
+	}
+}
+@keyframes blinker {
+	50% {
+		opacity: .5;
+	}
+}
+/* css update ends - 27 March */
+/*
+audio::-webkit-media-controls-panel
+{
+ background-color:powderblue;
+}
+*/
+/*
+#audioT{
+	  width:100%;
+	  border-style: none;
+	  border-radius:1px;
+}
+audio::-webkit-media-controls-panel
+{
+ background-color:#202020;
+
+}
+audio::-webkit-media-controls-current-time-display
+{
+	color:#00ccff;
+}
+audio::-webkit-media-controls-time-remaining-display
+{
+	color:#00ccff;
+}
+audio::-webkit-media-controls-play-button
+{
+	color:#00ccff;
+}
+audio::-webkit-media-controls-timeline{
+	color:#00ccff;
+}
+*/
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.75;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+#container {
+	.hideit {
+		display: none !important;
+	}
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	#optionsBlock {
+		position: absolute;
+		top: 40%;
+		width: 100%;
+		left: 0%;
+	}
+	#navBlock {
+		position: absolute;
+		top: 83%;
+		left: 0%;
+		width: 100%;
+		.prevBtn {
+			margin-left: 4%;
+			text-align: right;
+		}
+		.nextBtn {
+			margin-right: 4%;
+			position: relative;
+		}
+	}
+	#activity {
+		position: absolute;
+		width: 100%;
+		top: 10%;
+	}
+	#activityTitle {
+		top: 0;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+	#zaariRakheinId {
+		position: absolute;
+		top: 80%;
+		left: 0%;
+		width: 100%;
+	}
+}
+.showit {
+	display: block !important;
+}
+.dispFlex {
+	display: flex !important;
+}
+#optionsBlock {
+	.quesTxt {
+		position: absolute;
+		top: 0%;
+		width: 100%;
+		text-align: center;
+		left: 0%;
+		pointer-events: none;
+	}
+}
+#quesImage {
+	width: 80%;
+	position: absolute;
+	left: 10%;
+}
+.playerControls {
+	position: absolute;
+	width: 94%;
+	height: 17%;
+	bottom: 3%;
+	left: 3%;
+	display: flex;
+	align-items: center;
+	img {
+		margin-right: 3%;
+		width: 6%;
+		cursor: pointer;
+	}
+}
+#audioPlayer {
+	width: 81%;
+	display: flex;
+	align-items: center;
+}
+#playBtn {
+	width: 7.3%;
+}
+#timeline {
+	width: 92%;
+	height: 4px;
+	border-radius: 15%;
+	background: rgba(83,112,128,.3);
+	position: relative;
+}
+#playBar {
+	width: 18px;
+	height: 4px;
+	border-radius: 15%;
+	margin-top: 0px;
+	background: rgba(0, 204, 255,1);
+}
+#audioTime {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 250%;
+	color: rgba(0, 204, 255,1);
+	font-size: 1.7vmax;
+}
+.start {
+	position: absolute;
+}
+.finish {
+	position: absolute;
+	right: 0;
+}
+#navBlock {
+	.prevBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+		}
+	}
+	.nextBtn {
+		width: 8%;
+		img {
+			cursor: pointer;
+		}
+	}
+}
+#help {
+	position: absolute;
+	width: 4%;
+	left: 0.5%;
+	top: 82%;
+}
+.animation-shake {
+	animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+	transform: translate3d(0, 0, 0);
+	backface-visibility: hidden;
+	perspective: 1000px;
+	animation-iteration-count: infinite;
+}
+.correctAns {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9215686274509803);
+	z-index: 100;
+	display: flex !important;
+	align-items: center !important;
+}
+.rightAnsBg {
+	animation: scaleit 0.2s ease-in;
+}
+.disable-click {
+	pointer-events: none;
+	opacity: 0.5;
+}
+#zaariRakheinId {
+	.zaariRakheinBtn {
+		width: 16%;
+		margin-top: .5%;
+		margin-right: 7.5%;
+		float: right;
+		cursor: pointer;
+		img {
+			width: 100%;
+		}
+	}
+}
+.title_class {
+	font-size: 50px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.questionImg {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+}
+.peechejao {
+	width: 4%;
+	&:hover {
+		width: 4%;
+	}
+}
+.ansImage {
+	width: 50%;
+	position: relative;
+	float: left;
+	padding: 10px;
+}
+.disappear-button {
+	visibility: hidden;
+}
+.blink_btn {
+	display: none;
+	width: 100%;
+	cursor: pointer;
+}
+.blink {
+	display: block;
+	position: absolute;
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-direction: alternate;
+}
+.disableDiv {
+	pointer-events: none;
+}
+.disable_div {
+	pointer-events: none;
+}
+#autoPlayOnOffContainer {
+	width: 15%;
+	position: absolute;
+	right: 0.5%;
+	bottom: 1%;
+}
+audio {
+	width: 100%;
+	&::-webkit-media-controls-volume-slider {
+		display: none;
+	}
+	&::-webkit-media-controls-mute-button {
+		display: none;
+	}
+}
+.audioT {
+	display: none;
+}
+.playbtn {
+	display: none;
+}
+.displayNone {
+	display: none;
+}
+.fadeInAnimation {
+	opacity: 1;
+	animation: fadeIn 0.3s linear;
+}
+.fadeOutAnimation {
+	opacity: 0;
+	animation: fadeOut 0.3s linear;
+}
+@media (min-width: 800px) and (max-width: 820px) {
+	.playerControls {
+		bottom: 2.5%;
+	}
+}

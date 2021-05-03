@@ -1,0 +1,855 @@
+/* .rowMid .teamDetails .teamName{
+  max-width: 33%;
+} */
+/* Modal */
+/* .modal-title{
+  margin-left: 1.5%;
+  height: 80%;
+}
+.close {
+	width: auto;
+	height: 75%;
+  margin-right: .5%;
+	margin-top: -.1%;
+  -webkit-appearance: inherit !important;
+  cursor: pointer;
+  opacity: 1;
+}
+@media (min-width: 1366px){
+	.close {
+		height: 95%;
+    margin-right: .3%;
+	}
+}
+.close:focus, .close:hover {
+  color: #000;
+  text-decoration: none;
+  opacity: 1;
+} */
+/* .modal-header{
+	padding: .5%;
+	height: 7vmin;
+  position: relative;
+  top: 0;
+  width: 100%;
+  border: solid .7vmin #85d222;
+  border-bottom: none !important;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #248446;
+} */
+@keyframes scaleit {
+	0% {
+		transform: scale(.9);
+		opacity: .0;
+	}
+	90% {
+		transform: scale(1.1);
+		opacity: .7;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+@keyframes moveLeft {
+	0% {
+		left: 3.2%;
+	}
+	100% {
+		left: 2%;
+	}
+}
+@keyframes moveRight {
+	0% {
+		right: 3.3%;
+	}
+	100% {
+		right: 2%;
+	}
+}
+/* #burst {
+  position: absolute;
+  z-index: 101;
+  width: 100%;
+  height: 100%;
+} */
+/*
+confirm modal
+*/
+/* #confirmModal .modal-header {
+	top:0;
+} */
+/* #confirmModal .modal-title {
+  margin-left: 3%;
+  font-size: auto;
+}
+#confirmModal .close {
+  margin: -.1% 1.6% 0 auto	;
+} */
+/*score borad modal*/
+/* Modal */
+/* .modal-header{
+	padding: .5% !important;
+} */
+/* .modal-body img{
+	max-width: 60%;
+  margin: 4% 0;
+} */
+/* Modal Feedback classes begin */
+/* Modal Feedback classes end */
+.hideit {
+	display: none !important;
+}
+.showit {
+	display: block !important;
+}
+.dispFlex {
+	display: flex !important;
+}
+button {
+	&:focus {
+		outline: none !important;
+		outline: 0 !important;
+		outline: none;
+	}
+}
+body {
+	font-family: Trebuchet MS, sans-serif;
+}
+* {
+	box-sizing: border-box;
+	&:before {
+		box-sizing: border-box;
+	}
+	&:after {
+		box-sizing: border-box;
+	}
+}
+#container {
+	position: relative;
+	padding: 0;
+	#bgImage {
+		img {
+			width: 100%;
+		}
+	}
+	#consoleBlock {
+		position: absolute;
+		top: 18%;
+		width: 87%;
+		left: 6.2%;
+		height: 68%;
+	}
+	.consoleBase {
+		width: 97%;
+		height: 100%;
+		position: relative;
+	}
+	.rowTop {
+		position: absolute;
+		width: 100%;
+		top: 3%;
+		.optionsBlock {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			div {
+				width: 11%;
+				margin: 0 1%;
+			}
+		}
+	}
+	.rowMid {
+		position: absolute;
+		width: 100%;
+		top: 9.5%;
+		height: 75.9%;
+		margin: 1.2% 0;
+		display: flex;
+		justify-content: space-between;
+		.optionsBlock {
+			margin: auto;
+			position: absolute;
+			top: 7%;
+			div {
+				margin: 18% auto;
+				width: 90%;
+				display: inline-block;
+			}
+		}
+		.colLeft {
+			width: 12%;
+			display: flex;
+			align-items: center;
+			position: relative;
+			left: 1.2%;
+		}
+		.colRight {
+			width: 12%;
+			display: flex;
+			align-items: center;
+			position: relative;
+			right: 0.9%;
+		}
+		.colMid {
+			background-image: radial-gradient(#F2ADC6, #C77593);
+			border: solid 1px #000;
+			border-radius: 26px;
+			width: 73.9%;
+			position: relative;
+		}
+	}
+	.rowBtm {
+		position: absolute;
+		width: 100%;
+		bottom: 2%;
+		.optionsBlock {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			div {
+				width: 11%;
+				margin: 0 1%;
+			}
+		}
+	}
+	#instructionBar {
+		position: absolute;
+		top: 10%;
+		width: 100%;
+		text-align: center;
+	}
+	.modal {
+		.instructionBarFeedback {
+			top: 7%;
+			position: absolute;
+		}
+	}
+	#navBlock {
+		.prevBtn {
+			&:hover {
+				-webkit-animation-name: moveLeft;
+				-webkit-animation-duration: .3s;
+				animation-name: moveLeft;
+				animation-duration: .3s;
+				animation-iteration-count: infinite;
+			}
+		}
+		.nextBtn {
+			&:hover {
+				-webkit-animation-name: moveLeft;
+				-webkit-animation-duration: .3s;
+				animation-name: moveLeft;
+				animation-duration: .3s;
+				animation-iteration-count: infinite;
+				-webkit-animation-name: moveRight;
+				animation-name: moveRight;
+			}
+		}
+	}
+	#modalfeedback {
+		.instructionBar {
+			top: 6%;
+		}
+	}
+}
+.colMid {
+	.durationTime {
+		position: absolute;
+		width: 14%;
+		right: 2%;
+		top: 3%;
+		font-size: 3.5vmin;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 1;
+		div {
+			position: absolute;
+		}
+	}
+}
+.quesImg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	img {
+		max-height: 100%;
+	}
+}
+.passBtn {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 3.5%;
+	img {
+		cursor: pointer;
+	}
+}
+.teamDetails {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 3.5%;
+	.teamNameBase {
+		max-width: 100%;
+	}
+	.teamName {
+		position: absolute;
+		max-width: 100%;
+	}
+	.gradeCircle {
+		position: absolute;
+	}
+}
+.rowTop {
+	.passBtn {
+		top: 0;
+		right: 22.5%;
+	}
+	.teamDetails {
+		top: 0;
+		right: 22.5%;
+		right: 17.5%;
+		width: 4%;
+	}
+}
+.rowBtm {
+	.passBtn {
+		top: 0;
+		right: 22.5%;
+	}
+	.teamDetails {
+		top: 0;
+		right: 22.5%;
+		right: 17.5%;
+		width: 4%;
+	}
+}
+.rowMid {
+	.colLeft {
+		.passBtn {
+			height: auto;
+			bottom: 7%;
+			right: 52%;
+			width: 30%;
+		}
+		.teamDetails {
+			height: auto;
+			bottom: 7%;
+			right: 52%;
+			width: 30%;
+			right: 14%;
+			width: 33%;
+			bottom: 5.5%;
+		}
+	}
+	.colRight {
+		.passBtn {
+			height: auto;
+			bottom: 7%;
+			right: 52%;
+			width: 30%;
+		}
+		.teamDetails {
+			height: auto;
+			bottom: 7%;
+			right: 52%;
+			width: 30%;
+			right: 14%;
+			width: 33%;
+			bottom: 5.5%;
+		}
+	}
+}
+.rightAnsBg {
+	animation: scaleit 0.2s ease-in;
+}
+#correctAns {
+	img {
+		position: absolute;
+		width: 70%;
+	}
+}
+#instructionBar {
+	.instructionBase {
+		width: 60%;
+		position: relative;
+	}
+}
+.instructionBase {
+	.instructionText {
+		position: absolute;
+		top: 0%;
+		left: 0;
+	}
+}
+.instructionBarFeedback {
+	.instructionBaseFeedback {
+		width: 62%;
+		position: relative;
+	}
+}
+.modal {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding-left: 0px;
+	position: absolute !important;
+	width: 100%;
+	z-index: 100 !important;
+	height: 94.2%;
+	justify-content: center;
+	align-items: center;
+	padding-left: 0px;
+	.quesImage {
+		align-self: center;
+		margin: 1% auto !important;
+	}
+}
+.modal.show {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+}
+.modal-dialog {
+	max-width: 80%;
+	height: auto;
+}
+.modal-content {
+	background: transparent;
+	border: 0;
+	height: 100%;
+	min-width: 540px;
+	min-height: 300px;
+}
+.modal-body {
+	padding: 2%;
+	background: #afdec0;
+	border: solid .7vmin #85d222;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	img {
+		max-width: 100%;
+	}
+}
+.instructionBarScoreboard {
+	width: 100%;
+}
+.instructionBaseScoreboard {
+	width: 46%;
+}
+.modal-body-container {
+	width: 100%;
+	padding: 1%;
+}
+.modalBodyContent {
+	background: #afdec0;
+	margin: -1px;
+}
+.optionsBlock {
+	img {
+		cursor: pointer !important;
+	}
+}
+.faintOpt {
+	opacity: 0.5;
+}
+.disableDiv {
+	pointer-events: none;
+}
+.videoMainContainer {
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 101;
+}
+.disableTeam {
+	opacity: 0.5;
+	pointer-events: none;
+}
+#confirmModal {
+	background: rgba(0, 0, 0, .85);
+	.modal-dialog {
+		width: 50% !important;
+		max-width: 100%;
+		height: 36%;
+		display: flex;
+		justify-content: center;
+	}
+	.modal-content {
+		min-width: auto;
+		min-height: auto;
+		background-color: transparent;
+	}
+	.modal-body {
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content: flex-end;
+		flex: auto !important;
+		.msgImage {
+			display: block;
+			text-align: center;
+			img {
+				max-width: 100%;
+				height: auto !important;
+			}
+		}
+		.actionButtons {
+			text-align: center;
+			margin: 3% 0 2%;
+			width: 100%;
+			button {
+				border: none;
+				background: transparent;
+				padding: 0;
+				margin: 0;
+				width: 18%;
+			}
+			img {
+				width: 80%;
+			}
+		}
+	}
+	.bodyText {
+		position: absolute;
+		top: 30%;
+		width: 100%;
+		img {
+			width: 85%;
+		}
+	}
+	.modal-footer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 15px;
+		border-top: none;
+		position: absolute;
+		width: 100%;
+		bottom: 16%;
+		button {
+			width: 13%;
+			border: none;
+			background: transparent;
+		}
+	}
+	.popupModelBody {
+		padding: 0;
+	}
+}
+.displayPopup {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+}
+#modalTemp8 {
+	position: absolute;
+	width: 100%;
+	padding-left: 0px;
+	background: rgba(0, 0, 0, .85);
+	.modal.show {
+		display: flex !important;
+		justify-content: center;
+		align-items: center;
+	}
+	.modal-title {
+		margin-left: 1.5%;
+		width: 25.5vmin;
+	}
+	.closeScoreBoard {
+		width: 4%;
+		-webkit-appearance: inherit !important;
+		cursor: pointer;
+		opacity: 1;
+		position: absolute;
+		top: 2%;
+		right: 1.5%;
+		z-index: 1;
+	}
+	.modal-dialog {
+		width: 67%;
+		max-width: 80%;
+		height: auto;
+	}
+	.modal-content {
+		background: transparent;
+		border: 0;
+		height: 100%;
+	}
+	.modal-body {
+		padding: 2%;
+		background: #2B3B52;
+		border: solid .2vmin #fff;
+		border-radius: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		align-content: center;
+	}
+	.dataBlock {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		.itemData {
+			width: 16%;
+			margin: 0 4%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			img {
+				margin: 5% 0;
+			}
+		}
+	}
+	table {
+		td {
+			text-align: center;
+		}
+	}
+	.modalBodyContent {
+		background: #afdec0;
+		margin: -1px;
+	}
+	.modal {
+		.quesImage {
+			align-self: center;
+			margin: 1% auto !important;
+		}
+	}
+}
+.displayScoreBoard {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+}
+.teamNames {
+	position: absolute;
+	width: 98.2%;
+	top: 26%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.teamDetails {
+		position: relative;
+		width: 25%;
+		flex-wrap: wrap;
+		div {
+			position: relative;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 5%;
+		}
+		.rightAns {
+			height: 28vmin;
+			width: 100%;
+			border-left: none !important;
+			margin-bottom: 0;
+			width: 100%;
+			border-left: none !important;
+			margin-bottom: 0;
+		}
+		&:last-child {
+			.rightAns {
+				border-right: none !important;
+			}
+		}
+		.teamNameBase {
+			max-width: 17%;
+		}
+		.team_name {
+			img {
+				max-width: 52%;
+			}
+		}
+		.team {
+			max-width: 11%;
+			position: absolute;
+		}
+	}
+}
+.rightAns {
+	img {
+		max-width: 70% !important;
+		width: 60%;
+		position: absolute;
+	}
+}
+#modalfeedback {
+	background: rgba(0, 0, 0, .85);
+	position: absolute !important;
+	.close {
+		right: 2.5%;
+		top: 5%;
+		position: absolute;
+		height: 7% !important;
+	}
+	.modal-content {
+		min-height: 289px;
+		box-shadow: none;
+		background: transparent !important;
+		border: none;
+	}
+	.modal-dialog {
+		width: auto;
+		max-width: 97.5%;
+	}
+	.modal-body {
+		background: transparent;
+		border: none;
+		border-radius: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.instructionBase {
+		width: 59%;
+	}
+}
+.instructionBar {
+	img {
+		cursor: pointer;
+	}
+}
+.navigate {
+	position: absolute;
+	bottom: 4%;
+	width: 96%;
+	img {
+		margin-left: 0.8%;
+		cursor: pointer;
+		max-width: 4.2%;
+	}
+}
+.disableBtn {
+	opacity: 0.5;
+	pointer-events: none;
+	opacity: 0.5;
+	pointer-events: none;
+}
+.zidx {
+	z-index: 1;
+}
+.videoOpen {
+	width: 6%;
+	height: 6%;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	right: 0.5%;
+	bottom: 4.4%;
+	z-index: 100;
+	cursor: pointer;
+}
+.videoPlayPause {
+	width: 6%;
+	height: 6%;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	right: 0.5%;
+	bottom: 4.4%;
+	z-index: 100;
+	cursor: pointer;
+}
+.videoSkip {
+	width: 6%;
+	height: 6%;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	right: 0.5%;
+	bottom: 4.4%;
+	z-index: 100;
+	cursor: pointer;
+	right: 8%;
+}
+.d-show {
+	display: block !important;
+}
+.hide_div {
+	visibility: hidden;
+}
+.hideBtn {
+	display: none;
+}
+#mainVideo {
+	clip-path: inset(0.1% 0.1% 0.5% 0% round 1vmax);
+	width: 100.07%;
+}
+.showDisabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+@media (max-width: 1366px) {
+	#container {
+		.rowMid {
+			.colMid {
+				border-radius: 16px;
+			}
+		}
+	}
+}
+@media (max-width: 1024px) {
+	#container {
+		.rowMid {
+			.colMid {
+				border-radius: 15px;
+			}
+		}
+	}
+	.colMid {
+		.durationTime {
+			right: .3% !important;
+		}
+	}
+	.closeScoreBoard {
+		margin-right: .2%;
+	}
+}
+@media (max-width: 900px) {
+	#container {
+		.rowMid {
+			.colMid {
+				border-radius: 9px;
+			}
+		}
+	}
+	.colMid {
+		.durationTime {
+			right: .2% !important;
+		}
+	}
+}
+@media (min-width: 1366px) {
+	.closeScoreBoard {
+		width: 4.5vmin;
+		margin-right: .2%;
+	}
+}

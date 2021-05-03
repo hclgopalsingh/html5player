@@ -1,0 +1,56 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="567px" height="257px" viewBox="0 0 567 257">
+<defs>
+<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="7.5875" y1="-105.325" x2="9.2125" y2="50.72500000000001" spreadMethod="pad">
+<stop  offset="0%" stop-color="#E9A339"/>
+
+<stop  offset="100%" stop-color="#FFC583"/>
+</linearGradient>
+
+<filter id="Filter_1" x="-20%" y="-27.893164428357917%" width="140%" height="155.78632885671584%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#000000" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feComposite in2="SourceGraphic" in="result1" operator="in" result="result2"/>
+
+<feGaussianBlur in="result2" stdDeviation="8.666666666666666,8.666666666666666" result="result3"/>
+
+<feOffset dx="4.944271909999159" dy="15.216904260722456" in="result3" result="result4"/>
+
+<feComposite in2="result4" in="SourceGraphic" operator="over" result="result5"/>
+</filter>
+
+<g id="Symbol_71_0_Layer0_0_FILL">
+<path fill="#FFFFFF" stroke="none" d="
+M -273.85 79.45
+L -274.35 115.2 267.8 113.2 268.45 98.45
+Q 268.75 91.65 269.85 53.3 276.35 -102 273.5 -115.15
+L -271.95 -114.8
+Q -272.75 -15.75 -273.85 79.45 Z"/>
+</g>
+
+<g id="Symbol_71_0_Layer0_1_FILL">
+<path fill="url(#Gradient_1)" stroke="none" d="
+M 266.6 -106.6
+L -265.25 -110.05
+Q -266.05 -16.65 -267.05 73.1
+L -267.5 106.75 261.2 108.55 261.85 94.65
+Q 262.1 88.25 263.2 52.1 269.3 -94.3 266.6 -106.6 Z"/>
+</g>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 282.5,118.55) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, -282.5,-118.55) ">
+<g transform="matrix( 1, 0, 0, 1, 282.5,118.5) ">
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_71_0_Layer0_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<use xlink:href="#Symbol_71_0_Layer0_1_FILL"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
