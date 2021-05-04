@@ -1456,6 +1456,18 @@ export class Ntemplate22 implements OnInit {
   //show ans feedback
   showAnswerFeedback() {
     this.appModel.resetBlinkingTimer();
+    if (this.selectedDate.month && this.selectedDate.month.userSelected) {
+      this.selectedDate.month.userSelected = false;
+    }
+    if (this.selectedDate.week && this.selectedDate.week.userSelected) {
+      this.selectedDate.week.userSelected = false;
+    }
+    if (this.selectedDate.year && this.selectedDate.year.userSelected) {
+      this.selectedDate.year.userSelected = false;
+    }
+    if (this.selectedDate.date && this.selectedDate.date.userSelected) {
+      this.selectedDate.date.userSelected = false;
+    }
     if (this.feedbackObj.correct_month != "") {
       this.date.setDate(this.feedbackObj.correct_date);
       //let indexofRightdate = this.datesArr.findIndex((item)=> item.id == this.feedbackObj.correct_date);
@@ -1571,19 +1583,7 @@ export class Ntemplate22 implements OnInit {
         this.feedbackInfoAudio.nativeElement.currentTime = 0;
       }
     }
-    if (id == "showAnswer-modal-id" && flag == "answer") {
-      if (this.selectedDate.month && this.selectedDate.month.userSelected) {
-        this.selectedDate.month.userSelected = false;
-      }
-      if (this.selectedDate.week && this.selectedDate.week.userSelected) {
-        this.selectedDate.week.userSelected = false;
-      }
-      if (this.selectedDate.year && this.selectedDate.year.userSelected) {
-        this.selectedDate.year.userSelected = false;
-      }
-      if (this.selectedDate.date && this.selectedDate.date.userSelected) {
-        this.selectedDate.date.userSelected = false;
-      }
+    if (id == "showAnswer-modal-id" && flag == "answer") {      
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;
