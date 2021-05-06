@@ -1150,7 +1150,6 @@ export class NTemplate1Component implements OnInit, AfterViewChecked, OnDestroy 
       }, 100);
       this.appModel.enableSubmitBtn(false);
       this.bodyContentOpacity = false;
-      this.disableDiv
       if (this.commonAssets.noofOptions == 4) {
         this.optionsBlock.nativeElement.classList = "row mx-0 optionswithFour";
       } else {

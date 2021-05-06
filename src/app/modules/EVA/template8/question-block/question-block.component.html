@@ -1,20 +1,20 @@
 <div #questionBase class="questionBase">
-  <img class="img-fluid" [src]="data.urlQuestionBase" (imageLoad)="checkImgLoaded();" />
+  <img class="img-fluid" [src]="data.urlQuestionBase" (loadImage)="checkImgLoaded();" />
 </div>
 <div #questionStatement class="questionStatement">
-  <img class="img-fluid" [src]="data.urlQuestionStatement" (imageLoad)="checkImgLoaded();" />
+  <img class="img-fluid" [src]="data.urlQuestionStatement" (loadImage)="checkImgLoaded();" />
 </div>
 <div #blinkingBlock>
   <div class="questionBlinkingBlue">
-    <img class="img-fluid" [src]="data.urlQuestionBlinkingImg1" (imageLoad)="checkImgLoaded();" />
+    <img class="img-fluid" [src]="data.urlQuestionBlinkingImg1" (loadImage)="checkImgLoaded();" />
   </div>
   <div #pauseBlockBlink class="questionBlinkingPink blink-image">
-    <img class="img-fluid" [src]="data.urlQuestionBlinkingImg2" (imageLoad)="checkImgLoaded();" />
+    <img class="img-fluid" [src]="data.urlQuestionBlinkingImg2" (loadImage)="checkImgLoaded();" />
   </div>
 </div>
 <div #selectedOptionBlock class="questionAnswer">
-  <img class="img-fluid" [src]="selectedOptionURL" (imageLoad)="checkImgLoaded();" />
+  <img class="img-fluid" [src]="selectedOptionURL" (loadImage)="checkImgLoaded();" />
 </div>
 <div #selectedOptionBlockBlink class="questionAnswer blink-image">
-  <img class="img-fluid" [src]="selectedOptionBlinkURL" (imageLoad)="checkImgLoaded();" />
+  <img class="img-fluid" [src]="selectedOptionBlinkURL" (loadImage)="checkImgLoaded();" />
 </div>

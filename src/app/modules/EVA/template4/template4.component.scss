@@ -102,12 +102,6 @@
 			justify-content: center;
 			align-items: center;
 			transition: transform .2s;
-			cursor: pointer;
-			&:hover {
-				transform: scale(1.1);
-				border: solid .5vmin #f00;
-				border-radius: 1.4vmax;
-			}
 			img {
 				&:nth-child(2) {
 					width: 100%;
@@ -118,6 +112,12 @@
 				border-radius: 1.17vmax;
 			}
 		}
+	}
+	.optionHover {
+		transform: scale(1.1);
+		border: solid .5vmin #f00;
+		border-radius: 1.4vmax;
+		cursor: pointer;
 	}
 	.options {
 		&:nth-child(1) {

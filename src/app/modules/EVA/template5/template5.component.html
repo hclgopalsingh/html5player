@@ -36,7 +36,7 @@
           [src]="myoption?.keypad?.background?.location=='content' ? containgFolderPath + '/' + myoption?.keypad?.background?.url : myoption?.keypad?.background?.location=='assets' ? assetsPath + '/' +myoption?.keypad?.background?.url:''"
           alt="">
         <div #optionsContainer [ngClass]="[parentInputClass]">
-          <div class="keyContainer" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index"
+          <div class="keyContainer {{option?.bg_class}}" id="key{{idx+1}}" *ngFor="let option of myoption?.optionsArr; let idx = index"
             (click)="checkAnswer(option, idx)" on-mousemove="onHoverOptions(option)"
             on-mouseout="onHoveroutOptions(option)" on-mouseenter='playOptionHover(option,idx)'>
             <img class="img-fluid"

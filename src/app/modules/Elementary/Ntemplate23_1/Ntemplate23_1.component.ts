@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 
-export class Ntemplate23_1Component implements OnInit {
+export class Ntemplate23V1Component implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild("optionsBlock") optionsBlock: any;
   @ViewChild('narrator') narrator: any;
   @ViewChild('instruction') instruction: any;
@@ -65,7 +65,7 @@ export class Ntemplate23_1Component implements OnInit {
   categoryIndex: number;
   originalcolor: any = [];
   submittedArray: any = [];
-  tempObj = <any>{};
+  tempObj: any = {};
   p: number = 1;
   paginationArray: any = [];
   countofClick: number = 0;
@@ -374,7 +374,7 @@ export class Ntemplate23_1Component implements OnInit {
         document.getElementById("dropdownviaTooltip").style.pointerEvents = "none";
         idFound.clicked = true;
         this.submittedArray.push(idFound);
-        this.tempObj = <any>{};
+        this.tempObj = {};
         this.tempObj.id = this.categoryIndex;
         this.tempObj.clickedId = this.clickedId;
         this.tempObj.category = idFound.categoryTxtimg;
@@ -1075,7 +1075,7 @@ export class Ntemplate23_1Component implements OnInit {
         arr.push(this.mySVGArr[i].subCategory);
       }
       let filteredarray = arr.filter((item, index) => arr.indexOf(item) === index);
-      this.copiedCategories = filteredarray.filter(function (el) {
+      this.copiedCategories = filteredarray.filter(function(el) {
         return el != "";
       });
       this.copiedCategories.sort();

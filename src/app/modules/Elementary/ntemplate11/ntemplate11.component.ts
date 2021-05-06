@@ -394,7 +394,7 @@ export class Ntemplate11Component  implements OnInit, OnDestroy, AfterViewChecke
   }
 
   playHoverInstruction() {
-    if (!this.narrator.nativeElement.paused!) {
+    if (!this.narrator.nativeElement.paused) {
       console.log("narrator/instruction voice still playing");
     } else {
       console.log("play on Instruction");
@@ -805,6 +805,4 @@ export class Ntemplate11Component  implements OnInit, OnDestroy, AfterViewChecke
     this.appModel.resetBlinkingTimer();
   }
   /*End-Template Functions*/
-
-
 }

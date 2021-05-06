@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, DoCheck } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
@@ -55,7 +55,7 @@ import {
   templateUrl: './ntemplate17.component.html',
   styleUrls: ['./ntemplate17.component.scss']
 })
-export class Ntemplate17Component  implements OnInit {
+export class Ntemplate17Component implements OnInit, AfterViewChecked, DoCheck, OnDestroy {
 
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, public _InactivityTimerComponent: InactivityTimerComponent, private Sharedservice: SharedserviceService) {

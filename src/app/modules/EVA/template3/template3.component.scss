@@ -22,35 +22,31 @@
 	position: absolute;
 	z-index: 1;
 	left: 10.5%;
-	top: 0.1%;
+	top: 0;
 	display: flex;
 	flex-direction: column;
 	align-items: left;
 	justify-content: center;
 	align-content: space-around;
 	img {
-		margin: 5.9% 0;
 		width: 100%;
-		cursor: pointer;
 	}
 	div {
 		position: relative;
 		width: 100%;
 		transition: transform .6s;
+		margin: 6% 0;
 		.subOpt {
 			position: absolute;
 			top: 0;
 			left: 0;
 		}
-		&:hover {
-			transform: scale(1.1);
-		}
 	}
 	.playBtn {
 		position: absolute;
-		right: 7%;
-		bottom: 7%;
-		max-width: 16%;
+		right: 1.8vmin;
+		bottom: 1.8vmin;
+		max-width: 15%;
 	}
 }
 .stageVideo {
@@ -79,6 +75,10 @@
 	img {
 		cursor: pointer;
 	}
+}
+.optionHover {
+	transform: scale(1.1);
+	cursor: pointer;
 }
 .disable_div {
 	pointer-events: none;

@@ -303,7 +303,7 @@ export class NTemplate4Component implements OnInit, OnDestroy, AfterViewChecked 
       this.appModel.postWrongAttempt.subscribe(() => {
           if (this.appModel.feedbackType == "fullyIncorrect" || this.appModel.feedbackType == "partialIncorrect") {
               this.resetActivity();
-          }else if(this.appModel.feedbackType = "partialCorrect"){
+          } else if(this.appModel.feedbackType == "partialCorrect"){
               if (this.selectableOpts > 0) {
                   this.getRandomIndxBlink(this.selectableOpts);
               } 
@@ -1481,5 +1481,4 @@ export class NTemplate4Component implements OnInit, OnDestroy, AfterViewChecked 
           }
       }, 500)
   }
-
 }

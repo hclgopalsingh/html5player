@@ -1,6 +1,7 @@
 @import "~nouislider/distribute/nouislider.min.css";
 /*Volume Slider*/
 /*Video Slider and Tooltip*/
+/*assets/images/volume.svg*/
 @keyframes fadeIn {
 	0% {
 		opacity: 0;
@@ -134,6 +135,9 @@ div#MuteVarTemp {
 		label {
 			font-size: .5em !important;
 		}
+	}
+	img[src='assets/images/volume.svg'] {
+		max-width: 85% !important;
 	}
 }
 @media (min-width: 576px) {

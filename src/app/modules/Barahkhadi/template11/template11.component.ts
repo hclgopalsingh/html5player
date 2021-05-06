@@ -245,7 +245,7 @@ export class Template11Component implements OnInit{
 							burst.className = "d-flex align-items-center justify-content-between showit";
 						
 						let correctAns: HTMLElement = this.correctAns.nativeElement as HTMLElement
-							correctAns.className = "d-flex align-items-center justify-content-between showit correctAns";
+							correctAns.className = "d-flex align-items-center justify-content-between correctAns";
 							this.correctOpt = opt;
 							this.rightAnsSelected = true;
 							

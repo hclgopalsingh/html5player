@@ -15,7 +15,7 @@ import {
 
 
 @Component({
-  selector: 'app-ntemplate19',
+  selector: 'ntemp19',
   animations: [
     trigger('openClose', [
       state('open', style({
@@ -35,8 +35,9 @@ import {
       ]),
     ]),
   ],
-  templateUrl: './ntemplate19.component.html',
-  styleUrls: ['./ntemplate19.component.scss']
+  templateUrl: './Ntemplate19.component.html',
+  styleUrls: ['./Ntemplate19.component.scss']
+
 })
 
 export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy {
@@ -74,7 +75,6 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   @ViewChild('placeholder') placeholder: any;
   @ViewChild('confirmReplayRef') confirmReplayRef: any;
 
-  videoType:any;
   audio = new Audio();
   blink: boolean = false;
   currentIdx = 0;
@@ -350,7 +350,7 @@ export class Ntemplate19Component implements OnInit, AfterViewChecked, OnDestroy
   }
 
   /****** Option mouse out functionality ******/
-  optionHoverOut(opt,i) {
+  optionHoverOut(opt, i) {
     if (opt && opt != undefined) {
       this.ZoomOutAnimationoption(opt, i);
     }

@@ -69,6 +69,7 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
   showAnswerRef: any;
   showAnswerfeedback: any;
   disableMainContent: boolean = true;
+  enableOptionsTimer: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('audioEl') audioEl: any;
@@ -189,6 +190,7 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
         this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
         if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
+          this.ansBlock.nativeElement.classList.add("disableDiv");
           this.videoonshowAnspopUp.nativeElement.play();
           this.videoonshowAnspopUp.nativeElement.onended = () => {
             this.showAnswerTimer = setTimeout(() => {
@@ -230,6 +232,7 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.clappingTimer);
     clearTimeout(this.rightTimer);
     clearTimeout(this.celebrationTimer);
+    clearTimeout(this.enableOptionsTimer);
     this.audio.pause();
   }
 
@@ -480,6 +483,7 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
 
         this.wrongFeedback.nativeElement.onended = () => {
           option.optBg = option.optBg_original;
+          this.ansBlock.nativeElement.classList.add("disableDiv");
           this.shuffleOptions();
           for (let i = 0; i < document.getElementsByClassName("ansBtn").length; i++) {
             document.getElementsByClassName("ansBtn")[i].classList.remove("disableDiv");
@@ -491,7 +495,6 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   shuffleOptions() {
-    this.ansBlock.nativeElement.className = "optionsBlock";
     let mainArray = [...this.myoption.leftoption, ...this.myoption.rightoption];
     this.idArray = [];
     for (let i of mainArray) {
@@ -502,6 +505,9 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
     if (this.wrongCounter >= 3 && this.ifWrongAns) {
       this.Sharedservice.setShowAnsEnabled(true);
     }
+    this.enableOptionsTimer = setTimeout(() => {
+      this.ansBlock.nativeElement.classList.remove("disableDiv");
+    }, 1000);
   }
 
   /****Randomize option on wrong selection*****/
@@ -564,6 +570,7 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
     clearTimeout(this.rightTimer);
     clearTimeout(this.clappingTimer);
     clearTimeout(this.showAnswerTimer);
+    clearTimeout(this.enableOptionsTimer);
 
     this.showAnswerRef.nativeElement.classList = "modal";
     this.celebrationsPopup.nativeElement.classList = "modal";
@@ -597,6 +604,9 @@ export class Template2Component implements OnInit, AfterViewInit, AfterViewCheck
       }
     }
     else if (Type === 'showAnswer') {
+      this.enableOptionsTimer = setTimeout(() => {
+        this.ansBlock.nativeElement.classList.remove("disableDiv");
+      }, 1000); 
       if (this.correctAnswerCounter === 4) {
         this.blinkOnLastQues();
       }

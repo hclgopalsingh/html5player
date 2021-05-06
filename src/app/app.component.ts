@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, HostListener, AfterViewChecked, OnDestroy, EventEmitter, Output, Input, SimpleChange } from '@angular/core';
-import { Router, ActivatedRoute, Params, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewChecked, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
+import { Router, ActivatedRoute, Params, Event, NavigationStart, NavigationEnd } from '@angular/router';
 import { ApplicationmodelService } from './common/services/applicationmodel.service';
 import { SharedserviceService } from './common/services/sharedservice.service';
 import { Subscription, Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { ParentcommunicationService } from './common/services/parentcommunicatio
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
 	constructor(private activatedRoute: ActivatedRoute, public appModel: ApplicationmodelService, private router: Router, private Sharedservice: SharedserviceService, private parentCommunication: ParentcommunicationService) {
 		this.appModel = appModel;
 		this.subscription = this.Sharedservice.getData().subscribe(data => {

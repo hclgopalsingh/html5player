@@ -141,11 +141,10 @@ button {
 	&:focus {
 		outline: none !important;
 	}
-	&::selection {
-		background: none;
-	}
 }
-
+::selection {
+	background: none;
+}
 #container {
 	position: relative;
 	padding: 0;

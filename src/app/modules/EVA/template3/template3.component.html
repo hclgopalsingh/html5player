@@ -9,7 +9,7 @@
             <img class="img-fluid" [src]="common_assets?.background?.location =='content' ? contentgFolderPath + '/' + common_assets?.background?.url : assetsfolderlocation + '/' + common_assets?.background?.url"
 			(load)="checkImgLoaded();" />  
         </div>
-        <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? contentgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.right_ans_sound?.path?.url"></audio>
+        <!-- <audio #rightFeedback [src]="feedback?.right_ans_sound?.path?.location=='content' ? contentgFolderPath + '/'+ feedback?.right_ans_sound?.path?.url: assetsfolderlocation + '/'+ feedback?.right_ans_sound?.path?.url"></audio> -->
         <div #maincontent>
         <div id="instructionBar">
             <div class="instructionBase">
@@ -74,6 +74,6 @@
     </div>
 
      <!-- Popup Modal Audios -->
-  <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio>
-  <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio>
+  <!-- <audio #wrongFeedback [src]="wrongPopup?.path?.location=='content'? contentgFolderPath + '/' +  wrongPopup?.path?.url : assetsfolderlocation +'/'+ wrongPopup?.path?.url"></audio> -->
+  <!-- <audio #rightFeedback [src]="rightPopup?.path?.location=='content'? contentgFolderPath + '/' +  rightPopup?.path?.url : assetsfolderlocation +'/'+ rightPopup?.path?.url"></audio> -->
   <audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? contentgFolderPath + '/' + feedback?.right_ans_clap_sound?.url: assetsfolderlocation +'/'+feedback?.right_ans_clap_sound?.url"></audio>	

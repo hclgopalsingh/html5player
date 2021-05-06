@@ -73,6 +73,7 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
   rightAnsBackground: any;
   blinkInterval: any;
   feedbackAudioDelay: any;
+  enableOptionsTimer: any;
 
   @ViewChild('instruction') instruction: any;
   @ViewChild('ansPopup') ansPopup: any;
@@ -157,6 +158,7 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
       clearTimeout(this.clappingTimer);
 
       if (this.showAnswerRef && this.showAnswerRef.nativeElement) {
+        this.optionsContainer.nativeElement.classList.add("disableDiv");
         this.videoonshowAnspopUp.nativeElement.src = this.showAnswerPopup.video.location == "content" ? this.containgFolderPath + "/" + this.showAnswerPopup.video.url : this.assetsPath + "/" + this.showAnswerPopup.video.url;
         this.showAnswerRef.nativeElement.classList = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
         if (this.videoonshowAnspopUp && this.videoonshowAnspopUp.nativeElement) {
@@ -210,6 +212,7 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
     clearTimeout(this.rightTimer);
     clearTimeout(this.multiCorrectTimer);
     clearTimeout(this.feedbackAudioDelay);
+    clearTimeout(this.enableOptionsTimer);
     this.stopAllSounds();
   }
 
@@ -221,11 +224,13 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
 
   /******Hover out option ********/
   onHoveroutOptions(option) {
-    if (option.selected) {
+    if (option.selected && (this.selectedLetterCount !== this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length)) {
       option.image_bg = this.feedback.correct_ans[this.correctAnswerCounter]["image_bg"];
     }
     else {
-      option.image_bg = option.image_bg_original;
+      if (this.selectedLetterCount !== this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length) {
+        option.image_bg = option.image_bg_original;
+      }
     }
   }
 
@@ -298,9 +303,11 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
     this.feedback.correct_ans.forEach(obj => {
       if (obj.correct_index[1] - obj.correct_index[0] == 1) {
         this.myoption_right_ans.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_horizontal";
+        this.myoption.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_horizontal";
       }
       else {
         this.myoption_right_ans.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_vertical";
+        this.myoption.optionsArr[obj.correct_index[0] - 1]["bg_class"] = "bg_vertical";
       }
     });
   }
@@ -444,6 +451,9 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
           }
         });
       }
+      if (this.selectedLetterCount == currentIndexArr.length) {
+        this.applyBackgroundOnWord(currentIndexArr);
+      }
       if (this.rightFeedback && this.rightFeedback.nativeElement) {
         this.setClappingTimer(this.rightFeedback);
         this.rightFeedback.nativeElement.onended = () => {
@@ -504,6 +514,17 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
     }
   }
 
+  /**** Place background behind correct word on complete selection of all akshars of a word *****/
+  applyBackgroundOnWord(currentIndexArr) {
+    currentIndexArr.forEach(ele => {
+      this.myoption.optionsArr[ele - 1].image_bg = this.rightAnsBackground;
+    });
+    this.myoption.optionsArr[currentIndexArr[0] - 1]["isBackground"] = true;
+    const backgroundURLStyle = this.myoption.optionsArr[currentIndexArr[0] - 1].highlightWord.highlightWord_bg.location == 'content' ? this.containgFolderPath + '/' + this.myoption.optionsArr[currentIndexArr[0] - 1].highlightWord.highlightWord_bg.url : this.assetsPath + '/' + this.myoption.optionsArr[currentIndexArr[0] - 1].highlightWord.highlightWord_bg.url;
+    this.optionsContainer.nativeElement.children[currentIndexArr[0] - 1].style.background = "url('" + backgroundURLStyle + "')";
+    this.optionsContainer.nativeElement.children[currentIndexArr[0] - 1].style.visibility = 'hidden';
+  }
+
   /**** Store question id on sessionStorage *****/
   storeVisitedTabs() {
     if (sessionStorage.getItem("tabsVisited")) {
@@ -530,6 +551,7 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
     clearTimeout(this.showAnswerTimer);
     clearTimeout(this.multiCorrectTimer);
     clearTimeout(this.feedbackAudioDelay);
+    clearTimeout(this.enableOptionsTimer);
     if (this.blinkInterval) {
       clearInterval(this.blinkInterval);
       this.blinkInterval = undefined;
@@ -571,6 +593,9 @@ export class Template5Component implements OnInit, AfterViewChecked, OnDestroy, 
       }
     }
     else if (Type === 'showanswer') {
+      this.enableOptionsTimer = setTimeout(() => {
+        this.optionsContainer.nativeElement.classList.remove("disableDiv");
+      }, 1000);
       if (this.correctAnswerCounter === this.feedback.correct_ans.length - 1 && this.selectedLetterCount == this.feedback.correct_ans[this.correctAnswerCounter].correct_index.length) {
         this.blinkOnLastQues();
       }

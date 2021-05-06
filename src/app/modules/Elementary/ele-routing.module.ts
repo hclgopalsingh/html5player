@@ -13,9 +13,15 @@ import { NTemplate9Component } from './ntemplate9/ntemplate9.component';
 import { NTemplate8Component } from './ntemplate8/ntemplate8.component';
 import { Ntemplate12Component } from './ntemplate12/ntemplate12.component';
 import { Ntemplate23Component } from './Ntemplate23/Ntemplate23.component';
-import { Ntemplate23_1Component } from './Ntemplate23_1/Ntemplate23_1.component';
+import { Ntemplate23V1Component } from './Ntemplate23_1/Ntemplate23_1.component';
 import { Ntemplate15Component } from './Ntemplate15/Ntemplate15.component';
 import { Ntemplate16Component } from './Ntemplate16/Ntemplate16.component';
+import { Ntemplate18Component } from './Ntemplate18/Ntemplate18.component';
+import { Ntemplate18V1Component } from './Ntemplate18_1/Ntemplate18_1.component';
+import { Ntemplate19Component } from './ntemplate19/ntemplate19.component';
+import { Ntemplate20Component } from './Ntemplate20/Ntemplate20.component';
+import { Ntemplate24Component } from './ntemplate24/ntemplate24.component';
+import { Ntemplate24V1Component } from './Ntemplate24_1/Ntemplate24_1.component';
 
 const routes: Routes = [
   { path: 'ntemp3', component: NTemplate3Component, runGuardsAndResolvers: 'always'},
@@ -48,11 +54,22 @@ const routes: Routes = [
   { path: 'ntemp15ext', component: Ntemplate15Component, runGuardsAndResolvers: 'always' },
   { path: 'ntemp16', component: Ntemplate16Component, runGuardsAndResolvers: 'always' },
   { path: 'ntemp16ext', component: Ntemplate16Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp18', component: Ntemplate18Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp18ext', component: Ntemplate18Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp18_1', component: Ntemplate18V1Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp18_1ext', component: Ntemplate18V1Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp19', component: Ntemplate19Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp19ext', component: Ntemplate19Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp20', component: Ntemplate20Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp20ext', component: Ntemplate20Component, runGuardsAndResolvers: 'always' },
   { path: 'ntemp23', component: Ntemplate23Component, runGuardsAndResolvers: 'always' },
   { path: 'ntemp23ext', component: Ntemplate23Component, runGuardsAndResolvers: 'always' },
-  { path: 'ntemp23_1', component: Ntemplate23_1Component, runGuardsAndResolvers: 'always' },
-  { path: 'ntemp23_1ext', component: Ntemplate23_1Component, runGuardsAndResolvers: 'always' },
- 
+  { path: 'ntemp23_1', component: Ntemplate23V1Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp23_1ext', component: Ntemplate23V1Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp24', component: Ntemplate24Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp24ext', component: Ntemplate24Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp24_1', component: Ntemplate24V1Component, runGuardsAndResolvers: 'always' },
+  { path: 'ntemp24_1ext', component: Ntemplate24V1Component, runGuardsAndResolvers: 'always' }
 ];
 
 @NgModule({

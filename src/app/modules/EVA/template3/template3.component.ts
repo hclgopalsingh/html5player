@@ -182,6 +182,7 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 
 
 	onHoverOptions(option, index) {
+		this.optionRef.nativeElement.children[index].classList.add("optionHover");
 		let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[2] as HTMLAudioElement;
 		if (!speakerEle.paused) {
 			speakerEle.pause();
@@ -196,15 +197,18 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 
 	onHoveroutOptions(option, index) {
 		this.myoption[index].imgsrc = this.myoption[index].image_original;
+		this.optionRef.nativeElement.children[index].classList.remove("optionHover");
 	}
 	onHoverPlay(option, index) {
 		if (!this.videoPlayed) {
 			this.myoption[index].play_button_normal = this.myoption[index].play_button_hover;
+			this.onHoverOptions(option, index);
 		}
 	}
 	onHoveroutPlay(option, index) {
 		if (!this.videoPlayed) {
 			this.myoption[index].play_button_normal = this.myoption[index].play_button_original;
+			this.onHoveroutOptions(option, index);
 		}
 	}
 
@@ -270,7 +274,7 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 			this.correctOpt = option;
 			this.attemptType = "manual";
 			this.appModel.stopAllTimer();
-			this.videoBase = option.videosrc;
+			this.videoBase = option.Popupvideosrc;
 			this.videoStageonpopUp.nativeElement.src = this.videoBase.location == "content" ? this.contentgFolderPath + "/" + this.videoBase.url : this.assetsfolderlocation + "/" + this.videoBase.url;
 			this.popupIcon = this.popupAssets.right_icon.url;
 			this.popupIconLocation = this.popupAssets.right_icon.location;
@@ -280,7 +284,7 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
                 document.getElementsByClassName("ansBtn")[i].classList.add("disableDiv");           
             }
 			setTimeout(() => {
-				if (this.rightFeedback && this.rightFeedback.nativeElement) {
+				if (this.videoStageonpopUp && this.videoStageonpopUp.nativeElement) {
 					this.clapSound.nativeElement.play();
 					this.appModel.storeVisitedTabs();
 					this.clapTimer=	setTimeout(() => {
@@ -289,7 +293,7 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 						let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 						ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 						if (!this.popupclosedinRightWrongAns) {
-							this.rightFeedback.nativeElement.play();
+							// this.rightFeedback.nativeElement.play();
 							this.videoStageonpopUp.nativeElement.play();
 						} else {
 							this.Sharedservice.setShowAnsEnabled(true);
@@ -298,7 +302,7 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 				}
 				//disable option and question on right attempt
 				this.maincontent.nativeElement.className = "disableDiv";			
-				this.rightFeedback.nativeElement.onended = () => {
+				this.videoStageonpopUp.nativeElement.onended = () => {
 					this.rightTimer = setTimeout(() => {
 						this.closePopup('answerPopup');
 						//this.Sharedservice.setShowAnsEnabled(true);
@@ -324,16 +328,16 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 			let ansPopup: HTMLElement = this.ansPopup.nativeElement as HTMLElement
 			ansPopup.className = "modal d-flex align-items-center justify-content-center showit ansPopup dispFlex";
 			option.image = option.image_original;
-			this.videoBase = option.videosrc;
+			this.videoBase = option.Popupvideosrc;
 			this.popupIcon = this.popupAssets.wrong_icon.url;
 			this.popupIconLocation = this.popupAssets.wrong_icon.location;
 			this.videoStageonpopUp.nativeElement.src = this.videoBase.location == "content" ? this.contentgFolderPath + "/" + this.videoBase.url : this.assetsfolderlocation + "/" + this.videoBase.url;
 			setTimeout(() => {
-				if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
-					this.wrongFeedback.nativeElement.play();
-				}
+				// if (this.wrongFeedback && this.wrongFeedback.nativeElement) {
+				// 	this.wrongFeedback.nativeElement.play();
+				// }
 				this.videoStageonpopUp.nativeElement.play();
-				this.wrongFeedback.nativeElement.onended = () => {
+				this.videoStageonpopUp.nativeElement.onended = () => {
 					this.wrongTimer = setTimeout(() => {
 						this.closePopup('answerPopup');
 					}, 10000);
@@ -362,6 +366,7 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 
 	playVideo(option, index) {
 		this.videoPlayed = true;
+		this.onHoveroutOptions(option, index);
 		this.myoption[index].play_button_normal = this.myoption[index].play_button_selected;
 		this.videoStage.nativeElement.style.opacity = 1;
 		this.videoStage.nativeElement.src = this.myoption[index].videosrc.location == "content" ? this.contentgFolderPath + "/" + this.myoption[index].videosrc.url : this.assetsfolderlocation + "/" + this.myoption[index].videosrc.url;
@@ -456,12 +461,15 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 		if (obj.speakerVolume && obj.speakerVolume.nativeElement) {
 			obj.speakerVolume.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
 		}
-		if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
-			obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
-		if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
-			obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
-		}
+		// if (obj.rightFeedback && obj.rightFeedback.nativeElement) {
+		// 	obj.rightFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		// }
+		// if (obj.wrongFeedback && obj.wrongFeedback.nativeElement) {
+		// 	obj.wrongFeedback.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+		// }
+		if (obj.videoStageonpopUp && obj.videoStageonpopUp.nativeElement) {
+            obj.videoStageonpopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
+        }
 		if (obj.videoonshowAnspopUp && obj.videoonshowAnspopUp.nativeElement) {
             obj.videoonshowAnspopUp.nativeElement.volume = obj.appModel.isMute ? 0 : vol;
         }
@@ -560,11 +568,11 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 		this.speakerVolume.nativeElement.pause();
         this.speakerVolume.nativeElement.currentTime=0;
 
-        this.wrongFeedback.nativeElement.pause();
-        this.wrongFeedback.nativeElement.currentTime = 0;
+        // this.wrongFeedback.nativeElement.pause();
+        // this.wrongFeedback.nativeElement.currentTime = 0;
 
-        this.rightFeedback.nativeElement.pause();
-        this.rightFeedback.nativeElement.currentTime = 0;
+        // this.rightFeedback.nativeElement.pause();
+        // this.rightFeedback.nativeElement.currentTime = 0;
 
         this.clapSound.nativeElement.pause();
 		this.clapSound.nativeElement.currentTime = 0;
@@ -640,11 +648,14 @@ export class Template3Component implements OnInit ,OnDestroy,AfterViewChecked, A
 
 		this.showAnswerRef.nativeElement.classList = "modal";
 		this.ansPopup.nativeElement.classList = "modal";
-		this.wrongFeedback.nativeElement.pause();
-		this.wrongFeedback.nativeElement.currentTime = 0;
+		// this.wrongFeedback.nativeElement.pause();
+		// this.wrongFeedback.nativeElement.currentTime = 0;
 
-		this.rightFeedback.nativeElement.pause();
-		this.rightFeedback.nativeElement.currentTime = 0;
+		// this.rightFeedback.nativeElement.pause();
+		// this.rightFeedback.nativeElement.currentTime = 0;
+
+		this.videoStageonpopUp.nativeElement.pause();
+        this.videoStageonpopUp.nativeElement.currentTime = 0;
 
 		this.videoonshowAnspopUp.nativeElement.pause();
 		this.videoonshowAnspopUp.nativeElement.currentTime = 0;

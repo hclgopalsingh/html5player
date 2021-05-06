@@ -676,6 +676,7 @@ export class Template8Component implements OnInit,AfterViewInit, AfterViewChecke
 
     /******On Hover option ********/
     onHoverOptions(option, index) {
+        this.optionRef.nativeElement.children[index].classList.add("optionHover");
         let speakerEle = document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement;
         if (!this.myAudiospeaker.nativeElement.paused) {
             this.myAudiospeaker.nativeElement.pause();
@@ -688,6 +689,7 @@ export class Template8Component implements OnInit,AfterViewInit, AfterViewChecke
     /******Hover out option ********/
     onHoveroutOptions(option, index) {
         option.image = option.img_original;
+        this.optionRef.nativeElement.children[index].classList.remove("optionHover");
     }
 
     /****** Option Hover VO  *******/

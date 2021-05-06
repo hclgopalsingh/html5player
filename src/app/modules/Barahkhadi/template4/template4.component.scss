@@ -198,31 +198,25 @@
 		right: -3%;
 		top: -39%;
 	}
+	#placeholders {
+		position: absolute;
+		top: 24%;
+		width: 97%;
+		left: 1.4%;
+	}
+	.placeholder1 {
+		text-align: center;
+	}
 	#speaker {
 		position: absolute;
 		top: 3%;
 		right: -1%;
 	}
 }
-> {
-	> {
-		>.temp4 {
-			#placeholders {
-				position: absolute;
-				top: 24%;
-				width: 97%;
-				left: 1.4%;
-			}
-			.placeholder1 {
-				text-align: center;
-			}
-		}
-		>#placeholders {
-			span {
-				img {
-					max-width: 70% !important;
-				}
-			}
+#placeholders {
+	span {
+		img {
+			max-width: 70% !important;
 		}
 	}
 }

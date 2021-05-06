@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, HostListener,OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { SharedserviceService } from '../../../common/services/sharedservice.service';
-import { Subject, Observable, Subscription } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { timer } from 'rxjs/observable/timer';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { PlayerConstants } from '../../../common/playerconstants';
@@ -14,7 +14,7 @@ declare var $: any;
   templateUrl: './ntemplate2.component.html',
   styleUrls: ['./ntemplate2.component.scss']
 })
-export class NTemplate2Component implements OnInit {
+export class NTemplate2Component implements OnInit, AfterViewChecked, OnDestroy {
 	private appModel: ApplicationmodelService;		
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;

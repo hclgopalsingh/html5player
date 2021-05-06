@@ -33,9 +33,9 @@ export class QuestionBlockComponent implements OnInit {
   @ViewChild('pauseBlockBlink') pauseBlockBlink: any;  
   @ViewChild('selectedOptionBlock', {static: true}) selectedOptionBlock: any;
   @ViewChild('selectedOptionBlockBlink', {static: true}) selectedOptionBlockBlink: any;
-  @ViewChild('questionBase') questionBase: any;
-  @ViewChild('questionStatement') questionStatement: any;
-  @Output() imageLoad = new EventEmitter();
+  @ViewChild('questionBase', {static: true}) questionBase: any;
+  @ViewChild('questionStatement', {static: true}) questionStatement: any;
+  @Output() loadImage = new EventEmitter();
 
   constructor() {
 
@@ -125,7 +125,7 @@ export class QuestionBlockComponent implements OnInit {
   }
 
   checkImgLoaded() {
-    this.imageLoad.emit();
+    this.loadImage.emit();
   }
 
   reset() {

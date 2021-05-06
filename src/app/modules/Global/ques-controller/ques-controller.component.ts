@@ -13,6 +13,11 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class QuesControllerComponent implements OnInit,OnDestroy {
   @ViewChild("quesBlockChild") quesBlockChild: any;
   @ViewChild('nextBtn') nextBtn: any;
+  @ViewChild('ansBtnElem') ansBtnElem: any;
+  @ViewChild('replayBtnElem') replayBtnElem: any;
+  @ViewChild('submitBtnElem') submitBtnElem: any;
+  @ViewChild('nextBtnEle') nextBtnEle: any;
+  @ViewChild('prevBtnEle') prevBtnEle: any;
   appModel: ApplicationmodelService;
   subscriptionQuesNos: Subscription;
   subscriptionQuesIndex: Subscription;
@@ -59,6 +64,9 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
   isVideoPlaying: boolean = false;
   isLastQuesAageyBadhe: boolean = false;
   isLastQues: boolean = false;
+  ReplaybtnFromContent: boolean = false;
+  tempReplayBtn: any;
+  showAnsState: string = '';
 
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
     this.appModel = appModel;
@@ -106,6 +114,11 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
     this.subscriptionControlAssets = this.appModel.getQuesControlAssets().subscribe(controlAssets => {
       console.log("controlAssets", controlAssets);
       this.quesCtrl = controlAssets;
+      if (!this.EVA && this.ReplaybtnFromContent && this.quesCtrl) {
+        this.quesCtrl.replay_btn = this.tempReplayBtn.replay_btn;
+        this.quesCtrl.replay_btn_hover = this.tempReplayBtn.replay_btn_hover;
+        this.quesCtrl.replay_btn_original = this.tempReplayBtn.replay_btn_original;
+      }
       this.isLastQues = this.quesCtrl.isLastQues;
       if (this.isLastQues) {
         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_disabled;
@@ -128,9 +141,16 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
         if (this.EnableShowAnswer === true) {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
           this.UttarDikhayeinTooltip = "उत्तर दिखाएँ";
+          this.showAnsState = 'active';
         } else {
           this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_disable;
           this.UttarDikhayeinTooltip = "";
+          this.showAnsState = 'inActive';
+        }
+      });
+      this.Sharedservice.getShowAnsClickDisabled().subscribe(data => {
+        if (this.showAnsState === 'active') {
+          this.EnableShowAnswer = !data.data;
         }
       });
       if (this.EVA) {
@@ -308,10 +328,12 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
   }
 
   hoverUttarDikhayein() {
+    this.ansBtnElem.nativeElement.style.cursor = "pointer";
     this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_hover;
   }
 
   houtUttarDikhayein() {
+    this.ansBtnElem.nativeElement.style.cursor = "";
     this.quesCtrl.uttar_dikhayein = this.quesCtrl.uttar_dikhayein_original;
   }
 
@@ -351,6 +373,9 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
 
 
   hoverPreBtn() {
+    if (!this.EVA) {
+      this.prevBtnEle.nativeElement.style.cursor = "pointer";
+    }
     this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_hover;
   }
   next() {
@@ -376,12 +401,18 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
     if (this.EVA && this.isFirstQuestion) {
       this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_disabled;
     } else {
+      if (!this.EVA) {
+        this.prevBtnEle.nativeElement.style.cursor = "";
+      }
       this.quesCtrl.peechey_jayein = this.quesCtrl.peechey_jayein_original;
     }
   }
 
 
   hoverNextBtn() {
+    if (!this.EVA) {
+      this.nextBtnEle.nativeElement.style.cursor = "pointer";
+    }
     if (!this.blinkFlag) {
       if (!this.blink) {
         this.quesCtrl.aagey_badhein = this.quesCtrl.aagey_badhein_hover;
@@ -391,6 +422,9 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
 
 
   hleaveNextBtn() {
+    if (!this.EVA) {
+      this.nextBtnEle.nativeElement.style.cursor = "";
+    }
     if (!this.blinkFlag) {
       if (!this.blink) {
         if (this.EVA && this.isLastQues && !this.quesCtrl.blinkingStatus) {
@@ -403,20 +437,24 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
   }
 
   hoverSubmitBtn() {
+    this.submitBtnElem.nativeElement.style.cursor = "pointer";
     this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_hover;
   }
 
   houtSubmitBtn() {
+    this.submitBtnElem.nativeElement.style.cursor = "";
     this.quesCtrl.submit_btn = this.quesCtrl.submit_btn_original;
   }
 
 
   hoverReplayBtn() {
+    this.replayBtnElem.nativeElement.style.cursor = "pointer";
     this.quesCtrl.replay_btn = this.quesCtrl.replay_btn_hover;
   }
 
   houtReplayBtn() {
     if (!this.isVideoPlaying) {
+      this.replayBtnElem.nativeElement.style.cursor = "";
       this.quesCtrl.replay_btn = this.quesCtrl.replay_btn_original;
     }
   }
@@ -460,6 +498,13 @@ export class QuesControllerComponent implements OnInit,OnDestroy {
     this.disableTabs = controlObj.isTab;
     this.disableSubmit = controlObj.isSubmitRequired;
     this.disableReplay = controlObj.isReplayRequired;
+    this.tempReplayBtn = controlObj;
+    if (controlObj.ReplaybtnFromContent) {
+      this.ReplaybtnFromContent = true;
+      // this.quesCtrl.replay_btn=controlObj.replay_btn;
+      // this.quesCtrl.replay_btn_hover=controlObj.replay_btn_hover;
+      // this.quesCtrl.replay_btn_original=controlObj.replay_btn_original;
+    }
 
   }
   ngOnDestroy() {

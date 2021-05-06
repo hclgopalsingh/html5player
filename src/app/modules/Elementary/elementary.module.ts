@@ -16,14 +16,18 @@ import { NTemplate9Component } from './ntemplate9/ntemplate9.component';
 import { NTemplate8Component } from './ntemplate8/ntemplate8.component';
 import { Ntemplate17Component } from './ntemplate17/ntemplate17.component';
 import { Ntemplate19Component } from './ntemplate19/ntemplate19.component';
-import { Ntemplate24Component } from './ntemplate24/ntemplate24.component';
 import { Ntemplate11Component } from './ntemplate11/ntemplate11.component';
 import { Ntemplate12Component } from './ntemplate12/ntemplate12.component';
 import { Ntemplate23Component } from './Ntemplate23/Ntemplate23.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { Ntemplate23_1Component } from './Ntemplate23_1/Ntemplate23_1.component';
+import { Ntemplate23V1Component } from './Ntemplate23_1/Ntemplate23_1.component';
 import { Ntemplate15Component } from './Ntemplate15/Ntemplate15.component';
 import { Ntemplate16Component } from './Ntemplate16/Ntemplate16.component';
+import { Ntemplate18Component } from './Ntemplate18/Ntemplate18.component';
+import { Ntemplate18V1Component } from './Ntemplate18_1/Ntemplate18_1.component';
+import { Ntemplate20Component } from './Ntemplate20/Ntemplate20.component';
+import { Ntemplate24Component } from './ntemplate24/ntemplate24.component';
+import { Ntemplate24V1Component } from './Ntemplate24_1/Ntemplate24_1.component';
 
  
 @NgModule({
@@ -47,14 +51,18 @@ import { Ntemplate16Component } from './Ntemplate16/Ntemplate16.component';
   NTemplate9Component,
   NTemplate8Component,
   Ntemplate17Component,
-  Ntemplate19Component,
-  Ntemplate24Component,
   Ntemplate11Component,
   Ntemplate12Component,
   Ntemplate15Component,
   Ntemplate16Component,
+  Ntemplate18Component,
+  Ntemplate18V1Component,
+  Ntemplate19Component,
+  Ntemplate20Component,
   Ntemplate23Component,
-  Ntemplate23_1Component
+  Ntemplate23V1Component,
+  Ntemplate24Component,
+  Ntemplate24V1Component
   ],
   providers: []
 })

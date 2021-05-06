@@ -976,7 +976,7 @@ export class NTemplate8Component implements OnInit, AfterViewChecked, OnDestroy 
 			}
 			this.highLightOpt(this.teamLeftRef.nativeElement.children[0], index);
 			this.teamLeftRef.nativeElement.classList.add("disableOpt");
-		} else if (teamName = "teamright") {
+		} else if (teamName == "teamright") {
 			this.rightSelectedIdx = index;
 			if (opt.index == this.feedback.teamRightCorrect.idx) {
 				this.objAttempt.teamRight = obj;
@@ -1035,7 +1035,7 @@ export class NTemplate8Component implements OnInit, AfterViewChecked, OnDestroy 
 			this.teamLeftRef.nativeElement.children[0].classList = "optionsBlock text-center disableTeam";
 			this.objAttempt.teamLeft = this.scoreCardAssets.pass_icon;
 			this.liveScoreObj.teamLeftLiveScore[this.quesIndx].live_no = this.liveScoreObj.teamLeftLiveScore[this.quesIndx].grey;
-		} else if (teamName = "teamright") {
+		} else if (teamName == "teamright") {
 			this.teamRight.isStillActive = false;
 			this.removeOptClasses(this.teamRightRef.nativeElement.children[0]);
 			this.teamRightRef.nativeElement.children[0].classList = "optionsBlock text-center disableTeam";
@@ -1194,8 +1194,9 @@ export class NTemplate8Component implements OnInit, AfterViewChecked, OnDestroy 
 			/* Auto close scoreboard modal */
 			this.scoreboardCloseTimer = this.scoreCardAssets.scoreboardCloseTimer;
 			setTimeout(() => {
-				if (this.scoreBoardModal.nativeElement.classList == "modal displayPopup")
+				if (this.scoreBoardModal.nativeElement.classList == "modal displayPopup") {
 					this.closeScoreBoard();
+				}
 			}, this.scoreboardCloseTimer * 60 * 1000)
 		} else {
 			this.appModel.nextSection();

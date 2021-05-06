@@ -21,10 +21,10 @@
     <div #maincontent class="hide">
         <app-instruction-bar id="instructionBar" [data]="commonAssets?.instruction_bg"
             [contentPath]="containgFolderPath" [assetsPath]="assetsPath" [instructiontext]="this.instructiontext"
-            (load)="checkImgLoaded();"></app-instruction-bar>
+            (loadImage)="checkImgLoaded();"></app-instruction-bar>
         <div id="refQuesBlock">
             <app-question-block #questionBlock class="questionBlock" [contentPath]="containgFolderPath"
-                [data]="this.dataService.data.mainScreenQuestionData">
+                [data]="this.dataService.data.mainScreenQuestionData" (loadImage)="checkImgLoaded();">
             </app-question-block>
             <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
                 <!-- <div #sprite class="speaker"></div> -->

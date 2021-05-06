@@ -1,0 +1,234 @@
+<div id="outer">
+<div class="container-fluid ele temp14" id="container" *ngIf="!isPlayVideo">
+  <audio #narrator></audio>
+
+  <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" [ngClass]="{'disable_div':disableinstructionBar}" #instructionBarTop>
+    <div class="instructionBase" [ngClass]="{'disable_div':disableSection}"
+      [ngStyle]="{'cursor': disableSection ? 'default' : 'pointer' }">
+      <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (click)="playHoverInstruction()"
+        (load)="checkImgLoaded();" />
+      <audio #instruction [src]="quesObj?.quesInstruction?.url"></audio>
+
+    </div>
+  </div>
+  <div class="bodyContent" [ngClass]="{'disable_div':disableBody}" #bodyContent>
+    <div class="refQues" #refQues>
+      <div id={{idx}} *ngFor="let refQues of refQuesObj;let idx = index">
+        <img [src]="refQues?.imgsrc?.url"
+          [@openClose]="{value: refQues.isOpen ? 'open' : 'closed', params: {leftPos: refQues.leftPos , topPos: refQues.topPos}}"
+          (load)="checkImgLoaded();">
+          </div>
+    </div>
+    <!-- Below class row has been removed due to issue in allignment  -->
+    <div class="mx-0" id="optionsBlock" #optionsBlock [ngClass]="{'disable_div':disableoptionsBlock}">
+      <div class="my-auto quesImage">
+        <div id="{{idx}}" class="options" [ngClass]="{'disable_div':disableoptions}"
+          *ngFor="let opt of optionObject;let idx = index">
+          <div>
+            <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();"
+              (click)="checkAllowed(idx,opt.placed,opt)" (mouseenter)="playHoverOption(opt,idx)"
+              (mousemove)="optionHover(opt,idx)" (mouseleave)="optionHoverOut(opt,idx)">
+            <audio #optionAudio></audio>
+          </div>
+          <!-- <div *ngIf="!quesFlag">
+            <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();"
+              (click)="checkAllowed(idx,opt.placed,opt)" (mouseenter)="playHoverOption(opt,idx)"
+              (mousemove)="optionHover(opt,idx)" (mouseleave)="optionHoverOut(opt,idx)">
+            <audio #optionAudio></audio>
+          </div> -->
+          <div>
+            <img style="cursor: default;" class="img-fluid" [src]="opt?.dropBoxImg?.url"
+              (mouseenter)="onHoverOption(opt,idx)" (mouseleave)="onHoverOptionOut(opt,idx)" (load)="checkImgLoaded();">
+            <img style="cursor: default;" class="img-fluid optItem" [src]="opt?.samplerefquesImg?.url" #sampleImg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- The Confirmation Modal -->
+  <div class="modal" id="confirmModal" #confirmModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.confirm_popup?.style_header">
+          <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()"
+              (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- The onSubmit Modal -->
+  <div class="modal" id="confirmModal" #submitModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.info_popup?.style_header">
+          <!-- <h4 class="modal-title">Modal Heading</h4> -->
+          <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url"
+            (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverCloseConfirm()"
+            (mouseleave)="houtCloseConfirm()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="submitPopupAssets?.submit_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('submit-modal-id','yes');" (mousemove)="hoverConfirm()"
+            (mouseleave)="houtConfirm()"><img class="img-fluid"
+                [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="dontshowFeedback('submit-modal-id','no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- The infoPopup Modal -->
+  <div class="modal" id="confirmModal" #infoModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
+          <img class="modal-title" [src]="feedbackObj?.info_popup?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showFeedback('info-modal-id','no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.info_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="infoPopupAssets?.info_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('info-modal-id','no');" (mousemove)="hoverOK()"
+              (mouseleave)="houtOK()"><img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url"></button>
+          </div>
+        </div>
+        <audio #feedbackInfoAudio></audio>
+      </div>
+    </div>
+  </div>
+  <!-- The replayConfirmPopup Modal -->
+  <div class="modal" id="confirmModal" #confirmReplayRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="replayconfirmAssets?.style_header">
+          <img class="modal-title" [src]="replayconfirmAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="showReplay(confirmReplayRef,'no');"
+          (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="replayconfirmAssets?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="replayconfirmAssets?.confirm_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="showReplay(confirmReplayRef,'yes','replay');"
+              (mousemove)="hoveronReplayConfirm()" (mouseleave)="houtonReplayConfirm()"><img class="img-fluid"
+                [src]="replayconfirmAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="showReplay(confirmReplayRef,'no');" (mousemove)="hoveronReplayDecline()"
+              (mouseleave)="houtonReplayDecline()"><img class="img-fluid"
+                [src]="replayconfirmAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal" id="modalTemp5" #popupRef>
+    <div class="modal-dialog modal-dialog-centered" #modaldialog>
+      <!-- <img class="popupBg img-fluid" [src]="feedbackObj?.popup_commmon_imgs?.bg_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url : assetsPath + '/' + feedbackObj?.popup_commmon_imgs?.bg_img?.url"> -->
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header" [ngStyle]="styleHeaderPopup">
+          <!--<img class="modal-title" [src]="feedbackObj?.headerTxt_img?.location=='content' ? containgFolderPath + '/' + feedbackObj?.headerTxt_img?.url : assetsPath + '/' + feedbackObj?.headerTxt_img?.url">-->
+          <img *ngIf="rightanspopUpheader_img" class="modal-title" [src]="feedbackObj?.rightAnswerheaderTxt_img?.url">
+          <img *ngIf="wronganspopUpheader_img" class="modal-title" [src]="feedbackObj?.wrongAnswerheaderTxt_img?.url">
+          <img *ngIf="showanspopUpheader_img" class="modal-title" [src]="feedbackObj?.showAnswerheaderTxt_img?.url">
+          <img *ngIf="partialCorrectheaderTxt_img" class="modal-title"
+            [src]="feedbackObj?.partialCorrectheaderTxt_img?.url">
+          <img class="close" [src]="feedbackObj?.popup_commmon_imgs?.close_btn?.url" type="button"
+            (click)="closeModal();" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()">
+          <!-- <button type="button" class="close" data-dismiss="modal"></button> -->
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            [ngClass]="{'dispFlex':AnswerpopupTxt}">
+            <div class="instructionBase">
+              <img class="img-fluid" [src]="popupHeader" />
+            </div>
+          </div>
+          <div class="row mx-0" id="optionsBlock" #popupBodyRef>
+            <div class="my-auto quesImage">
+              <div id="{{idx}}" class="options" *ngFor="let obj of newCopy;let idx = index">                
+                  <div>
+                    <img class="img-fluid" [src]="optionObjectpopup[obj.placedInOption]?.imgsrc?.url" (load)="checkImgLoaded();">
+                  </div>
+                  <div *ngIf="!isShowAns">
+                    <img class="img-fluid abc1" style="visibility: hidden;" [src]="optionObjectpopup[obj.placedInOption]?.dropBoxImg?.url"
+                      (mouseenter)="onHoverOption(obj,idx)" (mouseleave)="onHoverOptionOut(obj,idx)" (load)="checkImgLoaded();">
+                    <img class="img-fluid optItempopUp" [src]="obj?.imgsrc?.url">                    
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <audio #feedbackPopupAudio></audio>
+  <!-- Only one attempt infoPopup Modal -->
+  <div class="modal" id="confirmModal" #onlyOneAttemptModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="oneAttemptPopupAssets?.style_header">
+          <img class="modal-title" [src]="feedbackObj?.oneAttempt_popup?.headerTxt_img?.url">
+          <img class="close" [src]="oneAttemptPopupAssets?.close_btn?.url" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoveroneAttemptClosePopup()" (mouseleave)="houtoneAttemptClosePopup()">
+        </div>
+
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.oneAttempt_popup?.style_body">
+          <div class="msgImage"><img class="img-fluid" [src]="oneAttemptPopupAssets?.oneAttempt_text?.url"></div>
+          <div class="actionButtons">
+            <button type="button" (click)="showFeedback('oneAttempt-modal-id','no');" (mousemove)="hoveroneAttemptOK()" (mouseleave)="houtoneAttemptOK()"><img class="img-fluid" [src]="oneAttemptPopupAssets?.ok_btn?.url"></button>
+          </div>
+        </div>
+        <audio #feedbackoneAttemptAudio></audio>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="videoMainContainer" *ngIf="isPlayVideo">
+  <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
+    (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
+    (ended)="endedHandler()">
+    <source [src]="quesObj?.quesVideo?.urlOgv" type="{{videoType}}">
+  </video>
+  <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()" (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
+  <div id="SkipBtn" *ngIf="SkipLoad"><img class="img-fluid" [src]="quesObj?.quesSkip?.url"
+      (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
+
+</div> -->
+<div class="videoMainContainer" *ngIf="isPlayVideo">
+  <img src="assets/images/videoBg.png" class="img-fluid videoBg">
+  <div class="videoWrapper">
+    <video #mainVideo id="mainVideo" width="100%" style="max-width: 100%; max-height: 100%;"
+      (loadeddata)="checkVideoLoaded()" poster="assets/images/videoPoster.svg" autoplay="autoplay"
+      (ended)="endedHandler()">
+      <source [src]="quesObj?.quesVideo?.urlOgv">
+    </video>
+    <div id="playPauseBtn"><img class="img-fluid" [src]="quesObj?.quesPlayPause?.url" (mousemove)="hoverPlayPause()"
+        (mouseleave)="leavePlayPause()" (click)="PlayPauseVideo()" /></div>
+    <div id="SkipBtn"><img class="img-fluid" [src]="quesObj?.quesSkip?.url" *ngIf="SkipLoad"
+        (click)="endedHandleronSkip()" (mousemove)="hoverSkip()" (mouseleave)="houtSkip()" /></div>
+  </div>
+</div>
+</div>

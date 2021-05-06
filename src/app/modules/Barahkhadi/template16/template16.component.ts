@@ -57,7 +57,7 @@ export class Template16Component implements OnInit {
 	@ViewChild('titleAudio') titleAudio: any;
 	@ViewChild('titleHelpAudio') titleHelpAudio: any;
 	@ViewChild('navBlock') navBlock: any;
-	@ViewChild('autoPlayOnOffContainer') autoPlayOnOffContainer: any;
+	@ViewChild('autoPlayOnOffContainer',{static: true}) autoPlayOnOffContainer: any;
 	@ViewChild('sliderRef') sliderRef: any;
 	@ViewChild('volumeBar') volumeBar: any;
 	@ViewChild('MuteVar') MuteVar: any;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { ApplicationmodelService } from '../../../common/services/applicationmodel.service';
 import { SharedserviceService } from '../../../common/services/sharedservice.service';
 import { Subscription } from 'rxjs'
@@ -12,7 +12,7 @@ import { ThemeConstants } from '../../../common/themeconstants';
   templateUrl: './ntemplate13.component.html',
   styleUrls: ['./ntemplate13.component.scss']
 })
-export class NTemplate13Component implements OnInit {
+export class NTemplate13Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 	private appModel: ApplicationmodelService;
 	constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
 		this.appModel = appModel;
@@ -138,8 +138,9 @@ export class NTemplate13Component implements OnInit {
 	wrongOptAudioPlaying: boolean = false;
 	optionDisable: boolean = true;
 	AnswerpopupTxt: boolean = false;
-	popupHeader:any;
-  index:any;
+	popupHeader: any;
+	index: any;
+	lastOpt: any;
   
 	hoverDecline() {
 		this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
@@ -171,8 +172,6 @@ export class NTemplate13Component implements OnInit {
 	houtCloseConfirm() {
 		this.confirmPopupAssets.close_btn = this.confirmPopupAssets.close_btn_original;
 	}
-
-	lastOpt: any;
 
 	onHoverOption(opt, index) {
 		$(".instructionBase img").css("cursor", "pointer");
@@ -1045,5 +1044,4 @@ export class NTemplate13Component implements OnInit {
 			$("#speakerpopup").addClass("disable_div");
 		}
 	}
-
 }

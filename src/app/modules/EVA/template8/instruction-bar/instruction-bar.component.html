@@ -1,6 +1,6 @@
 <div class="instructionBase">
   <img class="img-fluid"
     [src]="data?.location =='content' ? contentPath + '/' + data?.url : assetsPath + '/' + data?.url"
-    (imageLoad)="checkImgLoaded();" />
+    (loadImage)="checkImgLoaded();" />
   <span class="instructionText">{{instructiontext}}</span>
 </div>

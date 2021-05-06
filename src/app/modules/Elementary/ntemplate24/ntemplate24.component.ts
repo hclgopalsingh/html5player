@@ -5,13 +5,16 @@ import 'jquery';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../common/services/sharedservice.service';
+
 declare var $: any;
 
 @Component({
-  selector: 'app-ntemplate24',
-  templateUrl: './ntemplate24.component.html',
-  styleUrls: ['./ntemplate24.component.scss']
+  selector: 'ntemp24',
+  templateUrl: './Ntemplate24.component.html',
+  styleUrls: ['./Ntemplate24.component.scss'],
+
 })
+
 export class Ntemplate24Component implements OnInit, OnDestroy, AfterViewChecked {
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -58,7 +61,6 @@ export class Ntemplate24Component implements OnInit, OnDestroy, AfterViewChecked
 
 
   audio = new Audio();
-  videoType: any;
   commonAssets: any = "";
   feedback: any = "";
   themePath: any;
@@ -157,9 +159,9 @@ export class Ntemplate24Component implements OnInit, OnDestroy, AfterViewChecked
         console.log("manual mode ", mode);
       } else if (mode == "auto") {
         console.log("auto mode", mode);
-        this.closeModel()
+        this.closeModel();
         this.getAnswer('showAnswer');
-        this.popupType = "showanswer"
+        this.popupType = "showanswer";
         this.setPopupAssets();
       }
     })
@@ -614,14 +616,13 @@ export class Ntemplate24Component implements OnInit, OnDestroy, AfterViewChecked
 
   /*Close all popups */
   closeModel() {
-    
     //infoModalRef, confirmReplayRef, feedbackPopupRef, confirmSubmitRef, confirmModalRef,
-    this.infoModalRef.nativeElement.classList = "modal"
-    this.confirmReplayRef.nativeElement.classList == "modal"
-    this.feedbackPopupRef.nativeElement.classList = "modal"
-    this.confirmSubmitRef.nativeElement.classList = "modal"
-    this.confirmModalRef.nativeElement.classList = "modal"
-    this.confirmReplayRef.nativeElement.classList = "modal"
+    this.infoModalRef.nativeElement.classList = "modal";
+    this.confirmReplayRef.nativeElement.classList = "modal";
+    this.feedbackPopupRef.nativeElement.classList = "modal";
+    this.confirmSubmitRef.nativeElement.classList = "modal";
+    this.confirmModalRef.nativeElement.classList = "modal";
+    this.confirmReplayRef.nativeElement.classList = "modal";
   }
 
   /*Show disabled screen after activity is answered correctly or answer is seen*/
@@ -940,3 +941,6 @@ export class Ntemplate24Component implements OnInit, OnDestroy, AfterViewChecked
   }
 
 }
+
+
+

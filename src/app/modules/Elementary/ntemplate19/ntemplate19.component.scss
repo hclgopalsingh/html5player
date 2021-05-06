@@ -1,52 +1,15 @@
-/****** 3*3 matrix start ******/
-/****** 3*3 matrix end ******/
-/****** 3*5 matrix start ******/
-/****** 3*5 matrix end ******/
-/****** 5*3 matrix start ******/
-/****** 5*3 matrix end ******/
-/****** 5*5 matrix start ******/
-/***** 5*5 matrix end *******/
-/* Modal */
-/* #playPauseBtn {
-  position: absolute;
-  top: 85%;
-  right: 16%;
-  cursor: pointer;
-  width: 1.5%;
-}
-#playPauseBtn img {
-  width: 200%;
-  filter: drop-shadow(2px 4px 6px black);
-  max-width: none;
-}
 
-#SkipBtn{
-  position: absolute;
-  top: 83.7%;
-  right: -3.7%;
-  cursor: pointer;
-  width: 16%;
-}
-#SkipBtn img {
-  max-width: 70%;
-} */
-/* Modal classes */
-/*confirm modal*/
-/* .modal-title {
-  margin-left: 1.5%;
-  height: 80%;
-} */
 @keyframes scaleIn {
 	0% {
 		transform: scale(1.0);
 	}
 	100% {
-		transform: scale(1.2);
+		transform: scale(1.1);
 	}
 }
 @keyframes scaleOut {
 	0% {
-		transform: scale(1.2);
+		transform: scale(1.1);
 	}
 	100% {
 		transform: scale(1.0);
@@ -859,7 +822,8 @@ button {
 				background: transparent;
 				padding: 0;
 				margin: 0;
-				width: 18%;
+        width: 18%;
+        cursor: pointer;
 			}
 			img {
 				max-width: 80%;
@@ -900,7 +864,9 @@ button {
 	}
 }
 .displayPopup {
-	display: -webkit-box !important;
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
 }
 .modal.show {
 	display: -webkit-box !important;
@@ -956,7 +922,7 @@ html {
 }
 .scaleInAnimation {
 	animation: scaleIn 0.5s linear;
-	transform: scale(1.2);
+	transform: scale(1.1);
 }
 .scaleOutAnimation {
 	animation: scaleOut 0.5s linear;

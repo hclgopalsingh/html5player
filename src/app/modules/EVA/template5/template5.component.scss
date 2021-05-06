@@ -74,6 +74,28 @@
 			transform: scale(1.05);
 		}
 	}
+	.bg_vertical {
+		&:before {
+			height: 49.8vmin;
+		}
+	}
+	.bg_horizontal {
+		&:before {
+			width: 46.8vmin;
+		}
+	}
+	.keypad3by3 {
+		.keyContainer.bg_vertical {
+			&:before {
+				height: 60.5vmin;
+			}
+		}
+		.keyContainer.bg_horizontal {
+			&:before {
+				width: 57.5vmin;
+			}
+		}
+	}
 }
 .keyContainer#key1 {
 	top: 3.3%;
@@ -295,9 +317,13 @@
 		transition: transform .5s ease;
 	}
 }
-:host ::ng-deep .speakerBtn {
-	width: 5.5%;
-    bottom: 19.5%;
-    right: 3.2%;
-    position: absolute;
+:host {
+	&::ng-deep {
+		.speakerBtn {
+			width: 5.5%;
+			bottom: 19.5%;
+			right: 3.2%;
+			position: absolute;
+		}
+	}
 }

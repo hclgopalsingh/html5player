@@ -108,9 +108,17 @@
 		width: auto;
 		margin-right: .7%;
 	}
+	.ansBtn {
+		cursor: pointer;
+		margin-left: .7%;
+		width: 3.5%;
+	}
+	.replayBtn {
+		cursor: pointer;
+		width: 3.5%;
+		margin-right: .7%;
+	}
 	.prevBtn {
-		cursor: pointer;
-		cursor: pointer;
 		width: 3.5%;
 		margin-right: .7%;
 		&:hover {
@@ -122,8 +130,6 @@
 		}
 	}
 	.nextBtn {
-		cursor: pointer;
-		cursor: pointer;
 		width: 3.5%;
 		margin-right: .7%;
 		&:hover {
@@ -136,21 +142,26 @@
 			animation-name: moveRight;
 		}
 	}
-	.ansBtn {
-		cursor: pointer;
-		margin-left: .7%;
-		width: 3.5%;
-	}
-	.replayBtn {
-		cursor: pointer;
-		width: 3.5%;
-		margin-right: .7%;
-	}
 	.submitBtn {
 		cursor: pointer;
 		width: 3.5%;
 		margin-right: .7%;
 		width: 7%;
+	}
+	#ele_submitBtn {
+		cursor: auto;
+	}
+	#ele_replayBtn {
+		cursor: auto;
+	}
+	#ele_ansBtn {
+		cursor: auto;
+	}
+	#ele_prevBtn {
+		cursor: auto;
+	}
+	#ele_nextBtn {
+		cursor: auto;
 	}
 }
 .quesBlock {
@@ -252,8 +263,20 @@
 	.nextBtn.blink {
 		animation: blink normal 1s infinite ease-in-out;
 	}
+	.nextBtn {
+		cursor: pointer;
+	}
+	.prevBtn {
+		cursor: pointer;
+	}
 }
 .disableNavBtn {
 	opacity: 0.5;
 	pointer-events: none;
+}
+#prevBtnEle {
+	cursor: default;
+}
+#nextBtnEle {
+	cursor: default;
 }

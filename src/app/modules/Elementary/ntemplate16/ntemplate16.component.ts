@@ -123,6 +123,7 @@ export class Ntemplate16Component implements OnInit, AfterViewChecked, OnDestroy
 	isLastQuestion: boolean;
 	autoCloseTimerSubscription: Subscription;
 	confirmPopupSubscription: any;
+	activityStarted: boolean = false;
 	/*END: Theme Implementation(Template Changes)*/
 	playHoverInstruction() {
 		if (this.timerSubscription != undefined) {
@@ -310,9 +311,9 @@ export class Ntemplate16Component implements OnInit, AfterViewChecked, OnDestroy
 			console.log("this.countdown", this.countdown)
 			if (this.countdown < 0) {
 				clearInterval(timeTicking);
+			} else {
+				this.countdown = --this.countdown;
 			}
-			else this.countdown = --this.countdown
-
 		}, 1000);
 	}
 
@@ -876,8 +877,6 @@ export class Ntemplate16Component implements OnInit, AfterViewChecked, OnDestroy
 			}, 1000);
 		}
 	}
-
-	activityStarted: boolean = false
 
 	checkforQVO() {
 		if (this.quesObj && this.quesObj.quesInstruction && this.quesObj.quesInstruction.url && this.quesObj.quesInstruction.autoPlay) {

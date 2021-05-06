@@ -584,7 +584,8 @@ export class Template1Component implements OnInit,OnDestroy ,AfterViewChecked,Af
     }
 
     /******On Hover option ********/
-    onHoverOptions() {
+    onHoverOptions(index) {
+        this.optionRef.nativeElement.children[index].classList.add("optionHover");
         const speakerEle = document.getElementsByClassName("speakerBtn")[0].children[1] as HTMLAudioElement;
         if (!this.myAudiospeaker.nativeElement.paused) {
             this.myAudiospeaker.nativeElement.pause();
@@ -595,9 +596,9 @@ export class Template1Component implements OnInit,OnDestroy ,AfterViewChecked,Af
     }
 
     /******Hover out option ********/
-    // onHoveroutOptions(option, index) {     
-    //     option.image = option.image_original;
-    // }
+    onHoveroutOptions(index) {     
+        this.optionRef.nativeElement.children[index].classList.remove("optionHover"); 
+    }
 
     /**OPTION HOVER */
 
