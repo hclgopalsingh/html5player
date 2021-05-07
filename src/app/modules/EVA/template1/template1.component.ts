@@ -284,7 +284,7 @@ export class Template1Component implements OnInit {
                 this.questionObj.questionText[i].matravalue = this.questionObj.questionText[i].matra.url.split('.')[0].split('/').pop();
                 continue;
             }
-            if (this.questionObj.questionText[i].isBlank) {
+            if (this.questionObj.questionText[i].isBlank || this.questionObj.questionText[i].aksharForMatra) {
                 this.quesEmptyTxtIndx = i;
                 continue;
             }
@@ -500,7 +500,11 @@ export class Template1Component implements OnInit {
 			this.instruction.nativeElement.onended = () => {
                 this.appModel.handlePostVOActivity(false);              
                 this.maincontent.nativeElement.className = "";
-                document.getElementsByClassName("quesBox")[0].classList.add("blinkOn");
+                if(document.getElementsByClassName("quesBox").length){
+                    document.getElementsByClassName("quesBox")[0].classList.add("blinkOn");
+                }else if(document.getElementsByClassName("quesBlank").length){
+                    document.getElementsByClassName("quesBlank")[0].classList.add("blinkBlank");
+                }                
 			}
 		} else {
 			this.appModel.handlePostVOActivity(false);
@@ -743,7 +747,7 @@ export class Template1Component implements OnInit {
         }
     }
     /** On selecting an akshar **/
-    selectOpt(opt, idx) {        
+    selectOpt(opt, idx) {    
        // document.getElementById('refQuesId').style.width=document.getElementById('refQuesId').offsetWidth+'px';
        this.aksharQuestion=true;
        this.popupclosedinRightWrongAns=false; 
@@ -843,7 +847,11 @@ export class Template1Component implements OnInit {
    resetQuestion(){               
     setTimeout(()=>{
         this.optionRef.nativeElement.children[this.optionSelected].children[0].classList.remove('invisible');
-        document.getElementsByClassName("quesBox")[0].classList.add("blinkOn");
+        if(document.getElementsByClassName("quesBox").length){
+            document.getElementsByClassName("quesBox")[0].classList.add("blinkOn");
+        }else if(document.getElementsByClassName("quesBlank").length){
+            document.getElementsByClassName("quesBlank")[0].classList.add("blinkBlank");
+        }  
         },50)
         setTimeout(()=>{
             this.doRandomize(this.myoption)
