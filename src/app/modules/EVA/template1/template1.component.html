@@ -22,7 +22,7 @@
                 (load)="checkImgLoaded();">
             <div id="refQuesId" class="refQues" #refQues>			
                 <ng-container *ngFor="let quesTxt of quesObjCopy?.questionText; let idx=index">
-                    <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'',quesTxt?.addMatra && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'fillBlank':'']">
+                    <div [ngClass]="[quesTxt?.matravalue ? 'matra_'+quesTxt.matravalue:'',quesTxt?.addMatra && !isOptionSelected ? 'quesBox':'',quesTxt?.isBlank && !isOptionSelected ? 'quesBox':'',quesTxt?.aksharForMatra && !isOptionSelected ? 'quesBlank':'',quesTxt?.isBlank && !isOptionSelected ? 'fillBlank':'',quesTxt?.aksharForMatra && !isOptionSelected ? 'fillBlank':'']">
                         <ng-template [ngIf]="!quesTxt?.isBlank">
 						<img [ngClass]="{'dark':!quesTxt?.isBlank,'engTxtMargin': quesObjCopy?.isEnglish}" [src]="quesTxt?.location=='content' ? containgFolderPath + '/' + quesTxt?.url : quesTxt?.location=='assets' ? assetsPath + '/' +quesTxt?.url:''" alt=""
                         (load)="checkImgLoaded();">
