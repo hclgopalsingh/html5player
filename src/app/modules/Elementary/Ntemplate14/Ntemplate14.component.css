@@ -204,7 +204,12 @@ audio:focus {
 }
 
 .audioT {
-  display: none;
+  /* display: none; */
+  position: absolute;
+  top:-100px;
+  left: -200px;
+  visibility: hidden;
+
 }
 
 .playbtn {
@@ -220,6 +225,9 @@ audio:focus {
 	  border-style: none;
 	  border-radius:1px;
 } */
+audio::-internal-media-controls-overflow-button {
+  display: none !important;
+}
 audio::-webkit-media-controls-panel {
   background-color: #00ccff;
 
@@ -604,10 +612,8 @@ audio::-webkit-media-controls-current-time-display {
   color: rgb(2,208,255);
   min-width: 15.5%;
   font-size: 2.8vmin;
-  /* padding-left: 3%; */
   cursor: default;
   text-align: right;
-
 }
 
 .setImage {
