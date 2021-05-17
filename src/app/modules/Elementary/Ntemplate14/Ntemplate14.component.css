@@ -204,7 +204,12 @@ audio:focus {
 }
 
 .audioT {
-  display: none;
+  /* display: none; */
+  position: absolute;
+  top:-100px;
+  left: -200px;
+  visibility: hidden;
+
 }
 
 .playbtn {
@@ -220,6 +225,9 @@ audio:focus {
 	  border-style: none;
 	  border-radius:1px;
 } */
+audio::-internal-media-controls-overflow-button {
+  display: none !important;
+}
 audio::-webkit-media-controls-panel {
   background-color: #00ccff;
 
@@ -602,10 +610,10 @@ audio::-webkit-media-controls-current-time-display {
 
 #tracktime {
   color: rgb(2,208,255);
-  min-width: 9.5%;
+  min-width: 15.5%;
   font-size: 2.8vmin;
-  padding-left: 3%;
   cursor: default;
+  text-align: right;
 }
 
 .setImage {
@@ -645,7 +653,7 @@ audio::-webkit-media-controls-play-button {
   cursor: default;
 }
 .txtLabel .label{
-  font-size: 1.4vmin;
+  font-size: 1.6vmin;
   color:rgb(2,208,255);
   padding:0;
 }
@@ -669,7 +677,7 @@ audio::-webkit-media-controls-play-button {
   text-align: center;
 }
 .remTimeContainer .label {
-  font-size: 1.4vmin;
+  font-size: 1.6vmin;
 }
 
 .blinkClass {

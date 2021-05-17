@@ -708,3 +708,13 @@ nav {
 75% {filter: brightness(1);}
 100% {filter: brightness(1);}
 }
+.zoom-in{
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  z-index: 1;
+  position: relative;
+}
+.showFade{
+  opacity: 0.5;
+}
