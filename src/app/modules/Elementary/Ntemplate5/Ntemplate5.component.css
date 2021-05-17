@@ -471,6 +471,10 @@ button:focus {
   margin-top: 7%;
 }
 
+.modal #instructionBarFeedback .instructionBase {
+  max-width: 90% !important;
+}
+
 #modalTemp5 .optionsBlock {
   width: 100%;
   height: 100%;
