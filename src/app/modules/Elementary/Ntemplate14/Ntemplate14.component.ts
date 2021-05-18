@@ -83,6 +83,9 @@ export class Ntemplate14Component implements OnInit {
 	blinkInterval: any;
 	autoStopRecordTimer: any;
 	hideTimer: boolean = false;
+	replayTimer: any;
+	replayTime: any;
+	recordedFileTimer: any;
 	recordingStatus: string = "Recording";
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -174,6 +177,7 @@ export class Ntemplate14Component implements OnInit {
 
 	ngOnInit() {
 		this.appModel.functionone(this.templatevolume, this);//start end
+		clearTimeout(this.replayTimer);
 		this.containgFolderPath = this.getBasePath();
 		if (this.appModel.isNewCollection) {
 			this.appModel.event = { 'action': 'segmentBegins' };
@@ -232,38 +236,9 @@ export class Ntemplate14Component implements OnInit {
 		}
 	}
 	ngAfterViewInit() {
-		document.getElementById("audioplay").addEventListener("play", () => {
-			this.appModel.stopAllTimer();
-			clearInterval(this.nextSegmenttimerId);
-			this.instructionDisable = true;
-			if (!this.instruction.nativeElement.paused) {
-				this.instruction.nativeElement.pause();
-				this.instruction.nativeElement.currentTime = 0;
-			}
-		});
-		document.getElementById("audioplay").addEventListener("pause", () => {
-			clearInterval(this.nextSegmenttimerId);
-			this.instructionDisable = false;
-			if (this.isFirstTrial && this.listenStatus) {
-				this.appModel.moveNextQues();
-			}
-			else {
-				this.appModel.moveNextQues("noBlink");
-				if (!this.isDestroyed) {
-					////this.appModel.moveNextQues();
-				}
-			}
-		});
-		document.getElementById("audioplay").addEventListener("ended", () => {
-			console.log("enddedd");
-			this.instructionDisable = false;
-			if (this.isFirstTrial && this.playClicked) {
-				if(this.listenStatus){
-					this.appModel.moveNextQues();	
-				}
-				this.isFirstTrial = false;
-			}
-		});
+		document.getElementById("audioplay").addEventListener("play", this.playEventCallback.bind(this), true);
+		document.getElementById("audioplay").addEventListener("pause", this.pauseEventCallback.bind(this), true);
+		document.getElementById("audioplay").addEventListener("ended", this.endEventCallback.bind(this), true);
 	}
 
 	ngAfterViewChecked() {
@@ -277,9 +252,19 @@ export class Ntemplate14Component implements OnInit {
 		clearInterval(this.nextSegmenttimerId);
 		clearTimeout(this.clearautoplay);
 		clearTimeout(this.autoStopRecordTimer);
+		clearTimeout(this.lastPopUptimer);
+		clearTimeout(this.recordedFileTimer);
+		if(this.audioT.nativeElement) {
+			this.audioT.nativeElement.pause();
+			this.audioT.nativeElement = null;
+		}
 		this.isDestroyed = true;
 		this.appModel.stopAllTimer();
 		clearInterval(this.recordingTimerInterval);
+		clearTimeout(this.replayTimer);
+		document.getElementById("audioplay").removeEventListener("play", this.playEventCallback, true);
+		document.getElementById("audioplay").removeEventListener("pause", this.pauseEventCallback, true);
+		document.getElementById("audioplay").removeEventListener("ended", this.endEventCallback, true);
 		this.appModel.resetBlinkingTimer();
 		
 	}
@@ -337,6 +322,7 @@ export class Ntemplate14Component implements OnInit {
 			this.noOfImgs = fetchedData.imgCount;
 			this.quesObj = fetchedData.quesObj;
 			this.autoStop = fetchedData.autoStop;
+			this.replayTime = fetchedData.replayTime;
 			this.calculateRemainingTimer(JSON.parse(this.autoStop)/1000.0);
 			this.infoPopupAssets = fetchedData.info_popup;
 		}
@@ -487,7 +473,7 @@ export class Ntemplate14Component implements OnInit {
 			// }
 		}
 		this.appModel.moveNextQues("noBlink");
-		setTimeout(() => {
+		this.recordedFileTimer = setTimeout(() => {
 			this.audioT.nativeElement.currentTime = 0;
 		this.audioT.nativeElement.pause();
 			this.audioT.nativeElement.play();
@@ -523,11 +509,11 @@ export class Ntemplate14Component implements OnInit {
 		this.stopButton.nativeElement.src = this.question.stopActive.url;
 		// this.recordButton.nativeElement.src = this.question.record.url;
 		this.mediaRecorder.stop();
-		if(!this.autostopplayer && this.appModel.isLastSectionInCollection) {
-			this.startNextSegTimer();
-		}else if(!this.autostopplayer){
-			this.appModel.moveNextQues("noBlink");
-		}else{
+		// if(!this.autostopplayer && this.appModel.isLastSectionInCollection) {
+		// 	this.startNextSegTimer();
+		// }else if(!this.autostopplayer){
+		// 	this.appModel.moveNextQues("noBlink");
+		// }else{
 			clearInterval(this.timerId);
 			clearTimeout(this.clearautoplay);
 			let a = 300;
@@ -538,7 +524,7 @@ export class Ntemplate14Component implements OnInit {
 				this.listen();
 				clearInterval(this.timerId);
 			}, this.playRecordingTime * 60000 )
-		}
+		// }
 		
 		setTimeout(() => {
 			this.audioT.nativeElement.currentTime = 0;
@@ -550,7 +536,10 @@ export class Ntemplate14Component implements OnInit {
 	}
 
 	handleTimer() {
+		console.log("last question timer reset");
 		this.lastPopUptimer = setTimeout(() => {
+			console.log("last question timer played");
+			clearInterval(this.nextSegmenttimerId);
 			this.blinkOnLastQues();
 			this.InfoModalRef.nativeElement.classList = "modal";
 			this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center disable_div disable-click";
@@ -626,6 +615,68 @@ export class Ntemplate14Component implements OnInit {
 		this.feedbackInfoAudio.nativeElement.currentTime = 0;
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.notifyUserAction();
+	}
+	playEventCallback() {
+		this.appModel.stopAllTimer();
+		clearInterval(this.nextSegmenttimerId);
+		clearTimeout(this.replayTimer);
+		clearTimeout(this.lastPopUptimer);
+		this.instructionDisable = true;
+		if (this.appModel.isLastSectionInCollection && !this.isFirstTrial) {
+			this.handleTimer();
+		}
+		if (!this.instruction.nativeElement.paused) {
+			this.instruction.nativeElement.pause();
+			this.instruction.nativeElement.currentTime = 0;
+		}
+	}
+
+	pauseEventCallback() {
+		clearInterval(this.nextSegmenttimerId);
+		clearTimeout(this.lastPopUptimer);
+		clearTimeout(this.replayTimer);
+		this.replayTimer = undefined;
+		this.instructionDisable = false;
+		if (this.appModel.isLastSectionInCollection && !this.isFirstTrial) {
+			this.handleTimer();
+		}
+		if (this.isFirstTrial && this.listenStatus) {
+			clearTimeout(this.replayTimer);
+			this.appModel.moveNextQues();
+		}
+		else {
+			if (this.isFirstTrial) {
+				if (!this.replayTimer) {
+					this.replayTimer = setTimeout(() => {
+						console.log("replayTimer not clear");
+						if (this.audioT && this.audioT.nativeElement) {
+							this.audioT.nativeElement.play();
+						}
+					}, this.replayTime);
+				}
+			} else {
+				this.appModel.moveNextQues("noBlink");
+			}
+			if (!this.isDestroyed) {
+				////this.appModel.moveNextQues();
+			}
+		}
+	}
+
+	endEventCallback() {
+		console.log("enddedd");
+		clearTimeout(this.replayTimer);
+		// this.listenStatus=true;
+		this.instructionDisable = false;
+		if (this.isFirstTrial && this.playClicked) {
+			// if(this.listenStatus){
+			this.appModel.moveNextQues();
+			if (this.appModel.isLastSectionInCollection) {
+				this.handleTimer();
+			}
+			// }
+			this.isFirstTrial = false;
+		}
 	}
 
 	/****** Blink functionality of aage badhein button *******/
