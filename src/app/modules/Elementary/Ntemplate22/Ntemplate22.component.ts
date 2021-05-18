@@ -779,6 +779,7 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
+        this.monthsArr.filter((item) => item.selected == true)[0].userSelected = false;
       }
       if (this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -812,6 +813,7 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
+        this.Arryears.filter((item) => item.selected == true)[0].userSelected = false;
       }
       this.date.setFullYear(item.id);
       item.userSelected = true;
@@ -833,6 +835,7 @@ export class Ntemplate22 implements OnInit {
       if (this.datesArr.filter((item) => item.selected == true)[0] != undefined) {
         let previousItem = this.datesArr.filter((item) => item.selected == true)[0];
         previousItem.selected = false;
+        previousItem.userSelected = false;
         if (this.previousItemevent != undefined) {
           this.previousItemevent.src = previousItem.dateImg.url;
           this.previousItemevent.style.pointerEvents = "";
@@ -1023,7 +1026,8 @@ export class Ntemplate22 implements OnInit {
       }
       for (let i = 0; i < days; i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
-        this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid showFade";
+        this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
+        // this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid showFade";
         if (this.datesArr[i].disable) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
@@ -1037,12 +1041,12 @@ export class Ntemplate22 implements OnInit {
           this.startIndex++;
           continue;
         } else {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].disabledateImg.url;
         }
         if (i == this.clickedID - 1 && this.clickedID != this.feedbackObj.correct_date) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].wrongdateImg.url;
         } else {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].disabledateImg.url;
         }
         this.startIndex++;
       }
@@ -1061,7 +1065,7 @@ export class Ntemplate22 implements OnInit {
           // this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid zoom-in";
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.url;
         } else {
-          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].disabledateImg.url;
         }
         this.startIndex++;
       }
