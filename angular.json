@@ -28,9 +28,10 @@
               "src/assets"
             ],
             "styles": [
+              "src/styles.scss",
               "src/assets/css/bootstrap.min.css",
-              "src/assets/css/bootstrap-slider.css",
-              "src/styles.scss"
+              "src/assets/css/bootstrap.css",
+              "src/assets/css/bootstrap-slider.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
