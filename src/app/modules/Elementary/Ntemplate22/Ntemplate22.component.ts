@@ -885,6 +885,7 @@ export class Ntemplate22 implements OnInit {
 
       if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
         this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+        this.ArrweekDays.filter((item) => item.selected == true)[0].userSelected = false;
       }
       if (this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -2273,16 +2274,16 @@ export class Ntemplate22 implements OnInit {
     this.popupRef.nativeElement.classList = "modal";
     this.appModel.notifyUserAction();
     if (this.checked) {
-      if (this.selectedDate.month) {
+      if (this.selectedDate.month && this.isCorrectMonth) {
         this.selectedDate.month.selected = true;
       }
-      if (this.selectedDate.week) {
+      if (this.selectedDate.week && this.isCorrectweekDay) {
         this.selectedDate.week.selected = true;
       }
-      if (this.selectedDate.year) {
+      if (this.selectedDate.year && this.isCorrectYear) {
         this.selectedDate.year.selected = true;
       }
-      if (this.selectedDate.date) {
+      if (this.selectedDate.date && this.isCorrectDate) {
         this.selectedDate.date.selected = true;
       }
       this.blinkOnLastQues();
