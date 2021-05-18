@@ -229,7 +229,7 @@
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.checkRightorWrong ? 
                 item?.ImginpopUp?.location=='content' ? item?.ImginpopUp?.url : item?.ImginpopUp?.url :
-                item?.disablemonthImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong && !isShowAns }">
+                item?.disablemonthImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong }">
               </div>
             </div>
             <div class="topBlock">
@@ -238,7 +238,7 @@
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.checkRightorWrong ? 
                 item?.ImginpopUp?.location=='content' ?  item?.ImginpopUp?.url : item?.ImginpopUp?.url :
-                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong && !isShowAns }">
+                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong }">
               </div>
             </div>
             <div class="rightBlock">
@@ -248,7 +248,7 @@
                 <div class="blockContent">
                   <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.checkRightorWrong ? 
                   item?.weekDayImginpopUp?.location=='content' ? item?.weekDayImginpopUp?.url : item?.weekDayImginpopUp?.url :
-                  item?.disableweekDayImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong && !isShowAns}">
+                  item?.disableweekDayImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong}">
                 </div>
               </div>
               <div class="monthDates" #monthDatesinPopup>

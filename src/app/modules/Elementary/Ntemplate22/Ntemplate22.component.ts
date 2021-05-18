@@ -1013,6 +1013,9 @@ export class Ntemplate22 implements OnInit {
         }
       }
       if (this.yearfromLocalMachine) {
+        for(let i =0; i < this.Arryears.length ; i++){
+          this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
+        }
         let yearInfo = this.Arryears.filter((item) => item.checkRightorWrong == true)[0];
         if (yearInfo && yearInfo.id == this.feedbackObj.correct_year && this.feedbackObj.correct_year != "") {
           this.isCorrectYear = true;
@@ -1027,8 +1030,8 @@ export class Ntemplate22 implements OnInit {
       }
       for (let i = 0; i < days; i++) {
         this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
-        this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
-        // this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid showFade";
+        // this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
+        this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid showFade";
         if (this.datesArr[i].disable) {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
@@ -1507,6 +1510,9 @@ export class Ntemplate22 implements OnInit {
       this.Arryears[indexofRightyear].setInShowAns = true;
       this.Arryears[indexofRightyear].ImginpopUp = this.Arryears[indexofRightyear].rightyearImg;
     } else {
+      for(let i =0; i < this.Arryears.length ; i++){
+        this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
+      }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].yearsImg = this.Arryears.filter((item) => item.selected == true)[0].selectedyearsImg;
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
