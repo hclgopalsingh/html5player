@@ -3,6 +3,9 @@ import { ApplicationmodelService } from '../../../model/applicationmodel.service
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import {
     trigger,
     state,
@@ -145,6 +148,11 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     popupHeader: any;
     disableAllOption = false;
     showAnswerPopup: boolean = false;
+    confirmPopupSubscription: any;
+    timerSubscription: Subscription;
+    tempSubscription: Subscription;
+    isLastQuestion: boolean;
+    actComplete: boolean = false;
 
     @ViewChild('mainContainer') mainContainer: any;
     @ViewChild('instructionVO') instructionVO: any;
@@ -177,7 +185,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         });
         this.checkquesTab();
         this.setData();
-        this.appModel.getNotification().subscribe(mode => {
+        this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
                 console.log("manual mode ", mode);
             } else if (mode == "auto") {
@@ -186,12 +194,13 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                 this.getAnswer();
             }
         })
-        this.appModel.getConfirmationPopup().subscribe((val) => {
+        this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
             if (val == "uttarDikhayein") {
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.instructionVO.nativeElement.pause();
                     this.instructionVO.nativeElement.currentTime = 0;
                     this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+                    this.checkForAutoClose();
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "replayVideo") {
@@ -227,6 +236,49 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     }
     ngOnDestroy() {
         this.destroy = true;
+        if (this.confirmPopupSubscription != undefined) {
+			this.confirmPopupSubscription.unsubscribe();
+		}
+		if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+		}
+    }
+
+    checkForAutoClose() {
+		if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+		  if (this.isLastQuestion && this.actComplete) {
+			this.resetTimerForAutoClose();
+		  } else {
+			if (this.timerSubscription != undefined) {
+			  this.timerSubscription.unsubscribe();
+			}
+		  }
+		}
+	  }
+	
+	  resetTimerForAutoClose() {
+		if (this.timerSubscription) {
+		  this.timerSubscription.unsubscribe();
+		}
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const closeConfirmInterval = 2 * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+		  take(closeConfirmInterval)
+		).subscribe(value =>
+		  this.removeSubscription((closeConfirmInterval - +value) * interval),
+		  err => {
+			//console.log("error occuered....");
+		  },
+		  () => {
+        // this.sendFeedback(this.confirmModalRef.nativeElement,'no');
+        this.confirmModalRef.nativeElement.classList = "modal";
+			this.timerSubscription.unsubscribe();
+		  }
+		)
+	  }
+	  removeSubscription(timer) {
+		console.log("waiting for autoClose", timer / 1000);
     }
 
     ngAfterViewChecked() {
@@ -272,6 +324,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+        this.isLastQuestion = this.commonAssets.isLastQues;
         if (this.isLastQuesAct || this.isLastQues) {
             this.appModel.setlastQuesNT();
         }
@@ -472,6 +525,15 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     sendFeedback(ref, flag: string, action?: string) {
+        if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+        }
+        ref.classList = "modal";
+        
+        if(this.isLastQuestion && flag==="no" && this.isRightSelected && this.actComplete) {
+            this.blinkOnLastQues();
+            return;
+        }
         this.appModel.handlePostVOActivity(false);
         this.appModel.notifyUserAction();
         if (flag == 'no') {
@@ -481,7 +543,6 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                 this.disableOption = false;
             }, 1000);
         }
-        ref.classList = "modal";
         if (action == "showAnswer") {
             this.showAnswerPopup = true;
             this.styleHeaderPopup = this.feedbackObj.style_header;
@@ -705,6 +766,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
     blinkOnLastQues() {
+        this.actComplete = true;
         if (this.appModel.isLastSectionInCollection) {
             this.appModel.blinkForLastQues(this.attemptType);
             this.appModel.stopAllTimer();

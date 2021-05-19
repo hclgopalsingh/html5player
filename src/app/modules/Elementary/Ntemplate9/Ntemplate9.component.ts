@@ -4,6 +4,8 @@ import { Subject, Observable, Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 import {
   trigger,
   state,
@@ -122,7 +124,11 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
   disableremovalTimer:any;
   initialDisableTimer:any;
   popupTxtRequired:boolean=false;
-  manualClickedonCrossbtn:boolean=false
+  manualClickedonCrossbtn:boolean=false;
+  confirmPopupSubscription: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+	actComplete: boolean = false;
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
   constructor(appModel: ApplicationmodelService, private Sharedservice: SharedserviceService) {
@@ -218,7 +224,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
       }
     });
 
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       this.optionObj[this.index1].imgsrc=this.optionObj[this.index1].imgsrc_original;
       this.startCount=0;
@@ -231,6 +237,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         }
         this.instructionDisable = true;
         this.displayconfirmPopup = true;
+        this.checkForAutoClose();
       }
     });
 
@@ -268,6 +275,12 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
     clearInterval(this.rightAnsTimeout);
     clearInterval(this.showAnssetTimeout);
     clearInterval(this.initialDisableTimer);
+    if (this.confirmPopupSubscription != undefined) {
+			this.confirmPopupSubscription.unsubscribe();
+		}
+		if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+		}
     this.index1 = 0;
     if(this.narrator.nativeElement!=undefined){
       this.narrator.nativeElement.pause();
@@ -279,6 +292,42 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
       }
     }
   }
+
+  checkForAutoClose() {
+		if (this.displayconfirmPopup) {
+		  if (this.isLastQuestion && this.actComplete) {
+			this.resetTimerForAutoClose();
+		  } else {
+			if (this.timerSubscription != undefined) {
+			  this.timerSubscription.unsubscribe();
+			}
+		  }
+		}
+	  }
+	
+	  resetTimerForAutoClose() {
+		if (this.timerSubscription) {
+		  this.timerSubscription.unsubscribe();
+		}
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const closeConfirmInterval = 2 * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+		  take(closeConfirmInterval)
+		).subscribe(value =>
+		  this.removeSubscription((closeConfirmInterval - +value) * interval),
+		  err => {
+			//console.log("error occuered....");
+		  },
+		  () => {
+        this.sendFeedback('confirm-modal-id','no');
+			this.timerSubscription.unsubscribe();
+		  }
+		)
+	  }
+	  removeSubscription(timer) {
+		console.log("waiting for autoClose", timer / 1000);
+    }
 
   ngAfterViewChecked() {
     this.templatevolume(this.appModel.volumeValue, this);
@@ -526,6 +575,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
   /******Blinking of next Button *******/
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -682,6 +732,7 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
       this.noOfImgs = this.commonAssets.imgCount;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
       }
@@ -737,6 +788,9 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
 
 /******Show Answer Functionality after click on Yes *******/
   sendFeedback(id: string, flag: string) {
+    if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+		}
     this.displayconfirmPopup = false;
     if (flag == "yes") {
       this.manualClickedonCrossbtn=false;
