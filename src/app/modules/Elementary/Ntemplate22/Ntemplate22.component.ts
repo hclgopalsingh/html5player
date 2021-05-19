@@ -1501,6 +1501,9 @@ export class Ntemplate22 implements OnInit {
     }
     if (this.feedbackObj.correct_year != "") {
       this.date.setFullYear(this.feedbackObj.correct_year);
+      for(let i =0; i < this.Arryears.length ; i++){
+        this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
+      }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
         this.Arryears.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
