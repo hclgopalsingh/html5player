@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 import {
     trigger,
     state,
@@ -179,6 +181,11 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     popupTxtRequired:boolean=false;
     closeFeedbackPopup: NodeJS.Timer;
     closeFeedbackPopup2: NodeJS.Timer;
+    confirmPopupSubscription: any;
+	timerSubscription: Subscription;
+    isLastQuestion: boolean;
+    tempSubscription: Subscription;
+	actComplete: boolean = false;
     styleblockLeft = [
         { 'top': '33%', 'left': '24.8%' },
         { 'top': '33%', 'left': '32.8%' },
@@ -245,7 +252,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             this.showAnsTimeout = data.showAnsTimeout;
         });
         this.setData();
-        this.appModel.getNotification().subscribe(mode => {
+        this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
             if (mode == "manual") {
                 console.log("manual mode ", mode);
             } else if (mode == "auto") {
@@ -255,7 +262,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 this.getAnswer();
             }
         })
-        this.appModel.getConfirmationPopup().subscribe((val) => {
+        this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
             this.appModel.notifyUserAction(); 
             if(this.audio && !this.audio.paused){
                 this.audio.pause();
@@ -278,6 +285,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
                 clearTimeout(this.showAnsTimeout);
                 if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
                     this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+                    this.checkForAutoClose();
                     this.appModel.notifyUserAction();
                 }
             } else if (val == "submitAnswer") {
@@ -333,6 +341,15 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         clearTimeout(this.nextFeedbackTimer);
         clearTimeout(this.showAnsTimeout);
         clearInterval(this.blinkTimeInterval);
+        if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+        }
+        if (this.confirmPopupSubscription != undefined) {
+			this.confirmPopupSubscription.unsubscribe();
+		}
+		if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+		}
         this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
         this.optionHolder.rightHolder = this.optionHolder.rightHolder_original;
         /*Start: Theme Implementation(Template Changes)*/
@@ -341,6 +358,43 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         }
         /*End: Theme Implementation(Template Changes)*/
     }
+
+    checkForAutoClose() {
+		if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+		  if (this.isLastQuestion && this.actComplete) {
+			this.resetTimerForAutoClose();
+		  } else {
+			if (this.timerSubscription != undefined) {
+			  this.timerSubscription.unsubscribe();
+			}
+		  }
+		}
+	  }
+	
+	  resetTimerForAutoClose() {
+		if (this.timerSubscription) {
+		  this.timerSubscription.unsubscribe();
+		}
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const closeConfirmInterval = 2 * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+		  take(closeConfirmInterval)
+		).subscribe(value =>
+		  this.removeSubscription((closeConfirmInterval - +value) * interval),
+		  err => {
+			//console.log("error occuered....");
+		  },
+		  () => {
+        this.sendFeedback(this.confirmModalRef.nativeElement,'no')
+			this.timerSubscription.unsubscribe();
+		  }
+		)
+	  }
+	  removeSubscription(timer) {
+		console.log("waiting for autoClose", timer / 1000);
+    }
+
     /*Start: Theme Implementation(Template Changes)*/
     checkquesTab() {
         if (this.fetchedcontent.commonassets.ques_control != undefined) {
@@ -427,6 +481,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.confirmReplayAssets = this.fetchedcontent.replay_confirm;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
+        this.isLastQuestion = this.commonAssets.isLastQues;
         if (this.isLastQuesAct || this.isLastQues) {
             this.appModel.setlastQuesNT();
         }
@@ -829,6 +884,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     sendFeedback(ref, flag: string, action?: string) {
+        if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+		}
         this.appModel.notifyUserAction();
         ref.classList = "modal";
         clearTimeout(this.closeFeedbackPopup);
@@ -1121,6 +1179,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     blinkOnLastQues() {
+        this.actComplete = true;
         if (this.appModel.isLastSectionInCollection) {
             this.appModel.blinkForLastQues(this.attemptType);
             this.appModel.stopAllTimer();

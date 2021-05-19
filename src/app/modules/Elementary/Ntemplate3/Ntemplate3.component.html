@@ -129,6 +129,14 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+            #instructionBarFeedback>
+            <div class="instructionBase">
+              <img *ngIf="rightanspopUpheader_img" class="img-fluid" [src]="feedbackObj?.rightAnswer_style_title?.url">
+              <img *ngIf="wronganspopUpheader_img" class="img-fluid" [src]="feedbackObj?.wrongAnswer_style_title?.url">
+              <img *ngIf="showanspopUpheader_img" class="img-fluid" [src]="feedbackObj?.showAnswer_style_title?.url">
+            </div>
+          </div>
           <div class="row mx-0 optionsBlock" #popupBodyRef>
             <ng-container *ngIf="this.Array2required">
               <div class="my-auto quesImage" *ngFor="let options of AnsObj;let idx = index">
@@ -163,7 +171,11 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="feedbackObj?.partial_style_body">
-
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback">
+          <div class="instructionBase">
+            <img class="img-fluid" [src]="feedbackObj?.partialAnswer_style_title?.url" />
+          </div>
+        </div>
           <ng-container *ngIf="this.partialpopupRequired">
             <div class="row mx-0 optionsBlock" #partialpopupBodyRef>
               <div class="my-auto quesImage">

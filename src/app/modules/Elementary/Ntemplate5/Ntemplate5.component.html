@@ -53,6 +53,14 @@
 
         <!-- Modal body -->
         <div class="modal-body d-flex justify-content-center" [ngStyle]="styleBodyPopup">
+          <div class="flex-row justify-content-around instructionBar" id="instructionBarFeedback"
+              #instructionBarFeedback>
+              <div class="instructionBase">
+                <img *ngIf="rightanspopUpheader_img" class="img-fluid" [src]="feedbackObj.rightAnswer_style_title.url">
+                <img *ngIf="wronganspopUpheader_img" class="img-fluid" [src]="feedbackObj.wrongAnswer_style_title.url">
+                <img *ngIf="showanspopUpheader_img" class="img-fluid" [src]="feedbackObj.showAnswer_style_title.url">
+              </div>
+            </div>
           <div class="row mx-0 optionsBlock">
             <div class="my-auto quesImage" #popupBodyRef>
               <div class="options">

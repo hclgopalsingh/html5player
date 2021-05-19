@@ -5,6 +5,8 @@ import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { ThemeConstants } from '../../../common/themeconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 import {
   trigger,
   state,
@@ -262,6 +264,10 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   destroy: boolean = false;
   showAnswerPopup: boolean = false;
   isRightSelected: boolean = false;
+  confirmPopupSubscription: any;
+	timerSubscription: Subscription;
+	isLastQuestion: boolean;
+	actComplete: boolean = false;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -2134,7 +2140,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.setData();
-    this.appModel.getNotification().subscribe(mode => {
+    this.tempSubscription = this.appModel.getNotification().subscribe(mode => {
       if (mode == "manual") {
         console.log("manual mode ", mode);
       } else if (mode == "auto") {
@@ -2145,7 +2151,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
         this.showFeedback('yes');
       }
     })
-    this.appModel.getConfirmationPopup().subscribe((val) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
       this.disableSection = false;
       this.InstructionVo = true;
       this.bodyContentDisable = false;
@@ -2154,6 +2160,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
         this.InstructionVo = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.checkForAutoClose();
           if (this.Myspeaker && this.Myspeaker.nativeElement) {
             this.Myspeaker.nativeElement.pause();
             this.Myspeaker.nativeElement.currentTime = 0;
@@ -2230,9 +2237,51 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.feedbackPopupAudio.nativeElement.pause();
     this.feedbackPopupAudio.nativeElement.currentTime = 0;
     clearTimeout(this.showAnssetTimeout);
+    if (this.confirmPopupSubscription != undefined) {
+			this.confirmPopupSubscription.unsubscribe();
+		}
+		if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+		}
     // this.refQuesArr = [];
     // this.QuesArr = [];
   }
+
+  checkForAutoClose() {
+		if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+		  if (this.isLastQuestion && this.actComplete) {
+			this.resetTimerForAutoClose();
+		  } else {
+			if (this.timerSubscription != undefined) {
+			  this.timerSubscription.unsubscribe();
+			}
+		  }
+		}
+	  }
+	
+	  resetTimerForAutoClose() {
+		if (this.timerSubscription) {
+		  this.timerSubscription.unsubscribe();
+		}
+		this.appModel.stopAllTimer();
+		const interval = 1000;
+		const closeConfirmInterval = 2 * 60;
+		this.timerSubscription = timer(0, interval).pipe(
+		  take(closeConfirmInterval)
+		).subscribe(value =>
+		  this.removeSubscription((closeConfirmInterval - +value) * interval),
+		  err => {
+			//console.log("error occuered....");
+		  },
+		  () => {
+        this.showFeedback('no');
+			this.timerSubscription.unsubscribe();
+		  }
+		)
+	  }
+	  removeSubscription(timer) {
+		console.log("waiting for autoClose", timer / 1000);
+    }
 
   ngAfterViewInit() {
 
@@ -2611,6 +2660,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       console.log("blinkForLastQues")
       this.appModel.blinkForLastQues(this.attemptType);
@@ -2851,6 +2901,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       this.optionsAssets = this.fetchedcontent.optionsObj;
       this.feedbackObj = this.fetchedcontent.feedback;
@@ -3035,6 +3086,9 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showFeedback(flag: string) {
+    if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+		}
     this.showAnswerPopup = true;
     this.attemptType = "manual";
     if (this.index != undefined) {
@@ -3057,16 +3111,17 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       if (!this.clicked) {
         this.coverTop = false;
         this.coverBottom = true;
+        setTimeout(() => {
+          this.optionDisable = false;
+  
+        }, 2000);
       }
       else {
         this.coverTop = true;
         this.coverBottom = false;
         this.optionDisable = true;
+        this.disableSection = true;
       }
-      setTimeout(() => {
-        this.optionDisable = false;
-
-      }, 2000);
 
       this.appModel.notifyUserAction();
       this.confirmModalRef.nativeElement.classList = "modal";
@@ -3074,6 +3129,9 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   }
 
   sendFeedback(id, flag: string, action?: string) {
+    if (this.timerSubscription != undefined) {
+			this.timerSubscription.unsubscribe();
+		}
     this.count = 0;
     if (!this.clicked) {
       this.coverTop = false;
@@ -3260,6 +3318,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }, 2000);
       if (this.clicked) {
         this.coverBottom = false;
+        this.disableSection = true;
       }
 
       id.classList = "modal";

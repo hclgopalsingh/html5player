@@ -5,6 +5,8 @@ import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 declare var $: any;
 
 @Component({
@@ -152,6 +154,10 @@ export class Ntemplate3 implements OnInit {
   showAnsTimeout:number;
   disableSection:boolean = false;
   enableOption:boolean = false;
+  confirmPopupSubscription: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete : boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -307,6 +313,7 @@ export class Ntemplate3 implements OnInit {
   }
 
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -386,7 +393,7 @@ export class Ntemplate3 implements OnInit {
     })
 
 
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (action == "uttarDikhayein") {
         this.InstructionVo = false;
@@ -398,6 +405,7 @@ export class Ntemplate3 implements OnInit {
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           $("#instructionBar").addClass("disable_div");
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+          this.checkForAutoClose();
           //check 
         }
       }
@@ -461,9 +469,51 @@ export class Ntemplate3 implements OnInit {
     if(this.bgSubscription!=undefined){
       this.bgSubscription.unsubscribe();
     }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
     this.narrator.nativeElement.pause();
 		this.narrator.nativeElement.currentTime = 0;
     /*End: Theme Implementation(Template Changes)*/
+  }
+
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id','no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
   }
 
   postWrongAttemplt() {
@@ -715,6 +765,7 @@ export class Ntemplate3 implements OnInit {
         //this.appModel.setQuesControlAssets(fetchedData.commonassets.ques_control);
         this.ques_control = this.fetchedcontent.commonassets.ques_control;
         this.noOfImgs = this.commonAssets.imgCount;
+        this.isLastQuestion = this.commonAssets.isLastQues;
         this.isFirstQues = this.commonAssets.isFirstQues;
         this.isLastQues = this.appModel.isLastSection;
         this.isLastQuesAct = this.appModel.isLastSectionInCollection;
@@ -1315,6 +1366,9 @@ export class Ntemplate3 implements OnInit {
     }
   }
   sendFeedback(id: string, flag: string) {
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.attemptType = "auto";
     this.confirmModalRef.nativeElement.classList = "modal";
     if(flag != "no") {

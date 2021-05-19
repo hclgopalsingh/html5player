@@ -225,30 +225,30 @@
           <div id="optionsBlock" #optionsBlock>
             <div class="leftBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseMonths.png"> -->
-              <img class="img-fluid" [src]="commonAssets?.backgroundMonths?.url">
+              <img class="img-fluid" [src]="commonAssets?.backgroundPopupMonths?.url">
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of monthsArr; let idx = index" [src]="item?.checkRightorWrong ? 
                 item?.ImginpopUp?.location=='content' ? item?.ImginpopUp?.url : item?.ImginpopUp?.url :
-                item?.monthImg?.location=='content' ? item?.monthImg?.url : item?.monthImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected,'showFade':!item.checkRightorWrong && !isShowAns }">
+                item?.disablemonthImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong }">
               </div>
             </div>
             <div class="topBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseYears.png"> -->
-              <img class="img-fluid"  [src]="commonAssets?.backgroundYears?.url">
+              <img class="img-fluid"  [src]="commonAssets?.backgroundPopupYears?.url">
               <div class="blockContent">
                 <img class="img-fluid" *ngFor="let item of Arryears; let idx = index" [src]="item?.checkRightorWrong ? 
                 item?.ImginpopUp?.location=='content' ?  item?.ImginpopUp?.url : item?.ImginpopUp?.url :
-                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected,'showFade':!item.checkRightorWrong && !isShowAns }">
+                item?.yearsImg?.location=='content' ? item?.yearsImg?.url :  item?.yearsImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong }">
               </div>
             </div>
             <div class="rightBlock">
               <!-- <img class="img-fluid" src="../../assets/images/Template-22/baseDaysWeeks.png"> -->
-              <img class="img-fluid" [src]="commonAssets?.backgroundDaysWeeks?.url">
+              <img class="img-fluid" [src]="commonAssets?.backgroundPopupDaysWeeks?.url">
               <div class="weekDays">
                 <div class="blockContent">
                   <img class="img-fluid" *ngFor="let item of ArrweekDays; let idx = index" [src]="item?.checkRightorWrong ? 
                   item?.weekDayImginpopUp?.location=='content' ? item?.weekDayImginpopUp?.url : item?.weekDayImginpopUp?.url :
-                  item?.weekDayImg?.location=='content' ? item?.weekDayImg?.url : item?.weekDayImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected,'showFade':!item.checkRightorWrong && !isShowAns}">
+                  item?.disableweekDayImg?.url" [ngClass] = "{'disable-state': item.disabled,'zoom-in' :item.userSelected || item.setInShowAns,'showFade':!item.checkRightorWrong}">
                 </div>
               </div>
               <div class="monthDates" #monthDatesinPopup>
