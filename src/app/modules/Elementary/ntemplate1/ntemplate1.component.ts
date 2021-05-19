@@ -4,7 +4,8 @@ import { Subject, Observable, Subscription } from 'rxjs'
 import { PlayerConstants } from '../../../common/playerconstants';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
-
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'ntemp1',
@@ -115,6 +116,10 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
   moveonSameOption:boolean=false;
   instructionBarclick:HTMLElement;
   wrongFeedbackAudioTimer:any;
+  confirmPopupSubscription: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete : boolean = false;
 
   /*Start-LifeCycle events*/
   private appModel: ApplicationmodelService;
@@ -195,7 +200,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
     })
 
 
-    this.appModel.getConfirmationPopup().subscribe((action) => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((action) => {
       this.appModel.notifyUserAction();
       if (this.i != undefined && this.j != undefined) {
         if (!this.optionsBlock.nativeElement.children[this.i].children[this.j].children[1].paused) {
@@ -230,6 +235,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
         this.instructionDisable = true;
         this.disableDiv = true;
         this.displayconfirmPopup = true;
+        this.checkForAutoClose();
       }
       if (action == "submitAnswer") {
         if (!this.instruction.nativeElement.paused) {
@@ -289,10 +295,52 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       this.questionAudio.nativeElement.pause();
       this.questionAudio.nativeElement.currentTime = 0;
     }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
     this.narrator.nativeElement.pause();
     this.narrator.nativeElement.currentTime = 0;
   }
   /*End-LifeCycle events*/
+
+  checkForAutoClose() {
+    if (this.displayconfirmPopup) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id','no');;
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
 
   /*Start-Template click and hover events*/
   playHoverInstruction() {
@@ -514,6 +562,9 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
   }
 
   sendFeedback(id: string, flag: string) {
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.attemptType = "auto";
     //this.confirmModalRef.nativeElement.classList = "modal";
     this.displayconfirmPopup = false;
@@ -875,6 +926,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
 
 
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -1034,6 +1086,7 @@ export class Ntemplate1Component implements OnInit, OnDestroy {
       this.feedback = this.fetchedcontent.feedback;
       this.commonAssets = this.fetchedcontent.commonassets;
       this.noOfImgs = this.commonAssets.imgCount;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQues = this.appModel.isLastSection;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {

@@ -3,9 +3,10 @@ import { ApplicationmodelService } from '../../../model/applicationmodel.service
 import { Subject, Observable, Subscription } from 'rxjs'
 import 'jquery';
 import { PlayerConstants } from '../../../common/playerconstants';
-import { subscriptionLogsToBeFn } from 'rxjs/testing/TestScheduler';
 import { SharedserviceService } from '../../../services/sharedservice.service';
 import { ThemeConstants } from '../../../common/themeconstants';
+import { timer } from 'rxjs/observable/timer';
+import { take } from 'rxjs/operators';
 
 
 declare var $: any;
@@ -116,12 +117,16 @@ export class Ntemplate5 implements OnInit {
     isReplayRequired:false
    };
   //themePath:any = "";
-  themePath:any;
-   fetchedcontent:any;
-   functionalityType:any;
-   InstructionVo:boolean=false;
-   showAnsTimeout:number;
-   disableSection:boolean = false;
+  themePath: any;
+  fetchedcontent: any;
+  functionalityType: any;
+  InstructionVo: boolean = false;
+  showAnsTimeout: number;
+  disableSection: boolean = false;
+  confirmPopupSubscription: any;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete: boolean = false;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -294,6 +299,7 @@ export class Ntemplate5 implements OnInit {
     }
   }
   blinkOnLastQues() {
+    this.actComplete = true;
     if (this.appModel.isLastSectionInCollection) {
       this.appModel.blinkForLastQues(this.attemptType);
       this.appModel.stopAllTimer();
@@ -397,7 +403,7 @@ export class Ntemplate5 implements OnInit {
  }
     })
 
-    this.appModel.getConfirmationPopup().subscribe(() => {
+    this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe(() => {
       this.appModel.notifyUserAction();
       if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
         if (!this.instruction.nativeElement.paused)
@@ -408,6 +414,7 @@ export class Ntemplate5 implements OnInit {
             }
         $("#instructionBar").addClass("disable_div");
         this.confirmModalRef.nativeElement.classList = "displayPopup modal";
+        this.checkForAutoClose();
       }
     })
 
@@ -521,6 +528,7 @@ export class Ntemplate5 implements OnInit {
       this.noOfImgs = this.commonAssets.imgCount;
       this.isFirstQues = this.commonAssets.isFirstQues;
       this.isLastQues = this.appModel.isLastSection;
+      this.isLastQuestion = this.commonAssets.isLastQues;
       this.isLastQuesAct = this.appModel.isLastSectionInCollection;
       if (this.isLastQuesAct || this.isLastQues) {
         this.appModel.setlastQuesNT();
@@ -579,6 +587,9 @@ export class Ntemplate5 implements OnInit {
   }
 
   sendFeedback(id: string, flag: string) {
+    if (this.timerSubscription != undefined) {
+      this.timerSubscription.unsubscribe();
+    }
     this.confirmModalRef.nativeElement.classList = "modal";
     this.attemptType = "auto";
     if (flag == "yes") {
@@ -621,7 +632,9 @@ export class Ntemplate5 implements OnInit {
       $("#optionsBlock").addClass("disable_div");
       $("#instructionBar").removeClass("disable_div");
        setTimeout(() => {
-        $("#optionsBlock").removeClass("disable_div");
+         if(!this.checked) {
+          $("#optionsBlock").removeClass("disable_div");
+         }
       }, 1000);
     }
   }
@@ -630,9 +643,52 @@ export class Ntemplate5 implements OnInit {
     if(this.bgSubscription!=undefined){
       this.bgSubscription.unsubscribe();
     }
+    if (this.confirmPopupSubscription != undefined) {
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
     this.narrator.nativeElement.pause();
 		this.narrator.nativeElement.currentTime = 0;
   }
+
+  checkForAutoClose() {
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
+    }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.sendFeedback('confirm-modal-id','no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
+
 
   closeModal() {  
     $("#optionsBlock").addClass("disable_div");
