@@ -690,7 +690,7 @@ button:focus {
     max-width: 100%;/*77%;*/
   }
 
-#modalTemp5 .modal-body img {
+#modalTemp5 .modal-body .optionsBlock img {
   max-width: 94%;
   /* width: 70%; */
 }
@@ -791,7 +791,8 @@ html [type=button] {
 }
 #modalPartialOptions .optionsBlock {
   padding: 0 1%;
-  width: 96%;
+  width: 83%;
+  margin-top: 6%;
 }
 
 #modalPartialOptions .optionsBlock .options {
