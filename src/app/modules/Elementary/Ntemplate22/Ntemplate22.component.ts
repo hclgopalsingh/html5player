@@ -779,7 +779,9 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
-        this.monthsArr.filter((item) => item.userSelected == true)[0].userSelected = false;
+        if(this.monthfromLocalMachine){
+          this.monthsArr.filter((item) => item.userSelected == true)[0].userSelected = false;
+        }        
       }
       if (this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -813,7 +815,9 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
-        this.Arryears.filter((item) => item.userSelected == true)[0].userSelected = false;
+        if(this.yearfromLocalMachine){
+          this.Arryears.filter((item) => item.userSelected == true)[0].userSelected = false;
+        }        
       }
       this.date.setFullYear(item.id);
       item.userSelected = true;
@@ -997,6 +1001,9 @@ export class Ntemplate22 implements OnInit {
         this.monthDatesinPopup.nativeElement.children[0].children[i].src = "./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
         this.monthDatesinPopup.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
       }
+      for(let i =0; i < this.Arryears.length ; i++){
+        this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
+      }
       if (this.monthfromLocalMachine) {
         let monthInfo = this.monthsArr.filter((item) => item.checkRightorWrong == true)[0];
         if (monthInfo) {
@@ -1012,10 +1019,7 @@ export class Ntemplate22 implements OnInit {
           }
         }
       }
-      if (this.yearfromLocalMachine) {
-        for(let i =0; i < this.Arryears.length ; i++){
-          this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
-        }
+      if (this.yearfromLocalMachine) {        
         let yearInfo = this.Arryears.filter((item) => item.checkRightorWrong == true)[0];
         if (yearInfo && yearInfo.id == this.feedbackObj.correct_year && this.feedbackObj.correct_year != "") {
           this.isCorrectYear = true;
@@ -2131,10 +2135,7 @@ export class Ntemplate22 implements OnInit {
       this.selectedDate.date.selected = false;
       this.selectedDate.date.userSelected = false;
     }
-
-    for (let i = 0; i < this.datesArr.length; i++) {
-      this.datesArr[i].dateImg = this.datesArr[i].dateOriginalImg
-    }
+    this.date = new Date();
     this.date.setDate(1);
     if ((this.date.getFullYear() % 4 == 0 || this.date.getFullYear() % 400 == 0) && this.date.getMonth() == 1) {
       var days = this.monthsArr[this.date.getMonth()].days + 1;
@@ -2146,14 +2147,21 @@ export class Ntemplate22 implements OnInit {
     } else {
       this.startIndex = this.date.getDay() - 1;
     }
+    for (let i = 0; i < this.monthDates.nativeElement.children[0].children.length; i++) {
+      this.monthDates.nativeElement.children[0].children[i].src = "./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
+      this.monthDates.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
+    }
+    for (let i = 0; i < this.datesArr.length; i++) {
+      this.datesArr[i].dateImg = this.datesArr[i].dateOriginalImg
+    }
     for (let i = 0; i < days; i++) {
-      this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].id = i;
-      this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
-      this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateImg.url;
+      this.monthDates.nativeElement.children[0].children[this.startIndex].id = i;
+      this.monthDates.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid";
+      this.monthDates.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].dateOriginalImg.url;
       this.startIndex++;
     }
     this.setData();
-    this.setDatefromJSON();
+    // this.setDatefromJSON();
   }
   blinkFlag: boolean;
   blinkTimeInterval: any;
