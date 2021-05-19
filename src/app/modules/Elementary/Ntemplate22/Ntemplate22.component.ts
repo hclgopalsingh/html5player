@@ -779,7 +779,7 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
-        this.monthsArr.filter((item) => item.selected == true)[0].userSelected = false;
+        this.monthsArr.filter((item) => item.userSelected == true)[0].userSelected = false;
       }
       if (this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -813,7 +813,7 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
-        this.Arryears.filter((item) => item.selected == true)[0].userSelected = false;
+        this.Arryears.filter((item) => item.userSelected == true)[0].userSelected = false;
       }
       this.date.setFullYear(item.id);
       item.userSelected = true;
@@ -885,7 +885,7 @@ export class Ntemplate22 implements OnInit {
 
       if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
         this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
-        this.ArrweekDays.filter((item) => item.selected == true)[0].userSelected = false;
+        this.ArrweekDays.filter((item) => item.userSelected == true)[0].userSelected = false;
       }
       if (this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
