@@ -1468,6 +1468,9 @@ export class Ntemplate22 implements OnInit {
   //show ans feedback
   showAnswerFeedback() {
     this.appModel.resetBlinkingTimer();
+    if(!this.actComplete){
+      // this.resetQues();
+    }
     if (this.selectedDate.month && this.selectedDate.month.userSelected) {
       this.selectedDate.month.userSelected = false;
     }
@@ -1478,7 +1481,7 @@ export class Ntemplate22 implements OnInit {
       this.selectedDate.year.userSelected = false;
     }
     if (this.selectedDate.date && this.selectedDate.date.userSelected) {
-      this.selectedDate.date.userSelected = false;
+      this.selectedDate.date.userSelected = false;      
     }
     if (this.feedbackObj.correct_month != "") {
       this.date.setDate(this.feedbackObj.correct_date);
@@ -2291,16 +2294,16 @@ export class Ntemplate22 implements OnInit {
     this.popupRef.nativeElement.classList = "modal";
     this.appModel.notifyUserAction();
     if (this.checked) {
-      if (this.selectedDate.month && this.isCorrectMonth) {
+      if (this.selectedDate.month) {
         this.selectedDate.month.selected = true;
       }
-      if (this.selectedDate.week && this.isCorrectweekDay) {
+      if (this.selectedDate.week) {
         this.selectedDate.week.selected = true;
       }
-      if (this.selectedDate.year && this.isCorrectYear) {
+      if (this.selectedDate.year) {
         this.selectedDate.year.selected = true;
       }
-      if (this.selectedDate.date && this.isCorrectDate) {
+      if (this.selectedDate.date) {
         this.selectedDate.date.selected = true;
       }
       this.blinkOnLastQues();
