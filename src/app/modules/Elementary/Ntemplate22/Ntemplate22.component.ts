@@ -1070,7 +1070,7 @@ export class Ntemplate22 implements OnInit {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid disable-state";
         }
         if (i + 1 == this.feedbackObj.correct_date) {
-          // this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid zoom-in";
+          this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].classList.value = "img-fluid zoom-in";
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].rightdateImg.url;
         } else {
           this.monthDatesinPopup.nativeElement.children[0].children[this.startIndex].src = this.datesArr[i].disabledateImg.url;
