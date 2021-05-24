@@ -421,7 +421,7 @@ button:focus {
 }
 
 #modalTemp5 .modal-body{
-  height: 35.3vmax;
+  height: auto; /*35.3vmax;*/
 }
 .modal-content {
 	background: transparent !important;
@@ -467,8 +467,8 @@ button:focus {
 
 #modalTemp5 .modal-body .optionsBlock  img {
   max-width: 100%;
-  width: 63%;
-  margin-top: 7%;
+  /* width: 63%;
+  margin-top: 7%; */
 }
 
 .modal #instructionBarFeedback .instructionBase {
@@ -487,7 +487,7 @@ button:focus {
 
 .modal .quesImage {
   align-self: center;
-  margin: 1% auto !important;
+  margin-top: 7.7% !important;
 }
 
 #modalTemp5 .quesImage {
@@ -496,6 +496,7 @@ button:focus {
 
 #modalTemp5 .optionsBlock .options {
   width: 100%;
+  margin: 4% auto;
 }
   .close:focus, .close:hover {
     /*color: #000;

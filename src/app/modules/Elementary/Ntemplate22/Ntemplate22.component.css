@@ -221,7 +221,10 @@ position: absolute;
   opacity: 0.3;
   pointer-events: none;
 }
-
+.modal .disable-state {
+  opacity: 1;
+  pointer-events: none;
+}
 .selected-state {
   pointer-events: none;
 }
