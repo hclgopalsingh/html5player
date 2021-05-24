@@ -189,11 +189,11 @@ export class Ntemplate3 implements OnInit {
       if (this.narrator.nativeElement.paused) {
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.cursor = "pointer";
         this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transform = "scale(1.1)";
-        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "transform .5s";
+        this.optionsBlock.nativeElement.children[i].children[j].children[0].style.transition = "all 0.3s ease-in-out";
       }
     }
   }
-
+//transform .5s
 
   playHoverOption(opt, i, j) {
     this.InstructionVo = false;
