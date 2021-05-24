@@ -779,9 +779,7 @@ export class Ntemplate22 implements OnInit {
       }
       if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
-        if(this.monthfromLocalMachine){
-          this.monthsArr.filter((item) => item.userSelected == true)[0].userSelected = false;
-        }        
+        this.monthsArr.filter((item) => item.userSelected == true)[0].userSelected = false;
       }
       if (this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -814,10 +812,9 @@ export class Ntemplate22 implements OnInit {
         this.monthDates.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
       }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
+        this.Arryears.filter((item) => item.selected == true)[0].userSelected = false;
         this.Arryears.filter((item) => item.selected == true)[0].selected = false;
-        if(this.yearfromLocalMachine){
-          this.Arryears.filter((item) => item.userSelected == true)[0].userSelected = false;
-        }        
+        
       }
       this.date.setFullYear(item.id);
       item.userSelected = true;
@@ -1001,7 +998,7 @@ export class Ntemplate22 implements OnInit {
         this.monthDatesinPopup.nativeElement.children[0].children[i].src = "./assets/images/Template-22/English/Images English/Days/Days Normal/date01.png";
         this.monthDatesinPopup.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
       }
-      for(let i =0; i < this.Arryears.length ; i++){
+      for (let i = 0; i < this.Arryears.length; i++) {
         this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
       }
       if (this.monthfromLocalMachine) {
@@ -1019,7 +1016,7 @@ export class Ntemplate22 implements OnInit {
           }
         }
       }
-      if (this.yearfromLocalMachine) {        
+      if (this.yearfromLocalMachine) {
         let yearInfo = this.Arryears.filter((item) => item.checkRightorWrong == true)[0];
         if (yearInfo && yearInfo.id == this.feedbackObj.correct_year && this.feedbackObj.correct_year != "") {
           this.isCorrectYear = true;
@@ -1468,7 +1465,7 @@ export class Ntemplate22 implements OnInit {
   //show ans feedback
   showAnswerFeedback() {
     this.appModel.resetBlinkingTimer();
-    if(!this.actComplete){
+    if (!this.actComplete) {
       // this.resetQues();
     }
     if (this.selectedDate.month && this.selectedDate.month.userSelected) {
@@ -1481,7 +1478,7 @@ export class Ntemplate22 implements OnInit {
       this.selectedDate.year.userSelected = false;
     }
     if (this.selectedDate.date && this.selectedDate.date.userSelected) {
-      this.selectedDate.date.userSelected = false;      
+      this.selectedDate.date.userSelected = false;
     }
     if (this.feedbackObj.correct_month != "") {
       this.date.setDate(this.feedbackObj.correct_date);
@@ -1508,7 +1505,7 @@ export class Ntemplate22 implements OnInit {
     }
     if (this.feedbackObj.correct_year != "") {
       this.date.setFullYear(this.feedbackObj.correct_year);
-      for(let i =0; i < this.Arryears.length ; i++){
+      for (let i = 0; i < this.Arryears.length; i++) {
         this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
       }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
@@ -1520,7 +1517,7 @@ export class Ntemplate22 implements OnInit {
       this.Arryears[indexofRightyear].setInShowAns = true;
       this.Arryears[indexofRightyear].ImginpopUp = this.Arryears[indexofRightyear].rightyearImg;
     } else {
-      for(let i =0; i < this.Arryears.length ; i++){
+      for (let i = 0; i < this.Arryears.length; i++) {
         this.Arryears[i].yearsImg = this.Arryears[i].disableyearsImg;
       }
       if (this.Arryears.filter((item) => item.selected == true)[0] != undefined) {
@@ -1544,12 +1541,12 @@ export class Ntemplate22 implements OnInit {
       if (this.feedbackObj.correct_date != "") {
         this.date.setDate(this.feedbackObj.correct_date);
         if (this.date.getDay() != 0) {
-          this.feedbackObj.correct_weekDay=this.ArrweekDays[this.date.getDay() - 1].id;
+          this.feedbackObj.correct_weekDay = this.ArrweekDays[this.date.getDay() - 1].id;
           this.ArrweekDays[this.date.getDay() - 1].checkRightorWrong = true;
           this.ArrweekDays[this.date.getDay() - 1].setInShowAns = true;
           this.ArrweekDays[this.date.getDay() - 1].weekDayImginpopUp = this.ArrweekDays[this.date.getDay() - 1].rightweekDayImg;
         } else {
-          this.feedbackObj.correct_weekDay=this.ArrweekDays[this.ArrweekDays.length - 1].id;
+          this.feedbackObj.correct_weekDay = this.ArrweekDays[this.ArrweekDays.length - 1].id;
           this.ArrweekDays[this.ArrweekDays.length - 1].checkRightorWrong = true;
           this.ArrweekDays[this.ArrweekDays.length - 1].setInShowAns = true;
           this.ArrweekDays[this.ArrweekDays.length - 1].weekDayImginpopUp = this.ArrweekDays[this.ArrweekDays.length - 1].rightweekDayImg;
@@ -1604,7 +1601,7 @@ export class Ntemplate22 implements OnInit {
         this.feedbackInfoAudio.nativeElement.currentTime = 0;
       }
     }
-    if (id == "showAnswer-modal-id" && flag == "answer") {      
+    if (id == "showAnswer-modal-id" && flag == "answer") {
       this.rightanspopUpheader_img = false;
       this.wronganspopUpheader_img = false;
       this.showanspopUpheader_img = true;

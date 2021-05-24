@@ -554,7 +554,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
     submitAttempt(idx, opt) {
         this.appModel.notifyUserAction();
-        this.appModel.enableReplayBtn(false);
+        // this.appModel.enableReplayBtn(false);
         this.startCount = 0;
         clearInterval(this.blinkTimeInterval);
         this.optionHolder.leftHolder = this.optionHolder.leftHolder_original;
