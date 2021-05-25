@@ -370,7 +370,9 @@ cursor: pointer;
 .disable_div {
   pointer-events: none;
 }
-
+.lowOpacity {
+  opacity: 0.3;
+}
 .disableDiv {
   pointer-events: none;
 }

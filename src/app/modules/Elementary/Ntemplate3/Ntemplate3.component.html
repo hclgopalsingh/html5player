@@ -1,4 +1,4 @@
-<div class="container-fluid ele temp14" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
+<div [ngClass]="{'container':true, 'ele': true, 'temp14': true, 'disable_div': disableParent}" id="container" *ngIf="!isPlayVideo && !showIntroScreen">
   <audio #narrator [src]="commonAssets?.narrator?.url"></audio>
   <div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
   <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar" [ngClass]="{'disable_div':disableSection}">
@@ -7,9 +7,9 @@
       <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
     </div>
   </div>
-  <div class="row mx-0" [ngClass]="{'disable_div':disableDiv}" id="optionsBlock" #optionsBlock >
+  <div class="row mx-0" id="optionsBlock" #optionsBlock >
     <div id={{idx}} class="my-auto quesImage" *ngFor="let optArr of optionObj;let idx = index" >
-      <div id="{{idx+''+idxx}}" class="options" *ngFor="let opt of optArr.optionsArr;let idxx = index" >
+      <div id="{{idx+''+idxx}}" [ngClass]="{'options':true, 'disable_div':opt.isDisabled, 'lowOpacity':opt.lowOpacity}" *ngFor="let opt of optArr.optionsArr;let idxx = index" >
         <img class="img-fluid" [src]="opt?.imgsrc?.url" (load)="checkImgLoaded();" (click)="onClickoption(opt,idx,idxx)" (mouseenter)="playHoverOption(opt,idx,idxx)" (mousemove)="optionHover(opt,idx,idxx)" (mouseleave)="onHoverOptionOut(opt,idx,idxx)">
         <audio #optionAudio></audio>
       </div>
