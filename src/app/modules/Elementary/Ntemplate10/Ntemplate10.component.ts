@@ -583,7 +583,7 @@ export class Ntemplate10 implements OnInit {
 					$(".instructionBase img").css("cursor", "pointer");
 				}
 				if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
-					$("#instructionBar").addClass("disable_div");
+					// $("#instructionBar").addClass("disable_div");
 					this.confirmModalRef.nativeElement.classList = "displayPopup modal";
 					this.checkForAutoClose();
 				}
@@ -972,7 +972,7 @@ export class Ntemplate10 implements OnInit {
 			this.showAnswer();
 		} else {
 			this.appModel.notifyUserAction();
-			$("#instructionBar").removeClass("disable_div");	
+			// $("#instructionBar").removeClass("disable_div");	
 		}
 	}
 
