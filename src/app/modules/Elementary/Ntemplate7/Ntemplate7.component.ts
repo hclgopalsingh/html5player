@@ -362,6 +362,7 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
                 this.optionRef.nativeElement.children[j].classList.remove('disable_div');
             }
         }
+        this.instructionBar.nativeElement.classList = "instructionBase";
     }
     playOptionHover(idx, opt) {
         this.appModel.notifyUserAction();
@@ -719,22 +720,22 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         this.speakerRef.nativeElement.classList = "speaker disableDiv";
         this.instructionBar.nativeElement.classList = "instructionBase reduceOpacity";
         if (this.isRightSelected) {
-            setTimeout(() => {
-                this.mainContainer.nativeElement.classList.add('reduceOpacity');
-                this.blinkOnLastQues();
-            }, 500)
+            // setTimeout(() => {
+            this.mainContainer.nativeElement.classList.add('reduceOpacity');
+            this.blinkOnLastQues();
+            // }, 500)
         } else {
-            setTimeout(() => {
+            // setTimeout(() => {
                 /*setTimeout(() => {
                     this.optionRef.nativeElement.children[this.optionSelected].children[1].classList.remove('invisible');
                 }, 50)*/
-                this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
-                this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
-                this.appModel.wrongAttemptAnimation();
-                setTimeout(() => {
-                    this.disableAllOption = false;
-                }, 4000);
-            }, 200)
+            this.optionRef.nativeElement.children[this.optionSelected].children[1].style.top = 'auto';
+            this.optionRef.nativeElement.children[this.optionSelected].children[1].style.left = 'auto';
+            this.appModel.wrongAttemptAnimation();
+            setTimeout(() => {
+                this.disableAllOption = false;
+            }, 4000);
+            // }, 200)
         }
     }
     postWrongAttemplt() {

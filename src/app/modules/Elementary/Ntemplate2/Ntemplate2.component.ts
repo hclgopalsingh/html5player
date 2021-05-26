@@ -11,7 +11,7 @@ import 'jquery';
 declare var $: any;
 
 @Component({
-	selector: 'ntemp18',
+	selector: 'ntemp2',
 	templateUrl: './Ntemplate2.component.html',
 	styleUrls: ['./Ntemplate2.component.css', '../../../view/css/bootstrap.min.css']
 
@@ -257,6 +257,12 @@ export class Ntemplate2 implements OnInit, OnDestroy {
 		this.rightFeedbackVO.nativeElement.pause();
 		this.rightFeedbackVO.nativeElement.currentTime = 0;
 		// clearTimeout(this.feedbackAttempt);
+		if (this.confirmPopupSubscription != undefined) {
+			this.confirmPopupSubscription.unsubscribe();
+		}
+		if (this.tempSubscription != undefined) {
+			this.tempSubscription.unsubscribe();
+		}
 		this.quesVORef.nativeElement.pause();
 		this.quesVORef.nativeElement.currentTime=0;
 		clearTimeout(this.wrongAnimTimeout);

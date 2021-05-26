@@ -641,3 +641,7 @@ html [type=button] {
 .modal-dialog .options div{
 	position: absolute;
 }
+
+.modal .instructionBase, .modal .instructionBaseFeedback {
+	max-width: 85% !important;
+}
