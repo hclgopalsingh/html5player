@@ -34,9 +34,6 @@
 	display:inline-block;
   float:left;
 }
-.optionsBlock .options img:nth-child(2){
-  cursor: pointer;
-}
 #quesImage{
 	width: 100%;
   position: relative;
@@ -72,7 +69,7 @@
     top: 0%;
     right: 12.5%;
     width: 75%;
-	  cursor:pointer;
+	  cursor:default;
 }
 .speaker {
 	width: 65%;
@@ -556,9 +553,9 @@ button:focus {
 	left: 0;
   }
 
-  .instructionBase img {
+  /* .instructionBase img {
     cursor: pointer;
-  }
+  } */
 /* wrongAns pop up */
 .wrongAns{
     position:absolute;
@@ -810,7 +807,7 @@ button:focus {
   right: 3.3%;
   z-index: 2;
   margin-top: 39.5%;
-  cursor: pointer;
+  cursor: default;
   opacity: 1;
 }
 
