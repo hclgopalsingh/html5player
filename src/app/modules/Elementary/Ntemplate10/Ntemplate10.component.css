@@ -538,7 +538,7 @@ button:focus {
 	top: 10%;
 	width: 100%;
   text-align: center;
-  cursor: pointer;
+  /* cursor: pointer; */
   }
 
   button:focus {
@@ -556,6 +556,9 @@ button:focus {
 	left: 0;
   }
 
+  .instructionBase img {
+    cursor: pointer;
+  }
 /* wrongAns pop up */
 .wrongAns{
     position:absolute;
