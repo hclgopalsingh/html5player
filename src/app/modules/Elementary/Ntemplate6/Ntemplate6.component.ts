@@ -265,9 +265,10 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   showAnswerPopup: boolean = false;
   isRightSelected: boolean = false;
   confirmPopupSubscription: any;
-	timerSubscription: Subscription;
-	isLastQuestion: boolean;
-	actComplete: boolean = false;
+  timerSubscription: Subscription;
+  isLastQuestion: boolean;
+  actComplete: boolean = false;
+  saveMatra: any;
   defaultLetterConfig = [
     {
       id: "L1",
@@ -2152,35 +2153,37 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
     })
     this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
-      this.disableSection = false;
-      this.InstructionVo = true;
-      this.bodyContentDisable = false;
+      // this.disableSection = false;
+      // this.InstructionVo = true;
+      // this.bodyContentDisable = false;
+      if (this.Myspeaker && this.Myspeaker.nativeElement && !this.Myspeaker.nativeElement.paused) {
+        this.Myspeaker.nativeElement.pause();
+        this.Myspeaker.nativeElement.currentTime = 0;
+        this.speakerWave = false;
+        this.disableSpeaker = false;
+      }
+      if (this.instructionVO && this.instructionVO.nativeElement && !this.instructionVO.nativeElement.paused) {
+        this.instructionVO.nativeElement.pause();
+        this.instructionVO.nativeElement.currentTime = 0;
+        this.disableSection = false;
+        this.InstructionVo = true;
+      }
 
       if (val == "uttarDikhayein") {
-        this.InstructionVo = true;
+        // this.InstructionVo = true;
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
-          this.checkForAutoClose();
-          if (this.Myspeaker && this.Myspeaker.nativeElement) {
-            this.Myspeaker.nativeElement.pause();
-            this.Myspeaker.nativeElement.currentTime = 0;
-            this.speakerWave = false;
-          }
-          if (this.instructionVO && this.instructionVO.nativeElement) {
-            this.instructionVO.nativeElement.pause();
-            this.instructionVO.nativeElement.currentTime = 0;
-            this.disableSpeaker = false;
-          }
+          this.checkForAutoClose();          
           this.appModel.notifyUserAction();
         }
       } else if (val == "submitAnswer") {
-        this.InstructionVo = true;
+        // this.InstructionVo = true;
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
           this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
         }
       } else if (val == "replayVideo") {
-        this.InstructionVo = true;
+        // this.InstructionVo = true;
         if (this.confirmReplayRef && this.confirmReplayRef.nativeElement) {
           this.confirmReplayRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
@@ -2188,16 +2191,16 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           this.quesObj.quesPlayPause = this.quesObj.quesPause;
           this.quesObj.quesSkip = this.quesObj.quesSkipOrigenal;
         }
-        if (this.Myspeaker && this.Myspeaker.nativeElement) {
-          this.Myspeaker.nativeElement.pause();
-          this.Myspeaker.nativeElement.currentTime = 0;
-          this.speakerWave = false;
-        }
-        if (this.instructionVO && this.instructionVO.nativeElement) {
-          this.instructionVO.nativeElement.pause();
-          this.instructionVO.nativeElement.currentTime = 0;
-          this.disableSpeaker = false;
-        }
+        // if (this.Myspeaker && this.Myspeaker.nativeElement) {
+        //   this.Myspeaker.nativeElement.pause();
+        //   this.Myspeaker.nativeElement.currentTime = 0;
+        //   this.speakerWave = false;
+        // }
+        // if (this.instructionVO && this.instructionVO.nativeElement) {
+        //   this.instructionVO.nativeElement.pause();
+        //   this.instructionVO.nativeElement.currentTime = 0;
+        //   this.disableSpeaker = false;
+        // }
       }
     });
 
@@ -2238,50 +2241,50 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.feedbackPopupAudio.nativeElement.currentTime = 0;
     clearTimeout(this.showAnssetTimeout);
     if (this.confirmPopupSubscription != undefined) {
-			this.confirmPopupSubscription.unsubscribe();
-		}
-		if (this.tempSubscription != undefined) {
-			this.tempSubscription.unsubscribe();
-		}
+      this.confirmPopupSubscription.unsubscribe();
+    }
+    if (this.tempSubscription != undefined) {
+      this.tempSubscription.unsubscribe();
+    }
     // this.refQuesArr = [];
     // this.QuesArr = [];
   }
 
   checkForAutoClose() {
-		if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
-		  if (this.isLastQuestion && this.actComplete) {
-			this.resetTimerForAutoClose();
-		  } else {
-			if (this.timerSubscription != undefined) {
-			  this.timerSubscription.unsubscribe();
-			}
-		  }
-		}
-	  }
-	
-	  resetTimerForAutoClose() {
-		if (this.timerSubscription) {
-		  this.timerSubscription.unsubscribe();
-		}
-		this.appModel.stopAllTimer();
-		const interval = 1000;
-		const closeConfirmInterval = 2 * 60;
-		this.timerSubscription = timer(0, interval).pipe(
-		  take(closeConfirmInterval)
-		).subscribe(value =>
-		  this.removeSubscription((closeConfirmInterval - +value) * interval),
-		  err => {
-			//console.log("error occuered....");
-		  },
-		  () => {
-        this.showFeedback('no');
-			this.timerSubscription.unsubscribe();
-		  }
-		)
-	  }
-	  removeSubscription(timer) {
-		console.log("waiting for autoClose", timer / 1000);
+    if (this.confirmModalRef.nativeElement.classList.contains("displayPopup")) {
+      if (this.isLastQuestion && this.actComplete) {
+        this.resetTimerForAutoClose();
+      } else {
+        if (this.timerSubscription != undefined) {
+          this.timerSubscription.unsubscribe();
+        }
+      }
     }
+  }
+
+  resetTimerForAutoClose() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.appModel.stopAllTimer();
+    const interval = 1000;
+    const closeConfirmInterval = 2 * 60;
+    this.timerSubscription = timer(0, interval).pipe(
+      take(closeConfirmInterval)
+    ).subscribe(value =>
+      this.removeSubscription((closeConfirmInterval - +value) * interval),
+      err => {
+        //console.log("error occuered....");
+      },
+      () => {
+        this.showFeedback('no');
+        this.timerSubscription.unsubscribe();
+      }
+    )
+  }
+  removeSubscription(timer) {
+    console.log("waiting for autoClose", timer / 1000);
+  }
 
   ngAfterViewInit() {
 
@@ -2308,8 +2311,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
     this.appModel.navShow = 2;
     this.appModel.videoStraming(false);
     this.appModel.notifyUserAction();
-    this.coverTop = false;
-    this.coverBottom = true;
+    // this.coverTop = false;
+    // this.coverBottom = true;
   }
   PlayPauseVideo() {
     if (this.PlayPauseFlag) {
@@ -2480,7 +2483,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-      this.Matra.nativeElement.children[this.index].classList.value = '';
+      this.saveMatra.outlineElem = false;
+      // this.Matra.nativeElement.children[this.index].classList.value = '';
     } else if (option.position == "left") {
       this.Matra.nativeElement.children[this.index].insertAdjacentHTML("beforebegin", "<img style='opacity:0;height:78%;width:4%'></img>");
       if (option.letterConfig && option.letterConfig.length > 0) {
@@ -2496,7 +2500,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       }
       this.Matra.nativeElement.children[this.index + 1].classList.value = '';
     } else if (option.position == "top" || option.position == "bottom" || option.position == "bottom_spcialCase") {
-      this.Matra.nativeElement.children[this.index].classList.value = '';
+      this.saveMatra.outlineElem = false;
+      // this.Matra.nativeElement.children[this.index].classList.value = '';
       if (option.letterConfig && option.letterConfig.length > 0) {
         this.left = (((this.windowWidth - this.mainContainerWidth) / this.windowWidth) / 7) + parseFloat(option.letterConfig[this.index].style["left"]);
       }
@@ -2656,7 +2661,9 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.coverBottom = false;
       console.log("id", id)
       this.index = id;
-      this.Matra.nativeElement.children[id].classList.value = 'outline';
+      this.saveMatra = event;
+      event.outlineElem = true;
+      // this.Matra.nativeElement.children[id].classList.value = 'outline';
     }
   }
   blinkOnLastQues() {
@@ -2715,7 +2722,7 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
   }
 
   replayVideo() {
-    this.clicked = false;
+    // this.clicked = false;
     this.replayClicked = true;
     this.skipButton = true;
     this.hideVideoBg = true;
@@ -2728,16 +2735,16 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.mainVideo.nativeElement.onended = () => {
         this.appModel.setLoader(false);
         this.isPlayVideo = false;
-        setTimeout(() => {
-          this.coverTop = false;
+        // setTimeout(() => {
+        //   this.coverTop = false;
 
-        }, 1000);
+        // }, 1000);
         this.hideVideoBg = true;
 
         console.log("video eneded in replay function");
         this.appModel.videoStraming(false);
         this.appModel.notifyUserAction();
-        this.coverBottom = true;
+        // this.coverBottom = true;
 
       }
     }, 500)
@@ -3087,8 +3094,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
 
   showFeedback(flag: string) {
     if (this.timerSubscription != undefined) {
-			this.timerSubscription.unsubscribe();
-		}
+      this.timerSubscription.unsubscribe();
+    }
     this.showAnswerPopup = true;
     this.attemptType = "manual";
     if (this.index != undefined) {
@@ -3108,19 +3115,25 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
       this.sendFeedback(this.currentMatraNumberjson, 'yes', 'showAnswer');
     }
     if (flag == "no") {
-      if (!this.clicked) {
-        this.coverTop = false;
-        this.coverBottom = true;
-        setTimeout(() => {
-          this.optionDisable = false;
-  
-        }, 2000);
-      }
-      else {
-        this.coverTop = true;
-        this.coverBottom = false;
-        this.optionDisable = true;
-        this.disableSection = true;
+      if (!this.actComplete) {
+        if (!this.clicked) {
+          this.coverTop = false;
+          this.coverBottom = true;
+          setTimeout(() => {
+            this.optionDisable = false;
+
+          }, 2000);
+        }
+        else {
+          this.coverTop = true;
+          this.coverBottom = false;
+          this.optionDisable = true;
+          // this.disableSection = true;
+          setTimeout(() => {
+            this.optionDisable = false;
+
+          }, 2000);
+        }
       }
 
       this.appModel.notifyUserAction();
@@ -3130,8 +3143,8 @@ export class Ntemplate6 implements OnInit, OnDestroy, AfterViewInit {
 
   sendFeedback(id, flag: string, action?: string) {
     if (this.timerSubscription != undefined) {
-			this.timerSubscription.unsubscribe();
-		}
+      this.timerSubscription.unsubscribe();
+    }
     this.count = 0;
     if (!this.clicked) {
       this.coverTop = false;

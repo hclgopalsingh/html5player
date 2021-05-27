@@ -630,7 +630,9 @@ export class Ntemplate5 implements OnInit {
     } else {
       this.appModel.notifyUserAction();
       $("#optionsBlock").addClass("disable_div");
-      $("#instructionBar").removeClass("disable_div");
+      if(!this.checked) {
+        $("#instructionBar").removeClass("disable_div");
+      }
        setTimeout(() => {
          if(!this.checked) {
           $("#optionsBlock").removeClass("disable_div");
