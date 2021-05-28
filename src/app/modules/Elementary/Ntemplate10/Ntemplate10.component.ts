@@ -53,6 +53,7 @@ export class Ntemplate10 implements OnInit {
 	@ViewChild('feedbackoneAttemptAudio') feedbackoneAttemptAudio: any;
 	@ViewChild('confirmModalRef') confirmModalRef: any;
 	@ViewChild('maincontent') maincontent: any;
+	@ViewChild('skipBtn') skipBtn: any;
 
 	hideButtons:boolean = false;
 	audio = new Audio();
@@ -98,7 +99,6 @@ export class Ntemplate10 implements OnInit {
 	assetsPath: string = "";
 	loadFlag: boolean = false;
 	hasEventFired: boolean = false;
-	skip_on_hover: boolean = false;
 	tempSubscription: Subscription;
 	attemptType: string = "";
 	isSkip: boolean = false;
@@ -153,6 +153,16 @@ export class Ntemplate10 implements OnInit {
 		opt.bgImgsrc = opt.bgImgsrc_original;
 	}
 
+	onHoverInstruction() {
+		if (this.instruction.nativeElement.paused) {
+			$(".instructionBase img").css("cursor", "pointer");
+		}
+	}
+
+	onHoverOutInstruction() {
+		$(".instructionBase img").css("cursor", "");
+	}
+
 	hoverDecline() {
 		this.confirmPopupAssets.decline_btn = this.confirmPopupAssets.decline_btn_hover;
 	}
@@ -194,7 +204,7 @@ export class Ntemplate10 implements OnInit {
 			console.log("loooooooooooooooooooooooooooo")
 			this.instruction.nativeElement.onended= () => {
 
-				$(".instructionBase img").css("cursor", "pointer");
+				// $(".instructionBase img").css("cursor", "pointer");
 			}
 			// if (!this.instruction.nativeElement.paused) {
 			// 	this.instruction.nativeElement.currentTime = 0;
@@ -348,7 +358,7 @@ export class Ntemplate10 implements OnInit {
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
 			this.instruction.nativeElement.pause();
-			$(".instructionBase img").css("cursor", "pointer");
+			// $(".instructionBase img").css("cursor", "pointer");
 		}
 		if (this.titleHelpAudio && this.titleHelpAudio.nativeElement) {
 			this.titleHelpAudio.nativeElement.pause();
@@ -580,7 +590,7 @@ export class Ntemplate10 implements OnInit {
 				if (!this.instruction.nativeElement.paused) {
 					this.instruction.nativeElement.currentTime = 0;
 					this.instruction.nativeElement.pause();
-					$(".instructionBase img").css("cursor", "pointer");
+					// $(".instructionBase img").css("cursor", "pointer");
 				}
 				if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
 					// $("#instructionBar").addClass("disable_div");
@@ -876,7 +886,7 @@ export class Ntemplate10 implements OnInit {
 			this.questionSound.nativeElement.onended = () => {
 				this.appModel.handlePostVOActivity(false);
 				this.maincontent.nativeElement.className = "d-flex align-items-center justify-content-center";
-				$(".instructionBase img").css("cursor", "pointer");
+				// $(".instructionBase img").css("cursor", "pointer");
 				this.speakerBtn.nativeElement.children[1].className = "speaker";
 				if (this.optionBlock) {
 					this.optionBlock.nativeElement.className = "optionsBlock";
@@ -945,6 +955,32 @@ export class Ntemplate10 implements OnInit {
 
 	houtConfirm() {
 		this.confirmPopupAssets.confirm_btn = this.confirmPopupAssets.confirm_btn_original;
+	}
+
+	optionHover(index) {
+		this.optionHolder.nativeElement.children[index].children[1].style.cursor = "pointer";
+	}
+
+	optionHoverOut(index) {
+		this.optionHolder.nativeElement.children[index].children[1].style.cursor = "";
+	}
+
+	speakerHover() {
+		this.speakerBtn.nativeElement.children[0].style.cursor = "pointer";
+	}
+
+	speakerHoverOut() {
+		this.speakerBtn.nativeElement.children[0].style.cursor = "";
+	}
+
+	skipHover() {
+		this.skipBtn.nativeElement.style.cursor = "pointer";
+		this.quesInfo.skip = this.quesInfo.skip_hover;
+	}
+
+	skipHoverOut() {
+		this.skipBtn.nativeElement.style.cursor = "";
+		this.quesInfo.skip = this.quesInfo.skip_original;
 	}
 
 	dontshowFeedback(id: string, flag: string) {
