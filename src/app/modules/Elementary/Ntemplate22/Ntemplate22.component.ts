@@ -265,6 +265,11 @@ export class Ntemplate22 implements OnInit {
     })
 
     this.confirmPopupSubscription = this.appModel.getConfirmationPopup().subscribe((val) => {
+      if(this.instruction.nativeElement && !this.instruction.nativeElement.paused){
+        this.instruction.nativeElement.currentTime = 0;
+        this.instruction.nativeElement.pause();
+        this.instructionBar.nativeElement.classList = "instructionBase";
+      }
       if (val == "uttarDikhayein") {
 
         this.rightanspopUpheader_img = false;
@@ -279,16 +284,13 @@ export class Ntemplate22 implements OnInit {
         } else {
           this.AnswerpopupTxt = false;
         }
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
+        
         if (this.confirmModalRef && this.confirmModalRef.nativeElement) {
           this.confirmModalRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
         }
         this.checkForAutoClose();
-      } else if (val == "submitAnswer") {
-        this.instruction.nativeElement.currentTime = 0;
-        this.instruction.nativeElement.pause();
+      } else if (val == "submitAnswer") {        
         if (this.confirmSubmitRef && this.confirmSubmitRef.nativeElement) {
           this.confirmSubmitRef.nativeElement.classList = "displayPopup modal";
           this.appModel.notifyUserAction();
@@ -778,8 +780,8 @@ export class Ntemplate22 implements OnInit {
         this.monthDates.nativeElement.children[0].children[i].classList.value = "img-fluid opacityZero";
       }
       if (this.monthsArr.filter((item) => item.selected == true)[0] != undefined) {
-        this.monthsArr.filter((item) => item.selected == true)[0].selected = false;
-        this.monthsArr.filter((item) => item.userSelected == true)[0].userSelected = false;
+        this.monthsArr.filter((item) => item.selected == true)[0].userSelected = false;
+        this.monthsArr.filter((item) => item.selected == true)[0].selected = false;        
       }
       if (this.monthsArr.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
         this.monthsArr.filter((item) => item.checkRightorWrong == true)[0].checkRightorWrong = false;
@@ -885,7 +887,9 @@ export class Ntemplate22 implements OnInit {
       this.selectedDate["week"] = item;
 
       if (this.ArrweekDays.filter((item) => item.selected == true)[0] != undefined) {
-        this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;
+        this.ArrweekDays.filter((item) => item.selected == true)[0].selected = false;        
+      }
+      if (this.ArrweekDays.filter((item) => item.userSelected == true)[0] != undefined) {
         this.ArrweekDays.filter((item) => item.userSelected == true)[0].userSelected = false;
       }
       if (this.ArrweekDays.filter((item) => item.checkRightorWrong == true)[0] != undefined) {
@@ -1588,7 +1592,7 @@ export class Ntemplate22 implements OnInit {
     if (this.timerSubscription != undefined) {
       this.timerSubscription.unsubscribe();
     }
-    this.instructionBar.nativeElement.classList = "instructionBase";
+    // this.instructionBar.nativeElement.classList = "instructionBase";
     if (id == "submit-modal-id") {
       this.confirmSubmitRef.nativeElement.classList = "modal";
       this.appModel.notifyUserAction();
