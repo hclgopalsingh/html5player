@@ -211,6 +211,8 @@ export class Ntemplate9Component implements OnInit, OnDestroy,AfterViewChecked {
         this.showanspopUpheader_img = true;
         this.displayconfirmPopup = false;
         this.displaymainPopup = true;
+        this.optionObj[this.index1].imgsrc=this.optionObj[this.index1].imgsrc_original;
+        this.startCount = 0;
         if (this.rightAnspopupAssets && this.rightAnspopupAssets.imgrightfeedback_audio) {
           this.feedbackPopupAudio.nativeElement.src = this.rightAnspopupAssets.imgshowAnsfeedback_audio.url + "?someRandomSeed=" + Math.random().toString(36);
         }

@@ -531,8 +531,8 @@ export class Ntemplate7 implements OnInit, OnDestroy, AfterViewChecked {
         }
         ref.classList = "modal";
         
-        if(this.isLastQuestion && flag==="no" && this.isRightSelected && this.actComplete) {
-            this.blinkOnLastQues();
+        if(this.isLastQuestion && flag==="no" && action === undefined && this.isRightSelected && this.actComplete) {
+            // this.blinkOnLastQues();
             return;
         }
         this.appModel.handlePostVOActivity(false);
