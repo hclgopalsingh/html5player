@@ -352,8 +352,11 @@ export class Ntemplate10 implements OnInit {
 		}
 	}
 	checkAnswer(opt, index) {
-		this.disableHelpBtn = true;
 		this.quesNo = this.quesNo + 1;
+		if(this.quesNo > this.quesInfo.noOfQues) {
+			return;
+		}
+		this.disableHelpBtn = true;
 		// to stop help audio if playing
 		if (!this.instruction.nativeElement.paused) {
 			this.instruction.nativeElement.currentTime = 0;
@@ -396,7 +399,6 @@ export class Ntemplate10 implements OnInit {
 			this.optionHolder.nativeElement.children[index].className = "options animation-shake option" + index + "";
 
 			//show wrong ans animation
-			
 			this.appModel.wrongAttemptAnimation();
 			this.appModel.handlePostVOActivity(true);
 			// if(this.buzzerSound && this.buzzerSound.nativeElement){

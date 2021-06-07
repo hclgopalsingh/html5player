@@ -127,6 +127,8 @@ export class Ntemplate5 implements OnInit {
   timerSubscription: Subscription;
   isLastQuestion: boolean;
   actComplete: boolean = false;
+  closeModalTimer1: any;
+  closeModalTimer2: any;
 
   playHoverInstruction() {
     if (!this.narrator.nativeElement.paused) {
@@ -590,6 +592,8 @@ export class Ntemplate5 implements OnInit {
     if (this.timerSubscription != undefined) {
       this.timerSubscription.unsubscribe();
     }
+    clearTimeout(this.closeModalTimer1);
+    clearTimeout(this.closeModalTimer2);
     this.confirmModalRef.nativeElement.classList = "modal";
     this.attemptType = "auto";
     if (flag == "yes") {
@@ -599,26 +603,26 @@ export class Ntemplate5 implements OnInit {
       this.styleHeaderPopup = this.feedbackObj.style_header;
       this.styleBodyPopup = this.feedbackObj.style_body;
       this.appModel.resetBlinkingTimer();
-      setTimeout(() => {
+      // setTimeout(() => {
         this.appModel.invokeTempSubject('showModal', 'manual');
         this.popupImage.nativeElement.src = this.rightAnspopupAssets.imgsrc.url;
         this.rightFeedbackVO.nativeElement.src = this.rightAnspopupAssets.imgrightfeedback_audio.url;
         this.rightFeedbackVO.nativeElement.play();
-      }, 100);
+      // }, 100);
       this.optionsBlock.nativeElement.classList = "row mx-0 disable_div";
       $("#instructionBar").addClass("disable_div");
       $("#optionsBlock .options").css("opacity", "0.3");
       $("#instructionBar").css("opacity", "0.3");
       this.checked = true;
       this.rightFeedbackVO.nativeElement.onended = () => {
-        setTimeout(() => {
+        this.closeModalTimer1 = setTimeout(() => {
           if (this.count == 0) {
             this.closeModal();
             this.appModel.moveNextQues();
           }
         }, this.showAnsTimeout);
         //this.blinkOnLastQues();
-        setTimeout(() => {
+        this.closeModalTimer2 = setTimeout(() => {
            this.closeModal();
            this.appModel.moveNextQues();
          }, this.showAnsTimeout);
@@ -653,6 +657,8 @@ export class Ntemplate5 implements OnInit {
     }
     this.narrator.nativeElement.pause();
 		this.narrator.nativeElement.currentTime = 0;
+    clearTimeout(this.closeModalTimer1);
+    clearTimeout(this.closeModalTimer2);
   }
 
   checkForAutoClose() {
