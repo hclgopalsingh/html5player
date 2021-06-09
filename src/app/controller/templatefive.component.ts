@@ -193,7 +193,7 @@ export class TemplatefiveComponent implements OnInit{
 					this.appModel.event = {'action': 'end'};	
 				}
 			}
-			if(this.navBlock && this.navBlock.nativeElement){
+			if(!this.isLastQues && this.navBlock && this.navBlock.nativeElement){
 				this.navBlock.nativeElement.className="d-flex flex-row align-items-center justify-content-around disable_div";
 			}
 			if(this.quesInfo){
