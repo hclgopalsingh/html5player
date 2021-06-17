@@ -30,9 +30,10 @@
       <div class="{{option?.imgsrc?.style_class}}"
         [@openClose]="{value: option.isOpen ? 'open' : 'closed', params: {leftPos: option.leftPos , topPos: option.topPos, posWidth:option.posWidth}}"
         *ngFor="let option of options;let idx = index" [ngClass]="{'disableDiv':isOptionDisabled}">
-        <img class="img-fluid pos_rel" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)"
+        <img class="img-fluid" [src]="option?.imgsrc?.url" (mouseenter)="playOptionHover(idx, option)"
           (mousemove)="optionHover(idx,option)" (mouseleave)="optionLeave(idx,option)"
           (click)="submitAttempt(idx,option)" (load)="checkImgLoaded();">
+          <!--pos_rel-->
       </div>
     </div>
     <audio #quesVORef></audio>

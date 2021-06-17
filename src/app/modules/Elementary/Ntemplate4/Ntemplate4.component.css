@@ -632,7 +632,7 @@ button:focus {
 }
 
 .scaleInAnimation {
-  animation: scaleIn 0.5s linear;
+  animation: scaleIn 0.3s linear;
   transform: scale(1.1);
 }
 
@@ -648,7 +648,7 @@ button:focus {
 
 
 .scaleOutAnimation {
-  animation: scaleOut 0.5s linear;
+  animation: scaleOut 0.3s linear;
   transform: scale(1.0);
 }
 
