@@ -187,6 +187,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     tempSubscription: Subscription;
 	actComplete: boolean = false;
     isInfoPopupOpen: boolean = false;
+    resetBlinkingTimer: any;
     randomIdx: any;
     styleblockLeft = [
         { 'top': '33%', 'left': '24.8%' },
@@ -350,6 +351,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         clearTimeout(this.showAnsTimeout);
         clearInterval(this.blinkTimeInterval);
         clearTimeout(this.closeFeedbackmodalTimer);
+        clearTimeout(this.closeFeedbackPopup);
+        clearTimeout(this.closeFeedbackPopup2);
+        clearTimeout(this.resetBlinkingTimer);
         if (this.tempSubscription != undefined) {
 			this.tempSubscription.unsubscribe();
         }
@@ -909,6 +913,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         ref.classList = "modal";
         clearTimeout(this.closeFeedbackPopup);
         clearTimeout(this.closeFeedbackPopup2);
+        clearTimeout(this.closeFeedbackmodalTimer);
+        clearTimeout(this.nextFeedbackTimer);
         this.isShowOk = false;
         if (action == "showAnswer") {
             this.showAnswerClicked = true;
@@ -996,6 +1002,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
             }
             setTimeout(() => {
                 this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
+                clearTimeout(this.nextBtnInterval);
+                this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
+                this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
                 this.closeFeedbackPopup=setTimeout(() => {
                     this.appModel.enableSubmitBtn(false);
                     this.setFeedbackAndPlayCorrect(0);
@@ -1071,6 +1080,9 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
 
                 setTimeout(() => {
                     this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
+                    clearTimeout(this.nextBtnInterval);
+                    this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
+                    this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
                     this.closeFeedbackPopup=setTimeout(() => {
                         this.setFeedbackAndPlayCorrect(0);
                     }, 0)
@@ -1313,7 +1325,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         if (this.category && this.category.incorrect && this.category.incorrect.length) {
             this.category.incorrect.splice(0, this.category.incorrect.length);
         }
-        setTimeout(() => {
+        this.resetBlinkingTimer = setTimeout(() => {
             this.mainContainer.nativeElement.classList = "bodyContent";
             this.getRandomIndxBlink(this.selectableOpts);
         }, 500)
@@ -1367,6 +1379,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
 
     nextFeedback() {
         clearTimeout(this.nextFeedbackTimer);
+        clearTimeout(this.closeFeedbackPopup2);
         if (this.feedbackAudio && this.feedbackAudio.nativeElement && !this.feedbackAudio.nativeElement.paused) {
             this.feedbackAudio.nativeElement.pause();
             this.feedbackAudio.nativeElement.currentTime = 0;
@@ -1510,6 +1523,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.category = JSON.parse(JSON.stringify(this.categoryA));
         this.isAllRight = true;
         setTimeout(() => {
+            clearTimeout(this.nextBtnInterval);
             this.feedbackAssets.feedback_next_btn = this.feedbackAssets.feedback_next_btn_original;
             this.feedbackAssets.feedback_back_btn = this.feedbackAssets.feedback_back_btn_original;
             this.feedbackPopupRef.nativeElement.classList = "modal displayPopup";
