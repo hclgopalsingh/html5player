@@ -186,6 +186,8 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     isLastQuestion: boolean;
     tempSubscription: Subscription;
 	actComplete: boolean = false;
+    isInfoPopupOpen: boolean = false;
+    randomIdx: any;
     styleblockLeft = [
         { 'top': '33%', 'left': '24.8%' },
         { 'top': '33%', 'left': '32.8%' },
@@ -315,9 +317,15 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         this.appModel.postWrongAttempt.subscribe(() => {
             if (this.appModel.feedbackType == "fullyIncorrect" || this.appModel.feedbackType == "partialIncorrect") {
                 this.resetActivity();
-            }else if(this.appModel.feedbackType = "partialCorrect"){
+            }else if(this.appModel.feedbackType == "partialCorrect"){
                 if (this.selectableOpts > 0) {
-                    this.getRandomIndxBlink(this.selectableOpts);
+                    this.isInfoPopupOpen = true;
+                    if(this.blinkSide === 'left') {
+                        this.blinkCategoryA(this.randomIdx);
+                    } else {
+                        this.blinkCategoryB(this.randomIdx);
+                    }
+                    // this.getRandomIndxBlink(this.selectableOpts);
                 } 
             }
             this.appModel.startPreviousTimer();
@@ -341,6 +349,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
         clearTimeout(this.nextFeedbackTimer);
         clearTimeout(this.showAnsTimeout);
         clearInterval(this.blinkTimeInterval);
+        clearTimeout(this.closeFeedbackmodalTimer);
         if (this.tempSubscription != undefined) {
 			this.tempSubscription.unsubscribe();
         }
@@ -710,6 +719,7 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     getRandomIndxBlink(no) {
         let randomIdx = Math.floor((Math.random() * no));
         console.log("random index ", randomIdx);
+        this.randomIdx = randomIdx;
         if (this.optionHolder.left_random_index.includes(this.completeRandomArr[randomIdx]) && this.blinkCategory1 < 3) {
             this.blinkCategoryA(randomIdx);
         } else if (this.optionHolder.right_random_index.includes(this.completeRandomArr[randomIdx]) && this.blinkCategory2 < 3) {
@@ -746,29 +756,37 @@ export class Ntemplate4 implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     blinkCategoryA(randomIdx) {
-        this.completeRandomArr.splice(randomIdx, 1);
         // this.moveTo = this.placeholderRefLeft.nativeElement.children[this.leftSelectedIdx].getBoundingClientRect();
         this.moveTo = this.styleblockLeft[this.leftSelectedIdx];
         console.log(this.moveTo);
         this.blinkSide = "left";
         this.startCount = 1;
         this.blinkHolder();
-        this.selectableOpts--;
-        this.blinkCategory1++;
+        if(!this.isInfoPopupOpen) {
+            this.blinkCategory1++;
         this.blinkCategory2 = 0;
+            this.selectableOpts--;
+            this.completeRandomArr.splice(randomIdx, 1);
+        } else {
+            this.isInfoPopupOpen = false;
+        }
     }
 
     blinkCategoryB(randomIdx) {
-        this.completeRandomArr.splice(randomIdx, 1);
         // this.moveTo = this.placeholderRefRight.nativeElement.children[this.rightSelectedIdx].getBoundingClientRect();
         this.moveTo = this.styleblockRight[this.rightSelectedIdx];
         console.log(this.moveTo);
         this.blinkSide = "right";
         this.startCount = 1;
         this.blinkHolder();
-        this.selectableOpts--;
-        this.blinkCategory2++;
+        if(!this.isInfoPopupOpen) {
+            this.blinkCategory2++;
         this.blinkCategory1 = 0;
+            this.selectableOpts--;
+            this.completeRandomArr.splice(randomIdx, 1);
+        } else {
+            this.isInfoPopupOpen = false;
+        }
     }
 
     blinkHolder() {
