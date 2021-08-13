@@ -19,18 +19,10 @@
 	position: relative;
 	transition: transform .2s;
 }
-.options div:hover{
+.optionHover {
 	transform: scale(1.1);
-	/* animation: scaleit 0.3s cubic-bezier(0.47, 0, 0.745, 0.715); */
+	cursor:pointer;
 }
-/* @keyframes scaleit {
-	0% {
-		transform: scale(1.1);
-	}
-	100% {
-		transform: scale(1.1);
-	}
-} */
 .options div .subOpt {
     position: absolute;
     top: 0;
@@ -48,7 +40,6 @@
 .speakerBtn img{
 	width:9%;
 }
-.options img,
 .speakerBtn img {
 	cursor:pointer;
 }
@@ -115,19 +106,30 @@
 	height: 100%;
 }
 
-.rightWrongSelectedAns {
+.selectedAns {
     width: 100%;
     margin-top: 1.7%;
     position: relative;
     display: flex;
     justify-content: center;
-    top: auto;
+	top: auto;
+	height: 20%;
+}
+
+#refQuesBlockShowAnswer .selectedAns {
+    width: 100%;
+    margin-top: 1.7%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+	top: auto;
+	height: 15.5%;
 }
  
-.rightWrongSelectedAns img:nth-child(2){
+.selectedAns img:nth-child(2){
     position: absolute;
 }
  
-.rightWrongSelectedAns img {
+.selectedAns img {
     max-width: 14%;
 }

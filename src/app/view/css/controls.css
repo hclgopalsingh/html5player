@@ -21,7 +21,14 @@
 	-webkit-appearance: none;
 	margin-top: 0px;
 }
-
+.volumeslider,
+.volumesliderDisable{
+    cursor: pointer; 
+    left:-30% !important;
+}
+.volumesliderDisable{
+    cursor: default; 
+}
 #controlsContainer {
   display: flex;
 	align-items: center;
@@ -29,9 +36,9 @@
   margin: 0;
   clear: both;
   position: absolute;
-  height: 6%;
+  height: 6.08%;
   width: 100%;
-  z-index: 1050;
+  z-index: 1200;
   opacity: .9;
   bottom: 0;
   background: #000;
@@ -63,7 +70,8 @@
 	#autoPlayOnOffContainer label{font-size: .7em !important;}
 }
 @media (max-width: 800px){
-	#autoPlayOnOffContainer label{font-size: .5em !important;}
+    #autoPlayOnOffContainer label{font-size: .5em !important;}
+    img[src='assets/images/volume.svg']{max-width: 85% !important;}/*assets/images/volume.svg*/
 }
 .fadeInAnimation {
     opacity: 1;
@@ -77,21 +85,33 @@
     75%  {opacity: 0.75;}
     100% {opacity: 1;}
 }
+#autoPlayOnOffContainer {
+    width: 9.2% !important;
+    padding: 0 !important;
+    position: absolute;
+    right: 9%;
+}
+@media (min-width: 576px){
+    .col-sm-1 {
+        flex: none;
+    }
+}
 #volumeContainer{
-	position:absolute !important;
-	right:3%;
-	cursor:pointer;
+    position:absolute !important;
+    right:2.5%;/*3%;*/
+    cursor:pointer;
 }
 div#MuteVarTemp::after {
     content: '';
     background: rgba(0, 0, 0,.7) !important;
     border-radius: 3vmin;
     height: 321%;
-    width: 105%;
+    width: 100%;/*105%;*/
     position: absolute;
     left: 1%;
     bottom: -13%;
     z-index: -1;
+    cursor: default;
 }
 
 .hideAutoplay{

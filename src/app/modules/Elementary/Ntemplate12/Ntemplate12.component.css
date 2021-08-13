@@ -1,0 +1,395 @@
+#container .hideit{display:none !important;}
+.showit{display:block}
+.dispFlex{display:flex !important;}
+#container{
+	position: relative;
+	padding:0;
+}
+#container #bgImage img {
+	width: 100%;
+}
+.optParent {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  position: absolute;
+  top: 52%;
+  left: 5%;
+
+}
+#container #optionsBlock,
+#container #optBlock  {
+	/* position: absolute;
+	top: 16%;
+	width: 100%;
+	left: 0%;  */
+}
+
+#ansBlock .options{
+	text-align:right;
+	width:100%;
+	position: relative;
+	margin: 0 3%;
+}
+
+.pointer{cursor:pointer;}
+#ansBlock #optimage0,
+#ansBlock #optimage1,
+#ansBlock #optimage2,
+#ansBlock #optimage3,
+#ansBlock #optimage4{
+	position: absolute;
+    top: 0%;
+    width: 100%;
+    text-align: center;
+    left: 0%;
+}
+#quesImage{
+    width: /*23%;25%;*/ 80%;
+	position:relative;
+}
+#quesImage img{
+	/*cursor:pointer;*/
+}
+#correctAns{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background:rgba(0, 0, 0, 0.9215686274509803) ;
+	z-index:100;
+	display:flex;
+    align-items:center;
+}
+#correctAns img{
+	position:absolute;
+	width:70%;
+	animation: scaleit 0.2s ease-in;
+}
+@keyframes scaleit {
+	0% {
+		transform: scale(.7);
+	}
+	90% {
+		transform: scale(1);
+	  }
+}
+
+#container #answerBlock {
+    position: absolute;
+    top: 21%;
+    width: 100%;
+}
+#answerBlock .ansBase{
+    width: 88%;
+	position:relative;
+}
+.ansBase .ansText{
+    position: absolute;
+    top: 4.5%;
+    left: 17%;
+    width: 29%;
+}
+.ansBase .quesText, #refImage{
+
+	position: absolute;
+    top: 0%;
+	left:0%;
+}
+
+
+.disable{
+	pointer-events:none;
+}
+.disable-click{
+	pointer-events:none;
+	opacity:0.5;
+}
+.disappear-button{
+	visibility:hidden;
+}
+
+.disable_div{
+	pointer-events:none;
+}
+
+.fadeInAnimation {
+    opacity: 1;
+    animation: fadeIn 0.3s linear;
+}
+
+.fadeOutAnimation {
+	opacity:0;
+    animation: fadeOut 0.3s linear;
+}
+@keyframes fadeOut{
+	0%   {opacity: 1;}
+    25%  {opacity: 0.75;}
+    50%  {opacity: 0.50;}
+    75%  {opacity: 0.25;}
+    100% {opacity: 0;}
+}
+
+@keyframes fadeIn {
+	0%   {opacity: 0;}
+    25%  {opacity: 0.25;}
+    50%  {opacity: 0.50;}
+    75%  {opacity: 0.75;}
+    100% {opacity: 1;}
+}
+
+  #container #instructionBar {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+    line-height: 0;
+  }
+
+  #instructionBar .instructionBase {
+    width: 60%;
+    position: relative;
+    cursor:pointer
+  }
+
+  .instructionBase .instructionText {
+    position: absolute;
+    top: 0%;
+    left: 0;
+  }
+
+  /* Modal Classes begin*/
+    /*confirm modal*/
+
+.confirm_modal_content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    background-clip: padding-box;
+    border: none;
+    border-radius: 0;
+    outline: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+  }
+
+	#confirmModal {
+	  /* display: flex;*/
+	  background: rgba(0,0,0,.85);
+	}
+
+	#confirmModal .modal-dialog {
+	  width: 50% !important;
+	  max-width: 100%;
+	  height: 36%;
+	  display: flex;
+	  justify-content: center;
+	}
+
+	#confirmModal .modal-content {
+	  /* height: auto; */
+	  min-width: auto;
+	  min-height: auto;
+	}
+
+	#confirmModal .modal-body {
+	  padding: 0;
+	  margin: 0;
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: center;
+	  align-content: flex-end;
+	  flex: auto !important;
+	}
+
+	#confirmModal .modal-body .msgImage {
+	  display: block;/*flex*/
+	  text-align: center;/*justify-content: center;*/
+	}
+
+	#confirmModal .modal-body .actionButtons {
+	  text-align: center;
+	  margin: 3% 0 2%;
+	  width: 100%;
+	}
+
+	#confirmModal .modal-body .msgImage img {
+	  width: 100%;
+	}
+
+	#confirmModal .modal-body img {
+	  max-width: 100%;
+	}
+
+	#confirmModal .modal-body .actionButtons button {
+	  border: none;
+	  background: transparent;
+	  padding: 0;
+	  margin: 0;
+	  width: 18%;
+	}
+
+	button:focus {
+	  outline: none !important;
+	}
+
+	#confirmModal .modal-body .actionButtons img {
+	  max-width: 80%;
+	}
+
+	#confirmModal .modal-header {
+	  top: 0;
+	}
+
+	#confirmModal .bodyText {
+	  position: absolute;
+	  top: 30%;
+	  width: 100%;
+	}
+
+	#confirmModal .bodyText img {
+	  width: 85%;
+	}
+
+	#confirmModal .popupModelBody {
+	  padding: 0;
+	}
+
+  .displayPopup {
+    display: -webkit-box !important;
+  }
+
+  .modal {
+    position: absolute !important;
+    width: 100%;
+    z-index: 100 !important;
+    height: 94%;/*93.6%*/
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+  }
+
+    .modal.show {
+      display: -webkit-box !important;
+    }
+
+  .modal-dialog {
+    max-width: 80%;
+    height: auto;
+  }
+
+    .modal-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 100%;
+    min-width: 560px; /*450px;*/
+    min-height: 50vmin; /*350px;*/
+  }
+
+  .modal-header {
+    padding: .5% !important;
+    height: 7vmin; /*56px;*/
+    position: relative;
+    top: 0;
+    width: 100%;
+    border-bottom: none !important;
+    margin-bottom: -1px;
+  }
+
+  .modal-body {
+    padding: 2%;
+    /*
+	background: #afdec0;
+	border: solid .7vmin #85d222;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border-top: none !important;
+    */
+    flex: auto !important;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+	.modal-body img {
+	  max-width: 92%;/*77%;*/
+    }
+
+    .modalBodyContent {
+    background: #afdec0;
+    margin: -1px;
+  }
+
+  .modal .quesImage {
+    align-self: center;
+    margin: 1% auto !important;
+  }
+
+    html [type=button] {
+    -webkit-appearance: none;
+  }
+
+.modal-header:before, .modal-header:after {
+	content: none !important;
+}
+
+@media (min-width: 576px) {
+	.modal-dialog {
+		max-width: 70% !important;
+	}
+}
+
+  /* Modal Classes End */
+
+  .ansText {
+    position: absolute;
+    top: 4%;
+    left: 6%;
+	  width: 21%;
+}
+.disableSection{
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.classOpacity {
+  opacity: 0.3;
+}
+
+.colorWhite{
+  filter:invert(1);
+}
+.scaleInAnimation {
+  animation: scaleIn 0.5s linear;
+  transform: scale(1.1);
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(1.0)
+  }
+
+  100% {
+    transform: scale(1.1)
+  }
+}
+
+
+.scaleOutAnimation {
+  animation: scaleOut 0.5s linear;
+  transform: scale(1.0);
+}
+
+@keyframes scaleOut {
+  0% {
+    transform: scale(1.1)
+  }
+
+  100% {
+    transform: scale(1.0)
+  }
+}

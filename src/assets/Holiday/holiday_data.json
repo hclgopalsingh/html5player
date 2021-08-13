@@ -1,0 +1,253 @@
+{
+	"Holidays": {
+		"2019": {
+			"01":{						 
+				"name": "Republic Day",
+				"month":"1",
+				"month_name": "January",
+				"date": "26",
+				"day": "Saturday",
+				"year":"2019" 
+			},
+			"02":{						 
+				"name": "Holi",
+				"month":"3",
+				"month_name": "March",
+				"date": "10",
+				"day": "Sunday",
+				"year":"2019" 
+			},
+			"03":{						 
+				"name": "Ram Navami",
+				"month":"4",
+				"month_name": "April",
+				"date": "2",
+				"day": "Tuesday",
+				"year":"2019"  
+			},
+			"04":{						 
+				"name": "Janmashtami",
+				"month":"8",
+				"month_name": "August",
+				"date": "12",
+				"day": "Monday",
+				"year":"2019" 
+			},
+			"05":{						 
+				"name": "Dussehra",
+				"month":"10",
+				"month_name": "October",
+				"date": "25",
+				"day": "Friday" ,
+				"year":"2019" 
+			},
+			"06":{						 
+				"name": "Diwali",
+				"month":"11",
+				"month_name": "November",
+				"date": "14",
+				"day": "Thursday" ,
+				"year":"2019" 
+			},
+			"07":{						 
+				"name": "abc",
+				"month":"11",
+				"month_name": "November",
+				"date": "20",
+				"day": "Thursday" ,
+				"year":"2019" 
+			},
+			"08":{						 
+				"name": "Xyz",
+				"month":"11",
+				"month_name": "November",
+				"date": "25",
+				"day": "Thursday" ,
+				"year":"2019" 
+			}
+		},		
+			"2020": {
+				"01":{						 
+					"name": "Republic Day",
+					"month":"1",
+					"month_name": "January",
+					"date": "26",
+					"day": "Sunday",
+					"year":"2020" 
+				},
+				"02":{						 
+					"name": "Holi",
+					"month":"3",
+					"month_name": "March",
+					"date": "10",
+					"day": "Tuesday",
+					"year":"2020" 
+				},
+				"03":{						 
+					"name": "Ram Navami",
+					"month":"4",
+					"month_name": "April",
+					"date": "2",
+					"day": "Thursday",
+					"year":"2020"  
+				},
+				"04":{						 
+					"name": "Janmashtami",
+					"month":"8",
+					"month_name": "August",
+					"date": "12",
+					"day": "Wednesday",
+					"year":"2020" 
+				},
+				"05":{						 
+					"name": "Dussehra",
+					"month":"10",
+					"month_name": "October",
+					"date": "25",
+					"day": "Sunday" ,
+					"year":"2020" 
+				},
+				"06":{						 
+					"name": "Diwali",
+					"month":"11",
+					"month_name": "November",
+					"date": "14",
+					"day": "Saturday" ,
+					"year":"2020" 
+				},
+				"07":{						 
+					"name": "Bhai Dooj",
+					"month":"11",
+					"month_name": "November",
+					"date": "16",
+					"day": "Monday" ,
+					"year":"2020" 
+				},
+				"08":{						 
+					"name": "Chatt Pooja",
+					"month":"11",
+					"month_name": "November",
+					"date": "25",
+					"day": "Thursday" ,
+					"year":"2020" 
+				},
+				"09":{						 
+					"name": "Kartik Poornima",
+					"month":"11",
+					"month_name": "November",
+					"date": "28",
+					"day": "Thursday" ,
+					"year":"2020" 
+				},
+				"10":{						 
+					"name": "Christmas",
+					"month":"12",
+					"month_name": "December",
+					"date": "25",
+					"day": "Thursday" ,
+					"year":"2020" 
+				}
+			},
+		"2021": {
+			"01":{						 
+				"name": "Republic Day",
+				"month":"1",
+				"month_name": "January",
+				"date": "26",
+				"day": "Tuesday" ,
+				"year":"2021" 
+			},
+			"02":{						 
+				"name": "Holi",
+				"month":"3",
+				"month_name": "March",
+				"date": "22",
+				"day": "Monday" ,
+				"year":"2021"
+			},
+			"03":{						 
+				"name": "Ram Navami",
+				"month":"4",
+				"month_name": "April",
+				"date": "10",
+				"day": "Saturday",
+				"year":"2021" 
+			},
+			"04":{						 
+				"name": "Janmashtami",
+				"month":"8",
+				"month_name": "August",
+				"date": "20",
+				"day": "Friday",
+				"year":"2021" 
+			},
+			"05":{						 
+				"name": "Dussehra",
+				"month":"10",
+				"month_name": "October",
+				"date": "5",
+				"day": "Tuesday",
+				"year":"2021" 
+			},
+			"06":{						 
+				"name": "Diwali",
+				"month":"10",
+				"month_name": "October",
+				"date": "20",
+				"day": "Wednesday",
+				"year":"2021" 
+			}
+		},
+		
+			"2022": {
+				"01":{						 
+					"name": "Republic Day",
+					"month":"1",
+					"month_name": "January",
+					"date": "26",
+					"day": "Wednesday" ,
+					"year":"2022"
+				},
+				"02":{						 
+					"name": "Holi",
+					"month":"3",
+					"month_name": "March",
+					"date": "5",
+					"day": "Saturday",
+					"year":"2022" 
+				},
+				"03":{						 
+					"name": "Ram Navami",
+					"month":"4",
+					"month_name": "April",
+					"date": "12",
+					"day": "Tuesday" ,
+					"year":"2022"
+				},
+				"04":{						 
+					"name": "Janmashtami",
+					"month":"8",
+					"month_name": "August",
+					"date": "1",
+					"day": "Monday" ,
+					"year":"2022"
+				},
+				"05":{						 
+					"name": "Dussehra",
+					"month":"10",
+					"month_name": "October",
+					"date": "15",
+					"day": "Saturday" ,
+					"year":"2022"
+				},
+				"06":{						 
+					"name": "Diwali",
+					"month":"11",
+					"month_name": "November",
+					"date": "15",
+					"day": "Tuesday" ,
+					"year":"2022"
+				}
+			}
+		}
+}

@@ -15,7 +15,7 @@
       [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
       (load)="checkImgLoaded();" />
   </div>
-  <div #maincontent>
+  <div [ngClass]="{'disableDiv':disableMainContent}">
     <div id="instructionBar">
       <div class="instructionBase">
         <img class="img-fluid"
@@ -61,7 +61,7 @@
     <div id="optionsBlock" #ansBlock>
       <div class="options">
         <div #leftOptRef *ngFor="let opt of myoption.leftoption;let idx = index"
-          (click)="checkAnswer(opt, leftOptRef, idx)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
+          (click)="checkAnswer(opt, leftOptRef, idx)" [ngClass]="[opt?.selected ? 'disableDiv':'']" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx)'>
           <img class="img-fluid"
             [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url" (load)="checkImgLoaded();">
           <span *ngIf="!opt.selected">
@@ -75,7 +75,7 @@
       </div>
       <div class="options">
         <div #rightOptRef *ngFor="let opt of myoption.rightoption;let idx = index"
-          (click)="checkAnswer(opt, rightOptRef, idx+3)" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+3)'>
+          (click)="checkAnswer(opt, rightOptRef, idx+3)" [ngClass]="[opt?.selected ? 'disableDiv':'']" on-mousemove="onHoverOptions(opt)" on-mouseout="onHoveroutOptions(opt)" on-mouseenter='playOptionHover(opt,idx+3)'>
           <img class="img-fluid"
             [src]="opt?.optBg?.location=='content' ? containgFolderPath + '/' + opt?.optBg?.url : assetsPath + '/' +opt?.optBg?.url"
             (load)="checkImgLoaded();">
@@ -106,34 +106,8 @@
     </div>
   </div>
 
-<div class="modal" id="showAnswer" #showAnswerRef>
-  <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-body d-flex align-items-center">
-              <img class="img-fluid" [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
-              <div id="refQuesBlock" class="onShowAns">
-                  <div class="refQues">
-                      <img class="img-fluid" [src]="myoption?.centerImage?.location=='content' ? containgFolderPath + '/' +myoption?.centerImage.url: assetsPath + '/'+ myoption?.centerImage.url">
-                      <div class="boxTop">
-                          <img class="img-fluid" [src]="correctAnswersArray[0]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[0]?.image?.url : assetsPath + '/' +correctAnswersArray[0]?.image?.url">
-                      </div>
-                      <div class="boxRight">
-                          <img class="img-fluid" [src]="correctAnswersArray[1]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[1]?.image?.url : assetsPath + '/' +correctAnswersArray[1]?.image?.url">
-                      </div>
-                      <div class="boxBottom">
-                          <img class="img-fluid" [src]="correctAnswersArray[2]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[2]?.image?.url : assetsPath + '/' +correctAnswersArray[2]?.image?.url">
-                      </div>
-                      <div class="boxLeft">
-                          <img class="img-fluid" [src]="correctAnswersArray[3]?.image?.location=='content' ? containgFolderPath + '/' + correctAnswersArray[3]?.image?.url : assetsPath + '/' +correctAnswersArray[3]?.image?.url">
-                      </div>
-                  </div>
-              </div>
-              <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
-                    (click)="closePopup('showAnswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
-          </div>
-      </div>
-  </div>
-</div>
+<!-- show answer Popup  -->
+<app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
 
 
 <!-- Popup Modal Audios -->
@@ -143,7 +117,5 @@
   [src]="rightPopup?.path?.location=='content'? containgFolderPath + '/' +  rightPopup?.path?.url : assetsPath +'/'+ rightPopup?.path?.url"></audio>
 <audio #clapSound
   [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>
-<audio #showAnswerfeedback
-  [src]="showAnswerVO?.path?.location=='content'? containgFolderPath + '/' +  showAnswerVO?.path?.url : assetsPath +'/'+ showAnswerVO?.path?.url"></audio>
 <audio #multiCorrectFeedback
   [src]="multiCorrectPopup?.path?.location=='content'? containgFolderPath + '/' +  multiCorrectPopup?.path?.url : assetsPath +'/'+ multiCorrectPopup?.path?.url"></audio>

@@ -1,0 +1,164 @@
+{
+	"quesTabs": [
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab1/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"url": "tab1/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"url": "tab1/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"url": "tab1/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"url": "tab1/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"url": "tab1/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"url": "tab1/tabIdx.svg",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab2/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"url": "tab2/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"url": "tab2/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"url": "tab2/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"url": "tab2/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"url": "tab2/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"url": "tab2/tabIdx.svg",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab3/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"url": "tab3/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"url": "tab3/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"url": "tab3/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"url": "tab3/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"url": "tab3/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"url": "tab3/tabIdx.svg",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab4/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"url": "tab4/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"url": "tab4/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"url": "tab4/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"url": "tab4/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"url": "tab4/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"url": "tab4/tabIdx.svg",
+					"location": "theme"
+				}
+			}
+		},
+		{
+			"ques_tab": {
+				"tabbody": {
+					"url": "tab5/tabBody.png",
+					"location": "theme"
+				},
+				"tabL": {
+					"url": "tab5/tabL.png",
+					"location": "theme"
+				},
+				"tabR": {
+					"url": "tab5/tabR.png",
+					"location": "theme"
+				},
+				"tabbodyAct": {
+					"url": "tab5/tabBodyAct.png",
+					"location": "theme"
+				},
+				"tabLAct": {
+					"url": "tab5/tabLAct.png",
+					"location": "theme"
+				},
+				"tabRAct": {
+					"url": "tab5/tabRAct.png",
+					"location": "theme"
+				},
+				"tabIdx": {
+					"url": "tab5/tabIdx.svg",
+					"location": "theme"
+				}
+			}
+		}
+	]
+}

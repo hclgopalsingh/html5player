@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<audio #instruction [src]="commonAssets?.instruction?.location=='content' ? containgFolderPath + '/' +commonAssets?.instruction.url: assetsPath + '/'+ commonAssets?.instruction.url" autoplay="autoplay"></audio>
+    <div class="" #overlay></div>	
+     <div class="container-fluid eva eva4" id="container">
+        <div class="headerBar">
+            <img class="img-fluid" [src]="commonAssets?.header_bar?.location =='content' ? containgFolderPath + '/' + commonAssets?.header_bar?.url : assetsPath + '/' + commonAssets?.header_bar?.url" (load)="checkImgLoaded();"/>
+           </div>
+        <div id="bgImage">
+            <img class="img-fluid" [src]="commonAssets?.background?.location =='content' ? containgFolderPath + '/' + commonAssets?.background?.url : assetsPath + '/' + commonAssets?.background?.url"
+			(load)="checkImgLoaded();" />  
+        </div>    
+        <div #maincontent class="disableDiv">
+        <div id="instructionBar">
+            <div class="instructionBase">
+            <img class="img-fluid" [src]="commonAssets?.instruction_bg
+                ?.location =='content' ? containgFolderPath + '/' + commonAssets?.instruction_bg?.url : assetsPath + '/' + commonAssets?.instruction_bg?.url" (load)="checkImgLoaded();" />
+                 <span class="instructionText">{{instructiontext}}</span>
+            </div>
+        </div>        
+        <div id="parentBlock">
+            <div class="queryBlock">
+                <img class="img-fluid" [src]="quesObj?.quesImage?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImage?.background?.url : quesObj?.quesImage?.background?.location=='assets' ? assetsPath + '/' +quesObj?.quesImage?.background?.url:''" alt=""
+                (load)="checkImgLoaded();">
+                <img class="img-fluid refImage" [src]="quesObj?.quesImage?.image?.location=='content' ? containgFolderPath + '/' + quesObj?.quesImage?.image?.url : quesObj?.quesImage?.image?.location=='assets' ? assetsPath + '/' +quesObj?.quesImage?.image?.url:''" alt=""
+                (load)="checkImgLoaded();">
+                <div class="positions">
+                    <div id="{{'step_'+(idx)}}" [ngClass]="{'steps':true,'traveller': step?.currentStep}" *ngFor="let step of quesObj?.quesImage?.stepImage;let idx = index">
+                        <ng-template [ngIf]="step?.stepOn">
+                            <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
+                            (load)="checkImgLoaded();"> 
+                        </ng-template>                                                   
+                    </div>                    
+                </div>
+            </div>
+            <div id="optionsBlock" #optionRef>
+                <div id="{{'opt'+(idx+1)}}" class="options" *ngFor="let opt of myoption;let idx = index">
+                    <ng-template [ngIf]="opt?.isShow">
+                        <img class="img-fluid" [src]="opt?.background?.location=='content' ? containgFolderPath + '/' + opt?.background?.url : opt?.background?.location=='assets' ? assetsPath + '/' +opt?.background?.url:''"
+                        (load)="checkImgLoaded();">
+                        <img class="img-fluid" [src]="opt?.image?.location=='content' ? containgFolderPath + '/' + opt?.image?.url : opt?.image?.location=='assets' ? assetsPath + '/' +opt?.image?.url:''"
+                        (load)="checkImgLoaded();" on-mousemove='playOptionHover(opt,idx)' on-mouseout='onHoveroutOptions(opt,idx)' (click)="selectOpt(opt,idx)">
+                    </ng-template>                    
+                </div>
+                
+            </div>
+            <div #disableSpeaker id="disableSpeaker" class="speakerBlock">
+                <div id="spkrBtn" class="speakerBtn">
+                <img #speakerNormal id="speaker" class="img-fluid" [src]="speaker?.imgsrc?.location=='content' ?containgFolderPath + '/' +speaker?.imgsrc.url: assetsPath + '/'+ speaker?.imgsrc.url" (click)="playSpeaker(myAudiospeaker,speaker)" on-mousemove="onHoverSpeaker(speaker)"  (mouseleave)="onHoverOutSpeaker(speaker)" (load)="checkImgLoaded();" title="स्पीकर">
+                <div class="waveAnimation" #sprite>
+                    <img class="img-fluid" [src]="speaker?.wave1?.location=='content' ?containgFolderPath + '/' +speaker?.wave1.url: assetsPath + '/'+ speaker?.wave1.url">
+                    <img class="img-fluid" [src]="speaker?.wave2?.location=='content' ?containgFolderPath + '/' +speaker?.wave2.url: assetsPath + '/'+ speaker?.wave2.url">
+                    <img class="img-fluid" [src]="speaker?.wave3?.location=='content' ?containgFolderPath + '/' +speaker?.wave3.url: assetsPath + '/'+ speaker?.wave3.url">
+                </div> 
+                <audio id="S" #myAudiospeaker [src]="speaker?.sound?.location=='content' ?containgFolderPath + '/' +speaker?.sound.url: assetsPath + '/'+ speaker?.sound.url"></audio>
+              </div>
+            </div>
+        </div>
+        <div id="refQuesBlock">            
+            <img class="img-fluid" [src]="quesObj?.background?.location=='content' ? containgFolderPath + '/' + quesObj?.background?.url : quesObj?.background?.location=='assets' ? assetsPath + '/' +quesObj?.background?.url:''" alt=""
+            (load)="checkImgLoaded();">
+            <div class="blocks">
+                <div id="{{'value_'+(idx+1)}}" class="quesBox" *ngFor="let quesTxt of quesObj?.questionText; let idx=index">
+                    <img class="img-fluid" [src]="quesTxt?.background?.location=='content' ? containgFolderPath + '/' + quesTxt?.background?.url : quesTxt?.background?.location=='assets' ? assetsPath + '/' +quesTxt?.background?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                </div>                    
+            </div>
+        </div>        
+                
+    </div>  <!--END OF MAIN CONTENT-->
+
+    <!-- Right/Wrong Popup  -->
+    <div class="modal" id="modalTemp17" #ansPopup>
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-body d-flex align-items-center">
+                  <img class="img-fluid"  [src]="popupAssets?.pop_up_base?.location=='content' ? containgFolderPath +'/'+ popupAssets?.pop_up_base?.url :  assetsPath +'/'+ popupAssets?.pop_up_base?.url">
+                  
+                  <div class="queryBlock">
+                    <img class="img-fluid" [src]="feedback?.right_ans_popup?.rightImage?.background?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_popup?.rightImage?.background?.url : feedback?.right_ans_popup?.rightImage?.background?.location=='assets' ? assetsPath + '/' +feedback?.right_ans_popup?.rightImage?.background?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                    <img class="img-fluid refImage" [src]="feedback?.right_ans_popup?.rightImage?.image?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_popup?.rightImage?.image?.url : feedback?.right_ans_popup?.rightImage?.image?.location=='assets' ? assetsPath + '/' +feedback?.right_ans_popup?.rightImage?.image?.url:''" alt=""
+                    (load)="checkImgLoaded();">
+                    <div class="positions">
+                        <div class="steps" *ngFor="let step of feedback?.right_ans_popup?.rightImage?.stepImage;let idx = index">
+                            <img class="img-fluid" [src]="step?.location=='content' ? containgFolderPath + '/' + step?.url : step?.location=='assets' ? assetsPath + '/' +step?.url:''" alt=""
+                            (load)="checkImgLoaded();">                            
+                        </div>                    
+                    </div>
+                  </div>
+
+                  <div class="correct_order">
+                      <div>
+                        <img class="img-fluid " [src]="feedback?.right_ans_popup?.correct_order?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_popup?.correct_order?.url : feedback?.right_ans_popup?.correct_order?.location=='assets' ? assetsPath + '/' +feedback?.right_ans_popup?.correct_order?.url:''" alt=""
+                        (load)="checkImgLoaded();">
+                      </div>                    
+                  </div>
+                  
+                  <div class="rightWrongAns">
+                      <img class="img-fluid" [src]="popupIconLocation=='content' ? containgFolderPath +'/'+ popupIcon :  assetsPath +'/'+ popupIcon">
+                  </div>
+                  <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? containgFolderPath + '/' + popupAssets?.close_button?.url : assetsPath + '/' + popupAssets?.close_button?.url"
+                  (click)="closePopup('answerPopup')" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+               </div>
+          </div>
+      </div>
+  </div>
+
+
+ <!-- show answer Popup  -->
+   <app-showanswer (closePopupChild)="closePopup('showAnswer');"></app-showanswer>
+
+  </div>
+  
+
+
+  <!-- Popup Modal Audios -->
+<audio #wrongFeedback [src]="wrongFeedbackVO?.path?.location=='content'? containgFolderPath + '/' +  wrongFeedbackVO?.path?.url : assetsPath +'/'+ wrongFeedbackVO?.path?.url"></audio>
+<audio #rightFeedback [src]="rightFeedbackVO?.path?.location=='content'? containgFolderPath + '/' +  rightFeedbackVO?.path?.url : assetsPath +'/'+ rightFeedbackVO?.path?.url"></audio>
+<audio #clapSound [src]="feedback?.right_ans_clap_sound?.location=='content' ? containgFolderPath + '/' + feedback?.right_ans_clap_sound?.url : feedback?.right_ans_clap_sound?.location=='assets' ? assetsPath + '/' + feedback?.right_ans_clap_sound?.url:feedback?.right_ans_clap_sound?.url"></audio>	
+<audio #rightPopupfeedback [src]="rightPopupVO?.path?.location=='content' ? containgFolderPath + '/' + rightPopupVO?.path?.url : rightPopupVO?.path?.location=='assets' ? assetsPath + '/' + rightPopupVO?.path?.url:rightPopupVO?.path?.url"></audio>	
+
+
+
+    

@@ -1,0 +1,30 @@
+<div class="modal d-flex align-items-center justify-content-center showit ansPopup dispFlex" id="confirmAnswer" *ngIf="enableConfirmation" #showAnswerRef>
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-body d-flex align-items-center">
+              <div class="stageVideoPopup">
+                <img class="img-fluid"  [src]="popupAssets?.body?.location=='content' ? contentgFolderPath +'/'+ popupAssets?.body?.url :  assetsfolderlocation +'/'+ popupAssets?.body?.url">
+                <!-- <span class="Popuptext">क्या आप इसे सबमिट करना चाहते हैं ?</span> -->
+                <div class="wrapper">
+                  <div (click)="closePopup('yes')">
+                    <img class="img-fluid" [src]="popupAssets?.yes_btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.yes_btn_base?.url : assetsfolderlocation + '/' + popupAssets?.yes_btn_base?.url"
+                    (click)="closePopup('yes');" title="हाँ">
+                    <img class="img-fluid" (mousemove)="hoverYes()" (mouseleave)="houtYes()" [src]="popupAssets?.yesButton?.location=='content' ? contentgFolderPath + '/' + popupAssets?.yesButton?.url : assetsfolderlocation + '/' + popupAssets?.yesButton?.url">
+                  </div>
+                  <div (click)="closePopup('no')">
+                    <img class="img-fluid" [src]="popupAssets?.no_btn_base?.location=='content' ? contentgFolderPath + '/' + popupAssets?.no_btn_base?.url : assetsfolderlocation + '/' + popupAssets?.no_btn_base?.url"
+                    (click)="closePopup('no');" title="नहीं">
+                    <img class="img-fluid" (mousemove)="hoverNo()" (mouseleave)="houtNo()" [src]="popupAssets?.noButton?.location=='content' ? contentgFolderPath + '/' + popupAssets?.noButton?.url : assetsfolderlocation + '/' + popupAssets?.noButton?.url">
+                  </div>    
+                </div>
+                </div>
+              <!-- <div>
+                <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
+              (click)="closePopup('showanswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें">
+              </div>  -->
+              <!-- <img class="popupCloseBtn" [src]="popupAssets?.close_button?.location=='content' ? contentgFolderPath + '/' + popupAssets?.close_button?.url : assetsfolderlocation + '/' + popupAssets?.close_button?.url"
+              (click)="closePopup('showanswer');" (mousemove)="hoverClosePopup()" (mouseleave)="houtClosePopup()" title="बन्द करें"> -->
+           </div>
+      </div>
+  </div>
+</div>

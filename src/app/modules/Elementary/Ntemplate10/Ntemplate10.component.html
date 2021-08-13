@@ -1,0 +1,92 @@
+<div class="container-fluid ele temp14" #container id="container" *ngIf="!showIntroScreen">
+	<audio #narrator [src]="commonAssets?.narrator?.url"></audio>
+<div class="d-flex align-items-center justify-content-center hideit" #burst id="burst">
+				<img class="img-fluid" [src]="quesInfo.burst_image.url">
+</div>
+<div id="bgImage"><img class="img-fluid" [src]="commonAssets?.background?.url" (load)="checkImgLoaded();"/></div>
+<div #maincontent>
+<div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+		<div class="instructionBase">
+		  <img class="img-fluid" [src]="commonAssets?.instruction_bg?.url" (mousemove)="onHoverInstruction();" (mouseleave)="onHoverOutInstruction();" (click)="playHoverInstruction()" (load)="checkImgLoaded();" />
+		  <audio #instruction [src]="commonAssets?.instruction?.url"></audio>
+		</div>
+</div>
+<audio #clapSound [src]="quesInfo?.right_sound?.url"></audio>
+<audio #buzzerSound [src]="quesInfo?.wrong_sound?.url"></audio>
+<audio #questionSound></audio>
+<div class="optionsBlock" #optionBlock id="optionsBlock" style="position: absolute; background-size: contain; top: 20%; width: 80%; left: 10%; height: 3%;">
+	<img class="optionsBlockImg" [src]="quesInfo.ref_base.url" (load)="checkImgLoaded();" />
+	<div class="speakerBtn" *ngIf="!hideButtons" #speakerBtn (click)="onClickSpeaker()">
+		<img class="img-fluid" id="speaker" [src]="quesInfo?.speaker_img.url" (mousemove)="speakerHover();" (mouseleave)="speakerHoverOut();" (load)="checkImgLoaded();"/>
+		<div class="speaker"></div>
+	</div>
+
+
+
+	<div *ngIf="!hideButtons" class="skipBtn" #skipBtn (click)="skipQuestion()">
+		<img class="img-fluid" id="skip" [src]="quesInfo?.skip?.url" (mousemove)="skipHover();" (mouseleave)="skipHoverOut();" (load)="checkImgLoaded();"/>	
+	</div>
+
+
+
+	<div id="quesImage" #optionHolder>
+		<div  class="options option0" [ngClass]="{'disable_div': myoption[0].imgsrc, 'animation-shake': isShake}" [style.visibility]="myoption[0]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[0],0)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[0]?.bgImgsrc?.url" (mousemove)="optionHover(0);" (mouseleave)="optionHoverOut(0);" (load)="checkImgLoaded();">
+			<img class="img-fluid refTxt" [style.visibility] = "myoption[0].imgsrc!='' ? 'visible' : 'hidden'"  [src]="myoption[0]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>
+		<div  class="options option1"  [ngClass]="{'disable_div': myoption[1].imgsrc , 'animation-shake': isShake}" [style.visibility]="myoption[1]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[1],1)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[1]?.bgImgsrc?.url" (mousemove)="optionHover(1);" (mouseleave)="optionHoverOut(1);"(load)="checkImgLoaded();">
+			<img class="img-fluid refTxt"  [style.visibility] = "myoption[1].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[1]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>
+		<div  class="options option2" [ngClass]="{'disable_div': myoption[2].imgsrc, 'animation-shake': isShake}" [style.visibility]="myoption[2]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[2],2)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[2]?.bgImgsrc?.url" (mousemove)="optionHover(2);" (mouseleave)="optionHoverOut(2);" (load)="checkImgLoaded();">
+			<img class="img-fluid refTxt"  [style.visibility] = "myoption[2].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[2]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>
+		<div  class="options option3" [ngClass]="{'disable_div': myoption[3].imgsrc, 'animation-shake': isShake}" [style.visibility]="myoption[3]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[3],3)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[3]?.bgImgsrc?.url" (mousemove)="optionHover(3);" (mouseleave)="optionHoverOut(3);" (load)="checkImgLoaded();">
+			<img class="img-fluid refTxt"  [style.visibility] = "myoption[3].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[3]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>
+		<div  class="options option4" [ngClass]="{'disable_div': myoption[4].imgsrc, 'animation-shake': isShake}" [style.visibility]="myoption[4]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[4],4)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[4]?.bgImgsrc?.url" (mousemove)="optionHover(4);" (mouseleave)="optionHoverOut(4);" (load)="checkImgLoaded();">
+			<img class="img-fluid refTxt"  [style.visibility] = "myoption[4].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[4]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>
+		<div  class="options option5" [ngClass]="{'disable_div': myoption[5].imgsrc, 'animation-shake': isShake}" [style.visibility]="myoption[5]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[5],5)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[5]?.bgImgsrc?.url" (mousemove)="optionHover(5);" (mouseleave)="optionHoverOut(5);" (load)="checkImgLoaded();">
+			<img class="img-fluid refTxt" [style.visibility] = "myoption[5].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[5]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>
+		<div  class="options option6" [ngClass]="{'disable_div': myoption[6].imgsrc, 'animation-shake': isShake}" [style.visibility]="myoption[6]?.bgImgsrc != '' ? 'visible' : 'hidden'" (click)="checkAnswer(myoption[6],6)">
+			<img class="img-fluid shadow" [src]="quesInfo.opt_shadow.url" (load)="checkImgLoaded();">
+			<img class="img-fluid" [src]="myoption[6]?.bgImgsrc?.url" (mousemove)="optionHover(6);" (mouseleave)="optionHoverOut(6);" (load)="checkImgLoaded();">
+			<img class="img-fluid refTxt" [style.visibility] = "myoption[6].imgsrc!='' ? 'visible' : 'hidden'" [src]="myoption[6]?.imgsrc.url" (load)="checkImgLoaded();">
+		</div>				
+	</div>
+</div>
+<audio #titleHelpAudio [src]="quesInfo?.narrator?.url"></audio>
+</div>
+
+<!-- see answer confirm model  -->
+<div class="modal" id="confirmModal" #confirmModalRef>
+	<div class="modal-dialog">
+	  <div class="modal-content" #modalRef>
+		<div class="modal-header modalCustomSuccessHeader" [ngStyle]="feedbackObj?.style_header">
+		  <img class="modal-title" [src]="feedbackObj?.confirm_popup?.headerTxt_img?.url">
+		  <img class="close" [src]="confirmPopupAssets?.close_btn?.url" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+		</div>
+
+		<div class="modal-body" #moalBodyRefSuccess [ngStyle]="feedbackObj?.confirm_popup?.style_body">
+		  <div class="msgImage"><img class="img-fluid h-100" [src]="confirmPopupAssets?.confirm_text?.url"></div>
+		  <div class="actionButtons">
+			<button type="button" (click)="sendFeedback('confirm-modal-id','yes');" (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmPopupAssets?.confirm_btn?.url"></button>
+			<button type="button" (click)="sendFeedback('confirm-modal-id','no');" (mousemove)="hoverDecline()" (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmPopupAssets?.decline_btn?.url"></button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+  </div>

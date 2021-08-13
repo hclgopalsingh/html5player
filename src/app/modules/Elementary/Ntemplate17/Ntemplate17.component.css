@@ -1,0 +1,1882 @@
+.ele17 button:focus {
+  outline: 0 !important;
+}
+
+.ele17 .hideit {
+  display: none !important;
+}
+
+@font-face {
+  font-family: 'Kruti Dev 010';
+  src: url('../../../../assets/fonts/Content/K010.ttf') format('truetype');
+}
+
+
+.ele17 #navBlock .ansBtn {
+  visibility: hidden;
+}
+
+.ele17 #questionAudioID {
+  cursor: pointer;
+}
+
+.ele17 .inputHindiDiv {
+  font-family: 'Arial';
+}
+
+.ele17 #inputKeyboard {
+  font-size: 3.8vmax;
+  /*5vmax*/
+}
+
+.ele17 .nonHindiInput {
+  font-family: "Arial";
+}
+
+.ele17 #boxWord {
+  font-size: 1.30vmax;
+}
+
+
+.ele17 .vowels {
+  width: 7.5%;
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  display: none;
+}
+
+.ele17 .consonent {
+  width: 6.3%;
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  display: none;
+
+}
+
+.ele17 .showit {
+  display: block !important;
+}
+
+.ele17 .dispFlex {
+  display: flex !important;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+#container.ele17 {
+  position: relative;
+  padding: 0;
+}
+
+#container.ele17 #bgImage img {
+  width: 100%;
+}
+
+
+.ele17 .bodyContent {
+  position: absolute;
+  top: 18%;
+  /*20%;*/
+  width: 100%;
+  left: 0;
+  height: 69%;
+  /*67%;*/
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ele17 .quesContainer,
+.ele17 .testContainer {
+  height: 60%;
+  position: relative;
+  margin-top: 6%;
+}
+
+.hideTestScreen {
+  display: none !important;
+}
+
+.ele17 .modal .testContainer {
+  height: auto;
+  justify-content: space-around !important;
+  /* margin-top: 8%; */
+  margin: 8.5% 0 0.7% 0;
+  /*7% 0 7.5% 0;*/
+}
+
+.ele17 .categoryBox {
+  width: 77%;
+  /*26.5%;*/
+  position: relative;
+  top: 1.5%;
+  margin: auto;
+  cursor: default;
+}
+
+.ele17 .correctBox,
+.ele17 .incorrectBox {
+  width: 26.5%;
+  /*23.6%;*/
+  position: relative;
+  top: 1.5%;
+}
+
+.ele17 .correctBox {
+  left: 4%;
+}
+
+.ele17 .incorrectBox {
+  left: -4%;
+}
+
+.temp17.videoMainContainer {
+  width: 99.9%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+.temp17 #playPauseBtn {
+  /*position: absolute;
+  top: 96.5%;
+  right: 1.7%;
+  cursor: pointer;
+  width: 16%;*/
+  position: absolute;
+  top: 86%;
+  right: .7%;
+  /*-3.7%*/
+  cursor: pointer;
+  width: 3.5%;
+  /*16%*/
+}
+
+.temp17 #SkipBtn {
+  /*position: absolute;
+  top: 98%;
+  right: 18%;
+  cursor: pointer;
+  width: 1.5%;*/
+  position: absolute;
+  top: 86%;
+  /*85%*/
+  right: 5%;
+  /*16%*/
+  /* cursor: pointer; */
+  width: 3.5%;
+  /*1.5%*/
+}
+.temp17 #closeBtn {
+  /*position: absolute;
+  top: 96.5%;
+  right: 1.7%;
+  cursor: pointer;
+  width: 16%;*/
+  position: absolute;
+  top: 86%;
+  right: .7%;
+  /*-3.7%*/
+  cursor: pointer;
+  width: 3.5%;
+  /*16%*/
+}
+
+.ele17 .modal .correctBox,
+.ele17 .modal .incorrectBox {
+  width: 37.5%;
+}
+
+.ele17 .placeholder1,
+.ele17 .placeholder2,
+.ele17 .placeholder3,
+.ele17 .placeholder4,
+.ele17 .placeholder5,
+.ele17 .placeholder6,
+.ele17 .placeholder7,
+.ele17 .placeholder8,
+.ele17 .placeholder9,
+.ele17 .placeholder10,
+.ele17 .placeholder11,
+.ele17 .placeholder12,
+.ele17 .placeholder13,
+.ele17 .placeholder14,
+.ele17 .placeholder15,
+.ele17 .placeholder16,
+.ele17 .placeholder17,
+.ele17 .placeholder18,
+.ele17 .placeholder19,
+.ele17 .placeholder20,
+.ele17 .placeholder21,
+.ele17 .placeholder22,
+.ele17 .placeholder23,
+.ele17 .placeholder24 {
+  position: absolute;
+  left: 3.5%;
+  top: 20%;
+  width: 7.2%;
+  z-index: 1;
+}
+
+.ele17 .placeholder2,
+.ele17 .placeholder4,
+.ele17 .placeholder6,
+.ele17 .placeholder8,
+.ele17 .placeholder10,
+.ele17 .placeholder12 {
+  left: 17%;
+}
+
+.ele17 .placeholder13,
+.ele17 .placeholder14,
+.ele17 .placeholder15,
+.ele17 .placeholder16,
+.ele17 .placeholder17,
+.ele17 .placeholder18,
+.ele17 .placeholder19,
+.ele17 .placeholder20,
+.ele17 .placeholder21,
+.ele17 .placeholder22,
+.ele17 .placeholder23,
+.ele17 .placeholder24 {
+  left: 75.8%;
+}
+
+.ele17 .placeholder14,
+.ele17 .placeholder16,
+.ele17 .placeholder18,
+.ele17 .placeholder20,
+.ele17 .placeholder22,
+.ele17 .placeholder24 {
+  left: 89.2%;
+}
+
+.ele17 .placeholder3,
+.ele17 .placeholder4,
+.ele17 .placeholder15,
+.ele17 .placeholder16 {
+  top: 32.7%;
+}
+
+.ele17 .placeholder5,
+.ele17 .placeholder6,
+.ele17 .placeholder17,
+.ele17 .placeholder18 {
+  top: 45.4%;
+}
+
+.ele17 .placeholder7,
+.ele17 .placeholder8,
+.ele17 .placeholder19,
+.ele17 .placeholder20 {
+  top: 58.1%;
+}
+
+.ele17 .placeholder9,
+.ele17 .placeholder10,
+.ele17 .placeholder21,
+.ele17 .placeholder22 {
+  top: 70.8%;
+}
+
+.ele17 .placeholder11,
+.ele17 .placeholder12,
+.ele17 .placeholder23,
+.ele17 .placeholder24 {
+  top: 83.8%;
+}
+
+.ele17 .optionsList {
+  position: absolute;
+  top: 18.5%;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  /* top: 18.5%;
+    height: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-direction: column; */
+  /*with every 3rd option placed in center*/
+  /*display: flex;
+    flex-wrap: wrap;
+    justify-content: center;*/
+}
+
+.ele17 .modal .optionsList {
+  position: absolute;
+  top: 19.7%;
+  /*18%;*/
+  width: 95%;
+  left: 2.5%;
+  /*2.2%;*/
+}
+
+.ele17 .optionsList div {
+  /*max-width: 32%;
+  margin: 0.5% 8.8%;*/
+  max-width: 33%;
+  margin: 0.5% 6%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ele17 .optionsList div span {
+  position: absolute;
+  font-size: 0.70vmax;
+  white-space: nowrap;
+}
+
+.ele17 .modal .optionsList div span {
+  font-size: 1.5vmax;
+  /*1.85vmax*/
+  white-space: nowrap;
+}
+
+.ele17 .modal .optionsList img {
+  margin: 1.3% 7.3%;
+}
+
+.ele17 .modal .optionsList div {
+  margin: 0% 3%;
+  /*.7% 6%;*/
+  max-width: 26.5%;
+}
+
+.ele17 .actionBox {
+  width: 39%;
+  margin: 0 5%;
+  margin-top: -3%;
+}
+
+.ele17 .actionBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 7%;
+}
+
+.ele17 .actionBtn img {
+  margin: 0 5%;
+  max-width: 9%;
+  cursor: pointer;
+}
+
+.ele17 .selectedOption {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ele17 .optionPicked {
+  position: absolute;
+  max-width: 63% !important;
+}
+
+.ele17 .bodyContent .refQues {
+  width: 23%;
+  /*23.7%*/
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ele17 .bodyContent .refQues span {
+  position: absolute;
+  font-size: 2.5vmax;
+  cursor: pointer;
+}
+
+.ele17 .bodyContent .refQues img {
+  /* max-width: 93%; */
+}
+
+.ele17 #optionsBlock {
+  margin-top: 2%;
+  opacity: 0;
+}
+
+.ele17 #optionsBlock img,
+.ele17 .optionsBlock img {
+  /* cursor: pointer;*/
+  position: relative;
+  max-width: 100%;
+}
+
+
+.ele17 #optionsBlock .options,
+.ele17 .optionsBlock .options {
+  position: relative;
+  margin: 1%;
+  vertical-align: middle;
+  width: 31%;
+  display: inline-block;
+  /*animation: scaleit 0.4s ease-in;*/
+}
+
+.ele17 .quesImage {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.ele17 .refQuesImg {
+  position: absolute;
+  width: 22%;
+  top: 5%;
+  left: 2.5%;
+}
+
+.ele17 .waveAnimation img {
+  position: absolute;
+  top: 5%;
+  left: 2.5%;
+}
+
+.ele17 .audio-container {
+  /* cursor: pointer; */
+}
+
+
+.ele17 .waveAnimation img:nth-child(1) {
+  animation: blink1 normal infinite cubic-bezier(0, 0.5, 0.5, 0);
+  animation-duration: 1.5s;
+}
+
+.ele17 #optionsBlock .refTxt,
+.ele17 .optionsBlock .refTxt {
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  z-index: 2;
+}
+
+#container.ele17 #navBlock {
+  position: absolute;
+  bottom: 6%;
+  /*0*/
+  left: 0%;
+  width: 100%;
+}
+
+
+#container.ele17 #navBlock .navBase {
+  position: relative;
+  margin-right: .7%;
+  width: auto;
+}
+
+#container.ele17 .quesBlock {
+  position: absolute;
+  left: 0%;
+  top: 3%;
+  width: 100%;
+  height: 5.5%;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.ele17 .quesTab {
+  width: 20%;
+  display: inline-flex;
+  flex-grow: 1;
+  position: relative;
+}
+
+.ele17 .quesTab img {
+  vertical-align: text-bottom;
+}
+
+
+
+#container.ele17 #navBlock .ansBtn,
+#container.ele17 .quesBlock img {
+  cursor: pointer;
+}
+
+#container.ele17 #navBlock .ansBtn {
+  margin-left: .7%;
+  width: 3.5%;
+}
+
+
+.ele17 #navBlock .submitBtn {
+  cursor: pointer;
+
+}
+
+.ele17 #navBlock .prevBtn,
+.ele17 #navBlock .nextBtn {
+  width: 3.5%;
+  margin-right: .7%;
+}
+
+.ele17 #navBlock .submitBtn {
+  width: 7%;
+}
+
+/*#navBlock .nextBtn {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}*/
+
+.ele17 .optionAnimate {
+  transform: scale(1.1);
+  transition: transform .5s ease;
+}
+
+.ele17 .nutralize {
+  transform: scale(1.0);
+  transition: transform .5s ease;
+}
+
+.ele17 .tabBody {
+  flex-grow: 1;
+  margin: 0 -1px;
+}
+
+.ele17 .tabLeft,
+.ele17 .tabRight,
+.ele17 .tabBody {
+  width: auto;
+  height: 100%;
+}
+
+.ele17 .quesnum {
+  position: absolute;
+  width: 1vmin;
+  height: auto;
+  /*43%;*/
+  left: 49.8% !important;
+  top: 30%;
+}
+
+
+.ele17 .animation-shake {
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.ele17 #correctAns {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  /*
+        background: url(../images/popup.svg) no-repeat center center;
+    */
+  background-size: contain;
+  animation: scaleit 0.2s ease-in;
+}
+
+.ele17 .rightAnsBg {
+  animation: scaleit 0.2s ease-in;
+}
+
+.ele17 #correctAns img {
+  position: absolute;
+  width: 70%;
+}
+
+#container.ele17 #instructionBar {
+  position: absolute;
+  top: 9%;
+  width: 100%;
+  text-align: center;
+}
+
+.ele17 #instructionBar .instructionBase {
+  width: 60%;
+  position: relative;
+  cursor: pointer;
+}
+
+.ele17 .instructionBase .instructionText {
+  position: absolute;
+  top: 0%;
+  left: 0;
+}
+
+@keyframes scaleit {
+  0% {
+    transform: scale(.9);
+    opacity: .0;
+  }
+
+  90% {
+    transform: scale(1.1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#container.ele17 #navBlock .prevBtn:hover,
+#container.ele17 #navBlock .nextBtn:hover {
+  -webkit-animation-name: moveLeft;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: .3s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: moveLeft;
+  animation-duration: .3s;
+  animation-iteration-count: infinite;
+}
+
+#container.ele17 #navBlock .nextBtn:hover {
+  -webkit-animation-name: moveRight;
+  /* Safari 4.0 - 8.0 */
+  animation-name: moveRight;
+}
+
+@keyframes moveLeft {
+  0% {
+    left: 3.2%;
+  }
+
+  100% {
+    left: 2%;
+  }
+}
+
+@keyframes moveRight {
+  0% {
+    right: 3.3%;
+  }
+
+  100% {
+    right: 2%;
+  }
+}
+
+.ele17 #burst {
+  position: absolute;
+  z-index: 101;
+  width: 100%;
+  height: 100%;
+}
+
+.ele17 .disable_div {
+  pointer-events: none;
+}
+
+.ele17 .options .desc {
+  position: relative;
+}
+
+/*.options:hover {
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+}*/
+
+.ele17 .right,
+.ele17 .wrong {
+  width: 20%;
+  position: absolute !important;
+  z-index: 3;
+  left: 40%;
+  bottom: -70%;
+  display: none;
+}
+
+.ele17 .optionsWidth {
+  width: auto !important;
+}
+
+
+/* Modal classes */
+.ele17 #customModal {
+  display: block !important;
+}
+
+.ele17 #modalTemp17,
+.ele17 #confirmSubmitModal {
+  background: rgba(0, 0, 0, .85);
+}
+
+.ele17 #modalPartialOptions {
+  background: rgba(0, 0, 0, .85);
+}
+
+
+.ele17 #customModal .optionsBlock {
+  width: 44%;
+}
+
+.ele17 #customModal .optionsBlock .quesImage {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ele17 #customModal .modal-body {
+  height: 91%;
+  padding: 0 15px;
+}
+
+.ele17 #customModal .options {
+  position: relative;
+  margin: .7% 0;
+}
+
+.ele17 #customModal .options div {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ele17 #customModal .options div img {
+  width: 48%;
+}
+
+
+/*confirm modal*/
+
+.ele17 .confirm_modal_content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  background-clip: padding-box;
+  border: none;
+  border-radius: 0;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+}
+
+.ele17 #confirmModal {
+  /* display: flex;*/
+  background: rgba(0, 0, 0, .85);
+}
+
+.ele17 #confirmModal .modal-dialog {
+  width: 50% !important;
+  max-width: 100%;
+  height: 36%;
+  display: flex;
+  justify-content: center;
+}
+
+.ele17 #confirmModal .modal-content, .ele17 #confirmSubmitModal .modal-content {
+  /* height: auto; */
+  min-width: auto;
+  min-height: auto;
+}
+
+.ele17 #confirmModal .modal-body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-end;
+  flex: auto !important;
+}
+
+.ele17 #confirmModal .modal-body .msgImage {
+  display: block;
+  /*flex*/
+  text-align: center;
+  /*justify-content: center;*/
+}
+
+.ele17 #confirmModal .modal-body .actionButtons {
+  text-align: center;
+  margin: 3% 0 2%;
+  width: 100%;
+}
+
+.ele17 #confirmModal .modal-body .msgImage img {
+  width: 100%;
+}
+
+.ele17 #confirmModal .modal-body img {
+  max-width: 100%;
+}
+
+.ele17 #confirmModal .modal-body .actionButtons button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 18%;
+}
+
+.ele17 button:focus {
+  outline: none;
+}
+
+.ele17 #confirmModal .modal-body .actionButtons img {
+  max-width: 80%;
+}
+
+.ele17 #confirmModal .modal-header {
+  top: 0;
+}
+
+.ele17 #confirmModal .bodyText {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+}
+
+.ele17 #confirmModal .bodyText img {
+  width: 85%;
+}
+
+.ele17 #confirmModal .modal-title {
+  margin-left: 0%;
+}
+
+.ele17 #confirmModal .close {
+  /* width: 5%; */
+  margin: 0 1.6% 0 auto;
+  right: 0.3vmin !important;
+}
+
+.ele17 #confirmModal .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border-top: none;
+  position: absolute;
+  width: 100%;
+  bottom: 16%;
+}
+
+.ele17 #confirmModal .modal-footer button {
+  width: 13%;
+  border: none;
+  background: transparent;
+}
+
+.ele17 #confirmModal .popupModelBody {
+  padding: 0;
+}
+
+.ele17 .displayPopup {
+  display: -webkit-box !important;
+  /* transition: all 2s ease-in-out;
+  transform: scale(1.2); */
+}
+
+.ele17 .modal {
+  position: absolute !important;
+  width: 100%;
+  z-index: 100 !important;
+  height: 94%;
+  /*93.6%*/
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  padding-left: 0px;
+}
+
+/*.modal-dialog {
+  width: 30%;
+  min-height: 49%;
+  width: 100%;
+  height: 88%;
+}*/
+.ele17 .modal.show {
+  display: -webkit-box !important;
+}
+
+.ele17 .modal-dialog {
+  max-width: 80%;
+  width: 92% !important;
+  /*90%*/
+  height: auto;
+  /*60%*/
+}
+
+.ele17 .modal-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 100%;
+  min-width: 560px;
+  /*450px;*/
+  min-height: 50vmin;
+  /*350px;*/
+}
+
+.ele17 .modal-header {
+  padding: .5% !important;
+  height: 7vmin;
+  /*56px;*/
+  position: relative;
+  top: 0;
+  width: 100%;
+  border-bottom: none !important;
+  margin-bottom: -1px;
+  border: solid .7vmin #85d222;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #248446;
+}
+
+.ele17 .modal-header:before,
+.ele17 .modal-header:after {
+  content: none !important;
+}
+
+.ele17 #modalTemp5 .modal-header {
+  top: 0;
+}
+
+/* .modal-title {
+  margin-left: 1.5%;
+  height: 80%;
+} */
+
+.ele17 .close {
+  width: auto;
+  height: 75%;
+  margin-right: 0%;
+  margin-top: -.1%;
+  -webkit-appearance: inherit !important;
+  cursor: pointer;
+  opacity: 1;
+}
+
+@media (min-width: 1366px) {
+  .ele17 .close {
+    height: 95%;
+    /* margin-right: .3%; */
+  }
+}
+
+.ele17 #modalTemp5 .modal-header .close {
+  margin-left: auto;
+}
+
+.ele17 .modal-body {
+  padding: 4%;
+  background: #afdec0;
+  border: solid .7vmin #85d222;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top: none !important;
+  flex: auto !important;
+  align-items: center;
+}
+
+.ele17 .modal-body img {
+  /*max-width: 91%;*/
+}
+
+.ele17 #modalTemp5 .modal-body img {
+  max-width: 94%;
+  /* width: 70%; */
+}
+
+.ele17 #modalTemp5 .optionsBlock {
+  width: 100%;
+  height: 100%;
+  margin: 2% 0;
+}
+
+.ele17 .modalBodyContent {
+  background: #afdec0;
+  margin: -1px;
+}
+
+.ele17 .modal .quesImage {
+  align-self: center;
+  margin: 1% auto !important;
+}
+
+.ele17 #modalTemp5 .quesImage {
+  /* height: 100%; */
+}
+
+.ele17 #modalTemp5 .optionsBlock .options {
+  width: 25%;
+  /*100%*/
+}
+
+.ele17 .close:focus,
+.ele17 .close:hover {
+  /*color: #000;
+  text-decoration: none;
+  opacity: 1;*/
+}
+
+html [type=button] {
+  -webkit-appearance: none;
+}
+
+
+/*Partial Pop-up*/
+.ele17 #modalPartialOptions .modal-dialog {
+  max-width: 87%;
+}
+
+.ele17 #modalPartialOptions .modal-header {
+  margin-bottom: -1px;
+}
+
+.ele17 #modalPartialOptions .modal-header:before,
+.ele17 #modalPartialOptions .modal-header:after {
+  content: none !important;
+}
+
+.ele17 #modalPartialOptions .modal-body img {
+  max-width: 100%;
+}
+
+.ele17 #modalPartialOptions .quesImage {
+  display: block;
+  /*contents;*/
+}
+
+.ele17 #modalPartialOptions .subHead {
+  padding: 0 .5%;
+  height: auto;
+  /*4.7vmin;*/
+  position: relative;
+  top: 0;
+  width: 100%;
+  border: solid 1px #444;
+  border-bottom-color: #777;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #9a9a9a;
+}
+
+.ele17 #modalPartialOptions .subHead img {
+  max-width: 6%;
+  padding: .4%;
+}
+
+.ele17 #modalPartialOptions .subContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /*space-evenly;*/
+  align-items: center;
+  padding: 3% 0;
+  background: #c4c4c4;
+  border: solid 1px #444;
+  border-top: none;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.ele17 #modalPartialOptions .optionsBlock {
+  padding: 0 1%;
+}
+
+.ele17 #modalPartialOptions .optionsBlock .options {
+  width: 13%;
+  margin: 0 .5%;
+}
+
+@media (min-width: 576px) {
+  .ele17 .modal-dialog {
+    max-width: none !important;
+    margin: 0 auto !important;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.ele17 .fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.ele17 .inputDiv {
+  width: 61.7%;
+  /*60.7%;*/
+  height: 54%;
+  margin: 0 2.6%;
+  font-family: 'Arial';
+}
+
+.ele17 .inputDiv input {
+  width: 100%;
+  height: 100%;
+  border: 4px solid #8e7c7c;
+  border-radius: 10px;
+  padding: .5rem .5% .5rem 0;
+  /*.5rem 1rem;*/
+  font-size: 4.25rem;
+  line-height: 2.5;
+  text-align: center;
+  outline: none;
+  color: #a9a9a9;
+}
+
+.ele17 .inputDiv input.inputKeyboard {
+  color: black;
+}
+
+.ele17 .addBtn {
+  text-align: center;
+  width: 7%;
+  /* padding: 0.5% 2%; */
+}
+
+.ele17 .addBtn img {
+  /* max-width: 93%; */
+  /* width: 80%; */
+  /* font-size: 2.25rem; */
+}
+
+.ele17 .refBase {
+  width: 96.4%;
+  position: relative;
+}
+
+.ele17 .refBase img {
+  width: 100%;
+}
+
+.ele17 .wordBlock {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: .5% 1%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.ele17 .wordBlock .wordItem {
+  width: 16%;
+  white-space: nowrap;
+  position: relative;
+  margin: .27% 0;
+  margin-right: .8%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  /* pointer-events: pointer;*/
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(1),
+.ele17 .wordBlock .wordItem:nth-of-type(7) {
+  position: absolute;
+  left: .85%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(2),
+.ele17 .wordBlock .wordItem:nth-of-type(8) {
+  position: absolute;
+  left: 17.3%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(3),
+.ele17 .wordBlock .wordItem:nth-of-type(9) {
+  position: absolute;
+  left: 33.8%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(4),
+.ele17 .wordBlock .wordItem:nth-of-type(10) {
+  position: absolute;
+  left: 50.3%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(5),
+.ele17 .wordBlock .wordItem:nth-of-type(11) {
+  position: absolute;
+  left: 66.8%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(6),
+.ele17 .wordBlock .wordItem:nth-of-type(12) {
+  position: absolute;
+  left: 83.3%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(7),
+.ele17 .wordBlock .wordItem:nth-of-type(8),
+.ele17 .wordBlock .wordItem:nth-of-type(9),
+.ele17 .wordBlock .wordItem:nth-of-type(10),
+.ele17 .wordBlock .wordItem:nth-of-type(11),
+.ele17 .wordBlock .wordItem:nth-of-type(12) {
+  top: 49.5%;
+}
+
+.ele17 .wordBlock .wordItem:nth-of-type(6),
+.ele17 .wordBlock .wordItem:nth-of-type(12) {
+  margin-right: 0;
+}
+
+.ele17 .wordItem span {
+  position: absolute;
+  font-size: 1.3vmax;
+  cursor: default;
+}
+
+.ele17 ul {
+  text-align: center;
+}
+
+.ele17 input {
+  /*width: 100%;
+  height: 100px;
+  padding: 20px;*/
+  font-size: 20px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.ele17 .simple-keyboard {
+  max-width: 73.5%;
+  position: absolute;
+  right: 13.25%;
+  top: 100%;
+  z-index: 100;
+}
+
+.ele17 .simple-keyboardImage {
+  max-width: 73.5%;
+  position: absolute;
+  right: 13.25%;
+  top: 100%;
+  z-index: 100;
+  /* max-width: 60.7%;
+  position: absolute;
+  right: 11.3%;
+  top: 78%; */
+}
+
+.ele17 .simple-keyboardImage .row1,
+.ele17 .simple-keyboardImage .row2,
+.ele17 .simple-keyboardImage .row3,
+.ele17 .simple-keyboardImage .btmRow {
+  position: absolute;
+  left: .36%;
+  width: 82.8%;
+  top: 1.6%;
+  height: 18.8%;
+}
+
+.ele17 .simple-keyboardImage .row2 {
+  top: 21.6%;
+  height: 16.3%;
+}
+
+.ele17 .simple-keyboardImage .row3 {
+  top: 38.9%;
+  height: 45.5%;
+}
+
+.ele17 .simple-keyboardImage .btmRow {
+  top: 85.4%;
+  height: 13.1%;
+}
+
+.ele17 .simple-keyboardImage .row1 div:hover,
+.ele17 .simple-keyboardImage .row2 div:hover,
+.ele17 .simple-keyboardImage .row3 div:hover,
+.ele17 .simple-keyboardImage .btmRow div:hover,
+.ele17 .simple-keyboardImage .numPad div:hover {
+  border: solid .1vmax #fff;
+  cursor: pointer;
+}
+
+.ele17 .highlight {
+  border: solid .1vmax #fff;
+}
+
+.ele17 .simple-keyboardImage .row1 div,
+.ele17 .simple-keyboardImage .row2 div,
+.ele17 .simple-keyboardImage .row3 div,
+.ele17 .simple-keyboardImage .btmRow div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  width: 5.95%;
+  height: 100%;
+}
+
+.ele17 .simple-keyboardImage .row2 div {
+  width: 7.5%;
+}
+
+.ele17 .simple-keyboardImage .row3 div {
+  width: 6.41%;
+  height: 32%;
+}
+
+.ele17 .simple-keyboardImage .btmRow div {
+  width: 18.7%;
+}
+
+.ele17 .simple-keyboardImage .btmRow .index1 {
+  width: 43.22%;
+}
+
+/*.simple-keyboardImage .row1 .index0 {
+  left: 0.3%;
+}
+.simple-keyboardImage .row1 .index1 {
+  left: 6.3%;
+}*/
+
+/*.simple-keyboardImage .row2 .index1 {
+  left: 7.73%;
+}*/
+
+.ele17 .simple-keyboardImage .row3 .index1 {
+  left: 6.73%;
+}
+
+/*.simple-keyboardImage .btmRow .index1 {
+  left: 19%;
+}*/
+
+.ele17 .simple-keyboardImage .numPad {
+  position: absolute;
+  left: 83.6%;
+  width: 16%;
+  top: 1.6%;
+  height: 97%;
+}
+
+.ele17 .simple-keyboardImage .numPad div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  width: 100%;
+  height: 19.2%;
+}
+
+/*.simple-keyboardImage .numPad .index1 {
+  top: 20.4%;
+  width: 32%;
+}*/
+
+.ele17 .simple-keyboard.hg-theme-default {
+  background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.ele17 .simple-keyboard.hg-theme-default .hg-button {
+  background: #666 !important;
+  height: auto !important;
+  padding: .34% !important;
+  border-bottom-color: rgba(255, 255, 255, 0) !important;
+}
+
+.ele17 .simple-keyboard.hg-theme-default .hg-button:hover {
+  border-bottom-color: rgba(255, 255, 255, 1) !important;
+}
+
+/* .hg-button span{
+  font-size: 1.6vmax !important;
+  font-weight: bold;
+  color: #fff;
+} */
+.ele17 .hg-button span {
+  font-size: 1.22vmax !important;
+  font-weight: 500;
+  color: #fff;
+}
+
+
+.ele17 .disableDiv {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.ele17 .FakedisableDiv {
+  pointer-events: none;
+}
+
+.ele17 .disableIt {
+  pointer-events: none;
+}
+
+.ele17 .absolutePosition {
+  position: absolute !important;
+}
+
+/*
+.selectedOption div{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 60%;
+    animation: widthPlus 0.5s linear;
+}
+
+.selectedOption span {
+    position: absolute;
+	font-size: 3vmax;
+   cursor: pointer;
+}
+*/
+
+.ele17 .quesImg {
+  cursor: pointer
+}
+
+.ele17 .optionPlace {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  /*top: 5%;
+    left: 5%;
+    width: 31%;
+    left: 34.5%;
+    top: 33%;*/
+  width: 27%;
+  left: 36.5%;
+  top: 36%;
+  z-index: 1;
+
+}
+
+.ele17 .optionPlace span {
+  position: absolute;
+  font-size: 2.5vmax;
+  white-space: nowrap;
+}
+
+.ele17 .displayPopup {
+  display: block;
+}
+
+.ele17 .animateWidth {
+  animation: widthPlus 0.5s linear;
+}
+
+@keyframes widthPlus {
+  0% {
+    width: 60% !important;
+  }
+
+  100% {
+    width: 90% !important;
+  }
+}
+
+.ele17 .disablePointer {
+  pointer-events: none !important;
+}
+
+.ele17 .disablePointer input {
+  opacity: 0.7;
+  pointer-events: none !important;
+}
+
+.ele17 .hideKeyboard {
+  display: none !important;
+}
+
+.ele17 .showKeyboard {
+  display: block !important;
+}
+
+.ele17 .submitOpt {
+  visibility: visible;
+  /*cursor: pointer;*/
+}
+
+.ele17 .placeHolderOpt {
+  visibility: hidden;
+  pointer-events: none
+}
+
+.ele17 #infoModalId {
+  /* display: flex;*/
+  background: rgba(0, 0, 0, .85);
+  z-index: 102 !important;
+}
+
+.ele17 #infoModalId .modal-dialog {
+  width: 50% !important;
+  max-width: 100%;
+  height: 36%;
+  display: flex;
+  justify-content: center;
+}
+
+.ele17 #infoModalId .modal-content {
+  /* height: auto; */
+  min-width: auto;
+  min-height: auto;
+}
+
+.ele17 #infoModalId .modal-body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-end;
+  flex: auto !important;
+}
+
+.ele17 #infoModalId .modal-body .msgImage {
+  display: block;
+  /*flex*/
+  text-align: center;
+  /*justify-content: center;*/
+}
+
+.ele17 #infoModalId .modal-body .actionButtons {
+  text-align: center;
+  margin: 3% 0 2%;
+  width: 100%;
+}
+
+.ele17 #infoModalId .modal-body .msgImage img {
+  width: 100%;
+}
+
+.ele17 #infoModalId .modal-body .actionButtons button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 18%;
+  outline: none;
+}
+
+.ele17 #infoModalId .modal-body .actionButtons img {
+  max-width: 80%;
+}
+
+.ele17 #infoModalId .bodyText {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+}
+
+.ele17 #infoModalId .bodyText img {
+  width: 85%;
+}
+
+.ele17 #infoModalId .modal-title {
+  margin-left: 0%;
+}
+
+.ele17 #infoModalId .close {
+  /* width: 5%; */
+  margin: 0 1.6% 0 auto;
+  right: 0.3vmin !important
+}
+
+.ele17 #infoModalId .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border-top: none;
+  position: absolute;
+  width: 100%;
+  bottom: 16%;
+}
+
+.ele17 #infoModalId .modal-footer button {
+  width: 13%;
+  border: none;
+  background: transparent;
+}
+
+.ele17 #infoModalId .popupModelBody {
+  padding: 0;
+}
+
+/* .hg-hindi{
+  max-width: 73.7%;
+  position: absolute;
+  right: 11.3%;
+  top:  100%;
+  z-index: 101;
+} */
+
+.ele17 .simple-keyboard.hg-layout-default .hg-button.hg-red {
+  background: rgb(82 75 75 / 70%) !important;
+  color: white;
+}
+
+.ele17 .simple-keyboard {
+  max-width: 77.7%;
+  position: absolute;
+  right: 11.3%;
+  top: 99%;
+  z-index: 100;
+}
+
+.ele17 .simple-keyboard.hg-theme-default .hg-button {
+  height: 2.2vmax !important;
+}
+
+.ele17 .hg-button-space {
+  width: 30% !important
+}
+
+.ele17 .hideBtn {
+  display: none !important;
+}
+
+.ele17 .hg-standardBtn, .ele17 .hg-functionBtn {
+  border: solid rgba(255, 255, 255, 0) 1.5px;
+}
+.ele17 .hg-standardBtn:hover, .ele17 .hg-functionBtn:hover {
+  border: solid white 1.5px;
+  border-bottom-color: rgba(255, 255, 255, 1) !important;
+}
+
+.ele17 .simple-keyboard.hg-layout-default .hg-button.hg-color_number {
+  background: #57a743 !important;
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.7);
+  /* border-bottom: none; */
+}
+
+.ele17 .simple-keyboard.hg-layout-default .hg-button.hg-color_matra {
+  background: #6b4883 !important;
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.7);
+  /* border-bottom: none;  */
+}
+
+.ele17 .simple-keyboard.hg-layout-default .hg-button.hg-color_spaces {
+  background: #01825b !important;
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.7);
+  /* border-bottom: none; */
+  border: solid rgba(255, 255, 255, 0) 1px;
+}
+
+.ele17 .simple-keyboard.hg-layout-default .hg-button.hg-color_spaces:hover {
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.ele17 .simple-keyboard.hg-layout-default .hg-button.hg-red {
+  /* background: #008E59 !important; */
+  background: linear-gradient(180deg, #0a84b7 0%, #095adc 100%) !important;
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.7);
+  /* border-bottom: none; */
+}
+
+.ele17 .charleft {
+  margin-left: 93%;
+  font-size: 1.2vmax;
+  font-weight: 600;
+  margin-top: -4%;
+  font-family: sans-serif;
+}
+
+.ele17 .modal .instructionBase {
+  max-width: 96%;
+  position: relative;
+  /* display: flex; */
+  justify-content: center;
+}
+
+/* .modal .instructionBase img {
+  max-width: none !important;
+  max-height: 7vmin;
+} */
+
+.ele17 .closepopup_btn {
+  text-align: center;
+  clear: both;
+  width: 100%;
+  margin: 0 0 1% 0;
+  position: absolute;
+  bottom: 0%;
+}
+
+.ele17 .closepopup_btn img {
+  width: 9%;
+  cursor: pointer;
+  max-width: 10.4%;
+}
+
+.ele17 .mathTop {
+  top: 120%;
+}
+
+.ele17 .closeBtn_keyb {
+  width: 3.2%;
+  top: 91%;
+  right: 9.5%;
+  z-index: 101;
+  position: absolute;
+  /* cursor: pointer; */
+}
+
+.ele17 .closeBtn_keyb_math {
+  width: 3.2%;
+  top: 111%;
+  right: 9.4%;
+  z-index: 101;
+  /* overflow-y: auto; */
+  /* float: right; */
+  position: absolute;
+  cursor: pointer;
+}
+
+.ele17 #modalTemp17 .navigate {
+  position: absolute;
+  width: 98%;
+  /*96%*/
+  bottom: 2%;
+  /*3%*/
+  /* margin-top: 1%; */
+}
+
+.ele17 .navigate img {
+  margin-left: 0.7%;
+  /*1.2%;*/
+  cursor: pointer;
+  max-width: 3.8%;
+  /*5.5%;*/
+}
+
+.ele17 .d-show {
+  display: block !important;
+}
+
+.ele17 .d-none {
+  display: none !important;
+}
+
+.ele17 .disableBtn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+#inputDivRef {
+  cursor: default;
+}
+
+.disableClass {
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+
+
+#confirmSubmitModal .modal-body .actionButtons {
+  text-align: center;
+  width: 100%;
+  padding: 3%;
+}
+
+#confirmSubmitModal .modal-body .msgImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3%;
+}
+
+#confirmSubmitModal .modal-body .msgText {
+  width: 72%;
+  margin-left: 3%;
+}
+
+#confirmSubmitModal .modal-body .actionButtons button {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 18%;
+}
+
+#confirmSubmitModal .modal-body .msgImage img {
+  /* max-width: 15%;
+  margin: 2% 4%; */
+}
+
+#confirmSubmitModal .modal-body .actionButtons img {
+  max-width: 70%;
+}
+
+#confirmSubmitModal .modal-dialog {
+  width: 56% !important;
+}
+
+.oops_img {
+    width: 18%;
+}
+
+input::placeholder {
+  color: #a9a9a9 !important;
+}

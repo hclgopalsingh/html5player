@@ -1,0 +1,70 @@
+<div class="container-fluid ele" #container id="container">
+  <audio #narrator [src]="common_assets?.narrator?.url"></audio>
+  <div id="bgImage"><img [src]="common_assets?.background?.url" (load)="checkImgLoaded();" /></div>
+
+  <div #maincontent>
+    <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar">
+      <div class="instructionBase" [ngClass]="{'disable_div':isRecording,'disableDiv':instructionDisable}">
+        <img class="img-fluid" [src]="common_assets?.instruction_bg?.url" (click)="playInstruction()"
+          (load)="checkImgLoaded();" />
+        <audio #instruction [src]="common_assets?.instruction?.url"></audio>
+      </div>
+    </div>
+    <div *ngIf="isRecording" class="remTimeContainer">
+      <div class="time">
+        <span [ngClass]="{'blinkClass': hideTimer}">{{remainingMinutes}}:{{remainingSeconds}}</span>
+      </div>
+      <span class="label">{{RemainingTimeLabel}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-center" id="optionsBlock">
+      <div id="quesImage">
+        <img class="img-fluid" (load)="checkImgLoaded();" [src]="common_assets?.playerBase?.url" />
+        <img class="img-fluid quesTxt" (load)="checkImgLoaded();" [src]="question?.text.url">
+
+        <div class="playerControls d-flex align-items-center justify-content-center">
+          <img style="margin-left: 5%" *ngIf="!isRecord && removeBtn" [ngClass]="{'disable-ctrl': isRecord}" class="img-fluid"
+            [src]="question?.record.url" title="Record" #recordButton (click)="startRecording()" />
+            <img style="margin-left: 5%" title="{{isPaused ? 'Resume': 'Pause'}}" *ngIf="isRecord && removeBtn" class="img-fluid"
+            [src]="question?.pause.url" #pauseButton (click)="toggleRecording()" />
+          <img *ngIf="removeBtn && showstop" title="Stop" [ngClass]="{'disable-ctrl': isStop}" class="img-fluid"
+            [src]="question?.stop.url" #stopButton (click)="stopRecording()">
+          <img *ngIf="showPlay" title="Play" [ngClass]="{'disable-ctrl': isPlay}" (click)="listen()" class="img-fluid"
+            [src]="question?.playpause.url">
+          <audio #audioT class="audioT" id="audioplay" controls disablepictureinpicture controlslist="nodownload" (timeupdate)="isCalled()"></audio>
+          <div class="txtLabel">
+            <span class="time" *ngIf="isRecording">{{minutes}}:{{seconds}}</span>
+            <span class="label" *ngIf="isRecording">{{recordingStatus}}</span>              
+          </div>
+          <span class="currTime" *ngIf="!showPlay && !removeBtn" id="tracktime">{{curTime}} / {{endTime}}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <audio id="H" #myAudiohelp #audioEl1 [src]="question?.helpsound.url"></audio>
+  <!-- The infoPopup Modal -->
+  <div class="modal" id="confirmModal" #infoModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="infoPopupAssets?.style_header">
+          <img class="modal-title" [src]="infoPopupAssets?.headerTxt_img?.url">
+          <img class="close" [src]="infoPopupAssets?.close_btn?.url"
+            (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverCloseOk()"
+            (mouseleave)="houtCloseOk()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="infoPopupAssets?.style_body">
+          <div class="msgImage">
+            <img class="img-fluid h-100 setImage" [src]="infoPopupAssets?.info_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback(infoModalRef,'no','partialFeedback');" (mousemove)="hoverOK()"
+              (mouseleave)="houtOK()">
+              <img class="img-fluid" [src]="infoPopupAssets?.ok_btn?.url">
+            </button>
+          </div>
+        </div>
+        <audio #feedbackInfoAudio [src]="common_assets?.record_answer?.url"></audio>
+      </div>
+    </div>
+  </div>
+</div>

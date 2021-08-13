@@ -1,0 +1,294 @@
+<div class="container-fluid ele temp8" id="container">
+  <div id="bgImage"><img [src]="commonAssets?.background?.url" (load)="checkImgLoaded();" /></div>
+  <div class="d-flex flex-row justify-content-around instructionBar" id="instructionBar"
+    [ngClass]="{'showDisabled':faintInstruction}">
+    <div class="instructionBase" [ngClass]="{'disableDiv':instructionDisable}">
+      <img class="img-fluid" [src]="commonAssets?.instruction_img?.url" (click)="playHoverInstruction()"
+        (load)="checkImgLoaded();" />
+      <audio #instruction [src]="questionObj?.quesAudio?.url"></audio>
+    </div>
+  </div>
+  <!-- <div class="videoClose" *ngIf="isPlayVideo && allowSkip" (click)="endedHandleronSkip()">
+    <div>
+      <img style="width: 100%;" [src]="otherAssets?.video_stop?.url" (mousemove)="hoverstopVideo()"
+        (mouseleave)="houtstopVideo()" />
+    </div>
+  </div> -->
+  <div class="d-flex justify-content-center align-items-center" id="consoleBlock">
+    <div class="consoleBase" [ngClass]="{'disableDiv':disableMainCont, 'showDisabled':faintContent}" #mainContainer>
+      <img class="img-fluid" [src]="otherAssets?.console_bg?.url" (load)="checkImgLoaded();" />
+      <div class="rowTop" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamUpRef>
+        <div class="optionsBlock" *ngIf="teamUp">
+          <div *ngFor="let opt of teamUp.options;let idx = index">
+            <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
+              (mouseleave)="houtOption(opt)" (mouseenter)="playOptionHover(opt,idx,teamUpRef,'teamUp')"
+              (click)="checkAnswer('teamup',opt,idx)">
+          </div>
+        </div>
+        <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamUp">
+          <img class="img-fluid" #teamUpPass [src]="otherAssets?.pass_btn?.url"
+            (click)="passQuestion('teamup',teamUpPass);" (mousemove)="hoverPass(teamUpPass)"
+            (mouseleave)="houtPass(teamUpPass,'teamUp')">
+        </div>
+        <div class="teamDetails" *ngIf="teamUp">
+          <img class="img-fluid teamNameBase" [src]="teamCommonAssets?.teamBg?.url">
+          <img class="img-fluid teamName" [src]="teamUp?.teamName?.url">
+          <img class="img-fluid gradeCircle" *ngFor="let score of liveScoreObjCopy?.teamUpLiveScore"
+            [src]="score?.live_no?.url">
+
+        </div>
+      </div>
+      <div class="rowMid">
+        <div class="colLeft h-100 disa" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}"
+          #teamLeftRef>
+          <div class="optionsBlock text-center" *ngIf="teamLeft">
+            <div *ngFor="let opt of teamLeft.options;let idx = index">
+              <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
+                (mouseleave)="houtOption(opt)" (mouseenter)="playOptionHover(opt,idx,teamLeftRef,'teamLeft')"
+                (click)="checkAnswer('teamleft',opt,idx)">
+            </div>
+          </div>
+          <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamLeft">
+            <img class="img-fluid" #teamLeftPass [src]="otherAssets?.pass_btn?.url"
+              (click)="passQuestion('teamleft',teamLeftPass);" (mousemove)="hoverPass(teamLeftPass)"
+              (mouseleave)="houtPass(teamLeftPass,'teamLeft')">
+          </div>
+          <div class="teamDetails" *ngIf="teamLeft">
+            <img class="img-fluid teamNameBase" [src]="teamCommonAssets?.teamBg?.url">
+            <img class="img-fluid teamName" [src]="teamLeft?.teamName?.url">
+            <!-- <img class="img-fluid gradeCircle" #teamLeftGrade > -->
+            <img class="img-fluid gradeCircle" *ngFor="let score of liveScoreObjCopy?.teamLeftLiveScore"
+              [src]="score?.live_no?.url">
+          </div>
+        </div>
+        <div class="colMid h-100">          
+          <div [ngClass]="{'d-none': !hasVideoStarted}" class="videoPlayPause" *ngIf="isPlayVideo" (click)="videoPlayPause()">
+            <img *ngIf="!isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_pause?.url" (mousemove)="hoverpauseVideo()"
+              (mouseleave)="houtpauseVideo()" />
+            <img *ngIf="isVideoPaused" style="width: 100%;" [src]="otherAssets?.video_play?.url" (mousemove)="hoverplayVideo()"
+            (mouseleave)="houtplayVideo()"/>
+          </div>
+          <div [ngClass]="{'disableBtn': disableReplayBtn, 'hideBtn':hideReplayBtn}" class="videoOpen" *ngIf="!isPlayVideo" (click)="openReplayConfirm()">
+            <img style="width: 100%;" [src]="otherAssets?.replay_btn?.url" (mousemove)="hoverstartVideo()"
+            (mouseleave)="houtstartVideo()"/>
+          </div>
+          <div class="videoSkip" *ngIf="videoReplayd && isPlayVideo && allowSkip" (click)="endedHandleronSkip()">
+            <img style="width: 100%;" [src]="otherAssets?.video_skip?.url" (mousemove)="hoverSkipVideo()"
+              (mouseleave)="houtSkipVideo()" />
+          </div>
+          <div class="durationTime">
+            <img class="img-fluid" [src]="questionObj?.quesImg?.timeBg?.url">
+            <div>{{displayTimer}}</div>
+          </div>
+          <div class="quesImg" *ngIf="!isPlayVideo">
+            <img class="img-fluid" [src]="questionObj?.quesImg?.imgsrc?.url">
+            <audio #quesVORef [src]="questionObj?.quesImg?.quesAudio?.url" (ended)="audioEnded()"></audio>
+          </div>
+          <video *ngIf="isPlayVideo" #mainVideo id="mainVideo" width="100%" 
+            [poster]="questionObj?.videoPoster?.url">
+            <source [src]="questionObj?.quesVideo?.urlOgv" type="{{videoType}}">
+          </video>
+        </div>
+        <div class="colRight h-100" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamRightRef>
+          <div class="optionsBlock text-center" *ngIf="teamRight">
+            <div *ngFor="let opt of teamRight.options;let idx = index">
+              <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
+                (mouseleave)="houtOption(opt)" (mouseenter)="playOptionHover(opt,idx,teamRightRef,'teamRight')"
+                (click)="checkAnswer('teamright',opt,idx)">
+            </div>
+          </div>
+          <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamRight">
+            <img class="img-fluid" #teamRightPass [src]="otherAssets?.pass_btn?.url"
+              (click)="passQuestion('teamright',teamRightPass);" (mousemove)="hoverPass(teamRightPass)"
+              (mouseleave)="houtPass(teamRightPass,'teamRight')">
+          </div>
+          <div class="teamDetails" *ngIf="teamRight">
+            <img class="img-fluid teamNameBase" [src]="teamCommonAssets?.teamBg?.url">
+            <img class="img-fluid teamName" [src]="teamRight?.teamName?.url">
+            <img class="img-fluid gradeCircle" *ngFor="let score of liveScoreObjCopy?.teamRightLiveScore"
+              [src]="score?.live_no?.url">
+          </div>
+        </div>
+      </div>
+      <div class="rowBtm" [ngClass]="{'hide_div':!showOption , 'disableDiv':disableSelection}" #teamDownRef>
+        <div class="optionsBlock" *ngIf="teamDown">
+          <div *ngFor="let opt of teamDown.options;let idx = index">
+            <img class="img-fluid" [src]="opt?.opt_normal?.url" (mousemove)="hoverOption(opt)"
+              (mouseleave)="houtOption(opt)" (mouseenter)="playOptionHover(opt,idx,teamDownRef,'teamDown')"
+              (click)="checkAnswer('teamdown',opt,idx)">
+          </div>
+        </div>
+        <div [ngClass]="{'passBtn':true,'disableDiv':disablePass}" *ngIf="teamDown">
+          <img class="img-fluid" #teamDownPass [src]="otherAssets?.pass_btn?.url"
+            (click)="passQuestion('teamdown',teamDownPass);" (mousemove)="hoverPass(teamDownPass)"
+            (mouseleave)="houtPass(teamDownPass,'teamDown')">
+        </div>
+        <div class="teamDetails" *ngIf="teamDown">
+          <img class="img-fluid teamNameBase" [src]="teamCommonAssets?.teamBg?.url">
+          <img class="img-fluid teamName" [src]="teamDown?.teamName?.url">
+          <img class="img-fluid gradeCircle" *ngFor="let score of liveScoreObjCopy?.teamDownLiveScore"
+            [src]="score?.live_no?.url">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="confirmModal" #confirmModalRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmAssets?.style_header">
+          <img class="modal-title" [src]="confirmAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmAssets?.close_btn?.url" (click)="sendFeedback(confirmModalRef,'no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmAssets?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmAssets?.confirm_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback(confirmModalRef,'yes','showAnswer');"
+              (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid"
+                [src]="confirmAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback(confirmModalRef,'no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="confirmModal" #confirmSubmitRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmAssets?.style_header">
+          <img class="modal-title" [src]="confirmAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmAssets?.close_btn?.url" (click)="sendFeedback(confirmSubmitRef,'no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmAssets?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmAssets?.confirm_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback(confirmSubmitRef,'yes','submitAnswer');"
+              (mousemove)="hoverConfirm()" (mouseleave)="houtConfirm()"><img class="img-fluid"
+                [src]="confirmAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback(confirmSubmitRef,'no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="confirmModal" #confirmReplayRef>
+    <div class="modal-dialog">
+      <div class="modal-content" #modalRef>
+        <div class="modal-header modalCustomSuccessHeader" [ngStyle]="confirmAssets?.style_header">
+          <img class="modal-title" [src]="confirmAssets?.headerTxt_img?.url">
+          <img class="close" [src]="confirmAssets?.close_btn?.url" (click)="sendFeedback(confirmReplayRef,'no');"
+            (mousemove)="hoverCloseConfirm()" (mouseleave)="houtCloseConfirm()">
+        </div>
+        <div class="modal-body" #moalBodyRefSuccess [ngStyle]="confirmAssets?.style_body">
+          <div class="msgImage"><img class="img-fluid h-100" [src]="confirmAssets?.confirm_text?.url">
+          </div>
+          <div class="actionButtons">
+            <button type="button" (click)="sendFeedback(confirmReplayRef,'yes','replay');" (mousemove)="hoverConfirm()"
+              (mouseleave)="houtConfirm()"><img class="img-fluid" [src]="confirmAssets?.confirm_btn?.url"></button>
+            <button type="button" (click)="sendFeedback(confirmReplayRef,'no');" (mousemove)="hoverDecline()"
+              (mouseleave)="houtDecline()"><img class="img-fluid" [src]="confirmAssets?.decline_btn?.url"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modalTemp8" #scoreBoardModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <img [src]="scoreCardAssets?.close_btn?.url" class="closeScoreBoard" type="button"
+          (mousemove)="hoverCloseScoreBoard()" (mouseleave)="houtCloseScoreBoard()" (click)="closeScoreBoard()">
+
+        <!-- Modal body -->
+        <div class="modal-body" style="border:none">
+          <div class="modal-body-container" [ngStyle]="scoreCardAssets?.style_body">
+            <div class="d-flex flex-row justify-content-around instructionBarScoreboard">
+              <div class="instructionBaseScoreboard">
+                <img class="img-fluid" [src]="scoreCardAssets?.title_img?.url">
+              </div>
+            </div>
+            <div class="dataBlock">
+              <div class="itemData">
+                &nbsp;
+              </div>
+              <div class="itemData" *ngFor="let team of scoreCardAssets?.teams">
+                <img class="img-fluid" [src]="team?.url">
+              </div>
+            </div>
+            <div class="dataBlock" *ngFor="let attempt of attemptSoFar;let idx = index">
+              <div class="itemData" *ngIf="attempt">
+                <img class="img-fluid" [src]="scoreCardAssets.ques_nos[idx]?.url">
+              </div>
+              <div class="itemData" *ngIf="attempt && attempt.teamUp && attempt.teamUp.location">
+                <img class="img-fluid" [src]="attempt?.teamUp?.url">
+              </div>
+              <div class="itemData" *ngIf="attempt && attempt.teamDown && attempt.teamDown.location">
+                <img class="img-fluid" [src]="attempt?.teamDown?.url">
+              </div>
+              <div class="itemData" *ngIf="attempt && attempt.teamLeft && attempt.teamLeft.location">
+                <img class="img-fluid" [src]="attempt?.teamLeft?.url">
+              </div>
+              <div class="itemData" *ngIf="attempt && attempt.teamRight && attempt.teamRight.location">
+                <img class="img-fluid" [src]="attempt?.teamRight?.url">
+              </div>
+            </div>
+            <div class="dataBlock">
+              <div class="itemData">
+                <img class="img-fluid" [src]="scoreCardAssets?.total_no?.url">
+              </div>
+              <div class="itemData" *ngFor="let team of scoreCardAssets?.teams;let idx=index">
+                <img class="img-fluid" [src]="scoreCardAssets.correct_imgs[teamScore[team.teamName]]?.url">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- The Feedback Modal -->
+  <div class="modal" id="modalfeedback" #feedbackModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <img class="close zidx" [src]="feedback?.close_btn?.url" (mousemove)="hoverFeedbackClose()"
+          (mouseleave)="hleaveFeedbackClose()" (click)="closeFeedbackModal()">
+        <img class="img-fluid" [src]="feedbackAssts?.feedback_base">
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="d-flex flex-row justify-content-around instructionBarFeedback">
+            <div class="instructionBaseFeedback">
+              <img class="img-fluid" [src]="feedbackAssts?.ques_feedback?.ques_img">
+            </div>
+          </div>
+          <div class="teamNames">
+            <div class="teamDetails" *ngFor="let quesFeedback of feedbackAssts?.ques_feedback?.correct_options">
+              <div class="team_name">
+                <!-- <img class="img-fluid teamNameBase" [src]="teamCommonAssets?.teamBg?.url">
+                  <img class="img-fluid team" [src]="quesFeedback?.name"> -->
+                <img class="img-fluid" [src]="quesFeedback?.team_name?.url">
+              </div>
+              <div class="rightAns" [ngStyle]="feedbackAssts?.ques_feedback?.style_body">
+                <img class="img-fluid" [src]="quesFeedback?.correct_opt">
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-end navigate">
+            <img class="img-fluid back" [ngClass]="{'disableBtn': currentFeedback==0}"
+              [src]="feedback?.feedback_back_btn?.url" (click)="prevFeedback()" (mousemove)="hoverFeedbackPre()"
+              (mouseleave)="hleaveFeedbackPre()">
+            <img class="img-fluid forward" [ngClass]="{'d-none': currentFeedback +1 == feedbackSoFor?.length}"
+              [src]="feedback?.feedback_next_btn?.url" (click)="nextFeedback()" (mousemove)="hoverFeedbackNxt()"
+              (mouseleave)="hleaveFeedbackNxt()">
+            <img style="display: none;" class="img-fluid okbtn"
+              [ngClass]="{'d-show': currentFeedback +1 == feedbackSoFor?.length}" [src]="feedback?.ok_btn?.url"
+              (click)="closeFeedbackModal()" (mousemove)="hoverOkbtn()" (mouseleave)="hleaveOkbtn()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

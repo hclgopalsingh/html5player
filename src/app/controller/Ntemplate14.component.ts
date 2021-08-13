@@ -68,6 +68,7 @@ export class Ntemplate14 implements OnInit {
 	tempSubscription: Subscription;
 	isFirstTrial: boolean = true;
 	showstop = false;
+	playClicked = false;
 	@ViewChild('playpause') playpause: any;
 	@ViewChild('stopButton') stopButton: any;
 	@ViewChild('recordButton') recordButton: any;
@@ -90,6 +91,7 @@ export class Ntemplate14 implements OnInit {
 	@ViewChild('narrator') narrator: any;
 	@ViewChild('feedbackModal') feedbackModal: any;
 	@ViewChild('infoModalRef') InfoModalRef: any;
+	@ViewChild('feedbackInfoAudio') feedbackInfoAudio: any;
 
 
 
@@ -331,16 +333,16 @@ export class Ntemplate14 implements OnInit {
 		}
 		this.showPlay= false;
 		this.isPlay = true;
-		//this.audioT.nativeElement.currentTime=0;
+		this.audioT.nativeElement.currentTime=0;
 		this.appModel.notifyUserAction()
 		this.audioT.nativeElement.className = "";
 		this.removeBtn = false;
+		this.playClicked = true;
 		//this.playpause.nativeElement.className = "img-fluid playbtn";
 		// this.stopButton.nativeElement.className = "displayNone";
 		// this.recordButton.nativeElement.className = "displayNone";
 		this.audioT.nativeElement.load();
 		this.audioT.nativeElement.play();
-
 	}
 
 	stopRecording() {
@@ -359,6 +361,9 @@ export class Ntemplate14 implements OnInit {
 		// this.playpause.nativeElement.className = "img-fluid";
 		this.mediaRecorder.stop();
 		this.appModel.moveNextQues("noBlink")
+		setTimeout(() => {
+			this.audioT.nativeElement.currentTime=0;
+		}, 500)
 	}
 
 	checkNextActivities() {
@@ -530,6 +535,10 @@ export class Ntemplate14 implements OnInit {
 					$("#instructionBar").addClass("disable_div");
 					this.InfoModalRef.nativeElement.classList = "displayPopup modal";					//this.appModel.enableReplayBtn(true);
 					//this.setFeedbackAudio();
+					this.feedbackInfoAudio.nativeElement.play();
+					this.feedbackInfoAudio.nativeElement.onended = () => {
+						console.log("working")
+					}
 					if(this.appModel.isLastSectionInCollection)
 					{
 						//close after 5 mins disable and thn blink
@@ -545,7 +554,7 @@ export class Ntemplate14 implements OnInit {
 
 			}
 		})
-
+		this.appModel.resetBlinkingTimer();
 	}
 
 	ngAfterViewInit(){
@@ -568,7 +577,8 @@ export class Ntemplate14 implements OnInit {
 		});
 
 		document.getElementById("audioplay").addEventListener("ended",function(){
-			if(that.isFirstTrial){
+			console.log("enddedd");
+			if(that.isFirstTrial && that.playClicked){
 				that.appModel.moveNextQues();
 				that.isFirstTrial  = false;
 			}
@@ -659,6 +669,8 @@ export class Ntemplate14 implements OnInit {
 
 	sendFeedback(ref, flag: string, action?: string) {
 		ref.classList = "modal";
+		this.feedbackInfoAudio.nativeElement.pause();
+		this.feedbackInfoAudio.nativeElement.currentTime = 0
 		this.appModel.handlePostVOActivity(false);
 		this.appModel.notifyUserAction();
 	}
