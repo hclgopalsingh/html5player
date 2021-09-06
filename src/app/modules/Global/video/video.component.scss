@@ -200,7 +200,7 @@
 	height: 90%;
 	padding-bottom: 100%;
 	margin: 0% auto;
-	background: url(../../../../assets/images/videoactivity/speakerSprite.png) repeat-x 0 0;
+	background: url(../../../../assets/images/videoactivity/speakerSprite14.png) repeat-x 0 0;
 	background-size: 400%;
 	animation: play 1.2s steps(4) infinite;
 	position: absolute;
@@ -242,6 +242,13 @@
 .fadeOutAnimation {
 	opacity: 0;
 	animation: fadeOut 0.3s linear;
+}
+.top-middle.fadeInAnimation + .fadeInAnimation {
+    position: absolute;
+    z-index: 1;
+    top: 6%;
+    left: 43.3%;
+    width: 18%;
 }
 .disableSpeaker {
 	pointer-events: none;
